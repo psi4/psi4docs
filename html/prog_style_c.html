@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_style_c.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ae25366">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -134,61 +134,62 @@ readable, especially if <code class="docutils literal notranslate"><span class="
 <div class="section" id="prefer-std-make-shared-to-direct-use-of-new">
 <span id="faq-automakeshared"></span><h2>Prefer <code class="docutils literal notranslate"><span class="pre">std::make_shared</span></code> to direct use of <code class="docutils literal notranslate"><span class="pre">new</span></code><a class="headerlink" href="#prefer-std-make-shared-to-direct-use-of-new" title="Permalink to this headline">¶</a></h2>
 <p>Using <code class="docutils literal notranslate"><span class="pre">std::make_shared</span></code>:</p>
-<ol class="arabic">
-<li><p>Reduces code verbosity, especially when coupled with <code class="docutils literal notranslate"><span class="pre">auto</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>// Type information given 3 TIMES!!!
-std::shared_ptr&lt;Matrix&gt; F = std::shared_ptr&lt;Matrix&gt;(new Matrix(&quot;Fock matrix&quot;, nso, nso));
-
-// So much typing...
-std::shared_ptr&lt;Matrix&gt; F = std::make_shared&lt;Matrix&gt;(&quot;Fock matrix&quot;, nso, nso);
-
-// Much better!!!!
-auto F = std::make_shared&lt;Matrix&gt;(&quot;Fock matrix&quot;, nso, nso);
-</pre></div>
-</div>
-</li>
-<li><p>Ensures exception safety and prevents resource leaks.</p></li>
-<li><p>Improves efficiency:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Performs</span> <span class="n">TWO</span> <span class="n">allocations</span>
-<span class="n">std</span><span class="p">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span> <span class="n">F</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="n">new</span> <span class="n">Matrix</span><span class="p">(</span><span class="s2">&quot;Fock matrix&quot;</span><span class="p">,</span> <span class="n">nso</span><span class="p">,</span> <span class="n">nso</span><span class="p">));</span>
-
-<span class="o">//</span> <span class="n">Performs</span> <span class="n">ONE</span> <span class="n">allocation</span>
-<span class="n">auto</span> <span class="n">F</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;Fock matrix&quot;</span><span class="p">,</span> <span class="n">nso</span><span class="p">,</span> <span class="n">nso</span><span class="p">);</span>
-</pre></div>
-</div>
-</li>
+<ol class="arabic simple">
+<li><p>Reduces code verbosity, especially when coupled with <code class="docutils literal notranslate"><span class="pre">auto</span></code>:</p></li>
 </ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Type information given 3 TIMES!!!</span>
+<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span> <span class="n">F</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="k">new</span> <span class="n">Matrix</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span> <span class="n">nso</span><span class="p">,</span> <span class="n">nso</span><span class="p">));</span>
+
+<span class="c1">// So much typing...</span>
+<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span> <span class="n">F</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span> <span class="n">nso</span><span class="p">,</span> <span class="n">nso</span><span class="p">);</span>
+
+<span class="c1">// Much better!!!!</span>
+<span class="k">auto</span> <span class="n">F</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span> <span class="n">nso</span><span class="p">,</span> <span class="n">nso</span><span class="p">);</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Ensures exception safety and prevents resource leaks.</p></li>
+<li><p>Improves efficiency:</p></li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Performs TWO allocations</span>
+<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span> <span class="n">F</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="k">new</span> <span class="n">Matrix</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span> <span class="n">nso</span><span class="p">,</span> <span class="n">nso</span><span class="p">));</span>
+
+<span class="c1">// Performs ONE allocation</span>
+<span class="k">auto</span> <span class="n">F</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span> <span class="n">nso</span><span class="p">,</span> <span class="n">nso</span><span class="p">);</span>
+</pre></div>
+</div>
 <p><em>Reference:</em> Item 21 in <a class="reference external" href="https://isbnsearch.org/isbn/9781491903995">[Effective Modern C++]</a></p>
 </div>
 <div class="section" id="prefer-auto-to-explicit-type-declarations">
 <span id="faq-autodecl"></span><h2>Prefer <code class="docutils literal notranslate"><span class="pre">auto</span></code> to explicit type declarations<a class="headerlink" href="#prefer-auto-to-explicit-type-declarations" title="Permalink to this headline">¶</a></h2>
 <p>Using <code class="docutils literal notranslate"><span class="pre">auto</span></code> reduces and/or avoids:</p>
-<ol class="arabic">
-<li><p>Verbosity in variable declarations:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>std::shared_ptr&lt;Matrix&gt; F = std::make_shared&lt;Matrix&gt;(&quot;Fock matrix&quot;, nso, nso);  // So much typing...
-auto F = std::make_shared&lt;Matrix&gt;(&quot;Fock matrix&quot;, nso, nso);  // Much better!
+<ol class="arabic simple">
+<li><p>Verbosity in variable declarations:</p></li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span> <span class="n">F</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span> <span class="n">nso</span><span class="p">,</span> <span class="n">nso</span><span class="p">);</span>  <span class="c1">// So much typing...</span>
+<span class="k">auto</span> <span class="n">F</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span> <span class="n">nso</span><span class="p">,</span> <span class="n">nso</span><span class="p">);</span>  <span class="c1">// Much better!</span>
 </pre></div>
 </div>
-</li>
+<ol class="arabic simple" start="2">
 <li><p>Problems with uninitialized variables. auto works like template type
 deduction, hence the right-hand side of the declaration needs to have an
-initializer:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">x1</span><span class="p">;</span>  <span class="o">//</span> <span class="n">fine</span><span class="p">,</span> <span class="n">but</span> <span class="n">uninitialized</span> <span class="p">:(</span>
-<span class="n">auto</span> <span class="n">x2</span><span class="p">;</span>  <span class="o">//</span> <span class="n">WON</span><span class="s1">&#39;T COMPILE!!!</span>
-<span class="n">auto</span> <span class="n">x3</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="o">//</span> <span class="n">fine</span> <span class="ow">and</span> <span class="n">initialized</span>
-</pre></div>
-</div>
-</li>
-<li><p>Problems with unintended type casts and type mismatches that are hard
-to impossible to catch:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>std::vector&lt;int&gt; v;
-// !!! The size of a vector is of type std::vector&lt;int&gt;::size_type and is compiler- AND architecture-DEPENDENT
-unsigned sz = v.size();  // might not be correct on some compiler/machines
-auto size = v.size();  // size is ALWAYS of the correct type
-</pre></div>
-</div>
-</li>
+initializer:</p></li>
 </ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">x1</span><span class="p">;</span>  <span class="c1">// fine, but uninitialized :(</span>
+<span class="k">auto</span> <span class="n">x2</span><span class="p">;</span>  <span class="c1">// WON&#39;T COMPILE!!!</span>
+<span class="k">auto</span> <span class="n">x3</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">// fine and initialized</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Problems with unintended type casts and type mismatches that are hard
+to impossible to catch:</p></li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">;</span>
+<span class="c1">// !!! The size of a vector is of type std::vector&lt;int&gt;::size_type and is compiler- AND architecture-DEPENDENT</span>
+<span class="kt">unsigned</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>  <span class="c1">// might not be correct on some compiler/machines</span>
+<span class="k">auto</span> <span class="n">size</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>  <span class="c1">// size is ALWAYS of the correct type</span>
+</pre></div>
+</div>
 <p><em>Reference:</em> Items 2 and 5 in <a class="reference external" href="https://isbnsearch.org/isbn/9781491903995">[Effective Modern C++]</a></p>
 </div>
 <div class="section" id="mark-virtual-functions-in-derived-classes-with-override">
@@ -319,7 +320,7 @@ Note that users can supply MiB, GB, bytes, or whatever; this guideline is for ou
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_style_c.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ae25366">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -333,7 +334,7 @@ Note that users can supply MiB, GB, bytes, or whatever; this guideline is for ou
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Tuesday, 30 March 2021 12:40PM.
+      Last updated on Wednesday, 31 March 2021 07:31AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->
