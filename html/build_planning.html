@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -150,11 +150,11 @@ your computer. Proceed to <a class="reference internal" href="#faq-buildquick"><
 <span id="faq-buildquick"></span><h2>How to build and install Psi4, the compact version<a class="headerlink" href="#how-to-build-and-install-psi4-the-compact-version" title="Permalink to this headline">¶</a></h2>
 <p>This section outlines the main steps of configuring, compiling, and
 installing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>. More detail is given <a class="reference internal" href="#faq-builddetailed"><span class="std std-ref">here</span></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cd {top-level-psi4-dir}
-&gt;&gt;&gt; cmake -H. -Bobjdir [your configuration options]
-&gt;&gt;&gt; cd objdir
-&gt;&gt;&gt; make -j`getconf _NPROCESSORS_ONLN`
-&gt;&gt;&gt; make install
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; cd {top-level-psi4-dir}</span>
+<span class="go">&gt;&gt;&gt; cmake -H. -Bobjdir [your configuration options]</span>
+<span class="go">&gt;&gt;&gt; cd objdir</span>
+<span class="go">&gt;&gt;&gt; make -j`getconf _NPROCESSORS_ONLN`</span>
+<span class="go">&gt;&gt;&gt; make install</span>
 </pre></div>
 </div>
 </div>
@@ -206,11 +206,11 @@ creates <code class="samp docutils literal notranslate"><em><span class="pre">ob
 <p><strong>4. Compile</strong></p>
 <blockquote>
 <div><p>Compile the code (optional <code class="docutils literal notranslate"><span class="pre">-j</span></code> triggers parallel compilation).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cd {objdir}
-&gt;&gt;&gt; make -j`getconf _NPROCESSORS_ONLN`
+</div></blockquote>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; cd {objdir}</span>
+<span class="go">&gt;&gt;&gt; make -j`getconf _NPROCESSORS_ONLN`</span>
 </pre></div>
 </div>
-</div></blockquote>
 <p><strong>5. Test</strong></p>
 <blockquote>
 <div><p>Optionally, use CTest (thorough) or pytest (cursory) to test the build.</p>
@@ -220,13 +220,12 @@ creates <code class="samp docutils literal notranslate"><em><span class="pre">ob
 <li><p><a class="reference internal" href="#faq-testsoutput"><span class="std std-ref">How to see CTest testing errors</span></a></p></li>
 <li><p><a class="reference internal" href="#faq-pytest"><span class="std std-ref">How to test a Psi4 installation</span></a></p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; ctest -j`getconf _NPROCESSORS_ONLN`
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">make</span> <span class="n">pytest</span>
-</pre></div>
-</div>
 </div></blockquote>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; ctest -j`getconf _NPROCESSORS_ONLN`</span>
+
+<span class="go">&gt;&gt;&gt; make pytest</span>
+</pre></div>
+</div>
 <p><strong>6. Install</strong></p>
 <blockquote>
 <div><p>If tests pass, install the code.</p>
@@ -262,12 +261,12 @@ Linux distribution)</p></li>
 <p>The following are also required for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, but if not detected, the
 build system will automatically download and build.</p>
 <ul class="simple">
-<li><p><span class="xref std std-ref">gau2grid &lt;cmake:gau2grid</span> — <a class="reference internal" href="gau2grid.html#sec-gau2grid"><span class="std std-ref">[what is this?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/gau2grid/CMakeLists.txt#L1">[min version]</a></p></li>
-<li><p><a class="reference internal" href="libint.html#cmake-libint"><span class="std std-ref">Libint</span></a> — <a class="reference internal" href="libint.html#sec-libint"><span class="std std-ref">[what is this?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libint/CMakeLists.txt#L1">[min version]</a></p></li>
-<li><p><a class="reference internal" href="libxc.html#cmake-libxc"><span class="std std-ref">Libxc</span></a> — <a class="reference internal" href="libxc.html#sec-libxc"><span class="std std-ref">[what is this?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libxc.txt#L1">[min version]</a></p></li>
-<li><p>pybind11 — <a class="reference external" href="https://pybind11.readthedocs.io/en/master/">[what is this?]</a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/pybind11/CMakeLists.txt#L1">[min version]</a></p></li>
-<li><p>QCElemental — <a class="reference external" href="https://qcelemental.readthedocs.io/en/latest/">[what is this?]</a></p></li>
-<li><p>QCEngine — <a class="reference external" href="https://qcengine.readthedocs.io/en/latest/">[what is this?]</a> (March 2019; added by v1.4)</p></li>
+<li><p><span class="xref std std-ref">gau2grid &lt;cmake:gau2grid</span> — <a class="reference internal" href="gau2grid.html#sec-gau2grid"><span class="std std-ref">[what is gau2grid?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/gau2grid/CMakeLists.txt#L1">[gau2grid min version]</a></p></li>
+<li><p><a class="reference internal" href="libint.html#cmake-libint"><span class="std std-ref">Libint</span></a> — <a class="reference internal" href="libint.html#sec-libint"><span class="std std-ref">[what is Libint?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libint/CMakeLists.txt#L1">[Libint min version]</a></p></li>
+<li><p><a class="reference internal" href="libxc.html#cmake-libxc"><span class="std std-ref">Libxc</span></a> — <a class="reference internal" href="libxc.html#sec-libxc"><span class="std std-ref">[what is Libxc?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libxc.txt#L1">[Libxc min version]</a></p></li>
+<li><p>pybind11 — <a class="reference external" href="https://pybind11.readthedocs.io/en/master/">[what is Pybind11?]</a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/pybind11/CMakeLists.txt#L1">[Pybind11 min version]</a></p></li>
+<li><p>QCElemental — <a class="reference external" href="https://qcelemental.readthedocs.io/en/latest/">[what is QCElemental?]</a></p></li>
+<li><p>QCEngine — <a class="reference external" href="https://qcengine.readthedocs.io/en/latest/">[what is QCEngine?]</a> (March 2019; added by v1.4)</p></li>
 </ul>
 <p>Additionally, there are runtime-only dependencies:</p>
 <ul class="simple">
@@ -306,7 +305,7 @@ are available pre-built from conda.</p>
 <li><p>See <a class="reference external" href="https://github.com/psi4/psi4/blob/master/doc/sphinxman/CMakeLists.txt">[“message” lines]</a> for advice on obtaining docs dependencies</p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="chemps2.html#cmake-chemps2"><span class="std std-ref">CheMPS2</span></a> — <a class="reference internal" href="chemps2.html#sec-chemps2"><span class="std std-ref">[what is this?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/chemps2/CMakeLists.txt#L2">[min version]</a></p>
+<li><p><a class="reference internal" href="chemps2.html#cmake-chemps2"><span class="std std-ref">CheMPS2</span></a> — <a class="reference internal" href="chemps2.html#sec-chemps2"><span class="std std-ref">[what is CheMPS2?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/chemps2/CMakeLists.txt#L2">[CheMPS2 min version]</a></p>
 <ul>
 <li><p>HDF5 <a class="reference external" href="https://support.hdfgroup.org/HDF5/">https://support.hdfgroup.org/HDF5/</a></p></li>
 <li><p>zlib <a class="reference external" href="http://www.zlib.net/">http://www.zlib.net/</a></p></li>
@@ -314,32 +313,32 @@ are available pre-built from conda.</p>
 </li>
 </ul>
 <ul class="simple">
-<li><p><a class="reference internal" href="dkh.html#cmake-dkh"><span class="std std-ref">dkh</span></a> — <a class="reference internal" href="dkh.html#sec-dkh"><span class="std std-ref">[what is this?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/dkh/CMakeLists.txt#L2">[min version]</a></p>
+<li><p><a class="reference internal" href="dkh.html#cmake-dkh"><span class="std std-ref">dkh</span></a> — <a class="reference internal" href="dkh.html#sec-dkh"><span class="std std-ref">[what is dkh?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/dkh/CMakeLists.txt#L2">[dkh min version]</a></p>
 <ul>
 <li><p><a class="reference internal" href="#cmake-fortran"><span class="std std-ref">Fortran Compiler</span></a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="gdma.html#cmake-gdma"><span class="std std-ref">gdma</span></a> — <a class="reference internal" href="gdma.html#sec-gdma"><span class="std std-ref">[what is this?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/gdma/CMakeLists.txt#L2">[min version]</a></p>
+<li><p><a class="reference internal" href="gdma.html#cmake-gdma"><span class="std std-ref">gdma</span></a> — <a class="reference internal" href="gdma.html#sec-gdma"><span class="std std-ref">[what is gdma?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/gdma/CMakeLists.txt#L2">[gdma min version]</a></p>
 <ul>
 <li><p><a class="reference internal" href="#cmake-fortran"><span class="std std-ref">Fortran Compiler</span></a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="pcmsolver.html#cmake-pcmsolver"><span class="std std-ref">PCMSolver</span></a> — <a class="reference internal" href="pcmsolver.html#sec-pcmsolver"><span class="std std-ref">[what is this?]</span></a></p>
+<li><p><a class="reference internal" href="pcmsolver.html#cmake-pcmsolver"><span class="std std-ref">PCMSolver</span></a> — <a class="reference internal" href="pcmsolver.html#sec-pcmsolver"><span class="std std-ref">[what is PCMSolver?]</span></a></p>
 <ul>
 <li><p><a class="reference internal" href="#cmake-fortran"><span class="std std-ref">Fortran Compiler</span></a></p></li>
 <li><p>zlib <a class="reference external" href="http://www.zlib.net/">http://www.zlib.net/</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="simint.html#cmake-simint"><span class="std std-ref">simint</span></a> — <a class="reference internal" href="simint.html#sec-simint"><span class="std std-ref">[what is this?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/simint/CMakeLists.txt#L2">[min version]</a></p></li>
+<li><p><a class="reference internal" href="simint.html#cmake-simint"><span class="std std-ref">simint</span></a> — <a class="reference internal" href="simint.html#sec-simint"><span class="std std-ref">[what is simint?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/simint/CMakeLists.txt#L2">[simint min version]</a></p></li>
 </ul>
 <p>Additionally, there are runtime-loaded capabilities:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="libefp.html#cmake-libefp"><span class="std std-ref">PylibEFP &amp; libefp</span></a> — <a class="reference internal" href="libefp.html#sec-libefp"><span class="std std-ref">[what is this?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libefp/CMakeLists.txt#L1">[min version]</a></p></li>
-<li><p>cfour — <a class="reference internal" href="cfour.html#sec-cfour"><span class="std std-ref">[what is this?]</span></a></p></li>
-<li><p>dftd3 — <a class="reference internal" href="dftd3.html#sec-dftd3"><span class="std std-ref">[what is this?]</span></a></p></li>
-<li><p>gcp — <a class="reference internal" href="gcp.html#sec-gcp"><span class="std std-ref">[what is this?]</span></a></p></li>
-<li><p>mrcc — <a class="reference internal" href="mrcc.html#sec-mrcc"><span class="std std-ref">[what is this?]</span></a></p></li>
-<li><p>v2rdm_casscf — <a class="reference internal" href="plugin_v2rdm_casscf.html#sec-v2rdm-casscf"><span class="std std-ref">[what is this?]</span></a></p></li>
+<li><p><a class="reference internal" href="libefp.html#cmake-libefp"><span class="std std-ref">PylibEFP &amp; libefp</span></a> — <a class="reference internal" href="libefp.html#sec-libefp"><span class="std std-ref">[what is LibEFP?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libefp/CMakeLists.txt#L1">[LibEFP min version]</a></p></li>
+<li><p>cfour — <a class="reference internal" href="cfour.html#sec-cfour"><span class="std std-ref">[what is CFOUR?]</span></a></p></li>
+<li><p>dftd3 — <a class="reference internal" href="dftd3.html#sec-dftd3"><span class="std std-ref">[what is DFTD3?]</span></a></p></li>
+<li><p>gcp — <a class="reference internal" href="gcp.html#sec-gcp"><span class="std std-ref">[what is gCP?]</span></a></p></li>
+<li><p>mrcc — <a class="reference internal" href="mrcc.html#sec-mrcc"><span class="std std-ref">[what is MPCC?]</span></a></p></li>
+<li><p>v2rdm_casscf — <a class="reference internal" href="plugin_v2rdm_casscf.html#sec-v2rdm-casscf"><span class="std std-ref">[what is v2rdm_casscf?]</span></a></p></li>
 <li><p>snsmp2 — <a class="reference external" href="https://github.com/DEShawResearch/sns-mp2/commits/master">https://github.com/DEShawResearch/sns-mp2/commits/master</a></p></li>
 <li><p>resp — <a class="reference external" href="https://github.com/cdsgroup/resp">https://github.com/cdsgroup/resp</a></p></li>
 <li><p>gpu_dfcc — <a class="reference external" href="https://github.com/edeprince3/gpu_dfcc/commits/master">https://github.com/edeprince3/gpu_dfcc/commits/master</a></p></li>
@@ -409,7 +408,7 @@ the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span 
 <p>CMake doesn’t provide a summary for this (unless you want to try the CMake
 GUI, which the developers have never looked at). However, the top half of
 the main CMakeLists.txt is a passable summary:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        LANGUAGES C CXX)
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>        LANGUAGES C CXX)
 set(psi4_URL &quot;http://www.psicode.org/&quot;)
 set(psi4_EMAIL &quot;psi4aiqc+cmake@gmail.com&quot;)
 set(psi4_LICENSE &quot;GNU Lesser General Public License, version 3 (LGPL-3.0)&quot;)
@@ -1474,7 +1473,7 @@ scarcely ever necessary for the user to reinvoke <code class="docutils literal n
 <span id="faq-minutetests"></span><h2>How to run a minute’s worth of tests<a class="headerlink" href="#how-to-run-a-minute-s-worth-of-tests" title="Permalink to this headline">¶</a></h2>
 <p>When you want to do a very minimal test of the build and have
 CTest installed, the following command can be useful.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; ctest -L smoke -j`getconf _NPROCESSORS_ONLN`
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; ctest -L smoke -j`getconf _NPROCESSORS_ONLN`</span>
 </pre></div>
 </div>
 <p>If you have pytest installed, very similar coverage is obtained through:</p>
@@ -1539,14 +1538,12 @@ if needed.)</p>
 </pre></div>
 </div>
 </li>
-<li><p>From pytest directly. If package <code class="docutils literal notranslate"><span class="pre">pytest-xdist</span></code> is installed,</p></li>
-</ul>
-<p>can run in parallel.</p>
-<blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest <span class="o">{</span>prefix<span class="o">}</span>/lib/<span class="o">{</span>PYMOD_INSTALL_LIBDIR<span class="o">}</span>/psi4/tests/ -n<span class="sb">`</span>getconf _NPROCESSORS_ONLN<span class="sb">`</span>
+<li><p>From pytest directly. If package <code class="docutils literal notranslate"><span class="pre">pytest-xdist</span></code> is installed, can run in parallel.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest <span class="o">{</span>prefix<span class="o">}</span>/lib/<span class="o">{</span>PYMOD_INSTALL_LIBDIR<span class="o">}</span>/psi4/tests/ -n<span class="sb">`</span>getconf _NPROCESSORS_ONLN<span class="sb">`</span>
 </pre></div>
 </div>
-</div></blockquote>
+</li>
+</ul>
 </div></blockquote>
 <p>Output looks something like the below. <code class="docutils literal notranslate"><span class="pre">PASSED</span></code> in green is good
 (means test ran correctly); <code class="docutils literal notranslate"><span class="pre">SKIPPED</span></code> in yellow is good (means that
@@ -1799,7 +1796,7 @@ as needed.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1813,7 +1810,7 @@ as needed.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 31 March 2021 07:31AM.
+      Last updated on Thursday, 01 April 2021 05:14AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

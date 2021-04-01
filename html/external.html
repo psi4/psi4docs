@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/external.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -426,31 +426,31 @@ this variable to 0 (the default) uses the number of threads specified by the
 <p>To run a <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> job on a PBS queueing system, you need to properly set up
 all necessary variables in the PBS job file. Below is a minimal example of
 a PBS job file for a threaded job, and a short explanation for each section.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>#!/bin/tcsh
-#PBS -j oe
-#PBS -l pmem=2120mb
-#PBS -N jobname
-#PBS -V
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/tcsh</span>
+<span class="c1">#PBS -j oe</span>
+<span class="c1">#PBS -l pmem=2120mb</span>
+<span class="c1">#PBS -N jobname</span>
+<span class="c1">#PBS -V</span>
 
-cd $PBS_O_WORKDIR
-setenv myscratch /scratch/user/psi4.$PBS_JOBID
+<span class="nb">cd</span> <span class="nv">$PBS_O_WORKDIR</span>
+setenv myscratch /scratch/user/psi4.<span class="nv">$PBS_JOBID</span>
 
-foreach i (`sort $PBS_NODEFILE | uniq`)
-    echo &quot;Creating scratch directory &quot; $myscratch &quot; on &quot; $i
-    ssh $i rm -rf $myscratch
-    ssh $i mkdir -p $myscratch
+foreach i <span class="o">(</span><span class="sb">`</span>sort <span class="nv">$PBS_NODEFILE</span> <span class="p">|</span> uniq<span class="sb">`</span><span class="o">)</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Creating scratch directory &quot;</span> <span class="nv">$myscratch</span> <span class="s2">&quot; on &quot;</span> <span class="nv">$i</span>
+    ssh <span class="nv">$i</span> rm -rf <span class="nv">$myscratch</span>
+    ssh <span class="nv">$i</span> mkdir -p <span class="nv">$myscratch</span>
 end
 
 unsetenv PSIDATADIR
-setenv PSI_SCRATCH $myscratch
-if ! ( $?PSIPATH ) setenv PSIPATH &quot;&quot;
-setenv PSIPATH /path/to/external/modules:${PSIPATH}
-setenv PSIPATH /path/to/python/modules:${PSIPATH}
-/psi/install/directory/bin/psi4 -i input.in -o input.out -n 4
+setenv PSI_SCRATCH <span class="nv">$myscratch</span>
+<span class="k">if</span> ! <span class="o">(</span> <span class="nv">$?</span>PSIPATH <span class="o">)</span> setenv PSIPATH <span class="s2">&quot;&quot;</span>
+setenv PSIPATH /path/to/external/modules:<span class="si">${</span><span class="nv">PSIPATH</span><span class="si">}</span>
+setenv PSIPATH /path/to/python/modules:<span class="si">${</span><span class="nv">PSIPATH</span><span class="si">}</span>
+/psi/install/directory/bin/psi4 -i input.in -o input.out -n <span class="m">4</span>
 
-foreach i (`sort $PBS_NODEFILE | uniq`)
-    echo &quot;Removing scratch directory &quot; $myscratch &quot; on &quot; $i
-    ssh $i rm -rf $myscratch
+foreach i <span class="o">(</span><span class="sb">`</span>sort <span class="nv">$PBS_NODEFILE</span> <span class="p">|</span> uniq<span class="sb">`</span><span class="o">)</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Removing scratch directory &quot;</span> <span class="nv">$myscratch</span> <span class="s2">&quot; on &quot;</span> <span class="nv">$i</span>
+    ssh <span class="nv">$i</span> rm -rf <span class="nv">$myscratch</span>
 end
 </pre></div>
 </div>
@@ -471,23 +471,23 @@ in the input file (see <a class="reference internal" href="psithoninput.html#sec
 <p>Then, we move to the working directory using PBS variable <code class="docutils literal notranslate"><span class="pre">$PBS_O_WORKDIR</span></code> and
 we create scratch directories on every node, using the <code class="docutils literal notranslate"><span class="pre">$PBS_NODEFILE</span></code> which
 points to a file containing a list of the nodes attributed to the job.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>cd $PBS_O_WORKDIR
-setenv myscratch /scratch/user/psi4.$PBS_JOBID
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="nv">$PBS_O_WORKDIR</span>
+setenv myscratch /scratch/user/psi4.<span class="nv">$PBS_JOBID</span>
 
-foreach i (`sort $PBS_NODEFILE | uniq`)
-    echo &quot;Creating scratch directory &quot; $myscratch &quot; on &quot; $i
-    ssh $i rm -rf $myscratch
-    ssh $i mkdir -p $myscratch
+foreach i <span class="o">(</span><span class="sb">`</span>sort <span class="nv">$PBS_NODEFILE</span> <span class="p">|</span> uniq<span class="sb">`</span><span class="o">)</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Creating scratch directory &quot;</span> <span class="nv">$myscratch</span> <span class="s2">&quot; on &quot;</span> <span class="nv">$i</span>
+    ssh <span class="nv">$i</span> rm -rf <span class="nv">$myscratch</span>
+    ssh <span class="nv">$i</span> mkdir -p <span class="nv">$myscratch</span>
 end
 </pre></div>
 </div>
 <p>The next section is <em>very important</em> as it sets the environment variables needed
 by <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>unsetenv PSIDATADIR
-setenv PSI_SCRATCH $myscratch
-if ! ( $?PSIPATH ) setenv PSIPATH &quot;&quot;
-setenv PSIPATH /path/to/external/modules:${PSIPATH}
-setenv PSIPATH /path/to/python/modules:${PSIPATH}
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>unsetenv PSIDATADIR
+setenv PSI_SCRATCH <span class="nv">$myscratch</span>
+<span class="k">if</span> ! <span class="o">(</span> <span class="nv">$?</span>PSIPATH <span class="o">)</span> setenv PSIPATH <span class="s2">&quot;&quot;</span>
+setenv PSIPATH /path/to/external/modules:<span class="si">${</span><span class="nv">PSIPATH</span><span class="si">}</span>
+setenv PSIPATH /path/to/python/modules:<span class="si">${</span><span class="nv">PSIPATH</span><span class="si">}</span>
 </pre></div>
 </div>
 <p><span class="target" id="index-10"></span><a class="reference internal" href="#envvar-PSIDATADIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIDATADIR</span></code></a> does <em>not</em> need to be set.
@@ -503,9 +503,9 @@ The next step is then to actually run the computation:</p>
 </pre></div>
 </div>
 <p>And then to clean up the scratch directories previously created:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>foreach i (`sort $PBS_NODEFILE | uniq`)
-    echo &quot;Removing scratch directory &quot; $myscratch &quot; on &quot; $i
-    ssh $i rm -rf $myscratch
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>foreach i <span class="o">(</span><span class="sb">`</span>sort <span class="nv">$PBS_NODEFILE</span> <span class="p">|</span> uniq<span class="sb">`</span><span class="o">)</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Removing scratch directory &quot;</span> <span class="nv">$myscratch</span> <span class="s2">&quot; on &quot;</span> <span class="nv">$i</span>
+    ssh <span class="nv">$i</span> rm -rf <span class="nv">$myscratch</span>
 end
 </pre></div>
 </div>
@@ -861,7 +861,7 @@ ending in <code class="docutils literal notranslate"><span class="pre">share/psi
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/external.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -874,7 +874,7 @@ ending in <code class="docutils literal notranslate"><span class="pre">share/psi
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 31 March 2021 07:31AM.
+      Last updated on Thursday, 01 April 2021 05:14AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

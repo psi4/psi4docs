@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dftd3.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -385,7 +385,7 @@ is easily editable for this purpose. See <a class="reference internal" href="dft
 </ul>
 <p>If only dispersion corrections (rather than total energies) are of
 interest, the <code class="docutils literal notranslate"><span class="pre">dftd3</span></code> program can be run independently of the scf
-through the python function <code class="xref py py-func docutils literal notranslate"><span class="pre">run_dftd3()</span></code>. (This function
+through the python function <a class="reference internal" href="#qcdb.Molecule.run_dftd3" title="qcdb.Molecule.run_dftd3"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_dftd3()</span></code></a>. (This function
 is the same <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>/<code class="docutils literal notranslate"><span class="pre">dftd3</span></code> interface that is called during an scf job.)
 This route is much faster than running a DFT-D energy.</p>
 <ul>
@@ -418,6 +418,41 @@ This route is much faster than running a DFT-D energy.</p>
 </div>
 </li>
 </ul>
+<dl class="py function">
+<dt id="qcdb.Molecule.run_dftd3">
+<code class="sig-prename descclassname"><span class="pre">qcdb.Molecule.</span></code><code class="sig-name descname"><span class="pre">run_dftd3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashparam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qcdb.Molecule.run_dftd3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute dispersion correction via Grimme’s DFTD3 program.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of functional (func only, func &amp; disp, or disp only) for
+which to compute dispersion (e.g., blyp, BLYP-D2, blyp-d3bj,
+blyp-d3(bj), hf+d). Any or all parameters initialized
+from <cite>dashcoeff[dashlvl][func]</cite> can be overwritten via
+<cite>dashparam</cite>.</p></li>
+<li><p><strong>dashlvl</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of dispersion correction to be applied (e.g., d, D2,
+d3(bj), das2010). Must be key in <cite>dashcoeff</cite> or “alias” or
+“formal” to one.</p></li>
+<li><p><strong>dashparam</strong> (<em>dict</em><em>, </em><em>optional</em>) – Values for the same keys as <cite>dashcoeff[dashlvl][‘default’]</cite>
+used to override any or all values initialized by <cite>func</cite>.
+Extra parameters will error.</p></li>
+<li><p><strong>dertype</strong> (<em>int</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – Maximum derivative level at which to run DFTD3. For large
+molecules, energy-only calculations can be significantly more
+efficient. Influences return values, see below.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>optional</em>) – Amount of printing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>energy</strong> (<em>float</em>) – When <cite>dertype=0</cite>, energy [Eh].</p></li>
+<li><p><strong>gradient</strong> (<em>ndarray</em>) – When <cite>dertype=1</cite>, (nat, 3) gradient [Eh/a0].</p></li>
+<li><p><strong>(energy, gradient)</strong> (<em>tuple of float and ndarray</em>) – When <cite>dertype=None</cite>, both energy [Eh] and (nat, 3) gradient [Eh/a0].</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 
@@ -528,7 +563,7 @@ This route is much faster than running a DFT-D energy.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dftd3.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -542,7 +577,7 @@ This route is much faster than running a DFT-D energy.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 31 March 2021 07:31AM.
+      Last updated on Thursday, 01 April 2021 05:14AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

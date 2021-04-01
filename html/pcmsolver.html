@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/pcmsolver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -146,7 +146,7 @@ Then enable it as a feature with <strong class="makevar">ENABLE_PCMSolver</stron
 hint its location with <strong class="makevar">CMAKE_PREFIX_PATH</strong>,
 and rebuild <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> to detect PCMSolver and activate dependent code.</p></li>
 <li><p>Previous bullet had details. To build <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> from source and use
-pcmsolver from conda without thinking, consult <span class="xref std std-ref">sec:condapsi4dev</span>.</p></li>
+pcmsolver from conda without thinking, consult.</p></li>
 <li><p>To remove a conda installation, <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">remove</span> <span class="pre">pcmsolver</span></code>.</p></li>
 </ul>
 <p><strong>Source</strong></p>
@@ -163,7 +163,7 @@ and let the build system fetch and build it and activate dependent code.</p></li
 <span id="sec-usingpcm"></span><span id="index-1"></span><h2>Using the polarizable continuum model<a class="headerlink" href="#using-the-polarizable-continuum-model" title="Permalink to this headline">¶</a></h2>
 <p>The inclusion of a PCM description of the solvent into your calculation
 is achieved by setting <a class="reference internal" href="autodoc_glossary_options_c.html#term-PCM-GLOBALS"><span class="xref std std-term">PCM</span></a> <code class="docutils literal notranslate"><span class="pre">true</span></code> in your input file.
-<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> understands the additional option <a href="#id3"><span class="problematic" id="id4">|globals__pcm_scf_type|</span></a> with possible values <code class="docutils literal notranslate"><span class="pre">total</span></code>
+<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> understands the additional option <a class="reference internal" href="autodoc_glossary_options_c.html#term-PCM_SCF_TYPE-PCM"><span class="xref std std-term">PCM_SCF_TYPE</span></a> with possible values <code class="docutils literal notranslate"><span class="pre">total</span></code>
 (the default) or <code class="docutils literal notranslate"><span class="pre">separate</span></code>.
 The latter forces the separate handling of nuclear and electronic electrostatic potentials and
 polarization charges. It is mainly useful for debugging.</p>
@@ -256,6 +256,28 @@ that is slightly different from that of <span style="font-family: Optima, sans-s
 <ul class="simple">
 <li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
 <li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="pcm-scf-type">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-PCM_SCF_TYPE-PCM"><span class="xref std std-term">PCM_SCF_TYPE</span></a><a class="headerlink" href="#pcm-scf-type" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Use total or separate potentials and charges in the PCM-SCF step.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: TOTAL, SEPARATE</p></li>
+<li><p><strong>Default</strong>: TOTAL</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="pcm-cc-type">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-PCM_CC_TYPE-PCM"><span class="xref std std-term">PCM_CC_TYPE</span></a><a class="headerlink" href="#pcm-cc-type" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>PCM-CCSD algorithm type.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: PTE</p></li>
+<li><p><strong>Default</strong>: PTE</p></li>
 </ul>
 </div></blockquote>
 </div>
@@ -354,6 +376,8 @@ quantum chemical capabilities (solvation modeling).</p></li>
 <li><a class="reference internal" href="#using-the-polarizable-continuum-model">Using the polarizable continuum model</a></li>
 <li><a class="reference internal" href="#keywords-for-pcmsolver">Keywords for PCMSolver</a><ul>
 <li><a class="reference internal" href="#pcm"><span class="xref std std-term">PCM</span></a></li>
+<li><a class="reference internal" href="#pcm-scf-type"><span class="xref std std-term">PCM_SCF_TYPE</span></a></li>
+<li><a class="reference internal" href="#pcm-cc-type"><span class="xref std std-term">PCM_CC_TYPE</span></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#how-to-configure-pcmsolver-for-building-psi4">How to configure PCMSolver for building Psi4</a></li>
@@ -408,7 +432,7 @@ quantum chemical capabilities (solvation modeling).</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/pcmsolver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -422,7 +446,7 @@ quantum chemical capabilities (solvation modeling).</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 31 March 2021 07:31AM.
+      Last updated on Thursday, 01 April 2021 05:14AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

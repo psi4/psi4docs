@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/optionshandling.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -141,23 +141,23 @@ read_options function. For plugins, this routine is provided by the user
 in the plugin code. For native <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> modules, the entries need to
 be appended to the read_options code in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/src/bin/psi4/read_options.cc">psi4/src/bin/psi4/read_options.cc</a>.
 An example of such a routine is</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>if (name == &quot;MYMODULE&quot;|| options.read_globals()) {
-    /*- The amount of information printed
-    to the output file -*/
-    options.add_int(&quot;PRINT&quot;, 1);
-    /*- Do save information to |mymodule__data_file| at the end of the computation? -*/
-    options.add_bool(&quot;SAVE_INFO&quot;, true);
-    /*- An array containing the number of doubly occupied orbitals per irrep
-    (in :ref:`Cotton order &lt;table:irrepOrdering&gt;`) -*/
-    options.add(&quot;DOCC&quot;, new ArrayType());
-    /*- The factor by which the harmonic vibrational frequencies are multiplied to
-    obtain an approximation to the fundamental vibrational frequencies -*/
-    options.add_double(&quot;FREQUENCY_SCALE_FACTOR&quot;, 1.0);
-    /*- The filename to which data is dumped. !expert -*/
-    options.add_str(&quot;DATA_FILE&quot;, &quot;data.dat&quot;);
-    /*- The algorithm to use for the $\left&lt;VV||VV\right&gt;$ terms -*/
-    options.add_str(&quot;AO_BASIS&quot;, &quot;NONE&quot;, &quot;NONE DISK DIRECT&quot;);
-}
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">name</span> <span class="o">==</span> <span class="s">&quot;MYMODULE&quot;</span><span class="o">||</span> <span class="n">options</span><span class="p">.</span><span class="n">read_globals</span><span class="p">())</span> <span class="p">{</span>
+    <span class="cm">/*- The amount of information printed</span>
+<span class="cm">    to the output file -*/</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">add_int</span><span class="p">(</span><span class="s">&quot;PRINT&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="cm">/*- Do save information to |mymodule__data_file| at the end of the computation? -*/</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">add_bool</span><span class="p">(</span><span class="s">&quot;SAVE_INFO&quot;</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="cm">/*- An array containing the number of doubly occupied orbitals per irrep</span>
+<span class="cm">    (in :ref:`Cotton order &lt;table:irrepOrdering&gt;`) -*/</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;DOCC&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="n">ArrayType</span><span class="p">());</span>
+    <span class="cm">/*- The factor by which the harmonic vibrational frequencies are multiplied to</span>
+<span class="cm">    obtain an approximation to the fundamental vibrational frequencies -*/</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">add_double</span><span class="p">(</span><span class="s">&quot;FREQUENCY_SCALE_FACTOR&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+    <span class="cm">/*- The filename to which data is dumped. !expert -*/</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">add_str</span><span class="p">(</span><span class="s">&quot;DATA_FILE&quot;</span><span class="p">,</span> <span class="s">&quot;data.dat&quot;</span><span class="p">);</span>
+    <span class="cm">/*- The algorithm to use for the $\left&lt;VV||VV\right&gt;$ terms -*/</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">add_str</span><span class="p">(</span><span class="s">&quot;AO_BASIS&quot;</span><span class="p">,</span> <span class="s">&quot;NONE&quot;</span><span class="p">,</span> <span class="s">&quot;NONE DISK DIRECT&quot;</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>In the above example, the following options are declared (in order):</p>
@@ -185,10 +185,10 @@ the keywords do and how they’re used. The comments must live between the
 special comment delimiters. For options that most users shouldn’t need,
 add an expert flag to the comment. This will place these options in a
 separate section of the user manual.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>/*- comment -*/
-options.add_ ...
-/*- comment !expert -*/
-options.add_ ...
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*- comment -*/</span>
+<span class="n">options</span><span class="p">.</span><span class="n">add_</span> <span class="p">...</span>
+<span class="cm">/*- comment !expert -*/</span>
+<span class="n">options</span><span class="p">.</span><span class="n">add_</span> <span class="p">...</span>
 </pre></div>
 </div>
 <p>As is apparent from the examples above, comments can span multiple lines
@@ -488,7 +488,7 @@ that and follow the new scheme outlined here.)</em></p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/optionshandling.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -502,7 +502,7 @@ that and follow the new scheme outlined here.)</em></p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 31 March 2021 07:31AM.
+      Last updated on Thursday, 01 April 2021 05:14AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/cfour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -676,7 +676,54 @@ is specified or default, whether to preserve the scratch directory after
 the computation can be specified with <code class="docutils literal notranslate"><span class="pre">energy('cfour',</span> <span class="pre">keep=True)</span></code> or
 (the default) <code class="docutils literal notranslate"><span class="pre">energy('cfour',</span> <span class="pre">keep=False)</span></code>. <em>path</em> and <em>keep</em> are
 keyword arguments that get interpreted by the
-<code class="xref py py-func docutils literal notranslate"><span class="pre">run_cfour()</span></code> function documented below.</p>
+<a class="reference internal" href="#psi4.driver.procrouting.interface_cfour.run_cfour" title="psi4.driver.procrouting.interface_cfour.run_cfour"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_cfour()</span></code></a> function documented below.</p>
+<dl class="py function">
+<dt id="psi4.driver.procrouting.interface_cfour.run_cfour">
+<code class="sig-prename descclassname"><span class="pre">psi4.driver.procrouting.interface_cfour.</span></code><code class="sig-name descname"><span class="pre">run_cfour</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">name</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">keep</span></em>, <em class="sig-param"><span class="pre">path</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/procrouting/interface_cfour.html#run_cfour"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.procrouting.interface_cfour.run_cfour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that prepares environment and input files
+for a calculation calling Stanton and Gauss’s CFOUR code.
+Also processes results back into Psi4 format.</p>
+<p>This function is not called directly but is instead called by
+<code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code> when a Cfour
+method is requested (through <em>name</em> argument). In order to function
+correctly, the Cfour executable <code class="docutils literal notranslate"><span class="pre">xcfour</span></code> must be present in
+<span class="target" id="index-7"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a> or <span class="target" id="index-8"></span><a class="reference internal" href="external.html#envvar-PSIPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIPATH</span></code></a>.</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><p>Many <a class="reference internal" href="autodir_psivariables/module__cfour.html#apdx-cfour-psivar"><span class="std std-ref">PSI Variables</span></a> extracted from the Cfour output</p></li>
+<li><p>Python dictionary of associated file constants accessible as <code class="docutils literal notranslate"><span class="pre">P4C4_INFO['zmat']</span></code>, <code class="docutils literal notranslate"><span class="pre">P4C4_INFO['output']</span></code>, <code class="docutils literal notranslate"><span class="pre">P4C4_INFO['grd']</span></code>, <em>etc.</em></p></li>
+</ul>
+</td></tr></table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>string</em>) – <p><code class="docutils literal notranslate"><span class="pre">'c4-scf'</span></code> || <code class="docutils literal notranslate"><span class="pre">'c4-ccsd(t)'</span></code> || <code class="docutils literal notranslate"><span class="pre">'cfour'</span></code> || etc.</p>
+<p>First argument, usually unlabeled. Indicates the computational
+method to be applied to the system.</p>
+</p></li>
+<li><p><strong>keep</strong> (<a class="reference internal" href="notes_py.html#op-py-boolean"><span class="std std-ref">boolean</span></a>) – <p><code class="docutils literal notranslate"><span class="pre">'on'</span></code> || <span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">'off'</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span></p>
+<p>Indicates whether to delete the Cfour scratch directory upon
+completion of the Cfour job.</p>
+</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – <p>Indicates path to Cfour scratch directory (with respect to Psi4
+scratch directory). Otherwise, the default is a subdirectory
+within the Psi4 scratch directory.</p>
+<p>If specified, GENBAS and/or ZMAT within will be used.</p>
+</p></li>
+<li><p><strong>genbas</strong> (<em>string</em>) – Indicates that contents should be used for GENBAS file.</p></li>
+</ul>
+</dd>
+</dl>
+<p>GENBAS is a complicated topic. It is quite unnecessary if the
+molecule is from a molecule {…} block and basis is set through
+<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s BASIS keyword. In that case, a GENBAS is written from
+LibMints and all is well. Otherwise, a GENBAS is looked for in
+the usual places: PSIPATH, PATH, PSIDATADIR/basis. If path kwarg is
+specified, also looks there preferentially for a GENBAS. Can
+also specify GENBAS within an input file through a string and
+setting the genbas kwarg. Note that due to the input parser’s
+aggression, blank lines need to be replaced by the text blankline.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="functionality">
 <span id="sec-cfourfunctionality"></span><h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this headline">¶</a></h2>
@@ -1008,10 +1055,10 @@ format. It is by this route that, for example <code class="docutils literal notr
 present be specified.</p>
 <p>The execution of <strong class="program">xcfour</strong> can be modified by a few parameters.  Setting
 the option <a class="reference internal" href="autodoc_glossary_options_c.html#term-CFOUR_OMP_NUM_THREADS-CFOUR"><span class="xref std std-term">CFOUR_OMP_NUM_THREADS</span></a> sets the environment variable
-<span class="target" id="index-7"></span><a class="reference internal" href="external.html#envvar-OMP_NUM_THREADS"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code></a> for only the duration of the Cfour computation.
+<span class="target" id="index-9"></span><a class="reference internal" href="external.html#envvar-OMP_NUM_THREADS"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code></a> for only the duration of the Cfour computation.
 That is, portions of an input file that run <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> modules are
 unaffected.  Additionally, there are a few arguments to the function
-<code class="xref py py-func docutils literal notranslate"><span class="pre">run_cfour()</span></code> that control the Cfour scratch
+<a class="reference internal" href="#psi4.driver.procrouting.interface_cfour.run_cfour" title="psi4.driver.procrouting.interface_cfour.run_cfour"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_cfour()</span></code></a> that control the Cfour scratch
 directory.</p>
 </div>
 </div>
@@ -1127,7 +1174,7 @@ directory.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/cfour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1141,7 +1188,7 @@ directory.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 31 March 2021 07:31AM.
+      Last updated on Thursday, 01 April 2021 05:14AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

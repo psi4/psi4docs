@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.core.CCWavefunction.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -142,21 +142,24 @@
 <dl class="py method">
 <dt id="psi4.core.CCWavefunction.get_amplitudes">
 <code class="sig-name descname"><span class="pre">get_amplitudes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CCWavefunction" title="psi4.core.CCWavefunction"><span class="pre">psi4.core.CCWavefunction</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#psi4.core.CCWavefunction.get_amplitudes" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Get dict of converged T amplitudes</p>
-<dl>
-<dt>amps<span class="classifier">dict (spacestr, SharedMatrix)</span></dt><dd><p><cite>spacestr</cite> is a description of the amplitude set using the following conventions.</p>
+<dd><p>Get dict of converged T amplitudes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul>
+<li><p><strong>amps</strong> (<em>dict (spacestr, SharedMatrix)</em>) – <cite>spacestr</cite> is a description of the amplitude set using the following conventions.</p>
 <p>I,J,K -&gt; alpha occupied
 i,j,k -&gt; beta occupied
 A,B,C -&gt; alpha virtual
 a,b,c -&gt; beta virtual</p>
+</li>
+<li><p>The following entries are stored in the <cite>amps</cite>, depending on the reference type</p></li>
+<li><p><strong>RHF</strong> (<em>“tIA”, “tIjAb”</em>)</p></li>
+<li><p><strong>UHF</strong> (<em>tIA, tia, tIjAb, tIJAB, tijab</em>)</p></li>
+<li><p><strong>ROHF</strong> (<em>tIA, tia, tIjAb, tIJAB, tijab</em>)</p></li>
+</ul>
+</p>
 </dd>
 </dl>
-<p>The following entries are stored in the <cite>amps</cite>, depending on the reference type</p>
-<p>RHF: “tIA”, “tIjAb”
-UHF: tIA, tia, tIjAb, tIJAB, tijab
-ROHF: tIA, tia, tIjAb, tIJAB, tijab</p>
-</div></blockquote>
 <p class="rubric">Examples</p>
 <p>RHF T1 diagnostic = sqrt(sum_ia (T_ia * T_ia)/nelec)
 &gt;&gt;&gt; mol = “””
@@ -168,8 +171,7 @@ ROHF: tIA, tia, tIjAb, tIJAB, tijab</p>
 &gt;&gt;&gt; t1_diagnostic = np.sqrt(np.dot(t1.ravel(),t1.ravel())/ (2 * wfn.nalpha())
 &gt;&gt;&gt; t1_diagnostic == psi4.variable(“CC T1 DIAGNOSTIC”)
 True</p>
-<blockquote>
-<div><div class="admonition warning">
+<div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Symmetry free calculations only (nirreps &gt; 1 will cause error)</p>
 </div>
@@ -177,7 +179,6 @@ True</p>
 <p class="admonition-title">Warning</p>
 <p>No checks that the amplitudes will fit in core. Do not use for proteins</p>
 </div>
-</div></blockquote>
 </dd></dl>
 
 </dd></dl>
@@ -280,7 +281,7 @@ True</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.core.CCWavefunction.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -294,7 +295,7 @@ True</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 31 March 2021 07:31AM.
+      Last updated on Thursday, 01 April 2021 05:14AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

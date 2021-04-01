@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/plugins.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -149,8 +149,8 @@ plugin. In this example, a directory named myplugin will be created.
 All you need to do is <code class="docutils literal notranslate"><span class="pre">cd</span></code> into the directory, use <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> to generate
 a Makefile, and type make. Then execute <code class="docutils literal notranslate"><span class="pre">psi4</span></code> in the directory on the
 default input file.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cd myplugin
-&gt;&gt;&gt; `psi4 --plugin-compile`
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nb">cd</span> myplugin
+&gt;&gt;&gt; <span class="sb">`</span>psi4 --plugin-compile<span class="sb">`</span>
 &gt;&gt;&gt; make
 &gt;&gt;&gt; psi4
 </pre></div>
@@ -176,70 +176,70 @@ or environment (below, <code class="docutils literal notranslate"><span class="p
 <code class="docutils literal notranslate"><span class="pre">libc++.so</span></code> (<em>not</em> <code class="docutils literal notranslate"><span class="pre">libstdc++.so</span></code>), and this can be accomplished by
 installing XCode from the App Store that provides <code class="docutils literal notranslate"><span class="pre">clang</span></code> and
 <code class="docutils literal notranslate"><span class="pre">clang++</span></code> compilers.</p>
-<ul>
-<li><p>Check environment</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span># yes, the following returns a blank line. yes, LD_LIBRARY_PATH irrelevant
-&gt;&gt;&gt; echo $PYTHONHOME $PYTHONPATH $DYLD_LIBRARY_PATH $PSIDATADIR
+<ul class="simple">
+<li><p>Check environment:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># yes, the following returns a blank line. yes, LD_LIBRARY_PATH irrelevant</span>
+&gt;&gt;&gt; <span class="nb">echo</span> <span class="nv">$PYTHONHOME</span> <span class="nv">$PYTHONPATH</span> <span class="nv">$DYLD_LIBRARY_PATH</span> <span class="nv">$PSIDATADIR</span>
 
-&gt;&gt;&gt; which python psi4 g++ gfortran  # Linux
-$PSI4CONDA/bin/python
-$PSI4CONDA/bin/psi4
-$PSI4CONDA/bin/gcc++
-$PSI4CONDA/bin/gfortran
-&gt;&gt;&gt; which python psi4 g++ gfortran clang++  # Mac
-$PSI4CONDA/bin/python
-$PSI4CONDA/bin/psi4
-$PSI4CONDA/bin/g++
-$PSI4CONDA/bin/gfortran
+&gt;&gt;&gt; which python psi4 g++ gfortran  <span class="c1"># Linux</span>
+<span class="nv">$PSI4CONDA</span>/bin/python
+<span class="nv">$PSI4CONDA</span>/bin/psi4
+<span class="nv">$PSI4CONDA</span>/bin/gcc++
+<span class="nv">$PSI4CONDA</span>/bin/gfortran
+&gt;&gt;&gt; which python psi4 g++ gfortran clang++  <span class="c1"># Mac</span>
+<span class="nv">$PSI4CONDA</span>/bin/python
+<span class="nv">$PSI4CONDA</span>/bin/psi4
+<span class="nv">$PSI4CONDA</span>/bin/g++
+<span class="nv">$PSI4CONDA</span>/bin/gfortran
 /usr/bin/clang++
 
 &gt;&gt;&gt; which cmake
-$PSI4CONDA/bin/cmake
-# if above empty, ``conda install cmake``
+<span class="nv">$PSI4CONDA</span>/bin/cmake
+<span class="c1"># if above empty, ``conda install cmake``</span>
 </pre></div>
 </div>
-</li>
-<li><p>Create and compile plugin</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; psi4 --plugin-name testplugin
--- Creating &quot;testplugin&quot; with &quot;basic&quot; template. -----------------
-==&gt; Created plugin files (in testplugin as basic):
+<ul class="simple">
+<li><p>Create and compile plugin:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; psi4 --plugin-name testplugin
+-- Creating <span class="s2">&quot;testplugin&quot;</span> with <span class="s2">&quot;basic&quot;</span> template. -----------------
+<span class="o">==</span>&gt; Created plugin files <span class="o">(</span><span class="k">in</span> testplugin as basic<span class="o">)</span>:
   __init__.py, CMakeLists.txt, doc.rst, input.dat, plugin.cc, pymodule.py
 
-# move into plugin directory
-&gt;&gt;&gt; cd testplugin
+<span class="c1"># move into plugin directory</span>
+&gt;&gt;&gt; <span class="nb">cd</span> testplugin
 
-# configure using build info from parent psi4
-&gt;&gt;&gt; `psi4 --plugin-compile`  # Linux
-loading initial cache file $PSI4CONDA/share/cmake/psi4/psi4PluginCache.cmake
--- The CXX compiler identification is GNU 5.2.0
--- Check for working CXX compiler: $PSI4CONDA/bin/g++
--- Check for working CXX compiler: $PSI4CONDA/bin/g++ -- works
+<span class="c1"># configure using build info from parent psi4</span>
+&gt;&gt;&gt; <span class="sb">`</span>psi4 --plugin-compile<span class="sb">`</span>  <span class="c1"># Linux</span>
+loading initial cache file <span class="nv">$PSI4CONDA</span>/share/cmake/psi4/psi4PluginCache.cmake
+-- The CXX compiler identification is GNU <span class="m">5</span>.2.0
+-- Check <span class="k">for</span> working CXX compiler: <span class="nv">$PSI4CONDA</span>/bin/g++
+-- Check <span class="k">for</span> working CXX compiler: <span class="nv">$PSI4CONDA</span>/bin/g++ -- works
 ...
--- Generating done
+-- Generating <span class="k">done</span>
 -- Build files have been written to: testplugin
-&gt;&gt;&gt; `psi4 --plugin-compile`  # Mac
-loading initial cache file $PSI4CONDA/share/cmake/psi4/psi4PluginCache.cmake
--- The CXX compiler identification is AppleClang 7.0.0.7000176
--- Check for working CXX compiler: /usr/bin/clang++
--- Check for working CXX compiler: /usr/bin/clang++ -- works
+&gt;&gt;&gt; <span class="sb">`</span>psi4 --plugin-compile<span class="sb">`</span>  <span class="c1"># Mac</span>
+loading initial cache file <span class="nv">$PSI4CONDA</span>/share/cmake/psi4/psi4PluginCache.cmake
+-- The CXX compiler identification is AppleClang <span class="m">7</span>.0.0.7000176
+-- Check <span class="k">for</span> working CXX compiler: /usr/bin/clang++
+-- Check <span class="k">for</span> working CXX compiler: /usr/bin/clang++ -- works
 ...
--- Generating done
+-- Generating <span class="k">done</span>
 -- Build files have been written to: testplugin
 
-# compile the plugin to produce testplugin.so
+<span class="c1"># compile the plugin to produce testplugin.so</span>
 &gt;&gt;&gt; make
 Scanning dependencies of target testplugin
-[ 50%] Building CXX object CMakeFiles/testplugin.dir/plugin.cc.o
-[100%] Linking CXX shared module testplugin.so
-[100%] Built target testplugin
+<span class="o">[</span> <span class="m">50</span>%<span class="o">]</span> Building CXX object CMakeFiles/testplugin.dir/plugin.cc.o
+<span class="o">[</span><span class="m">100</span>%<span class="o">]</span> Linking CXX shared module testplugin.so
+<span class="o">[</span><span class="m">100</span>%<span class="o">]</span> Built target testplugin
 
-# run sample input.dat
+<span class="c1"># run sample input.dat</span>
 &gt;&gt;&gt; psi4
 Attention! This SCF may be density-fitted.
 </pre></div>
 </div>
-</li>
-</ul>
 <p>Please note that the conda distribution must be in <code class="docutils literal notranslate"><span class="pre">$PATH</span></code> or the
 conda enviroment must be activated before compilation and execution of
 plugins created using this procedure.</p>
@@ -420,7 +420,7 @@ necessary.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/plugins.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f06da4d">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4c8f6c2">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -434,7 +434,7 @@ necessary.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 31 March 2021 07:31AM.
+      Last updated on Thursday, 01 April 2021 05:14AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->
