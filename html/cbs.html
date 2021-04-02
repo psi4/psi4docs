@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c130fc2">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/a5baf2d">1.4rc2.dev41</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -187,6 +187,29 @@ of the reference total energy, the correlation energy, a delta correction to the
 correlation energy, and a second delta correction, etc.. Each is activated by its
 stage_wfn keyword, or as a field in the <code class="docutils literal notranslate"><span class="pre">`cbs_metadata`</span></code> list, and is only
 allowed if all preceding stages are active.</p>
+<div class="math notranslate nohighlight" id="eq-cbs">
+<span id="index-1"></span>\[E_{\text{total}}^{\text{CBS}} = \mathcal{F}_{\textbf{scf_scheme}} \left(E_{\text{total},\; \text{SCF}}^{\textbf{scf_basis}}\right) \; + \mathcal{F}_{\textbf{corl_scheme}} \left(E_{\text{corl},\; \textbf{corl_wfn}}^{\textbf{corl_basis}}\right) \; + \delta_{\textbf{delta_wfn_lesser}}^{\textbf{delta_wfn}} \; + \delta_{\textbf{delta2_wfn_lesser}}^{\textbf{delta2_wfn}} \; + \delta_{\textbf{delta3_wfn_lesser}}^{\textbf{delta3_wfn}} \; + \delta_{\textbf{delta4_wfn_lesser}}^{\textbf{delta4_wfn}} \; + \delta_{\textbf{delta5_wfn_lesser}}^{\textbf{delta5_wfn}}\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> is an energy or energy extrapolation scheme, and the following also hold.</p>
+<div class="math notranslate nohighlight">
+\[\delta_{\textbf{delta_wfn_lesser}}^{\textbf{delta_wfn}} \; = \mathcal{F}_{\textbf{delta_scheme}} \left(E_{\text{corl},\; \textbf{delta_wfn}}^{\textbf{delta_basis}}\right) - \mathcal{F}_{\textbf{delta_scheme}} \left(E_{\text{corl},\; \textbf{delta_wfn_lesser}}^{\textbf{delta_basis}}\right)\]</div>
+<div class="math notranslate nohighlight">
+\[\delta_{\textbf{delta2_wfn_lesser}}^{\textbf{delta2_wfn}} \; = \mathcal{F}_{\textbf{delta2_scheme}} \left(E_{\text{corl},\; \textbf{delta2_wfn}}^{\textbf{delta2_basis}}\right) - \mathcal{F}_{\textbf{delta2_scheme}} \left(E_{\text{corl},\; \textbf{delta2_wfn_lesser}}^{\textbf{delta2_basis}}\right)\]</div>
+<div class="math notranslate nohighlight">
+\[\delta_{\textbf{delta3_wfn_lesser}}^{\textbf{delta3_wfn}} \; = \mathcal{F}_{\textbf{delta3_scheme}} \left(E_{\text{corl},\; \textbf{delta3_wfn}}^{\textbf{delta3_basis}}\right) - \mathcal{F}_{\textbf{delta3_scheme}} \left(E_{\text{corl},\; \textbf{delta3_wfn_lesser}}^{\textbf{delta3_basis}}\right)\]</div>
+<div class="math notranslate nohighlight">
+\[\delta_{\textbf{delta4_wfn_lesser}}^{\textbf{delta4_wfn}} \; = \mathcal{F}_{\textbf{delta4_scheme}} \left(E_{\text{corl},\; \textbf{delta4_wfn}}^{\textbf{delta4_basis}}\right) - \mathcal{F}_{\textbf{delta4_scheme}} \left(E_{\text{corl},\; \textbf{delta4_wfn_lesser}}^{\textbf{delta4_basis}}\right)\]</div>
+<div class="math notranslate nohighlight">
+\[\delta_{\textbf{delta5_wfn_lesser}}^{\textbf{delta5_wfn}} \; = \mathcal{F}_{\textbf{delta5_scheme}} \left(E_{\text{corl},\; \textbf{delta5_wfn}}^{\textbf{delta5_basis}}\right) - \mathcal{F}_{\textbf{delta5_scheme}} \left(E_{\text{corl},\; \textbf{delta5_wfn_lesser}}^{\textbf{delta5_basis}}\right)\]</div>
+<p>A translation of this ungainly equation to example [5] below is as
+follows. In words, this is a double- and triple-zeta 2-point
+Helgaker-extrapolated CCSD(T) coupled-cluster correlation correction
+appended to a triple- and quadruple-zeta 2-point
+Helgaker-extrapolated MP2 correlation energy appended to a SCF/aug-cc-pVQZ
+reference energy.</p>
+<div class="math notranslate nohighlight">
+\[E_{\text{total}}^{\text{CBS}} = \mathcal{F}_{\text{highest_1}} \left(E_{\text{total},\; \text{SCF}}^{\text{aug-cc-pVQZ}}\right) \; + \mathcal{F}_{\text{corl_xtpl_helgaker_2}} \left(E_{\text{corl},\; \text{MP2}}^{\text{aug-cc-pV[TQ]Z}}\right) \; + \delta_{\text{MP2}}^{\text{CCSD(T)}}\]</div>
+<div class="math notranslate nohighlight">
+\[\delta_{\text{MP2}}^{\text{CCSD(T)}} \; = \mathcal{F}_{\text{corl_xtpl_helgaker_2}} \left(E_{\text{corl},\; \text{CCSD(T)}}^{\text{aug-cc-pV[DT]Z}}\right) - \mathcal{F}_{\text{corl_xtpl_helgaker_2}} \left(E_{\text{corl},\; \text{MP2}}^{\text{aug-cc-pV[DT]Z}}\right)\]</div>
 <ul>
 <li><dl>
 <dt>Energy Methods</dt><dd><p>The presence of a stage_wfn keyword is the indicator to incorporate
@@ -252,35 +275,35 @@ keywords to be specified for reference-step only jobs and <code class="docutils 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>) – <p><code class="docutils literal notranslate"><span class="pre">'scf'</span></code> || <code class="docutils literal notranslate"><span class="pre">'ccsd'</span></code> || etc.</p>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">'scf'</span></code> || <code class="docutils literal notranslate"><span class="pre">'ccsd'</span></code> || etc.</p>
 <p>First argument, usually unlabeled. Indicates the computational method
 for the correlation energy, unless only reference step to be performed,
 in which case should be <code class="docutils literal notranslate"><span class="pre">'scf'</span></code>. Overruled if stage_wfn keywords supplied.</p>
 </p></li>
-<li><p><strong>scf_wfn</strong> (<em>str</em>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">'scf'</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span> || <code class="docutils literal notranslate"><span class="pre">'c4-scf'</span></code> || etc.</p>
+<li><p><strong>scf_wfn</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">'scf'</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span> || <code class="docutils literal notranslate"><span class="pre">'c4-scf'</span></code> || etc.</p>
 <p>Indicates the energy method for which the reference energy is to be
 obtained. Generally unnecessary, as ‘scf’ is <em>the</em> scf in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> but
 can be used to direct lone scf components to run in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> or Cfour
 in a mixed-program composite method.</p>
 </p></li>
-<li><p><strong>corl_wfn</strong> (<em>str</em>) – <p><code class="docutils literal notranslate"><span class="pre">'mp2'</span></code> || <code class="docutils literal notranslate"><span class="pre">'ccsd(t)'</span></code> || etc.</p>
+<li><p><strong>corl_wfn</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">'mp2'</span></code> || <code class="docutils literal notranslate"><span class="pre">'ccsd(t)'</span></code> || etc.</p>
 <p>Indicates the energy method for which the correlation energy is to be
 obtained. Can also be specified with <code class="docutils literal notranslate"><span class="pre">name</span></code> or as the unlabeled
 first argument to the function.</p>
 </p></li>
-<li><p><strong>delta_wfn</strong> (<em>str</em>) – <p><code class="docutils literal notranslate"><span class="pre">'ccsd'</span></code> || <code class="docutils literal notranslate"><span class="pre">'ccsd(t)'</span></code> || etc.</p>
+<li><p><strong>delta_wfn</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">'ccsd'</span></code> || <code class="docutils literal notranslate"><span class="pre">'ccsd(t)'</span></code> || etc.</p>
 <p>Indicates the (superior) energy method for which a delta correction
 to the correlation energy is to be obtained.</p>
 </p></li>
-<li><p><strong>delta_wfn_lesser</strong> (<em>str</em>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">corl_wfn</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span> || <code class="docutils literal notranslate"><span class="pre">'mp2'</span></code> || etc.</p>
+<li><p><strong>delta_wfn_lesser</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">corl_wfn</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span> || <code class="docutils literal notranslate"><span class="pre">'mp2'</span></code> || etc.</p>
 <p>Indicates the inferior energy method for which a delta correction
 to the correlation energy is to be obtained.</p>
 </p></li>
-<li><p><strong>delta2_wfn</strong> (<em>str</em>) – <p><code class="docutils literal notranslate"><span class="pre">'ccsd'</span></code> || <code class="docutils literal notranslate"><span class="pre">'ccsd(t)'</span></code> || etc.</p>
+<li><p><strong>delta2_wfn</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">'ccsd'</span></code> || <code class="docutils literal notranslate"><span class="pre">'ccsd(t)'</span></code> || etc.</p>
 <p>Indicates the (superior) energy method for which a second delta correction
 to the correlation energy is to be obtained.</p>
 </p></li>
-<li><p><strong>delta2_wfn_lesser</strong> (<em>str</em>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">delta_wfn</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span> || <code class="docutils literal notranslate"><span class="pre">'ccsd(t)'</span></code> || etc.</p>
+<li><p><strong>delta2_wfn_lesser</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">delta_wfn</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span> || <code class="docutils literal notranslate"><span class="pre">'ccsd(t)'</span></code> || etc.</p>
 <p>Indicates the inferior energy method for which a second delta correction
 to the correlation energy is to be obtained.</p>
 </p></li>
@@ -323,7 +346,7 @@ to the correlation energy.</p>
 stage of the CBS definition. A complaint is generated if number of basis
 sets in stage_basis does not exactly satisfy requirements of stage_scheme.
 An exception is the default, <code class="docutils literal notranslate"><span class="pre">'xtpl_highest_1'</span></code>, which uses the best basis
-set available. See <span class="xref std std-ref">sec:cbs_xtpl</span> for all available schemes.</p>
+set available. See <a class="reference internal" href="#sec-cbs-xtpl"><span class="std std-ref">Extrapolation Schemes</span></a> for all available schemes.</p>
 </dd>
 </dl>
 </li>
@@ -377,7 +400,7 @@ present in <code class="docutils literal notranslate"><span class="pre">delta2_b
 </ul>
 </td></tr></table>
 </p></li>
-<li><p><strong>scf_alpha</strong> (<em>float</em>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">1.63</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span></p>
+<li><p><strong>scf_alpha</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">1.63</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span></p>
 <p>Overrides the default alpha parameter used in the listed SCF extrapolation procedures.
 Has no effect on others, including <code class="xref py py-func docutils literal notranslate"><span class="pre">xtpl_highest_1()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">scf_xtpl_helgaker_3()</span></code>.</p>
 <table class="hlist"><tr><td><ul>
@@ -387,7 +410,7 @@ Has no effect on others, including <code class="xref py py-func docutils literal
 </ul>
 </td></tr></table>
 </p></li>
-<li><p><strong>corl_alpha</strong> (<em>float</em>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">3.00</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span></p>
+<li><p><strong>corl_alpha</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">3.00</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span></p>
 <p>Overrides the default alpha parameter used in the listed <code class="xref py py-func docutils literal notranslate"><span class="pre">corl_xtpl_helgaker_2()</span></code> correlation
 extrapolation to the corl stage. The supplied alpha does not impact delta or any further stages.</p>
 <table class="hlist"><tr><td><ul>
@@ -395,7 +418,7 @@ extrapolation to the corl stage. The supplied alpha does not impact delta or any
 </ul>
 </td></tr></table>
 </p></li>
-<li><p><strong>delta_alpha</strong> (<em>float</em>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">3.00</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span></p>
+<li><p><strong>delta_alpha</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – <p><span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">3.00</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span></p>
 <p>Overrides the default alpha parameter used in the listed
 <code class="xref py py-func docutils literal notranslate"><span class="pre">corl_xtpl_helgaker_2()</span></code> correlation extrapolation for the delta correction. Useful when
 delta correction is performed using smaller basis sets for which a different alpha might
@@ -498,7 +521,7 @@ dictionary are:</p>
 <p>As of October 2018, only two explicit <code class="docutils literal notranslate"><span class="pre">`deltaN_[wfn,basis,scheme]`</span></code> sets of options are active; if more delta functions are required, use the <code class="docutils literal notranslate"><span class="pre">`cbs_metadata`</span></code> interface. Also, temporarily extrapolations are performed on differences of target and scf total energies, rather than on correlation energies directly. This doesn’t affect the extrapolated values of the particular formulas defined here (though it does affect the betas, which are commented out), but it is sloppy and temporary and could affect any user-defined corl extrapolations.</p>
 </div>
 <div class="section" id="output">
-<span id="index-1"></span><h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
+<span id="index-2"></span><h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
 <p>At the beginning of a cbs() job is printed a listing of the individual
 energy calculations which will be performed. The output snippet below is
 from the example job [2] above. It shows first each model chemistry needed
@@ -567,9 +590,9 @@ of the cbs procedure. The stage energies of this section sum outright to the tot
 <span class="o">----------------------------------------------------------------------------------</span>
 </pre></div>
 </div>
-<span class="target" id="sec-cbs-xtpl"></span></div>
+</div>
 <div class="section" id="extrapolation-schemes">
-<span id="index-2"></span><h2>Extrapolation Schemes<a class="headerlink" href="#extrapolation-schemes" title="Permalink to this headline">¶</a></h2>
+<span id="sec-cbs-xtpl"></span><span id="index-3"></span><h2>Extrapolation Schemes<a class="headerlink" href="#extrapolation-schemes" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="psi4.driver.driver_cbs.xtpl_highest_1">
 <code class="sig-prename descclassname"><span class="pre">psi4.driver.driver_cbs.</span></code><code class="sig-name descname"><span class="pre">xtpl_highest_1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">functionname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zHI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valueHI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/driver_cbs.html#xtpl_highest_1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_cbs.xtpl_highest_1" title="Permalink to this definition">¶</a></dt>
@@ -579,15 +602,15 @@ zeta-level among an array of bases. Used by <a class="reference internal" href="
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>functionname</strong> (<em>string</em>) – Name of the CBS component.</p></li>
-<li><p><strong>zHI</strong> (<em>int</em>) – Zeta-level, only used for printing.</p></li>
-<li><p><strong>valueHI</strong> (<em>float</em>) – Value of the CBS component.</p></li>
+<li><p><strong>zHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Zeta-level, only used for printing.</p></li>
+<li><p><strong>valueHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Value of the CBS component.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Returns <span class="math notranslate nohighlight">\(E_{total}^{\infty}\)</span> which is equal to valueHI.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)">float</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -604,18 +627,18 @@ zeta-level bases. Used by <a class="reference internal" href="#psi4.cbs" title="
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>functionname</strong> (<em>string</em>) – Name of the CBS component.</p></li>
-<li><p><strong>zLO</strong> (<em>int</em>) – Lower zeta level.</p></li>
-<li><p><strong>valueLO</strong> (<em>float</em>) – Lower value used for extrapolation.</p></li>
-<li><p><strong>zHI</strong> (<em>int</em>) – Higher zeta level. Should be equal to zLO + 1.</p></li>
-<li><p><strong>valueHI</strong> (<em>float</em>) – Higher value used for extrapolation.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Overrides the default <span class="math notranslate nohighlight">\(\alpha = 1.63\)</span></p></li>
+<li><p><strong>zLO</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Lower zeta level.</p></li>
+<li><p><strong>valueLO</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lower value used for extrapolation.</p></li>
+<li><p><strong>zHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Higher zeta level. Should be equal to zLO + 1.</p></li>
+<li><p><strong>valueHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Higher value used for extrapolation.</p></li>
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Overrides the default <span class="math notranslate nohighlight">\(\alpha = 1.63\)</span></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Returns <span class="math notranslate nohighlight">\(E_{total}^{\infty}\)</span>, see below.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)">float</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -639,18 +662,18 @@ zeta-level bases. Used by <a class="reference internal" href="#psi4.cbs" title="
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>functionname</strong> (<em>string</em>) – Name of the CBS component.</p></li>
-<li><p><strong>zLO</strong> (<em>int</em>) – Lower zeta level.</p></li>
-<li><p><strong>valueLO</strong> (<em>float</em>) – Lower value used for extrapolation.</p></li>
-<li><p><strong>zHI</strong> (<em>int</em>) – Higher zeta level. Should be equal to zLO + 1.</p></li>
-<li><p><strong>valueHI</strong> (<em>float</em>) – Higher value used for extrapolation.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Overrides the default <span class="math notranslate nohighlight">\(\alpha = 3.4\)</span></p></li>
+<li><p><strong>zLO</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Lower zeta level.</p></li>
+<li><p><strong>valueLO</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lower value used for extrapolation.</p></li>
+<li><p><strong>zHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Higher zeta level. Should be equal to zLO + 1.</p></li>
+<li><p><strong>valueHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Higher value used for extrapolation.</p></li>
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Overrides the default <span class="math notranslate nohighlight">\(\alpha = 3.4\)</span></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Returns <span class="math notranslate nohighlight">\(E_{total}^{\infty}\)</span>, see below.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)">float</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -673,19 +696,19 @@ zeta-level bases. Used by <a class="reference internal" href="#psi4.cbs" title="
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>functionname</strong> (<em>str</em>) – Name of the CBS component.</p></li>
-<li><p><strong>zLO</strong> (<em>int</em>) – Lower zeta level.</p></li>
-<li><p><strong>valueLO</strong> (<em>float</em>) – Lower value used for extrapolation.</p></li>
-<li><p><strong>zHI</strong> (<em>int</em>) – Higher zeta level. Should be equal to zLO + 1.</p></li>
-<li><p><strong>valueHI</strong> (<em>float</em>) – Higher value used for extrapolation.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Overrides the default <span class="math notranslate nohighlight">\(\alpha = 6.3\)</span></p></li>
+<li><p><strong>functionname</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Name of the CBS component.</p></li>
+<li><p><strong>zLO</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Lower zeta level.</p></li>
+<li><p><strong>valueLO</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lower value used for extrapolation.</p></li>
+<li><p><strong>zHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Higher zeta level. Should be equal to zLO + 1.</p></li>
+<li><p><strong>valueHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Higher value used for extrapolation.</p></li>
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Overrides the default <span class="math notranslate nohighlight">\(\alpha = 6.3\)</span></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Returns <span class="math notranslate nohighlight">\(E_{total}^{\infty}\)</span>, see below.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)">float</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -708,21 +731,21 @@ Used by <a class="reference internal" href="#psi4.cbs" title="psi4.cbs"><code cl
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>functionname</strong> (<em>str</em>) – Name of the CBS component.</p></li>
-<li><p><strong>zLO</strong> (<em>int</em>) – Lower zeta level.</p></li>
-<li><p><strong>valueLO</strong> (<em>float</em>) – Lower value used for extrapolation.</p></li>
-<li><p><strong>zMD</strong> (<em>int</em>) – Intermediate zeta level. Should be equal to zLO + 1.</p></li>
-<li><p><strong>valueMD</strong> (<em>float</em>) – Intermediate value used for extrapolation.</p></li>
-<li><p><strong>zHI</strong> (<em>int</em>) – Higher zeta level. Should be equal to zLO + 2.</p></li>
-<li><p><strong>valueHI</strong> (<em>float</em>) – Higher value used for extrapolation.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Not used.</p></li>
+<li><p><strong>functionname</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Name of the CBS component.</p></li>
+<li><p><strong>zLO</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Lower zeta level.</p></li>
+<li><p><strong>valueLO</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lower value used for extrapolation.</p></li>
+<li><p><strong>zMD</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Intermediate zeta level. Should be equal to zLO + 1.</p></li>
+<li><p><strong>valueMD</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Intermediate value used for extrapolation.</p></li>
+<li><p><strong>zHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Higher zeta level. Should be equal to zLO + 2.</p></li>
+<li><p><strong>valueHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Higher value used for extrapolation.</p></li>
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Not used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Returns <span class="math notranslate nohighlight">\(E_{total}^{\infty}\)</span>, see below.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)">float</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -745,19 +768,19 @@ Used by <a class="reference internal" href="#psi4.cbs" title="psi4.cbs"><code cl
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>functionname</strong> (<em>str</em>) – Name of the CBS component.</p></li>
-<li><p><strong>zLO</strong> (<em>int</em>) – Lower zeta level.</p></li>
-<li><p><strong>valueLO</strong> (<em>float</em>) – Lower value used for extrapolation.</p></li>
-<li><p><strong>zHI</strong> (<em>int</em>) – Higher zeta level. Should be equal to zLO + 1.</p></li>
-<li><p><strong>valueHI</strong> (<em>float</em>) – Higher value used for extrapolation.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Overrides the default <span class="math notranslate nohighlight">\(\alpha = 3.0\)</span></p></li>
+<li><p><strong>functionname</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Name of the CBS component.</p></li>
+<li><p><strong>zLO</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Lower zeta level.</p></li>
+<li><p><strong>valueLO</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lower value used for extrapolation.</p></li>
+<li><p><strong>zHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Higher zeta level. Should be equal to zLO + 1.</p></li>
+<li><p><strong>valueHI</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Higher value used for extrapolation.</p></li>
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Overrides the default <span class="math notranslate nohighlight">\(\alpha = 3.0\)</span></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Returns <span class="math notranslate nohighlight">\(E_{total}^{\infty}\)</span>, see below.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)">float</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -780,7 +803,7 @@ DOI: 10.1016/S0009-2614(99)00179-7</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nbasis</strong> (<em>int</em>) – Number of basis sets</p></li>
+<li><p><strong>nbasis</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of basis sets</p></li>
 <li><p><strong>xtpl_type</strong> (<em>{'scf'</em><em>, </em><em>'corl'}</em>) – Extrapolation type: ‘scf’ for the total energy, ‘corl’ for just the
 correlation component.</p></li>
 </ul>
@@ -959,7 +982,7 @@ are plain deltas. This wrapper requires <a class="reference internal" href="mrcc
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c130fc2">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/a5baf2d">1.4rc2.dev41</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -973,7 +996,7 @@ are plain deltas. This wrapper requires <a class="reference internal" href="mrcc
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Thursday, 01 April 2021 06:46PM.
+      Last updated on Friday, 02 April 2021 07:08AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c130fc2">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/a5baf2d">1.4rc2.dev41</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1679,6 +1679,7 @@
 
     <span class="n">e_scf</span> <span class="o">=</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="p">[</span><span class="n">core</span><span class="p">,</span> <span class="n">scf_wfn</span><span class="p">]:</span>
+        <span class="c1"># set_variable(&quot;SCF TOTAL ENERGY&quot;)  # P::e SCF</span>
         <span class="k">for</span> <span class="n">pv</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;SCF TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="s2">&quot;CURRENT ENERGY&quot;</span><span class="p">,</span> <span class="s2">&quot;CURRENT REFERENCE ENERGY&quot;</span><span class="p">]:</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">pv</span><span class="p">,</span> <span class="n">e_scf</span><span class="p">)</span>
 
@@ -1704,7 +1705,7 @@
                 <span class="c1"># component qcvars can be retired at v1.5</span>
                 <span class="k">for</span> <span class="n">xyz</span> <span class="ow">in</span> <span class="s1">&#39;XYZ&#39;</span><span class="p">:</span>
                     <span class="n">obj</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT DIPOLE &#39;</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;SCF DIPOLE &#39;</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">))</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT DIPOLE&#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;SCF DIPOLE&quot;</span><span class="p">))</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT DIPOLE&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;SCF DIPOLE&quot;</span><span class="p">))</span>  <span class="c1"># P::e SCF</span>
 
     <span class="c1"># Write out MO&#39;s</span>
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;PRINT_MOS&quot;</span><span class="p">):</span>
@@ -2464,10 +2465,10 @@
             <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;MP2 &#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ssuper</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;MP2D&#39;</span><span class="p">]:</span>
                 <span class="n">scf_wfn</span><span class="o">.</span><span class="n">del_variable</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 
-        <span class="n">scf_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;DOUBLE-HYBRID CORRECTION ENERGY&#39;</span><span class="p">,</span> <span class="n">vdh</span><span class="p">)</span>
-        <span class="n">scf_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> DOUBLE-HYBRID CORRECTION ENERGY&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ssuper</span><span class="o">.</span><span class="n">name</span><span class="p">()),</span> <span class="n">vdh</span><span class="p">)</span>
+        <span class="n">scf_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;DOUBLE-HYBRID CORRECTION ENERGY&quot;</span><span class="p">,</span> <span class="n">vdh</span><span class="p">)</span>  <span class="c1"># P::e SCF</span>
+        <span class="n">scf_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> DOUBLE-HYBRID CORRECTION ENERGY&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ssuper</span><span class="o">.</span><span class="n">name</span><span class="p">()),</span> <span class="n">vdh</span><span class="p">)</span>
         <span class="n">returnvalue</span> <span class="o">+=</span> <span class="n">vdh</span>
-        <span class="n">scf_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;DFT TOTAL ENERGY&#39;</span><span class="p">,</span> <span class="n">returnvalue</span><span class="p">)</span>
+        <span class="n">scf_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;DFT TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="n">returnvalue</span><span class="p">)</span>  <span class="c1"># P::e SCF</span>
         <span class="k">for</span> <span class="n">pv</span><span class="p">,</span> <span class="n">pvv</span> <span class="ow">in</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">pv</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;DISPERSION CORRECTION ENERGY&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pv</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">ssuper</span><span class="o">.</span><span class="n">name</span><span class="p">()):</span>
                 <span class="n">fctl_plus_disp_name</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
@@ -2581,11 +2582,11 @@
 
     <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_gradient</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
 
-    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SCF TOTAL GRADIENT&quot;</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>
+    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SCF TOTAL GRADIENT&quot;</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>  <span class="c1"># P::e SCF</span>
     <span class="k">if</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">functional</span><span class="p">()</span><span class="o">.</span><span class="n">needs_xc</span><span class="p">():</span>
-        <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;DFT TOTAL GRADIENT&quot;</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>  <span class="c1"># overwritten later for DH -- TODO when DH gradients</span>
+        <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;DFT TOTAL GRADIENT&quot;</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>  <span class="c1"># overwritten later for DH -- TODO when DH gradients  # P::e SCF</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;HF TOTAL GRADIENT&quot;</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>
+        <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;HF TOTAL GRADIENT&quot;</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>  <span class="c1"># P::e SCF</span>
 
     <span class="c1"># Shove variables into global space</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -2620,7 +2621,7 @@
     <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_hessian</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
 
     <span class="c1"># Clearly, add some logic when the reach of this fn expands</span>
-    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;HF TOTAL HESSIAN&#39;</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;HF TOTAL HESSIAN&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>  <span class="c1"># P::e SCF</span>
 
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">ref_wfn</span>
@@ -2682,7 +2683,7 @@
     <span class="n">dfmp2_wfn</span><span class="o">.</span><span class="n">set_gradient</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
 
     <span class="c1"># Shove variables into global space</span>
-    <span class="n">dfmp2_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;MP2 TOTAL GRADIENT&#39;</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>
+    <span class="n">dfmp2_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;MP2 TOTAL GRADIENT&quot;</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>  <span class="c1"># P::e DFMP2</span>
     <span class="n">dfmp2_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">,</span> <span class="n">dfmp2_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;MP2 TOTAL ENERGY&#39;</span><span class="p">))</span>
     <span class="n">dfmp2_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT CORRELATION ENERGY&#39;</span><span class="p">,</span> <span class="n">dfmp2_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;MP2 CORRELATION ENERGY&#39;</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dfmp2_wfn</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -3040,7 +3041,7 @@
         <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">cart</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">]:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SCF DIPOLE &quot;</span> <span class="o">+</span> <span class="n">cart</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE &quot;</span> <span class="o">+</span> <span class="n">cart</span><span class="p">))</span>
-    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SCF DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE&quot;</span><span class="p">))</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SCF DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE&quot;</span><span class="p">))</span>  <span class="c1"># P::e SCF</span>
 
     <span class="c1"># Run Linear Respsonse</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linear_response</span><span class="p">):</span>
@@ -3206,9 +3207,9 @@
                     <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE YZ&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE YZ&quot;</span><span class="p">))</span>
                     <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE ZZ&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE ZZ&quot;</span><span class="p">))</span>
             <span class="k">if</span> <span class="s1">&#39;dipole&#39;</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
-                <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC DIPOLE&quot;</span><span class="p">))</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC DIPOLE&quot;</span><span class="p">))</span>  <span class="c1"># P::e CCENERGY</span>
             <span class="k">if</span> <span class="s1">&#39;quadrupole&#39;</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
-                <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE&quot;</span><span class="p">))</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE&quot;</span><span class="p">))</span>  <span class="c1"># P::e CCENERGY</span>
 
             <span class="n">n_root</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;ROOTS_PER_IRREP&quot;</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">rn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_root</span><span class="p">):</span>
@@ -3667,16 +3668,16 @@
             <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MP</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> total energy&quot;</span><span class="p">,</span> <span class="n">mp</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="n">level</span><span class="p">))</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Energy correlation MP</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">15.8g</span><span class="si">}</span><span class="s2"> [Eh]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;    Energy             total </span><span class="si">{0:15.8g}</span><span class="s2"> [Eh]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mp_energy</span><span class="p">))</span>
-    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;current correlation energy&quot;</span><span class="p">,</span> <span class="n">mp_corr</span><span class="p">)</span>
-    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;current energy&quot;</span><span class="p">,</span> <span class="n">mp_energy</span><span class="p">)</span>
+    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;current correlation energy&quot;</span><span class="p">,</span> <span class="n">mp_corr</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
+    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;current energy&quot;</span><span class="p">,</span> <span class="n">mp_energy</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
 
     <span class="c1"># Set results of excited-states computation</span>
     <span class="c1"># TODO Does not work: Can&#39;t use strings</span>
     <span class="c1"># adc_wfn.set_variable(&quot;excitation kind&quot;, state.kind)</span>
-    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;number of iterations&quot;</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">n_iter</span><span class="p">)</span>
+    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;number of iterations&quot;</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">n_iter</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
     <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; excitation energies&quot;</span><span class="p">,</span>
                          <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">excitation_energy</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
-    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;number of excited states&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">excitation_energy</span><span class="p">))</span>
+    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;number of excited states&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">excitation_energy</span><span class="p">))</span>  <span class="c1"># P::e ADC</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  ==&gt; Excited states summary &lt;==  </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">oscillator_strengths</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -4276,7 +4277,7 @@
     <span class="k">if</span> <span class="n">do_delta_mp2</span><span class="p">:</span>
         <span class="n">select_mp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">=</span><span class="n">monomerB_wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">mp2_corl_interaction_e</span> <span class="o">-=</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;MP2 CORRELATION ENERGY&#39;</span><span class="p">)</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;SAPT MP2 CORRELATION ENERGY&#39;</span><span class="p">,</span> <span class="n">mp2_corl_interaction_e</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SAPT MP2 CORRELATION ENERGY&quot;</span><span class="p">,</span> <span class="n">mp2_corl_interaction_e</span><span class="p">)</span>  <span class="c1"># P::e SAPT</span>
     <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;DF_INTS_IO&#39;</span><span class="p">,</span> <span class="n">df_ints_io</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;RHF&#39;</span><span class="p">:</span>
@@ -4515,7 +4516,7 @@
         <span class="nb">tuple</span><span class="p">(</span><span class="n">CTm</span> <span class="o">*</span> <span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">units</span><span class="p">))</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;    SAPT Charge Transfer          </span><span class="si">%12.4lf</span><span class="s1"> [mEh] </span><span class="si">%12.4lf</span><span class="s1"> [kcal/mol] </span><span class="si">%12.4lf</span><span class="s1"> [kJ/mol]</span><span class="se">\n\n</span><span class="s1">&#39;</span> <span class="o">%</span>
         <span class="nb">tuple</span><span class="p">(</span><span class="n">CT</span> <span class="o">*</span> <span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">units</span><span class="p">))</span>
-    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;SAPT CT ENERGY&#39;</span><span class="p">,</span> <span class="n">CT</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SAPT CT ENERGY&quot;</span><span class="p">,</span> <span class="n">CT</span><span class="p">)</span>  <span class="c1"># P::e SAPT</span>
 
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">dimer_wfn</span>
@@ -5215,7 +5216,7 @@
 
         <span class="n">torq</span> <span class="o">=</span> <span class="n">efpobj</span><span class="o">.</span><span class="n">get_gradient</span><span class="p">()</span>
         <span class="n">torq</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">torq</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;EFP TORQUE&#39;</span><span class="p">,</span> <span class="n">torq</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;EFP TORQUE&quot;</span><span class="p">,</span> <span class="n">torq</span><span class="p">)</span>  <span class="c1"># P::e EFP</span>
 
     <span class="k">return</span> <span class="n">ene</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span>
 
@@ -5310,7 +5311,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c130fc2">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/a5baf2d">1.4rc2.dev41</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5324,7 +5325,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Thursday, 01 April 2021 06:46PM.
+      Last updated on Friday, 02 April 2021 07:08AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->
