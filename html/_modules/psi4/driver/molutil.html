@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/molutil.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a5baf2d">1.4rc2.dev41</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/082496b">1.4rc2.dev43</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -173,7 +173,7 @@
 
 
 <span class="nd">@classmethod</span>
-<span class="k">def</span> <span class="nf">molecule_from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">_molecule_from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
                          <span class="n">molstr</span><span class="p">,</span>
                          <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -206,7 +206,7 @@
 
 
 <span class="nd">@classmethod</span>
-<span class="k">def</span> <span class="nf">molecule_from_arrays</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">_molecule_from_arrays</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
                          <span class="n">geom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">elea</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">elez</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -287,7 +287,7 @@
 
 
 <span class="nd">@classmethod</span>
-<span class="k">def</span> <span class="nf">molecule_from_schema</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">molschema</span><span class="p">,</span> <span class="n">return_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nonphysical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_molecule_from_schema</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">molschema</span><span class="p">,</span> <span class="n">return_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nonphysical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Construct Molecule from non-Psi4 schema.</span>
 
 <span class="sd">    Light wrapper around :py:func:`~psi4.core.Molecule.from_arrays`.</span>
@@ -336,10 +336,10 @@
     <span class="bp">cls</span><span class="o">.</span><span class="n">BFS</span> <span class="o">=</span> <span class="n">qcdb</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">BFS</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">B787</span> <span class="o">=</span> <span class="n">qcdb</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">B787</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">scramble</span> <span class="o">=</span> <span class="n">qcdb</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">scramble</span>
-    <span class="bp">cls</span><span class="o">.</span><span class="n">from_arrays</span> <span class="o">=</span> <span class="n">molecule_from_arrays</span>
-    <span class="bp">cls</span><span class="o">.</span><span class="n">from_string</span> <span class="o">=</span> <span class="n">molecule_from_string</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">from_arrays</span> <span class="o">=</span> <span class="n">_molecule_from_arrays</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">from_string</span> <span class="o">=</span> <span class="n">_molecule_from_string</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">to_string</span> <span class="o">=</span> <span class="n">qcdb</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">to_string</span>
-    <span class="bp">cls</span><span class="o">.</span><span class="n">from_schema</span> <span class="o">=</span> <span class="n">molecule_from_schema</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">from_schema</span> <span class="o">=</span> <span class="n">_molecule_from_schema</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">to_schema</span> <span class="o">=</span> <span class="n">qcdb</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">to_schema</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">run_dftd3</span> <span class="o">=</span> <span class="n">qcdb</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">run_dftd3</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">format_molecule_for_mol</span> <span class="o">=</span> <span class="n">qcdb</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">format_molecule_for_mol</span></div>
@@ -495,7 +495,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/molutil.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a5baf2d">1.4rc2.dev41</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/082496b">1.4rc2.dev43</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -509,7 +509,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 02 April 2021 07:08AM.
+      Last updated on Friday, 02 April 2021 05:56PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->
