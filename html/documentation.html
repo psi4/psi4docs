@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/documentation.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a0e991f">1.4rc2.dev43</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/92c2cf2">1.4rc2.dev45</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -136,7 +136,7 @@ documentation targets to be available.</p>
 <ul>
 <li><p>Binary: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">sphinx</span></code></p></li>
 <li><p>Binary: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">Sphinx</span></code></p></li>
-<li><p>Source: <a class="reference external" href="https://pypi.python.org/pypi/Sphinx">https://pypi.python.org/pypi/Sphinx</a></p></li>
+<li><p>Source: <a class="reference external" href="https://pypi.org/project/Sphinx/">https://pypi.org/project/Sphinx/</a></p></li>
 <li><p>Check:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">which</span> <span class="n">sphinx</span><span class="o">-</span><span class="n">build</span>
 <span class="go">//anaconda/bin/sphinx-build</span>
@@ -178,7 +178,17 @@ this covers:</p>
 <li><p>Basis Sets: *.gbs files in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/share/psi4/basis">psi4/psi4/share/psi4/basis</a></p></li>
 <li><p>C++ Keywords: <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/read_options.cc">psi4/psi4/src/read_options.cc</a></p></li>
 <li><p>Sample Inputs: input.dat files in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples">psi4/samples</a></p></li>
-<li><p>PSI Variables: <code class="docutils literal notranslate"><span class="pre">Process::environment.globals</span></code> lines and comments in the C++ code</p></li>
+<li><p>PSI Variables: variables and associated modules extracted from code and comments in the Python and C++ source
+* Modules scraped are the sections of <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/read_options.cc">psi4/psi4/src/read_options.cc</a>
+* Variables should be all-caps, except where representing substitutions, e.g., <code class="docutils literal notranslate"><span class="pre">ROOT</span> <span class="pre">n</span> <span class="pre">-&gt;</span> <span class="pre">ROOT</span> <span class="pre">m</span></code> and double-quote <code class="docutils literal notranslate"><span class="pre">&quot;</span></code> delimited, even in Python
+* Scraper looks for <code class="docutils literal notranslate"><span class="pre">Process::environment.globals</span></code>, <code class="docutils literal notranslate"><span class="pre">set_array_variable</span></code>, <code class="docutils literal notranslate"><span class="pre">variables_</span></code>, etc. lines and comments in the C++ code
+* C-side, the module for the variable is determined by the directory where it’s found.
+* Scraper looks for <code class="docutils literal notranslate"><span class="pre">set_variable</span></code> together with <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">P::e</span> <span class="pre">MODULE</span></code> lines and comments in the Python code
+* Py-side, the module for the variable is specified by <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> in the comment
+* When a variable is set by code in either language, e.g., <code class="docutils literal notranslate"><span class="pre">variables_[varname.str()]</span></code> rather than plain string, <code class="docutils literal notranslate"><span class="pre">variables_[&quot;FCI</span> <span class="pre">TOTAL</span> <span class="pre">ENERGY&quot;]</span></code>, add a plain string line as a single-line comment, so the scraper can find it.
+* Add new places to scrape for variables to <a class="reference external" href="https://github.com/psi4/psi4/blob/master/doc/sphinxman/document_psivariables.pl">psi4/doc/sphinxman/document_psivariables.pl</a>
+* For now, we’re scraping both global and Wfn variables
+* All of these show up in referenceable appendices like <code class="docutils literal notranslate"><span class="pre">apdx:detci_psivar</span></code></p></li>
 <li><p>Plugins: <code class="docutils literal notranslate"><span class="pre">doc.rst</span></code> text, *.py modules, and C++ keywords in <code class="docutils literal notranslate"><span class="pre">psi4/tests/plugin_*</span></code> plugin directories (disabled at the moment)</p></li>
 <li><p>PSI Files: scratch file names and numbers in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/include/psi4/psifiles.h">psi4/psi4/include/psi4/psifiles.h</a></p></li>
 </ul>
@@ -378,7 +388,7 @@ source.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/documentation.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a0e991f">1.4rc2.dev43</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/92c2cf2">1.4rc2.dev45</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -391,7 +401,7 @@ source.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Saturday, 03 April 2021 05:52AM.
+      Last updated on Saturday, 03 April 2021 05:02PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->
