@@ -37,7 +37,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>Integrals in PSI4</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/psi4.css" type="text/css" />
@@ -101,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_integrals.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/92c2cf2">1.4rc2.dev45</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f5b7cf9">1.4rc2.dev26</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -118,9 +119,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="integrals-in-psifour">
+  <section id="integrals-in-psifour">
 <span id="sec-prog-integrals"></span><h1>Integrals in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span><a class="headerlink" href="#integrals-in-psifour" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="introduction">
+<section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> has a number of backends available to compute integrals. In order to
 accomodate these options, while providing a clean interface to the programmer,
@@ -129,8 +130,8 @@ primary integral engine has seen some important changes to the way this
 interface layer is used; this document is designed to aid new developers as
 well as those familiar with the older calling conventions to ensure that the
 most efficient calling conventions are applied.</p>
-</div>
-<div class="section" id="the-older-style">
+</section>
+<section id="the-older-style">
 <h2>The older style<a class="headerlink" href="#the-older-style" title="Permalink to this headline">¶</a></h2>
 <p>A very simple loop that does not use permutational symmetry might look
 something like this in the old scheme:</p>
@@ -165,8 +166,8 @@ in magnitude or not, potentially saving a lot of work.  This simple scheme is
 clean and easy to understand, and is still supported in the latest version of
 <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> with only a small change to the sieve syntax and handling of buffer
 addresses, noted below.</p>
-</div>
-<div class="section" id="the-new-syntax">
+</section>
+<section id="the-new-syntax">
 <h2>The new syntax<a class="headerlink" href="#the-new-syntax" title="Permalink to this headline">¶</a></h2>
 <p>The newer integral engines being interfaced to <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> may or may not require
 a group of similar integrals to be computed together in a block using
@@ -233,7 +234,7 @@ introduced in Libmints:</p>
 </div>
 <p>Although this looks more complex, it’s essentially doing the same thing.  There
 are a number of differences that we’ll highlight now.</p>
-<div class="section" id="sieving">
+<section id="sieving">
 <h3>Sieving<a class="headerlink" href="#sieving" title="Permalink to this headline">¶</a></h3>
 <p>This is one of two breaking changes to the old style syntax.  Instead of
 constructing a sieve object, the integral object should be queried directly
@@ -242,8 +243,8 @@ shell block is significant are both supported.  A sieve object is created if
 matching basis sets are found in either the bra or the ket.  For a density
 fitting integral (PQ|0A) where 0 is the null basis set and A is an auxilliary
 basis set the (PQ| pair will be used to construct all of the sieving data.</p>
-</div>
-<div class="section" id="buffer-address">
+</section>
+<section id="buffer-address">
 <h3>Buffer address<a class="headerlink" href="#buffer-address" title="Permalink to this headline">¶</a></h3>
 <p>The old code copied integrals into a buffer owned by the integral object, whose
 address remained constant and could be retrieved by the <code class="docutils literal notranslate"><span class="pre">buffer()</span></code> member
@@ -260,8 +261,8 @@ translation invariance relationships to fill in the rest.  The addresses for
 each chunk are updated in the vector after each call to compute integrals, so
 the user should keep a const reference to that object, and query that for the
 address of interest.</p>
-</div>
-<div class="section" id="density-screening">
+</section>
+<section id="density-screening">
 <h3>Density Screening<a class="headerlink" href="#density-screening" title="Permalink to this headline">¶</a></h3>
 <p>The old code looked only at the integral to determine whether terms can be
 avoided <em>a priori</em>.  However, if the integral is to be contracted with a
@@ -274,8 +275,8 @@ are to be computed, the <code class="docutils literal notranslate"><span class="
 constructor should be set to false, otherwise it should be true to correcly
 account for products of the density and integrals that contribute to
 exchange-like terms.</p>
-</div>
-<div class="section" id="shell-blocking">
+</section>
+<section id="shell-blocking">
 <h3>Shell blocking<a class="headerlink" href="#shell-blocking" title="Permalink to this headline">¶</a></h3>
 <p>Each underlying integral engine knows whether it will use blocks, and will set up
 the metadata automatically.  Instead of looping over individual shells, the
@@ -285,8 +286,8 @@ used. It is simple to loop over pairs within each block using C++11 syntax, as
 demonstrated in the code snippet above.  Only shell pairs with significant
 overlap are included in the shell block information, making this an efficient
 way to loop over non-negligible terms.</p>
-</div>
-<div class="section" id="permutational-symmetry">
+</section>
+<section id="permutational-symmetry">
 <h3>Permutational symmetry<a class="headerlink" href="#permutational-symmetry" title="Permalink to this headline">¶</a></h3>
 <p>The pairs within each block are optimized for efficiency.  First, they are
 screened during the integral object’s creation to ensure that only terms with
@@ -296,8 +297,8 @@ first.  Therefore care must be taken to ensure that the missing permutations
 are correctly accounted for when processing the integrals within the loop.  See
 the DirectJK code in libfock for an example of using this scheme for a Fock
 matrix build.</p>
-</div>
-<div class="section" id="using-bra-ket-symmetry">
+</section>
+<section id="using-bra-ket-symmetry">
 <h3>Using bra-ket symmetry<a class="headerlink" href="#using-bra-ket-symmetry" title="Permalink to this headline">¶</a></h3>
 <p>In cases where there is no batching performed, bra-ket symmetry can be
 trivially enforced by ensuring that one of the block indices is greater than or
@@ -314,8 +315,8 @@ is not batched in any of our engines currently: only the ket is.  For this
 reason, density fitting integrals should be written as (A0|PQ) rather than
 (PQ|A0) where possible, because we want the ket to contain more functions than
 the bra for efficient blocking.</p>
-</div>
-<div class="section" id="instantiating-integral-objects">
+</section>
+<section id="instantiating-integral-objects">
 <h3>Instantiating integral objects<a class="headerlink" href="#instantiating-integral-objects" title="Permalink to this headline">¶</a></h3>
 <p>With sieving being introduced in the new integral objects, the cost of their
 construction has increased.  Although significantly cheaper than computing
@@ -344,9 +345,9 @@ performs much cheaper cloning operations to create the other objects for each
 thread.  Moreover, if integral objects are created only in the initialization
 of each code that uses them, and stored persistently, the cost of integral
 object creation is further reduced.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -464,7 +465,7 @@ object creation is further reduced.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_integrals.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/92c2cf2">1.4rc2.dev45</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f5b7cf9">1.4rc2.dev26</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -477,7 +478,7 @@ object creation is further reduced.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Saturday, 03 April 2021 05:02PM.
+      Last updated on Monday, 05 April 2021 01:09AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

@@ -37,7 +37,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>PsiAPI Tutorial: Using Psi4 as a Python Module</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/psi4.css" type="text/css" />
@@ -101,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psiapi.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/92c2cf2">1.4rc2.dev45</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f5b7cf9">1.4rc2.dev26</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -367,7 +368,7 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<div class="section" id="PsiAPI-Tutorial:-Using-Psi4-as-a-Python-Module">
+<section id="PsiAPI-Tutorial:-Using-Psi4-as-a-Python-Module">
 <h1>PsiAPI Tutorial: Using Psi4 as a Python Module<a class="headerlink" href="#PsiAPI-Tutorial:-Using-Psi4-as-a-Python-Module" title="Permalink to this headline">¶</a></h1>
 <p>transcribed by D. A. Sirianni</p>
 <div class="admonition note">
@@ -380,7 +381,7 @@ Both modes are equally powerful. This tutorial covers the PsiAPI mode.</p>
 </div>
 <p>Here, we will explore the basics of using Psi4 in the interactive PsiAPI style where it is loaded directly as a Python module by reproducing the section <a class="reference external" href="http://psicode.org/psi4manual/master/tutorial.html">A Psi4 Tutorial</a> from the Psi4 manual in an interactive Jupyter Notebook.</p>
 <p>Note: If the newest version of Psi4 (v.1.1a2dev42 or newer) is in your path, feel free to execute each cell as you read along by pressing <code class="docutils literal notranslate"><span class="pre">Shift+Enter</span></code> when the cell is selected.</p>
-<div class="section" id="I.-Basic-Input-Structure">
+<section id="I.-Basic-Input-Structure">
 <h2>I. Basic Input Structure<a class="headerlink" href="#I.-Basic-Input-Structure" title="Permalink to this headline">¶</a></h2>
 <p>Psi4 is now a Python module; so, we need to import it into our Python environment:</p>
 <div class="nbinput nblast docutils container">
@@ -411,8 +412,8 @@ Both modes are equally powerful. This tutorial covers the PsiAPI mode.</p>
 </div>
 </div>
 <p>Additionally, output may be suppressed by instead setting <code class="docutils literal notranslate"><span class="pre">psi4.core.be_quiet()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/psi4api.html#psi4.core.be_quiet">API</a>.</p>
-</div>
-<div class="section" id="II.-Running-a-Basic-Hartree-Fock-Calculation">
+</section>
+<section id="II.-Running-a-Basic-Hartree-Fock-Calculation">
 <h2>II. Running a Basic Hartree-Fock Calculation<a class="headerlink" href="#II.-Running-a-Basic-Hartree-Fock-Calculation" title="Permalink to this headline">¶</a></h2>
 <p>In our first example, we will consider a Hartree-Fock SCF computation for the water molecule using a cc-pVDZ basis set. First, we will set the available memory for Psi4 to use with the <code class="docutils literal notranslate"><span class="pre">psi4.set_memory()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.set_memory.html#psi4.driver.set_memory">API</a> function, which takes either a string like <code class="docutils literal notranslate"><span class="pre">'30</span> <span class="pre">GB'</span></code> (with units!) or an integer number of bytes of memory as its argument. Next, our molecular geometry is passed as a string into
 <code class="docutils literal notranslate"><span class="pre">psi4.geometry()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.geometry.html#psi4.driver.geometry">API</a>. We may input this geometry in either Z-matrix or Cartesian format; to allow the string to break over multiple lines, use Python’s triple-quote <code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;string&quot;&quot;&quot;</span></code> syntax. Finally, we will compute the Hartree-Fock SCF energy with the cc-pVDZ basis set by passing the method/basis set as a string (<code class="docutils literal notranslate"><span class="pre">'scf/cc-pvdz'</span></code>) into the function <code class="docutils literal notranslate"><span class="pre">psi4.energy()</span></code>
@@ -494,8 +495,8 @@ integers in the Z-matrix (note the line with <code class="docutils literal notra
 </div>
 <p>Notice the new command, <code class="docutils literal notranslate"><span class="pre">psi4.set_options()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.set_options.html">API</a>, to the input. This function takes a <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">Python dictionary</a> as its argument, which is a key-value list which associates a <a class="reference external" href="http://psicode.org/psi4manual/master/appendices.html#keywords">Psi4 keyword</a> with its user-defined value. For open shell molecules, we have a choice of unrestricted orbitals
 (unrestricted Hartree-Fock, or UHF) or restricted orbitals (restricted open-shell Hartree-Fock, or ROHF). Usually, UHF is a little easier to converge (although it may be more susceptible to spin contamination than ROHF).</p>
-</div>
-<div class="section" id="III.-Geometry-Optimization-and-Vibrational-Frequency-Analysis">
+</section>
+<section id="III.-Geometry-Optimization-and-Vibrational-Frequency-Analysis">
 <h2>III. Geometry Optimization and Vibrational Frequency Analysis<a class="headerlink" href="#III.-Geometry-Optimization-and-Vibrational-Frequency-Analysis" title="Permalink to this headline">¶</a></h2>
 <p>The above examples were simple single-point energy computations (as specified by the <code class="docutils literal notranslate"><span class="pre">psi4.energy()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.energy.html#psi4.driver.energy">API</a> function). Of course there are other kinds of computations to perform, such as geometry optimizations and vibrational frequency computations. These can be specified by replacing <code class="docutils literal notranslate"><span class="pre">psi4.energy()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.energy.html#psi4.driver.energy">API</a> with
 <code class="docutils literal notranslate"><span class="pre">psi4.optimize()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.optimize.html#psi4.driver.optimize">API</a> or <code class="docutils literal notranslate"><span class="pre">psi4.frequency()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.frequency.html#psi4.driver.frequency">API</a>, respectively.</p>
@@ -574,8 +575,8 @@ is to again pass the <code class="docutils literal notranslate"><span class="pre
 <p>where the table shows the displacements in the X, Y, and Z dimensions for each atom along the normal mode coordinate. (This information could be used to animate the vibrational frequency using visualization software.)</p>
 <p>Because the vibrational frequencies are available, a thermodynamics analysis is automatically performed at the end of the computation. You can see this in the next section of the output file <code class="docutils literal notranslate"><span class="pre">output.dat</span></code>. The vibrational frequencies are sufficient to obtain vibrational contributions to enthalpy (H), entropy (S), and Gibbs free energy (G). Similarly, the molecular geometry is used to obtain rotational constants, which are then used to obtain rotational contributions to H, S, and G.</p>
 <p>Note: Psi4 has several synonyms for the functions called in this example. For instance, <code class="docutils literal notranslate"><span class="pre">psi4.frequency()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.frequency.html#psi4.driver.frequency">API</a> will compute molecular vibrational frequencies, and <code class="docutils literal notranslate"><span class="pre">psi4.optimize()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.optimize.html#psi4.driver.optimize">API</a> will perform a geometry optimization.</p>
-</div>
-<div class="section" id="IV.-Analysis-of-Intermolecular-Interactions">
+</section>
+<section id="IV.-Analysis-of-Intermolecular-Interactions">
 <h2>IV. Analysis of Intermolecular Interactions<a class="headerlink" href="#IV.-Analysis-of-Intermolecular-Interactions" title="Permalink to this headline">¶</a></h2>
 <p>Now let’s consider something a little more interesting. Psi4 contains code to analyze the nature of intermolecular interactions between two molecules, via symmetry-adapted perturbation theory (SAPT) <a class="reference external" href="http://psicode.org/psi4manual/master/bibliography.html#jeziorski-1994-1887">(Jeziorski:1994:1887)</a>. This kind of analysis gives a lot of insight into the nature of intermolecular interactions, and Psi4 makes these computations easier than ever.</p>
 <p>For a SAPT computation, the input needs to provide information on two distinct molecules. This is very easy, we just give a Z-matrix or set of Cartesian coordinates for each molecule, and separate the two with two dashes, like this:</p>
@@ -643,8 +644,8 @@ the total SAPT0 interaction energy. An explanation of the various energy compone
 intermolecular interaction, and the 0 indicates zeroth-order with respect to the intramolecular electron correlation). The next most attractive contribution is the <code class="docutils literal notranslate"><span class="pre">Disp20</span></code> term (second order intermolecular dispersion, which looks like MP2 in which one excitation is placed on each monomer), contributing an attraction of <span class="math notranslate nohighlight">\(-1.21\)</span> kcal/mol. It is not surprising that the electrostatic contribution is dominant, because the geometry chosen for this example has the acetylene perpendicular to
 the ethylene, with the acetylene hydrogen pointing directly at the double bond in ethylene; this will be attractive because the H atoms in acetylene bear a partial positive charge, while the electron rich double bond in ethylene bears a partial negative charge. At the same time, the dispersion interaction should be smaller because the perpendicular geometry does not allow much overlap between the monomers. Hence, the SAPT analysis helps clarify (and quantify) our physical understanding about the
 interaction between the two monomers.</p>
-</div>
-<div class="section" id="V.-Potential-Surface-Scans-and-Counterpoise-Correction-Made-Easy">
+</section>
+<section id="V.-Potential-Surface-Scans-and-Counterpoise-Correction-Made-Easy">
 <h2>V. Potential Surface Scans and Counterpoise Correction Made Easy<a class="headerlink" href="#V.-Potential-Surface-Scans-and-Counterpoise-Correction-Made-Easy" title="Permalink to this headline">¶</a></h2>
 <p>Finally, let’s consider an example which highlights the advantages of being able to interact with Psi4 directly with Python.</p>
 <p>Suppose you want to do a limited potential energy surface scan, such as computing the interaction energy between two neon atoms at various interatomic distances. One simple but unappealing way to do this is to generate separate geometries for each distance to be studied. Instead, we can leverage Python loops and string formatting to make our lives simpler. Additionally, let’s suppose you want to do counterpoise (CP) correction to compute interaction energies. Counterpoise correction involves
@@ -746,8 +747,8 @@ Constants</a>. The table can be printed either to the screen, by using standard 
 </pre></div>
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -858,7 +859,7 @@ Constants</a>. The table can be printed either to the screen, by using standard 
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psiapi.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/92c2cf2">1.4rc2.dev45</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f5b7cf9">1.4rc2.dev26</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -872,7 +873,7 @@ Constants</a>. The table can be printed either to the screen, by using standard 
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Saturday, 03 April 2021 05:02PM.
+      Last updated on Monday, 05 April 2021 01:09AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

@@ -37,7 +37,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
     <title>General layout of the core: where new C++ code should live</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/psi4.css" type="text/css" />
@@ -101,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_tour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/92c2cf2">1.4rc2.dev45</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f5b7cf9">1.4rc2.dev26</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -119,9 +120,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="general-layout-of-the-core-where-new-c-code-should-live">
+  <section id="general-layout-of-the-core-where-new-c-code-should-live">
 <span id="sec-prog-tour"></span><h1>General layout of the core: where new C++ code should live<a class="headerlink" href="#general-layout-of-the-core-where-new-c-code-should-live" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="new-integral-operators">
+<section id="new-integral-operators">
 <h2>New integral operators<a class="headerlink" href="#new-integral-operators" title="Permalink to this headline">¶</a></h2>
 <p>Most of the heavy lifting in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is handled by libmints, which can be
 found in the <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/libmints">psi4/psi4/src/psi4/libmints</a> directory.  New types of one- and
@@ -131,8 +132,8 @@ part of the infrastructure.  Every energy calculation is performed by a class
 that derives from Wavefunction and is accessible as a return value in the
 Python layer.  The Wavefunction class contains all pertinent calculation
 results, such as one-particle densities, molecular orbitals and gradients.</p>
-</div>
-<div class="section" id="completely-new-methods">
+</section>
+<section id="completely-new-methods">
 <h2>Completely new methods<a class="headerlink" href="#completely-new-methods" title="Permalink to this headline">¶</a></h2>
 <p>A new method that is not a modification of existing code belongs in its own
 folder in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4">psi4/psi4/src/psi4</a>; see other folders in that exist in that
@@ -150,8 +151,8 @@ number of different helpers to export various quantities from the wavefunction
 to external formats such as FCHK and MOLDEN.  Because the Wavefunction makes
 its members available to the Python layer, any other similar export functions
 should be written in python.</p>
-</div>
-<div class="section" id="integral-consuming-technologies">
+</section>
+<section id="integral-consuming-technologies">
 <h2>Integral consuming technologies<a class="headerlink" href="#integral-consuming-technologies" title="Permalink to this headline">¶</a></h2>
 <p>The general philosophy in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is to try write two-electron integral
 driven tasks in methods like Hartree-Fock, CIS and CPHF in terms of generalized
@@ -161,8 +162,8 @@ generalized Fock matrices, which is what libFock
 technologies – such as integral-direct, disk-based and density fitting – are
 supported in libFock, making them generally available to all elements of the
 code that use the generalized Fock matrix strategy.</p>
-</div>
-<div class="section" id="exposing-c-code-to-python">
+</section>
+<section id="exposing-c-code-to-python">
 <span id="sec-prog-tour-exposing"></span><h2>Exposing C++ code to Python<a class="headerlink" href="#exposing-c-code-to-python" title="Permalink to this headline">¶</a></h2>
 <p>The recent push to move sections of the code that are not a bottleneck into the
 Python layer requires that the C++ code is callable from Python and that its
@@ -173,8 +174,8 @@ to create the bindings.  Existing code to export various <span style="font-famil
 be found in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src">psi4/psi4/src</a> in the files whose name begins with <cite>export_</cite>.
 The code to export functions that run entire calculations is usually found in
 <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/core.cc">psi4/psi4/src/core.cc</a>.</p>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -284,7 +285,7 @@ The code to export functions that run entire calculations is usually found in
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_tour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/92c2cf2">1.4rc2.dev45</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f5b7cf9">1.4rc2.dev26</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -298,7 +299,7 @@ The code to export functions that run entire calculations is usually found in
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Saturday, 03 April 2021 05:02PM.
+      Last updated on Monday, 05 April 2021 01:09AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->
