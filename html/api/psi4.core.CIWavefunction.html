@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.core.CIWavefunction.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/38c9807">1.4rc2.dev27</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/34edcee">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -315,12 +315,12 @@
 <td><p>Returns the requested auxiliary basis.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.get_dimension" title="psi4.core.CIWavefunction.get_dimension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dimension</span></code></a>(self, arg0)</p></td>
-<td><p>docstring</p></td>
+<td><p>Returns the dimension of requested orbital subspace.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.get_dipole_field_strength" title="psi4.core.CIWavefunction.get_dipole_field_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dipole_field_strength</span></code></a>(self)</p></td>
 <td><p>Returns a vector of length 3, containing the x, y, and z dipole field strengths.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.get_opdm" title="psi4.core.CIWavefunction.get_opdm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_opdm</span></code></a>(self, arg0, arg1, arg2, arg3)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.get_opdm" title="psi4.core.CIWavefunction.get_opdm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_opdm</span></code></a>(self, Iroot, Jroot, spin, full_space)</p></td>
 <td><p>Returns the one-particle density or transition matrix.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.get_orbitals" title="psi4.core.CIWavefunction.get_orbitals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_orbitals</span></code></a>(self, arg0)</p></td>
@@ -332,7 +332,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.get_scratch_filename" title="psi4.core.CIWavefunction.get_scratch_filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_scratch_filename</span></code></a>(filenumber)</p></td>
 <td><p>Given a wavefunction and a scratch file number, canonicalizes the name so that files can be consistently written and read</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.get_tpdm" title="psi4.core.CIWavefunction.get_tpdm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tpdm</span></code></a>(self, arg0, arg1)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.get_tpdm" title="psi4.core.CIWavefunction.get_tpdm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tpdm</span></code></a>(self, spin, symmetrize)</p></td>
 <td><p>Returns the two-particle density matrix.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.get_variable" title="psi4.core.CIWavefunction.get_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_variable</span></code></a>(key)</p></td>
@@ -525,7 +525,7 @@
 <td><p>docstring</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.transform_ci_integrals" title="psi4.core.CIWavefunction.transform_ci_integrals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_ci_integrals</span></code></a>(self)</p></td>
-<td><p>docstring</p></td>
+<td><p>Transforms the one- and two-electron integrals for a CI computation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CIWavefunction.transform_mcscf_integrals" title="psi4.core.CIWavefunction.transform_mcscf_integrals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_mcscf_integrals</span></code></a>(self, arg0)</p></td>
 <td><p>docstring</p></td>
@@ -555,8 +555,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>basis</strong> (<em>{'SO'</em><em>, </em><em>AO'}</em>) – Should the subset be of symmetry orbitals or atomic orbitals?</p></li>
-<li><p><strong>subset</strong> (<em>{'ALL'</em><em>, </em><em>'ACTIVE'</em><em>, </em><em>'FROZEN'</em><em>, </em><em>'OCC'</em><em>, </em><em>'VIR'</em><em>, </em><em>'FROZEN_OCC'</em><em>, </em><em>'ACTIVE_OCC'</em><em>, </em><em>'ACTIVE_VIR'</em><em>, </em><em>'FROZEN_VIR'}</em>) – Which subspace of orbitals should be returned?</p></li>
+<li><p><strong>basis</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – {‘SO’, AO’}
+Should the subset be of symmetry orbitals or atomic orbitals?</p></li>
+<li><p><strong>subset</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – {‘ALL’, ‘ACTIVE’, ‘FROZEN’, ‘OCC’, ‘VIR’, ‘FROZEN_OCC’, ‘ACTIVE_OCC’, ‘ACTIVE_VIR’, ‘FROZEN_VIR’}
+Which subspace of orbitals should be returned?</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -582,8 +584,10 @@ Pitzer-ordering is with respect to c1 symmetry if basis is AO.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>basis</strong> (<em>{'SO'</em><em>, </em><em>'AO'}</em>) – Should the subset be of symmetry orbitals or atomic orbitals?</p></li>
-<li><p><strong>subset</strong> (<em>{'ALL'</em><em>, </em><em>'ACTIVE'</em><em>, </em><em>'FROZEN'</em><em>, </em><em>'OCC'</em><em>, </em><em>'VIR'</em><em>, </em><em>'FROZEN_OCC'</em><em>, </em><em>'ACTIVE_OCC'</em><em>, </em><em>'ACTIVE_VIR'</em><em>, </em><em>'FROZEN_VIR'}</em>) – Which subspace of orbitals should be returned?</p></li>
+<li><p><strong>basis</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – {‘SO’, ‘AO’}
+Should the subset be of symmetry orbitals or atomic orbitals?</p></li>
+<li><p><strong>subset</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – {‘ALL’, ‘ACTIVE’, ‘FROZEN’, ‘OCC’, ‘VIR’, ‘FROZEN_OCC’, ‘ACTIVE_OCC’, ‘ACTIVE_VIR’, ‘FROZEN_VIR’}
+Which subspace of orbitals should be returned?</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -598,7 +602,7 @@ Pitzer-ordering is with respect to c1 symmetry if basis is AO.</p>
 
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.D_vector">
-<code class="sig-name descname"><span class="pre">D_vector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">psi::detci::CIvect</span><a class="headerlink" href="#psi4.core.CIWavefunction.D_vector" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">D_vector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="psi4.core.CIVector.html#psi4.core.CIVector" title="psi4.core.CIVector"><span class="pre">psi4.core.CIVector</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.D_vector" title="Permalink to this definition">¶</a></dt>
 <dd><p>docstring</p>
 </dd></dl>
 
@@ -658,7 +662,7 @@ Pitzer-ordering is with respect to c1 symmetry if basis is AO.</p>
 
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.Hd_vector">
-<code class="sig-name descname"><span class="pre">Hd_vector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">psi::detci::CIvect</span><a class="headerlink" href="#psi4.core.CIWavefunction.Hd_vector" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">Hd_vector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="psi4.core.CIVector.html#psi4.core.CIVector" title="psi4.core.CIVector"><span class="pre">psi4.core.CIVector</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.Hd_vector" title="Permalink to this definition">¶</a></dt>
 <dd><p>docstring</p>
 </dd></dl>
 
@@ -781,7 +785,7 @@ Pitzer-ordering is with respect to c1 symmetry if basis is AO.</p>
 
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.compute_state_transfer">
-<code class="sig-name descname"><span class="pre">compute_state_transfer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self:</span> <span class="pre">psi4.core.CIWavefunction</span></em>, <em class="sig-param"><span class="pre">arg0:</span> <span class="pre">psi::detci::CIvect</span></em>, <em class="sig-param"><span class="pre">arg1:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">arg2:</span> <span class="pre">psi4.core.Matrix</span></em>, <em class="sig-param"><span class="pre">arg3:</span> <span class="pre">psi::detci::CIvect</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.compute_state_transfer" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">compute_state_transfer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="psi4.core.CIVector.html#psi4.core.CIVector" title="psi4.core.CIVector"><span class="pre">psi4.core.CIVector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="psi4.core.CIVector.html#psi4.core.CIVector" title="psi4.core.CIVector"><span class="pre">psi4.core.CIVector</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.compute_state_transfer" title="Permalink to this definition">¶</a></dt>
 <dd><p>docstring</p>
 </dd></dl>
 
@@ -941,7 +945,13 @@ is passed in.</p>
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.get_dimension">
 <code class="sig-name descname"><span class="pre">get_dimension</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="psi4.core.Dimension.html#psi4.core.Dimension" title="psi4.core.Dimension"><span class="pre">psi4.core.Dimension</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.get_dimension" title="Permalink to this definition">¶</a></dt>
-<dd><p>docstring</p>
+<dd><p>Returns the dimension of requested orbital subspace.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>orbital_name</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – {‘FZC’, ‘DRC’, ‘DOCC’, ‘ACT’, ‘RAS1’, ‘RAS2’, ‘RAS3’, ‘RAS4’, ‘POP’, ‘VIR’, ‘FZV’, ‘DRV’, ‘ALL’}
+Which subspace of orbitals should be returned?</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -952,7 +962,7 @@ is passed in.</p>
 
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.get_opdm">
-<code class="sig-name descname"><span class="pre">get_opdm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.get_opdm" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_opdm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iroot</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">Jroot</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_space</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.get_opdm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the one-particle density or transition matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -961,7 +971,8 @@ is passed in.</p>
 Always use -1 for single-state calculations.</p></li>
 <li><p><strong>Jroot</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The index of the root in the ket. Select -1 for the same as Iroot.
 Always use -1 for single-state calculations.</p></li>
-<li><p><strong>spin</strong> (<em>{'A'</em><em>, </em><em>'B'</em><em>, </em><em>'SUM'}</em>) – Return the alpha density matrix, the beta density matrix, or their sum?</p></li>
+<li><p><strong>spin</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – {‘A’, ‘B’, ‘SUM’}
+Return the alpha density matrix, the beta density matrix, or their sum?</p></li>
 <li><p><strong>full_space</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Return a density matrix in the space of all orbitals (true) or the active orbitals (false)?</p></li>
 </ul>
 </dd>
@@ -997,13 +1008,15 @@ so that files can be consistently written and read</p>
 
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.get_tpdm">
-<code class="sig-name descname"><span class="pre">get_tpdm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.get_tpdm" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_tpdm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">symmetrize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.get_tpdm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the two-particle density matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spin</strong> (<em>{'AA'</em><em>, </em><em>'AB'</em><em>, </em><em>'BB'</em><em>, </em><em>'SUM'}</em>) – Which spin-block of the TPDM should be returned? SUM sums over all possible spin cases.</p></li>
-<li><p><strong>symmetrize</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Return a genuine TPDM element (false) or an “average” of TPDM elements that contract with the same integral (true)?</p></li>
+<li><p><strong>spin</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – {“AA”, “AB”, “BB”, “SUM”}
+Which spin-block of the TPDM should be returned? SUM sums over all possible spin cases.</p></li>
+<li><p><strong>symmetrize</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Return a genuine TPDM element (false) or an “average” of TPDM elements that contract with the same integral (true)?
+Only working for SUM.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1012,7 +1025,7 @@ If symmetrize is false, element pqrs is &lt;ψ|a^p a^r a_s a_q|ψ&gt;.
 If symmetrize is true, element pqrs is obtained by summing over all “flips” of p/s, q/r, and multiplying by 0.5.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
+<dd class="field-odd"><p><a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix">Matrix</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1136,7 +1149,7 @@ If symmetrize is true, element pqrs is obtained by summing over all “flips” 
 
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.new_civector">
-<code class="sig-name descname"><span class="pre">new_civector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">psi::detci::CIvect</span><a class="headerlink" href="#psi4.core.CIWavefunction.new_civector" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">new_civector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="psi4.core.CIVector.html#psi4.core.CIVector" title="psi4.core.CIVector"><span class="pre">psi4.core.CIVector</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.new_civector" title="Permalink to this definition">¶</a></dt>
 <dd><p>docstring</p>
 </dd></dl>
 
@@ -1184,7 +1197,7 @@ If symmetrize is true, element pqrs is obtained by summing over all “flips” 
 
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.opdm">
-<code class="sig-name descname"><span class="pre">opdm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self:</span> <span class="pre">psi4.core.CIWavefunction</span></em>, <em class="sig-param"><span class="pre">arg0:</span> <span class="pre">psi::detci::CIvect</span></em>, <em class="sig-param"><span class="pre">arg1:</span> <span class="pre">psi::detci::CIvect</span></em>, <em class="sig-param"><span class="pre">arg2:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">arg3:</span> <span class="pre">int</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#psi4.core.CIWavefunction.opdm" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">opdm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="psi4.core.CIVector.html#psi4.core.CIVector" title="psi4.core.CIVector"><span class="pre">psi4.core.CIVector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="psi4.core.CIVector.html#psi4.core.CIVector" title="psi4.core.CIVector"><span class="pre">psi4.core.CIVector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#psi4.core.CIWavefunction.opdm" title="Permalink to this definition">¶</a></dt>
 <dd><p>docstring</p>
 </dd></dl>
 
@@ -1202,7 +1215,7 @@ If symmetrize is true, element pqrs is obtained by summing over all “flips” 
 
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.print_vector">
-<code class="sig-name descname"><span class="pre">print_vector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self:</span> <span class="pre">psi4.core.CIWavefunction</span></em>, <em class="sig-param"><span class="pre">arg0:</span> <span class="pre">psi::detci::CIvect</span></em>, <em class="sig-param"><span class="pre">arg1:</span> <span class="pre">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.print_vector" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">print_vector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="psi4.core.CIVector.html#psi4.core.CIVector" title="psi4.core.CIVector"><span class="pre">psi4.core.CIVector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.print_vector" title="Permalink to this definition">¶</a></dt>
 <dd><p>docstring</p>
 </dd></dl>
 
@@ -1364,11 +1377,11 @@ If symmetrize is true, element pqrs is obtained by summing over all “flips” 
 <code class="sig-name descname"><span class="pre">sigma</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psi4.core.CIWavefunction.sigma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>sigma(self: psi4.core.CIWavefunction, arg0: psi::detci::CIvect, arg1: psi::detci::CIvect, arg2: int, arg3: int) -&gt; None</p></li>
+<li><p>sigma(self: psi4.core.CIWavefunction, arg0: psi4.core.CIVector, arg1: psi4.core.CIVector, arg2: int, arg3: int) -&gt; None</p></li>
 </ol>
 <p>docstring</p>
 <ol class="arabic simple" start="2">
-<li><p>sigma(self: psi4.core.CIWavefunction, arg0: psi::detci::CIvect, arg1: psi::detci::CIvect, arg2: int, arg3: int, arg4: psi4.core.Vector, arg5: psi4.core.Vector) -&gt; None</p></li>
+<li><p>sigma(self: psi4.core.CIWavefunction, arg0: psi4.core.CIVector, arg1: psi4.core.CIVector, arg2: int, arg3: int, arg4: psi4.core.Vector, arg5: psi4.core.Vector) -&gt; None</p></li>
 </ol>
 <p>docstring</p>
 </dd></dl>
@@ -1407,14 +1420,14 @@ If symmetrize is true, element pqrs is obtained by summing over all “flips” 
 
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.tpdm">
-<code class="sig-name descname"><span class="pre">tpdm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self:</span> <span class="pre">psi4.core.CIWavefunction</span></em>, <em class="sig-param"><span class="pre">arg0:</span> <span class="pre">psi::detci::CIvect</span></em>, <em class="sig-param"><span class="pre">arg1:</span> <span class="pre">psi::detci::CIvect</span></em>, <em class="sig-param"><span class="pre">arg2:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">arg3:</span> <span class="pre">int</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#psi4.core.CIWavefunction.tpdm" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">tpdm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="psi4.core.CIVector.html#psi4.core.CIVector" title="psi4.core.CIVector"><span class="pre">psi4.core.CIVector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="psi4.core.CIVector.html#psi4.core.CIVector" title="psi4.core.CIVector"><span class="pre">psi4.core.CIVector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#psi4.core.CIWavefunction.tpdm" title="Permalink to this definition">¶</a></dt>
 <dd><p>docstring</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="psi4.core.CIWavefunction.transform_ci_integrals">
 <code class="sig-name descname"><span class="pre">transform_ci_integrals</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#psi4.core.CIWavefunction" title="psi4.core.CIWavefunction"><span class="pre">psi4.core.CIWavefunction</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#psi4.core.CIWavefunction.transform_ci_integrals" title="Permalink to this definition">¶</a></dt>
-<dd><p>docstring</p>
+<dd><p>Transforms the one- and two-electron integrals for a CI computation.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1538,7 +1551,7 @@ If symmetrize is true, element pqrs is obtained by summing over all “flips” 
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.core.CIWavefunction.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/38c9807">1.4rc2.dev27</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/34edcee">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1552,7 +1565,7 @@ If symmetrize is true, element pqrs is obtained by summing over all “flips” 
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 07 April 2021 02:39PM.
+      Last updated on Friday, 09 April 2021 06:38PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->

@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/optionshandling.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/38c9807">1.4rc2.dev27</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/34edcee">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -138,9 +138,9 @@ the modules. Array-type options are not available in python.</p></li>
 <section id="declaring-options">
 <h2>Declaring Options<a class="headerlink" href="#declaring-options" title="Permalink to this headline">¶</a></h2>
 <p>Each module needs to make itself known to the Options object, via a
-read_options function. For plugins, this routine is provided by the user
+read_options section. For plugins, this routine is provided by the user
 in the plugin code. For native <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> modules, the entries need to
-be appended to the read_options code in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/src/bin/psi4/read_options.cc">psi4/src/bin/psi4/read_options.cc</a>.
+be appended to the read_options code in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/read_options.cc">psi4/psi4/src/read_options.cc</a>.
 An example of such a routine is</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">name</span> <span class="o">==</span> <span class="s">&quot;MYMODULE&quot;</span><span class="o">||</span> <span class="n">options</span><span class="p">.</span><span class="n">read_globals</span><span class="p">())</span> <span class="p">{</span>
     <span class="cm">/*- The amount of information printed</span>
@@ -155,7 +155,7 @@ An example of such a routine is</p>
 <span class="cm">    obtain an approximation to the fundamental vibrational frequencies -*/</span>
     <span class="n">options</span><span class="p">.</span><span class="n">add_double</span><span class="p">(</span><span class="s">&quot;FREQUENCY_SCALE_FACTOR&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
     <span class="cm">/*- The filename to which data is dumped. !expert -*/</span>
-    <span class="n">options</span><span class="p">.</span><span class="n">add_str</span><span class="p">(</span><span class="s">&quot;DATA_FILE&quot;</span><span class="p">,</span> <span class="s">&quot;data.dat&quot;</span><span class="p">);</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">add_str_i</span><span class="p">(</span><span class="s">&quot;DATA_FILE&quot;</span><span class="p">,</span> <span class="s">&quot;data.dat&quot;</span><span class="p">);</span>
     <span class="cm">/*- The algorithm to use for the $\left&lt;VV||VV\right&gt;$ terms -*/</span>
     <span class="n">options</span><span class="p">.</span><span class="n">add_str</span><span class="p">(</span><span class="s">&quot;AO_BASIS&quot;</span><span class="p">,</span> <span class="s">&quot;NONE&quot;</span><span class="p">,</span> <span class="s">&quot;NONE DISK DIRECT&quot;</span><span class="p">);</span>
 <span class="p">}</span>
@@ -167,14 +167,15 @@ An example of such a routine is</p>
 <li><p>A boolean called <code class="docutils literal notranslate"><span class="pre">SAVE_INFO</span></code> with a default of true.</p></li>
 <li><p>An array called <code class="docutils literal notranslate"><span class="pre">DOCC</span></code>, no default is possible for this type.</p></li>
 <li><p>A double called <code class="docutils literal notranslate"><span class="pre">FREQUENCY_SCALE_FACTOR</span></code> with a default of 1.0.</p></li>
-<li><p>A string called <code class="docutils literal notranslate"><span class="pre">DATA_FILE</span></code>, with a default of “data.dat” and any possible value.</p></li>
+<li><p>A case-sensitive string called <code class="docutils literal notranslate"><span class="pre">DATA_FILE</span></code>, with a default of “data.dat” and any possible value.</p></li>
 <li><p>A string called <code class="docutils literal notranslate"><span class="pre">AO_BASIS</span></code> with a default of “NONE”, and possible values of “NONE”, “DISK”, or “DIRECT”.</p></li>
 </ul>
 <p>The purpose of the “if” statement in the above read_options function is
 the following. Suppose in an input file the user sets an option through
 the construct <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mymodule</span> <span class="pre">print</span> <span class="pre">1</span></code> or through a <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mymodule</span> <span class="pre">{...}</span></code>
 block. The first thing to happen is a call to read_options with name set
-to “MYMODULE”. (Note that all user input is converted to upper case.) This
+to “MYMODULE”. (Note that all user input is converted to upper case unless a
+<code class="docutils literal notranslate"><span class="pre">add_str_i</span></code> which should be used sparingly for files.) This
 call to read_options should tell the Options object only about those
 options expected by the module called “mymodule”; this prevents overlap of
 options between different modules.</p>
@@ -197,7 +198,7 @@ separate section of the user manual.</p>
 <code class="docutils literal notranslate"><span class="pre">SAVE_INFO</span></code>), can refer to sections of the manual (through hyperlinks;
 see <code class="docutils literal notranslate"><span class="pre">DOCC</span></code>), and can contain LaTeX notation (see <code class="docutils literal notranslate"><span class="pre">AO_BASIS</span></code>). (To get
 the LaTeX subscript command, use “&#64;&#64;” instead of “_”.)</p>
-<p>See <a class="reference external" href="https://github.com/psi4/psi4/wiki/BestPractices#how-to-name-keywords-in-srcbinpsi4read_optionscc">Best Practices</a>
+<p>See <a class="reference internal" href="manage_addon.html#faq-readoptions"><span class="std std-ref">How to name keywords in psi4/src/read_options.cc</span></a>
 for guidelines on naming options.</p>
 </section>
 <section id="what-is-has-changed">
@@ -215,8 +216,8 @@ value itself.  A clarification of definition:</p>
 <em>has_changed</em> DOES effectively mean, “Has option been changed by the
 user?”. The way to do this is to isolate and nullify any changes to
 options made by the code, the difference between [a] and [c]. C-side,
-there is no concern since options are read but essentially never
-written-to within the modules.</p>
+there is no concern since options are essentially read-only
+within the modules.</p>
 <p>Py-side is another matter since the driver’s role is to take terse
 instructions from the user and translate those into instructions to the
 C++ modules, usually through manipulation of options.</p>
@@ -249,28 +250,28 @@ Options from the c-side Options object are accessible in the Python driver throu
 <ul class="simple">
 <li><p>get</p>
 <ul>
-<li><p><a class="reference internal" href="api/psi4.core.get_global_option.html#psi4.core.get_global_option" title="psi4.core.get_global_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_global_option()</span></code></a></p></li>
-<li><p><a class="reference internal" href="api/psi4.core.get_local_option.html#psi4.core.get_local_option" title="psi4.core.get_local_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_local_option()</span></code></a></p></li>
-<li><p><a class="reference internal" href="api/psi4.core.get_option.html#psi4.core.get_option" title="psi4.core.get_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_option()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/psi4.core.get_global_option.html#psi4.core.get_global_option" title="psi4.core.get_global_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.get_global_option()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/psi4.core.get_local_option.html#psi4.core.get_local_option" title="psi4.core.get_local_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.get_local_option()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/psi4.core.get_option.html#psi4.core.get_option" title="psi4.core.get_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.get_option()</span></code></a></p></li>
 </ul>
 </li>
 <li><p>set</p>
 <ul>
-<li><p><a class="reference internal" href="api/psi4.core.set_global_option.html#psi4.core.set_global_option" title="psi4.core.set_global_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_global_option()</span></code></a></p></li>
-<li><p><a class="reference internal" href="api/psi4.core.set_local_option.html#psi4.core.set_local_option" title="psi4.core.set_local_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_local_option()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/psi4.core.set_global_option.html#psi4.core.set_global_option" title="psi4.core.set_global_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.set_global_option()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/psi4.core.set_local_option.html#psi4.core.set_local_option" title="psi4.core.set_local_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.set_local_option()</span></code></a></p></li>
 </ul>
 </li>
 <li><p>has_changed</p>
 <ul>
-<li><p><a class="reference internal" href="api/psi4.core.has_global_option_changed.html#psi4.core.has_global_option_changed" title="psi4.core.has_global_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">has_global_option_changed()</span></code></a></p></li>
-<li><p><a class="reference internal" href="api/psi4.core.has_local_option_changed.html#psi4.core.has_local_option_changed" title="psi4.core.has_local_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">has_local_option_changed()</span></code></a></p></li>
-<li><p><a class="reference internal" href="api/psi4.core.has_option_changed.html#psi4.core.has_option_changed" title="psi4.core.has_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">has_option_changed()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/psi4.core.has_global_option_changed.html#psi4.core.has_global_option_changed" title="psi4.core.has_global_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.has_global_option_changed()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/psi4.core.has_local_option_changed.html#psi4.core.has_local_option_changed" title="psi4.core.has_local_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.has_local_option_changed()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/psi4.core.has_option_changed.html#psi4.core.has_option_changed" title="psi4.core.has_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.has_option_changed()</span></code></a></p></li>
 </ul>
 </li>
 <li><p>revoke_changed</p>
 <ul>
-<li><p><a class="reference internal" href="api/psi4.core.revoke_global_option_changed.html#psi4.core.revoke_global_option_changed" title="psi4.core.revoke_global_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">revoke_global_option_changed()</span></code></a></p></li>
-<li><p><a class="reference internal" href="api/psi4.core.revoke_local_option_changed.html#psi4.core.revoke_local_option_changed" title="psi4.core.revoke_local_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">revoke_local_option_changed()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/psi4.core.revoke_global_option_changed.html#psi4.core.revoke_global_option_changed" title="psi4.core.revoke_global_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.revoke_global_option_changed()</span></code></a></p></li>
+<li><p><a class="reference internal" href="api/psi4.core.revoke_local_option_changed.html#psi4.core.revoke_local_option_changed" title="psi4.core.revoke_local_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.revoke_local_option_changed()</span></code></a></p></li>
 </ul>
 </li>
 </ul>
@@ -283,7 +284,7 @@ specified module use?”.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>“Global” in the sense of the discussion has <em>nothing</em>
-to do with the globals section at the top of read_options.cc .  That
+to do with the globals section at the top of <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/read_options.cc">psi4/psi4/src/read_options.cc</a>. That
 section is just a convenient place for options and associated values
 that are used by most, if not all, modules.</p>
 </div>
@@ -297,33 +298,35 @@ local_option commands, this can now be performed neatly by saving at the
 beginning the global and local values and the global and local
 has_changed values, then restoring them at the end.  Below is an example
 of this procedure; don’t actually do this.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">g_user_scftype</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
-<span class="n">l_user_scftype_scf</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">get_local_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
-<span class="n">bg_user_scftype</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
-<span class="n">bl_user_scftype_scf</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">has_local_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
 
-<span class="n">g_user_wfn</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
-<span class="n">l_user_wfn</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">get_local_option</span><span class="p">(</span><span class="s1">&#39;MP2&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
-<span class="n">bg_user_wfn</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
-<span class="n">bl_user_wfn</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">has_local_option_changed</span><span class="p">(</span><span class="s1">&#39;MP2&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
+<span class="n">g_user_scftype</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
+<span class="n">l_user_scftype_scf</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_local_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
+<span class="n">bg_user_scftype</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
+<span class="n">bl_user_scftype_scf</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">has_local_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
+
+<span class="n">g_user_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
+<span class="n">l_user_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_local_option</span><span class="p">(</span><span class="s1">&#39;MP2&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
+<span class="n">bg_user_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
+<span class="n">bl_user_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">has_local_option_changed</span><span class="p">(</span><span class="s1">&#39;MP2&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
 
 <span class="c1"># body of function</span>
 <span class="c1"># scf_type and wfn are freely changed, LOCALLY</span>
-<span class="c1"># psi4.scf() and psi4.mp2() are run</span>
+<span class="c1"># core.scf() and core.mp2() are run</span>
 
-<span class="n">psi4</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">,</span> <span class="n">g_user_scftype</span><span class="p">)</span>
+<span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">,</span> <span class="n">g_user_scftype</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">bg_user_scftype</span><span class="p">:</span>
-    <span class="n">psi4</span><span class="o">.</span><span class="n">revoke_global_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
-<span class="n">psi4</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">,</span> <span class="n">l_user_scftype_scf</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">revoke_global_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
+<span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">,</span> <span class="n">l_user_scftype_scf</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">bl_user_scftype_scf</span><span class="p">:</span>
-    <span class="n">psi4</span><span class="o">.</span><span class="n">revoke_local_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">revoke_local_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
 
-<span class="n">psi4</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="n">g_user_wfn</span><span class="p">)</span>
+<span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="n">g_user_wfn</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">bg_user_wfn</span><span class="p">:</span>
-    <span class="n">psi4</span><span class="o">.</span><span class="n">revoke_global_option_changed</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
-<span class="n">psi4</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;MP2&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="n">l_user_wfn_scf</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">revoke_global_option_changed</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
+<span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;MP2&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="n">l_user_wfn_scf</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">bl_user_wfn_scf</span><span class="p">:</span>
-    <span class="n">psi4</span><span class="o">.</span><span class="n">revoke_local_option_changed</span><span class="p">(</span><span class="s1">&#39;MP2&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">revoke_local_option_changed</span><span class="p">(</span><span class="s1">&#39;MP2&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Instead of cluttering the driver with the above boilerplate, use an
@@ -331,7 +334,9 @@ of this procedure; don’t actually do this.</p>
 has_changed values for each keyword and module pair given to it as
 arguments. At the end of the python function, these stored user settings
 can be restored.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">optstash</span> <span class="o">=</span> <span class="n">OptionsState</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">p4util</span>
+
+<span class="n">optstash</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">(</span>
     <span class="p">[</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">],</span>
     <span class="p">[</span><span class="s1">&#39;MP2&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">],</span>
     <span class="p">[</span><span class="s1">&#39;DF_BASIS_SCF&#39;</span><span class="p">])</span>
@@ -339,7 +344,7 @@ can be restored.</p>
 <span class="c1"># body of function</span>
 <span class="c1"># scf_type and wfn are freely changed, LOCALLY</span>
 <span class="c1"># puream and df_basis_scf are freely changed, GLOBALLY</span>
-<span class="c1"># psi4.scf() and psi4.mp2() are run</span>
+<span class="c1"># core.scf() and core.mp2() are run</span>
 
 <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
 </pre></div>
@@ -357,25 +362,20 @@ queried and set globally. Same for FREEZE_CORE.</p>
 those to query what option value an upcoming c++ module is going to use
 (determined by user and defaults) and (b) those to set options to govern
 the course of a procedure. Finding out the intended option value for a
-molecule should employ the <code class="xref py py-func docutils literal notranslate"><span class="pre">get_option()</span></code> command
-(and <code class="xref py py-func docutils literal notranslate"><span class="pre">has_option_changed()</span></code> for has_changed), which
-(newly) requires a module for scope. <em>(Previously, this command used the
-“active module”, which isn’t well-defined in the context of the python
-driver, and consequently, the command gave variable results, depending
-on whether a get_local/set_local command had been previously executed to
-define the active module.)</em></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">psi4</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;RHF&#39;</span><span class="p">):</span>
-    <span class="n">psi4</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;REFERENCE&#39;</span><span class="p">,</span> <span class="s1">&#39;RKS&#39;</span><span class="p">)</span>
+molecule should employ the <a class="reference internal" href="api/psi4.core.get_option.html#psi4.core.get_option" title="psi4.core.get_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_option()</span></code></a> command
+(and <a class="reference internal" href="api/psi4.core.has_option_changed.html#psi4.core.has_option_changed" title="psi4.core.has_option_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">has_option_changed()</span></code></a> for has_changed), which
+requires a module for scope. (Programmer-supplied scope is needed Py-side,
+whereas C-side, commands use the “active module”.)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;REFERENCE&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;RHF&quot;</span><span class="p">):</span>
+    <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;REFERENCE&quot;</span><span class="p">,</span> <span class="s2">&quot;RKS&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Setting of options in python should use the
-<code class="xref py py-func docutils literal notranslate"><span class="pre">set_local_option()</span></code> command. Using the local, rather
+<a class="reference internal" href="api/psi4.core.set_local_option.html#psi4.core.set_local_option" title="psi4.core.set_local_option"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_local_option()</span></code></a> command. Using the local, rather
 than global, scope will ensure that the newly set option will be used by
 the module. Otherwise, if the python procedure set in the global scope
 and the user had happened to set that option in local scope, the local
-user option will take precedence against the programmer’s intent.
-<em>(Anyone who has heard advice to “query local, set global” should forget
-that and follow the new scheme outlined here.)</em></p>
+user option will take precedence against the programmer’s intent.</p>
 </li>
 </ul>
 </section>
@@ -489,7 +489,7 @@ that and follow the new scheme outlined here.)</em></p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/optionshandling.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/38c9807">1.4rc2.dev27</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/34edcee">undefined</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -503,7 +503,7 @@ that and follow the new scheme outlined here.)</em></p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 07 April 2021 02:39PM.
+      Last updated on Friday, 09 April 2021 06:38PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
     <!-- cloud_sptheme 1.4 -->
