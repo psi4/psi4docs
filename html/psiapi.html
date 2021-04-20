@@ -37,8 +37,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PsiAPI Tutorial: Using Psi4 as a Python Module</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/psi4.css" type="text/css" />
@@ -102,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psiapi.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/54bfbe4">1.4rc2.dev29</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -368,7 +367,7 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<section id="PsiAPI-Tutorial:-Using-Psi4-as-a-Python-Module">
+<div class="section" id="PsiAPI-Tutorial:-Using-Psi4-as-a-Python-Module">
 <h1>PsiAPI Tutorial: Using Psi4 as a Python Module<a class="headerlink" href="#PsiAPI-Tutorial:-Using-Psi4-as-a-Python-Module" title="Permalink to this headline">¶</a></h1>
 <p>transcribed by D. A. Sirianni</p>
 <div class="admonition note">
@@ -381,7 +380,7 @@ Both modes are equally powerful. This tutorial covers the PsiAPI mode.</p>
 </div>
 <p>Here, we will explore the basics of using Psi4 in the interactive PsiAPI style where it is loaded directly as a Python module by reproducing the section <a class="reference external" href="http://psicode.org/psi4manual/master/tutorial.html">A Psi4 Tutorial</a> from the Psi4 manual in an interactive Jupyter Notebook.</p>
 <p>Note: If the newest version of Psi4 (v.1.1a2dev42 or newer) is in your path, feel free to execute each cell as you read along by pressing <code class="docutils literal notranslate"><span class="pre">Shift+Enter</span></code> when the cell is selected.</p>
-<section id="I.-Basic-Input-Structure">
+<div class="section" id="I.-Basic-Input-Structure">
 <h2>I. Basic Input Structure<a class="headerlink" href="#I.-Basic-Input-Structure" title="Permalink to this headline">¶</a></h2>
 <p>Psi4 is now a Python module; so, we need to import it into our Python environment:</p>
 <div class="nbinput nblast docutils container">
@@ -412,8 +411,8 @@ Both modes are equally powerful. This tutorial covers the PsiAPI mode.</p>
 </div>
 </div>
 <p>Additionally, output may be suppressed by instead setting <code class="docutils literal notranslate"><span class="pre">psi4.core.be_quiet()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/psi4api.html#psi4.core.be_quiet">API</a>.</p>
-</section>
-<section id="II.-Running-a-Basic-Hartree-Fock-Calculation">
+</div>
+<div class="section" id="II.-Running-a-Basic-Hartree-Fock-Calculation">
 <h2>II. Running a Basic Hartree-Fock Calculation<a class="headerlink" href="#II.-Running-a-Basic-Hartree-Fock-Calculation" title="Permalink to this headline">¶</a></h2>
 <p>In our first example, we will consider a Hartree-Fock SCF computation for the water molecule using a cc-pVDZ basis set. First, we will set the available memory for Psi4 to use with the <code class="docutils literal notranslate"><span class="pre">psi4.set_memory()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.set_memory.html#psi4.driver.set_memory">API</a> function, which takes either a string like <code class="docutils literal notranslate"><span class="pre">'30</span> <span class="pre">GB'</span></code> (with units!) or an integer number of bytes of memory as its argument. Next, our molecular geometry is passed as a string into
 <code class="docutils literal notranslate"><span class="pre">psi4.geometry()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.geometry.html#psi4.driver.geometry">API</a>. We may input this geometry in either Z-matrix or Cartesian format; to allow the string to break over multiple lines, use Python’s triple-quote <code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;string&quot;&quot;&quot;</span></code> syntax. Finally, we will compute the Hartree-Fock SCF energy with the cc-pVDZ basis set by passing the method/basis set as a string (<code class="docutils literal notranslate"><span class="pre">'scf/cc-pvdz'</span></code>) into the function <code class="docutils literal notranslate"><span class="pre">psi4.energy()</span></code>
@@ -447,9 +446,9 @@ Both modes are equally powerful. This tutorial covers the PsiAPI mode.</p>
 </pre></div></div>
 </div>
 <p>If everything goes well, the computation should complete and should report a final restricted Hartree-Fock energy in the output file <code class="docutils literal notranslate"><span class="pre">output.dat</span></code> in a section like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Energy</span> <span class="n">converged</span><span class="o">.</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Energy converged.
 
-<span class="nd">@DF</span><span class="o">-</span><span class="n">RHF</span> <span class="n">Final</span> <span class="n">Energy</span><span class="p">:</span>     <span class="o">-</span><span class="mf">76.02663273486682</span>
+@DF-RHF Final Energy:     -76.02663273486682
 </pre></div>
 </div>
 <p>By default, the energy should be converged to about <span class="math notranslate nohighlight">\(1.0\times 10^{-6}\)</span>, so agreement is only expected for about the first 6 digits after the decimal. If the computation does not complete, there is probably a problem with the compilation or installation of the program (see the installation instructions in the main Psi4 manual section <a class="reference external" href="http://psicode.org/psi4manual/master/external.html#sec-installfile">Compiling and Installing from Source</a>).</p>
@@ -490,13 +489,13 @@ integers in the Z-matrix (note the line with <code class="docutils literal notra
 </pre></div></div>
 </div>
 <p>Executing this cell should yield the final energy as</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@DF</span><span class="o">-</span><span class="n">UHF</span> <span class="n">Final</span> <span class="n">Energy</span><span class="p">:</span>   <span class="o">-</span><span class="mf">38.92533462887677</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@DF-UHF Final Energy:   -38.92533462887677
 </pre></div>
 </div>
 <p>Notice the new command, <code class="docutils literal notranslate"><span class="pre">psi4.set_options()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.set_options.html">API</a>, to the input. This function takes a <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">Python dictionary</a> as its argument, which is a key-value list which associates a <a class="reference external" href="http://psicode.org/psi4manual/master/appendices.html#keywords">Psi4 keyword</a> with its user-defined value. For open shell molecules, we have a choice of unrestricted orbitals
 (unrestricted Hartree-Fock, or UHF) or restricted orbitals (restricted open-shell Hartree-Fock, or ROHF). Usually, UHF is a little easier to converge (although it may be more susceptible to spin contamination than ROHF).</p>
-</section>
-<section id="III.-Geometry-Optimization-and-Vibrational-Frequency-Analysis">
+</div>
+<div class="section" id="III.-Geometry-Optimization-and-Vibrational-Frequency-Analysis">
 <h2>III. Geometry Optimization and Vibrational Frequency Analysis<a class="headerlink" href="#III.-Geometry-Optimization-and-Vibrational-Frequency-Analysis" title="Permalink to this headline">¶</a></h2>
 <p>The above examples were simple single-point energy computations (as specified by the <code class="docutils literal notranslate"><span class="pre">psi4.energy()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.energy.html#psi4.driver.energy">API</a> function). Of course there are other kinds of computations to perform, such as geometry optimizations and vibrational frequency computations. These can be specified by replacing <code class="docutils literal notranslate"><span class="pre">psi4.energy()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.energy.html#psi4.driver.energy">API</a> with
 <code class="docutils literal notranslate"><span class="pre">psi4.optimize()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.optimize.html#psi4.driver.optimize">API</a> or <code class="docutils literal notranslate"><span class="pre">psi4.frequency()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.frequency.html#psi4.driver.frequency">API</a>, respectively.</p>
@@ -554,29 +553,29 @@ is to again pass the <code class="docutils literal notranslate"><span class="pre
 </pre></div></div>
 </div>
 <p>Executing this cell will prompt Psi4 to compute the Hessian (second derivative matrix) of the electronic energy with respect to nuclear displacements. From this, it can obtain the harmonic vibrational frequencies, given below (roundoff errors of around <span class="math notranslate nohighlight">\(0.1\)</span> cm<span class="math notranslate nohighlight">\(^{-1}\)</span> may exist):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="n">Irrep</span>      <span class="n">Harmonic</span> <span class="n">Frequency</span>
-                  <span class="p">(</span><span class="n">cm</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="o">-----------------------------------------------</span>
-     <span class="n">A1</span>         <span class="mf">1775.6478</span>
-     <span class="n">A1</span>         <span class="mf">4113.3795</span>
-     <span class="n">B2</span>         <span class="mf">4212.1814</span>
-<span class="o">-----------------------------------------------</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Irrep      Harmonic Frequency
+                  (cm-1)
+-----------------------------------------------
+     A1         1775.6478
+     A1         4113.3795
+     B2         4212.1814
+-----------------------------------------------
 </pre></div>
 </div>
 <p>Notice the symmetry type of the normal modes is specified (A1, A1, B2). The program also print out the normal modes in terms of Cartesian coordinates of each atom. For example, the normal mode at <span class="math notranslate nohighlight">\(1776\)</span> cm<span class="math notranslate nohighlight">\(^{-1}\)</span> is:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="n">Frequency</span><span class="p">:</span>       <span class="mf">1775.65</span>
- <span class="n">Force</span> <span class="n">constant</span><span class="p">:</span>   <span class="mf">0.1193</span>
-           <span class="n">X</span>       <span class="n">Y</span>       <span class="n">Z</span>           <span class="n">mass</span>
-<span class="n">O</span>        <span class="mf">0.000</span>   <span class="mf">0.000</span>  <span class="o">-</span><span class="mf">0.068</span>      <span class="mf">15.994915</span>
-<span class="n">H</span>        <span class="mf">0.000</span>   <span class="mf">0.416</span>   <span class="mf">0.536</span>       <span class="mf">1.007825</span>
-<span class="n">H</span>        <span class="mf">0.000</span>  <span class="o">-</span><span class="mf">0.416</span>   <span class="mf">0.536</span>       <span class="mf">1.007825</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Frequency:       1775.65
+ Force constant:   0.1193
+           X       Y       Z           mass
+O        0.000   0.000  -0.068      15.994915
+H        0.000   0.416   0.536       1.007825
+H        0.000  -0.416   0.536       1.007825
 </pre></div>
 </div>
 <p>where the table shows the displacements in the X, Y, and Z dimensions for each atom along the normal mode coordinate. (This information could be used to animate the vibrational frequency using visualization software.)</p>
 <p>Because the vibrational frequencies are available, a thermodynamics analysis is automatically performed at the end of the computation. You can see this in the next section of the output file <code class="docutils literal notranslate"><span class="pre">output.dat</span></code>. The vibrational frequencies are sufficient to obtain vibrational contributions to enthalpy (H), entropy (S), and Gibbs free energy (G). Similarly, the molecular geometry is used to obtain rotational constants, which are then used to obtain rotational contributions to H, S, and G.</p>
 <p>Note: Psi4 has several synonyms for the functions called in this example. For instance, <code class="docutils literal notranslate"><span class="pre">psi4.frequency()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.frequency.html#psi4.driver.frequency">API</a> will compute molecular vibrational frequencies, and <code class="docutils literal notranslate"><span class="pre">psi4.optimize()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.optimize.html#psi4.driver.optimize">API</a> will perform a geometry optimization.</p>
-</section>
-<section id="IV.-Analysis-of-Intermolecular-Interactions">
+</div>
+<div class="section" id="IV.-Analysis-of-Intermolecular-Interactions">
 <h2>IV. Analysis of Intermolecular Interactions<a class="headerlink" href="#IV.-Analysis-of-Intermolecular-Interactions" title="Permalink to this headline">¶</a></h2>
 <p>Now let’s consider something a little more interesting. Psi4 contains code to analyze the nature of intermolecular interactions between two molecules, via symmetry-adapted perturbation theory (SAPT) <a class="reference external" href="http://psicode.org/psi4manual/master/bibliography.html#jeziorski-1994-1887">(Jeziorski:1994:1887)</a>. This kind of analysis gives a lot of insight into the nature of intermolecular interactions, and Psi4 makes these computations easier than ever.</p>
 <p>For a SAPT computation, the input needs to provide information on two distinct molecules. This is very easy, we just give a Z-matrix or set of Cartesian coordinates for each molecule, and separate the two with two dashes, like this:</p>
@@ -644,8 +643,8 @@ the total SAPT0 interaction energy. An explanation of the various energy compone
 intermolecular interaction, and the 0 indicates zeroth-order with respect to the intramolecular electron correlation). The next most attractive contribution is the <code class="docutils literal notranslate"><span class="pre">Disp20</span></code> term (second order intermolecular dispersion, which looks like MP2 in which one excitation is placed on each monomer), contributing an attraction of <span class="math notranslate nohighlight">\(-1.21\)</span> kcal/mol. It is not surprising that the electrostatic contribution is dominant, because the geometry chosen for this example has the acetylene perpendicular to
 the ethylene, with the acetylene hydrogen pointing directly at the double bond in ethylene; this will be attractive because the H atoms in acetylene bear a partial positive charge, while the electron rich double bond in ethylene bears a partial negative charge. At the same time, the dispersion interaction should be smaller because the perpendicular geometry does not allow much overlap between the monomers. Hence, the SAPT analysis helps clarify (and quantify) our physical understanding about the
 interaction between the two monomers.</p>
-</section>
-<section id="V.-Potential-Surface-Scans-and-Counterpoise-Correction-Made-Easy">
+</div>
+<div class="section" id="V.-Potential-Surface-Scans-and-Counterpoise-Correction-Made-Easy">
 <h2>V. Potential Surface Scans and Counterpoise Correction Made Easy<a class="headerlink" href="#V.-Potential-Surface-Scans-and-Counterpoise-Correction-Made-Easy" title="Permalink to this headline">¶</a></h2>
 <p>Finally, let’s consider an example which highlights the advantages of being able to interact with Psi4 directly with Python.</p>
 <p>Suppose you want to do a limited potential energy surface scan, such as computing the interaction energy between two neon atoms at various interatomic distances. One simple but unappealing way to do this is to generate separate geometries for each distance to be studied. Instead, we can leverage Python loops and string formatting to make our lives simpler. Additionally, let’s suppose you want to do counterpoise (CP) correction to compute interaction energies. Counterpoise correction involves
@@ -716,23 +715,23 @@ CP-corrected CCSD(T)/aug-cc-pVDZ Interaction Energies
 Before we are able to pass our molecule to Psi4, we need to do two things. First, we must set the value of the intermolecular separation in our Z-matrix (by using <a class="reference external" href="https://docs.python.org/3.1/library/string.html#format-examples">Python 3 string formatting</a>) to the particular value of R. Second, we need to turn the Z-matrix string into a Psi4 molecule, by passing it to <code class="docutils literal notranslate"><span class="pre">`psi4.geometry()</span></code> &lt;<a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.geometry.html#psi4.driver.geometry">http://psicode.org/psi4manual/master/api/psi4.driver.geometry.html#psi4.driver.geometry</a>&gt;`__. The
 argument <code class="docutils literal notranslate"><span class="pre">bsse_type='cp'</span></code> tells Psi4 to perform counterpoise (CP) correction on the dimer to compute the CCSD(T)/aug-cc-pVDZ interaction energy, which is stored in our <code class="docutils literal notranslate"><span class="pre">ecp</span></code> dictionary at each iteration of our Python loop. Note that we didn’t need to specify ghost atoms, and we didn’t need to call the monomer and dimer computations separately. Psi4 does it all for us, automatically.</p>
 <p>Near the very end of the output file <code class="docutils literal notranslate"><span class="pre">output.dat</span></code>, the counterpoise correction Python function will print a nice summary of the results of the counterpoise computation (the energies of the dimer, of monomer 1 with the ghost functions of monomer 2, of monomer 2 with the ghost functions of monomer 1, and the overall counterpoise corrected interaction energy):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">N</span><span class="o">-</span><span class="n">Body</span><span class="p">:</span> <span class="n">Computing</span> <span class="nb">complex</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="k">with</span> <span class="n">fragments</span> <span class="p">(</span><span class="mi">2</span><span class="p">,)</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">basis</span> <span class="n">of</span> <span class="n">fragments</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span>
-<span class="o">...</span>
-<span class="n">N</span><span class="o">-</span><span class="n">Body</span><span class="p">:</span> <span class="n">Complex</span> <span class="n">Energy</span> <span class="p">(</span><span class="n">fragments</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,),</span> <span class="n">basis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>  <span class="o">-</span><span class="mf">128.70932405488924</span><span class="p">)</span>
-<span class="o">...</span>
-<span class="n">N</span><span class="o">-</span><span class="n">Body</span><span class="p">:</span> <span class="n">Computing</span> <span class="nb">complex</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="k">with</span> <span class="n">fragments</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">basis</span> <span class="n">of</span> <span class="n">fragments</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span>
-<span class="o">...</span>
-<span class="n">N</span><span class="o">-</span><span class="n">Body</span><span class="p">:</span> <span class="n">Complex</span> <span class="n">Energy</span> <span class="p">(</span><span class="n">fragments</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">basis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>  <span class="o">-</span><span class="mf">128.70932405488935</span><span class="p">)</span>
-<span class="o">...</span>
-<span class="n">N</span><span class="o">-</span><span class="n">Body</span><span class="p">:</span> <span class="n">Computing</span> <span class="nb">complex</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">1</span><span class="p">)</span> <span class="k">with</span> <span class="n">fragments</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">basis</span> <span class="n">of</span> <span class="n">fragments</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span>
-<span class="o">...</span>
-<span class="n">N</span><span class="o">-</span><span class="n">Body</span><span class="p">:</span> <span class="n">Complex</span> <span class="n">Energy</span> <span class="p">(</span><span class="n">fragments</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">basis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>  <span class="o">-</span><span class="mf">257.41867403127321</span><span class="p">)</span>
-<span class="o">...</span>
-<span class="o">==&gt;</span> <span class="n">N</span><span class="o">-</span><span class="n">Body</span><span class="p">:</span> <span class="n">Counterpoise</span> <span class="n">Corrected</span> <span class="p">(</span><span class="n">CP</span><span class="p">)</span>  <span class="n">energies</span> <span class="o">&lt;==</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>N-Body: Computing complex (1/2) with fragments (2,) in the basis of fragments (1, 2).
+...
+N-Body: Complex Energy (fragments = (2,), basis = (1, 2):  -128.70932405488924)
+...
+N-Body: Computing complex (2/2) with fragments (1,) in the basis of fragments (1, 2).
+...
+N-Body: Complex Energy (fragments = (1,), basis = (1, 2):  -128.70932405488935)
+...
+N-Body: Computing complex (1/1) with fragments (1, 2) in the basis of fragments (1, 2).
+...
+N-Body: Complex Energy (fragments = (1, 2), basis = (1, 2):  -257.41867403127321)
+...
+==&gt; N-Body: Counterpoise Corrected (CP)  energies &lt;==
 
-<span class="n">n</span><span class="o">-</span><span class="n">Body</span>     <span class="n">Total</span> <span class="n">Energy</span> <span class="p">[</span><span class="n">Eh</span><span class="p">]</span>       <span class="n">I</span><span class="o">.</span><span class="n">E</span><span class="o">.</span> <span class="p">[</span><span class="n">kcal</span><span class="o">/</span><span class="n">mol</span><span class="p">]</span>      <span class="n">Delta</span> <span class="p">[</span><span class="n">kcal</span><span class="o">/</span><span class="n">mol</span><span class="p">]</span>
-     <span class="mi">1</span>     <span class="o">-</span><span class="mf">257.418648109779</span>        <span class="mf">0.000000000000</span>        <span class="mf">0.000000000000</span>
-     <span class="mi">2</span>     <span class="o">-</span><span class="mf">257.418674031273</span>       <span class="o">-</span><span class="mf">0.016265984132</span>       <span class="o">-</span><span class="mf">0.016265984132</span>
+n-Body     Total Energy [Eh]       I.E. [kcal/mol]      Delta [kcal/mol]
+     1     -257.418648109779        0.000000000000        0.000000000000
+     2     -257.418674031273       -0.016265984132       -0.016265984132
 </pre></div>
 </div>
 <p>And that’s it! The only remaining part of the example is a little table of the different <code class="docutils literal notranslate"><span class="pre">R</span></code> values and the CP-corrected CCSD(T) energies, converted from atomic units (Hartree) to kcal mol<span class="math notranslate nohighlight">\(^{-1}\)</span> by multiplying by the automatically-defined conversion factor <code class="docutils literal notranslate"><span class="pre">psi4.constants.hartree2kcalmol</span></code>. Psi4 provides several built-in physical constants and conversion factors, as described in the Psi4 manual section <a class="reference external" href="http://psicode.org/psi4manual/master/psithoninput.html#sec-physicalconstants">Physical
@@ -747,8 +746,8 @@ Constants</a>. The table can be printed either to the screen, by using standard 
 </pre></div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
 
             <div class="clearer"></div>
@@ -859,7 +858,7 @@ Constants</a>. The table can be printed either to the screen, by using standard 
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psiapi.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/54bfbe4">1.4rc2.dev29</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -873,8 +872,8 @@ Constants</a>. The table can be printed either to the screen, by using standard 
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 09 April 2021 07:06PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
+      Last updated on Tuesday, 20 April 2021 09:58PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/mdi_engine.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/54bfbe4">1.4rc2.dev29</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -148,7 +148,7 @@
 
 <span class="n">_have_mdi</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">mdi</span> <span class="kn">import</span> <span class="n">MDI_Init</span><span class="p">,</span> <span class="n">MDI_Get_Intra_Code_MPI_Comm</span><span class="p">,</span> <span class="n">MDI_Accept_Communicator</span><span class="p">,</span> \
+    <span class="kn">from</span> <span class="nn">mdi</span> <span class="kn">import</span> <span class="n">MDI_Init</span><span class="p">,</span> <span class="n">MDI_MPI_get_world_comm</span><span class="p">,</span> <span class="n">MDI_Accept_Communicator</span><span class="p">,</span> \
         <span class="n">MDI_Send</span><span class="p">,</span> <span class="n">MDI_Recv</span><span class="p">,</span> <span class="n">MDI_Recv_Command</span><span class="p">,</span> <span class="n">MDI_INT</span><span class="p">,</span> <span class="n">MDI_DOUBLE</span><span class="p">,</span> \
         <span class="n">MDI_Register_Node</span><span class="p">,</span> <span class="n">MDI_Register_Command</span>
     <span class="n">_have_mdi</span> <span class="o">=</span> <span class="kc">True</span>
@@ -199,7 +199,7 @@
 
         <span class="c1"># Get correct intra-code MPI communicator</span>
         <span class="k">if</span> <span class="n">use_mpi4py</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">mpi_world</span> <span class="o">=</span> <span class="n">MDI_Get_Intra_Code_MPI_Comm</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpi_world</span> <span class="o">=</span> <span class="n">MDI_MPI_get_world_comm</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">world_rank</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpi_world</span><span class="o">.</span><span class="n">Get_rank</span><span class="p">()</span>
 
             <span class="c1"># Psi4 does not currently support multiple MPI ranks</span>
@@ -545,10 +545,7 @@
 <span class="sd">    Arguments:</span>
 <span class="sd">        mdi_arguments: MDI configuration options</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">mpi_world</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">use_mpi4py</span><span class="p">:</span>
-        <span class="n">mpi_world</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
-    <span class="n">MDI_Init</span><span class="p">(</span><span class="n">mdi_arguments</span><span class="p">,</span> <span class="n">mpi_world</span><span class="p">)</span>
+    <span class="n">MDI_Init</span><span class="p">(</span><span class="n">mdi_arguments</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="mdi_run"><a class="viewcode-back" href="../../../api/psi4.driver.mdi_run.html#psi4.driver.mdi_run">[docs]</a><span class="k">def</span> <span class="nf">mdi_run</span><span class="p">(</span><span class="n">scf_method</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -650,7 +647,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/mdi_engine.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/54bfbe4">1.4rc2.dev29</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -664,8 +661,8 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 09 April 2021 07:06PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
+      Last updated on Tuesday, 20 April 2021 09:58PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>
