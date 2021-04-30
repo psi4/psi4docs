@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1340,9 +1340,32 @@
             <span class="n">wfn</span><span class="o">.</span><span class="n">set_sad_fitting_basissets</span><span class="p">(</span><span class="n">sad_fitting_list</span><span class="p">)</span>
             <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
 
-    <span class="c1"># Deal with the EXTERN issues</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">core</span><span class="p">,</span> <span class="s2">&quot;EXTERN&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;external_potentials&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span> 
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Warning! Both an external potential EXTERN object and the external_potential&quot;</span> <span class="o">+</span>
+                       <span class="s2">&quot; keyword argument are specified. The external_potentials keyword argument will be ignored.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># If EXTERN is set, then place that potential on the wfn</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">core</span><span class="p">,</span> <span class="s2">&quot;EXTERN&quot;</span><span class="p">):</span>
+        <span class="n">wfn</span><span class="o">.</span><span class="n">set_potential_variable</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">EXTERN</span><span class="p">)</span> <span class="c1"># This is for the FSAPT procedure</span>
         <span class="n">wfn</span><span class="o">.</span><span class="n">set_external_potential</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">EXTERN</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="s1">&#39;external_potentials&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="c1"># For FSAPT, we can take a dictionary of external potentials, e.g.,</span>
+        <span class="c1"># external_potentials={&#39;A&#39;: potA, &#39;B&#39;: potB, &#39;C&#39;: potC} (any optional)</span>
+        <span class="c1"># For the dimer SAPT calculation, we need to account for the external potential</span>
+        <span class="c1"># in all of the subsystems A, B, C. So we add them all in total_external_potential</span>
+        <span class="c1"># and set the external potential to the dimer wave function</span>
+        <span class="n">total_external_potential</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">ExternalPotential</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">frag</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;external_potentials&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">frag</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="s2">&quot;ABC&quot;</span><span class="p">:</span>
+                <span class="n">wfn</span><span class="o">.</span><span class="n">set_potential_variable</span><span class="p">(</span><span class="n">frag</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;external_potentials&#39;</span><span class="p">][</span><span class="n">frag</span><span class="p">]</span><span class="o">.</span><span class="n">extern</span><span class="p">)</span>
+                <span class="n">total_external_potential</span><span class="o">.</span><span class="n">appendCharges</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;external_potentials&#39;</span><span class="p">][</span><span class="n">frag</span><span class="p">]</span><span class="o">.</span><span class="n">extern</span><span class="o">.</span><span class="n">getCharges</span><span class="p">())</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Warning! Unknown key for the external_potentials argument: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="n">frag</span><span class="p">)</span>
+
+        <span class="n">wfn</span><span class="o">.</span><span class="n">set_external_potential</span><span class="p">(</span><span class="n">total_external_potential</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">wfn</span></div>
 
@@ -3207,9 +3230,11 @@
                     <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE YZ&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE YZ&quot;</span><span class="p">))</span>
                     <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE ZZ&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE ZZ&quot;</span><span class="p">))</span>
             <span class="k">if</span> <span class="s1">&#39;dipole&#39;</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
-                <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC DIPOLE&quot;</span><span class="p">))</span>  <span class="c1"># P::e CCENERGY</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC DIPOLE&quot;</span><span class="p">))</span>
+                <span class="c1"># core.set_variable(&quot;CC ROOT n DIPOLE&quot;, core.variable(&quot;CC DIPOLE&quot;))  # P::e CCENERGY</span>
             <span class="k">if</span> <span class="s1">&#39;quadrupole&#39;</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
-                <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE&quot;</span><span class="p">))</span>  <span class="c1"># P::e CCENERGY</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE&quot;</span><span class="p">))</span>
+                <span class="c1"># core.set_variable(&quot;CC ROOT n QUADRUPOLE&quot;, core.variable(&quot;CC QUADRUPOLE&quot;))  # P::e CCENERGY</span>
 
             <span class="n">n_root</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;ROOTS_PER_IRREP&quot;</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">rn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_root</span><span class="p">):</span>
@@ -3664,20 +3689,20 @@
                 <span class="k">continue</span>
             <span class="n">energy</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">energy_correction</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
             <span class="n">mp_corr</span> <span class="o">+=</span> <span class="n">energy</span>
-            <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MP</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> correlation energy&quot;</span><span class="p">,</span> <span class="n">energy</span><span class="p">)</span>
-            <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MP</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> total energy&quot;</span><span class="p">,</span> <span class="n">mp</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="n">level</span><span class="p">))</span>
+            <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MP</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> CORRELATION ENERGY&quot;</span><span class="p">,</span> <span class="n">energy</span><span class="p">)</span>
+            <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MP</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="n">mp</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="n">level</span><span class="p">))</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Energy correlation MP</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">energy</span><span class="si">:</span><span class="s2">15.8g</span><span class="si">}</span><span class="s2"> [Eh]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;    Energy             total </span><span class="si">{0:15.8g}</span><span class="s2"> [Eh]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mp_energy</span><span class="p">))</span>
-    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;current correlation energy&quot;</span><span class="p">,</span> <span class="n">mp_corr</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
-    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;current energy&quot;</span><span class="p">,</span> <span class="n">mp_energy</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
+    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT CORRELATION ENERGY&quot;</span><span class="p">,</span> <span class="n">mp_corr</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
+    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT ENERGY&quot;</span><span class="p">,</span> <span class="n">mp_energy</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
 
     <span class="c1"># Set results of excited-states computation</span>
     <span class="c1"># TODO Does not work: Can&#39;t use strings</span>
     <span class="c1"># adc_wfn.set_variable(&quot;excitation kind&quot;, state.kind)</span>
-    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;number of iterations&quot;</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">n_iter</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
+    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;ADC ITERATIONS&quot;</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">n_iter</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
     <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; excitation energies&quot;</span><span class="p">,</span>
                          <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">excitation_energy</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
-    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;number of excited states&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">excitation_energy</span><span class="p">))</span>  <span class="c1"># P::e ADC</span>
+    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;number of excited states&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">excitation_energy</span><span class="p">))</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  ==&gt; Excited states summary &lt;==  </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">oscillator_strengths</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -4581,7 +4606,7 @@
 
     <span class="n">fisapt_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">FISAPT</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
     <span class="kn">from</span> <span class="nn">.sapt</span> <span class="kn">import</span> <span class="n">fisapt_proc</span>
-    <span class="n">fisapt_wfn</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">()</span>
+    <span class="n">fisapt_wfn</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">(</span><span class="n">external_potentials</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;external_potentials&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
 
     <span class="c1"># Compute -D dispersion</span>
     <span class="k">if</span> <span class="s2">&quot;-d&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
@@ -5311,7 +5336,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5325,7 +5350,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Tuesday, 20 April 2021 09:58PM.
+      Last updated on Friday, 30 April 2021 01:40PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <!-- cloud_sptheme 1.4 -->

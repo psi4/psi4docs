@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -125,21 +125,21 @@
 file detailing how to build it from source. Few (mostly packagers and
 sysadmins) are expected to read this file as it is a broad guide to the
 many choices in building this project. For a specific, well-tested,
-and performance-tuned build path, see <a class="reference external" href="https://psicode.netlify.app/installs/latest">psicode.org/installs/latest</a>
+and performance-tuned build path, see <a class="reference external" href="https://psicode.org/installs/latest">psicode.org/installs/latest</a>
 (select “source”). For pre-built binaries again well-tested,
 performance-tuned, and available for all common operating systems,
-see <a class="reference external" href="https://psicode.netlify.app/installs/latest">psicode.org/installs/latest</a> (select “conda”).</p>
+see <a class="reference external" href="https://psicode.org/installs/latest">psicode.org/installs/latest</a> (select “conda”).</p>
 <div class="section" id="planning-how-to-configure-psi4-and-invoke-cmake">
 <span id="faq-cmakeviasetup"></span><h2>Planning: how to configure Psi4 and invoke CMake<a class="headerlink" href="#planning-how-to-configure-psi4-and-invoke-cmake" title="Permalink to this headline">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is built through CMake. An abbreviated build guide can be found
-<a class="reference external" href="https://github.com/psi4/psi4/blob/master/CMakeLists.txt#L14-L142">within the source itself</a>.</p>
+<a class="reference external" href="https://github.com/psi4/psi4/blob/master/CMakeLists.txt#L22">within the source itself</a>.</p>
 <p>CMake does a good job scanning your computer to locate libraries, header
 files, and executables needed for compilation. So it’s very possible that
-from <code class="samp docutils literal notranslate"><em><span class="pre">top-level-psi4-dir</span></em></code> source directory, you can call <code class="samp docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-H.</span>
+from <code class="samp docutils literal notranslate"><em><span class="pre">top-level-psi4-dir</span></em></code> source directory, you can call <code class="samp docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-S.</span>
 <span class="pre">-B</span><em><span class="pre">objdir</span></em></code> without any further arguments, and it will invoke <code class="docutils literal notranslate"><span class="pre">cmake</span></code>,
 detect some appropriate defaults, configure the build, create a build
 directory <code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em></code>, and complete, leaving you to only invoke
-<code class="docutils literal notranslate"><span class="pre">make</span></code> in the new build directory.</p>
+<code class="docutils literal notranslate"><span class="pre">make</span></code> or Ninja in the new build directory.</p>
 <p>Should this happy scenario not come to pass, or if the default build
 options are not to your taste, use the links within <a class="reference internal" href="#faq-coredepend"><span class="std std-ref">core
 dependencies</span></a> and <a class="reference internal" href="#faq-addondepend"><span class="std std-ref">add-on dependencies</span></a> to plan a set of arguments to <code class="docutils literal notranslate"><span class="pre">cmake</span></code> tailored to
@@ -151,7 +151,7 @@ your computer. Proceed to <a class="reference internal" href="#faq-buildquick"><
 <p>This section outlines the main steps of configuring, compiling, and
 installing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>. More detail is given <a class="reference internal" href="#faq-builddetailed"><span class="std std-ref">here</span></a>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; cd {top-level-psi4-dir}</span>
-<span class="go">&gt;&gt;&gt; cmake -H. -Bobjdir [your configuration options]</span>
+<span class="go">&gt;&gt;&gt; cmake -S. -Bobjdir [your configuration options]</span>
 <span class="go">&gt;&gt;&gt; cd objdir</span>
 <span class="go">&gt;&gt;&gt; make -j`getconf _NPROCESSORS_ONLN`</span>
 <span class="go">&gt;&gt;&gt; make install</span>
@@ -199,7 +199,7 @@ hereafter <code class="docutils literal notranslate"><span class="pre">[your</sp
 <div><p>Run CMake with planned options and directories, as below. It reports on
 software found or unfound as it scans the computer, then (upon success)
 creates <code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em></code> ready for compilation.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmake</span> <span class="o">-</span><span class="n">H</span><span class="o">.</span> <span class="o">-</span><span class="n">B</span><span class="p">{</span><span class="n">objdir</span><span class="p">}</span> <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=</span><span class="p">{</span><span class="n">prefix</span><span class="p">}</span> <span class="p">[</span><span class="n">your</span> <span class="n">configuration</span> <span class="n">options</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmake</span> <span class="o">-</span><span class="n">S</span><span class="o">.</span> <span class="o">-</span><span class="n">B</span><span class="p">{</span><span class="n">objdir</span><span class="p">}</span> <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=</span><span class="p">{</span><span class="n">prefix</span><span class="p">}</span> <span class="p">[</span><span class="n">your</span> <span class="n">configuration</span> <span class="n">options</span><span class="p">]</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -213,7 +213,7 @@ creates <code class="samp docutils literal notranslate"><em><span class="pre">ob
 </div>
 <p><strong>5. Test</strong></p>
 <blockquote>
-<div><p>Optionally, use CTest (thorough) or pytest (cursory) to test the build.</p>
+<div><p>Optionally, use CTest and Pytest to test the build.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#faq-minutetests"><span class="std std-ref">How to run a minute’s worth of tests</span></a></p></li>
 <li><p><a class="reference internal" href="#faq-subsettests"><span class="std std-ref">How to run a subset of tests</span></a></p></li>
@@ -253,24 +253,30 @@ that software for <span style="font-family: Optima, sans-serif; text-transform: 
 <li><p><a class="reference internal" href="#cmake-cxx"><span class="std std-ref">C++ and C Compilers</span></a> (C++14 compliant)</p></li>
 <li><p><a class="reference internal" href="#cmake-lapack"><span class="std std-ref">Optimized BLAS and LAPACK libraries</span></a> (preferably NOT one supplied by a standard
 Linux distribution)</p></li>
-<li><p><a class="reference internal" href="#cmake-python"><span class="std std-ref">Python interpreter and headers</span></a> (3.6 or 3.7) <a class="reference external" href="https://www.python.org/">https://www.python.org/</a></p></li>
-<li><p>CMake (3.8+) <a class="reference external" href="http://www.cmake.org/download/">http://www.cmake.org/download/</a></p></li>
-<li><p>NumPy (needed at runtime <em>and</em> buildtime) <a class="reference external" href="http://www.numpy.org/">http://www.numpy.org/</a></p></li>
-<li><p>System utilities: GNU make, GNU install, POSIX threads (Pthreads) library</p></li>
+<li><p><a class="reference internal" href="#cmake-python"><span class="std std-ref">Python interpreter and headers</span></a> (3.6+) <a class="reference external" href="https://www.python.org/">https://www.python.org/</a></p></li>
+<li><p>CMake (3.15+) <a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a></p></li>
+<li><p>NumPy (needed at runtime <em>and</em> buildtime) <a class="reference external" href="https://numpy.org/">https://numpy.org/</a></p></li>
+<li><p>System utilities: GNU make and GNU install or Ninja, POSIX threads (Pthreads) library</p></li>
 </ul>
 <p>The following are also required for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, but if not detected, the
 build system will automatically download and build.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="gau2grid.html#cmake-gau2grid"><span class="std std-ref">gau2grid</span></a> — <a class="reference internal" href="gau2grid.html#sec-gau2grid"><span class="std std-ref">[what is gau2grid?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/gau2grid/CMakeLists.txt#L1">[gau2grid min version]</a></p></li>
-<li><p><a class="reference internal" href="libint.html#cmake-libint"><span class="std std-ref">Libint</span></a> — <a class="reference internal" href="libint.html#sec-libint"><span class="std std-ref">[what is Libint?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libint/CMakeLists.txt#L1">[Libint min version]</a></p></li>
-<li><p><a class="reference internal" href="libxc.html#cmake-libxc"><span class="std std-ref">Libxc</span></a> — <a class="reference internal" href="libxc.html#sec-libxc"><span class="std std-ref">[what is Libxc?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libxc.txt#L1">[Libxc min version]</a></p></li>
-<li><p>pybind11 — <a class="reference external" href="https://pybind11.readthedocs.io/en/master/">[what is Pybind11?]</a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/pybind11/CMakeLists.txt#L1">[Pybind11 min version]</a></p></li>
+<li><p><a class="reference internal" href="libint.html#cmake-libint"><span class="std std-ref">Libint</span></a> — <a class="reference internal" href="libint.html#sec-libint"><span class="std std-ref">[what is Libint?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libint/CMakeLists.txt#L1">[Libint min version]</a> (Libint2 as of Nov 2020; added by v1.4)</p>
+<ul>
+<li><p>Eigen <a class="reference external" href="https://eigen.tuxfamily.org/index.php?title=Main_Page">https://eigen.tuxfamily.org/index.php?title=Main_Page</a></p></li>
+<li><p>MPFR <a class="reference external" href="https://www.mpfr.org/">https://www.mpfr.org/</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="libxc.html#cmake-libxc"><span class="std std-ref">Libxc</span></a> — <a class="reference internal" href="libxc.html#sec-libxc"><span class="std std-ref">[what is Libxc?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libxc/CMakeLists.txt#L1">[Libxc min version]</a></p></li>
+<li><p>pybind11 — <a class="reference external" href="https://pybind11.readthedocs.io/en/stable/">[what is Pybind11?]</a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/pybind11/CMakeLists.txt#L1">[Pybind11 min version]</a></p></li>
 <li><p>QCElemental — <a class="reference external" href="https://qcelemental.readthedocs.io/en/latest/">[what is QCElemental?]</a></p></li>
 <li><p>QCEngine — <a class="reference external" href="https://qcengine.readthedocs.io/en/latest/">[what is QCEngine?]</a> (March 2019; added by v1.4)</p></li>
 </ul>
 <p>Additionally, there are runtime-only dependencies:</p>
 <ul class="simple">
-<li><p>NumPy <a class="reference external" href="http://www.numpy.org/">http://www.numpy.org/</a></p></li>
+<li><p>msgpack-python for MessagePack <a class="reference external" href="https://msgpack.org/">https://msgpack.org/</a> (transitive dependency of QCElemental; optional for QCElemental but required for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>)</p></li>
+<li><p>NumPy <a class="reference external" href="https://numpy.org/">https://numpy.org/</a></p></li>
 <li><p>networkx <a class="reference external" href="https://github.com/networkx/networkx">https://github.com/networkx/networkx</a> (transitive dependency of QCElemental; optional for QCElemental but required for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>)</p></li>
 <li><p>pint <a class="reference external" href="https://pint.readthedocs.io/en/latest/">https://pint.readthedocs.io/en/latest/</a> (transitive dependency of QCElemental)</p></li>
 <li><p>pydantic <a class="reference external" href="https://pydantic-docs.helpmanual.io">https://pydantic-docs.helpmanual.io</a>/# (transitive dependency of QCElemental)</p></li>
@@ -291,20 +297,22 @@ are available pre-built from conda.</p>
 <ul class="simple">
 <li><p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Testing</p>
 <ul>
-<li><p>CTest <a class="reference external" href="http://www.cmake.org/download/">http://www.cmake.org/download/</a></p></li>
-<li><p>Perl (for some coupled-cluster CTest tests) <a class="reference external" href="http://perl.org">http://perl.org</a></p></li>
+<li><p>CTest <a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a></p></li>
+<li><p>Perl (for some coupled-cluster CTest tests) <a class="reference external" href="https://www.perl.org/">https://www.perl.org/</a></p></li>
 <li><p>pytest (for installed testing) <a class="reference external" href="http://doc.pytest.org/en/latest/">http://doc.pytest.org/en/latest/</a></p></li>
+<li><p>pytest-xdist (for installed testing in parallel) <a class="reference external" href="https://docs.pytest.org/en/2.1.0/xdist.html">https://docs.pytest.org/en/2.1.0/xdist.html</a></p></li>
 </ul>
 </li>
-<li><p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Documentation (available pre-built at <a class="reference external" href="http://www.psicode.org/psi4manual/master/index.html">http://www.psicode.org/psi4manual/master/index.html</a>)</p>
+<li><p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Documentation (available pre-built at <a class="reference external" href="https://psicode.org/psi4manual/master/index.html">psicode.org/psi4manual/master/index.html</a>)</p>
 <ul>
-<li><p>Sphinx (1.5+) <a class="reference external" href="http://sphinx-doc.org">http://sphinx-doc.org</a></p></li>
-<li><p>Perl (for some auto-documentation scripts) <a class="reference external" href="http://perl.org">http://perl.org</a></p></li>
+<li><p>Sphinx (3.5+) <a class="reference external" href="http://sphinx-doc.org">http://sphinx-doc.org</a></p></li>
+<li><p>Perl (for some auto-documentation scripts) <a class="reference external" href="https://www.perl.org/">https://www.perl.org/</a></p></li>
 <li><p>nbsphinx (for converting Jupyter notebooks) <a class="reference external" href="http://nbsphinx.readthedocs.io/en/jupyter-theme/">http://nbsphinx.readthedocs.io/en/jupyter-theme/</a></p></li>
 <li><p>sphinx-psi-theme <a class="reference external" href="https://github.com/psi4/sphinx-psi-theme">https://github.com/psi4/sphinx-psi-theme</a></p></li>
 <li><p>See <a class="reference external" href="https://github.com/psi4/psi4/blob/master/doc/sphinxman/CMakeLists.txt">[“message” lines]</a> for advice on obtaining docs dependencies</p></li>
 </ul>
 </li>
+<li><p>Ambit — <a class="reference external" href="https://github.com/jturney/ambit">https://github.com/jturney/ambit</a></p></li>
 <li><p><a class="reference internal" href="chemps2.html#cmake-chemps2"><span class="std std-ref">CheMPS2</span></a> — <a class="reference internal" href="chemps2.html#sec-chemps2"><span class="std std-ref">[what is CheMPS2?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/chemps2/CMakeLists.txt#L2">[CheMPS2 min version]</a></p>
 <ul>
 <li><p>HDF5 <a class="reference external" href="https://support.hdfgroup.org/HDF5/">https://support.hdfgroup.org/HDF5/</a></p></li>
@@ -339,18 +347,64 @@ are available pre-built from conda.</p>
 <li><p>gcp — <a class="reference internal" href="gcp.html#sec-gcp"><span class="std std-ref">[what is gCP?]</span></a></p></li>
 <li><p>mrcc — <a class="reference internal" href="mrcc.html#sec-mrcc"><span class="std std-ref">[what is MPCC?]</span></a></p></li>
 <li><p>v2rdm_casscf — <a class="reference internal" href="plugin_v2rdm_casscf.html#sec-v2rdm-casscf"><span class="std std-ref">[what is v2rdm_casscf?]</span></a></p></li>
-<li><p>snsmp2 — <a class="reference external" href="https://github.com/DEShawResearch/sns-mp2/commits/master">https://github.com/DEShawResearch/sns-mp2/commits/master</a></p></li>
+<li><p><a class="reference internal" href="plugin_snsmp2.html#sec-snsmp2"><span class="std std-ref">sns-mp2</span></a> — <a class="reference external" href="https://github.com/DEShawResearch/sns-mp2/commits/master">https://github.com/DEShawResearch/sns-mp2/commits/master</a></p></li>
 <li><p>resp — <a class="reference external" href="https://github.com/cdsgroup/resp">https://github.com/cdsgroup/resp</a></p></li>
 <li><p>gpu_dfcc — <a class="reference external" href="https://github.com/edeprince3/gpu_dfcc/commits/master">https://github.com/edeprince3/gpu_dfcc/commits/master</a></p></li>
 <li><p>OpenFermion-Psi4 — <a class="reference external" href="https://github.com/quantumlib/OpenFermion">https://github.com/quantumlib/OpenFermion</a></p></li>
+<li><p><a class="reference internal" href="cppe.html#sec-cppe"><span class="std std-ref">cppe</span></a> — <a class="reference external" href="https://github.com/maxscheurer/cppe">https://github.com/maxscheurer/cppe</a></p></li>
+<li><p>mp2d — <a class="reference external" href="https://github.com/Chandemonium/MP2D">https://github.com/Chandemonium/MP2D</a></p></li>
+<li><p><a class="reference internal" href="plugin_psi4fockci.html#sec-fockci"><span class="std std-ref">FockCI</span></a> — <a class="reference external" href="https://github.com/shannonhouck/psi4fockci">https://github.com/shannonhouck/psi4fockci</a></p></li>
+<li><p>cct3 — <a class="reference external" href="https://github.com/piecuch-group/cct3">https://github.com/piecuch-group/cct3</a></p></li>
+<li><p><a class="reference internal" href="adcc.html#sec-adcc"><span class="std std-ref">adcc</span></a> — <a class="reference external" href="https://github.com/adc-connect/adcc">https://github.com/adc-connect/adcc</a></p></li>
+<li><p><a class="reference internal" href="brianqc.html#sec-brianqc"><span class="std std-ref">BrianQC</span></a> — <a class="reference external" href="https://www.brianqc.com/">https://www.brianqc.com/</a></p></li>
+<li><p>i-PI — <a class="reference external" href="http://ipi-code.org/">http://ipi-code.org/</a></p></li>
+<li><p>psixas — <a class="reference external" href="https://github.com/Masterluke87/psixas">https://github.com/Masterluke87/psixas</a></p></li>
+<li><p>MDI — <a class="reference external" href="https://github.com/MolSSI-MDI/MDI_Library">https://github.com/MolSSI-MDI/MDI_Library</a></p></li>
 </ul>
+</div>
+<div class="section" id="how-to-use-conda-to-get-a-psi4-development-environment">
+<span id="faq-condapsi4dev"></span><h2>How to use conda to get a Psi4 development environment<a class="headerlink" href="#how-to-use-conda-to-get-a-psi4-development-environment" title="Permalink to this headline">¶</a></h2>
+<p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> has a lot of dependencies, some of which are complicated
+to build. Fortunately, conda can supply them all. A conda
+package <code class="docutils literal notranslate"><span class="pre">psi4-dev</span></code> is available to gather the dependencies
+and build tools needed to compiler <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> from source. Go to
+<a class="reference external" href="https://psicode.org/installs/latest">psicode.org/installs/latest</a>, select “source” and “nightly build” along
+with Linux/Mac and a Python version. Follow its instructions to create
+a conda environment that has a script <code class="docutils literal notranslate"><span class="pre">psi4-path-advisor</span></code>. Running
+<code class="docutils literal notranslate"><span class="pre">psi4-path-advisor</span> <span class="pre">--help</span></code> shows more options. Running the script
+without arguments gives a cmake command that supplies paths to dependency
+conda packages to CMake’s cache. You can add further cmake options to
+this command when you execute it. Once the cmake command has built your
+<code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em></code>, you can build <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>. Remember to activate this
+conda environment during <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> running or development. There are a
+few extra options to <code class="docutils literal notranslate"><span class="pre">psi4-path-advisor</span></code> to set up using conda’s GNU
+compilers (on Linux), conda’s Clang compilers (on Mac; less reliably),
+or your own Intel compilers backed by conda’s GNU compilers (on Linux).</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; git clone https://github.com/psi4/psi4.git &amp;&amp; cd psi4</span>
+<span class="go">&gt;&gt;&gt; conda create -n p4dev psi4-dev python=3.8 -c psi4/label/dev</span>
+<span class="go">&gt;&gt;&gt; conda activate p4dev</span>
+<span class="go">&gt;&gt;&gt; `psi4-path-advisor --gcc`</span>
+<span class="go">&gt;&gt;&gt; cd objdir &amp;&amp; make -j`getconf _NPROCESSORS_ONLN`</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="how-to-configure-code-to-use-high-angular-momentum-basis-sets">
 <span id="faq-setupmaxameri"></span><h2>How to configure code to use high angular momentum basis sets<a class="headerlink" href="#how-to-configure-code-to-use-high-angular-momentum-basis-sets" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="libint.html#sec-libint"><span class="std std-ref">Libint</span></a> integral code handles arbitrary order
-angular momentum, but compiling that is prohibitive. The default of <code class="docutils literal notranslate"><span class="pre">5</span></code>
-is generally good. <code class="docutils literal notranslate"><span class="pre">7</span></code> has met all of a research group’s needs for
-years. <code class="docutils literal notranslate"><span class="pre">4</span></code> is handy for quickly testing other parts of the build.</p>
+<p>The <a class="reference internal" href="libint.html#sec-libint"><span class="std std-ref">Libint</span></a> integral code handles
+arbitrary order angular momentum (AM), but compiling that is
+prohibitive. The build process for Libint2 takes longer than
+for Libint1, so it’s recommended to <a class="reference internal" href="#faq-condamaxameri"><span class="std std-ref">use the conda packages</span></a>. The AM controlling keyword <code class="docutils literal notranslate"><span class="pre">MAX_AM_ERI</span></code>
+has definition changed a little from Libint1. It is used to ensure
+that conventional energies can use at least <code class="docutils literal notranslate"><span class="pre">MAX_AM_ERI</span></code> zeta. See
+<a class="reference external" href="https://github.com/psi4/psi4/blob/master//external/upstream/libint2/CMakeLists.txt">psi4//external/upstream/libint2/CMakeLists.txt</a> for a fuller
+discussion of AM capabilities. Unless <strong class="makevar">BUILD_Libint2_GENERATOR</strong>
+is set to <code class="docutils literal notranslate"><span class="pre">ON</span></code>, an internal build of Libint2 will download a
+pregenerated tarball of at least <strong class="makevar">MAX_AM_ERI</strong> AM. If you
+want to build completely from generator source, turn on the keyword,
+but parts can only run in serial and parts benefit from parallel, so
+it’s not recommended. All the AM generation settings would need to be
+edited in the above <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> rather than passing them into
+the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> build directly.</p>
 <ul>
 <li><p>Build with Higher Angular Momentum</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DMAX_AM_ERI<span class="o">=</span><span class="m">6</span>
@@ -379,7 +433,7 @@ remove the result of <code class="docutils literal notranslate"><span class="pre
 <code class="docutils literal notranslate"><span class="pre">external/upstream/libint/</span></code>. If earlier Libint was built
 internally (as opposed to detecting an external installation),
 remove <code class="docutils literal notranslate"><span class="pre">stage/include/libint/</span></code>, <code class="docutils literal notranslate"><span class="pre">stage/share/cmake/Libint/</span></code>,
-<code class="docutils literal notranslate"><span class="pre">stage/lib/libint.so</span></code>, <code class="docutils literal notranslate"><span class="pre">stage/lib/libderiv.so</span></code>. Edit MAX_AM_ERI
+<code class="docutils literal notranslate"><span class="pre">stage/lib/libint2.so.2</span></code>. Edit MAX_AM_ERI
 value in <code class="docutils literal notranslate"><span class="pre">CMakeCache.txt</span></code>. Reinvoke <code class="docutils literal notranslate"><span class="pre">make</span></code> and check the number
 beside <code class="docutils literal notranslate"><span class="pre">Found</span> <span class="pre">Libint</span></code> in the CMake output.</p>
 <p>Note that the same keyword MAX_AM_ERI controls Libint and simint. simint
@@ -393,15 +447,16 @@ and point CMake toward a pre-built Libint AM8 just fine.</p>
 </div>
 <div class="section" id="how-to-get-high-angular-momentum-integrals-from-conda">
 <span id="faq-condamaxameri"></span><h2>How to get high angular momentum integrals from conda<a class="headerlink" href="#how-to-get-high-angular-momentum-integrals-from-conda" title="Permalink to this headline">¶</a></h2>
-<p>Since February 2019, the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> conda package on Linux has been the
-large AM8. Likewise, this is the package you get upon</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">libint</span> <span class="o">-</span><span class="n">c</span> <span class="n">psi4</span>
-</pre></div>
-</div>
-<p>There is no need for the extra <code class="docutils literal notranslate"><span class="pre">am8</span></code> argument previously documented here.</p>
-<p>On Mac, the Libint conda package itself and the Libint compiled into
-the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> conda package remain AM6.</p>
-<p>Beware this issue: <a class="reference external" href="https://github.com/psi4/psi4/issues/1533">https://github.com/psi4/psi4/issues/1533</a></p>
+<p>Libint2 conda packages are available from conda for Linux, Mac, and Windows.</p>
+<p>The Linux package has base <code class="docutils literal notranslate"><span class="pre">MAX_AM_ERI=7</span></code> and can run 7z energies
+and gradients conventional, 6z energies and gradients density-fitted,
+and qz Hessians both conventional and density fitted.</p>
+<p>The Mac and Windows packages have base <code class="docutils literal notranslate"><span class="pre">MAX_AM_ERI=5</span></code> and can run
+5z energies, qz gradients, and tz Hessians, both conventional and
+density-fitted.</p>
+<p>Details about angular momentum settings are available here
+<a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libint2/CMakeLists.txt">https://github.com/psi4/psi4/blob/master/external/upstream/libint2/CMakeLists.txt</a>
+.</p>
 </div>
 <div class="section" id="how-to-see-what-build-configuration-options-are-available">
 <span id="faq-setuphelp"></span><h2>How to see what build configuration options are available<a class="headerlink" href="#how-to-see-what-build-configuration-options-are-available" title="Permalink to this headline">¶</a></h2>
@@ -426,8 +481,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 #    ...
 #    -- Generating done
 #    -- Build files have been written to: /current/dir/objdir
-#    &gt;&gt;&gt; cd objdir &amp;&amp; make -j`getconf _NPROCESSORS_ONLN`
-#    &gt;&gt;&gt; make install
+#    &gt;&gt;&gt; cmake --build objdir --target install -j`getconf _NPROCESSORS_ONLN`
 
 #  &lt;&lt;&lt;  Required build dependencies that Psi4 can&#39;t build itself  &gt;&gt;&gt;
 #
@@ -537,6 +591,7 @@ option_with_print(ENABLE_OPENMP &quot;Enables OpenMP parallelization&quot; ON)
 option_with_print(ENABLE_AUTO_BLAS &quot;Enables CMake to auto-detect BLAS&quot; ON)
 option_with_print(ENABLE_AUTO_LAPACK &quot;Enables CMake to auto-detect LAPACK&quot; ON)
 option_with_print(ENABLE_PLUGIN_TESTING &quot;Test the plugin templates build and run&quot; OFF)
+option_with_print(ENABLE_CYTHONIZE &quot;Compile each python file rather than plaintext (requires cython) !experimental!&quot; OFF)
 </pre></div>
 </div>
 <p>Note that external projects will have their own sets of build
@@ -594,23 +649,14 @@ are detected pre-built rather than built.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="how-to-fix-error-runtimeerror-value-for-eri">
-<span id="faq-erroreriam"></span><h2>How to fix error “<code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">value</span> <span class="pre">for</span> <span class="pre">ERI</span></code>”<a class="headerlink" href="#how-to-fix-error-runtimeerror-value-for-eri" title="Permalink to this headline">¶</a></h2>
-<p>You will need to rebuild Libint. Reissue <code class="docutils literal notranslate"><span class="pre">cmake</span></code> or edit
-<code class="docutils literal notranslate"><span class="pre">CMakeCache.txt</span></code> with larger <code class="docutils literal notranslate"><span class="pre">MAX_AM_ERI</span></code> and rebuild.</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="#faq-setupmaxameri"><span class="std std-ref">How to configure code to use high angular momentum basis sets</span></a></p></li>
-<li><p><a class="reference internal" href="#faq-condamaxameri"><span class="std std-ref">How to get high angular momentum integrals from conda</span></a></p></li>
-</ul>
-</div>
 <div class="section" id="how-to-choose-the-compilation-directory-objdir">
 <span id="faq-chooseobjdir"></span><h2>How to choose the compilation directory, <code class="docutils literal notranslate"><span class="pre">{objdir}</span></code><a class="headerlink" href="#how-to-choose-the-compilation-directory-objdir" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>there is no default</p></li>
 <li><p>common choices are <code class="docutils literal notranslate"><span class="pre">objdir</span></code> or <code class="docutils literal notranslate"><span class="pre">build</span></code> under <code class="samp docutils literal notranslate"><em><span class="pre">top-level-psi4-dir</span></em></code></p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">{top-level-psi4-dir}</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">-H.</span> <span class="pre">-Bobjdir</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">{top-level-psi4-dir}</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">-H.</span> <span class="pre">-Bbuild</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">{top-level-psi4-dir}</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">-S.</span> <span class="pre">-Bobjdir</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">{top-level-psi4-dir}</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">-S.</span> <span class="pre">-Bbuild</span></code></p></li>
 </ul>
 </li>
 <li><p>in-source builds (<code class="docutils literal notranslate"><span class="pre">*.cc</span></code> and <code class="docutils literal notranslate"><span class="pre">*.o</span></code> in same directory) are disallowed</p></li>
@@ -623,7 +669,7 @@ are detected pre-built rather than built.</p>
 <em>on one line</em>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cd</span> <span class="p">{</span><span class="n">top</span><span class="o">-</span><span class="n">level</span><span class="o">-</span><span class="n">psi4</span><span class="o">-</span><span class="nb">dir</span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span> <span class="n">do</span><span class="o">-</span><span class="n">configure</span>
-<span class="go">    cmake -H. -B{objdir} \</span>
+<span class="go">    cmake -S. -B{objdir} \</span>
 <span class="go">        -DCMAKE_INSTALL_PATH=&quot;/Users/me/psi4&quot; \</span>
 <span class="go">        -DCMAKE_PREFIX_PATH=&quot;/Users/me/externals/install-libint&quot; \</span>
 <span class="go">        -DMAX_AM_ERI=6 \</span>
@@ -712,7 +758,6 @@ use a staged installation directory, substitute
 <span class="go">SCF E.............................................................PASSED</span>
 </pre></div>
 </div>
-<p>todo how to check if current py is compatible with compilation</p>
 </div>
 <div class="section" id="how-to-solve-modulenotfounderror-no-module-named-psi4">
 <span id="faq-modulenotfounderror"></span><h2>How to solve <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'psi4'</span></code><a class="headerlink" href="#how-to-solve-modulenotfounderror-no-module-named-psi4" title="Permalink to this headline">¶</a></h2>
@@ -725,7 +770,7 @@ can’t find the <span style="font-family: Optima, sans-serif; text-transform: n
 <span id="faq-psi4psiapipath"></span><h2>How to configure paths for PsiAPI<a class="headerlink" href="#how-to-configure-paths-for-psiapi" title="Permalink to this headline">¶</a></h2>
 <p>If you know the location of the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> executable (<code class="docutils literal notranslate"><span class="pre">bin/psi4</span></code>)
 for Psithon mode and want to know the corresponding location to add to
-<span class="target" id="index-4"></span><a class="reference internal" href="external.html#envvar-PYTHONPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></a> for PsiAPI mode, execute <code class="docutils literal notranslate"><span class="pre">psi4</span> <span class="pre">--psiapi-path</span></code>. It
+<span class="target" id="index-4"></span><a class="reference internal" href="external.html#envvar-PYTHONPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></a> for PsiAPI mode, execute <code class="docutils literal notranslate"><span class="pre">psi4</span> <span class="pre">--psiapi</span></code>. It
 will return bash commands to set <span class="target" id="index-5"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a> (for correct python
 interpreter) and <span class="target" id="index-6"></span><a class="reference internal" href="external.html#envvar-PYTHONPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></a> (to find psi4 module) correctly,
 after which <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">psi4</span></code> will work.</p>
@@ -737,6 +782,8 @@ after which <code class="docutils literal notranslate"><span class="pre">import<
 &gt;&gt;&gt; <span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span>/path/to/dir/of/psi4/core-dot-so:<span class="nv">$PYTHONPATH</span>
 
 &gt;&gt;&gt; python -c <span class="s2">&quot;import psi4&quot;</span>
+
+&gt;&gt;&gt; python -c <span class="s2">&quot;import psi4;print(psi4.__file__, psi4.__version__)&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -945,7 +992,7 @@ with prefix and <em>not</em> in <span class="target" id="index-18"></span><a cla
 <ol class="upperalpha simple" start="7">
 <li><p>Build on Linux with specific (Intel) compilers from <span class="target" id="index-19"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a>
 based on GCC from conda in <strong>activated</strong> environment
-(<span class="target" id="index-20"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONDA_PREFIX</span></code> and <span class="target" id="index-21"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">HOST</span></code> are defined upon
+(<span class="target" id="index-20"></span><a class="reference internal" href="external.html#envvar-CONDA_PREFIX"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONDA_PREFIX</span></code></a> and <span class="target" id="index-21"></span><a class="reference internal" href="external.html#envvar-HOST"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">HOST</span></code></a> are defined upon
 activation)</p></li>
 </ol>
 <blockquote>
@@ -959,7 +1006,7 @@ activation)</p></li>
 <ol class="upperalpha simple" start="8">
 <li><p>Build on Linux with specific (GCC) compilers from
 from conda in <strong>activated</strong> environment
-(<span class="target" id="index-22"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONDA_PREFIX</span></code> and <span class="target" id="index-23"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">HOST</span></code> are defined upon
+(<span class="target" id="index-22"></span><a class="reference internal" href="external.html#envvar-CONDA_PREFIX"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONDA_PREFIX</span></code></a> and <span class="target" id="index-23"></span><a class="reference internal" href="external.html#envvar-HOST"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">HOST</span></code></a> are defined upon
 activation)</p></li>
 </ol>
 <blockquote>
@@ -991,7 +1038,9 @@ activation)</p></li>
 &gt;= 4.9. This compliance is checked for at build-time with file
 <a class="reference external" href="https://github.com/psi4/psi4/blob/master/cmake/custom_cxxstandard.cmake">psi4/cmake/custom_cxxstandard.cmake</a>, so either consult that file or
 try a test build to ensure your compiler is approved. Note that Intel
-compilers on Linux also rely on GCC, so both <code class="docutils literal notranslate"><span class="pre">icpc</span></code> and <code class="docutils literal notranslate"><span class="pre">gcc</span></code> versions are checked.</p>
+compilers on Linux also rely on GCC, so both <code class="docutils literal notranslate"><span class="pre">icpc</span></code> and <code class="docutils literal notranslate"><span class="pre">gcc</span></code> versions are checked.
+Intel OneAPI Classic compilers work fine. OneAPI beta compilers build but have
+been only minimally tested.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#faq-modgcc"><span class="std std-ref">How to satisfy the GCC &gt;= 4.9 requirement on Linux without updating the OS</span></a></p></li>
 </ul>
@@ -999,7 +1048,7 @@ compilers on Linux also rely on GCC, so both <code class="docutils literal notra
 <div class="section" id="how-to-obtain-c-and-c-compilers-for-mac-without-fink-macports-or-homebrew">
 <span id="faq-macxcode"></span><h2>How to obtain C and C++ compilers for Mac without Fink, MacPorts, or Homebrew<a class="headerlink" href="#how-to-obtain-c-and-c-compilers-for-mac-without-fink-macports-or-homebrew" title="Permalink to this headline">¶</a></h2>
 <p>The easiest compiler to obtain is <code class="docutils literal notranslate"><span class="pre">clang</span></code> which is a drop-in replacement
-for <code class="docutils literal notranslate"><span class="pre">gcc</span></code> and <code class="docutils literal notranslate"><span class="pre">g++</span></code>. Just install <a class="reference external" href="https://itunes.apple.com/us/app/xcode/id497799835">XCode</a>.  Some old versions
+for <code class="docutils literal notranslate"><span class="pre">gcc</span></code> and <code class="docutils literal notranslate"><span class="pre">g++</span></code>. Just install <a class="reference external" href="https://apps.apple.com/us/app/xcode/id497799835">XCode</a>. Some old versions
 of XCode can’t handle some of the advanced C++ language features, but this
 is a <em>software</em> not <em>hardware</em> limitation. Checks for version compliance
 performed at build-time. Note that this “AppleClang” will not be compatible
@@ -1017,14 +1066,14 @@ is through conda.</p>
 x86_64-apple-darwin13.4.0
 
 <span class="c1"># build with Clang</span>
-&gt;&gt;&gt; cmake -H. -Bbuild <span class="se">\</span>
+&gt;&gt;&gt; cmake -S. -Bbuild <span class="se">\</span>
      -DCMAKE_C_COMPILER<span class="o">=</span><span class="si">${</span><span class="nv">CLANG</span><span class="si">}</span> <span class="se">\</span>
      -DCMAKE_CXX_COMPILER<span class="o">=</span><span class="si">${</span><span class="nv">CLANGXX</span><span class="si">}</span> <span class="se">\</span>
      -DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-stdlib=libc++&quot;</span> <span class="se">\</span>
      -DOpenMP_CXX_FLAG<span class="o">=</span><span class="s2">&quot;-fopenmp=libiomp5&quot;</span>
 
 <span class="c1"># build with Intel</span>
-&gt;&gt;&gt; cmake -H. -Bbuild <span class="se">\</span>
+&gt;&gt;&gt; cmake -S. -Bbuild <span class="se">\</span>
      -DCMAKE_C_COMPILER<span class="o">=</span>icc <span class="se">\</span>
      -DCMAKE_CXX_COMPILER<span class="o">=</span>icpc <span class="se">\</span>
      -DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-clang-name=</span><span class="si">${</span><span class="nv">CLANG</span><span class="si">}</span><span class="s2">&quot;</span> <span class="se">\</span>
@@ -1059,12 +1108,12 @@ system. The latter route, tested on Linux with Intel compilers, is below.</p>
       x86_64-conda_cos6-linux-gnu
 
       <span class="c1"># build with GNU</span>
-      &gt;&gt;&gt; cmake -H. -Bbuild <span class="se">\</span>
+      &gt;&gt;&gt; cmake -S. -Bbuild <span class="se">\</span>
            -DCMAKE_C_COMPILER<span class="o">=</span><span class="si">${</span><span class="nv">CC</span><span class="si">}</span> <span class="se">\</span>
            -DCMAKE_CXX_COMPILER<span class="o">=</span><span class="si">${</span><span class="nv">CXX</span><span class="si">}</span> <span class="se">\</span>
 
       <span class="c1"># build with Intel</span>
-      &gt;&gt;&gt; cmake -H. -Bbuild <span class="se">\</span>
+      &gt;&gt;&gt; cmake -S. -Bbuild <span class="se">\</span>
            -DCMAKE_C_COMPILER<span class="o">=</span>icc <span class="se">\</span>
            -DCMAKE_CXX_COMPILER<span class="o">=</span>icpc <span class="se">\</span>
            -DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2">-&quot;</span> <span class="se">\</span>
@@ -1072,7 +1121,7 @@ system. The latter route, tested on Linux with Intel compilers, is below.</p>
 
 <span class="c1"># (B) tell CMake to tell the compiler which GCC to use</span>
       &gt;&gt;&gt; <span class="nv">GCC7</span><span class="o">=</span>/path/to/miniconda/envs/gcc72
-      &gt;&gt;&gt; cmake -H. -Bbuild <span class="se">\</span>
+      &gt;&gt;&gt; cmake -S. -Bbuild <span class="se">\</span>
            -DCMAKE_C_COMPILER<span class="o">=</span>icc <span class="se">\</span>
            -DCMAKE_CXX_COMPILER<span class="o">=</span>icpc <span class="se">\</span>
            -DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">GCC7</span><span class="si">}</span><span class="s2">/bin/x86_64-conda_cos6-linux-gnu-&quot;</span> <span class="se">\</span>
@@ -1094,11 +1143,22 @@ system. The latter route, tested on Linux with Intel compilers, is below.</p>
 <p>Cray systems strongly prefer to build static libraries, but <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
 needs to be dynamic to function as a Python module. Courtesy of &#64;misha
 at the forum and various supercomputer guides, building <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> on
-Cray requires setting environment variables <span class="target" id="index-24"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CRAYPE_LINK_TYPE</span></code>
-and <span class="target" id="index-25"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CRAY_ADD_RPATH</span></code> before running <cite>cmake</cite>.</p>
+Cray requires setting environment variables before running <cite>cmake</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">CRAYPE_LINK_TYPE</span><span class="o">=</span><span class="n">dynamic</span> <span class="n">CRAY_ADD_RPATH</span><span class="o">=</span><span class="n">yes</span> <span class="n">cmake</span> <span class="o">...</span>
 </pre></div>
 </div>
+<dl class="std envvar">
+<dt id="envvar-CRAYPE_LINK_TYPE">
+<code class="sig-name descname"><span class="pre">CRAYPE_LINK_TYPE</span></code><a class="headerlink" href="#envvar-CRAYPE_LINK_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set to allow <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> to build as shared library on Cray supercomputers.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-CRAY_ADD_RPATH">
+<code class="sig-name descname"><span class="pre">CRAY_ADD_RPATH</span></code><a class="headerlink" href="#envvar-CRAY_ADD_RPATH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set to true to allow <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> to build on Cray supercomputers.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="how-to-configure-fortran-compilers-for-building-psi4">
 <span id="cmake-fortran"></span><h2>How to configure Fortran compilers for building Psi4<a class="headerlink" href="#how-to-configure-fortran-compilers-for-building-psi4" title="Permalink to this headline">¶</a></h2>
@@ -1120,7 +1180,7 @@ features but may be required for add-ons.</p></li>
 </ul>
 <p><strong>Examples</strong></p>
 <ol class="upperalpha simple">
-<li><p>Build with detected compiler from <span class="target" id="index-26"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a></p></li>
+<li><p>Build with detected compiler from <span class="target" id="index-24"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a></p></li>
 </ol>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake
@@ -1128,7 +1188,7 @@ features but may be required for add-ons.</p></li>
 </div>
 </div></blockquote>
 <ol class="upperalpha simple" start="2">
-<li><p>Build with specific (Intel) compiler from <span class="target" id="index-27"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a></p></li>
+<li><p>Build with specific (Intel) compiler from <span class="target" id="index-25"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a></p></li>
 </ol>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DCMAKE_Fortran_COMPILER<span class="o">=</span>ifort
@@ -1174,12 +1234,22 @@ linear algebra on molecular systems.</p></li>
 <ul class="simple">
 <li><p><strong class="makevar">BLAS_TYPE</strong> — CMake variable to specify which BLAS libraries to look for among <code class="docutils literal notranslate"><span class="pre">MKL|OPENBLAS|ESSL|ATLAS|ACML|SYSTEM_NATIVE</span></code>.</p></li>
 <li><p><strong class="makevar">LAPACK_TYPE</strong> — CMake variable to specify which LAPACK libraries to look for among <code class="docutils literal notranslate"><span class="pre">MKL|OPENBLAS|ESSL|ATLAS|ACML|SYSTEM_NATIVE</span></code>.</p></li>
-<li><p><span class="target" id="index-28"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">MKL_ROOT</span></code> — Environment variable set by Intel compilervars scripts. Sufficient to trigger math detection of MKL at this location.</p></li>
-<li><p><span class="target" id="index-29"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">MATH_ROOT</span></code> — Environment variable to specify root directory in which BLAS/LAPACK libraries should be detected (<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">${MATH_ROOT}/lib64/libblas.so</span></code> and <code class="docutils literal notranslate"><span class="pre">${MATH_ROOT}/lib64/liblapack.so</span></code>).</p></li>
 <li><p><strong class="makevar">LAPACK_LIBRARIES</strong> — CMake variable to specify BLAS/LAPACK libraries explicitly, bypassing math detection. Should be “;”-separated list of full paths.</p></li>
 <li><p><strong class="makevar">LAPACK_INCLUDE_DIRS</strong> — CMake variable to specify BLAS/LAPACK header location explicitly, bypassing math detection. Only needed for MKL.</p></li>
 <li><p><strong class="makevar">OpenMP_LIBRARY_DIRS</strong> — CMake variable to specify OpenMP library (iomp5/gomp/omp) directories explicitly. Should be “;”-separated list of full directory paths. Usually the solution to error <code class="docutils literal notranslate"><span class="pre">Could</span> <span class="pre">NOT</span> <span class="pre">find</span> <span class="pre">MathOpenMP</span></code>.</p></li>
 </ul>
+<dl class="std envvar">
+<dt id="envvar-MKL_ROOT">
+<code class="sig-name descname"><span class="pre">MKL_ROOT</span></code><a class="headerlink" href="#envvar-MKL_ROOT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Environment variable set by Intel compilervars scripts. Sufficient to trigger math detection of MKL at this location.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-MATH_ROOT">
+<code class="sig-name descname"><span class="pre">MATH_ROOT</span></code><a class="headerlink" href="#envvar-MATH_ROOT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Environment variable to specify root directory in which BLAS/LAPACK libraries should be detected (<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">${MATH_ROOT}/lib64/libblas.so</span></code> and <code class="docutils literal notranslate"><span class="pre">${MATH_ROOT}/lib64/liblapack.so</span></code>).</p>
+</dd></dl>
+
 <p><strong>Examples</strong></p>
 <ol class="upperalpha simple">
 <li><p>Build with any LAPACK in standard location</p></li>
@@ -1273,7 +1343,8 @@ unoptimized netlib distribution. The choice of LAPACK is less
 critical, and so the unoptimized netlib distribution is acceptable.</p></li>
 <li><p>Perhaps the best choice, if available, is Intel’s MKL library,
 which includes efficient threaded BLAS and LAPACK (as of <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
-v1.1, earliest known working version is MKL 2013). MKL, which is
+v1.1, earliest known working version is MKL 2013; as of v1.4,
+should use at leat MKL 2019). MKL, which is
 freely available through conda, is the only threaded BLAS/LAPACK
 distribution fully supported by <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>.</p></li>
 <li><p>On Mac, the native Accelerate libraries are very nice and would
@@ -1333,6 +1404,11 @@ language.</p></li>
 <li><p>Downstream Dependencies — <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> <span class="math notranslate nohighlight">\(\Leftarrow\)</span> Python Interpreter</p></li>
 </ul>
 <p><strong>CMake Variables</strong></p>
+<p>Note that in v1.4, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> switched from Numpy-written CMake Python
+detection to new CMake-written CMake Python detection. Usually only
+<strong class="makevar">Python_EXECUTABLE</strong> is now needed to hint Python’s location. See
+<a class="reference external" href="https://cmake.org/cmake/help/latest/module/FindPython.html">https://cmake.org/cmake/help/latest/module/FindPython.html</a> for full
+guidance.</p>
 <ul class="simple">
 <li><p><strong class="makevar">Python_EXECUTABLE</strong> — specify name or full path to Python interpreter.</p></li>
 <li><p><strong class="makevar">Python_LIBRARY</strong> — specify path to Python library.</p></li>
@@ -1340,7 +1416,7 @@ language.</p></li>
 </ul>
 <p><strong>Examples</strong></p>
 <ol class="upperalpha simple">
-<li><p>Build with detected Python from <span class="target" id="index-30"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a></p></li>
+<li><p>Build with detected Python from <span class="target" id="index-26"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a></p></li>
 </ol>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake
@@ -1351,7 +1427,7 @@ language.</p></li>
 <li><p>Build with specific Python</p></li>
 </ol>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DPython_EXECUTABLE<span class="o">=</span>/path/to/interp/python3.6
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DPython_EXECUTABLE<span class="o">=</span>/path/to/interp/python3.9
 </pre></div>
 </div>
 </div></blockquote>
@@ -1360,8 +1436,8 @@ language.</p></li>
 </ol>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DPython_EXECUTABLE<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/bin/python&quot;</span> <span class="se">\</span>
-          -DPython_LIBRARY<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/lib/libpython3.5m.so&quot;</span> <span class="se">\</span>
-          -DPython_INCLUDE_DIR<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/include/python3.5m&quot;</span>
+          -DPython_LIBRARY<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/lib/libpython3.9.so&quot;</span> <span class="se">\</span>
+          -DPython_INCLUDE_DIR<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/include/python3.9&quot;</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1436,7 +1512,7 @@ Some of these libraries may not be found correctly.
 <p>The scratch directory is where Psi4 stores potentially large files during
 computation. It should thus be on a local, fast disk to minimize any
 computational inefficiencies caused by I/O. The scratch directory is
-commonly set up through the <span class="target" id="index-31"></span><a class="reference internal" href="external.html#envvar-PSI_SCRATCH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSI_SCRATCH</span></code></a> environment variable:</p>
+commonly set up through the <span class="target" id="index-27"></span><a class="reference internal" href="external.html#envvar-PSI_SCRATCH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSI_SCRATCH</span></code></a> environment variable:</p>
 <div class="highlight-tcsh notranslate"><div class="highlight"><pre><span></span><span class="c"># csh, tcsh: add to shell or ~/.tcshrc file</span>
 <span class="nb">setenv </span>PSI_SCRATCH /path/to/existing/writable/local-not-network/directory/for/scratch/files
 </pre></div>
@@ -1456,7 +1532,7 @@ for later use through the <a class="reference internal" href="external.html#sec-
 <span id="faq-psi4pbs"></span><h2>How to use Psi4 within a PBS queue<a class="headerlink" href="#how-to-use-psi4-within-a-pbs-queue" title="Permalink to this headline">¶</a></h2>
 <p>You will usually need to set up a PBS job script that is setting all
 necessary environment variables, making sure the scratch directories are
-set up, and invokes the executable. An <a class="reference internal" href="external.html#sec-pbs"><span class="std std-ref">example</span></a> PBS script
+set up, and invoking the executable. An <a class="reference internal" href="external.html#sec-pbs"><span class="std std-ref">example</span></a> PBS script
 is provided in the manual, but make sure to also consult your own PBS
 documentation for appropriate setup.</p>
 </div>
@@ -1464,10 +1540,13 @@ documentation for appropriate setup.</p>
 <span id="faq-recompile"></span><h2>How to update and rebuild Psi4<a class="headerlink" href="#how-to-update-and-rebuild-psi4" title="Permalink to this headline">¶</a></h2>
 <p>Obtain code updates as appropriate from <a class="reference internal" href="build_obtaining.html#faq-binary"><span class="std std-ref">Binary Installer</span></a>,
 <a class="reference internal" href="build_obtaining.html#faq-clonepsi4public"><span class="std std-ref">Clone from GitHub Repository</span></a>, or <a class="reference internal" href="build_obtaining.html#faq-forkpsi4public"><span class="std std-ref">Fork from GitHub Repository</span></a>.  Move into
-<code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em></code> and reissue <code class="docutils literal notranslate"><span class="pre">make</span></code>, whereupon CMake may reconfigure but
+<code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em></code> and reissue <code class="docutils literal notranslate"><span class="pre">make</span></code> or <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span></code>, whereupon CMake may reconfigure but
 will only rebuild objects and libraries depending on changed files. It is
 scarcely ever necessary for the user to reinvoke <code class="docutils literal notranslate"><span class="pre">cmake</span></code> to update
-<code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em></code>.</p>
+<code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em></code> based on changes to the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> repository.
+Upon switching conda environments, though, one should
+make a new objdir since there are many full paths baked into
+<code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em><span class="pre">/CMakeCache.txt</span></code>.</p>
 </div>
 <div class="section" id="how-to-run-a-minute-s-worth-of-tests">
 <span id="faq-minutetests"></span><h2>How to run a minute’s worth of tests<a class="headerlink" href="#how-to-run-a-minute-s-worth-of-tests" title="Permalink to this headline">¶</a></h2>
@@ -1486,11 +1565,11 @@ CTest installed, the following command can be useful.</p>
 <p>CTest allows flexibly partitioned running of the test suite. In
 the examples below, <em>testname</em> are regex of <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests">test names</a>,
 and <em>testlabel</em> are regex of labels (<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">cc</span></code>, <code class="docutils literal notranslate"><span class="pre">mints</span></code>,
-<code class="docutils literal notranslate"><span class="pre">libefp</span></code> defined <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/ci-property/CMakeLists.txt#L3)">[here, for example]</a>.</p>
+<code class="docutils literal notranslate"><span class="pre">libefp</span></code> defined <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/ci-property/CMakeLists.txt#L3">[here, for example]</a>.</p>
 <ul class="simple">
 <li><p>Run tests in parallel with <code class="docutils literal notranslate"><span class="pre">-j</span></code> flag. For maximum parallelism: <code class="samp docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-j`getconf</span> <span class="pre">_NPROCESSORS_ONLN`</span></code></p></li>
 <li><p>Run full test suite: <code class="docutils literal notranslate"><span class="pre">ctest</span></code></p></li>
-<li><p>Run about a third of the tests in 10–20 minutes, the so-called <em>quicktests</em>: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">quick</span></code></p></li>
+<li><p>Run about a third of the tests in 5 minutes, the so-called <em>quicktests</em>: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">quick</span></code></p></li>
 <li><p>Run the same subset of tests that TravisCI checks (not the full test suite): <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">quick</span></code></p></li>
 <li><p>Run the minimal number of tests to ensure Psi4 and any add-ons in working order: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">smoke</span></code></p></li>
 <li><p>Run tests matching by name: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">testname</span></code></p></li>
@@ -1498,6 +1577,15 @@ and <em>testlabel</em> are regex of labels (<em>e.g.</em>, <code class="docutils
 <li><p>Run tests matching by label: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">testlabel</span></code></p></li>
 <li><p>Run tests excluding those by label: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-LE</span> <span class="pre">testlabel</span></code></p></li>
 </ul>
+<p>Pytest has similar commands
+* Run tests in parallel with <code class="docutils literal notranslate"><span class="pre">-n</span></code> flag (if extenstion pytest-xdist installed). For maximum parallelism: <code class="samp docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-n`getconf</span> <span class="pre">_NPROCESSORS_ONLN`</span></code>
+* Run full test suite: <code class="docutils literal notranslate"><span class="pre">pytest</span></code>
+* Run the quick tests: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">quick</span></code>
+* Run the minimal number of tests to ensure Psi4 and any add-ons in working order: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">smoke</span></code>
+* Run tests matching by name: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">testname</span></code>
+* Run tests excluding those by name: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">&quot;not</span> <span class="pre">testname&quot;</span></code>
+* Run tests matching by label: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">testlabel</span></code>
+* Run tests excluding those by label: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">&quot;not</span> <span class="pre">testlabel&quot;</span></code></p>
 </div>
 <div class="section" id="how-to-see-ctest-testing-errors">
 <span id="faq-testsoutput"></span><h2>How to see CTest testing errors<a class="headerlink" href="#how-to-see-ctest-testing-errors" title="Permalink to this headline">¶</a></h2>
@@ -1512,7 +1600,7 @@ and <em>testlabel</em> are regex of labels (<em>e.g.</em>, <code class="docutils
 </div>
 <p>When <code class="docutils literal notranslate"><span class="pre">ctest</span></code> reports that some (or all) tests have failed, look in your
 build directory for file
-<code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em><span class="pre">/tests/Testing/Temporary/LastTest.log</span></code>. It may have a
+<code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em><span class="pre">/Testing/Temporary/LastTest.log</span></code>. It may have a
 <code class="docutils literal notranslate"><span class="pre">.tmp</span></code> extension, depending on whether the last test was interrupted and
 a few other factors. Either way, this file should contain CMake’s testing
 output, as well as everything that was printed to the screen.</p>
@@ -1522,24 +1610,36 @@ output, as well as everything that was printed to the screen.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ctest</span></code> requires a connection to source files and <code class="docutils literal notranslate"><span class="pre">cmake</span></code>
 machinery and so can only be performed from <code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em></code>
 (staged installation). To test an installed <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> (full or staged
-installation), a limited number of “smoke” tests are available to be
-run via pytest.</p>
+installation), a supplementary test suite is available to be
+run via pytest. Running a limited number of “smoke” tests is
+generally sufficient to verify an installation.</p>
 <blockquote>
 <div><ul>
 <li><p>From the executable</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>psi4 --test
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># smoke tests only in serial</span>
+psi4 --test
+<span class="c1"># smoke tests only in parallel</span>
+psi4 --test -n<span class="sb">`</span>getconf _NPROCESSORS_ONLN<span class="sb">`</span>
+<span class="c1"># most tests</span>
+psi4 --test full
 </pre></div>
 </div>
 </li>
 <li><p>From the library (<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> must be detectable as a Python
 module. See setup at <a class="reference internal" href="#faq-psi4psiapipath"><span class="std std-ref">How to configure paths for PsiAPI</span></a>
 if needed.)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -c <span class="s2">&quot;import psi4; psi4.test()&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># smoke tests only</span>
+python -c <span class="s2">&quot;import psi4; psi4.test(&#39;smoke&#39;)&quot;</span>
+<span class="c1"># most tests</span>
+python -c <span class="s2">&quot;import psi4; psi4.test()&quot;</span>
 </pre></div>
 </div>
 </li>
 <li><p>From pytest directly. If package <code class="docutils literal notranslate"><span class="pre">pytest-xdist</span></code> is installed, can run in parallel.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest <span class="o">{</span>prefix<span class="o">}</span>/lib/<span class="o">{</span>PYMOD_INSTALL_LIBDIR<span class="o">}</span>/psi4/tests/ -n<span class="sb">`</span>getconf _NPROCESSORS_ONLN<span class="sb">`</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># smoke tests only</span>
+pytest <span class="o">{</span>prefix<span class="o">}</span>/lib/<span class="o">{</span>PYMOD_INSTALL_LIBDIR<span class="o">}</span>/psi4/tests/ -m smoke -n<span class="sb">`</span>getconf _NPROCESSORS_ONLN<span class="sb">`</span>
+<span class="c1"># all tests</span>
+pytest <span class="o">{</span>prefix<span class="o">}</span>/lib/<span class="o">{</span>PYMOD_INSTALL_LIBDIR<span class="o">}</span>/psi4/tests/ -n<span class="sb">`</span>getconf _NPROCESSORS_ONLN<span class="sb">`</span>
 </pre></div>
 </div>
 </li>
@@ -1628,7 +1728,7 @@ re-clone the Add-On, rebuild and install it, rebuild any parts of
 If you’re modifying the Add-On’s file or directory structure, be
 smart and <code class="docutils literal notranslate"><span class="pre">rm</span></code> all traces of it within <code class="docutils literal notranslate"><span class="pre">{objdir}/stage/</span></code>,
 especially any <code class="docutils literal notranslate"><span class="pre">*.pyc</span></code> files.</p>
-<p>Alternatively to the above, you can instead build and install the
+<p>Alternatively and preferentially to the above, you can instead build and install the
 Add-On library yourself, external to the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> repository. This
 is especially useful if you want to avoid full recompiles of the
 Add-On at each change to the Add-On’s source. Build the Add-On
@@ -1702,12 +1802,12 @@ as needed.</p>
 <li><a class="reference internal" href="#how-to-build-test-and-install-psi4-in-detail">How to build, test, and install Psi4, in detail</a></li>
 <li><a class="reference internal" href="#what-are-the-tools-and-dependencies-strictly-required-for-building-psi4">What are the tools and dependencies strictly required for building Psi4</a></li>
 <li><a class="reference internal" href="#what-are-the-add-on-capabilities-for-psi4-and-what-are-their-dependencies">What are the add-on capabilities for Psi4 and what are their dependencies</a></li>
+<li><a class="reference internal" href="#how-to-use-conda-to-get-a-psi4-development-environment">How to use conda to get a Psi4 development environment</a></li>
 <li><a class="reference internal" href="#how-to-configure-code-to-use-high-angular-momentum-basis-sets">How to configure code to use high angular momentum basis sets</a></li>
 <li><a class="reference internal" href="#how-to-get-high-angular-momentum-integrals-from-conda">How to get high angular momentum integrals from conda</a></li>
 <li><a class="reference internal" href="#how-to-see-what-build-configuration-options-are-available">How to see what build configuration options are available</a></li>
 <li><a class="reference internal" href="#how-to-install-elsewhere-than-usr-local-psi4">How to install elsewhere than <code class="samp docutils literal notranslate"><span class="pre">/usr/local/psi4</span></code></a></li>
 <li><a class="reference internal" href="#how-to-compile-for-debugging">How to compile for debugging</a></li>
-<li><a class="reference internal" href="#how-to-fix-error-runtimeerror-value-for-eri">How to fix error “<code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">value</span> <span class="pre">for</span> <span class="pre">ERI</span></code>”</a></li>
 <li><a class="reference internal" href="#how-to-choose-the-compilation-directory-objdir">How to choose the compilation directory, <code class="docutils literal notranslate"><span class="pre">{objdir}</span></code></a></li>
 <li><a class="reference internal" href="#how-to-save-configuration-settings-for-a-future-compilation">How to save configuration settings for a future compilation</a></li>
 <li><a class="reference internal" href="#what-is-the-directory-layout-of-the-installed-or-staged-psi4">What is the directory layout of the installed or staged Psi4</a></li>
@@ -1796,7 +1896,7 @@ as needed.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1810,7 +1910,7 @@ as needed.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Tuesday, 20 April 2021 09:58PM.
+      Last updated on Friday, 30 April 2021 01:40PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <!-- cloud_sptheme 1.4 -->

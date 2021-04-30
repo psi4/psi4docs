@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -148,9 +148,11 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>  <span class="c1"># for typing</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">driver_util</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">driver_cbs</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">driver_nbody</span>
@@ -327,11 +329,11 @@
 <span class="sd">    .. hlist::</span>
 <span class="sd">       :columns: 1</span>
 
-<span class="sd">       * :psivar:`CURRENT ENERGY &lt;CURRENTENERGY&gt;`</span>
-<span class="sd">       * :psivar:`CURRENT REFERENCE ENERGY &lt;CURRENTREFERENCEENERGY&gt;`</span>
-<span class="sd">       * :psivar:`CURRENT CORRELATION ENERGY &lt;CURRENTCORRELATIONENERGY&gt;`</span>
+<span class="sd">       * :psivar:`CURRENT ENERGY`</span>
+<span class="sd">       * :psivar:`CURRENT REFERENCE ENERGY`</span>
+<span class="sd">       * :psivar:`CURRENT CORRELATION ENERGY`</span>
 
-<span class="sd">    :type name: string</span>
+<span class="sd">    :type name: str</span>
 <span class="sd">    :param name: ``&#39;scf&#39;`` || ``&#39;mp2&#39;`` || ``&#39;ci5&#39;`` || etc.</span>
 
 <span class="sd">        First argument, usually unlabeled. Indicates the computational method</span>
@@ -348,7 +350,7 @@
 <span class="sd">        Indicate to additionally return the :py:class:`~psi4.core.Wavefunction`</span>
 <span class="sd">        calculation result as the second element (after *float* energy) of a tuple.</span>
 
-<span class="sd">    :type restart_file: string</span>
+<span class="sd">    :type restart_file: str</span>
 <span class="sd">    :param restart_file: ``[&#39;file.1, file.32]`` || ``./file`` || etc.</span>
 
 <span class="sd">        Binary data files to be renamed for calculation restart.</span>
@@ -706,7 +708,7 @@
 
 
 <div class="viewcode-block" id="gradient"><a class="viewcode-back" href="../../../opt.html#psi4.driver.gradient">[docs]</a><span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function complementary to :py:func:~driver.optimize(). Carries out one gradient pass,</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function complementary to :py:func:`~psi4.optimize()`. Carries out one gradient pass,</span>
 <span class="sd">    deciding analytic or finite difference.</span>
 
 <span class="sd">    :returns: :py:class:`~psi4.core.Matrix` |w--w| Total electronic gradient in Hartrees/Bohr.</span>
@@ -915,17 +917,17 @@
 <span class="sd">    | omp2               | orbital-optimized second-order                | RHF/UHF        | Listed :ref:`here &lt;sec:oeprop&gt;`                               |</span>
 <span class="sd">    |                    | MP perturbation theory                        |                | Density fitted only                                           |</span>
 <span class="sd">    |                    | :ref:`[manual] &lt;sec:occ_oo&gt;`                  |                |                                                               |</span>
-<span class="sd">    +-------------------------+-----------------------------------------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    +--------------------+-----------------------------------------------+----------------+---------------------------------------------------------------+</span>
 <span class="sd">    | omp3               | orbital-optimized third-order                 | RHF/UHF        | Listed :ref:`here &lt;sec:oeprop&gt;`                               |</span>
 <span class="sd">    |                    | MP perturbation theory                        |                | Density fitted only                                           |</span>
 <span class="sd">    |                    | :ref:`[manual] &lt;sec:occ_oo&gt;`                  |                |                                                               |</span>
-<span class="sd">    +-------------------------+-----------------------------------------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    +--------------------+-----------------------------------------------+----------------+---------------------------------------------------------------+</span>
 <span class="sd">    | omp2.5             | orbital-optimized MP2.5                       | RHF/UHF        | Listed :ref:`here &lt;sec:oeprop&gt;`                               |</span>
 <span class="sd">    |                    | :ref:`[manual] &lt;sec:occ_oo&gt;`                  |                | Density fitted only                                           |</span>
-<span class="sd">    +-------------------------+-----------------------------------------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    +--------------------+-----------------------------------------------+----------------+---------------------------------------------------------------+</span>
 <span class="sd">    | olccd              | orbital optimized LCCD                        | RHF/UHF        | Listed :ref:`here &lt;sec:oeprop&gt;`                               |</span>
 <span class="sd">    |                    | :ref:`[manual] &lt;sec:occ_oo&gt;`                  |                | Density fitted only                                           |</span>
-<span class="sd">    +-------------------------+---------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    +--------------------+-----------------------------------------------+----------------+---------------------------------------------------------------+</span>
 <span class="sd">    | eom-cc2            | 2nd-order approximate EOM-CCSD                | RHF            | oscillator_strength, rotational_strength                      |</span>
 <span class="sd">    +--------------------+-----------------------------------------------+----------------+---------------------------------------------------------------+</span>
 <span class="sd">    | eom-ccsd           | Equation-of-motion CCSD (EOM-CCSD)            | RHF            | oscillator_strength, rotational_strength                      |</span>
@@ -943,13 +945,13 @@
 <span class="sd">    | cvs-adc(3)         |                                               |                |                                                               |</span>
 <span class="sd">    +--------------------+-----------------------------------------------+----------------+---------------------------------------------------------------+</span>
 
-<span class="sd">    :type name: string</span>
+<span class="sd">    :type name: str</span>
 <span class="sd">    :param name: ``&#39;ccsd&#39;`` || etc.</span>
 
 <span class="sd">        First argument, usually unlabeled. Indicates the computational method</span>
 <span class="sd">        to be applied to the system.</span>
 
-<span class="sd">    :type properties: array of strings</span>
+<span class="sd">    :type properties: List[str]</span>
 <span class="sd">    :param properties: |dl| ``[]`` |dr| || ``[&#39;rotation&#39;, &#39;polarizability&#39;, &#39;oscillator_strength&#39;, &#39;roa&#39;]`` || etc.</span>
 
 <span class="sd">        Indicates which properties should be computed. Defaults to dipole and quadrupole.</span>
@@ -1196,21 +1198,21 @@
 
 <span class="sd">    :returns: (*float*, :py:class:`~psi4.core.Wavefunction`) |w--w| energy and wavefunction when **return_wfn** specified.</span>
 
-<span class="sd">    :raises: psi4.OptimizationConvergenceError if :term:`GEOM_MAXITER &lt;GEOM_MAXITER (OPTKING)&gt;` exceeded without reaching geometry convergence.</span>
+<span class="sd">    :raises: :py:class:`psi4.OptimizationConvergenceError` if :term:`GEOM_MAXITER &lt;GEOM_MAXITER (OPTKING)&gt;` exceeded without reaching geometry convergence.</span>
 
 <span class="sd">    :PSI variables:</span>
 
 <span class="sd">    .. hlist::</span>
 <span class="sd">       :columns: 1</span>
 
-<span class="sd">       * :psivar:`CURRENT ENERGY &lt;CURRENTENERGY&gt;`</span>
+<span class="sd">       * :psivar:`CURRENT ENERGY`</span>
 
-<span class="sd">    :type name: string</span>
+<span class="sd">    :type name: str</span>
 <span class="sd">    :param name: ``&#39;scf&#39;`` || ``&#39;mp2&#39;`` || ``&#39;ci5&#39;`` || etc.</span>
 
 <span class="sd">        First argument, usually unlabeled. Indicates the computational method</span>
 <span class="sd">        to be applied to the database. May be any valid argument to</span>
-<span class="sd">        :py:func:`~driver.energy`.</span>
+<span class="sd">        :py:func:`psi4.energy`.</span>
 
 <span class="sd">    :type molecule: :ref:`molecule &lt;op_py_molecule&gt;`</span>
 <span class="sd">    :param molecule: ``h2o`` || etc.</span>
@@ -1229,7 +1231,7 @@
 <span class="sd">        Indicate to additionally return dictionary of lists of geometries,</span>
 <span class="sd">        energies, and gradients at each step in the optimization.</span>
 
-<span class="sd">    :type engine: string</span>
+<span class="sd">    :type engine: str</span>
 <span class="sd">    :param engine: |dl| ``&#39;optking&#39;`` |dr| || ``&#39;geometric&#39;``</span>
 
 <span class="sd">        Indicates the optimization engine to use, which can be either Psi4&#39;s</span>
@@ -1256,7 +1258,7 @@
 <span class="sd">        Indicates whether analytic (if available) or finite difference</span>
 <span class="sd">        optimization is to be performed.</span>
 
-<span class="sd">    :type hessian_with: string</span>
+<span class="sd">    :type hessian_with: str</span>
 <span class="sd">    :param hessian_with: ``&#39;scf&#39;`` || ``&#39;mp2&#39;`` || etc.</span>
 
 <span class="sd">        Indicates the computational method with which to perform a hessian</span>
@@ -1754,7 +1756,7 @@
 
 <span class="sd">    :returns: (*float*, :py:class:`~psi4.core.Wavefunction`) |w--w| energy and wavefunction when **return_wfn** specified.</span>
 
-<span class="sd">    :type name: string</span>
+<span class="sd">    :type name: str</span>
 <span class="sd">    :param name: ``&#39;scf&#39;`` || ``&#39;mp2&#39;`` || ``&#39;ci5&#39;`` || etc.</span>
 
 <span class="sd">        First argument, usually unlabeled. Indicates the computational method</span>
@@ -1788,7 +1790,7 @@
 <span class="sd">        difference of gradients (if available) or finite difference of</span>
 <span class="sd">        energies is to be performed.</span>
 
-<span class="sd">    :type irrep: int or string</span>
+<span class="sd">    :type irrep: int or str</span>
 <span class="sd">    :param irrep: |dl| ``-1`` |dr| || ``1`` || ``&#39;b2&#39;`` || ``&#39;App&#39;`` || etc.</span>
 
 <span class="sd">        Indicates which symmetry block (:ref:`Cotton &lt;table:irrepOrdering&gt;` ordering) of vibrational</span>
@@ -1858,27 +1860,27 @@
         <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="vibanal_wfn"><a class="viewcode-back" href="../../../api/psi4.driver.vibanal_wfn.html#psi4.driver.vibanal_wfn">[docs]</a><span class="k">def</span> <span class="nf">vibanal_wfn</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">hess</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">irrep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project_trans</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">project_rot</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="vibanal_wfn"><a class="viewcode-back" href="../../../api/psi4.driver.vibanal_wfn.html#psi4.driver.vibanal_wfn">[docs]</a><span class="k">def</span> <span class="nf">vibanal_wfn</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">hess</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">irrep</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project_trans</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">project_rot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Function to perform analysis of a hessian or hessian block, specifically...</span>
 <span class="sd">    calling for and printing vibrational and thermochemical analysis, setting thermochemical variables,</span>
 <span class="sd">    and writing the vibrec and normal mode files.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    wfn : :py:class:`~psi4.core.Wavefunction`</span>
+<span class="sd">    wfn</span>
 <span class="sd">        The wavefunction which had its Hessian computed.</span>
-<span class="sd">    hess : ndarray of float, optional</span>
+<span class="sd">    hess</span>
 <span class="sd">        Hessian to analyze, if not the hessian in wfn.</span>
 <span class="sd">        (3*nat, 3*nat) non-mass-weighted Hessian in atomic units, [Eh/a0/a0].</span>
-<span class="sd">    irrep : int or string</span>
+<span class="sd">    irrep</span>
 <span class="sd">        The irrep for which frequencies are calculated. Thermochemical analysis is skipped if this is given,</span>
 <span class="sd">        as only one symmetry block of the hessian has been computed.</span>
 <span class="sd">    molecule : :py:class:`~psi4.core.Molecule` or qcdb.Molecule, optional</span>
 <span class="sd">        The molecule to pull information from, if not the molecule in wfn. Must at least have similar</span>
 <span class="sd">        geometry to the molecule in wfn.</span>
-<span class="sd">    project_trans : boolean</span>
+<span class="sd">    project_trans</span>
 <span class="sd">        Should translations be projected in the harmonic analysis?</span>
-<span class="sd">    project_rot : boolean</span>
+<span class="sd">    project_rot</span>
 <span class="sd">        Should rotations be projected in the harmonic analysis?</span>
 
 <span class="sd">    Returns</span>
@@ -1991,7 +1993,7 @@
 <span class="sd">    :type wfn: :py:class:`~psi4.core.Wavefunction`</span>
 <span class="sd">    :param wfn: set of molecule, basis, orbitals from which to generate DMA analysis</span>
 
-<span class="sd">    :type datafile: string</span>
+<span class="sd">    :type datafile: str</span>
 <span class="sd">    :param datafile: optional control file (see GDMA manual) to peform more complicated DMA</span>
 <span class="sd">                     analyses.  If this option is used, the File keyword must be set to read</span>
 <span class="sd">                     a filename.fchk, where filename is provided by :term:`WRITER_FILE_LABEL &lt;WRITER_FILE_LABEL (GLOBALS)&gt;` .</span>
@@ -2043,7 +2045,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">datafile</span><span class="p">:</span>
         <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">commands</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="fchk"><a class="viewcode-back" href="../../../fchk.html#psi4.driver.fchk">[docs]</a><span class="k">def</span> <span class="nf">fchk</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">strict_label</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="fchk"><a class="viewcode-back" href="../../../fchk.html#psi4.driver.fchk">[docs]</a><span class="k">def</span> <span class="nf">fchk</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Function to write wavefunction information in *wfn* to *filename* in</span>
 <span class="sd">    Gaussian FCHK format.</span>
 
@@ -2051,16 +2053,12 @@
 
 <span class="sd">    :returns: None</span>
 
-<span class="sd">    :type wfn: :py:class:`~psi4.core.Wavefunction`</span>
 <span class="sd">    :param wfn: set of molecule, basis, orbitals from which to generate fchk file</span>
 
-<span class="sd">    :type filename: string</span>
 <span class="sd">    :param filename: destination file name for FCHK file</span>
 
-<span class="sd">    :type debug: boolean</span>
 <span class="sd">    :param debug: returns a dictionary to aid with debugging</span>
 
-<span class="sd">    :type strict_label: boolean</span>
 <span class="sd">    :param strict_label: If true set a density label compliant with what Gaussian would write. A warning will be printed if this is not possible.</span>
 <span class="sd">                         Otherwise set the density label according to the method name.</span>
 
@@ -2190,7 +2188,7 @@
 <span class="sd">    :type wfn: :py:class:`~psi4.core.Wavefunction`</span>
 <span class="sd">    :param wfn: set of molecule, basis, orbitals from which to generate cube files</span>
 
-<span class="sd">    :type filename: string</span>
+<span class="sd">    :type filename: str</span>
 <span class="sd">    :param filename: destination file name for MOLDEN file (optional)</span>
 
 <span class="sd">    :type density_a: :py:class:`~psi4.core.Matrix`</span>
@@ -2384,7 +2382,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2398,7 +2396,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Tuesday, 20 April 2021 09:58PM.
+      Last updated on Friday, 30 April 2021 01:40PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <!-- cloud_sptheme 1.4 -->

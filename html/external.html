@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/external.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -153,12 +153,12 @@
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#how-to-build-test-and-install-psi4-in-detail">How to build, test, and install Psi4, in detail</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#what-are-the-tools-and-dependencies-strictly-required-for-building-psi4">What are the tools and dependencies strictly required for building Psi4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#what-are-the-add-on-capabilities-for-psi4-and-what-are-their-dependencies">What are the add-on capabilities for Psi4 and what are their dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_planning.html#how-to-use-conda-to-get-a-psi4-development-environment">How to use conda to get a Psi4 development environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#how-to-configure-code-to-use-high-angular-momentum-basis-sets">How to configure code to use high angular momentum basis sets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#how-to-get-high-angular-momentum-integrals-from-conda">How to get high angular momentum integrals from conda</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#how-to-see-what-build-configuration-options-are-available">How to see what build configuration options are available</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#how-to-install-elsewhere-than-usr-local-psi4">How to install elsewhere than <code class="samp docutils literal notranslate"><span class="pre">/usr/local/psi4</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#how-to-compile-for-debugging">How to compile for debugging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build_planning.html#how-to-fix-error-runtimeerror-value-for-eri">How to fix error “<code class="docutils literal notranslate"><span class="pre">RuntimeError:</span> <span class="pre">value</span> <span class="pre">for</span> <span class="pre">ERI</span></code>”</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#how-to-choose-the-compilation-directory-objdir">How to choose the compilation directory, <code class="docutils literal notranslate"><span class="pre">{objdir}</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#how-to-save-configuration-settings-for-a-future-compilation">How to save configuration settings for a future compilation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_planning.html#what-is-the-directory-layout-of-the-installed-or-staged-psi4">What is the directory layout of the installed or staged Psi4</a></li>
@@ -209,7 +209,6 @@
 <li class="toctree-l2"><a class="reference internal" href="conda.html#detailed-installation-of-miniconda">Detailed Installation of Miniconda</a></li>
 <li class="toctree-l2"><a class="reference internal" href="conda.html#detailed-installation-of-psifour">Detailed Installation of <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></a></li>
 <li class="toctree-l2"><a class="reference internal" href="conda.html#useful-commands">Useful Commands</a></li>
-<li class="toctree-l2"><a class="reference internal" href="conda.html#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
 </ul>
@@ -309,14 +308,17 @@ messy) flag will prevent files being deleted at the end of the run:</p>
 <span id="sec-psirc"></span><span id="index-4"></span><h2><code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> File<a class="headerlink" href="#psirc-file" title="Permalink to this headline">¶</a></h2>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
-<p>It is very easy to forget about the <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> file you once
+<p>The <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> file is only read for Psithon input, not PsiAPI.
+It does nothing that can’t be done in other more transparent ways.
+It should be avoided.
+It is very easy to forget about the <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> file you once
 created, leading to great confusion over why all your jobs are using
 the wrong memory or are suddenly not density-fit. Also be aware that
 <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> contents count as part of your input file (invoked after
 e.g. <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">psi4</span> <span class="pre">import</span> <span class="pre">*</span></code> and before your Psithon–&gt;Python parsed
 input commands), so these settings take priority over command-line
 arguments to the <code class="docutils literal notranslate"><span class="pre">psi4</span></code> executable.
-Please use the <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> file conscientiously.</p>
+Please use the <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> file sparingly.</p>
 </div>
 <p>If using the environment variable <span class="target" id="index-5"></span><a class="reference internal" href="#envvar-PSI_SCRATCH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSI_SCRATCH</span></code></a> is inconvenient,
 or if some <code class="docutils literal notranslate"><span class="pre">psi4_io</span></code> commands must be present in all input files,
@@ -384,7 +386,7 @@ example is:</p>
 <p class="rubric">(3) Setting Thread Numbers in an Input</p>
 <p>For more explicit control, the Process::environment class in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> can
 override the number of threads set by environment variables. This functionality
-is accessed via the <code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.set_num_threads()</span></code> function, which controls
+is accessed via the <a class="reference internal" href="api/psi4.core.set_num_threads.html#psi4.core.set_num_threads" title="psi4.core.set_num_threads"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_num_threads()</span></code></a> function, which controls
 both MKL and OpenMP thread numbers. The number of threads may be changed
 multiple times in a <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> input file. An example input for this feature is:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># A bit small-ish, but you get the idea</span>
@@ -395,15 +397,10 @@ multiple times in a <span style="font-family: Optima, sans-serif; text-transform
 <span class="n">H</span> <span class="mi">1</span> <span class="mf">1.0</span> <span class="mi">2</span> <span class="mf">90.0</span>
 <span class="p">}</span>
 
-<span class="nb">set</span> <span class="n">scf</span> <span class="p">{</span>
-<span class="n">basis</span> <span class="n">cc</span><span class="o">-</span><span class="n">pvdz</span>
-<span class="n">scf_type</span> <span class="n">df</span>
-<span class="p">}</span>
-
 <span class="c1"># Run from 1 to 4 threads, for instance, to record timings</span>
-<span class="k">for</span> <span class="n">nthread</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">nthread</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
     <span class="n">set_num_threads</span><span class="p">(</span><span class="n">nthread</span><span class="p">)</span>
-    <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">(</span><span class="s2">&quot;scf/cc-pvdz&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In PsiAPI mode of operation, this syntax, <code class="docutils literal notranslate"><span class="pre">psi4.set_num_threads(nthread)</span></code>, is
@@ -419,7 +416,7 @@ these integrals. For general DF algorithms, the user may specify:</p>
 </div>
 <p>to explicitly control the number of threads used for integral formation. Setting
 this variable to 0 (the default) uses the number of threads specified by the
-<code class="xref py py-func docutils literal notranslate"><span class="pre">set_num_threads()</span></code> Psithon method or the default environmental variables.</p>
+<a class="reference internal" href="api/psi4.core.set_num_threads.html#psi4.core.set_num_threads" title="psi4.core.set_num_threads"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_num_threads()</span></code></a> Psithon method or the default environmental variables.</p>
 </div>
 <div class="section" id="pbs-job-file">
 <span id="sec-pbs"></span><span id="index-9"></span><h2>PBS job file<a class="headerlink" href="#pbs-job-file" title="Permalink to this headline">¶</a></h2>
@@ -516,12 +513,14 @@ to your system administrator.</p>
 <span id="sec-commandlineoptions"></span><h2>Command Line Options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> can be invoked with no command line arguments, as it takes as input
 by default the file “input.dat” and directs output by default to “output.dat”.
-The set of three commands below are completely equivalent, while the fourth is,
-perhaps, the most common usage.</p>
+Each set of three commands below is completely equivalent, while the second set,
+perhaps, is the most common usage.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span> <span class="o">-</span><span class="n">i</span> <span class="nb">input</span><span class="o">.</span><span class="n">dat</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="o">.</span><span class="n">dat</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span> <span class="nb">input</span><span class="o">.</span><span class="n">dat</span> <span class="n">output</span><span class="o">.</span><span class="n">dat</span>
 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span> <span class="n">descriptive_filename</span><span class="o">.</span><span class="ow">in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span> <span class="o">-</span><span class="n">i</span> <span class="n">descriptive_filename</span><span class="o">.</span><span class="ow">in</span> <span class="o">-</span><span class="n">o</span> <span class="n">descriptive_filename</span><span class="o">.</span><span class="n">out</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span> <span class="n">descriptive_filename</span><span class="o">.</span><span class="ow">in</span> <span class="n">descriptive_filename</span><span class="o">.</span><span class="n">out</span>
 </pre></div>
 </div>
@@ -545,6 +544,13 @@ perhaps, the most common usage.</p>
 </dd></dl>
 
 <dl class="std option">
+<dt id="cmdoption-psi4-inplace">
+<code class="sig-name descname"><span class="pre">--inplace</span></code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-psi4-inplace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> with compiled code from &lt;objdir&gt; but driver code from source,
+so no need to <code class="docutils literal notranslate"><span class="pre">make</span></code> between Python edits. Expert mode.</p>
+</dd></dl>
+
+<dl class="std option">
 <dt id="cmdoption-psi4-k">
 <code class="sig-name descname"><span class="pre">-k</span></code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname"><span class="pre">,</span> </code><code class="sig-name descname"><span class="pre">--skip-preprocessor</span></code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-psi4-k" title="Permalink to this definition">¶</a></dt>
 <dd><p>Skips input preprocessing. Expert mode.</p>
@@ -553,9 +559,9 @@ perhaps, the most common usage.</p>
 <dl class="std option">
 <dt id="cmdoption-psi4-l">
 <code class="sig-name descname"><span class="pre">-l</span></code><code class="sig-prename descclassname"> <span class="pre">&lt;name&gt;</span></code><code class="sig-prename descclassname"><span class="pre">,</span> </code><code class="sig-name descname"><span class="pre">--psidatadir</span></code><code class="sig-prename descclassname"> <span class="pre">&lt;name&gt;</span></code><a class="headerlink" href="#cmdoption-psi4-l" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mainly for use by developers, this overrides the value of
+<dd><p>Overrides the value of
 <span class="target" id="index-13"></span><a class="reference internal" href="#envvar-PSIDATADIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIDATADIR</span></code></a> and specifies the path to the Psi data
-library (ends in <code class="docutils literal notranslate"><span class="pre">share/psi4</span></code>)</p>
+library (ends in <code class="docutils literal notranslate"><span class="pre">share/psi4</span></code>). Expert mode.</p>
 </dd></dl>
 
 <dl class="std option">
@@ -565,9 +571,18 @@ library (ends in <code class="docutils literal notranslate"><span class="pre">sh
 </dd></dl>
 
 <dl class="std option">
+<dt id="cmdoption-psi4-memory">
+<code class="sig-name descname"><span class="pre">--memory</span></code><code class="sig-prename descclassname"> <span class="pre">&lt;memory&gt;</span></code><a class="headerlink" href="#cmdoption-psi4-memory" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>The amount of memory to use. Can be specified with units (e.g., ‘10MB’) otherwise bytes is assumed.</p>
+</div></blockquote>
+<dl class="std option">
 <dt id="cmdoption-psi4-n">
 <code class="sig-name descname"><span class="pre">-n</span></code><code class="sig-prename descclassname"> <span class="pre">&lt;threads&gt;</span></code><code class="sig-prename descclassname"><span class="pre">,</span> </code><code class="sig-name descname"><span class="pre">--nthread</span></code><code class="sig-prename descclassname"> <span class="pre">&lt;threads&gt;</span></code><a class="headerlink" href="#cmdoption-psi4-n" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of threads to use (overrides <span class="target" id="index-14"></span><a class="reference internal" href="#envvar-OMP_NUM_THREADS"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code></a>)</p>
+<dd><p>Number of threads to use (overrides <span class="target" id="index-14"></span><a class="reference internal" href="#envvar-OMP_NUM_THREADS"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code></a>).
+Also controls the testing parallelism with pytest.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="std option">
@@ -576,14 +591,20 @@ library (ends in <code class="docutils literal notranslate"><span class="pre">sh
 <dd><p>Output file name. Use <code class="docutils literal notranslate"><span class="pre">stdout</span></code> as &lt;filename&gt; to redirect
 to the screen. Default: when the input filename is “input.dat”,
 then the output filename defaults to “output.dat”.  Otherwise, the
-output filename defaults to the the input filename with any
-any “.in” or “.dat” extension replaced by “.out”</p>
+output filename defaults to the the input filename with
+“.out” extension.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt id="cmdoption-psi4-p">
-<code class="sig-name descname"><span class="pre">-p</span></code><code class="sig-prename descclassname"> <span class="pre">&lt;prefix&gt;</span></code><code class="sig-prename descclassname"><span class="pre">,</span> </code><code class="sig-name descname"><span class="pre">--prefix</span></code><code class="sig-prename descclassname"> <span class="pre">&lt;prefix&gt;</span></code><a class="headerlink" href="#cmdoption-psi4-p" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prefix for psi files. Default: psi</p>
+<dt id="cmdoption-psi4-psiapi-path">
+<code class="sig-name descname"><span class="pre">--psiapi-path</span></code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-psi4-psiapi-path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a bash command to source correct Python interpreter and path for <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-c</span> <span class="pre">&quot;import</span> <span class="pre">psi4&quot;</span></code></p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-psi4-qcschema">
+<code class="sig-name descname"><span class="pre">--qcschema</span></code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-psi4-qcschema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs input files as QCSchema. Can either be JSON or MessagePack input.</p>
 </dd></dl>
 
 <dl class="std option">
@@ -594,17 +615,28 @@ a path to the location of scratch files</p>
 </dd></dl>
 
 <dl class="std option">
+<dt id="cmdoption-psi4-t">
+<code class="sig-name descname"><span class="pre">-t</span></code><code class="sig-prename descclassname"> <span class="pre">&lt;subset&gt;</span></code><code class="sig-prename descclassname"><span class="pre">,</span> </code><code class="sig-name descname"><span class="pre">--test</span></code><code class="sig-prename descclassname"> <span class="pre">&lt;subset&gt;</span></code><a class="headerlink" href="#cmdoption-psi4-t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs pytest tests. If <code class="docutils literal notranslate"><span class="pre">pytest-xdist</span></code> installed, parallel with <a class="reference internal" href="#cmdoption-psi4-n"><code class="xref std std-option docutils literal notranslate"><span class="pre">-n</span></code></a>.</p>
+</dd></dl>
+
+<dl class="std option">
 <dt id="cmdoption-psi4-v">
 <code class="sig-name descname"><span class="pre">-v</span></code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname"><span class="pre">,</span> </code><code class="sig-name descname"><span class="pre">--verbose</span></code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-psi4-v" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print a lot of information, including the Psithon translation of the input file</p>
+<dd><p>Print the Psithon to Python translation of the input file</p>
 </dd></dl>
 
 <dl class="std option">
 <dt id="cmdoption-psi4-V">
 <code class="sig-name descname"><span class="pre">-V</span></code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname"><span class="pre">,</span> </code><code class="sig-name descname"><span class="pre">--version</span></code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-psi4-V" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print version information.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span> <span class="o">--</span><span class="n">version</span>
-<span class="go">0.4.262</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># stable release</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">psi4</span> <span class="o">--</span><span class="n">version</span>
+<span class="mf">1.3</span><span class="o">.</span><span class="mi">2</span>
+
+<span class="c1"># development snapshot between 1.3 and 1.4</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">psi4</span> <span class="o">--</span><span class="n">version</span>
+<span class="mf">1.4</span><span class="n">a2</span><span class="o">.</span><span class="n">dev525</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -613,6 +645,22 @@ a path to the location of scratch files</p>
 <div class="section" id="environment-variables">
 <span id="sec-environmentvariables"></span><h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h2>
 <p>These environment variables will influence <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s behavior.</p>
+<dl class="std envvar">
+<dt id="envvar-CONDA_PREFIX">
+<code class="sig-name descname"><span class="pre">CONDA_PREFIX</span></code><a class="headerlink" href="#envvar-CONDA_PREFIX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set when a conda environment is activated. Note that if <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> has been
+built against any library in CONDA_PREFIX, the path has been baked into the
+program, so any available dependencies are liable to been loaded from the environment.</p>
+</dd></dl>
+
+<dl class="std envvar">
+<dt id="envvar-HOST">
+<code class="sig-name descname"><span class="pre">HOST</span></code><a class="headerlink" href="#envvar-HOST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set when a conda environment with conda compilers is activated. Used
+when compatibly building <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> from source against conda
+dependencies.</p>
+</dd></dl>
+
 <dl class="std envvar">
 <dt id="envvar-MKL_NUM_THREADS">
 <code class="sig-name descname"><span class="pre">MKL_NUM_THREADS</span></code><a class="headerlink" href="#envvar-MKL_NUM_THREADS" title="Permalink to this definition">¶</a></dt>
@@ -640,8 +688,9 @@ to <code class="docutils literal notranslate"><span class="pre">False</span></co
 <dd><p>Path for interfaced executables.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Configuring <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> through <span class="target" id="index-16"></span><a class="reference internal" href="#envvar-PSIPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIPATH</span></code></a> is preferred
-to modifying this environment variable.</p>
+<p>While once configuring <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> through <span class="target" id="index-16"></span><a class="reference internal" href="#envvar-PSIPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIPATH</span></code></a> was preferred
+to modifying this environment variable, now <cite>PATH</cite> is preferred for
+executables to accommodate QCEngine.</p>
 </div>
 <p>To run Kállay’s MRCC program
 (see <a class="reference internal" href="mrcc.html#sec-mrcc"><span class="std std-ref">MRCC</span></a>), the <code class="docutils literal notranslate"><span class="pre">dmrcc</span></code> executable must be in <span class="target" id="index-17"></span><a class="reference internal" href="#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a>.
@@ -706,8 +755,9 @@ directory (I won’t swear everything tacks on the execution directory).</p>
 <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, these are generally <a class="reference internal" href="plugins.html#sec-plugins"><span class="std std-ref">plugins</span></a> or databases.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Configuring <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> through <span class="target" id="index-23"></span><a class="reference internal" href="#envvar-PSIPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIPATH</span></code></a> is preferred
-to modifying this environment variable.</p>
+<p>While once configuring <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> through <span class="target" id="index-23"></span><a class="reference internal" href="#envvar-PSIPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIPATH</span></code></a> was preferred
+to modifying this environment variable, now <cite>PYTHONPATH</cite> is preferred for
+Python moduels to accommodate QCEngine.</p>
 </div>
 <p>Modification of <span class="target" id="index-24"></span><a class="reference internal" href="#envvar-PYTHONPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></a> can be done in three ways, equivalently.</p>
 <ul>
@@ -861,7 +911,7 @@ ending in <code class="docutils literal notranslate"><span class="pre">share/psi
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/external.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -874,7 +924,7 @@ ending in <code class="docutils literal notranslate"><span class="pre">share/psi
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Tuesday, 20 April 2021 09:58PM.
+      Last updated on Friday, 30 April 2021 01:40PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <!-- cloud_sptheme 1.4 -->

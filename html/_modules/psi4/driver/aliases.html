@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/aliases.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -148,7 +148,6 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">driver_cbs</span>
@@ -168,7 +167,7 @@
 
 <span class="sd">    :returns: None</span>
 
-<span class="sd">    :type filename: string</span>
+<span class="sd">    :type filename: str</span>
 <span class="sd">    :param filename: destination file name for file11 file</span>
 
 <span class="sd">    :type wfn: :py:class:`~psi4.core.Wavefunction`</span>
@@ -199,9 +198,9 @@
 
 <div class="viewcode-block" id="sherrill_gold_standard"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.aliases.sherrill_gold_standard">[docs]</a><span class="k">def</span> <span class="nf">sherrill_gold_standard</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function to call the quantum chemical method known as &#39;Gold Standard&#39;</span>
-<span class="sd">    in the Sherrill group. Uses :py:func:`~driver_cbs.complete_basis_set` to evaluate</span>
+<span class="sd">    in the Sherrill group. Uses :py:func:`~psi4.driver.cbs` to evaluate</span>
 <span class="sd">    the following expression. Two-point extrapolation of the correlation energy</span>
-<span class="sd">    performed according to :py:func:`~driver_cbs.corl_xtpl_helgaker_2`.</span>
+<span class="sd">    performed according to :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2`.</span>
 
 <span class="sd">    .. math:: E_{total}^{\text{Au\_std}} = E_{total,\; \text{SCF}}^{\text{aug-cc-pVQZ}} \; + E_{corl,\; \text{MP2}}^{\text{aug-cc-pV[TQ]Z}} \; + \delta_{\text{MP2}}^{\text{CCSD(T)}}\big\vert_{\text{aug-cc-pVTZ}}</span>
 
@@ -235,11 +234,11 @@
 <div class="viewcode-block" id="allen_focal_point"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.aliases.allen_focal_point">[docs]</a><span class="k">def</span> <span class="nf">allen_focal_point</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function to call Wes Allen-style Focal</span>
 <span class="sd">    Point Analysis. JCP 127 014306.  Uses</span>
-<span class="sd">    :py:func:`~driver_cbs.complete_basis_set` to evaluate the following</span>
+<span class="sd">    :py:func:`~psi4.driver.cbs` to evaluate the following</span>
 <span class="sd">    expression. SCF employs a three-point extrapolation according</span>
-<span class="sd">    to :py:func:`~driver_cbs.scf_xtpl_helgaker_3`. MP2, CCSD, and</span>
+<span class="sd">    to :py:func:`~psi4.driver.driver_cbs.scf_xtpl_helgaker_3`. MP2, CCSD, and</span>
 <span class="sd">    CCSD(T) employ two-point extrapolation performed according to</span>
-<span class="sd">    :py:func:`~driver_cbs.corl_xtpl_helgaker_2`.  CCSDT and CCSDT(Q)</span>
+<span class="sd">    :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2`.  CCSDT and CCSDT(Q)</span>
 <span class="sd">    are plain deltas. This wrapper requires :ref:`Kallay&#39;s MRCC code &lt;sec:mrcc&gt;`.</span>
 
 <span class="sd">    .. math:: E_{total}^{\text{FPA}} = E_{total,\; \text{SCF}}^{\text{cc-pV[Q56]Z}} \; + E_{corl,\; \text{MP2}}^{\text{cc-pV[56]Z}} \; + \delta_{\text{MP2}}^{\text{CCSD}}\big\vert_{\text{cc-pV[56]Z}} \; + \delta_{\text{CCSD}}^{\text{CCSD(T)}}\big\vert_{\text{cc-pV[56]Z}} \; + \delta_{\text{CCSD(T)}}^{\text{CCSDT}}\big\vert_{\text{cc-pVTZ}} \; + \delta_{\text{CCSDT}}^{\text{CCSDT(Q)}}\big\vert_{\text{cc-pVDZ}}</span>
@@ -380,7 +379,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/aliases.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -394,7 +393,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Tuesday, 20 April 2021 09:58PM.
+      Last updated on Friday, 30 April 2021 01:40PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <!-- cloud_sptheme 1.4 -->

@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/wrapper_database.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -143,11 +143,11 @@
 <span class="sd">:py:mod:`driver.response`, and :py:mod:`driver.frequency`.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">p4util</span>
@@ -176,13 +176,13 @@
 <span class="sd">    .. hlist::</span>
 <span class="sd">       :columns: 1</span>
 
-<span class="sd">       * :psivar:`db_name DATABASE MEAN SIGNED DEVIATION &lt;db_nameDATABASEMEANSIGNEDDEVIATION&gt;`</span>
-<span class="sd">       * :psivar:`db_name DATABASE MEAN ABSOLUTE DEVIATION &lt;db_nameDATABASEMEANABSOLUTEDEVIATION&gt;`</span>
-<span class="sd">       * :psivar:`db_name DATABASE ROOT-MEAN-SQUARE DEVIATION &lt;db_nameDATABASEROOT-MEAN-SQUARESIGNEDDEVIATION&gt;`</span>
+<span class="sd">       * :psivar:`db_name DATABASE MEAN SIGNED DEVIATION`</span>
+<span class="sd">       * :psivar:`db_name DATABASE MEAN ABSOLUTE DEVIATION`</span>
+<span class="sd">       * :psivar:`db_name DATABASE ROOT-MEAN-SQUARE DEVIATION`</span>
 <span class="sd">       * Python dictionaries of results accessible as ``DB_RGT`` and ``DB_RXN``.</span>
 
 <span class="sd">    .. note:: It is very easy to make a database from a collection of xyz files</span>
-<span class="sd">        using the script :source:`share/scripts/ixyz2database.py`.</span>
+<span class="sd">        using the script :source:`psi4/share/psi4/scripts/ixyz2database.py`.</span>
 <span class="sd">        See :ref:`sec:createDatabase` for details.</span>
 
 <span class="sd">    .. caution:: Some features are not yet implemented. Buy a developer some coffee.</span>
@@ -193,14 +193,14 @@
 <span class="sd">        distribution, add the path to the directory containing the database</span>
 <span class="sd">        to the environment variable :envvar:`PYTHONPATH`.</span>
 
-<span class="sd">    :type name: string</span>
+<span class="sd">    :type name: str</span>
 <span class="sd">    :param name: ``&#39;scf&#39;`` || ``&#39;sapt0&#39;`` || ``&#39;ccsd(t)&#39;`` || etc.</span>
 
 <span class="sd">        First argument, usually unlabeled. Indicates the computational method</span>
 <span class="sd">        to be applied to the database. May be any valid argument to</span>
-<span class="sd">        :py:func:`~driver.energy`.</span>
+<span class="sd">        :py:func:`psi4.energy`.</span>
 
-<span class="sd">    :type db_name: string</span>
+<span class="sd">    :type db_name: str</span>
 <span class="sd">    :param db_name: ``&#39;BASIC&#39;`` || ``&#39;S22&#39;`` || ``&#39;HTBH&#39;`` || etc.</span>
 
 <span class="sd">        Second argument, usually unlabeled. Indicates the requested database</span>
@@ -218,7 +218,7 @@
 <span class="sd">        of python functions is intended (see :ref:`sec:intercalls`), use</span>
 <span class="sd">        keyword ``db_func`` instead of ``func``.</span>
 
-<span class="sd">    :type mode: string</span>
+<span class="sd">    :type mode: str</span>
 <span class="sd">    :param mode: |dl| ``&#39;continuous&#39;`` |dr| || ``&#39;sow&#39;`` || ``&#39;reap&#39;``</span>
 
 <span class="sd">        Indicates whether the calculations required to complete the</span>
@@ -231,7 +231,7 @@
 <span class="sd">    :param cp: ``&#39;on&#39;`` || |dl| ``&#39;off&#39;`` |dr|</span>
 
 <span class="sd">        Indicates whether counterpoise correction is employed in computing</span>
-<span class="sd">        interaction energies. Use this option and NOT the :py:func:`~wrappers.cp`</span>
+<span class="sd">        interaction energies. Use this option and NOT the ``bsse_type=&quot;cp&quot;``</span>
 <span class="sd">        function for BSSE correction in database().  Option available</span>
 <span class="sd">        (See :ref:`sec:availableDatabases`) only for databases of bimolecular complexes.</span>
 
@@ -258,26 +258,26 @@
 <span class="sd">        single-point energy values. Option valid only for certain</span>
 <span class="sd">        thermochemical databases. Disabled until Hessians ready.</span>
 
-<span class="sd">    :type benchmark: string</span>
+<span class="sd">    :type benchmark: str</span>
 <span class="sd">    :param benchmark: |dl| ``&#39;default&#39;`` |dr| || ``&#39;S22A&#39;`` || etc.</span>
 
 <span class="sd">        Indicates whether a non-default set of reference energies, if</span>
 <span class="sd">        available (See :ref:`sec:availableDatabases`), are employed for the</span>
 <span class="sd">        calculation of error statistics.</span>
 
-<span class="sd">    :type tabulate: array of strings</span>
+<span class="sd">    :type tabulate: List[str]</span>
 <span class="sd">    :param tabulate: |dl| ``[]`` |dr| || ``[&#39;scf total energy&#39;, &#39;natom&#39;]`` || etc.</span>
 
 <span class="sd">        Indicates whether to form tables of variables other than the</span>
 <span class="sd">        primary requested energy.  Available for any PSI variable.</span>
 
-<span class="sd">    :type subset: string or array of strings</span>
+<span class="sd">    :type subset: Union[str, List[str]]</span>
 <span class="sd">    :param subset:</span>
 
 <span class="sd">        Indicates a subset of the full database to run. This is a very</span>
 <span class="sd">        flexible option and can be used in three distinct ways, outlined</span>
 <span class="sd">        below. Note that two take a string and the last takes an array.</span>
-<span class="sd">        See `Available Databases`_ for available values.</span>
+<span class="sd">        See :ref:`sec:availableDatabases` for available values.</span>
 
 <span class="sd">        * ``&#39;small&#39;`` || ``&#39;large&#39;`` || ``&#39;equilibrium&#39;``</span>
 <span class="sd">            Calls predefined subsets of the requested database, either</span>
@@ -849,7 +849,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/wrapper_database.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1220a85">1.4rc2.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c3cfdc8">1.4rc2.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -863,7 +863,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Tuesday, 20 April 2021 09:58PM.
+      Last updated on Friday, 30 April 2021 01:40PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <!-- cloud_sptheme 1.4 -->
