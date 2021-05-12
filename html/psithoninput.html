@@ -37,21 +37,22 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Psithon: Structuring an Input File</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/psi4.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noticia+Text|Open+Sans|Droid+Sans+Mono" type="text/css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
 
     
     
@@ -101,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psithoninput.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/b4a272f">1.4rc2.dev97</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d9d8477">1.4rc2.dev102</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -118,7 +119,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="psithon-structuring-an-input-file">
+  <section id="psithon-structuring-an-input-file">
 <span id="sec-psithoninput"></span><h1>Psithon: Structuring an Input File<a class="headerlink" href="#psithon-structuring-an-input-file" title="Permalink to this headline">¶</a></h1>
 <p>To allow arbitrarily complex computations to be performed, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> was built
 upon the Python interpreter. However, to make the input syntax simpler, some
@@ -129,7 +130,7 @@ this section we will describe the essential features of the Psithon language.
 <a class="reference internal" href="testsuite.html#apdx-testsuite"><span class="std std-ref">Test Suite and Sample Inputs</span></a>; the input files for these test cases can be found in the
 samples subdirectory of the top-level <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> source directory and should
 serve as useful examples.</p>
-<div class="section" id="physical-constants">
+<section id="physical-constants">
 <span id="sec-physicalconstants"></span><span id="index-0"></span><h2>Physical Constants<a class="headerlink" href="#physical-constants" title="Permalink to this headline">¶</a></h2>
 <p>For convenience, the Python interpreter will execute the contents of the
 <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> file in the current user’s home area (if present) before performing any
@@ -151,8 +152,8 @@ made available within all <span style="font-family: Optima, sans-serif; text-tra
 <p>In Psithon input files, prepend physical constants with <code class="docutils literal notranslate"><span class="pre">psi_</span></code> to
 prevent clashes with user-defined variables (<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">psi_h</span></code>). In
 PsiAPI mode, access as, <em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">psi4.constants.h</span></code>.</p>
-</div>
-<div class="section" id="memory-specification">
+</section>
+<section id="memory-specification">
 <span id="sec-memory"></span><span id="index-1"></span><h2>Memory Specification<a class="headerlink" href="#memory-specification" title="Permalink to this headline">¶</a></h2>
 <p>By default, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> assumes that 500 MiB of memory are available. While this is
 enough for many computations, many of the algorithms will perform better if
@@ -197,8 +198,8 @@ per-calculation basis.</p>
 <p>For parallel jobs, the <code class="docutils literal notranslate"><span class="pre">memory</span></code> keyword represents the total memory
 available to the job, <em>not</em> the memory per thread.</p>
 </div>
-</div>
-<div class="section" id="molecule-and-geometry-specification">
+</section>
+<section id="molecule-and-geometry-specification">
 <h2>Molecule and Geometry Specification<a class="headerlink" href="#molecule-and-geometry-specification" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
@@ -217,8 +218,8 @@ available to the job, <em>not</em> the memory per thread.</p>
 </ul>
 </div>
 <p>To add EFP fragments to a molecule, see <a class="reference internal" href="libefp.html#sec-usingefpfragments"><span class="std std-ref">Molecule Specification</span></a>.</p>
-</div>
-<div class="section" id="job-control-keywords">
+</section>
+<section id="job-control-keywords">
 <span id="sec-jobcontrol"></span><span id="index-2"></span><h2>Job Control Keywords<a class="headerlink" href="#job-control-keywords" title="Permalink to this headline">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> comprises a number of C++ modules that each perform
 specific tasks and are callable directly from the Python front end. Each module
@@ -318,8 +319,8 @@ session.</p>
 <span class="p">})</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="basis-sets">
+</section>
+<section id="basis-sets">
 <h2>Basis Sets<a class="headerlink" href="#basis-sets" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
@@ -333,8 +334,8 @@ session.</p>
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="psi-variables">
+</section>
+<section id="psi-variables">
 <span id="sec-psivariables"></span><h2>PSI Variables<a class="headerlink" href="#psi-variables" title="Permalink to this headline">¶</a></h2>
 <p>To harness the power of Python, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> makes the most pertinent results
 of each computation available to the Python interpreter for
@@ -386,8 +387,8 @@ last will include <a class="reference internal" href="glossary_psivariables.html
 <a class="reference internal" href="glossary_psivariables.html#psivar-FCI-TOTAL-ENERGY"><code class="xref std std-psivar docutils literal notranslate"><span class="pre">FCI</span> <span class="pre">TOTAL</span> <span class="pre">ENERGY</span></code></a>.
 The entire dictionary of PSI variables can be obtained through
 <a class="reference internal" href="api/psi4.core.get_variables.html#psi4.core.get_variables" title="psi4.core.get_variables"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_variables()</span></code></a>.</p>
-</div>
-<div class="section" id="return-values">
+</section>
+<section id="return-values">
 <span id="sec-returnvals"></span><h2>Return Values<a class="headerlink" href="#return-values" title="Permalink to this headline">¶</a></h2>
 <p>Most of the usual user computation functions (<em>i.e.</em>,
 <code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code>, and
@@ -430,8 +431,8 @@ form for the computation functions.</p>
 <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">hessian</span><span class="p">())</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="loops">
+</section>
+<section id="loops">
 <span id="sec-loops"></span><h2>Loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h2>
 <p>Python provides many control structures, any of which can be used within <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
 input files. For example, to loop over three basis sets, the following code can
@@ -476,8 +477,8 @@ with the <code class="docutils literal notranslate"><span class="pre">set</span>
 need to be specified within the loop(s) along with their basis set when
 geometry scans are performed. See <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples/scf4/input.dat">scf4</a> for analogous Z-matrix
 and Cartiesian scans.</p>
-</div>
-<div class="section" id="tables-of-results">
+</section>
+<section id="tables-of-results">
 <span id="sec-resultstables"></span><h2>Tables of Results<a class="headerlink" href="#tables-of-results" title="Permalink to this headline">¶</a></h2>
 <p>The results of computations can be compactly tabulated with the <code class="xref py py-func docutils literal notranslate"><span class="pre">Table()</span></code> Psithon
 function. For example, in the following potential energy surface scan for water</p>
@@ -518,8 +519,8 @@ on line 26, before being printed again. The relative energies are reported with
 respect to the lowest value in each column. More examples of how to control the
 formatting of the tables can be found in the sample input files provided; see
 Appendix <a class="reference internal" href="testsuite.html#apdx-testsuite"><span class="std std-ref">Test Suite and Sample Inputs</span></a> for a complete listing.</p>
-</div>
-<div class="section" id="python-wrappers">
+</section>
+<section id="python-wrappers">
 <span id="sec-wrappers"></span><h2>Python Wrappers<a class="headerlink" href="#python-wrappers" title="Permalink to this headline">¶</a></h2>
 <p>The Python foundations of the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> driver and Psithon syntax permit
 many commonly performed post-processing procedures to be integrated into
@@ -565,8 +566,8 @@ NCB31, S66by8, and NBC10, among others.</p>
 <a class="reference internal" href="psithonfunc.html#sec-psithonfunc"><span class="std std-ref">Psithon Functions: Invoking a Calculation</span></a>.  Note that the options documented for Python
 functions are placed as arguments in the command that calls the function,
 not in the <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">{...}</span></code> block or with any other <code class="docutils literal notranslate"><span class="pre">set</span></code> command.</p>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -682,7 +683,7 @@ not in the <code class="docutils literal notranslate"><span class="pre">set</spa
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psithoninput.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/b4a272f">1.4rc2.dev97</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d9d8477">1.4rc2.dev102</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -695,8 +696,8 @@ not in the <code class="docutils literal notranslate"><span class="pre">set</spa
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 07 May 2021 12:52PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
+      Last updated on Wednesday, 12 May 2021 01:22PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>
