@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -149,7 +149,6 @@
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">p4util</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">driver_findif</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.p4util.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
-<span class="kn">from</span> <span class="nn">psi4.driver.qcdb</span> <span class="kn">import</span> <span class="n">interface_gcp</span> <span class="k">as</span> <span class="n">gcp</span>
 
 <span class="n">_engine_can_do</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;libdisp&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;d1&#39;</span><span class="p">,</span> <span class="s1">&#39;d2&#39;</span><span class="p">,</span> <span class="s1">&#39;chg&#39;</span><span class="p">,</span> <span class="s1">&#39;das2009&#39;</span><span class="p">,</span> <span class="s1">&#39;das2010&#39;</span><span class="p">]),</span>
                                           <span class="p">(</span><span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;d2&#39;</span><span class="p">,</span> <span class="s1">&#39;d3zero&#39;</span><span class="p">,</span> <span class="s1">&#39;d3bj&#39;</span><span class="p">,</span> <span class="s1">&#39;d3mzero&#39;</span><span class="p">,</span> <span class="s1">&#39;d3mbj&#39;</span><span class="p">]),</span>
@@ -315,7 +314,7 @@
                         <span class="s1">&#39;level_hint&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="p">,</span>
                         <span class="s1">&#39;params_tweaks&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashparams</span><span class="p">,</span>
                         <span class="s1">&#39;dashcoeff_supplement&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashcoeff_supplement</span><span class="p">,</span>
-                        <span class="s1">&#39;save_pairwise_dispersion&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_pairwise_disp</span><span class="p">,</span>
+                        <span class="s1">&#39;pair_resolved&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_pairwise_disp</span><span class="p">,</span>
                         <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                     <span class="p">},</span>
                     <span class="s1">&#39;molecule&#39;</span><span class="p">:</span> <span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
@@ -330,18 +329,20 @@
             <span class="n">dashd_part</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION ENERGY&#39;</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">wfn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">qca</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="c1"># The pairwise dispersion analysis is already a nparray</span>
-                    <span class="c1"># Do we always want to save it?</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;CURRENT&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;PAIRWISE&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">):</span>
-                        <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">p4util</span><span class="o">.</span><span class="n">plump_qcvar</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+                    <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">qca</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">qca</span><span class="p">)</span>
 
                 <span class="c1"># Pass along the pairwise dispersion decomposition if we need it</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_pairwise_disp</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;PAIRWISE DISPERSION CORRECTION ANALYSIS&quot;</span><span class="p">,</span>
-                                     <span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s2">&quot;PAIRWISE DISPERSION CORRECTION ANALYSIS&quot;</span><span class="p">])</span>
+                                     <span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s2">&quot;2-BODY PAIRWISE DISPERSION CORRECTION ANALYSIS&quot;</span><span class="p">])</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;hf3c&#39;</span><span class="p">,</span> <span class="s1">&#39;pbeh3c&#39;</span><span class="p">]:</span>
-                <span class="n">gcp_part</span> <span class="o">=</span> <span class="n">gcp</span><span class="o">.</span><span class="n">run_gcp</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dertype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span>
+                    <span class="n">resi</span><span class="p">,</span>
+                    <span class="s2">&quot;gcp&quot;</span><span class="p">,</span>
+                    <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">local_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;scratch_directory&quot;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">()})</span>
+                <span class="n">gcp_part</span> <span class="o">=</span> <span class="n">jobrec</span><span class="o">.</span><span class="n">return_result</span>
                 <span class="n">dashd_part</span> <span class="o">+=</span> <span class="n">gcp_part</span>
 
             <span class="k">return</span> <span class="n">dashd_part</span>
@@ -394,15 +395,18 @@
                 <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">local_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;scratch_directory&quot;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">()})</span>
 
-            <span class="n">dashd_part</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION GRADIENT&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="n">dashd_part</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION GRADIENT&#39;</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">wfn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">qca</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="s1">&#39;CURRENT&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
-                        <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">p4util</span><span class="o">.</span><span class="n">plump_qcvar</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+                    <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">qca</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">qca</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;hf3c&#39;</span><span class="p">,</span> <span class="s1">&#39;pbeh3c&#39;</span><span class="p">]:</span>
-                <span class="n">gcp_part</span> <span class="o">=</span> <span class="n">gcp</span><span class="o">.</span><span class="n">run_gcp</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dertype</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span>
+                    <span class="n">resi</span><span class="p">,</span>
+                    <span class="s2">&quot;gcp&quot;</span><span class="p">,</span>
+                    <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">local_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;scratch_directory&quot;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">()})</span>
+                <span class="n">gcp_part</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">jobrec</span><span class="o">.</span><span class="n">return_result</span><span class="p">)</span>
                 <span class="n">dashd_part</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gcp_part</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">dashd_part</span>
@@ -546,7 +550,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -560,8 +564,8 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 14 May 2021 10:44AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+      Last updated on Thursday, 20 May 2021 09:25PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

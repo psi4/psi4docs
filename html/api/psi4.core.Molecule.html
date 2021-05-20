@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.core.Molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -381,7 +381,7 @@
 <td><p>Compute dispersion correction via Grimme’s DFTD3 program.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.Molecule.run_gcp" title="psi4.core.Molecule.run_gcp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_gcp</span></code></a>([func, dertype, verbose])</p></td>
-<td><p>Function to call Grimme’s GCP program <a class="reference external" href="https://www.chemie.uni-bonn.de/pctc/mulliken-center/software/gcp/gcp">https://www.chemie.uni-bonn.de/pctc/mulliken-center/software/gcp/gcp</a> to compute an a posteriori geometrical BSSE correction to <em>self</em> for several HF, generic DFT, and specific HF-3c and PBEh-3c method/basis combinations, <em>func</em>.</p></td>
+<td><p>Compute geometrical BSSE correction via Grimme’s GCP program.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.Molecule.save_string_xyz" title="psi4.core.Molecule.save_string_xyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_string_xyz</span></code></a>(self)</p></td>
 <td><p>Saves the string of an XYZ file to arg2</p></td>
@@ -1191,18 +1191,39 @@ efficient. Influences return values, see below.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="psi4.core.Molecule.run_gcp">
-<span class="sig-name descname"><span class="pre">run_gcp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psi4.core.Molecule.run_gcp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to call Grimme’s GCP program
+<span class="sig-name descname"><span class="pre">run_gcp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/qcdb/molecule.html#Molecule.run_gcp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.core.Molecule.run_gcp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute geometrical BSSE correction via Grimme’s GCP program.</p>
+<p>Function to call Grimme’s GCP program
 <a class="reference external" href="https://www.chemie.uni-bonn.de/pctc/mulliken-center/software/gcp/gcp">https://www.chemie.uni-bonn.de/pctc/mulliken-center/software/gcp/gcp</a>
 to compute an a posteriori geometrical BSSE correction to <em>self</em> for
 several HF, generic DFT, and specific HF-3c and PBEh-3c method/basis
 combinations, <em>func</em>. Returns energy if <em>dertype</em> is 0, gradient
 if <em>dertype</em> is 1, else tuple of energy and gradient if <em>dertype</em>
 unspecified. The gcp executable must be independently compiled and
-found in <span class="target" id="index-4"></span><a class="reference internal" href="../external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a> or <span class="target" id="index-5"></span><a class="reference internal" href="../external.html#envvar-PSIPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIPATH</span></code></a>. <em>self</em> may be either a
+found in <span class="target" id="index-0"></span><a class="reference internal" href="../external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a> or <span class="target" id="index-1"></span><a class="reference internal" href="../external.html#envvar-PSIPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIPATH</span></code></a>. <em>self</em> may be either a
 qcdb.Molecule (sensibly) or a psi4.Molecule (works b/c psi4.Molecule
 has been extended by this method py-side and only public interface
 fns used) or a string that can be instantiated into a qcdb.Molecule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – Name of method/basis combination or composite method for which to compute the correction
+(e.g., HF/cc-pVDZ, DFT/def2-SVP, HF3c, PBEh3c).</p></li>
+<li><p><strong>dertype</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – Maximum derivative level at which to run GCP. For large
+molecules, energy-only calculations can be significantly more
+efficient. Influences return values, see below.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Amount of printing. Unused at present.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>energy</strong> (<em>float</em>) – When <cite>dertype=0</cite>, energy [Eh].</p></li>
+<li><p><strong>gradient</strong> (<em>ndarray</em>) – When <cite>dertype=1</cite>, (nat, 3) gradient [Eh/a0].</p></li>
+<li><p><strong>(energy, gradient)</strong> (<em>tuple of float and ndarray</em>) – When <cite>dertype=None</cite>, both energy [Eh] and (nat, 3) gradient [Eh/a0].</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1613,7 +1634,7 @@ preserved but fragmentation, chgmult, and dummy/ghost is lost.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.core.Molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1627,8 +1648,8 @@ preserved but fragmentation, chgmult, and dummy/ghost is lost.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 14 May 2021 10:44AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+      Last updated on Thursday, 20 May 2021 09:25PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

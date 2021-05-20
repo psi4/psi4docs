@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/qcelemental/molutil/align.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -113,6 +113,7 @@
 <span></span><span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -143,64 +144,65 @@
 
 
 <div class="viewcode-block" id="B787"><a class="viewcode-back" href="../../../external_apis.html#qcelemental.molutil.B787">[docs]</a><span class="k">def</span> <span class="nf">B787</span><span class="p">(</span>
-    <span class="n">cgeom</span><span class="p">,</span>
-    <span class="n">rgeom</span><span class="p">,</span>
-    <span class="n">cuniq</span><span class="p">,</span>
-    <span class="n">runiq</span><span class="p">,</span>
-    <span class="n">do_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">atoms_map</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">run_resorting</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">mols_align</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">run_to_completion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;hungarian_uno&quot;</span><span class="p">,</span>
-    <span class="n">uno_cutoff</span><span class="o">=</span><span class="mf">1.0e-3</span><span class="p">,</span>
-    <span class="n">run_mirror</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">cgeom</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">rgeom</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">cuniq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">runiq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">do_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">atoms_map</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">run_resorting</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">mols_align</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">run_to_completion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">algorithm</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hungarian_uno&quot;</span><span class="p">,</span>
+    <span class="n">uno_cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0e-3</span><span class="p">,</span>
+    <span class="n">run_mirror</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Use Kabsch algorithm to find best alignment of geometry `cgeom` onto</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Use Kabsch algorithm to find best alignment of geometry `cgeom` onto</span>
 <span class="sd">    `rgeom` while sampling atom mappings restricted by `runiq` and `cuniq`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rgeom : ndarray of float</span>
+<span class="sd">    rgeom</span>
 <span class="sd">        (nat, 3) array of reference/target/unchanged geometry. Assumed [a0]</span>
 <span class="sd">        for RMSD purposes.</span>
-<span class="sd">    cgeom : ndarray of float</span>
+<span class="sd">    cgeom</span>
 <span class="sd">        (nat, 3) array of concern/changeable geometry. Assumed [a0] for RMSD</span>
 <span class="sd">        purposes. Must have same nat, units, and atom content as rgeom.</span>
-<span class="sd">    runiq : ndarray of str</span>
-<span class="sd">        (nat,) array indicating which rows (atoms) in `rgeom` are shuffleable</span>
+<span class="sd">    runiq</span>
+<span class="sd">        (nat,) array of str indicating which rows (atoms) in `rgeom` are shuffleable</span>
 <span class="sd">        without changing the molecule. Generally hashes of element symbol and</span>
 <span class="sd">        mass are used, but could be as simple as [&#39;C&#39;, &#39;H&#39;, &#39;H&#39;, &#39;D&#39;, &#39;H&#39;] for</span>
 <span class="sd">        monodeuterated methane.</span>
-<span class="sd">    cuniq : ndarray of str</span>
-<span class="sd">        (nat,) array indicating which rows (atoms) in `cgeom` are shuffleable.</span>
+<span class="sd">    cuniq</span>
+<span class="sd">        (nat,) array of str indicating which rows (atoms) in `cgeom` are shuffleable.</span>
 <span class="sd">        See `runiq` for more details. Strings and count in `cuniq` must match</span>
 <span class="sd">        `runiq`. That is, `sorted(cuniq) == sorted(runiq)`.</span>
-<span class="sd">    do_plot : bool, optional</span>
+<span class="sd">    do_plot</span>
 <span class="sd">        Pops up a mpl plot showing before, after, and ref geometries.</span>
-<span class="sd">    verbose : int, optional</span>
+<span class="sd">    verbose</span>
 <span class="sd">        Quantity of printing. 0 to silence.</span>
-<span class="sd">    atoms_map : bool, optional</span>
+<span class="sd">    atoms_map</span>
 <span class="sd">        Whether atom1 of rgeom already corresponds to atom1 of cgeom and so on.</span>
 <span class="sd">        If `True`, no resorting will be run, parameters `runiq` and `cuniq`</span>
 <span class="sd">        may be passed as `None`, and much time will be saved.</span>
-<span class="sd">    run_resorting : bool, optional</span>
+<span class="sd">    run_resorting</span>
 <span class="sd">        Run the resorting machinery even if unnecessary because `atoms_map=True`.</span>
-<span class="sd">    mols_align : bool or float, optional</span>
+<span class="sd">    mols_align</span>
 <span class="sd">        Whether ref_mol and concern_mol have identical geometries by eye</span>
 <span class="sd">        (barring orientation or atom mapping) and expected final RMSD = 0.</span>
 <span class="sd">        If `True`, procedure is truncated when RMSD condition met, saving time.</span>
 <span class="sd">        If float, convcrit at which search for minimium truncates.</span>
-<span class="sd">    run_to_completion : bool, optional</span>
+<span class="sd">    run_to_completion</span>
 <span class="sd">        Run reorderings to completion (past RMSD = 0) even if unnecessary because</span>
 <span class="sd">        `mols_align=True`. Used to test worst-case timings.</span>
-<span class="sd">    algorithm : {&#39;hungarian_uno&#39;, &#39;permutative&#39;}, optional</span>
+<span class="sd">    algorithm</span>
+<span class="sd">        {&#39;hungarian_uno&#39;, &#39;permutative&#39;}</span>
 <span class="sd">        When `atoms_map=False`, screening algorithm for plausible atom mappings.</span>
 <span class="sd">        `permutative` suitable only for small systems.</span>
-<span class="sd">    uno_cutoff : float, optional</span>
+<span class="sd">    uno_cutoff</span>
 <span class="sd">        TODO</span>
-<span class="sd">    run_mirror : bool, optional</span>
+<span class="sd">    run_mirror</span>
 <span class="sd">        Run alternate geometries potentially allowing best match to `rgeom`</span>
 <span class="sd">        from mirror image of `cgeom`. Only run if system confirmed to</span>
 <span class="sd">        be nonsuperimposable upon mirror reflection.</span>
@@ -404,7 +406,7 @@
 
 
 <span class="k">def</span> <span class="nf">_plausible_atom_orderings</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="n">rgeom</span><span class="p">,</span> <span class="n">cgeom</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;hungarian_uno&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">uno_cutoff</span><span class="o">=</span><span class="mf">1.0e-3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -542,7 +544,7 @@
 
 
 <span class="k">def</span> <span class="nf">kabsch_align</span><span class="p">(</span><span class="n">rgeom</span><span class="p">,</span> <span class="n">cgeom</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Finds optimal translation and rotation to align `cgeom` onto `rgeom` via</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Finds optimal translation and rotation to align `cgeom` onto `rgeom` via</span>
 <span class="sd">    Kabsch algorithm by minimizing the norm of the residual, || R - U * C ||.</span>
 
 <span class="sd">    Parameters</span>
@@ -665,7 +667,7 @@
 
 
 <span class="k">def</span> <span class="nf">compute_scramble</span><span class="p">(</span><span class="n">nat</span><span class="p">,</span> <span class="n">do_resort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">do_shift</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">do_rotate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">deflection</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">do_mirror</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generate a random or directed translation, rotation, and atom shuffling.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate a random or directed translation, rotation, and atom shuffling.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -813,7 +815,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/qcelemental/molutil/align.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -827,8 +829,8 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 14 May 2021 10:44AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+      Last updated on Thursday, 20 May 2021 09:25PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/qcdb/molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1448,6 +1448,86 @@
         <span class="k">elif</span> <span class="n">derint</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION GRADIENT&#39;</span><span class="p">]</span></div>
 
+<div class="viewcode-block" id="Molecule.run_gcp"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_gcp">[docs]</a>    <span class="k">def</span> <span class="nf">run_gcp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute geometrical BSSE correction via Grimme&#39;s GCP program.</span>
+
+<span class="sd">        Function to call Grimme&#39;s GCP program</span>
+<span class="sd">        https://www.chemie.uni-bonn.de/pctc/mulliken-center/software/gcp/gcp</span>
+<span class="sd">        to compute an a posteriori geometrical BSSE correction to *self* for</span>
+<span class="sd">        several HF, generic DFT, and specific HF-3c and PBEh-3c method/basis</span>
+<span class="sd">        combinations, *func*. Returns energy if *dertype* is 0, gradient</span>
+<span class="sd">        if *dertype* is 1, else tuple of energy and gradient if *dertype*</span>
+<span class="sd">        unspecified. The gcp executable must be independently compiled and</span>
+<span class="sd">        found in :envvar:`PATH` or :envvar:`PSIPATH`. *self* may be either a</span>
+<span class="sd">        qcdb.Molecule (sensibly) or a psi4.Molecule (works b/c psi4.Molecule</span>
+<span class="sd">        has been extended by this method py-side and only public interface</span>
+<span class="sd">        fns used) or a string that can be instantiated into a qcdb.Molecule.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        func : str, optional</span>
+<span class="sd">            Name of method/basis combination or composite method for which to compute the correction</span>
+<span class="sd">           (e.g., HF/cc-pVDZ, DFT/def2-SVP, HF3c, PBEh3c).</span>
+<span class="sd">        dertype : int or str, optional</span>
+<span class="sd">            Maximum derivative level at which to run GCP. For large</span>
+<span class="sd">            molecules, energy-only calculations can be significantly more</span>
+<span class="sd">            efficient. Influences return values, see below.</span>
+<span class="sd">        verbose : int, optional</span>
+<span class="sd">            Amount of printing. Unused at present.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        energy : float</span>
+<span class="sd">            When `dertype=0`, energy [Eh].</span>
+<span class="sd">        gradient : ndarray</span>
+<span class="sd">            When `dertype=1`, (nat, 3) gradient [Eh/a0].</span>
+<span class="sd">        (energy, gradient) : tuple of float and ndarray</span>
+<span class="sd">            When `dertype=None`, both energy [Eh] and (nat, 3) gradient [Eh/a0].</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">qcengine</span> <span class="k">as</span> <span class="nn">qcng</span>
+
+        <span class="k">if</span> <span class="n">dertype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">derint</span><span class="p">,</span> <span class="n">derdriver</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;gradient&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">derint</span><span class="p">,</span> <span class="n">derdriver</span> <span class="o">=</span> <span class="n">parse_dertype</span><span class="p">(</span><span class="n">dertype</span><span class="p">,</span> <span class="n">max_derivative</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">resinp</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;molecule&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="n">derdriver</span><span class="p">,</span>
+            <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">func</span><span class="p">,</span>
+                <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="s1">&#39;(auto)&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+        <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">resinp</span><span class="p">,</span> <span class="s1">&#39;gcp&#39;</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">jobrec</span> <span class="o">=</span> <span class="n">jobrec</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+
+        <span class="c1"># hack (instead of checking dertype GRAD) to collect `(nat, 3)` ndarray of gradient if present</span>
+        <span class="k">for</span> <span class="n">variable_name</span><span class="p">,</span> <span class="n">qcv</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qcv</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+                <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="n">variable_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">qcv</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Molecule</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+
+            <span class="k">for</span> <span class="n">variable_name</span><span class="p">,</span> <span class="n">qcv</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qcv</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">variable_name</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">qcv</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">derint</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;GCP CORRECTION ENERGY&#39;</span><span class="p">]),</span>
+                    <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;GCP CORRECTION GRADIENT&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">derint</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;GCP CORRECTION ENERGY&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">derint</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;GCP CORRECTION GRADIENT&#39;</span><span class="p">]</span></div>
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_schema</span><span class="p">(</span><span class="n">molschema</span><span class="p">,</span> <span class="n">return_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Construct Molecule from non-Psi4 schema.</span>
@@ -2024,8 +2104,6 @@
 <span class="c1"># Attach methods to qcdb.Molecule class</span>
 <span class="kn">from</span> <span class="nn">.parker</span> <span class="kn">import</span> <span class="n">xyz2mol</span> <span class="k">as</span> <span class="n">_parker_xyz2mol_yo</span>
 <span class="n">Molecule</span><span class="o">.</span><span class="n">format_molecule_for_mol</span> <span class="o">=</span> <span class="n">_parker_xyz2mol_yo</span>
-<span class="kn">from</span> <span class="nn">.interface_gcp</span> <span class="kn">import</span> <span class="n">run_gcp</span> <span class="k">as</span> <span class="n">_gcp_qcdb_yo</span>
-<span class="n">Molecule</span><span class="o">.</span><span class="n">run_gcp</span> <span class="o">=</span> <span class="n">_gcp_qcdb_yo</span>
 </pre></div>
 
             <div class="clearer"></div>
@@ -2117,7 +2195,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/qcdb/molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2131,8 +2209,8 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 14 May 2021 10:44AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+      Last updated on Thursday, 20 May 2021 09:25PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

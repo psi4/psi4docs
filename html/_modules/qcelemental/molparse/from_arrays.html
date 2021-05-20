@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/qcelemental/molparse/from_arrays.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -274,42 +274,43 @@
     <span class="n">geom_unsettled</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;qm&quot;</span><span class="p">,</span>
-    <span class="n">missing_enabled_return</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">,</span>
-    <span class="n">np_out</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">speclabel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">tooclose</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">missing_enabled_return</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+    <span class="n">np_out</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">speclabel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">tooclose</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
     <span class="n">zero_ghost_fragments</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">nonphysical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">nonphysical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">mtol</span><span class="o">=</span><span class="mf">1.0e-3</span><span class="p">,</span>
     <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compose a Molecule dict from unvalidated arrays and variables, returning dict.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compose a Molecule dict from unvalidated arrays and variables, returning dict.</span>
 
 <span class="sd">    See fields of Return molrec below. Required parameters (for QM XYZ)</span>
 <span class="sd">    are `geom` and one of `elem`, `elez`, `elbl` (`speclabel=True`)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    geom : array-like</span>
+<span class="sd">    geom : Union[List[List[float]], numpy.ndarray]</span>
 <span class="sd">        (nat, 3) or (3 * nat, ) ndarray or list o&#39;lists of Cartesian coordinates.</span>
-<span class="sd">    fragment_separators : array-like of int, optional</span>
+<span class="sd">    fragment_separators : Union[List[int], numpy.ndarray]</span>
 <span class="sd">        (nfr - 1, ) list of atom indices at which to split `geom` into fragments.</span>
-<span class="sd">    elbl : ndarray of str</span>
+<span class="sd">    elbl : Union[List[str], numpy.ndarray]</span>
 <span class="sd">        (nat, ) Label extending `elem` symbol, possibly conveying ghosting, isotope, mass, tagging information.</span>
-<span class="sd">    tooclose : float, optional</span>
+<span class="sd">    tooclose</span>
 <span class="sd">        Interatom distance (native `geom` units) nearer than which atoms not allowed.</span>
-<span class="sd">    nonphysical : bool, optional</span>
+<span class="sd">    nonphysical</span>
 <span class="sd">        Do allow masses outside an element&#39;s natural range to pass validation?</span>
-<span class="sd">    speclabel : bool, optional</span>
+<span class="sd">    speclabel</span>
 <span class="sd">        If `True`, interpret `elbl` as potentially full nucleus spec including</span>
 <span class="sd">        ghosting, isotope, mass, tagging information, e.g., `@13C_mine` or</span>
 <span class="sd">        `He4@4.01`. If `False`, interpret `elbl` as only the user/tagging</span>
 <span class="sd">        extension to nucleus label, e.g. `_mine` or `4` in the previous examples.</span>
-<span class="sd">    missing_enabled_return : {&#39;minimal&#39;, &#39;none&#39;, &#39;error&#39;}</span>
+<span class="sd">    missing_enabled_return</span>
+<span class="sd">        {&#39;minimal&#39;, &#39;none&#39;, &#39;error&#39;}</span>
 <span class="sd">        What to do when an enabled domain is of zero-length? Respectively, return</span>
 <span class="sd">        a fully valid but empty molrec, return empty dictionary, or throw error.</span>
-<span class="sd">    np_out : bool, optional</span>
+<span class="sd">    np_out</span>
 <span class="sd">        When `True`, fields geom, elea, elez, elem, mass, real, elbl will be ndarray.</span>
 <span class="sd">        Use `False` to get a json-able version.</span>
 
@@ -1002,7 +1003,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/qcelemental/molparse/from_arrays.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1016,8 +1017,8 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 14 May 2021 10:44AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+      Last updated on Thursday, 20 May 2021 09:25PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

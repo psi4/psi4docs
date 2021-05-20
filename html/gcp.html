@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/gcp.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -195,7 +195,7 @@ option for the scope of the current calculation, <code class="docutils literal n
 </ul>
 <p>If only BSSE/basis set corrections (rather than total energies) are of
 interest, the <code class="docutils literal notranslate"><span class="pre">gcp</span></code> program can be run independently of the scf
-through the python function <a class="reference internal" href="#qcdb.interface_gcp.run_gcp" title="qcdb.interface_gcp.run_gcp"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_gcp()</span></code></a>. (This function
+through the python function <a class="reference internal" href="#qcdb.Molecule.run_gcp" title="qcdb.Molecule.run_gcp"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_gcp()</span></code></a>. (This function
 is the same <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>/<code class="docutils literal notranslate"><span class="pre">gcp</span></code> interface that is called during an scf job.)
 This route is much faster than running a HF or DFT energy.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="n">nene</span> <span class="p">{</span>
@@ -211,9 +211,10 @@ This route is much faster than running a HF or DFT energy.</p>
 </pre></div>
 </div>
 <dl class="py function">
-<dt class="sig sig-object py" id="qcdb.interface_gcp.run_gcp">
-<span class="sig-prename descclassname"><span class="pre">qcdb.interface_gcp.</span></span><span class="sig-name descname"><span class="pre">run_gcp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qcdb/interface_gcp.html#run_gcp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qcdb.interface_gcp.run_gcp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to call Grimme’s GCP program
+<dt class="sig sig-object py" id="qcdb.Molecule.run_gcp">
+<span class="sig-prename descclassname"><span class="pre">qcdb.Molecule.</span></span><span class="sig-name descname"><span class="pre">run_gcp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qcdb.Molecule.run_gcp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute geometrical BSSE correction via Grimme’s GCP program.</p>
+<p>Function to call Grimme’s GCP program
 <a class="reference external" href="https://www.chemie.uni-bonn.de/pctc/mulliken-center/software/gcp/gcp">https://www.chemie.uni-bonn.de/pctc/mulliken-center/software/gcp/gcp</a>
 to compute an a posteriori geometrical BSSE correction to <em>self</em> for
 several HF, generic DFT, and specific HF-3c and PBEh-3c method/basis
@@ -224,6 +225,26 @@ found in <span class="target" id="index-3"></span><a class="reference internal" 
 qcdb.Molecule (sensibly) or a psi4.Molecule (works b/c psi4.Molecule
 has been extended by this method py-side and only public interface
 fns used) or a string that can be instantiated into a qcdb.Molecule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – Name of method/basis combination or composite method for which to compute the correction
+(e.g., HF/cc-pVDZ, DFT/def2-SVP, HF3c, PBEh3c).</p></li>
+<li><p><strong>dertype</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – Maximum derivative level at which to run GCP. For large
+molecules, energy-only calculations can be significantly more
+efficient. Influences return values, see below.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Amount of printing. Unused at present.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>energy</strong> (<em>float</em>) – When <cite>dertype=0</cite>, energy [Eh].</p></li>
+<li><p><strong>gradient</strong> (<em>ndarray</em>) – When <cite>dertype=1</cite>, (nat, 3) gradient [Eh/a0].</p></li>
+<li><p><strong>(energy, gradient)</strong> (<em>tuple of float and ndarray</em>) – When <cite>dertype=None</cite>, both energy [Eh] and (nat, 3) gradient [Eh/a0].</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -335,7 +356,7 @@ fns used) or a string that can be instantiated into a qcdb.Molecule.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/gcp.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a97ceda">1.4rc2.dev104</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d23bb57">1.4rc2.dev105</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -349,8 +370,8 @@ fns used) or a string that can be instantiated into a qcdb.Molecule.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 14 May 2021 10:44AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+      Last updated on Thursday, 20 May 2021 09:25PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>
