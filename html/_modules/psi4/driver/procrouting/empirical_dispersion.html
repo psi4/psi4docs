@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/10a2019">1.4rc3.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2c5b6e3">1.4rc3.dev9</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -329,7 +329,8 @@
             <span class="n">dashd_part</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION ENERGY&#39;</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">wfn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">qca</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">qca</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">qca</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;CURRENT&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;PAIRWISE&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">):</span>
+                        <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">qca</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">qca</span><span class="p">)</span>
 
                 <span class="c1"># Pass along the pairwise dispersion decomposition if we need it</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_pairwise_disp</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
@@ -398,7 +399,8 @@
             <span class="n">dashd_part</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION GRADIENT&#39;</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">wfn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">qca</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">qca</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">qca</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;CURRENT&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
+                        <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">qca</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">qca</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;hf3c&#39;</span><span class="p">,</span> <span class="s1">&#39;pbeh3c&#39;</span><span class="p">]:</span>
                 <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span>
@@ -550,7 +552,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/10a2019">1.4rc3.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2c5b6e3">1.4rc3.dev9</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -564,7 +566,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Monday, 07 June 2021 10:59AM.
+      Last updated on Thursday, 17 June 2021 03:31PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
