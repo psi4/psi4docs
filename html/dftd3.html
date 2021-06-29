@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dftd3.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/065bc4b">1.4rc3.dev37</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6e00bd3">1.4rc3.dev45</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -338,6 +338,36 @@ program is suppressed; to see it in the output file, set print &gt; 2.</p>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="three-body-dispersion-corrections">
+<h2>Three-Body Dispersion Corrections<a class="headerlink" href="#three-body-dispersion-corrections" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the previously discussed two-body dispersion corrections,
+the <code class="docutils literal notranslate"><span class="pre">dftd3</span></code>/<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> interface enables computations of three-body dispersion
+corrections. In <code class="docutils literal notranslate"><span class="pre">DFT-D3</span></code>, three-body dispersion is approximated with the
+Axilrod-Teller-Muto model:</p>
+<div class="math notranslate nohighlight">
+\[E_{disp}^{(3)}=-\frac{1}{6}\sum_{A\neqB\neqC}\frac{C_{9}^{ABC}(3\cos{\theta_a}\cos{\theta_b}\cos{\theta_c}+1)}{(r_{AB}r_{BC}r_{AC})^{3}}f_{damp}(\bar{r}_{ABC})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta_a\)</span> is the angle at atom A corresponding to the triangle formed by atoms A, B, and C,
+and <span class="math notranslate nohighlight">\(\bar{r}_{ABC}\)</span> is the geometric mean of the corresponding atomic-pair distances.
+The dispersion coefficients are defined as</p>
+<div class="math notranslate nohighlight">
+\[C_{9}^{ABC} = \sqrt{C_{6}^{AB}C_{6}^{BC}C_{6}^{AC}}\]</div>
+<p>See the <a class="reference external" href="https://www.chemie.uni-bonn.de/pctc/mulliken-center/software/dft-d3/man.pdf">DFT-D3 documentation</a>
+for more details.</p>
+<p>For now, the three-body correction can be called by using the <a class="reference internal" href="#qcdb.Molecule.run_dftd3" title="qcdb.Molecule.run_dftd3"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_dftd3()</span></code></a>
+function with <cite>d3-atmgr</cite> as the passed functional string.
+For example, the three-body ATM dispersion correction for a neon trimer could
+be computed with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="n">ne3</span> <span class="p">{</span>
+<span class="n">Ne</span> <span class="mf">0.0</span> <span class="mf">0.0</span> <span class="mf">0.0</span>
+<span class="n">Ne</span> <span class="mf">0.0</span> <span class="mf">0.0</span> <span class="mf">1.0</span>
+<span class="n">Ne</span> <span class="mf">0.0</span> <span class="mf">1.0</span> <span class="mf">1.0</span>
+<span class="p">}</span>
+<span class="n">ne</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">run_dftd3</span><span class="p">(</span><span class="s1">&#39;d3-atmgr&#39;</span><span class="p">,</span> <span class="n">dertype</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span>
+</pre></div>
+</div>
 <p class="rubric">Footnotes</p>
 <dl class="footnote brackets">
 <dt class="label" id="f0"><span class="brackets"><a class="fn-backref" href="#id8">1</a></span></dt>
@@ -693,6 +723,7 @@ libdisp or dftd3.</p></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#theory">Theory</a></li>
 <li><a class="reference internal" href="#running-dftd3">Running DFTD3</a></li>
+<li><a class="reference internal" href="#three-body-dispersion-corrections">Three-Body Dispersion Corrections</a></li>
 </ul>
 </li>
 </ul>
@@ -744,7 +775,7 @@ libdisp or dftd3.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dftd3.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/065bc4b">1.4rc3.dev37</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6e00bd3">1.4rc3.dev45</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -758,7 +789,7 @@ libdisp or dftd3.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Tuesday, 29 June 2021 09:34AM.
+      Last updated on Tuesday, 29 June 2021 01:34PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
