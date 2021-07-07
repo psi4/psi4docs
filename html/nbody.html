@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fdc8fe2">1.4rc3.dev57</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e4f8436">1.4rc3.dev62</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -127,7 +127,7 @@
 <dt class="sig sig-object py" id="psi4.driver.driver_nbody.nbody_gufunc">
 <span class="sig-prename descclassname"><span class="pre">psi4.driver.driver_nbody.</span></span><span class="sig-name descname"><span class="pre">nbody_gufunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_string</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#nbody_gufunc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.nbody_gufunc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the nbody interaction energy, gradient, or Hessian depending on input.
-This is a generalized univeral function for computing interaction and total quantities.</p>
+This is a generalized universal function for computing interaction and total quantities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><em>return type of func</em> – The data.</p>
@@ -153,29 +153,37 @@ method to be passed to func.</p>
 calculation result as the second element of a tuple.</p>
 </p></li>
 <li><p><strong>bsse_type</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">'cp'</span></code> || <code class="docutils literal notranslate"><span class="pre">['nocp',</span> <span class="pre">'vmfc']</span></code> || <span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">None</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span> || etc.</p>
-<p>Type of BSSE correction to compute: CP, NoCP, or VMFC. The first in this
-list is returned by this function. By default, this function is not called.</p>
+<p>Type of BSSE correction to compute: CP for counterpoise correction, NoCP
+for plain supramolecular interaction energy, or VMFC for Valiron-Mayer
+Function Counterpoise correction. If a list is provided, the first string in
+the list determines which interaction or total energies/gradients/Hessians are
+returned by this function. By default, this function is not called.</p>
 </p></li>
 <li><p><strong>max_nbody</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">3</span></code> || etc.</p>
-<p>Maximum n-body to compute, cannot exceed the number of fragments in the moleucle.</p>
+<p>Maximum n-body to compute, cannot exceed the number of fragments in the molecule.</p>
 </p></li>
 <li><p><strong>ptype</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">'energy'</span></code> || <code class="docutils literal notranslate"><span class="pre">'gradient'</span></code> || <code class="docutils literal notranslate"><span class="pre">'hessian'</span></code></p>
 <p>Type of the procedure passed in.</p>
 </p></li>
 <li><p><strong>return_total_data</strong> (<a class="reference internal" href="notes_py.html#op-py-boolean"><span class="std std-ref">boolean</span></a>) – <p><code class="docutils literal notranslate"><span class="pre">'on'</span></code> || <span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">'off'</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span></p>
-<p>If True returns the total data (energy/gradient/etc) of the system,
-otherwise returns interaction data.</p>
+<p>If True returns the total data (energy/gradient/Hessian) of the system,
+otherwise returns interaction data. Default is <code class="docutils literal notranslate"><span class="pre">'off'</span></code> for energies,
+<code class="docutils literal notranslate"><span class="pre">'on'</span></code> for gradients and Hessians. Note that the calculation of total
+counterpoise corrected energies implies the calculation of the energies of
+monomers in the monomer basis, hence specifying <code class="docutils literal notranslate"><span class="pre">return_total_data</span> <span class="pre">=</span> <span class="pre">True</span></code>
+may carry out more computations than <code class="docutils literal notranslate"><span class="pre">return_total_data</span> <span class="pre">=</span> <span class="pre">False</span></code>.</p>
 </p></li>
 <li><p><strong>levels</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">{1:</span> <span class="pre">'ccsd(t)',</span> <span class="pre">2:</span> <span class="pre">'mp2',</span> <span class="pre">'supersystem':</span> <span class="pre">'scf'}</span></code> || <code class="docutils literal notranslate"><span class="pre">{1:</span> <span class="pre">2,</span> <span class="pre">2:</span> <span class="pre">'ccsd(t)',</span> <span class="pre">3:</span> <span class="pre">'mp2'}</span></code> || etc</p>
 <p>Dictionary of different levels of theory for different levels of expansion
-Note that method_string is not used in this case.
-supersystem computes all higher order n-body effects up to nfragments.</p>
+Note that method_string is not used in this case. <code class="docutils literal notranslate"><span class="pre">supersystem</span></code> computes
+all higher order n-body effects up to the number of fragments.</p>
 </p></li>
 <li><p><strong>embedding_charges</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">{1:</span> <span class="pre">[-0.834,</span> <span class="pre">0.417,</span> <span class="pre">0.417],</span> <span class="pre">..}</span></code></p>
 <p>Dictionary of atom-centered point charges. keys: 1-based index of fragment, values: list of charges for each fragment.</p>
 </p></li>
 <li><p><strong>charge_method</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">scf/6-31g</span></code> || <code class="docutils literal notranslate"><span class="pre">b3lyp/6-31g*</span></code> || etc</p>
-<p>Method to compute point charges for monomers. Overridden by embedding_charges if both are provided.</p>
+<p>Method to compute point charges for monomers. Overridden by <code class="docutils literal notranslate"><span class="pre">embedding_charges</span></code>
+if both are provided.</p>
 </p></li>
 <li><p><strong>charge_type</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">MULLIKEN_CHARGES</span></code> || <code class="docutils literal notranslate"><span class="pre">LOWDIN_CHARGES</span></code></p>
 <p>Default is <code class="docutils literal notranslate"><span class="pre">MULLIKEN_CHARGES</span></code></p>
@@ -187,14 +195,20 @@ supersystem computes all higher order n-body effects up to nfragments.</p>
 
 <p>The nbody function computes counterpoise-corrected (CP), non-CP (noCP), and Valiron-Mayer Function Counterpoise (VMFC) interaction energies for complexes composed of arbitrary numbers of monomers.</p>
 <p><strong>Examples :</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Counterpoise corrected CCSD(T) energy for the Helium dimer</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Counterpoise corrected CCSD(T) energies for the Helium dimer</span>
 <span class="n">molecule</span> <span class="n">mol</span> <span class="p">{</span>
   <span class="n">He</span>
   <span class="o">--</span>
   <span class="n">He</span> <span class="mi">1</span> <span class="mi">3</span>
 <span class="p">}</span>
-
+<span class="c1"># Calculate interaction energies only (skips monomers in monomer basis):</span>
 <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;CCSD(T)&#39;</span><span class="p">,</span> <span class="n">bsse_type</span><span class="o">=</span><span class="s1">&#39;cp&#39;</span><span class="p">)</span>
+<span class="c1"># Calculate interaction and total energies, return interaction energies:</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;CCSD(T)&#39;</span><span class="p">,</span> <span class="n">bsse_type</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cp&#39;</span><span class="p">,</span><span class="s1">&#39;nocp&#39;</span><span class="p">])</span>
+<span class="c1"># Calculate and return counterpoise-corrected gradient</span>
+<span class="c1"># Useful for e.g. CP-corrected geometry optimization</span>
+<span class="n">gradient</span><span class="p">(</span><span class="s1">&#39;CCSD(T)&#39;</span><span class="p">,</span> <span class="n">bsse_type</span><span class="o">=</span><span class="s1">&#39;cp&#39;</span><span class="p">,</span> <span class="n">return_total_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
 
 <span class="c1"># noCP, VMFC, and CP energy for a helium cluster, limited at 3 bodies</span>
 <span class="n">molecule</span> <span class="n">mol</span> <span class="p">{</span>
@@ -309,7 +323,7 @@ supersystem computes all higher order n-body effects up to nfragments.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fdc8fe2">1.4rc3.dev57</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e4f8436">1.4rc3.dev62</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -323,7 +337,7 @@ supersystem computes all higher order n-body effects up to nfragments.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 07 July 2021 06:42PM.
+      Last updated on Wednesday, 07 July 2021 07:25PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
     </div>
     <!-- cloud_sptheme 1.4 -->
