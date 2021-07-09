@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4ddc5c7">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/fbf44f7">1.4rc4.dev3</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1126,6 +1126,12 @@
     <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ManagedMethodError</span><span class="p">([</span><span class="s1">&#39;select_ccsd_at_&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;CC_TYPE&#39;</span><span class="p">,</span> <span class="n">mtd_type</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">module</span><span class="p">])</span>
 
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;a-ccsd(t)&quot;</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;ccsd(at)&quot;</span><span class="p">,</span> <span class="s2">&quot;lambda-ccsd(t)&quot;</span><span class="p">]:</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">Method &quot;</span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot; has been regularized to &quot;a-ccsd(t)&quot; for QCVariables.&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;a-ccsd(t)&quot;</span>
+
     <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;probe&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
         <span class="k">return</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1938,7 +1944,7 @@
     <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;ccsd(t)&#39;</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-CCSD(T)&#39;</span><span class="p">)</span>
         <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;CC_TYPE&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;ccsd(at)&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;a-ccsd(t)&#39;</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;CC_LAMBDA&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-CCSD(AT)&#39;</span><span class="p">)</span>
         <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;CC_TYPE&#39;</span><span class="p">)</span>
@@ -1951,7 +1957,7 @@
 
     <span class="c1"># conventional vs. optimized orbitals</span>
     <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mp2&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2.5&#39;</span><span class="p">,</span> <span class="s1">&#39;mp3&#39;</span><span class="p">,</span> <span class="s1">&#39;lccd&#39;</span><span class="p">,</span>
-                     <span class="s1">&#39;ccd&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsd&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsd(t)&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsd(at)&#39;</span><span class="p">]:</span>
+                     <span class="s1">&#39;ccd&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsd&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsd(t)&#39;</span><span class="p">,</span> <span class="s1">&#39;a-ccsd(t)&#39;</span><span class="p">]:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;ORB_OPT&#39;</span><span class="p">,</span> <span class="s1">&#39;FALSE&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;omp2&#39;</span><span class="p">,</span> <span class="s1">&#39;omp2.5&#39;</span><span class="p">,</span> <span class="s1">&#39;omp3&#39;</span><span class="p">,</span> <span class="s1">&#39;olccd&#39;</span><span class="p">]:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;ORB_OPT&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
@@ -1996,6 +2002,13 @@
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dfocc_wfn</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;a-ccsd(t)&quot;</span><span class="p">:</span>
+        <span class="c1"># temporary until dfocc can be edited and qcvar name changed</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;A-CCSD(T) TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variables</span><span class="p">()[</span><span class="s2">&quot;CCSD(AT) TOTAL ENERGY&quot;</span><span class="p">])</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;A-(T) CORRECTION ENERGY&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variables</span><span class="p">()[</span><span class="s2">&quot;(AT) CORRECTION ENERGY&quot;</span><span class="p">])</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">del_variable</span><span class="p">(</span><span class="s2">&quot;CCSD(AT) TOTAL ENERGY&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">del_variable</span><span class="p">(</span><span class="s2">&quot;(AT) CORRECTION ENERGY&quot;</span><span class="p">)</span>
+
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">dfocc_wfn</span>
 
@@ -2021,21 +2034,34 @@
 
     <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mp2&#39;</span><span class="p">,</span> <span class="s1">&#39;omp2&#39;</span><span class="p">]:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-OMP2&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mp2.5&#39;</span><span class="p">,</span> <span class="s1">&#39;omp2.5&#39;</span><span class="p">]:</span>
+        <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;MP2_TYPE&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mp2.5&#39;</span><span class="p">]:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-OMP2.5&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mp3&#39;</span><span class="p">,</span> <span class="s1">&#39;omp3&#39;</span><span class="p">]:</span>
+        <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;MP_TYPE&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s2">&quot;MP_TYPE&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;DF&quot;</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;omp2.5&quot;</span><span class="p">]:</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-OMP2.5&#39;</span><span class="p">)</span>
+        <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;MP_TYPE&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mp3&#39;</span><span class="p">]:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-OMP3&#39;</span><span class="p">)</span>
+        <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;MP_TYPE&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s2">&quot;MP_TYPE&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;DF&quot;</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;omp3&#39;</span><span class="p">]:</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-OMP3&#39;</span><span class="p">)</span>
+        <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;MP_TYPE&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;lccd&#39;</span><span class="p">,</span> <span class="s1">&#39;olccd&#39;</span><span class="p">]:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-OLCCD&#39;</span><span class="p">)</span>
+        <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;CC_TYPE&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ccd&#39;</span><span class="p">]:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-CCD&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;CC_LAMBDA&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
+        <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;CC_TYPE&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ccsd&#39;</span><span class="p">]:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-CCSD&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;CC_LAMBDA&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
+        <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;CC_TYPE&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ccsd(t)&#39;</span><span class="p">]:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF-CCSD(T)&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;CC_LAMBDA&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
+        <span class="n">corl_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;CC_TYPE&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;Unidentified method </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
@@ -2043,6 +2069,8 @@
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;ORB_OPT&#39;</span><span class="p">,</span> <span class="s1">&#39;FALSE&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;omp2&#39;</span><span class="p">,</span> <span class="s1">&#39;omp2.5&#39;</span><span class="p">,</span> <span class="s1">&#39;omp3&#39;</span><span class="p">,</span> <span class="s1">&#39;olccd&#39;</span><span class="p">]:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;ORB_OPT&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">corl_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;DF&quot;</span><span class="p">,</span> <span class="s2">&quot;CD&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;Invalid type &#39;</span><span class="si">{</span><span class="n">corl_type</span><span class="si">}</span><span class="s2">&#39; for DFOCC&quot;&quot;&quot;</span><span class="p">)</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;DERTYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;FIRST&#39;</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;DO_SCS&#39;</span><span class="p">,</span> <span class="s1">&#39;FALSE&#39;</span><span class="p">)</span>
@@ -2760,7 +2788,7 @@
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;CCSORT&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="s1">&#39;CCSD_T&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;CCTRANSORT&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="s1">&#39;CCSD_T&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;CCENERGY&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="s1">&#39;CCSD_T&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;ccsd(at)&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;a-ccsd(t)&#39;</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;TRANSQT2&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="s1">&#39;CCSD_AT&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;CCSORT&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="s1">&#39;CCSD_AT&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;CCTRANSORT&#39;</span><span class="p">,</span> <span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="s1">&#39;CCSD_AT&#39;</span><span class="p">)</span>
@@ -2807,7 +2835,7 @@
 
     <span class="c1"># Obtain semicanonical orbitals</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;ROHF&#39;</span><span class="p">)</span> <span class="ow">and</span> \
-            <span class="p">((</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ccsd(t)&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsd(at)&#39;</span><span class="p">,</span> <span class="s1">&#39;cc2&#39;</span><span class="p">,</span> <span class="s1">&#39;cc3&#39;</span><span class="p">,</span> <span class="s1">&#39;eom-cc2&#39;</span><span class="p">,</span> <span class="s1">&#39;eom-cc3&#39;</span><span class="p">])</span> <span class="ow">or</span>
+            <span class="p">((</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ccsd(t)&#39;</span><span class="p">,</span> <span class="s1">&#39;a-ccsd(t)&#39;</span><span class="p">,</span> <span class="s1">&#39;cc2&#39;</span><span class="p">,</span> <span class="s1">&#39;cc3&#39;</span><span class="p">,</span> <span class="s1">&#39;eom-cc2&#39;</span><span class="p">,</span> <span class="s1">&#39;eom-cc3&#39;</span><span class="p">])</span> <span class="ow">or</span>
               <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;CCTRANSORT&#39;</span><span class="p">,</span> <span class="s1">&#39;SEMICANONICAL&#39;</span><span class="p">)):</span>
         <span class="n">ref_wfn</span><span class="o">.</span><span class="n">semicanonicalize</span><span class="p">()</span>
 
@@ -2825,9 +2853,11 @@
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;PE&#39;</span><span class="p">):</span>
         <span class="n">ccwfn</span><span class="o">.</span><span class="n">pe_state</span> <span class="o">=</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">pe_state</span>
 
-    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;ccsd(at)&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;a-ccsd(t)&#39;</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">cchbar</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">cclambda</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
+        <span class="n">lambdawfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">cclambda</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">lambdawfn</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">ccwfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">ccwfn</span>
@@ -2845,7 +2875,7 @@
 
     <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;DERTYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;FIRST&#39;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;FREEZE_CORE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;FREEZE_CORE&#39;</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;FALSE&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;Frozen core is not available for the CC gradients.&#39;</span><span class="p">)</span>
 
     <span class="n">ccwfn</span> <span class="o">=</span> <span class="n">run_ccenergy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -5340,7 +5370,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4ddc5c7">undefined</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/fbf44f7">1.4rc4.dev3</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5354,7 +5384,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Thursday, 08 July 2021 05:13PM.
+      Last updated on Friday, 09 July 2021 01:55PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
     </div>
     <!-- cloud_sptheme 1.4 -->
