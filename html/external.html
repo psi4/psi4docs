@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/external.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fbf44f7">1.4rc4.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/58b193b">1.4rc4.dev29</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -214,8 +214,8 @@
 </li>
 </ul>
 </div>
-<section id="scratch-files-and-elementary-restart">
-<span id="sec-scratch"></span><span id="index-0"></span><h2>Scratch Files and Elementary Restart<a class="headerlink" href="#scratch-files-and-elementary-restart" title="Permalink to this headline">¶</a></h2>
+<section id="scratch-files">
+<span id="sec-scratch"></span><span id="index-0"></span><h2>Scratch Files<a class="headerlink" href="#scratch-files" title="Permalink to this headline">¶</a></h2>
 <p>One very important part of user configuration at the end of the
 installation process
 is to tell <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> where to write its temporary
@@ -285,17 +285,25 @@ accomplished by the commands below:</p>
 To circumvent difficulties with running multiple jobs in the same scratch, the
 process ID (PID) of the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> instance is incorporated into the full file
 name; therefore, it is safe to use the same scratch directory for calculations
-running simultaneously. This also means that if the user wants <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> to use
-information from a previous file, like molecular orbitals, he needs to provide the
-name of the file. This can be done through the <code class="docutils literal notranslate"><span class="pre">restart_file</span></code> option</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span><span class="n">restart_file</span><span class="o">=</span><span class="s1">&#39;./psi.PID.name.filenumber&#39;</span><span class="p">)</span>
+running simultaneously.</p>
+</section>
+<section id="elementary-restart">
+<h2>Elementary Restart<a class="headerlink" href="#elementary-restart" title="Permalink to this headline">¶</a></h2>
+<p>The <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> intermediate files use the following naming scheme</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi</span><span class="o">.</span><span class="n">PID</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">filenumber</span>
 </pre></div>
 </div>
 <p>where by default, PID is the process number, name the name of the molecule,
-and filenumber is listed in <a class="reference internal" href="autodoc_psifiles.html#apdx-psifiles"><span class="std std-ref">content</span></a>. Only the filenumber
-is necessary for the driver to appropriately rename the file for the next <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
-job, and if none is found it defaults to 32, a checkpoint file. If two or more files
-are to be read, they need to be provided as a Python list</p>
+and filenumber is listed in <a class="reference internal" href="autodoc_psifiles.html#apdx-psifiles"><span class="std std-ref">content</span></a>.</p>
+<p>For those modules providing restart capabilities, the previous file can
+be provided through the``restart_file`` option</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span><span class="n">restart_file</span><span class="o">=</span><span class="s1">&#39;./psi.PID.name.filenumber&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Only the filenumber is necessary for the driver to appropriately rename the
+file and copy it to the scratch directory where <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> will expect it.
+The restart capabilities of a specific method (if any) are found in that method’s documentation.</p>
+<p>To provide multiple files, pass them as arguments of a Python list</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span><span class="n">restart_file</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;./file1.filenumber&#39;</span><span class="p">,</span><span class="s1">&#39;./file2.filenumber&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -303,6 +311,35 @@ are to be read, they need to be provided as a Python list</p>
 <p>Executing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> with the <a class="reference internal" href="#cmdoption-psi4-m"><code class="xref std std-option docutils literal notranslate"><span class="pre">psi4</span> <span class="pre">-m</span></code></a> (for
 messy) flag will prevent files being deleted at the end of the run:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi4</span> <span class="o">-</span><span class="n">m</span>
+</pre></div>
+</div>
+<p>The mechanism for restarting HF/DFT calculations is described in details <a class="reference internal" href="scf.html#sec-scfrestart"><span class="std std-ref">here</span></a>.</p>
+</section>
+<section id="saving-the-wavefunction">
+<span id="sec-save-wfn"></span><h2>Saving the Wavefunction<a class="headerlink" href="#saving-the-wavefunction" title="Permalink to this headline">¶</a></h2>
+<p>A core object of <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is the Wavefunction (short <code class="docutils literal notranslate"><span class="pre">wfn</span></code>) object</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">,</span> <span class="n">wfn</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span><span class="n">return_wfn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This C++/Python object (<a class="reference internal" href="api/psi4.core.Wavefunction.html#psi4.core.Wavefunction" title="psi4.core.Wavefunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">psi4.core.Wavefunction</span></code></a>) contains orbital
+data, basis set information, result variables and more.
+It can be saved either to a numpy file or converted to a python dictionary</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># write the wavefunction to file</span>
+<span class="n">wfn</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s1">&#39;my_wfn&#39;</span><span class="p">)</span>
+
+<span class="c1"># alternatively store the dict representation of the wavefunction in memory</span>
+<span class="n">wfn_dict</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">to_file</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In either form, its attributes can be set and edited.
+This is an expert-level feature, though.
+In general, let <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> create the Wavefunction, then treat it as read-only.
+The back conversion to a Wavefunction object uses the <code class="docutils literal notranslate"><span class="pre">.from_file()</span></code> functionality</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># read wavefunction from file</span>
+<span class="n">wfn_from_file</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;my_wfn&#39;</span><span class="p">)</span>
+
+<span class="c1"># make a wavefunction from the dict</span>
+<span class="n">wfn_from_dict</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">wfn_dict</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -325,7 +362,7 @@ Please use the <code class="file docutils literal notranslate"><span class="pre"
 <p>If using the environment variable <span class="target" id="index-5"></span><a class="reference internal" href="#envvar-PSI_SCRATCH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSI_SCRATCH</span></code></a> is inconvenient,
 or if some <code class="docutils literal notranslate"><span class="pre">psi4_io</span></code> commands must be present in all input files,
 the <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> resource file can be used (example <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples/example_psi4rc_file">psi4/samples/example_psi4rc_file</a>).</p>
-<p>All the commands mentioned in section <a class="reference internal" href="#sec-scratch"><span class="std std-ref">Scratch Files and Elementary Restart</span></a> can be used in this file.</p>
+<p>All the commands mentioned in section <a class="reference internal" href="#sec-scratch"><span class="std std-ref">Scratch Files</span></a> can be used in this file.</p>
 <p>To set up the scratch path:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi4_io</span><span class="o">.</span><span class="n">set_default_path</span><span class="p">(</span><span class="s1">&#39;/scratch/user&#39;</span><span class="p">)</span>
 </pre></div>
@@ -856,7 +893,9 @@ ending in <code class="docutils literal notranslate"><span class="pre">share/psi
     <h3><a href="index.html">table of contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">Installation and Runtime Configuration</a><ul>
-<li><a class="reference internal" href="#scratch-files-and-elementary-restart">Scratch Files and Elementary Restart</a></li>
+<li><a class="reference internal" href="#scratch-files">Scratch Files</a></li>
+<li><a class="reference internal" href="#elementary-restart">Elementary Restart</a></li>
+<li><a class="reference internal" href="#saving-the-wavefunction">Saving the Wavefunction</a></li>
 <li><a class="reference internal" href="#psirc-file"><code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> File</a></li>
 <li><a class="reference internal" href="#threading">Threading</a></li>
 <li><a class="reference internal" href="#pbs-job-file">PBS job file</a></li>
@@ -913,7 +952,7 @@ ending in <code class="docutils literal notranslate"><span class="pre">share/psi
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/external.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fbf44f7">1.4rc4.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/58b193b">1.4rc4.dev29</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -926,8 +965,8 @@ ending in <code class="docutils literal notranslate"><span class="pre">share/psi
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 09 July 2021 01:55PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+      Last updated on Tuesday, 20 July 2021 09:08PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

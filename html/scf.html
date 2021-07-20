@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fbf44f7">1.4rc4.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/58b193b">1.4rc4.dev29</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -199,7 +199,7 @@ computations. Additional one-electron properties are available by increasing the
 which are useful in elucidating the stability and reactivity of the system.</p>
 </section>
 <section id="theory">
-<span id="index-1"></span><h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scftheory"></span><span id="index-1"></span><h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
 <p>The objective of Hartree–Fock (HF) Theory is to produce the optimized Molecular
 Orbitals (MOs) <span class="math notranslate nohighlight">\(\{\psi_i\}\)</span>,</p>
 <div class="math notranslate nohighlight">
@@ -282,7 +282,7 @@ very large systems, diagonalization of the Fock matrix can also present a
 significant hurdle.</p>
 </section>
 <section id="minimal-input">
-<h2>Minimal Input<a class="headerlink" href="#minimal-input" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfinput"></span><h2>Minimal Input<a class="headerlink" href="#minimal-input" title="Permalink to this headline">¶</a></h2>
 <p>Minimal input for a Hartree–Fock computation is a molecule block, basis set
 option, and a call to <code class="docutils literal notranslate"><span class="pre">energy('scf')</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="p">{</span>
@@ -302,7 +302,7 @@ orthogonalization, DIIS, and a core Hamiltonian guess. For more
 information on any of these options, see the relevant section below.</p>
 </section>
 <section id="spin-symmetry-treatment">
-<h2>Spin/Symmetry Treatment<a class="headerlink" href="#spin-symmetry-treatment" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfsymm"></span><h2>Spin/Symmetry Treatment<a class="headerlink" href="#spin-symmetry-treatment" title="Permalink to this headline">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> implements the most popular spin specializations of Hartree–Fock
 theory, including:</p>
 <dl class="simple">
@@ -381,7 +381,7 @@ actually,:</p>
 </div>
 </section>
 <section id="broken-symmetry">
-<h2>Broken Symmetry<a class="headerlink" href="#broken-symmetry" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfbrokensymm"></span><h2>Broken Symmetry<a class="headerlink" href="#broken-symmetry" title="Permalink to this headline">¶</a></h2>
 <p>For certain problems, such diradicals, allowing the spin-up and spin-down
 orbitals to differ in closed-shell computations can be advantageous;
 this is known as symmetry breaking.  The resulting unrestricted wavefunction
@@ -398,7 +398,7 @@ keyword to true:</p>
 </div>
 </section>
 <section id="orthogonalization">
-<h2>Orthogonalization<a class="headerlink" href="#orthogonalization" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scflindep"></span><h2>Orthogonalization<a class="headerlink" href="#orthogonalization" title="Permalink to this headline">¶</a></h2>
 <p>One of the first steps in the SCF procedure is the determination of an
 orthogonal basis (known as the OSO basis) from the atomic orbital
 basis (known as the AO basis). The Molecular Orbital basis (MO basis)
@@ -497,7 +497,7 @@ above the eigenvalue cutoff. In total, 284 molecular orbitals are chosen from
 287 AOs/USOs.</p>
 </section>
 <section id="initial-guess">
-<h2>Initial Guess<a class="headerlink" href="#initial-guess" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfguess"></span><h2>Initial Guess<a class="headerlink" href="#initial-guess" title="Permalink to this headline">¶</a></h2>
 <p>In each step of the SCF procedure, a new Fock or Kohn–Sham potential is built
 according to the previous density, following which the potential is diagonalized
 to produce new molecular orbitals, from which a new density is computed. This
@@ -538,7 +538,7 @@ often less accurate than the core guess (see
 <dt>HUCKEL</dt><dd><p>An extended Hückel guess based on on-the-fly atomic UHF
 calculations alike SAD, see <a class="reference internal" href="bibliography.html#lehtola-2019-1593" id="id6"><span>[Lehtola:2019:1593]</span></a>.</p>
 </dd>
-<dt>READ</dt><dd><p>Read the previous orbitals from a checkpoint file, casting from
+<dt>READ</dt><dd><p>Read the previous orbitals from a <code class="docutils literal notranslate"><span class="pre">wfn</span></code> file, casting from
 one basis to another if needed. Useful for starting anion
 computations from neutral orbitals, or after small geometry
 changes. At present, casting from a different molecular point
@@ -582,8 +582,34 @@ in a 3-21G basis and then casting up to cc-pVTZ is shown below:</p>
 </pre></div>
 </div>
 </section>
+<section id="restarting-the-scf">
+<span id="sec-scfrestart"></span><h2>Restarting the SCF<a class="headerlink" href="#restarting-the-scf" title="Permalink to this headline">¶</a></h2>
+<p>Reading orbital data from a previous calculations is done via the <code class="docutils literal notranslate"><span class="pre">restart_file</span></code> option,
+where the actual file is a serialized <code class="docutils literal notranslate"><span class="pre">wfn</span></code> object (see <a class="reference internal" href="external.html#sec-save-wfn"><span class="std std-ref">saving the wfn</span></a>)
+By default, the orbital data file of the converged SCF(<code class="docutils literal notranslate"><span class="pre">psi.PID.name.180.npy</span></code>) is deleted
+after <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> exits or the <code class="docutils literal notranslate"><span class="pre">clean()</span></code> function is called. The orbital guess is automatically
+set to <code class="docutils literal notranslate"><span class="pre">READ</span></code> when <code class="docutils literal notranslate"><span class="pre">restart_file</span></code> is given a <code class="docutils literal notranslate"><span class="pre">wfn</span></code> file.
+To write the orbitals after every iteration and keep the orbitals from the last iteration, the <code class="docutils literal notranslate"><span class="pre">write_orbitals</span></code> options is available:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span> <span class="n">write_orbitals</span><span class="o">=</span><span class="s1">&#39;my_mos&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>which writes a <code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code> object converted (serialized) to a numpy file called <code class="docutils literal notranslate"><span class="pre">my_mos.npy</span></code>.
+The restart can then be done as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span> <span class="n">restart_file</span><span class="o">=</span><span class="s1">&#39;my_mos&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Specifying the <code class="docutils literal notranslate"><span class="pre">.npy</span></code> suffix when writing and reading restart files is optional.</p>
+<p>Alternatively, the restart can also be done from any previously saved <code class="docutils literal notranslate"><span class="pre">wfn</span></code> object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">,</span> <span class="n">scf_wfn</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span><span class="n">return_wfn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">scf_wfn</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s1">&#39;my_wfn&#39;</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span> <span class="n">restart_file</span><span class="o">=</span><span class="s1">&#39;my_wfn&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For advanced users manipulating or writing custom wavefunction files, note
+that <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> expects the numpy file on disk to have the <code class="docutils literal notranslate"><span class="pre">.npy</span></code> extension, not, e.g., <cite>.npz</cite>.</p>
+</section>
 <section id="convergence-stabilization">
-<span id="index-2"></span><h2>Convergence Stabilization<a class="headerlink" href="#convergence-stabilization" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfconv"></span><span id="index-2"></span><h2>Convergence Stabilization<a class="headerlink" href="#convergence-stabilization" title="Permalink to this headline">¶</a></h2>
 <p>With regard to convergence stabilization, Pulay’s Direct Inversion of the
 Iterative Subspace (DIIS) extrapolation,  Gill’s Maximum Overlap Method (MOM),
 and damping are all implemented. A summary of each is presented below,</p>
@@ -752,7 +778,7 @@ follows:</p>
 </div></blockquote>
 </section>
 <section id="stability-analysis">
-<span id="stability-doc"></span><h2>Stability Analysis<a class="headerlink" href="#stability-analysis" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfstability-doc"></span><h2>Stability Analysis<a class="headerlink" href="#stability-analysis" title="Permalink to this headline">¶</a></h2>
 <p>SCF algorithms attempt to minimize the gradient of the energy with respect
 to orbital variation parameters. At convergence, the gradient should be approximately zero
 given a convergence criterion. Although this is enough to make sure the SCF converged to a
@@ -887,7 +913,7 @@ for examples of computations with ECP-containing basis sets.</p>
 </div>
 </section>
 <section id="external-potentials-and-qm-mm">
-<h2>External potentials and QM/MM<a class="headerlink" href="#external-potentials-and-qm-mm" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfqmmm"></span><h2>External potentials and QM/MM<a class="headerlink" href="#external-potentials-and-qm-mm" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the implementation of <a class="reference internal" href="libefp.html#sec-libefp"><span class="std std-ref">EFP</span></a> for accurate QM/MM
 computations, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> can perform more rudimentary QM/MM procedures via the
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-EXTERN-SCF"><span class="xref std std-term">EXTERN</span></a> keyword.  The following snippet, extracted from the
@@ -921,7 +947,7 @@ calculation in C1 symmetry.  For examples of SCF and MP2 calculations in an
 external field, see <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples/scf7/input.dat">scf7</a> and <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples/dfmp2-grad5/input.dat">dfmp2-grad5</a>.</p>
 </section>
 <section id="convergence-and-algorithm-defaults">
-<h2>Convergence and Algorithm Defaults<a class="headerlink" href="#convergence-and-algorithm-defaults" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfdefault"></span><h2>Convergence and Algorithm Defaults<a class="headerlink" href="#convergence-and-algorithm-defaults" title="Permalink to this headline">¶</a></h2>
 <span id="table-conv-scf"></span><table class="docutils align-default" id="id22">
 <caption><span class="caption-text">SCF algorithm and convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f1" id="id11">1</a></span><a class="headerlink" href="#id22" title="Permalink to this table">¶</a></caption>
 <colgroup>
@@ -1049,7 +1075,7 @@ and 10 for E_CONVERGENCE for post-HF of post-HF.</p>
 </dl>
 </section>
 <section id="recommendations">
-<h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfrec"></span><h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this headline">¶</a></h2>
 <p>The SCF code is quite flexible and powerful.
 We have tried as much as possible to keep the number of options to
 a minimum and to allow all options to be used in the presence of all other
@@ -1154,6 +1180,7 @@ types.</p></li>
 <li><a class="reference internal" href="#broken-symmetry">Broken Symmetry</a></li>
 <li><a class="reference internal" href="#orthogonalization">Orthogonalization</a></li>
 <li><a class="reference internal" href="#initial-guess">Initial Guess</a></li>
+<li><a class="reference internal" href="#restarting-the-scf">Restarting the SCF</a></li>
 <li><a class="reference internal" href="#convergence-stabilization">Convergence Stabilization</a></li>
 <li><a class="reference internal" href="#eri-algorithms">ERI Algorithms</a></li>
 <li><a class="reference internal" href="#second-order-convergence">Second-order Convergence</a></li>
@@ -1213,7 +1240,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fbf44f7">1.4rc4.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/58b193b">1.4rc4.dev29</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1227,8 +1254,8 @@ types.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 09 July 2021 01:55PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+      Last updated on Tuesday, 20 July 2021 09:08PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

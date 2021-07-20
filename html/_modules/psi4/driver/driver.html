@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fbf44f7">1.4rc4.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/58b193b">1.4rc4.dev29</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -354,10 +354,19 @@
 <span class="sd">        Indicate to additionally return the :py:class:`~psi4.core.Wavefunction`</span>
 <span class="sd">        calculation result as the second element (after *float* energy) of a tuple.</span>
 
+<span class="sd">    :type write_orbitals: str, :ref:`boolean &lt;op_py_boolean&gt;`</span>
+<span class="sd">    :param write_orbitals: ``filename`` || |dl| ``&#39;on&#39;`` |dr| || ``&#39;off&#39;`` </span>
+
+<span class="sd">        (str) Save wfn containing current orbitals to the given file name after each SCF iteration</span>
+<span class="sd">        and retain after |PSIfour| finishes.</span>
+
+<span class="sd">        (:ref:`boolean &lt;op_py_boolean&gt;`) Turns writing the orbitals after the converged SCF on/off.</span>
+<span class="sd">        Orbital file will be deleted unless |PSIfour| is called with `-m` flag.</span>
+
 <span class="sd">    :type restart_file: str</span>
 <span class="sd">    :param restart_file: ``[&#39;file.1, file.32]`` || ``./file`` || etc.</span>
 
-<span class="sd">        Binary data files to be renamed for calculation restart.</span>
+<span class="sd">        Existing files to be renamed and copied for calculation restart, e.g. a serialized wfn or module-specific binary data.</span>
 
 <span class="sd">    .. _`table:energy_gen`:</span>
 
@@ -656,6 +665,7 @@
     <span class="c1">#    precallback(lowername, **kwargs)</span>
 
     <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">_set_convergence_criterion</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">optstash2</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">([</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;GUESS&#39;</span><span class="p">])</span>
 
     <span class="c1"># Before invoking the procedure, we rename any file that should be read.</span>
     <span class="c1"># This is a workaround to do restarts with the current PSI4 capabilities</span>
@@ -669,12 +679,17 @@
             <span class="n">restartfile</span> <span class="o">=</span> <span class="p">(</span><span class="n">restartfile</span><span class="p">,</span> <span class="p">)</span>
         <span class="c1"># Rename the files to be read to be consistent with psi4&#39;s file system</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">restartfile</span><span class="p">:</span>
+            <span class="n">is_numpy_file</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.npy&quot;</span><span class="p">))</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">item</span> <span class="o">+</span> <span class="s2">&quot;.npy&quot;</span><span class="p">)</span>
             <span class="n">name_split</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\.&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">&quot;npz&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_numpy_file</span><span class="p">:</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;GUESS&#39;</span> <span class="p">,</span><span class="s1">&#39;READ&#39;</span><span class="p">)</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot; Found user provided orbital data. Setting orbital guess to READ&quot;</span><span class="p">)</span>
                 <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">molecule</span><span class="o">.</span><span class="n">name</span><span class="p">())))[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">psi_scratch</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">()</span>
-                <span class="n">file_num</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-                <span class="n">targetfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">psi_scratch</span><span class="p">,</span> <span class="n">fname</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">file_num</span> <span class="o">+</span> <span class="s2">&quot;.npz&quot;</span><span class="p">)</span>
+                <span class="n">file_num</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;180&quot;</span> <span class="ow">in</span> <span class="n">item</span> <span class="k">else</span> <span class="s2">&quot;180&quot;</span>
+                <span class="n">targetfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">psi_scratch</span><span class="p">,</span> <span class="n">fname</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">file_num</span> <span class="o">+</span> <span class="s2">&quot;.npy&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.npy&quot;</span><span class="p">):</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">item</span> <span class="o">+</span> <span class="s2">&quot;.npy&quot;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">filenum</span> <span class="o">=</span> <span class="n">name_split</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -688,6 +703,7 @@
                 <span class="n">pid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">())</span>
                 <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;psi&#39;</span>
                 <span class="n">targetfile</span> <span class="o">=</span> <span class="n">filepath</span> <span class="o">+</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">pid</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">namespace</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">filenum</span><span class="p">)</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="se">\n</span><span class="s2"> Copying restart file &lt;</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&gt; to &lt;</span><span class="si">{</span><span class="n">targetfile</span><span class="si">}</span><span class="s2">&gt; for internal processing</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">targetfile</span><span class="p">)</span>
 
     <span class="n">wfn</span> <span class="o">=</span> <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">][</span><span class="n">lowername</span><span class="p">](</span><span class="n">lowername</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">molecule</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -696,6 +712,7 @@
         <span class="n">postcallback</span><span class="p">(</span><span class="n">lowername</span><span class="p">,</span> <span class="n">wfn</span><span class="o">=</span><span class="n">wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+    <span class="n">optstash2</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">return_wfn</span><span class="p">:</span>  <span class="c1"># TODO current energy safer than wfn.energy() for now, but should be revisited</span>
 
         <span class="c1"># TODO place this with the associated call, very awkward to call this in other areas at the moment</span>
@@ -852,6 +869,8 @@
         <span class="n">wfn</span> <span class="o">=</span> <span class="n">_process_displacement</span><span class="p">(</span><span class="n">energy</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="n">findif_meta_dict</span><span class="p">[</span><span class="s2">&quot;reference&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ndisp</span><span class="p">,</span>
                                     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">var_dict</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span>
+        <span class="c1"># ensure displacement calculations do not use restart_file orbitals.</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;restart_file&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">displacement</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">findif_meta_dict</span><span class="p">[</span><span class="s2">&quot;displacements&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">start</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
             <span class="n">_process_displacement</span><span class="p">(</span>
@@ -1677,6 +1696,8 @@
         <span class="n">wfn</span> <span class="o">=</span> <span class="n">_process_displacement</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="n">findif_meta_dict</span><span class="p">[</span><span class="s2">&quot;reference&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ndisp</span><span class="p">,</span>
                                     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">var_dict</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span>
+        <span class="c1"># ensure displacement calculations do not use restart_file orbitals.</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;restart_file&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">displacement</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">findif_meta_dict</span><span class="p">[</span><span class="s2">&quot;displacements&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">start</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
             <span class="n">_process_displacement</span><span class="p">(</span>
@@ -2386,7 +2407,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fbf44f7">1.4rc4.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/58b193b">1.4rc4.dev29</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2400,8 +2421,8 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 09 July 2021 01:55PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+      Last updated on Tuesday, 20 July 2021 09:08PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

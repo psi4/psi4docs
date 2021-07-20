@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fbf44f7">1.4rc4.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/58b193b">1.4rc4.dev29</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1395,6 +1395,7 @@
         <span class="p">[</span><span class="s1">&#39;DF_BASIS_SCF&#39;</span><span class="p">],</span>
         <span class="p">[</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;GUESS&#39;</span><span class="p">],</span>
         <span class="p">[</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;DF_INTS_IO&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;ORBITALS_WRITE&#39;</span><span class="p">],</span>
         <span class="p">[</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">],</span>  <span class="c1"># Hack: scope gets changed internally with the Andy trick</span>
     <span class="p">)</span>
 
@@ -1416,6 +1417,16 @@
     <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;ref_wfn&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ref_wfn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Cannot seed an SCF calculation with a reference wavefunction (&#39;ref_wfn&#39; kwarg).&quot;</span><span class="p">)</span>
+
+    <span class="c1"># decide if we keep the checkpoint file</span>
+    <span class="n">_chkfile</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;write_orbitals&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">write_checkpoint_file</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_chkfile</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">write_checkpoint_file</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;write_orbitals&#39;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;ORBITALS_WRITE&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">_chkfile</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">write_checkpoint_file</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="c1"># PCM needs to be run w/o symmetry</span>
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;PCM&quot;</span><span class="p">):</span>
@@ -1617,9 +1628,9 @@
     <span class="c1"># The wfn from_file routine adds the npy suffix if needed, but we add it here so that</span>
     <span class="c1"># we can use os.path.isfile to query whether the file exists before attempting to read</span>
     <span class="n">read_filename</span> <span class="o">=</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">get_scratch_filename</span><span class="p">(</span><span class="mi">180</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.npy&#39;</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;GUESS&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;READ&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">read_filename</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;GUESS&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;READ&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">read_filename</span><span class="p">)):</span>
         <span class="n">old_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">read_filename</span><span class="p">)</span>
+
         <span class="n">Ca_occ</span> <span class="o">=</span> <span class="n">old_wfn</span><span class="o">.</span><span class="n">Ca_subset</span><span class="p">(</span><span class="s2">&quot;SO&quot;</span><span class="p">,</span> <span class="s2">&quot;OCC&quot;</span><span class="p">)</span>
         <span class="n">Cb_occ</span> <span class="o">=</span> <span class="n">old_wfn</span><span class="o">.</span><span class="n">Cb_subset</span><span class="p">(</span><span class="s2">&quot;SO&quot;</span><span class="p">,</span> <span class="s2">&quot;OCC&quot;</span><span class="p">)</span>
 
@@ -1627,11 +1638,11 @@
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Cannot compute projection of different symmetries.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">old_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">==</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">():</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;  Reading orbitals from file 180, no projection.</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Reading orbitals from file </span><span class="si">{</span><span class="n">read_filename</span><span class="si">}</span><span class="s2">, no projection.</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">scf_wfn</span><span class="o">.</span><span class="n">guess_Ca</span><span class="p">(</span><span class="n">Ca_occ</span><span class="p">)</span>
             <span class="n">scf_wfn</span><span class="o">.</span><span class="n">guess_Cb</span><span class="p">(</span><span class="n">Cb_occ</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;  Reading orbitals from file 180, projecting to new basis.</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Reading orbitals from file </span><span class="si">{</span><span class="n">read_filename</span><span class="si">}</span><span class="s2">, projecting to new basis.</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;  Computing basis projection from </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">old_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">()))</span>
 
             <span class="n">pCa</span> <span class="o">=</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">basis_projection</span><span class="p">(</span><span class="n">Ca_occ</span><span class="p">,</span> <span class="n">old_wfn</span><span class="o">.</span><span class="n">nalphapi</span><span class="p">(),</span> <span class="n">old_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">(),</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">())</span>
@@ -1645,9 +1656,8 @@
         <span class="k">if</span> <span class="n">old_ref</span> <span class="o">!=</span> <span class="n">new_ref</span><span class="p">:</span>
             <span class="n">scf_wfn</span><span class="o">.</span><span class="n">reset_occ_</span> <span class="o">=</span> <span class="kc">True</span>
 
-
     <span class="k">elif</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;GUESS&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;READ&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">read_filename</span><span class="p">):</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;  Unable to find file 180, defaulting to SAD guess.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> !!!  Unable to find file </span><span class="si">{</span><span class="n">read_filename</span><span class="si">}</span><span class="s2">, defaulting to SAD guess. !!!</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;GUESS&#39;</span><span class="p">,</span> <span class="s1">&#39;SAD&#39;</span><span class="p">)</span>
         <span class="n">sad_basis_list</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">scf_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">(),</span> <span class="s2">&quot;ORBITAL&quot;</span><span class="p">,</span>
                                              <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;BASIS&quot;</span><span class="p">),</span>
@@ -1754,12 +1764,15 @@
                  <span class="n">scf_wfn</span><span class="o">.</span><span class="n">epsilon_b</span><span class="p">(),</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">occupation_a</span><span class="p">(),</span>
                  <span class="n">scf_wfn</span><span class="o">.</span><span class="n">occupation_b</span><span class="p">(),</span> <span class="n">dovirt</span><span class="p">)</span>
 
-    <span class="c1"># Write out orbitals and basis; Can be disabled, e.g., for findif displacements</span>
-    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;write_orbitals&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
-        <span class="n">write_filename</span> <span class="o">=</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">get_scratch_filename</span><span class="p">(</span><span class="mi">180</span><span class="p">)</span>
-
-        <span class="n">scf_wfn</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">write_filename</span><span class="p">)</span>
-        <span class="n">extras</span><span class="o">.</span><span class="n">register_numpy_file</span><span class="p">(</span><span class="n">write_filename</span><span class="p">)</span>
+    <span class="c1"># Write checkpoint file (orbitals and basis); Can be disabled, e.g., for findif displacements</span>
+    <span class="k">if</span> <span class="n">write_checkpoint_file</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_chkfile</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;write_orbitals&#39;</span><span class="p">]</span>
+        <span class="n">scf_wfn</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="c1"># core.set_local_option(&quot;SCF&quot;, &quot;ORBITALS_WRITE&quot;, filename)</span>
+    <span class="k">elif</span> <span class="n">write_checkpoint_file</span><span class="p">:</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">get_scratch_filename</span><span class="p">(</span><span class="mi">180</span><span class="p">)</span>
+        <span class="n">scf_wfn</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">extras</span><span class="o">.</span><span class="n">register_numpy_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="c1"># retain with -m (messy) option</span>
 
     <span class="k">if</span> <span class="n">do_timer</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">tstop</span><span class="p">()</span>
@@ -5278,7 +5291,6 @@
         <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;EFP TORQUE&quot;</span><span class="p">,</span> <span class="n">torq</span><span class="p">)</span>  <span class="c1"># P::e EFP</span>
 
     <span class="k">return</span> <span class="n">ene</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span>
-
 </pre></div>
 
             <div class="clearer"></div>
@@ -5370,7 +5382,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fbf44f7">1.4rc4.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/58b193b">1.4rc4.dev29</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5384,8 +5396,8 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Friday, 09 July 2021 01:55PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+      Last updated on Tuesday, 20 July 2021 09:08PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>
