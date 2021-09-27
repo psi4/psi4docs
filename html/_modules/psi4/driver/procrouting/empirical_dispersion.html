@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e4cce10">1.5a1.dev53</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2d33c3f">1.5a1.dev60</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -154,6 +154,7 @@
                                           <span class="p">(</span><span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;d2&#39;</span><span class="p">,</span> <span class="s1">&#39;d3zero&#39;</span><span class="p">,</span> <span class="s1">&#39;d3bj&#39;</span><span class="p">,</span> <span class="s1">&#39;d3mzero&#39;</span><span class="p">,</span> <span class="s1">&#39;d3mbj&#39;</span><span class="p">]),</span>
                                           <span class="p">(</span><span class="s1">&#39;nl&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;nl&#39;</span><span class="p">]),</span>
                                           <span class="p">(</span><span class="s1">&#39;mp2d&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;dmp2&#39;</span><span class="p">]),</span>
+                                          <span class="p">(</span><span class="s2">&quot;dftd4&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;d4bjeeqatm&quot;</span><span class="p">]),</span>
                                         <span class="p">])</span> <span class="c1"># yapf: disable</span>
 
 <span class="n">_capable_engines_for_disp</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
@@ -168,7 +169,7 @@
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dashlevel : str</span>
-<span class="sd">        {&#39;d1&#39;, &#39;d2&#39;, &#39;d3zero&#39;, &#39;d3bj&#39;, &#39;d3mzero&#39;, &#39;d3mbj&#39;, &#39;chg&#39;, &#39;das2009&#39;, &#39;das2010&#39;, &#39;nl&#39;, &#39;dmp2&#39;}</span>
+<span class="sd">        {&#39;d1&#39;, &#39;d2&#39;, &#39;d3zero&#39;, &#39;d3bj&#39;, &#39;d3mzero&#39;, &#39;d3mbj&#39;, &#39;chg&#39;, &#39;das2009&#39;, &#39;das2010&#39;, &#39;nl&#39;, &#39;dmp2&#39;, &quot;d4bjeeqatm&quot;}</span>
 <span class="sd">        Name of dispersion correction to be applied. Resolved</span>
 <span class="sd">        from `name_hint` and/or `level_hint` into a key of</span>
 <span class="sd">        `empirical_dispersion_resources.dashcoeff`.</span>
@@ -199,9 +200,9 @@
 <span class="sd">        `qcengine.programs.empirical_dispersion_resources.dashcoeff` itself for purposes of</span>
 <span class="sd">        validating :py:attr:`fctldash`.</span>
 <span class="sd">    engine : str</span>
-<span class="sd">        {&#39;libdisp&#39;, &#39;dftd3&#39;, &#39;nl&#39;, &#39;mp2d&#39;}</span>
+<span class="sd">        {&#39;libdisp&#39;, &#39;dftd3&#39;, &#39;nl&#39;, &#39;mp2d&#39;, &quot;dftd4&quot;}</span>
 <span class="sd">        Compute engine for dispersion. One of Psi4&#39;s internal libdisp</span>
-<span class="sd">        library, Grimme&#39;s DFTD3 executable, or nl.</span>
+<span class="sd">        library, external Grimme or Beran projects, or nl.</span>
 <span class="sd">    disp : Dispersion</span>
 <span class="sd">        Only present for :py:attr:`engine` `=libdisp`. Psi4 class instance prepared</span>
 <span class="sd">        to compute dispersion.</span>
@@ -302,7 +303,7 @@
 <span class="sd">            Set if :py:attr:`fctldash` nonempty.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2d&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2d&#39;</span><span class="p">,</span> <span class="s2">&quot;dftd4&quot;</span><span class="p">]:</span>
             <span class="n">resi</span> <span class="o">=</span> <span class="n">AtomicInput</span><span class="p">(</span>
                 <span class="o">**</span><span class="p">{</span>
                     <span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="s1">&#39;energy&#39;</span><span class="p">,</span>
@@ -373,7 +374,7 @@
 <span class="sd">            (nat, 3) dispersion gradient [Eh/a0].</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2d&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2d&#39;</span><span class="p">,</span> <span class="s2">&quot;dftd4&quot;</span><span class="p">]:</span>
             <span class="n">resi</span> <span class="o">=</span> <span class="n">AtomicInput</span><span class="p">(</span>
                 <span class="o">**</span><span class="p">{</span>
                     <span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="s1">&#39;gradient&#39;</span><span class="p">,</span>
@@ -437,7 +438,7 @@
         <span class="n">optstash</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">([</span><span class="s1">&#39;PRINT&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;PARENT_SYMMETRY&#39;</span><span class="p">])</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;PRINT&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">   Analytical Dispersion Hessians are not supported by dftd3 or gcp.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">   Analytical Dispersion Hessians are not supported by any engine.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;       Computing the Hessian through finite difference of gradients.</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># Setup the molecule</span>
@@ -552,7 +553,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e4cce10">1.5a1.dev53</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2d33c3f">1.5a1.dev60</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -566,7 +567,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Monday, 27 September 2021 03:36PM.
+      Last updated on Monday, 27 September 2021 07:05PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

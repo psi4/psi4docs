@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/qcdb/molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e4cce10">1.5a1.dev53</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2d33c3f">1.5a1.dev60</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1379,7 +1379,7 @@
 <span class="sd">        dashlvl</span>
 <span class="sd">            Name of dispersion correction to be applied (e.g., d, D2,</span>
 <span class="sd">            d3(bj), das2010). Must be key in `dashcoeff` or &quot;alias&quot; or</span>
-<span class="sd">            &quot;formal&quot; to one.</span>
+<span class="sd">            &quot;formal&quot; to run.</span>
 <span class="sd">        dashparam</span>
 <span class="sd">            Values for the same keys as `dashcoeff[dashlvl][&#39;default&#39;]`</span>
 <span class="sd">            used to override any or all values initialized by `func`.</span>
@@ -1424,6 +1424,96 @@
         <span class="k">if</span> <span class="n">dashparam</span><span class="p">:</span>
             <span class="n">resinp</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">][</span><span class="s1">&#39;params_tweaks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dashparam</span>
         <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">resinp</span><span class="p">,</span> <span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">jobrec</span> <span class="o">=</span> <span class="n">jobrec</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+
+        <span class="c1"># hack as not checking type GRAD</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">qca</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+                <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">qca</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Molecule</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">qca</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">qca</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">derint</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION ENERGY&#39;</span><span class="p">]),</span>
+                    <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION GRADIENT&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">derint</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION ENERGY&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">derint</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION GRADIENT&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Molecule.run_dftd4"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_dftd4">[docs]</a>    <span class="k">def</span> <span class="nf">run_dftd4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dashlvl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dashparam</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute dispersion correction via Grimme&#39;s DFTD4 program.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        func : str, optional</span>
+<span class="sd">            Name of functional (func only, func &amp; disp, or disp only) for</span>
+<span class="sd">            which to compute dispersion (e.g., blyp, BLYP-D2, blyp-d3bj,</span>
+<span class="sd">            blyp-d3(bj), hf+d). Unlike run_dftd3, ``func`` overwrites any</span>
+<span class="sd">            parameter initialized via `dashparam`.</span>
+<span class="sd">        dashlvl : str, optional</span>
+<span class="sd">            Name of dispersion correction to be applied (e.g., d, D2,</span>
+<span class="sd">            d3(bj), das2010). Must be key in `dashcoeff` or &quot;alias&quot; or</span>
+<span class="sd">            &quot;formal&quot; to run.</span>
+<span class="sd">        dashparam : dict, optional</span>
+<span class="sd">            Values for the same keys as `dashcoeff[dashlvl][&#39;default&#39;]`</span>
+<span class="sd">            used to provide custom values. Unlike run_dftd3, will not have</span>
+<span class="sd">            effect if `func` given. Must provide all parameters.</span>
+<span class="sd">            Extra parameters will error.</span>
+<span class="sd">        dertype : int or str, optional</span>
+<span class="sd">            Maximum derivative level at which to run DFTD3. For large</span>
+<span class="sd">            molecules, energy-only calculations can be significantly more</span>
+<span class="sd">            efficient. Influences return values, see below.</span>
+<span class="sd">        verbose : int, optional</span>
+<span class="sd">            Amount of printing.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        energy : float</span>
+<span class="sd">            When `dertype=0`, energy [Eh].</span>
+<span class="sd">        gradient : ndarray</span>
+<span class="sd">            When `dertype=1`, (nat, 3) gradient [Eh/a0].</span>
+<span class="sd">        (energy, gradient) : tuple of float and ndarray</span>
+<span class="sd">            When `dertype=None`, both energy [Eh] and (nat, 3) gradient [Eh/a0].</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This function wraps the QCEngine dftd4 harness which wraps the internal DFTD4 Python API.</span>
+<span class="sd">        As such, the upstream convention of `func` trumping `dashparam` holds, rather than the</span>
+<span class="sd">        :py:func:`run_dftd3` behavior of `dashparam` extending or overriding `func`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">qcengine</span> <span class="k">as</span> <span class="nn">qcng</span>
+
+        <span class="k">if</span> <span class="n">dertype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">derint</span><span class="p">,</span> <span class="n">derdriver</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;gradient&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">derint</span><span class="p">,</span> <span class="n">derdriver</span> <span class="o">=</span> <span class="n">parse_dertype</span><span class="p">(</span><span class="n">dertype</span><span class="p">,</span> <span class="n">max_derivative</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">resinp</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;molecule&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="n">derdriver</span><span class="p">,</span>
+            <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">func</span><span class="p">,</span>
+                <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="s1">&#39;(auto)&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">dashlvl</span><span class="p">:</span>
+            <span class="n">resinp</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">][</span><span class="s1">&#39;level_hint&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dashlvl</span>
+        <span class="k">if</span> <span class="n">dashparam</span><span class="p">:</span>
+            <span class="n">resinp</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">][</span><span class="s1">&#39;params_tweaks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dashparam</span>
+
+        <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">resinp</span><span class="p">,</span> <span class="s1">&#39;dftd4&#39;</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">jobrec</span> <span class="o">=</span> <span class="n">jobrec</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
 
         <span class="c1"># hack as not checking type GRAD</span>
@@ -2195,7 +2285,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/qcdb/molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e4cce10">1.5a1.dev53</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2d33c3f">1.5a1.dev60</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2209,7 +2299,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Monday, 27 September 2021 03:36PM.
+      Last updated on Monday, 27 September 2021 07:05PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
