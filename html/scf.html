@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/2ffcc75">1.5a1.dev192</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9ed3cbc">1.5a1.dev193</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -733,7 +733,29 @@ post SCF algorithms require a specific implementation.</p>
 <p>For some of these algorithms, Schwarz and/or density sieving can be used to
 identify negligible integral contributions in extended systems. To activate
 sieving, set the <a class="reference internal" href="autodoc_glossary_options_c.html#term-INTS_TOLERANCE-SCF"><span class="xref std std-term">INTS_TOLERANCE</span></a> keyword to your desired cutoff
-(1.0E-12 is recommended for most applications).</p>
+(1.0E-12 is recommended for most applications). To choose the type of sieving, set
+the <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCREENING-GLOBALS"><span class="xref std std-term">SCREENING</span></a> keyword to your desired option. For Schwarz screening, set it
+to <code class="docutils literal notranslate"><span class="pre">SCHWARZ</span></code>, for CSAM, <code class="docutils literal notranslate"><span class="pre">CSAM</span></code>, and for density matrix-based screening, <code class="docutils literal notranslate"><span class="pre">DENSITY</span></code>.</p>
+<dl class="simple">
+<dt>SCHWARZ</dt><dd><p>Uses the Cauchy-Schwarz inequality to calculate an upper bounded value of a shell quartet,</p>
+</dd>
+</dl>
+<div class="math notranslate nohighlight">
+\[(PQ|RS) &lt;= \sqrt{(PQ|PQ)(RS|RS)}\]</div>
+<dl class="simple">
+<dt>CSAM</dt><dd><p>An extension of the Schwarz estimate that also screens over the long range 1/r operator, described in <a class="reference internal" href="bibliography.html#thompson-2017-144101" id="id11"><span>[Thompson:2017:144101]</span></a>.</p>
+</dd>
+<dt>DENSITY</dt><dd><p>An extension of the Schwarz estimate that also screens over elements of the density matrix.
+For the RHF case, described in <a class="reference internal" href="bibliography.html#haser-1989-104" id="id12"><span>[Haser:1989:104]</span></a></p>
+</dd>
+</dl>
+<div class="math notranslate nohighlight">
+\[CON(PQ|RS) &lt;= \sqrt{(PQ|PQ)(RS|RS)} \cdot DCON(PQ, RS)\]</div>
+<div class="math notranslate nohighlight">
+\[DCON(PQ, RS) = max(4D_{PQ}, 4D_{RS}, D_{PR}, D_{PS}, D_{QR}, D_{QS})\]</div>
+<p>When using density-matrix based integral screening, it is useful to build the J and K matrices
+incrementally, also described in <a class="reference internal" href="bibliography.html#haser-1989-104" id="id13"><span>[Haser:1989:104]</span></a>, using the difference in the density matrix between iterations, rather than the
+full density matrix. To turn on this option, set <a class="reference internal" href="autodoc_glossary_options_c.html#term-INCFOCK-SCF"><span class="xref std std-term">INCFOCK</span></a> to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
 <p>We have added the automatic capability to use the extremely fast DF
 code for intermediate convergence of the orbitals, for <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a>
 <code class="docutils literal notranslate"><span class="pre">DIRECT</span></code>. At the moment, the code defaults to cc-pVDZ-JKFIT as the
@@ -826,8 +848,8 @@ Only the lowest eigenvalues of the electronic Hessian are computed, and Hessian-
 products are computed instead of the full Hessian. This algorithm is thus
 much more efficient than the Direct Inversion, but at present, it is only available for UHF <span class="math notranslate nohighlight">\(\rightarrow\)</span> UHF stability
 analysis. The capabilities of both algorithms are summarized below:</p>
-<span id="table-stab-methods"></span><table class="docutils align-default" id="id21">
-<caption><span class="caption-text">Stability analysis methods available in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></span><a class="headerlink" href="#id21" title="Permalink to this table">¶</a></caption>
+<span id="table-stab-methods"></span><table class="docutils align-default" id="id24">
+<caption><span class="caption-text">Stability analysis methods available in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></span><a class="headerlink" href="#id24" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 14%" />
 <col style="width: 14%" />
@@ -948,8 +970,8 @@ external field, see <a class="reference external" href="https://github.com/psi4/
 </section>
 <section id="convergence-and-algorithm-defaults">
 <span id="sec-scfdefault"></span><h2>Convergence and Algorithm Defaults<a class="headerlink" href="#convergence-and-algorithm-defaults" title="Permalink to this headline">¶</a></h2>
-<span id="table-conv-scf"></span><table class="docutils align-default" id="id22">
-<caption><span class="caption-text">SCF algorithm and convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f1" id="id11">1</a></span><a class="headerlink" href="#id22" title="Permalink to this table">¶</a></caption>
+<span id="table-conv-scf"></span><table class="docutils align-default" id="id25">
+<caption><span class="caption-text">SCF algorithm and convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f1" id="id14">1</a></span><a class="headerlink" href="#id25" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 19%" />
 <col style="width: 19%" />
@@ -976,7 +998,7 @@ external field, see <a class="reference external" href="https://github.com/psi4/
 <td><p>8</p></td>
 <td><p>8</p></td>
 </tr>
-<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id12">7</a></p></td>
+<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id15">7</a></p></td>
 <td><p>8</p></td>
 <td><p>8</p></td>
 </tr>
@@ -984,24 +1006,24 @@ external field, see <a class="reference external" href="https://github.com/psi4/
 <td><p>energy</p></td>
 <td><p>8</p></td>
 <td><p>8</p></td>
-<td rowspan="4"><p>PK <a class="footnote-reference brackets" href="#f3" id="id13">3</a></p></td>
+<td rowspan="4"><p>PK <a class="footnote-reference brackets" href="#f3" id="id16">3</a></p></td>
 </tr>
 <tr class="row-even"><td><p>optimization</p></td>
 <td><p>10</p></td>
 <td><p>10</p></td>
 </tr>
-<tr class="row-odd"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id14">7</a></p></td>
+<tr class="row-odd"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id17">7</a></p></td>
 <td><p>10</p></td>
 <td><p>10</p></td>
 </tr>
-<tr class="row-even"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id15">2</a></p></td>
+<tr class="row-even"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id18">2</a></p></td>
 <td><p>10</p></td>
 <td><p>10</p></td>
 </tr>
 </tbody>
 </table>
-<span id="table-conv-corl"></span><table class="docutils align-default" id="id23">
-<caption><span class="caption-text">Post-SCF convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f4" id="id16">4</a></span><a class="headerlink" href="#id23" title="Permalink to this table">¶</a></caption>
+<span id="table-conv-corl"></span><table class="docutils align-default" id="id26">
+<caption><span class="caption-text">Post-SCF convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f4" id="id19">4</a></span><a class="headerlink" href="#id26" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 23%" />
 <col style="width: 23%" />
@@ -1011,8 +1033,8 @@ external field, see <a class="reference external" href="https://github.com/psi4/
 <thead>
 <tr class="row-odd"><th class="head"><p><em>Ab Initio</em> Method</p></th>
 <th class="head"><p>Calculation Type</p></th>
-<th class="head"><p>E_CONVERGENCE <a class="footnote-reference brackets" href="#f5" id="id17">5</a></p></th>
-<th class="head"><p>R_CONVERGENCE <a class="footnote-reference brackets" href="#f6" id="id18">6</a></p></th>
+<th class="head"><p>E_CONVERGENCE <a class="footnote-reference brackets" href="#f5" id="id20">5</a></p></th>
+<th class="head"><p>R_CONVERGENCE <a class="footnote-reference brackets" href="#f6" id="id21">6</a></p></th>
 </tr>
 </thead>
 <tbody>
@@ -1025,11 +1047,11 @@ external field, see <a class="reference external" href="https://github.com/psi4/
 <td><p>8</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id19">7</a></p></td>
+<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id22">7</a></p></td>
 <td><p>8</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id20">2</a></p></td>
+<tr class="row-odd"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id23">2</a></p></td>
 <td><p>8</p></td>
 <td></td>
 </tr>
@@ -1037,35 +1059,35 @@ external field, see <a class="reference external" href="https://github.com/psi4/
 </table>
 <p class="rubric">Footnotes</p>
 <dl class="footnote brackets">
-<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id11">1</a></span></dt>
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id14">1</a></span></dt>
 <dd><p>Note that this table applies only the SCF module,
 not to the final convergence criteria for post-HF methods or to methods
 that use an alternate starting point, like MCSCF. SAPT computations, too,
 set tighter values.</p>
 </dd>
-<dt class="label" id="f2"><span class="brackets">2</span><span class="fn-backref">(<a href="#id15">1</a>,<a href="#id20">2</a>)</span></dt>
+<dt class="label" id="f2"><span class="brackets">2</span><span class="fn-backref">(<a href="#id18">1</a>,<a href="#id23">2</a>)</span></dt>
 <dd><p>This applies to properties computed through the <code class="xref py py-func docutils literal notranslate"><span class="pre">properties()</span></code> function.</p>
 </dd>
-<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id13">3</a></span></dt>
+<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id16">3</a></span></dt>
 <dd><p>Post-HF methods that do not rely upon the usual 4-index AO integrals use a
 density-fitted SCF reference. That is, for DF-MP2 and SAPT, the default <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> is DF.</p>
 </dd>
-<dt class="label" id="f4"><span class="brackets"><a class="fn-backref" href="#id16">4</a></span></dt>
+<dt class="label" id="f4"><span class="brackets"><a class="fn-backref" href="#id19">4</a></span></dt>
 <dd><p>Note that this table applies to the final convergence criteria for
 all the post-SCF modules that define a <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-CCENERGY"><span class="xref std std-term">E_CONVERGENCE</span></a> keyword.</p>
 </dd>
-<dt class="label" id="f5"><span class="brackets"><a class="fn-backref" href="#id17">5</a></span></dt>
+<dt class="label" id="f5"><span class="brackets"><a class="fn-backref" href="#id20">5</a></span></dt>
 <dd><p>The E_CONVERGENCE keyword is implemented for most post-SCF modules.
 See a list beginning at <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-CCENERGY"><span class="xref std std-term">E_CONVERGENCE</span></a>.</p>
 </dd>
-<dt class="label" id="f6"><span class="brackets"><a class="fn-backref" href="#id18">6</a></span></dt>
+<dt class="label" id="f6"><span class="brackets"><a class="fn-backref" href="#id21">6</a></span></dt>
 <dd><p>The R_CONVERGENCE keyword places a convergence check on an internal
 residual error measure and is implemented for several post-SCF
 modules (see list beginning at <a class="reference internal" href="autodoc_glossary_options_c.html#term-R_CONVERGENCE-CCENERGY"><span class="xref std std-term">R_CONVERGENCE</span></a>). It is defined
 according to the quantum chemical method and so its default value is set
 by each module individually.</p>
 </dd>
-<dt class="label" id="f7"><span class="brackets">7</span><span class="fn-backref">(<a href="#id12">1</a>,<a href="#id14">2</a>,<a href="#id19">3</a>)</span></dt>
+<dt class="label" id="f7"><span class="brackets">7</span><span class="fn-backref">(<a href="#id15">1</a>,<a href="#id17">2</a>,<a href="#id22">3</a>)</span></dt>
 <dd><p>For frequency computations by finite difference of energies,
 convergence criteria are tightened further still to 10 for
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-SCF"><span class="xref std std-term">E_CONVERGENCE</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a> for SCF of HF or DFT, 11
@@ -1240,7 +1262,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/2ffcc75">1.5a1.dev192</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9ed3cbc">1.5a1.dev193</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1254,7 +1276,7 @@ types.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 17 November 2021 06:44PM.
+      Last updated on Thursday, 18 November 2021 08:33PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

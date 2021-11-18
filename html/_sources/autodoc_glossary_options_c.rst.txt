@@ -271,6 +271,13 @@ Keywords by Alpha
       * **Possible Values**: DIRECT, DF, MEM\_DF, DISK\_DF, PK, OUT\_OF\_CORE, CD, GTFOCK
       * **Default**: PK
 
+   SCREENING (GLOBALS)
+      :ref:`apdx:GLOBALS` |w---w| The type of screening used when computing two-electron integrals.
+
+      * **Type**: string
+      * **Possible Values**: SCHWARZ, CSAM, DENSITY
+      * **Default**: CSAM
+
    SOCC (GLOBALS)
       :ref:`apdx:GLOBALS` |w---w| An array containing the number of singly-occupied orbitals per irrep (in Cotton order). The value of |globals__docc| should also be set.
 
@@ -5399,13 +5406,6 @@ Keywords by Alpha
       * **Type**: double
       * **Default**: 0.9
 
-   SCREENING (SAPT)
-      :ref:`apdx:SAPT` |w---w| Do use Combined Schwarz Approximation Maximum (CSAM) screening on two-electron integrals. This is a slightly tighter bound than that of default Schwarz screening.
-
-      * **Type**: string
-      * **Possible Values**: SCHWARZ, CSAM
-      * **Default**: CSAM
-
    SAPT_DFT_DO_DHF (SAPT)
       :ref:`apdx:SAPT` |w---w| Compute the Delta-HF correction?
 
@@ -5477,7 +5477,7 @@ Keywords by Alpha
       * **Default**: false
 
    INTS_TOLERANCE (SCF)
-      :ref:`apdx:SCF` |w---w| Schwarz screening threshold. Mininum absolute value below which TEI are neglected.
+      :ref:`apdx:SCF` |w---w| Screening threshold for the chosen screening method (SCHWARZ, CSAM, DENSITY) Absolute value below which TEI are neglected.
 
       * **Type**: :ref:`conv double <op_c_conv>`
       * **Default**: 1e-12
@@ -5634,6 +5634,18 @@ Keywords by Alpha
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: true
+
+   INCFOCK (SCF)
+      :ref:`apdx:SCF` |w---w| Do Perform Incremental Fock Build?
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   INCFOCK_FULL_FOCK_EVERY (SCF)
+      :ref:`apdx:SCF` |w---w| Frequency with which to compute the full Fock matrix if using |scf__incfock| . N means rebuild every N SCF iterations to avoid accumulating error from the incremental procedure.
+
+      * **Type**: integer
+      * **Default**: 5
 
    LEVEL_SHIFT (SCF)
       :ref:`apdx:SCF` |w---w| Do use a level shift?
