@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/prop_util.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c1626a1">1.6a1.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d3a7619">1.6a1.dev4</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -161,6 +161,14 @@
 <span class="sd">        The wave function associated with the molecule, method, and basis for </span>
 <span class="sd">        atomic computations</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># If we&#39;re already a free atom, break to avoid recursion</span>
+    <span class="c1"># We don&#39;t ever need volume ratios for free atoms since they</span>
+    <span class="c1"># are by definition 1.0</span>
+    <span class="n">natom</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">natom</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">natom</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span> 
+    
 
     <span class="c1"># the level of theory</span>
     <span class="n">current_en</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">scalar_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">)</span>
@@ -329,7 +337,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/prop_util.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c1626a1">1.6a1.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d3a7619">1.6a1.dev4</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -343,7 +351,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Thursday, 02 December 2021 08:26PM.
+      Last updated on Friday, 03 December 2021 02:34PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
