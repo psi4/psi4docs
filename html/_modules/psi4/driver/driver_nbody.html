@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e007742">1.6a1.dev21</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2d5f5eb">1.6a1.dev22</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -170,10 +170,39 @@
                             <span class="n">vmfc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                             <span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Sums gradient and hessian data from compute_list.</span>
+<span class="sd">    Sum gradients/hessians from n-body computations to obtain the BSSE corrected or uncorrected gradient/hessian</span>
 
-<span class="sd">    compute_list comes in as a tuple(frag, basis)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ptype : str</span>
+<span class="sd">        Either &quot;gradient&quot; or &quot;hessian&quot;</span>
+
+<span class="sd">    ptype_dict : dict</span>
+<span class="sd">        Dictionary containing computed gradient or Hessian obtained from each subsystem computation</span>
+
+<span class="sd">    compute_list : tuple</span>
+<span class="sd">        A tuple of (frag, basis) data containing all the required computations</span>
+
+<span class="sd">    fragment_slice_dict : dict</span>
+<span class="sd">        Dictionary containing slices that index the gradient or Hessian matrix for each of the fragments</span>
+
+<span class="sd">    fragment_size_dict : dict</span>
+<span class="sd">        Dictionary containing the number of atoms of each fragment</span>
+
+<span class="sd">    ret : np.ndarray</span>
+<span class="sd">        An array containing the returned gradient or Hessian data. Modified in place</span>
+
+<span class="sd">    vmfc : bool</span>
+<span class="sd">        Is it a VMFC calculation</span>
+
+<span class="sd">    n : int</span>
+<span class="sd">        MBE level; required for VMFC calculations</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">compute_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span>
@@ -214,7 +243,7 @@
 
             <span class="k">for</span> <span class="n">abs_sl1</span><span class="p">,</span> <span class="n">rel_sl1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">abs_slices</span><span class="p">,</span> <span class="n">rel_slices</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">abs_sl2</span><span class="p">,</span> <span class="n">rel_sl2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">abs_slices</span><span class="p">,</span> <span class="n">rel_slices</span><span class="p">):</span>
-                    <span class="n">ret</span><span class="p">[</span><span class="n">abs_sl1</span><span class="p">,</span> <span class="n">abs_sl2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">hess</span><span class="p">[</span><span class="n">rel_sl1</span><span class="p">,</span> <span class="n">rel_sl2</span><span class="p">]</span>
+                    <span class="n">ret</span><span class="p">[</span><span class="n">abs_sl1</span><span class="p">,</span> <span class="n">abs_sl2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">sign</span> <span class="o">*</span> <span class="n">hess</span><span class="p">[</span><span class="n">rel_sl1</span><span class="p">,</span> <span class="n">rel_sl2</span><span class="p">]</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;ptype can only be gradient or hessian How did you end up here?&quot;</span><span class="p">)</span>
@@ -1022,7 +1051,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e007742">1.6a1.dev21</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2d5f5eb">1.6a1.dev22</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1036,7 +1065,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Tuesday, 04 January 2022 06:46AM.
+      Last updated on Tuesday, 04 January 2022 03:08PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
