@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/6c7cfca">1.6a1.dev23</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/09fec3e">1.6a1.dev24</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -3605,7 +3605,7 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">adcc</span>
-        <span class="kn">from</span> <span class="nn">adcc.backends</span> <span class="kn">import</span> <span class="n">InvalidReference</span>
+        <span class="kn">from</span> <span class="nn">adcc.exceptions</span> <span class="kn">import</span> <span class="n">InvalidReference</span>
     <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;adcc extras qc_module not available. Try installing &quot;</span>
             <span class="s2">&quot;via &#39;pip install adcc&#39; or &#39;conda install -c adcc adcc&#39;.&quot;</span><span class="p">)</span>
@@ -3715,7 +3715,10 @@
     <span class="k">except</span> <span class="n">InvalidReference</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Cannot run adcc because the passed reference wavefunction is &quot;</span>
                               <span class="s2">&quot;not supported in adcc. Check Psi4 SCF parameters. adcc reports: &quot;</span>
-                              <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="p">)))</span>
+                              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Unknown exception occured while &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;running adcc: &#39;</span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">&#39; (</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># TODO Should a non-converged calculation throw?</span>
@@ -5463,7 +5466,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/6c7cfca">1.6a1.dev23</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/09fec3e">1.6a1.dev24</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5477,7 +5480,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, The Psi4 Project.
-      Last updated on Wednesday, 05 January 2022 07:33PM.
+      Last updated on Thursday, 06 January 2022 02:11PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
