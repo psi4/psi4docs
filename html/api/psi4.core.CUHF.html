@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.core.CUHF.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/cc5e712">1.6a1.dev42</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6918063">1.6a1.dev47</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -332,7 +332,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CUHF.density_fitted" title="psi4.core.CUHF.density_fitted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">density_fitted</span></code></a>(self)</p></td>
 <td><p>Returns whether this wavefunction was obtained using density fitting or not.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CUHF.diis" title="psi4.core.CUHF.diis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diis</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CUHF.diis" title="psi4.core.CUHF.diis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diis</span></code></a>(self, arg0)</p></td>
 <td><p>docstring</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CUHF.doccpi" title="psi4.core.CUHF.doccpi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">doccpi</span></code></a>(self)</p></td>
@@ -707,16 +707,19 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CUHF.twoel_Hx" title="psi4.core.CUHF.twoel_Hx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">twoel_Hx</span></code></a>(self, arg0, arg1, arg2)</p></td>
 <td><p>Two-electron Hessian-vector products</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CUHF.variable" title="psi4.core.CUHF.variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variable</span></code></a>(key)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CUHF.validate_diis" title="psi4.core.CUHF.validate_diis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_diis</span></code></a>()</p></td>
+<td><p>Sanity-checks DIIS control options</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CUHF.variable" title="psi4.core.CUHF.variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variable</span></code></a>(key)</p></td>
 <td><p>Return copy of scalar or array QCVariable <em>key</em> from <em>self</em> <a class="reference internal" href="psi4.core.Wavefunction.html#psi4.core.Wavefunction" title="psi4.core.Wavefunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">psi4.core.Wavefunction</span></code></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CUHF.variables" title="psi4.core.CUHF.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a>([include_deprecated_keys])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CUHF.variables" title="psi4.core.CUHF.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a>([include_deprecated_keys])</p></td>
 <td><p>Return all scalar or array QCVariables from <em>cls</em>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CUHF.write_molden" title="psi4.core.CUHF.write_molden"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_molden</span></code></a>([filename, do_virtual, use_natural])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CUHF.write_molden" title="psi4.core.CUHF.write_molden"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_molden</span></code></a>([filename, do_virtual, use_natural])</p></td>
 <td><p>Function to write wavefunction information in <em>wfn</em> to <em>filename</em> in molden format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.CUHF.write_nbo" title="psi4.core.CUHF.write_nbo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_nbo</span></code></a>(name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.CUHF.write_nbo" title="psi4.core.CUHF.write_nbo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_nbo</span></code></a>(name)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1172,7 +1175,7 @@ returns the SCF energy computed by finalize_energy().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="psi4.core.CUHF.diis">
-<span class="sig-name descname"><span class="pre">diis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.HF.html#psi4.core.HF" title="psi4.core.HF"><span class="pre">psi4.core.HF</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.CUHF.diis" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">diis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.HF.html#psi4.core.HF" title="psi4.core.HF"><span class="pre">psi4.core.HF</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.CUHF.diis" title="Permalink to this definition">¶</a></dt>
 <dd><p>docstring</p>
 </dd></dl>
 
@@ -1983,6 +1986,23 @@ so that files can be consistently written and read</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.CUHF.validate_diis">
+<span class="sig-name descname"><span class="pre">validate_diis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#psi4.core.CUHF.validate_diis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanity-checks DIIS control options</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="psi4.driver.ValidationError.html#psi4.driver.ValidationError" title="psi4.driver.p4util.exceptions.ValidationError"><strong>psi4.driver.p4util.exceptions.ValidationError</strong></a> – If any of DIIS options don’t play well together.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whether some form of DIIS is enabled during SCF.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="psi4.core.CUHF.variable">
 <span class="sig-name descname"><span class="pre">variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#psi4.core.CUHF.variable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return copy of scalar or array QCVariable <em>key</em> from <em>self</em> <a class="reference internal" href="psi4.core.Wavefunction.html#psi4.core.Wavefunction" title="psi4.core.Wavefunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">psi4.core.Wavefunction</span></code></a>.</p>
@@ -2193,7 +2213,7 @@ boolean option determines whether inactive orbitals are included.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.core.CUHF.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/cc5e712">1.6a1.dev42</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6918063">1.6a1.dev47</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2207,7 +2227,7 @@ boolean option determines whether inactive orbitals are included.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Saturday, 05 February 2022 10:01PM.
+      Last updated on Thursday, 10 February 2022 10:59PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

@@ -249,7 +249,7 @@ Keywords by Alpha
       :ref:`apdx:GLOBALS` |w---w| When several modules can compute the same methods and the default routing is not suitable, this targets a module. ``CCENERGY`` covers CCHBAR, etc. ``OCC`` covers OCC and DFOCC.
 
       * **Type**: string
-      * **Possible Values**: CCENERGY, DETCI, DFMP2, FNOCC, OCC, ADCC, CCT3
+      * **Possible Values**: CCENERGY, DETCI, DFMP2, FNOCC, OCC, ADCC, CCT3, BUILTIN
       * **Default**: No Default
 
    RESTRICTED_DOCC (GLOBALS)
@@ -5594,7 +5594,7 @@ Keywords by Alpha
       * **Default**: true
 
    DIIS_START (SCF)
-      :ref:`apdx:SCF` |w---w| The minimum iteration to start storing DIIS vectors
+      :ref:`apdx:SCF` |w---w| The minimum iteration to start storing DIIS vectors and performing ADIIS/EDIIS.
 
       * **Type**: integer
       * **Default**: 1
@@ -5664,6 +5664,25 @@ Keywords by Alpha
 
       * **Type**: array
       * **Default**: No Default
+
+   SCF_INITIAL_ACCELERATOR (SCF)
+      :ref:`apdx:SCF` |w---w| Use a method to accelerate initial SCF convergence? Use ``NONE`` for DIIS alone (if enabled) and ``EDIIS`` or ``ADIIS`` to have both the chosen accelerator and DIIS (if enabled). For restricted-open references, ``EDIIS`` and ``ADIIS`` have no effect.
+
+      * **Type**: string
+      * **Possible Values**: NONE, EDIIS, ADIIS
+      * **Default**: ADIIS
+
+   SCF_INITIAL_FINISH_DIIS_TRANSITION (SCF)
+      :ref:`apdx:SCF` |w---w| SCF error at which to complete the linear interpolation between DIIS steps and steps of the initial SCF accelerator Value taken from Garza and Scuseria, DOI: 10.1063/1.4740249
+
+      * **Type**: double
+      * **Default**: 1.0e-4
+
+   SCF_INITIAL_START_DIIS_TRANSITION (SCF)
+      :ref:`apdx:SCF` |w---w| SCF error at which to start the linear interpolation between DIIS steps and steps of the initial SCF accelerator. Value taken from Garza and Scuseria, DOI: 10.1063/1.4740249
+
+      * **Type**: double
+      * **Default**: 1.0e-1
 
    SOSCF (SCF)
       :ref:`apdx:SCF` |w---w| Do use second-order SCF convergence methods?

@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/autodir_options_c/module__scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/cc5e712">1.6a1.dev42</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6918063">1.6a1.dev47</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -430,7 +430,7 @@
 <section id="diis-start">
 <h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-DIIS_START-SCF"><span class="xref std std-term">DIIS_START</span></a><a class="headerlink" href="#diis-start" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><p>The minimum iteration to start storing DIIS vectors</p>
+<div><p>The minimum iteration to start storing DIIS vectors and performing ADIIS/EDIIS.</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: integer</p></li>
 <li><p><strong>Default</strong>: 1</p></li>
@@ -544,6 +544,37 @@
 <ul class="simple">
 <li><p><strong>Type</strong>: array</p></li>
 <li><p><strong>Default</strong>: No Default</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="scf-initial-accelerator">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-SCF_INITIAL_ACCELERATOR-SCF"><span class="xref std std-term">SCF_INITIAL_ACCELERATOR</span></a><a class="headerlink" href="#scf-initial-accelerator" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Use a method to accelerate initial SCF convergence? Use <code class="docutils literal notranslate"><span class="pre">NONE</span></code> for DIIS alone (if enabled) and <code class="docutils literal notranslate"><span class="pre">EDIIS</span></code> or <code class="docutils literal notranslate"><span class="pre">ADIIS</span></code> to have both the chosen accelerator and DIIS (if enabled). For restricted-open references, <code class="docutils literal notranslate"><span class="pre">EDIIS</span></code> and <code class="docutils literal notranslate"><span class="pre">ADIIS</span></code> have no effect.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: NONE, EDIIS, ADIIS</p></li>
+<li><p><strong>Default</strong>: ADIIS</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="scf-initial-finish-diis-transition">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-SCF_INITIAL_FINISH_DIIS_TRANSITION-SCF"><span class="xref std std-term">SCF_INITIAL_FINISH_DIIS_TRANSITION</span></a><a class="headerlink" href="#scf-initial-finish-diis-transition" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>SCF error at which to complete the linear interpolation between DIIS steps and steps of the initial SCF accelerator Value taken from Garza and Scuseria, DOI: 10.1063/1.4740249</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1.0e-4</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="scf-initial-start-diis-transition">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-SCF_INITIAL_START_DIIS_TRANSITION-SCF"><span class="xref std std-term">SCF_INITIAL_START_DIIS_TRANSITION</span></a><a class="headerlink" href="#scf-initial-start-diis-transition" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>SCF error at which to start the linear interpolation between DIIS steps and steps of the initial SCF accelerator. Value taken from Garza and Scuseria, DOI: 10.1063/1.4740249</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1.0e-1</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -1732,6 +1763,9 @@
 <li><a class="reference internal" href="#mom-occ"><span class="xref std std-term">MOM_OCC</span></a></li>
 <li><a class="reference internal" href="#mom-start"><span class="xref std std-term">MOM_START</span></a></li>
 <li><a class="reference internal" href="#mom-vir"><span class="xref std std-term">MOM_VIR</span></a></li>
+<li><a class="reference internal" href="#scf-initial-accelerator"><span class="xref std std-term">SCF_INITIAL_ACCELERATOR</span></a></li>
+<li><a class="reference internal" href="#scf-initial-finish-diis-transition"><span class="xref std std-term">SCF_INITIAL_FINISH_DIIS_TRANSITION</span></a></li>
+<li><a class="reference internal" href="#scf-initial-start-diis-transition"><span class="xref std std-term">SCF_INITIAL_START_DIIS_TRANSITION</span></a></li>
 <li><a class="reference internal" href="#soscf"><span class="xref std std-term">SOSCF</span></a></li>
 <li><a class="reference internal" href="#soscf-conv"><span class="xref std std-term">SOSCF_CONV</span></a></li>
 <li><a class="reference internal" href="#soscf-max-iter"><span class="xref std std-term">SOSCF_MAX_ITER</span></a></li>
@@ -1927,7 +1961,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/autodir_options_c/module__scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/cc5e712">1.6a1.dev42</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6918063">1.6a1.dev47</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1942,7 +1976,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Saturday, 05 February 2022 10:01PM.
+      Last updated on Thursday, 10 February 2022 10:59PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

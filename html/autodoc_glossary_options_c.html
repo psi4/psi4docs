@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/autodoc_glossary_options_c.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/cc5e712">1.6a1.dev42</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6918063">1.6a1.dev47</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2628,7 +2628,7 @@
 <li><p><strong>Default</strong>: 2</p></li>
 </ul>
 </dd>
-<dt id="term-DIIS_START-SCF">DIIS_START (SCF)<a class="headerlink" href="#term-DIIS_START-SCF" title="Permalink to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — The minimum iteration to start storing DIIS vectors</p>
+<dt id="term-DIIS_START-SCF">DIIS_START (SCF)<a class="headerlink" href="#term-DIIS_START-SCF" title="Permalink to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — The minimum iteration to start storing DIIS vectors and performing ADIIS/EDIIS.</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: integer</p></li>
 <li><p><strong>Default</strong>: 1</p></li>
@@ -5738,7 +5738,7 @@
 <dt id="term-QC_MODULE-GLOBALS">QC_MODULE (GLOBALS)<a class="headerlink" href="#term-QC_MODULE-GLOBALS" title="Permalink to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__globals.html#apdx-globals"><span class="std std-ref">GLOBALS</span></a> — When several modules can compute the same methods and the default routing is not suitable, this targets a module. <code class="docutils literal notranslate"><span class="pre">CCENERGY</span></code> covers CCHBAR, etc. <code class="docutils literal notranslate"><span class="pre">OCC</span></code> covers OCC and DFOCC.</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: string</p></li>
-<li><p><strong>Possible Values</strong>: CCENERGY, DETCI, DFMP2, FNOCC, OCC, ADCC, CCT3</p></li>
+<li><p><strong>Possible Values</strong>: CCENERGY, DETCI, DFMP2, FNOCC, OCC, ADCC, CCT3, BUILTIN</p></li>
 <li><p><strong>Default</strong>: No Default</p></li>
 </ul>
 </dd>
@@ -6434,6 +6434,25 @@
 <ul class="simple">
 <li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
 <li><p><strong>Default</strong>: false</p></li>
+</ul>
+</dd>
+<dt id="term-SCF_INITIAL_ACCELERATOR-SCF">SCF_INITIAL_ACCELERATOR (SCF)<a class="headerlink" href="#term-SCF_INITIAL_ACCELERATOR-SCF" title="Permalink to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — Use a method to accelerate initial SCF convergence? Use <code class="docutils literal notranslate"><span class="pre">NONE</span></code> for DIIS alone (if enabled) and <code class="docutils literal notranslate"><span class="pre">EDIIS</span></code> or <code class="docutils literal notranslate"><span class="pre">ADIIS</span></code> to have both the chosen accelerator and DIIS (if enabled). For restricted-open references, <code class="docutils literal notranslate"><span class="pre">EDIIS</span></code> and <code class="docutils literal notranslate"><span class="pre">ADIIS</span></code> have no effect.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: NONE, EDIIS, ADIIS</p></li>
+<li><p><strong>Default</strong>: ADIIS</p></li>
+</ul>
+</dd>
+<dt id="term-SCF_INITIAL_FINISH_DIIS_TRANSITION-SCF">SCF_INITIAL_FINISH_DIIS_TRANSITION (SCF)<a class="headerlink" href="#term-SCF_INITIAL_FINISH_DIIS_TRANSITION-SCF" title="Permalink to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — SCF error at which to complete the linear interpolation between DIIS steps and steps of the initial SCF accelerator Value taken from Garza and Scuseria, DOI: 10.1063/1.4740249</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1.0e-4</p></li>
+</ul>
+</dd>
+<dt id="term-SCF_INITIAL_START_DIIS_TRANSITION-SCF">SCF_INITIAL_START_DIIS_TRANSITION (SCF)<a class="headerlink" href="#term-SCF_INITIAL_START_DIIS_TRANSITION-SCF" title="Permalink to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — SCF error at which to start the linear interpolation between DIIS steps and steps of the initial SCF accelerator. Value taken from Garza and Scuseria, DOI: 10.1063/1.4740249</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1.0e-1</p></li>
 </ul>
 </dd>
 <dt id="term-SCF_MEM_SAFETY_FACTOR-SCF">SCF_MEM_SAFETY_FACTOR (SCF)<a class="headerlink" href="#term-SCF_MEM_SAFETY_FACTOR-SCF" title="Permalink to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — Memory safety factor for allocating JK</p>
@@ -7418,7 +7437,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/autodoc_glossary_options_c.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/cc5e712">1.6a1.dev42</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6918063">1.6a1.dev47</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -7432,7 +7451,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Saturday, 05 February 2022 10:01PM.
+      Last updated on Thursday, 10 February 2022 10:59PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

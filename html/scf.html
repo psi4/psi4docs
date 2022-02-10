@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/cc5e712">1.6a1.dev42</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6918063">1.6a1.dev47</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -610,16 +610,22 @@ that <span style="font-family: Optima, sans-serif; text-transform: none;">P<span
 </section>
 <section id="convergence-stabilization">
 <span id="sec-scfconv"></span><span id="index-2"></span><h2>Convergence Stabilization<a class="headerlink" href="#convergence-stabilization" title="Permalink to this headline">¶</a></h2>
-<p>With regard to convergence stabilization, Pulay’s Direct Inversion of the
-Iterative Subspace (DIIS) extrapolation,  Gill’s Maximum Overlap Method (MOM),
-and damping are all implemented. A summary of each is presented below,</p>
+<p>A summary of Psi’s supported convergence stabilization techniques is presented below:</p>
 <dl class="simple">
-<dt>DIIS [On by Default]</dt><dd><p>DIIS uses previous iterates of the Fock Matrix together
+<dt>DIIS [On by Default]</dt><dd><p>DIIS uses previous iterates of the Fock matrix together
 with an error criterion based on the orbital gradient to produce an informed
 estimate of the next Fock Matrix. DIIS is almost always necessary to converge
 the SCF procedure and is therefore turned on by default. In rare cases, the
 DIIS algorithm may need to be modified or turned off altogether, which may be
 accomplished via <a class="reference internal" href="autodoc_glossary_options_c.html#term-DIIS-SCF"><span class="xref std std-term">options</span></a>.</p>
+</dd>
+<dt>ADIIS [On by Default]</dt><dd><p>ADIIS uses previous iterates of the Fock and density matrices to produce an
+informed estimate of the next Fock matrix. ADIIS estimates are based on minimizing
+an energy estimate rather than zeroing the residual, so this performs best in the early
+iterations. By default, Psi will start using ADIIS before blending the ADIIS step with
+the DIIS step, eventually using the pure DIIS step. The closely-related EDIIS procedure
+may be used instead by setting <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_INITIAL_ACCELERATOR-SCF"><span class="xref std std-term">SCF_INITIAL_ACCELERATOR</span></a>. This is formally identical
+to ADIIS for HF, but the methods will differ for more general DFT.</p>
 </dd>
 <dt>MOM [Off by Default]</dt><dd><p>MOM was developed to combat a particular class of convergence failure:
 occupation flipping. In some cases, midway though the SCF procedure, a partially
@@ -1262,7 +1268,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/cc5e712">1.6a1.dev42</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6918063">1.6a1.dev47</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1276,7 +1282,7 @@ types.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Saturday, 05 February 2022 10:01PM.
+      Last updated on Thursday, 10 February 2022 10:59PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
