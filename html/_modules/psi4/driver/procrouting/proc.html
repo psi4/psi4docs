@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/32739ca">1.6a1.dev48</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f1073f1">1.6a1.dev50</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -3225,15 +3225,19 @@
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;eom-ccsd&#39;</span><span class="p">:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="s1">&#39;EOM_CCSD&#39;</span><span class="p">)</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;DERTYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;NONE&#39;</span><span class="p">)</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;ONEPDM&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
             <span class="n">core</span><span class="o">.</span><span class="n">cceom</span><span class="p">(</span><span class="n">ccwfn</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;eom-cc2&#39;</span><span class="p">:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="s1">&#39;EOM_CC2&#39;</span><span class="p">)</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;DERTYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;NONE&#39;</span><span class="p">)</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;ONEPDM&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
             <span class="n">core</span><span class="o">.</span><span class="n">cceom</span><span class="p">(</span><span class="n">ccwfn</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;DERTYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;NONE&#39;</span><span class="p">)</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;ONEPDM&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;CCDENSITY&#39;</span><span class="p">,</span> <span class="s1">&#39;OPDM_RELAX&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">n_two</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># WARNING!!! A one-particle property computed _with_ a two-particle property will differ</span>
+            <span class="c1"># from a one-particle property computed by itself. There are no two-particle properties at</span>
+            <span class="c1"># present, so we can kick the issue further down the road.</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;OPDM_ONLY&#39;</span><span class="p">,</span> <span class="s1">&#39;FALSE&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;OPDM_ONLY&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">cclambda</span><span class="p">(</span><span class="n">ccwfn</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">ccdensity</span><span class="p">(</span><span class="n">ccwfn</span><span class="p">)</span>
 
@@ -3254,7 +3258,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Unknown excited-state CC wave function.&quot;&quot;&quot;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;DERTYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;NONE&#39;</span><span class="p">)</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;ONEPDM&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;CCDENSITY&#39;</span><span class="p">,</span> <span class="s1">&#39;OPDM_RELAX&#39;</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;OPDM_ONLY&#39;</span><span class="p">,</span> <span class="s1">&#39;FALSE&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;OPDM_ONLY&#39;</span><span class="p">,</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">)</span>
         <span class="c1"># Tight convergence unnecessary for transition properties</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;CCLAMBDA&#39;</span><span class="p">,</span> <span class="s1">&#39;R_CONVERGENCE&#39;</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;CCEOM&#39;</span><span class="p">,</span> <span class="s1">&#39;R_CONVERGENCE&#39;</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">)</span>
@@ -5481,7 +5488,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/32739ca">1.6a1.dev48</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f1073f1">1.6a1.dev50</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5495,7 +5502,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Friday, 11 February 2022 11:56AM.
+      Last updated on Friday, 11 February 2022 05:39PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
