@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fc65513">1.6a1.dev61</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f130e6d">1.6a1.dev62</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -3209,13 +3209,17 @@
     <span class="k">if</span> <span class="p">(</span><span class="n">n_one</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n_two</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">n_response</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Computing both density- and response-based properties.&quot;&quot;&quot;</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">n_response</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;ref_wfn&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ref_wfn&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">same_a_b_orbs</span><span class="p">())</span> <span class="ow">or</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;RHF&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Non-RHF CC response properties are not implemented.&quot;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ccsd&#39;</span><span class="p">,</span> <span class="s1">&#39;cc2&#39;</span><span class="p">,</span> <span class="s1">&#39;eom-ccsd&#39;</span><span class="p">,</span> <span class="s1">&#39;eom-cc2&#39;</span><span class="p">]:</span>
         <span class="n">this_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="n">this_name</span><span class="p">)</span>
         <span class="n">ccwfn</span> <span class="o">=</span> <span class="n">run_ccenergy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="n">this_name</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;CC property name </span><span class="si">%s</span><span class="s2"> not recognized&quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CC property name </span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> not recognized&quot;</span><span class="p">)</span>
 
     <span class="c1"># Need cchbar for everything</span>
     <span class="n">core</span><span class="o">.</span><span class="n">cchbar</span><span class="p">(</span><span class="n">ccwfn</span><span class="p">)</span>
@@ -5488,7 +5492,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fc65513">1.6a1.dev61</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f130e6d">1.6a1.dev62</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5502,7 +5506,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Sunday, 20 February 2022 07:01PM.
+      Last updated on Monday, 21 February 2022 08:16AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
