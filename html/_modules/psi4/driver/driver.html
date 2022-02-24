@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1900661">1.6a1.dev66</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/cf0a0d8">1.6a1.dev77</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1504,8 +1504,8 @@
             <span class="c1"># Mark the optimization data as disposable now that the optimization is done.</span>
             <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">set_specific_retention</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
             <span class="c1"># Check if user wants to see the intcos; if so, don&#39;t delete them.</span>
-            <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;INTCOS_GENERATE_EXIT&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;KEEP_INTCOS&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;INTCOS_GENERATE_EXIT&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;KEEP_INTCOS&#39;</span><span class="p">):</span>
                     <span class="n">core</span><span class="o">.</span><span class="n">opt_clean</span><span class="p">()</span>
             <span class="c1"># Changing environment to optimized geometry as expected by user</span>
             <span class="n">molecule</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">moleculeclone</span><span class="o">.</span><span class="n">geometry</span><span class="p">())</span>
@@ -1539,7 +1539,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Optimizer: Optimization failed!&#39;</span><span class="p">)</span>
             <span class="c1"># Mark the optimization data as disposable now that the optimization is done.</span>
             <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">set_specific_retention</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;KEEP_INTCOS&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;KEEP_INTCOS&#39;</span><span class="p">):</span>
                 <span class="n">core</span><span class="o">.</span><span class="n">opt_clean</span><span class="p">()</span>
             <span class="n">molecule</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">moleculeclone</span><span class="o">.</span><span class="n">geometry</span><span class="p">())</span>
             <span class="n">core</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
@@ -1552,8 +1552,8 @@
 
         <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;INTCOS_GENERATE_EXIT&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;KEEP_INTCOS&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;INTCOS_GENERATE_EXIT&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;KEEP_INTCOS&#39;</span><span class="p">):</span>
             <span class="n">core</span><span class="o">.</span><span class="n">opt_clean</span><span class="p">()</span>
 
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
@@ -2073,7 +2073,7 @@
             <span class="k">if</span> <span class="n">origin</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Origin </span><span class="si">%f</span><span class="s2"> </span><span class="si">%f</span><span class="s2"> </span><span class="si">%f</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="mi">2</span><span class="p">])))</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;The GDMA origin array should contain three entries: x, y, and z.&quot;</span><span class="p">)</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Switch </span><span class="si">%f</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;GDMA&#39;</span><span class="p">,</span> <span class="s1">&#39;GDMA_SWITCH&#39;</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">radii</span><span class="p">:</span>
@@ -2426,7 +2426,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1900661">1.6a1.dev66</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/cf0a0d8">1.6a1.dev77</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2440,7 +2440,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 22 February 2022 01:30PM.
+      Last updated on Thursday, 24 February 2022 04:00PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

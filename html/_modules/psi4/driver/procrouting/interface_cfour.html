@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/interface_cfour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1900661">1.6a1.dev66</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/cf0a0d8">1.6a1.dev77</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -251,8 +251,8 @@
 
     <span class="c1"># Find environment by merging PSIPATH and PATH environment variables</span>
     <span class="n">lenv</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;PATH&#39;</span><span class="p">:</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PSIPATH&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">])</span> <span class="o">+</span> \
-                <span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PATH&#39;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="s1">&#39;PATH&#39;</span><span class="p">:</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PSIPATH&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">])</span> <span class="o">+</span>
+                <span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PATH&#39;</span><span class="p">)</span> <span class="o">+</span>
                 <span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">core</span><span class="o">.</span><span class="n">get_datadir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/basis&#39;</span><span class="p">,</span>
         <span class="s1">&#39;GENBAS_PATH&#39;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">get_datadir</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/basis&#39;</span><span class="p">,</span>
         <span class="s1">&#39;CFOUR_NUM_CORES&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CFOUR_NUM_CORES&#39;</span><span class="p">),</span>
@@ -317,7 +317,7 @@
     <span class="c1">#   OMP_NUM_THREADS from env is in lenv from above</span>
     <span class="c1">#   threads from psi4 -n (core.get_num_threads()) is ignored</span>
     <span class="c1">#   CFOUR_OMP_NUM_THREADS psi4 option takes precedence, handled below</span>
-    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_option_changed</span><span class="p">(</span><span class="s1">&#39;CFOUR&#39;</span><span class="p">,</span> <span class="s1">&#39;CFOUR_OMP_NUM_THREADS&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_option_changed</span><span class="p">(</span><span class="s1">&#39;CFOUR&#39;</span><span class="p">,</span> <span class="s1">&#39;CFOUR_OMP_NUM_THREADS&#39;</span><span class="p">):</span>
         <span class="n">lenv</span><span class="p">[</span><span class="s1">&#39;OMP_NUM_THREADS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;CFOUR&#39;</span><span class="p">,</span> <span class="s1">&#39;CFOUR_OMP_NUM_THREADS&#39;</span><span class="p">))</span>
 
     <span class="c1">#print(&quot;&quot;&quot;\n\n&lt;&lt;&lt;&lt;&lt;  RUNNING CFOUR ...  &gt;&gt;&gt;&gt;&gt;\n\n&quot;&quot;&quot;)</span>
@@ -708,7 +708,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/interface_cfour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1900661">1.6a1.dev66</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/cf0a0d8">1.6a1.dev77</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -722,7 +722,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 22 February 2022 01:30PM.
+      Last updated on Thursday, 24 February 2022 04:00PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
