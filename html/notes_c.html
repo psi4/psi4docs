@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/notes_c.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/39e082a">1.6a1.dev84</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/10c25fa">1.6a1.dev92</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -149,6 +149,32 @@ may be specified using either a real number or an integer; and integer <em>X</em
 treated as the number of converged decimal digits required. For example, to request
 as energy converged to <span class="math notranslate nohighlight">\(10^{-6} E_h\)</span>, the user may set the <code class="docutils literal notranslate"><span class="pre">e_convergence</span></code>
 keyword to <code class="docutils literal notranslate"><span class="pre">0.000001</span></code>, <code class="docutils literal notranslate"><span class="pre">1.0e-6</span></code>, or <code class="docutils literal notranslate"><span class="pre">6</span></code>.</p>
+</div>
+</section>
+<section id="notes-on-psivars">
+<span id="sec-psivarnotes"></span><h1>Notes on Psivars<a class="headerlink" href="#notes-on-psivars" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Starting in 1.6, there are three standard ways to access an excited state
+property. We give examples below, but the method name and property name may change.
+* <code class="docutils literal notranslate"><span class="pre">method</span> <span class="pre">ROOT</span> <span class="pre">0</span> <span class="pre">-&gt;</span> <span class="pre">ROOT</span> <span class="pre">m</span> <span class="pre">property</span></code> to get root m.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">method</span> <span class="pre">ROOT</span> <span class="pre">0</span> <span class="pre">-&gt;</span> <span class="pre">ROOT</span> <span class="pre">m</span> <span class="pre">property</span> <span class="pre">-</span> <span class="pre">h</span> <span class="pre">TRANSITION</span></code> to get root m and</dt><dd><p>independently specify that the total transition symmetry is h, e.g., A2.</p>
+</dd>
+</dl>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span> <span class="pre">ROOT</span> <span class="pre">0</span> <span class="pre">(h)</span> <span class="pre">-&gt;</span> <span class="pre">ROOT</span> <span class="pre">m</span> <span class="pre">(i)</span> <span class="pre">property</span></code> to get the transition
+between two roots, specifying the symmetry of both states and the index of the target
+roots among states of their own symmetry.</p></li>
+</ul>
+<p>For example, to target the second excited-state, which is also the lowest energy state
+of its irrep, the first two calls will take m = 2, while the last takes m = 0.
+Methods that use this interface are: TD-fctl.
+Note that numberings are associated with the calculation much more strongly than
+with the molecular system. Changing the number of roots sought, the symmetry
+subspace or the symmetry apportionment of roots under which the computation is run,
+or the excited state method are all likely to scramble root numberings.</p>
 </div>
 </section>
 <section id="alternate-implementations">
@@ -1393,6 +1419,7 @@ conventional integrals. Therefore, for a closed-shell molecule:</p>
     <h3><a href="index.html">table of contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">Notes on Options</a></li>
+<li><a class="reference internal" href="#notes-on-psivars">Notes on Psivars</a></li>
 <li><a class="reference internal" href="#alternate-implementations">Alternate Implementations</a></li>
 </ul>
 
@@ -1443,7 +1470,7 @@ conventional integrals. Therefore, for a closed-shell molecule:</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/notes_c.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/39e082a">1.6a1.dev84</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/10c25fa">1.6a1.dev92</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1457,7 +1484,7 @@ conventional integrals. Therefore, for a closed-shell molecule:</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Wednesday, 09 March 2022 09:40PM.
+      Last updated on Saturday, 12 March 2022 08:20PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
