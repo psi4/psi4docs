@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/d305ac9">1.6a1.dev96</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1ffb67b">1.6a1.dev97</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1746,9 +1746,6 @@
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="p">[</span><span class="n">core</span><span class="p">,</span> <span class="n">scf_wfn</span><span class="p">]:</span>
             <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-                <span class="c1"># component qcvars can be retired at v1.5</span>
-                <span class="k">for</span> <span class="n">xyz</span> <span class="ow">in</span> <span class="s1">&#39;XYZ&#39;</span><span class="p">:</span>
-                    <span class="n">obj</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT DIPOLE &#39;</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;SCF DIPOLE &#39;</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">))</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT DIPOLE&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;SCF DIPOLE&quot;</span><span class="p">))</span>  <span class="c1"># P::e SCF</span>
 
     <span class="c1"># Write out MO&#39;s</span>
@@ -3117,11 +3114,6 @@
     <span class="n">oe</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
     <span class="n">scf_wfn</span><span class="o">.</span><span class="n">oeprop</span> <span class="o">=</span> <span class="n">oe</span>
 
-    <span class="c1"># Always must set SCF dipole (retire components at v1.5)</span>
-    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">cart</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">]:</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SCF DIPOLE &quot;</span> <span class="o">+</span> <span class="n">cart</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE &quot;</span> <span class="o">+</span> <span class="n">cart</span><span class="p">))</span>
     <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SCF DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE&quot;</span><span class="p">))</span>  <span class="c1"># P::e SCF</span>
 
     <span class="c1"># Run Linear Respsonse</span>
@@ -3284,20 +3276,6 @@
         <span class="c1"># call oe prop for each ES density</span>
         <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;eom&#39;</span><span class="p">):</span>
             <span class="c1"># copy GS CC DIP/QUAD ... to CC ROOT 0 DIP/QUAD ... if we are doing multiple roots</span>
-            <span class="c1"># retire components at v1.5</span>
-            <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="s1">&#39;dipole&#39;</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
-                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 DIPOLE X&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC DIPOLE X&quot;</span><span class="p">))</span>
-                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 DIPOLE Y&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC DIPOLE Y&quot;</span><span class="p">))</span>
-                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 DIPOLE Z&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC DIPOLE Z&quot;</span><span class="p">))</span>
-                <span class="k">if</span> <span class="s1">&#39;quadrupole&#39;</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
-                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE XX&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE XX&quot;</span><span class="p">))</span>
-                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE XY&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE XY&quot;</span><span class="p">))</span>
-                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE XZ&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE XZ&quot;</span><span class="p">))</span>
-                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE YY&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE YY&quot;</span><span class="p">))</span>
-                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE YZ&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE YZ&quot;</span><span class="p">))</span>
-                    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE ZZ&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE ZZ&quot;</span><span class="p">))</span>
             <span class="k">if</span> <span class="s1">&#39;dipole&#39;</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
                 <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC DIPOLE&quot;</span><span class="p">))</span>
                 <span class="c1"># core.set_variable(&quot;CC ROOT n DIPOLE&quot;, core.variable(&quot;CC DIPOLE&quot;))  # P::e CCENERGY</span>
@@ -4022,12 +4000,6 @@
         <span class="n">oeprop</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;DIPOLE&quot;</span><span class="p">)</span>
         <span class="n">oeprop</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
         <span class="n">ciwfn</span><span class="o">.</span><span class="n">oeprop</span> <span class="o">=</span> <span class="n">oeprop</span>
-        <span class="c1"># retire components in v1.5</span>
-        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT DIPOLE X&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE X&quot;</span><span class="p">))</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT DIPOLE Y&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE Y&quot;</span><span class="p">))</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT DIPOLE Z&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE Z&quot;</span><span class="p">))</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE&quot;</span><span class="p">))</span>
 
     <span class="n">ciwfn</span><span class="o">.</span><span class="n">cleanup_ci</span><span class="p">()</span>
@@ -5337,12 +5309,6 @@
     <span class="n">oeprop</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;DIPOLE&quot;</span><span class="p">)</span>
     <span class="n">oeprop</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
     <span class="n">ciwfn</span><span class="o">.</span><span class="n">oeprop</span> <span class="o">=</span> <span class="n">oeprop</span>
-    <span class="c1"># retire components by v1.5</span>
-    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT DIPOLE X&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE X&quot;</span><span class="p">))</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT DIPOLE Y&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE Y&quot;</span><span class="p">))</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT DIPOLE Z&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE Z&quot;</span><span class="p">))</span>
     <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; DIPOLE&quot;</span><span class="p">))</span>
 
     <span class="c1"># Shove variables into global space</span>
@@ -5492,7 +5458,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/d305ac9">1.6a1.dev96</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1ffb67b">1.6a1.dev97</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5506,7 +5472,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Wednesday, 16 March 2022 08:50PM.
+      Last updated on Wednesday, 16 March 2022 10:06PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

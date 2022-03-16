@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/d305ac9">1.6a1.dev96</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1ffb67b">1.6a1.dev97</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -763,16 +763,10 @@
 
 <span class="k">def</span> <span class="nf">_qcvar_warnings</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot; DIPOLE &quot;</span> <span class="o">+</span> <span class="n">cart</span><span class="p">)</span> <span class="k">for</span> <span class="n">cart</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">]]):</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Using scalar QCVariable `</span><span class="si">{</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">` [D] instead of array `</span><span class="si">{</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">` [e a0] is deprecated, and in 1.5 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
-            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()[:</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="mf">1.6</span><span class="p">,</span> <span class="s2">&quot; Note the Debye -&gt; a.u. units change.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot; QUADRUPOLE &quot;</span> <span class="o">+</span> <span class="n">cart</span><span class="p">)</span> <span class="k">for</span> <span class="n">cart</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;XX&quot;</span><span class="p">,</span> <span class="s2">&quot;YY&quot;</span><span class="p">,</span> <span class="s2">&quot;ZZ&quot;</span><span class="p">,</span> <span class="s2">&quot;XY&quot;</span><span class="p">,</span> <span class="s2">&quot;XZ&quot;</span><span class="p">,</span> <span class="s2">&quot;YZ&quot;</span><span class="p">]]):</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Using scalar QCVariable `</span><span class="si">{</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">` [D A] instead of array `</span><span class="si">{</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">` [e a0^2] is deprecated, and in 1.5 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
-            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()[:</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span> <span class="mf">1.6</span><span class="p">,</span> <span class="s2">&quot; Note the Debye -&gt; a.u. units change.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">_qcvar_transitions</span><span class="p">:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
@@ -1427,7 +1421,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/d305ac9">1.6a1.dev96</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1ffb67b">1.6a1.dev97</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1441,7 +1435,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Wednesday, 16 March 2022 08:50PM.
+      Last updated on Wednesday, 16 March 2022 10:06PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
