@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/aa6b5da">1.6a1.dev115</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/04bcecd">1.6a1.dev116</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -251,10 +251,10 @@ Libint, and even C++ compilers on Linux and Mac) can be
 satisfied through conda. The links below give examples of how to configure
 that software for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> and any notes and warnings pertaining to it.</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#cmake-cxx"><span class="std std-ref">C++ and C Compilers</span></a> (C++14 compliant)</p></li>
+<li><p><a class="reference internal" href="#cmake-cxx"><span class="std std-ref">C++ and C Compilers</span></a> (C++17 compliant)</p></li>
 <li><p><a class="reference internal" href="#cmake-lapack"><span class="std std-ref">Optimized BLAS and LAPACK libraries</span></a> (preferably NOT one supplied by a standard
 Linux distribution)</p></li>
-<li><p><a class="reference internal" href="#cmake-python"><span class="std std-ref">Python interpreter and headers</span></a> (3.6+) <a class="reference external" href="https://www.python.org/">https://www.python.org/</a></p></li>
+<li><p><a class="reference internal" href="#cmake-python"><span class="std std-ref">Python interpreter and headers</span></a> (3.8+) <a class="reference external" href="https://www.python.org/">https://www.python.org/</a></p></li>
 <li><p>CMake (3.15+) <a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a></p></li>
 <li><p>NumPy (needed at runtime <em>and</em> buildtime) <a class="reference external" href="https://numpy.org/">https://numpy.org/</a></p></li>
 <li><p>System utilities: GNU make and GNU install or Ninja, POSIX threads (Pthreads) library</p></li>
@@ -266,7 +266,6 @@ build system will automatically download and build.</p>
 <li><p><a class="reference internal" href="libint.html#cmake-libint"><span class="std std-ref">Libint</span></a> — <a class="reference internal" href="libint.html#sec-libint"><span class="std std-ref">[what is Libint?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libint/CMakeLists.txt#L1">[Libint min version]</a> (Libint2 as of Nov 2020; added by v1.4)</p>
 <ul>
 <li><p>Eigen <a class="reference external" href="https://eigen.tuxfamily.org/index.php?title=Main_Page">https://eigen.tuxfamily.org/index.php?title=Main_Page</a></p></li>
-<li><p>MPFR <a class="reference external" href="https://www.mpfr.org/">https://www.mpfr.org/</a></p></li>
 </ul>
 </li>
 <li><p><a class="reference internal" href="libxc.html#cmake-libxc"><span class="std std-ref">Libxc</span></a> — <a class="reference internal" href="libxc.html#sec-libxc"><span class="std std-ref">[what is Libxc?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libxc/CMakeLists.txt#L1">[Libxc min version]</a></p></li>
@@ -281,11 +280,13 @@ build system will automatically download and build.</p>
 <li><p>networkx <a class="reference external" href="https://github.com/networkx/networkx">https://github.com/networkx/networkx</a> (transitive dependency of QCElemental; optional for QCElemental but required for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>)</p></li>
 <li><p>pint <a class="reference external" href="https://pint.readthedocs.io/en/latest/">https://pint.readthedocs.io/en/latest/</a> (transitive dependency of QCElemental)</p></li>
 <li><p>pydantic <a class="reference external" href="https://pydantic-docs.helpmanual.io">https://pydantic-docs.helpmanual.io</a>/# (transitive dependency of QCElemental)</p></li>
+<li><p>SciPy <a class="reference external" href="https://scipy.org/">https://scipy.org/</a> (avoidable if necessary by following directions in runtime error message)</p></li>
 </ul>
 <p>Dropped Dependencies:</p>
 <ul class="simple">
 <li><p>Boost (September 2016; dropped by v1.1)</p></li>
 <li><p>deepdiff <a class="reference external" href="https://github.com/seperman/deepdiff">https://github.com/seperman/deepdiff</a> (May 2019; dropped by v1.4)</p></li>
+<li><p>MPFR <a class="reference external" href="https://www.mpfr.org/">https://www.mpfr.org/</a> (Mar 2022; dropped by v1.6) no longer needed to compile against Libint2</p></li>
 </ul>
 </section>
 <section id="what-are-the-add-on-capabilities-for-psi4-and-what-are-their-dependencies">
@@ -301,7 +302,7 @@ are available pre-built from conda.</p>
 <li><p>CTest <a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a></p></li>
 <li><p>Perl (for some coupled-cluster CTest tests) <a class="reference external" href="https://www.perl.org/">https://www.perl.org/</a></p></li>
 <li><p>pytest (for installed testing) <a class="reference external" href="http://doc.pytest.org/en/latest/">http://doc.pytest.org/en/latest/</a></p></li>
-<li><p>pytest-xdist (for installed testing in parallel) <a class="reference external" href="https://docs.pytest.org/en/2.1.0/xdist.html">https://docs.pytest.org/en/2.1.0/xdist.html</a></p></li>
+<li><p>pytest-xdist (for installed testing many tests at once) <a class="reference external" href="https://github.com/pytest-dev/pytest-xdist">https://github.com/pytest-dev/pytest-xdist</a></p></li>
 </ul>
 </li>
 <li><p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Documentation (available pre-built at <a class="reference external" href="https://psicode.org/psi4manual/master/index.html">psicode.org/psi4manual/master/index.html</a>)</p>
@@ -311,6 +312,7 @@ are available pre-built from conda.</p>
 <li><p>nbsphinx (for converting Jupyter notebooks) <a class="reference external" href="http://nbsphinx.readthedocs.io/en/jupyter-theme/">http://nbsphinx.readthedocs.io/en/jupyter-theme/</a></p></li>
 <li><p>sphinx-psi-theme <a class="reference external" href="https://github.com/psi4/sphinx-psi-theme">https://github.com/psi4/sphinx-psi-theme</a></p></li>
 <li><p>See <cite>[“message” lines] :source:`doc/sphinxman/CMakeLists.txt</cite> for advice on obtaining docs dependencies</p></li>
+<li><p>See <a class="reference external" href="https://github.com/psi4/psi4/blob/master/.github/workflows/docs.yml">psi4/.github/workflows/docs.yml</a> for full docs building procedure to follow</p></li>
 </ul>
 </li>
 <li><p>Ambit — <a class="reference external" href="https://github.com/jturney/ambit">https://github.com/jturney/ambit</a></p></li>
@@ -472,6 +474,8 @@ set(psi4_DESCRIPTION &quot;Open-Source Quantum Chemistry&quot;)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GENERATOR}&quot;)
+
 ################  Options: Overview and Not Otherwise Mentioned  ###############
 
 #  &lt;&lt;&lt;  CMake build overview  &gt;&gt;&gt;
@@ -591,8 +595,6 @@ include(psi4OptionsTools)
 option_with_print(BUILD_SHARED_LIBS &quot;Build internally built Psi4 add-on libraries as shared, not static&quot; OFF)
 option_with_print(ENABLE_OPENMP &quot;Enables OpenMP parallelization&quot; ON)
 option_with_print(ENABLE_AUTO_BLAS &quot;Enables CMake to auto-detect BLAS&quot; ON)
-option_with_print(ENABLE_AUTO_LAPACK &quot;Enables CMake to auto-detect LAPACK&quot; ON)
-option_with_print(ENABLE_PLUGIN_TESTING &quot;Test the plugin templates build and run&quot; OFF)
 </pre></div>
 </div>
 <p>Note that external projects will have their own sets of build
@@ -1568,25 +1570,30 @@ the examples below, <em>testname</em> are regex of <a class="reference external"
 and <em>testlabel</em> are regex of labels (<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">cc</span></code>, <code class="docutils literal notranslate"><span class="pre">mints</span></code>,
 <code class="docutils literal notranslate"><span class="pre">libefp</span></code> defined <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/ci-property/CMakeLists.txt#L3">[here, for example]</a> .</p>
 <ul class="simple">
-<li><p>Run tests in parallel with <code class="docutils literal notranslate"><span class="pre">-j</span></code> flag. For maximum parallelism: <code class="samp docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-j`getconf</span> <span class="pre">_NPROCESSORS_ONLN`</span></code></p></li>
+<li><p>Run tests in parallel with <code class="docutils literal notranslate"><span class="pre">-j</span></code> flag. For maximum parallelism (not Windows): <code class="samp docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-j`getconf</span> <span class="pre">_NPROCESSORS_ONLN`</span></code></p></li>
 <li><p>Run full test suite: <code class="docutils literal notranslate"><span class="pre">ctest</span></code></p></li>
 <li><p>Run about a third of the tests in 5 minutes, the so-called <em>quicktests</em>: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">quick</span></code></p></li>
-<li><p>Run the same subset of tests that TravisCI checks (not the full test suite): <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">quick</span></code></p></li>
+<li><p>Run the same subset of tests that continuous integration checks (not the full test suite): <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">quick</span></code></p></li>
 <li><p>Run the minimal number of tests to ensure Psi4 and any add-ons in working order: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">smoke</span></code></p></li>
 <li><p>Run tests matching by name: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">testname</span></code></p></li>
 <li><p>Run tests excluding those by name: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-E</span> <span class="pre">testname</span></code></p></li>
 <li><p>Run tests matching by label: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">testlabel</span></code></p></li>
 <li><p>Run tests excluding those by label: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-LE</span> <span class="pre">testlabel</span></code></p></li>
 </ul>
-<p>Pytest has similar commands
-* Run tests in parallel with <code class="docutils literal notranslate"><span class="pre">-n</span></code> flag (if extenstion pytest-xdist installed). For maximum parallelism: <code class="samp docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-n`getconf</span> <span class="pre">_NPROCESSORS_ONLN`</span></code>
-* Run full test suite: <code class="docutils literal notranslate"><span class="pre">pytest</span></code>
-* Run the quick tests: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">quick</span></code>
-* Run the minimal number of tests to ensure Psi4 and any add-ons in working order: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">smoke</span></code>
-* Run tests matching by name: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">testname</span></code>
-* Run tests excluding those by name: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">&quot;not</span> <span class="pre">testname&quot;</span></code>
-* Run tests matching by label: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">testlabel</span></code>
-* Run tests excluding those by label: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">&quot;not</span> <span class="pre">testlabel&quot;</span></code></p>
+<p>Pytest has similar commands:</p>
+<ul class="simple">
+<li><p>Run tests in parallel with <code class="docutils literal notranslate"><span class="pre">-n</span></code> flag (if Python package <code class="docutils literal notranslate"><span class="pre">pytest-xdist</span></code> installed). For maximum parallelism: <code class="samp docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-n</span> <span class="pre">auto</span></code></p></li>
+<li><p>Run full test suite: <code class="docutils literal notranslate"><span class="pre">pytest</span></code></p></li>
+<li><p>Run the quick tests: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">quick</span></code></p></li>
+<li><p>Run the minimal number of tests to ensure Psi4 and any add-ons in working order: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">smoke</span></code></p></li>
+<li><p>Run tests matching by name: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">testname</span></code></p></li>
+<li><p>Run tests excluding those by name: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">&quot;not</span> <span class="pre">testname&quot;</span></code></p></li>
+<li><p>Run tests matching by label: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">testlabel</span></code></p></li>
+<li><p>Run tests excluding those by label: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-m</span> <span class="pre">&quot;not</span> <span class="pre">testlabel&quot;</span></code></p></li>
+<li><p>Run tests with complicated filtering by name: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-k</span> <span class="pre">&quot;cc</span> <span class="pre">and</span> <span class="pre">not</span> <span class="pre">cc4</span> <span class="pre">and</span> <span class="pre">not</span> <span class="pre">stdsuite&quot;</span></code></p></li>
+<li><p>Run tests and see test names: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-v</span></code></p></li>
+<li><p>Run tests and see test names and sometimes more verbose errors: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-vv</span></code></p></li>
+</ul>
 </section>
 <section id="how-to-see-ctest-testing-errors">
 <span id="faq-testsoutput"></span><h2>How to see CTest testing errors<a class="headerlink" href="#how-to-see-ctest-testing-errors" title="Permalink to this headline">¶</a></h2>
@@ -1638,9 +1645,9 @@ python -c <span class="s2">&quot;import psi4; psi4.test()&quot;</span>
 </li>
 <li><p>From pytest directly. If package <code class="docutils literal notranslate"><span class="pre">pytest-xdist</span></code> is installed, can run in parallel.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># smoke tests only</span>
-pytest <span class="o">{</span>prefix<span class="o">}</span>/lib/<span class="o">{</span>PYMOD_INSTALL_LIBDIR<span class="o">}</span>/psi4/tests/ -m smoke -n<span class="sb">`</span>getconf _NPROCESSORS_ONLN<span class="sb">`</span>
+pytest <span class="o">{</span>prefix<span class="o">}</span>/lib/<span class="o">{</span>PYMOD_INSTALL_LIBDIR<span class="o">}</span>/psi4/tests/ -m smoke -n auto
 <span class="c1"># all tests</span>
-pytest <span class="o">{</span>prefix<span class="o">}</span>/lib/<span class="o">{</span>PYMOD_INSTALL_LIBDIR<span class="o">}</span>/psi4/tests/ -n<span class="sb">`</span>getconf _NPROCESSORS_ONLN<span class="sb">`</span>
+pytest <span class="o">{</span>prefix<span class="o">}</span>/lib/<span class="o">{</span>PYMOD_INSTALL_LIBDIR<span class="o">}</span>/psi4/tests/ -n auto
 </pre></div>
 </div>
 </li>
@@ -1897,7 +1904,7 @@ as needed.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/aa6b5da">1.6a1.dev115</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/04bcecd">1.6a1.dev116</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1911,7 +1918,7 @@ as needed.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 29 March 2022 03:09PM.
+      Last updated on Tuesday, 29 March 2022 06:31PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

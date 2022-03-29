@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.driver.compare_fchkfiles.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/aa6b5da">1.6a1.dev115</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/04bcecd">1.6a1.dev116</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -124,8 +124,30 @@
 <h1>compare_fchkfiles<a class="headerlink" href="#compare-fchkfiles" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="psi4.driver.compare_fchkfiles">
-<span class="sig-prename descclassname"><span class="pre">psi4.driver.</span></span><span class="sig-name descname"><span class="pre">compare_fchkfiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">computed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/fchk.html#compare_fchkfiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.compare_fchkfiles" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">psi4.driver.</span></span><span class="sig-name descname"><span class="pre">compare_fchkfiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">computed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol_exponent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/fchk.html#compare_fchkfiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.compare_fchkfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Comparison function for output data in FCHK (formatted checkpoint) file format.
+Compares many fields including number of electrons, highest angular momentum, basis
+set exponents, densities, final gradient.</p>
+<p>Note only Psi4-style signature (<code class="docutils literal notranslate"><span class="pre">(expected,</span> <span class="pre">computed,</span> <span class="pre">atol_exponent,</span> <span class="pre">label)</span></code>) available.</p>
+<p>An older format description can be found here
+<a class="reference external" href="http://wild.life.nctu.edu.tw/~jsyu/compchem/g09/g09ur/f_formchk.htm">http://wild.life.nctu.edu.tw/~jsyu/compchem/g09/g09ur/f_formchk.htm</a>
+It lists more fields (logical, character) that are not included in this
+test function. They should be covered by the string comparison.
+This function is only meant to work with PSI4’s FCHK files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expected</strong> (<em>file</em>) – Reference FCHK file against which <cite>computed</cite> is compared.</p></li>
+<li><p><strong>computed</strong> (<em>file</em>) – Input FCHK file to compare against <cite>expected</cite>.</p></li>
+<li><p><strong>atol_exponent</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Absolute tolerance for high accuracy fields – 1.e-8 or 1.e-9 is suitable.
+Values less than one are taken literally; one or greater taken as decimal digits for comparison.
+So <cite>1</cite> means <cite>atol=0.1</cite> and <cite>2</cite> means <cite>atol=0.01</cite> but <cite>0.04</cite> means <cite>atol=0.04</cite>
+Note that the largest expressable processed atol will be <cite>~0.99</cite>.</p></li>
+<li><p><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Label for passed and error messages.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 
@@ -225,7 +247,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.driver.compare_fchkfiles.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/aa6b5da">1.6a1.dev115</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/04bcecd">1.6a1.dev116</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -239,7 +261,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 29 March 2022 03:09PM.
+      Last updated on Tuesday, 29 March 2022 06:31PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

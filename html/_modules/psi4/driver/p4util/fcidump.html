@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/fcidump.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/aa6b5da">1.6a1.dev115</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/04bcecd">1.6a1.dev116</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -149,7 +149,7 @@
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">TestComparisonError</span>
 
 
-<div class="viewcode-block" id="fcidump"><a class="viewcode-back" href="../../../../api/psi4.driver.fcidump.html#psi4.driver.fcidump">[docs]</a><span class="k">def</span> <span class="nf">fcidump</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s1">&#39;INTDUMP&#39;</span><span class="p">,</span> <span class="n">oe_ints</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fcidump"><a class="viewcode-back" href="../../../../api/psi4.driver.fcidump.html#psi4.fcidump">[docs]</a><span class="k">def</span> <span class="nf">fcidump</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s1">&#39;INTDUMP&#39;</span><span class="p">,</span> <span class="n">oe_ints</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Save integrals to file in FCIDUMP format as defined in Comp. Phys. Commun. 54 75 (1989)</span>
 <span class="sd">    Additional one-electron integrals, including orbital energies, can also be saved.</span>
 <span class="sd">    This latter format can be used with the HANDE QMC code but is not standard.</span>
@@ -315,7 +315,7 @@
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;Done generating </span><span class="si">{}</span><span class="s1"> with integrals in FCIDUMP format.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="write_eigenvalues"><a class="viewcode-back" href="../../../../api/psi4.driver.write_eigenvalues.html#psi4.driver.write_eigenvalues">[docs]</a><span class="k">def</span> <span class="nf">write_eigenvalues</span><span class="p">(</span><span class="n">eigs</span><span class="p">,</span> <span class="n">mo_idx</span><span class="p">):</span>
+<div class="viewcode-block" id="write_eigenvalues"><a class="viewcode-back" href="../../../../api/psi4.driver.write_eigenvalues.html#psi4.write_eigenvalues">[docs]</a><span class="k">def</span> <span class="nf">write_eigenvalues</span><span class="p">(</span><span class="n">eigs</span><span class="p">,</span> <span class="n">mo_idx</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Prepare multi-line string with one-particle eigenvalues to be written to the FCIDUMP file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eigs_dump</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -345,10 +345,11 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">irrep_map</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="fcidump_from_file"><a class="viewcode-back" href="../../../../api/psi4.driver.fcidump_from_file.html#psi4.driver.fcidump_from_file">[docs]</a><span class="k">def</span> <span class="nf">fcidump_from_file</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+<div class="viewcode-block" id="fcidump_from_file"><a class="viewcode-back" href="../../../../api/psi4.driver.fcidump_from_file.html#psi4.fcidump_from_file">[docs]</a><span class="k">def</span> <span class="nf">fcidump_from_file</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Function to read in a FCIDUMP file.</span>
 
 <span class="sd">    :returns: a dictionary with FCIDUMP header and integrals</span>
+
 <span class="sd">      - &#39;norb&#39; : number of basis functions</span>
 <span class="sd">      - &#39;nelec&#39; : number of electrons</span>
 <span class="sd">      - &#39;ms2&#39; : spin polarization of the system</span>
@@ -361,10 +362,12 @@
 <span class="sd">      - &#39;eri&#39; : electron-repulsion integrals</span>
 
 <span class="sd">    :param fname: FCIDUMP file name</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">intdump</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="s1">&#39;&amp;FCI&#39;</span> <span class="o">==</span> <span class="n">handle</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">firstline</span> <span class="o">=</span> <span class="n">handle</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="s1">&#39;&amp;FCI&#39;</span> <span class="o">==</span> <span class="n">firstline</span><span class="p">,</span> <span class="n">firstline</span>
 
         <span class="n">skiplines</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">read</span> <span class="o">=</span> <span class="kc">True</span>
@@ -433,21 +436,24 @@
     <span class="k">return</span> <span class="n">intdump</span></div>
 
 
-<div class="viewcode-block" id="compare_fcidumps"><a class="viewcode-back" href="../../../../api/psi4.driver.compare_fcidumps.html#psi4.driver.compare_fcidumps">[docs]</a><span class="k">def</span> <span class="nf">compare_fcidumps</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">computed</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function to compare two FCIDUMP files. Prints success</span>
-<span class="sd">    when value *computed* matches value *expected*.</span>
-<span class="sd">    Performs a system exit on failure. Used in input files in the test suite.</span>
+<div class="viewcode-block" id="compare_fcidumps"><a class="viewcode-back" href="../../../../api/psi4.driver.compare_fcidumps.html#psi4.compare_fcidumps">[docs]</a><span class="k">def</span> <span class="nf">compare_fcidumps</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">computed</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Comparison function for FCIDUMP files.</span>
+<span class="sd">    Compares the first six below, then computes energies from MO integrals and compares the last four.</span>
 
-<span class="sd">    :returns: a dictionary of energies computed from the MO integrals.</span>
-<span class="sd">      - &#39;NUCLEAR REPULSION ENERGY&#39; : nuclear repulsion plus frozen core energy</span>
+<span class="sd">      - &#39;norb&#39; : number of basis functions</span>
+<span class="sd">      - &#39;nelec&#39; : number of electrons</span>
+<span class="sd">      - &#39;ms2&#39; : spin polarization of the system</span>
+<span class="sd">      - &#39;isym&#39; : symmetry of state (if present in FCIDUMP)</span>
+<span class="sd">      - &#39;orbsym&#39; : list of symmetry labels of each orbital</span>
+<span class="sd">      - &#39;uhf&#39; : whether restricted or unrestricted</span>
 <span class="sd">      - &#39;ONE-ELECTRON ENERGY&#39; : SCF one-electron energy</span>
 <span class="sd">      - &#39;TWO-ELECTRON ENERGY&#39; : SCF two-electron energy</span>
 <span class="sd">      - &#39;SCF TOTAL ENERGY&#39; : SCF total energy</span>
 <span class="sd">      - &#39;MP2 CORRELATION ENERGY&#39; : MP2 correlation energy</span>
 
-<span class="sd">    :param expected: reference FCIDUMP file</span>
-<span class="sd">    :param computed: computed FCIDUMP file</span>
-<span class="sd">    :param label: string labelling the test</span>
+<span class="sd">    :param expected: Reference FCIDUMP file against which `computed` is compared.</span>
+<span class="sd">    :param computed: Input FCIDUMP file to compare against `expected`.</span>
+<span class="sd">    :param label: string labeling the test</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Grab expected header and integrals</span>
@@ -476,7 +482,7 @@
     <span class="n">compare_integers</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="n">pass_1el</span> <span class="ow">and</span> <span class="n">pass_2el</span> <span class="ow">and</span> <span class="n">pass_scf</span> <span class="ow">and</span> <span class="n">pass_mp2</span><span class="p">),</span> <span class="n">label</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="energies_from_fcidump"><a class="viewcode-back" href="../../../../api/psi4.driver.energies_from_fcidump.html#psi4.driver.energies_from_fcidump">[docs]</a><span class="k">def</span> <span class="nf">energies_from_fcidump</span><span class="p">(</span><span class="n">intdump</span><span class="p">):</span>
+<div class="viewcode-block" id="energies_from_fcidump"><a class="viewcode-back" href="../../../../api/psi4.driver.energies_from_fcidump.html#psi4.energies_from_fcidump">[docs]</a><span class="k">def</span> <span class="nf">energies_from_fcidump</span><span class="p">(</span><span class="n">intdump</span><span class="p">):</span>
     <span class="n">energies</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">energies</span><span class="p">[</span><span class="s1">&#39;NUCLEAR REPULSION ENERGY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intdump</span><span class="p">[</span><span class="s1">&#39;enuc&#39;</span><span class="p">]</span>
     <span class="n">epsilon</span> <span class="o">=</span> <span class="n">intdump</span><span class="p">[</span><span class="s1">&#39;epsilon&#39;</span><span class="p">]</span>
@@ -616,7 +622,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/fcidump.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/aa6b5da">1.6a1.dev115</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/04bcecd">1.6a1.dev116</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -630,7 +636,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 29 March 2022 03:09PM.
+      Last updated on Tuesday, 29 March 2022 06:31PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
