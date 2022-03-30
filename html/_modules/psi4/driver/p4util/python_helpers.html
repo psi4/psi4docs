@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/b7223ca">1.6a1.dev118</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e2563a6">1.6a1.dev119</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -966,7 +966,7 @@
     <span class="k">elif</span> <span class="n">core</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_qcvar_reshape_get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;psi4.core.variable: Requested variable &quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; was not set!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;psi4.core.variable: Requested variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; was not set!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_core_wavefunction_variable</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
@@ -1000,7 +1000,7 @@
     <span class="k">elif</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_qcvar_reshape_get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;psi4.core.Wavefunction.variable: Requested variable &quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; was not set!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;psi4.core.Wavefunction.variable: Requested variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; was not set!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_core_set_variable</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1008,17 +1008,17 @@
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.set_variable: Target variable &quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; already a scalar variable!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;psi4.core.set_variable: Target variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; already a scalar variable!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.set_variable: Target variable &quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; already a scalar variable!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;psi4.core.set_variable: Target variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; already a scalar variable!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">_qcvar_reshape_set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.set_variable: Target variable &quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; already an array variable!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;psi4.core.set_variable: Target variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; already an array variable!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
 
@@ -1030,20 +1030,17 @@
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.Wavefunction.set_variable: Target variable &quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span>
-                                  <span class="s2">&quot; already a scalar variable!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.Wavefunction.set_variable: Target variable &#39;</span><span class="si">{key}</span><span class="s2">&#39; already a scalar variable!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">set_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.Wavefunction.set_variable: Target variable &quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span>
-                                  <span class="s2">&quot; already a scalar variable!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.Wavefunction.set_variable: Target variable &#39;</span><span class="si">{key}</span><span class="s2">&#39; already a scalar variable!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">set_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">_qcvar_reshape_set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.Wavefunction.set_variable: Target variable &quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span>
-                                  <span class="s2">&quot; already an array variable!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.Wavefunction.set_variable: Target variable &#39;</span><span class="si">{key}</span><span class="s2">&#39; already an array variable!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">set_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
 
@@ -1425,7 +1422,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/b7223ca">1.6a1.dev118</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e2563a6">1.6a1.dev119</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1439,7 +1436,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Wednesday, 30 March 2022 04:22PM.
+      Last updated on Wednesday, 30 March 2022 07:13PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
