@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_integrals.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/b5f84b6">1.6a1.dev122</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f27f78b">1.6a1.dev124</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -358,7 +358,11 @@ limiting.  We also started to introduce integral screening, and it is important
 to balance the screening used for one- and two-electron terms carefully, so this
 is a good opportunity to re-evaluate the code.  Finally, given the complexity
 of the OS recursion code, the switch to an external library leaves a more
-compact codebase to maintain.  The tips below serve as a guide to what changed,
+compact codebase to maintain.  The one electron integrals which are not provided by Libint2
+are now handled by a new implementation of the McMurchie-Davidson (M-D) algorithm,
+leading to removal of the OS code in version 1.6. An overview of the one electron integrals
+is shown in table <a class="reference internal" href="#table-oei-impl-summary"><span class="std std-ref">Algorithms used for One Electron Integrals</span></a>, together with the implementation they use.
+The tips below serve as a guide to what changed,
 why it changed, and how to interface with <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>’s one-electron integral
 machinery now.</p>
 <section id="calling-compute-shell-int-p-int-q">
@@ -459,6 +463,104 @@ process.  Iterating over these lists is simple:</p>
 P&gt;=Q if the basis sets are the same; the caller should account for this
 restricted summation in the latter case.</p>
 </section>
+<section id="one-electron-integral-algorithm-overview">
+<h3>One Electron Integral Algorithm Overview<a class="headerlink" href="#one-electron-integral-algorithm-overview" title="Permalink to this headline">¶</a></h3>
+<p>The following table summarizes which implementation is used
+for each type of one electron integral in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>.</p>
+<span id="table-oei-impl-summary"></span><table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Algorithms used for One Electron Integrals</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 12%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Integral</p></th>
+<th class="head"><p>Class</p></th>
+<th class="head"><p>Implementation</p></th>
+<th class="head"><p>Comment</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Three-Center Overlap</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ThreeCenterOverlapInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td><p>using <code class="docutils literal notranslate"><span class="pre">libint2::Operator::delta</span></code> for 4-center integrals</p></td>
+</tr>
+<tr class="row-odd"><td><p>Angular Momentum</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AngularMomentumInt</span></code></p></td>
+<td><p>M-D</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Dipole</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DipoleInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td><p>no derivatives supported</p></td>
+</tr>
+<tr class="row-odd"><td><p>Electric Field</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ElectricFieldInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td><p>using first derivative of <code class="docutils literal notranslate"><span class="pre">libint2::Operator::nuclear</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Coulomb Potential</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ElectrostaticInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td><p>evaluated for a single origin and unity charge</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kinetic</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">KineticInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Multipole Potential</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MultipolePotentialInt</span></code></p></td>
+<td><p>M-D</p></td>
+<td><p>arbitrary order derivative of 1/R supported</p></td>
+</tr>
+<tr class="row-odd"><td><p>Multipole Moments</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MultipoleInt</span></code></p></td>
+<td><p>M-D</p></td>
+<td><p>arbitrary order multipoles supported, including nuclear gradients</p></td>
+</tr>
+<tr class="row-even"><td><p>Nabla Operator</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NablaInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td><p>using first derivative of <code class="docutils literal notranslate"><span class="pre">libint2::Operator::overlap</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Overlap</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">OverlapInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Nuclear Coulomb Potential</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PotentialInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td><p>assumes nuclear centers/charges as the potential</p></td>
+</tr>
+<tr class="row-odd"><td><p>PCM Potential</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PCMPotentialInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td><p>parallelized over charge points</p></td>
+</tr>
+<tr class="row-even"><td><p>Quadrupole</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">QuadrupoleInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Traceless Quadrupole</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TracelessQuadrupoleInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Relativistic Potential</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RelPotentialInt</span></code></p></td>
+<td><p>Libint2</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 </section>
 
@@ -534,6 +636,7 @@ restricted summation in the latter case.</p>
 <li><a class="reference internal" href="#changes-to-external-potential-engines">Changes to External Potential Engines</a></li>
 <li><a class="reference internal" href="#new-operators-available">New Operators Available</a></li>
 <li><a class="reference internal" href="#shell-pairs">Shell Pairs</a></li>
+<li><a class="reference internal" href="#one-electron-integral-algorithm-overview">One Electron Integral Algorithm Overview</a></li>
 </ul>
 </li>
 </ul>
@@ -587,7 +690,7 @@ restricted summation in the latter case.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_integrals.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/b5f84b6">1.6a1.dev122</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/f27f78b">1.6a1.dev124</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -600,7 +703,7 @@ restricted summation in the latter case.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Thursday, 31 March 2022 04:30PM.
+      Last updated on Thursday, 31 March 2022 07:19PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
