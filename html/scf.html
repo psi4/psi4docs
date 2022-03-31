@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5acf07a">1.6a1.dev121</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b5f84b6">1.6a1.dev122</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -965,20 +965,45 @@ for examples of computations with ECP-containing basis sets.</p>
 computations, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> can perform more rudimentary QM/MM procedures via the
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-EXTERN-SCF"><span class="xref std std-term">EXTERN</span></a> keyword.  The following snippet, extracted from the
 <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples/extern1/input.dat">extern1</a> test case, demonstrates its use for a TIP3P external potential:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">external_potentials</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.834</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.649232019048</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="o">-</span><span class="mf">2.356023604706</span><span class="p">])</span> <span class="o">/</span> <span class="n">psi_bohr2angstroms</span><span class="p">],</span>
+    <span class="p">[</span> <span class="mf">0.417</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.544757019107</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="o">-</span><span class="mf">3.799961446760</span><span class="p">])</span> <span class="o">/</span> <span class="n">psi_bohr2angstroms</span><span class="p">],</span>
+    <span class="p">[</span> <span class="mf">0.417</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.544757019107</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.912085762652</span><span class="p">])</span> <span class="o">/</span> <span class="n">psi_bohr2angstroms</span><span class="p">]]</span>
+
+<span class="n">gradient</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span> <span class="n">external_potentials</span><span class="o">=</span><span class="n">external_potentials</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">external_potentials</span></code> array has three rows for three separate
+particles, and it is passed to the SCF code on the last line. The
+rows are composed of the atomic charge, x coordinate, y coordinate,
+and z coordinate in that order. The atomic charge and coordinates are
+specified in atomic units, [e] and [a0]. Add as many particle rows as
+needed to describe the full MM region.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>In <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> previous to Spring 2022 and v1.6, setting an
+external potential like the above looked like</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Chrgfield</span> <span class="o">=</span> <span class="n">QMMM</span><span class="p">()</span>
 <span class="n">Chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="o">.</span><span class="n">addCharge</span><span class="p">(</span><span class="o">-</span><span class="mf">0.834</span><span class="p">,</span> <span class="mf">1.649232019048</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.356023604706</span><span class="p">)</span>
 <span class="n">Chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="o">.</span><span class="n">addCharge</span><span class="p">(</span> <span class="mf">0.417</span><span class="p">,</span> <span class="mf">0.544757019107</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.799961446760</span><span class="p">)</span>
 <span class="n">Chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="o">.</span><span class="n">addCharge</span><span class="p">(</span> <span class="mf">0.417</span><span class="p">,</span> <span class="mf">0.544757019107</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.912085762652</span><span class="p">)</span>
 <span class="n">psi4</span><span class="o">.</span><span class="n">set_global_option_python</span><span class="p">(</span><span class="s1">&#39;EXTERN&#39;</span><span class="p">,</span> <span class="n">Chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="p">)</span>
+
+<span class="n">gradient</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>First a QMMM object is created, then three separate particles are added to this
-object before the SCF code is told about its existence on the last line.  The
-calls to <code class="docutils literal notranslate"><span class="pre">addCharge</span></code> take the atomic charge, x coordinate, y coordinate, and
-z coordinate in that order.  The atomic charge is specified in atomic units,
-and the coordinates always use the same units as the geometry specification in
-the regular QM region.  Additional MM molecules may be specified by adding
-extra calls to <code class="docutils literal notranslate"><span class="pre">addCharge</span></code> to describe the full MM region.</p>
+<p>The main differences are that (1) the specification of
+charge locations in the old way used the units of the active
+molecule, whereas the new way always uses Bohr and (2) the
+specification of the charge and locations in the old way used the
+<a class="reference internal" href="api/psi4.driver.QMMM.html#psi4.driver.QMMM" title="psi4.driver.QMMM"><code class="xref py py-class docutils literal notranslate"><span class="pre">psi4.driver.QMMM</span></code></a> class directly and added one charge
+per command, whereas the new way consolidates all into an array and
+passes it by keyword argument to the calculation.</p>
+<p>The successor to the <a class="reference internal" href="api/psi4.driver.QMMM.html#psi4.driver.QMMM" title="psi4.driver.QMMM"><code class="xref py py-class docutils literal notranslate"><span class="pre">psi4.driver.QMMM</span></code></a> class,
+<a class="reference internal" href="api/psi4.driver.QMMMbohr.html#psi4.driver.QMMMbohr" title="psi4.driver.QMMMbohr"><code class="xref py py-class docutils literal notranslate"><span class="pre">psi4.driver.QMMMbohr</span></code></a>, is operable, but it is discouraged
+from being used directly.</p>
+</div>
 <p>To run a computation in a constant dipole field, the <a class="reference internal" href="autodoc_glossary_options_c.html#term-PERTURB_H-SCF"><span class="xref std std-term">PERTURB_H</span></a>,
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-PERTURB_WITH-SCF"><span class="xref std std-term">PERTURB_WITH</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-PERTURB_DIPOLE-SCF"><span class="xref std std-term">PERTURB_DIPOLE</span></a> keywords can be used.  As an
 example, to add a dipole field of magnitude 0.05 a.u. in the y direction and
@@ -1288,7 +1313,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5acf07a">1.6a1.dev121</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b5f84b6">1.6a1.dev122</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1302,7 +1327,7 @@ types.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Thursday, 31 March 2022 03:11PM.
+      Last updated on Thursday, 31 March 2022 04:30PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
