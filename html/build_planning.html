@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f2179db">1.6a1.dev130</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/294c406">1.6a1.dev131</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -496,7 +496,7 @@ message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GEN
 #    - Python (also runtime; interpreter and headers; e.g., `conda install python`)
 #    - NumPy (also runtime; avoidable at buildtime if gau2grid pre-built; e.g., `conda install numpy`)
 #    - networkx &gt;=2.4 (runtime only; e.g., `conda install networkx`)
-#    - pint (runtime only; e.g., `conda install pint -c conda-forge`)
+#    - pint &gt;=0.10 (runtime only; e.g., `conda install pint -c conda-forge`)
 #    - pydantic &gt;=1.0 (runtime only; e.g., `conda install pydantic -c conda-forge`)
 #    - msgpack-python (runtime only; e.g., `conda install msgpack-python`)
 #    - Eigen (for Libint2; e.g., `conda install eigen`)
@@ -1750,6 +1750,27 @@ to your dev AddOn dynamic lib and update automatically when you rebuild
 the AddOn lib. Naturally, you may need to delete <code class="docutils literal notranslate"><span class="pre">core.so</span></code> and remake
 as needed.</p>
 </section>
+<section id="how-to-use-logging-in-psi4">
+<span id="faq-logging"></span><h2>How to use logging in Psi4<a class="headerlink" href="#how-to-use-logging-in-psi4" title="Permalink to this headline">¶</a></h2>
+<p>A log file is generated alongside the output file and has extension
+<code class="docutils literal notranslate"><span class="pre">.log</span></code>. Selected key information is sent to it. The log file contents
+are provisional and haphazard, so don’t start relying upon them. It is
+tentatively envisioned that log files will have much of the same results as output
+files but more as structured data than narrative, nicely formatted data.
+In some cases where external calls are involved, the most detailed
+information may only be collectable in the log file. It is
+worthwhile to check the log file if expected results are missing from
+the usual output file. If the log file is empty, the logging level may
+be set too low.</p>
+<p>To change the logging level to DEBUG from the command-line:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span> <span class="o">--</span><span class="n">logging</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<p>To change the logging level to DEBUG in PsiAPI:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span><span class="o">.</span><span class="n">set_output_file</span><span class="p">(</span><span class="o">&lt;</span><span class="n">filebase</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">loglevel</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -1853,6 +1874,7 @@ as needed.</p>
 <li><a class="reference internal" href="#how-to-refer-to-psi4">How to refer to Psi4</a></li>
 <li><a class="reference internal" href="#how-to-get-a-psi4-logo-file">How to get a Psi4 logo file</a></li>
 <li><a class="reference internal" href="#how-to-use-a-local-add-on-repository-in-the-psi4-build">How to use a local Add-On repository in the Psi4 build</a></li>
+<li><a class="reference internal" href="#how-to-use-logging-in-psi4">How to use logging in Psi4</a></li>
 </ul>
 </li>
 </ul>
@@ -1904,7 +1926,7 @@ as needed.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f2179db">1.6a1.dev130</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/294c406">1.6a1.dev131</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1918,7 +1940,7 @@ as needed.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 05 April 2022 02:07PM.
+      Last updated on Tuesday, 05 April 2022 02:41PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
