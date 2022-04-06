@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/294c406">1.6a1.dev131</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b7c163e">1.6a1.dev132</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -3280,7 +3280,10 @@
     <span class="k">if</span> <span class="n">n_one</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># call oe prop for GS density</span>
         <span class="n">oe</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">OEProp</span><span class="p">(</span><span class="n">ccwfn</span><span class="p">)</span>
-        <span class="n">oe</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="c1"># TODO: When Psi is Py 3.9+, transition to the removeprefix version.</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;EOM-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="c1">#title = name.upper().removeprefix(&quot;EOM-&quot;)</span>
+        <span class="n">oe</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">oe_name</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
             <span class="n">oe</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">oe_name</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
         <span class="n">oe</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
@@ -5469,7 +5472,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/294c406">1.6a1.dev131</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b7c163e">1.6a1.dev132</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5483,7 +5486,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 05 April 2022 02:41PM.
+      Last updated on Wednesday, 06 April 2022 01:32PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
