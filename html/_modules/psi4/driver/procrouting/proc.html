@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/6447c91">1.6a1.dev139</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/427a1c3">1.6a1.dev142</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -3717,11 +3717,7 @@
     <span class="c1"># Launch the rocket</span>
     <span class="c1">#</span>
     <span class="c1"># Copy thread setup from psi4</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">adcc</span><span class="o">.</span><span class="n">set_n_threads</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">())</span>
-    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-        <span class="c1"># Before adcc 0.13.3:</span>
-        <span class="n">adcc</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">reinit</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">(),</span> <span class="n">core</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">())</span>
+    <span class="n">adcc</span><span class="o">.</span><span class="n">set_n_threads</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">())</span>
 
     <span class="c1"># Hack to direct the stream-like interface adcc expects to the string interface of Psi4 core</span>
     <span class="k">class</span> <span class="nc">CoreStream</span><span class="p">:</span>
@@ -3779,10 +3775,18 @@
     <span class="c1"># Set results of excited-states computation</span>
     <span class="c1"># TODO Does not work: Can&#39;t use strings</span>
     <span class="c1"># adc_wfn.set_variable(&quot;excitation kind&quot;, state.kind)</span>
-    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;ADC ITERATIONS&quot;</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">n_iter</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
-    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; excitation energies&quot;</span><span class="p">,</span>
-                         <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">excitation_energy</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
     <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;number of excited states&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">excitation_energy</span><span class="p">))</span>
+    <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;ADC ITERATIONS&quot;</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">n_iter</span><span class="p">)</span>  <span class="c1"># P::e ADC</span>
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="s1">&#39;ADC&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">excitation</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">excitations</span><span class="p">:</span>
+        <span class="n">root_index</span> <span class="o">=</span> <span class="n">excitation</span><span class="o">.</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+            <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 (A) -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> (A) EXCITATION ENERGY&quot;</span><span class="p">,</span>
+                                 <span class="n">excitation</span><span class="o">.</span><span class="n">excitation_energy</span><span class="p">)</span>
+            <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> EXCITATION ENERGY&quot;</span><span class="p">,</span>
+                                 <span class="n">excitation</span><span class="o">.</span><span class="n">excitation_energy</span><span class="p">)</span>
+            <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> EXCITATION ENERGY - A TRANSITION&quot;</span><span class="p">,</span>
+                                 <span class="n">excitation</span><span class="o">.</span><span class="n">excitation_energy</span><span class="p">)</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  ==&gt; Excited states summary &lt;==  </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">oscillator_strengths</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -3871,38 +3875,80 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gauge </span><span class="si">{</span><span class="n">gauge</span><span class="si">}</span><span class="s2"> not recognised for ADC calculations.&quot;</span><span class="p">)</span>
 
-    <span class="n">computed</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">prop</span> <span class="ow">in</span> <span class="n">properties</span> <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;TRANSITION_DIPOLE&quot;</span><span class="p">,</span> <span class="s2">&quot;OSCILLATOR_STRENGTH&quot;</span><span class="p">)):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">transition_dipole_moment</span>
-        <span class="n">computed</span><span class="p">[</span><span class="s2">&quot;Transition dipole moment (in a.u.)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> transition dipoles&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">computed</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="s1">&#39;ADC&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">excitation</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">excitations</span><span class="p">:</span>
+        <span class="n">root_index</span> <span class="o">=</span> <span class="n">excitation</span><span class="o">.</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">prop</span> <span class="ow">in</span> <span class="n">properties</span> <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;TRANSITION_DIPOLE&quot;</span><span class="p">,</span> <span class="s2">&quot;OSCILLATOR_STRENGTH&quot;</span><span class="p">)):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">excitation</span><span class="o">.</span><span class="n">transition_dipole_moment</span>
+            <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Transition dipole moment (in a.u.)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+            <span class="n">data_mat</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+                <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 (A) -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> (A) &quot;</span>
+                                    <span class="s2">&quot;ELECTRIC TRANSITION DIPOLE MOMENT (LEN)&quot;</span><span class="p">,</span> <span class="n">data_mat</span><span class="p">)</span>
+                <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                    <span class="s2">&quot;ELECTRIC TRANSITION DIPOLE MOMENT (LEN)&quot;</span><span class="p">,</span> <span class="n">data_mat</span><span class="p">)</span>
+                <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                    <span class="s2">&quot;ELECTRIC TRANSITION DIPOLE MOMENT (LEN) - A TRANSITION&quot;</span><span class="p">,</span> <span class="n">data_mat</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;OSCILLATOR_STRENGTH&quot;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">gauge</span> <span class="o">==</span> <span class="s2">&quot;velocity&quot;</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">oscillator_strength_velocity</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">oscillator_strength</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">computed</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Oscillator strength (</span><span class="si">{</span><span class="n">gauge</span><span class="si">}</span><span class="s2"> gauge)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> oscillator strengths (</span><span class="si">{</span><span class="n">gauge_short</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
-                             <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s2">&quot;OSCILLATOR_STRENGTH&quot;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">gauge</span> <span class="o">==</span> <span class="s2">&quot;velocity&quot;</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">excitation</span><span class="o">.</span><span class="n">oscillator_strength_velocity</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">excitation</span><span class="o">.</span><span class="n">oscillator_strength</span>
+            <span class="n">props</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Oscillator strength (</span><span class="si">{</span><span class="n">gauge</span><span class="si">}</span><span class="s2"> gauge)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+                <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 (A) -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> (A) &quot;</span>
+                                    <span class="sa">f</span><span class="s2">&quot;OSCILLATOR STRENGTH (</span><span class="si">{</span><span class="n">gauge_short</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                    <span class="sa">f</span><span class="s2">&quot;OSCILLATOR STRENGTH (</span><span class="si">{</span><span class="n">gauge_short</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                    <span class="sa">f</span><span class="s2">&quot;OSCILLATOR STRENGTH (</span><span class="si">{</span><span class="n">gauge_short</span><span class="si">}</span><span class="s2">) - A TRANSITION&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;ROTATIONAL_STRENGTH&quot;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">rotatory_strength</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">computed</span><span class="p">[</span><span class="s2">&quot;Rotational strength (velocity gauge)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> rotational strengths (VEL)&quot;</span><span class="p">,</span>
-                             <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s2">&quot;ROTATIONAL_STRENGTH&quot;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">excitation</span><span class="o">.</span><span class="n">rotatory_strength</span>
+            <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Rotational strength (velocity gauge)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+                <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 (A) -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> (A) &quot;</span>
+                                    <span class="s2">&quot;ROTATORY STRENGTH (VEL)&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                    <span class="s2">&quot;ROTATORY STRENGTH (VEL)&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT 0 -&gt; ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                    <span class="s2">&quot;ROTATORY STRENGTH (VEL) - A TRANSITION&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;DIPOLE&quot;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">state_dipole_moment</span>
-        <span class="n">computed</span><span class="p">[</span><span class="s2">&quot;State dipole moment (in a.u.)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> state dipoles&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s2">&quot;DIPOLE&quot;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">excitation</span><span class="o">.</span><span class="n">state_dipole_moment</span>
+            <span class="n">props</span><span class="p">[</span><span class="s2">&quot;State dipole moment (in a.u.)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+            <span class="n">data_mat</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+                <span class="n">adc_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> ROOT </span><span class="si">{</span><span class="n">root_index</span><span class="si">}</span><span class="s2"> (A) DIPOLE MOMENT&quot;</span><span class="p">,</span> <span class="n">data_mat</span><span class="p">)</span>
+
+        <span class="n">computed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>
+
+        <span class="c1"># for Psivar scraper</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 -&gt; ROOT m EXCITATION ENERGY&quot;)               # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 (h) -&gt; ROOT m (i) EXCITATION ENERGY&quot;)       # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 -&gt; ROOT m EXCITATION ENERGY - h TRANSITION&quot;)  # P::e ADC</span>
+        <span class="c1"># wfn.set_array_variable(&quot;ADC ROOT 0 -&gt; ROOT m ELECTRIC TRANSITION DIPOLE MOMENT (LEN)&quot;)                # P::e ADC</span>
+        <span class="c1"># wfn.set_array_variable(&quot;ADC ROOT 0 (h) -&gt; ROOT m (i) ELECTRIC TRANSITION DIPOLE MOMENT (LEN)&quot;)        # P::e ADC</span>
+        <span class="c1"># wfn.set_array_variable(&quot;ADC ROOT 0 -&gt; ROOT m ELECTRIC TRANSITION DIPOLE MOMENT (LEN) - h TRANSITION&quot;)  # P::e ADC</span>
+        <span class="c1"># wfn.set_array_variable(&quot;ADC ROOT m (i) DIPOLE MOMENT&quot;)                # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 -&gt; ROOT m OSCILLATOR STRENGTH (LEN)&quot;)               # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 (h) -&gt; ROOT m (i) OSCILLATOR STRENGTH (LEN)&quot;)       # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 -&gt; ROOT m OSCILLATOR STRENGTH (LEN) - h TRANSITION&quot;)  # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 -&gt; ROOT m OSCILLATOR STRENGTH (VEL)&quot;)               # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 (h) -&gt; ROOT m (i) OSCILLATOR STRENGTH (VEL)&quot;)       # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 -&gt; ROOT m OSCILLATOR STRENGTH (VEL) - h TRANSITION&quot;)  # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 -&gt; ROOT m ROTATORY STRENGTH (VEL)&quot;)               # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 (h) -&gt; ROOT m (i) ROTATORY STRENGTH (VEL)&quot;)       # P::e ADC</span>
+        <span class="c1"># wfn.set_variable(&quot;ADC ROOT 0 -&gt; ROOT m ROTATORY STRENGTH (VEL) - h TRANSITION&quot;)  # P::e ADC</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Excited state properties:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">n_states</span> <span class="o">=</span> <span class="n">adc_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;number of excited states&quot;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n_states</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">props</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">computed</span><span class="p">):</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Excited state  </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">prop</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">computed</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
-            <span class="n">lines</span> <span class="o">+=</span> <span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="n">ind</span> <span class="o">+</span> <span class="n">format_vector</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span>
+        <span class="k">for</span> <span class="n">prop</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">lines</span> <span class="o">+=</span> <span class="p">[</span><span class="n">ind</span> <span class="o">+</span> <span class="n">ind</span> <span class="o">+</span> <span class="n">format_vector</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">data</span><span class="p">)]</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Shove variables into global space</span>
@@ -5473,7 +5519,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/6447c91">1.6a1.dev139</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/427a1c3">1.6a1.dev142</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5487,7 +5533,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Friday, 08 April 2022 10:30AM.
+      Last updated on Friday, 08 April 2022 04:01PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
