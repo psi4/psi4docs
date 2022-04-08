@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fe6b26d">1.6a1.dev137</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/8a91285">1.6a1.dev138</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -641,6 +641,7 @@
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Scratch directory: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">())</span>
 
     <span class="c1"># Bounce to CP if bsse kwarg</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">upgrade_interventions</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bsse_type&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">driver_nbody</span><span class="o">.</span><span class="n">nbody_gufunc</span><span class="p">(</span><span class="n">energy</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ptype</span><span class="o">=</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -765,6 +766,7 @@
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Scratch directory: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">())</span>
 
     <span class="c1"># Figure out what kind of gradient this is</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">upgrade_interventions</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;__call__&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cbs&#39;</span><span class="p">,</span> <span class="s1">&#39;complete_basis_set&#39;</span><span class="p">]:</span>
             <span class="n">gradient_type</span> <span class="o">=</span> <span class="s1">&#39;cbs_wrapper&#39;</span>
@@ -1020,7 +1022,7 @@
     <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;molecule&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">molecule</span>
 
     <span class="c1"># Allow specification of methods to arbitrary order</span>
-    <span class="n">lowername</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">lowername</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">upgrade_interventions</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">lowername</span><span class="p">,</span> <span class="n">level</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">parse_arbitrary_order</span><span class="p">(</span><span class="n">lowername</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">level</span><span class="p">:</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span>
@@ -1405,6 +1407,7 @@
     <span class="k">elif</span> <span class="n">engine</span> <span class="o">!=</span> <span class="s1">&#39;optking&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimizer </span><span class="si">{</span><span class="n">engine</span><span class="si">}</span><span class="s2"> is not supported.&quot;</span><span class="p">)</span>
 
+    <span class="n">name</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">upgrade_interventions</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;__call__&#39;</span><span class="p">):</span>
         <span class="n">lowername</span> <span class="o">=</span> <span class="n">name</span>
         <span class="n">custom_gradient</span> <span class="o">=</span> <span class="kc">True</span>
@@ -1612,6 +1615,7 @@
     <span class="n">kwargs</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">kwargs_lower</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="c1"># Figure out what kind of gradient this is</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">upgrade_interventions</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;__call__&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;cbs&#39;</span><span class="p">,</span> <span class="s1">&#39;complete_basis_set&#39;</span><span class="p">]:</span>
             <span class="n">gradient_type</span> <span class="o">=</span> <span class="s1">&#39;cbs_wrapper&#39;</span>
@@ -2484,7 +2488,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fe6b26d">1.6a1.dev137</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/8a91285">1.6a1.dev138</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2498,7 +2502,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Thursday, 07 April 2022 04:43PM.
+      Last updated on Friday, 08 April 2022 07:33AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

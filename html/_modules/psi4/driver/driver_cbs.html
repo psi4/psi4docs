@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fe6b26d">1.6a1.dev137</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/8a91285">1.6a1.dev138</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -148,7 +148,7 @@
 <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">qcdb</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">p4util</span>
-<span class="kn">from</span> <span class="nn">psi4.driver.driver_cbs_helper</span> <span class="kn">import</span> <span class="n">xtpl_highest_1</span><span class="p">,</span> <span class="n">scf_xtpl_helgaker_2</span><span class="p">,</span> <span class="n">scf_xtpl_truhlar_2</span><span class="p">,</span> <span class="n">scf_xtpl_karton_2</span><span class="p">,</span> <span class="n">scf_xtpl_helgaker_3</span><span class="p">,</span> <span class="n">corl_xtpl_helgaker_2</span>
+<span class="kn">from</span> <span class="nn">psi4.driver.driver_cbs_helper</span> <span class="kn">import</span> <span class="n">composite_procedures</span><span class="p">,</span> <span class="n">register_composite_function</span><span class="p">,</span> <span class="n">register_xtpl_function</span><span class="p">,</span> <span class="n">xtpl_procedures</span>  <span class="c1"># lgtm[py/unused-import]</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">driver_util</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">psifiles</span> <span class="k">as</span> <span class="n">psif</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.p4util.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
@@ -165,6 +165,32 @@
     <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;LO&#39;</span><span class="p">,</span> <span class="s1">&#39;MD&#39;</span><span class="p">,</span> <span class="s1">&#39;M2&#39;</span><span class="p">,</span> <span class="s1">&#39;HI&#39;</span><span class="p">],</span>
     <span class="mi">5</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;LO&#39;</span><span class="p">,</span> <span class="s1">&#39;MD&#39;</span><span class="p">,</span> <span class="s1">&#39;M2&#39;</span><span class="p">,</span> <span class="s1">&#39;M3&#39;</span><span class="p">,</span> <span class="s1">&#39;HI&#39;</span><span class="p">]</span>
 <span class="p">}</span>
+
+
+<span class="c1"># remove in 1.8</span>
+<span class="c1"># these get input files to the point where they raise an UpgradeHelper</span>
+<span class="k">def</span> <span class="nf">xtpl_highest_1</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">scf_xtpl_helgaker_2</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">scf_xtpl_truhlar_2</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">scf_xtpl_karton_2</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">scf_xtpl_helgaker_3</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">corl_xtpl_helgaker_2</span><span class="p">():</span>
+    <span class="k">pass</span>
 
 
 <span class="k">def</span> <span class="nf">_expand_bracketed_basis</span><span class="p">(</span><span class="n">basisstring</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -498,17 +524,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">nbasis</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">xtpl_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;scf&quot;</span><span class="p">,</span> <span class="s2">&quot;corl&quot;</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">xtpl_highest_1</span>
+        <span class="k">return</span> <span class="s2">&quot;xtpl_highest_1&quot;</span>
     <span class="k">elif</span> <span class="n">xtpl_type</span> <span class="o">==</span> <span class="s2">&quot;scf&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">nbasis</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">scf_xtpl_helgaker_2</span>
+            <span class="k">return</span> <span class="s2">&quot;scf_xtpl_helgaker_2&quot;</span>
         <span class="k">elif</span> <span class="n">nbasis</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">scf_xtpl_helgaker_3</span>
+            <span class="k">return</span> <span class="s2">&quot;scf_xtpl_helgaker_3&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrong number of basis sets supplied to scf_xtpl: </span><span class="si">{</span><span class="n">nbasis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">xtpl_type</span> <span class="o">==</span> <span class="s2">&quot;corl&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">nbasis</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">corl_xtpl_helgaker_2</span>
+            <span class="k">return</span> <span class="s2">&quot;corl_xtpl_helgaker_2&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrong number of basis sets supplied to corl_xtpl: </span><span class="si">{</span><span class="n">nbasis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1228,19 +1254,19 @@
         <span class="n">hiloargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_alpha&#39;</span><span class="p">]}</span>
 
         <span class="n">hiloargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_contract_scheme_orders</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_need&#39;</span><span class="p">],</span> <span class="s1">&#39;f_energy&#39;</span><span class="p">))</span>
-        <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_energy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">](</span><span class="o">**</span><span class="n">hiloargs</span><span class="p">)</span>
+        <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_energy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xtpl_procedures</span><span class="p">[</span><span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">]](</span><span class="o">**</span><span class="n">hiloargs</span><span class="p">)</span>
         <span class="n">finalenergy</span> <span class="o">+=</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_energy&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_coef&#39;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">ptype</span> <span class="o">==</span> <span class="s1">&#39;gradient&#39;</span><span class="p">:</span>
             <span class="n">hiloargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_contract_scheme_orders</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_need&#39;</span><span class="p">],</span> <span class="s1">&#39;f_gradient&#39;</span><span class="p">))</span>
-            <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_gradient&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">](</span><span class="o">**</span><span class="n">hiloargs</span><span class="p">)</span>
+            <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_gradient&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xtpl_procedures</span><span class="p">[</span><span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">]](</span><span class="o">**</span><span class="n">hiloargs</span><span class="p">)</span>
             <span class="n">work</span> <span class="o">=</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_gradient&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
             <span class="n">work</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_coef&#39;</span><span class="p">])</span>
             <span class="n">finalgradient</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">work</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">ptype</span> <span class="o">==</span> <span class="s1">&#39;hessian&#39;</span><span class="p">:</span>
             <span class="n">hiloargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_contract_scheme_orders</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_need&#39;</span><span class="p">],</span> <span class="s1">&#39;f_hessian&#39;</span><span class="p">))</span>
-            <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_hessian&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">](</span><span class="o">**</span><span class="n">hiloargs</span><span class="p">)</span>
+            <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_hessian&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xtpl_procedures</span><span class="p">[</span><span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">]](</span><span class="o">**</span><span class="n">hiloargs</span><span class="p">)</span>
             <span class="n">work</span> <span class="o">=</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_hessian&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
             <span class="n">work</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_coef&#39;</span><span class="p">])</span>
             <span class="n">finalhessian</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">work</span><span class="p">)</span>
@@ -1271,7 +1297,7 @@
     <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="n">GRAND_NEED</span><span class="p">:</span>
         <span class="n">tables</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;     </span><span class="si">%6s</span><span class="s2"> </span><span class="si">%20s</span><span class="s2"> </span><span class="si">%1s</span><span class="s2"> </span><span class="si">%-27s</span><span class="s2"> </span><span class="si">%2d</span><span class="s2"> </span><span class="si">%16.8f</span><span class="s2">   </span><span class="si">%-s</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_stage&#39;</span><span class="p">],</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_wfn&#39;</span><span class="p">],</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
                                                                       <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_basis&#39;</span><span class="p">],</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_coef&#39;</span><span class="p">],</span>
-                                                                      <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_energy&#39;</span><span class="p">],</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">]</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                                                                      <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_energy&#39;</span><span class="p">],</span> <span class="n">stage</span><span class="p">[</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">])</span>
     <span class="n">tables</span> <span class="o">+=</span> <span class="n">table_delimit</span>
 
     <span class="n">tables</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">   ==&gt; </span><span class="si">%s</span><span class="s2"> &lt;==</span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;CBS&#39;</span><span class="p">)</span>
@@ -1281,11 +1307,11 @@
     <span class="n">tables</span> <span class="o">+=</span> <span class="n">table_delimit</span>
     <span class="n">tables</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;     </span><span class="si">%6s</span><span class="s2"> </span><span class="si">%20s</span><span class="s2"> </span><span class="si">%1s</span><span class="s2"> </span><span class="si">%-27s</span><span class="s2"> </span><span class="si">%2s</span><span class="s2"> </span><span class="si">%16.8f</span><span class="s2">   </span><span class="si">%-s</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span>
         <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;d_stage&#39;</span><span class="p">],</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;d_wfn&#39;</span><span class="p">],</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;d_basis&#39;</span><span class="p">],</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;d_energy&#39;</span><span class="p">],</span>
-        <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">]</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">])</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">tables</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;     </span><span class="si">%6s</span><span class="s2"> </span><span class="si">%20s</span><span class="s2"> </span><span class="si">%1s</span><span class="s2"> </span><span class="si">%-27s</span><span class="s2"> </span><span class="si">%2s</span><span class="s2"> </span><span class="si">%16.8f</span><span class="s2">   </span><span class="si">%-s</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;d_stage&#39;</span><span class="p">],</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;d_wfn&#39;</span><span class="p">],</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;d_basis&#39;</span><span class="p">],</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-            <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;d_energy&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;d_energy&#39;</span><span class="p">],</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">]</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;d_energy&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;d_energy&#39;</span><span class="p">],</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">])</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">dc</span> <span class="o">=</span> <span class="mi">3</span>
         <span class="k">for</span> <span class="n">delta</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">[</span><span class="mi">2</span><span class="p">:]:</span>
@@ -1293,7 +1319,7 @@
             <span class="n">tables</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;     </span><span class="si">%6s</span><span class="s2"> </span><span class="si">%20s</span><span class="s2"> </span><span class="si">%1s</span><span class="s2"> </span><span class="si">%-27s</span><span class="s2"> </span><span class="si">%2s</span><span class="s2"> </span><span class="si">%16.8f</span><span class="s2">   </span><span class="si">%-s</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span>
                 <span class="n">GRAND_NEED</span><span class="p">[</span><span class="n">dc</span><span class="p">][</span><span class="s1">&#39;d_stage&#39;</span><span class="p">],</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="n">dc</span><span class="p">][</span><span class="s1">&#39;d_wfn&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">GRAND_NEED</span><span class="p">[</span><span class="n">dc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s1">&#39;d_wfn&#39;</span><span class="p">],</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
                 <span class="n">GRAND_NEED</span><span class="p">[</span><span class="n">dc</span><span class="p">][</span><span class="s1">&#39;d_basis&#39;</span><span class="p">],</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">deltaE_total</span><span class="p">,</span>
-                <span class="n">GRAND_NEED</span><span class="p">[</span><span class="n">dc</span><span class="p">][</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">]</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                <span class="n">GRAND_NEED</span><span class="p">[</span><span class="n">dc</span><span class="p">][</span><span class="s1">&#39;d_scheme&#39;</span><span class="p">])</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CBS </span><span class="si">{</span><span class="n">GRAND_NEED</span><span class="p">[</span><span class="n">dc</span><span class="p">][</span><span class="s1">&#39;d_stage&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="n">deltaE_total</span><span class="p">)</span>
             <span class="n">dc</span> <span class="o">+=</span> <span class="mi">2</span>
 
@@ -1350,8 +1376,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Nxtpl</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">basiszeta</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">scheme</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">!=</span> <span class="n">Nxtpl</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Call to &#39;</span><span class="si">%s</span><span class="s2">&#39; not valid with &#39;</span><span class="si">%s</span><span class="s2">&#39; basis sets.&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">scheme</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">basiszeta</span><span class="p">)))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">scheme</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="n">scheme</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">scheme</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span> <span class="mf">1.6</span><span class="p">,</span> <span class="s1">&#39; Replace extrapolation function with function name.&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xtpl_procedures</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Extrapolation function (</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">) not among registered extrapolation schemes: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">xtpl_procedures</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">. Use &#39;register_xtpl_function&#39; function.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">scheme</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">!=</span> <span class="n">Nxtpl</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;Call to &#39;</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">&#39; not valid with &#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">basiszeta</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; basis sets.&quot;&quot;&quot;</span><span class="p">)</span>
 
     <span class="n">f_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;f_wfn&#39;</span><span class="p">,</span> <span class="s1">&#39;f_basis&#39;</span><span class="p">,</span> <span class="s1">&#39;f_zeta&#39;</span><span class="p">,</span> <span class="s1">&#39;f_energy&#39;</span><span class="p">,</span> <span class="s1">&#39;f_gradient&#39;</span><span class="p">,</span> <span class="s1">&#39;f_hessian&#39;</span><span class="p">,</span> <span class="s1">&#39;f_options&#39;</span><span class="p">]</span>
     <span class="n">NEED</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1674,7 +1708,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fe6b26d">1.6a1.dev137</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/8a91285">1.6a1.dev138</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1688,7 +1722,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Thursday, 07 April 2022 04:43PM.
+      Last updated on Friday, 08 April 2022 07:33AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

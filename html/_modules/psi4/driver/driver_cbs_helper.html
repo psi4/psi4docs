@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs_helper.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fe6b26d">1.6a1.dev137</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/8a91285">1.6a1.dev138</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -140,20 +140,21 @@
 
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.p4util.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">nppp</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array_str</span><span class="p">,</span> <span class="n">max_line_width</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">suppress_small</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># when safe, &quot;from psi4.driver import nppp&quot;</span>
+<span class="kn">from</span> <span class="nn">psi4.driver.aliases</span> <span class="kn">import</span> <span class="n">sherrill_gold_standard</span><span class="p">,</span> <span class="n">allen_focal_point</span>
 
 
 <span class="n">_zeta_val2sym</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="s1">&#39;dtq5678&#39;</span><span class="p">)}</span>
 <span class="n">Extrapolatable</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Vector</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="xtpl_highest_1"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs.xtpl_highest_1">[docs]</a><span class="k">def</span> <span class="nf">xtpl_highest_1</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
+<div class="viewcode-block" id="xtpl_highest_1"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.xtpl_highest_1">[docs]</a><span class="k">def</span> <span class="nf">xtpl_highest_1</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scheme for total or correlation energies with a single basis or the highest</span>
 <span class="sd">    zeta-level among an array of bases. Used by :py:func:`~psi4.cbs`.</span>
 
@@ -209,7 +210,7 @@
         <span class="k">return</span> <span class="n">valueHI</span></div>
 
 
-<div class="viewcode-block" id="scf_xtpl_helgaker_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs.scf_xtpl_helgaker_2">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_helgaker_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
+<div class="viewcode-block" id="scf_xtpl_helgaker_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.scf_xtpl_helgaker_2">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_helgaker_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extrapolation scheme using exponential form for reference energies with two adjacent</span>
 <span class="sd">    zeta-level bases. Used by :py:func:`~psi4.cbs`.</span>
 
@@ -318,7 +319,7 @@
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scf_xtpl_helgaker_2: datatype is not recognized &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">valueLO</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="scf_xtpl_truhlar_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs.scf_xtpl_truhlar_2">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_truhlar_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
+<div class="viewcode-block" id="scf_xtpl_truhlar_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.scf_xtpl_truhlar_2">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_truhlar_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extrapolation scheme using power form for reference energies with two adjacent</span>
 <span class="sd">    zeta-level bases. Used by :py:func:`~psi4.cbs`.</span>
 
@@ -422,7 +423,7 @@
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scf_xtpl_truhlar_2: datatype is not recognized &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">valueLO</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="scf_xtpl_karton_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs.scf_xtpl_karton_2">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_karton_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
+<div class="viewcode-block" id="scf_xtpl_karton_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.scf_xtpl_karton_2">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_karton_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extrapolation scheme using root-power form for reference energies with two adjacent</span>
 <span class="sd">    zeta-level bases. Used by :py:func:`~psi4.cbs`.</span>
 
@@ -528,7 +529,7 @@
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scf_xtpl_Karton_2: datatype is not recognized &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">valueLO</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="scf_xtpl_helgaker_3"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs.scf_xtpl_helgaker_3">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_helgaker_3</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zMD</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueMD</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
+<div class="viewcode-block" id="scf_xtpl_helgaker_3"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.scf_xtpl_helgaker_3">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_helgaker_3</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zMD</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueMD</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extrapolation scheme for reference energies with three adjacent zeta-level bases.</span>
 <span class="sd">    Used by :py:func:`~psi4.cbs`.</span>
 
@@ -661,7 +662,7 @@
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scf_xtpl_helgaker_3: datatype is not recognized &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">valueLO</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="corl_xtpl_helgaker_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs.corl_xtpl_helgaker_2">[docs]</a><span class="k">def</span> <span class="nf">corl_xtpl_helgaker_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
+<div class="viewcode-block" id="corl_xtpl_helgaker_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2">[docs]</a><span class="k">def</span> <span class="nf">corl_xtpl_helgaker_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extrapolation scheme for correlation energies with two adjacent zeta-level bases.</span>
 <span class="sd">    Used by :py:func:`~psi4.cbs`.</span>
 
@@ -767,6 +768,50 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;corl_xtpl_helgaker_2: datatype is not recognized &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">valueLO</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span></div>
 
+
+<span class="n">xtpl_procedures</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;xtpl_highest_1&quot;</span><span class="p">:</span> <span class="n">xtpl_highest_1</span><span class="p">,</span>
+    <span class="s2">&quot;scf_xtpl_helgaker_2&quot;</span><span class="p">:</span> <span class="n">scf_xtpl_helgaker_2</span><span class="p">,</span>
+    <span class="s2">&quot;scf_xtpl_truhlar_2&quot;</span><span class="p">:</span> <span class="n">scf_xtpl_truhlar_2</span><span class="p">,</span>
+    <span class="s2">&quot;scf_xtpl_karton_2&quot;</span><span class="p">:</span> <span class="n">scf_xtpl_karton_2</span><span class="p">,</span>
+    <span class="s2">&quot;scf_xtpl_helgaker_3&quot;</span><span class="p">:</span> <span class="n">scf_xtpl_helgaker_3</span><span class="p">,</span>
+    <span class="s2">&quot;corl_xtpl_helgaker_2&quot;</span><span class="p">:</span> <span class="n">corl_xtpl_helgaker_2</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">composite_procedures</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;sherrill_gold_standard&quot;</span><span class="p">:</span> <span class="n">sherrill_gold_standard</span><span class="p">,</span>
+    <span class="s2">&quot;allen_focal_point&quot;</span><span class="p">:</span> <span class="n">allen_focal_point</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="register_xtpl_function"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.register_xtpl_function">[docs]</a><span class="k">def</span> <span class="nf">register_xtpl_function</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Register a user-defined extrapolation function to use like an built-in one.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    func</span>
+<span class="sd">        A Python function that applies a basis set extrapolation formula to scalars and optionally to</span>
+<span class="sd">        NumPy arrays. See :src:`psi4/driver/driver_cbs_helper.py` and :srcsample:`pywrap-cbs1` for</span>
+<span class="sd">        examples. The name of the function should follow the pattern ``&lt;scf|corl&gt;_xtpl_&lt;scientist&gt;_&lt;#basis&gt;``.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">xtpl_procedures</span><span class="p">[</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Extrapolation function names follow &lt;scf|corl&gt;_xtpl_&lt;scientist&gt;_&lt;#basis&gt;&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="register_composite_function"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.register_composite_function">[docs]</a><span class="k">def</span> <span class="nf">register_composite_function</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Register a user-defined composite method function to use like a built-in one.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    func</span>
+<span class="sd">        A Python function that defines a configuration of the :py:func:`psi4.cbs` wrapper.</span>
+<span class="sd">        See :src:`psi4/driver/aliases.py` and :srcsample:`cbs-xtpl-nbody` for examples.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">composite_procedures</span><span class="p">[</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -858,7 +903,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs_helper.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fe6b26d">1.6a1.dev137</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/8a91285">1.6a1.dev138</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -872,7 +917,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Thursday, 07 April 2022 04:43PM.
+      Last updated on Friday, 08 April 2022 07:33AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
