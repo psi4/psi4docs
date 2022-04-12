@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/3170618">1.6a1.dev144</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7636787">1.6a1.dev145</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -169,72 +169,6 @@
 <span class="c1"># never import wrappers or aliases into this file</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">_find_derivative_type</span><span class="p">(</span><span class="n">ptype</span><span class="p">,</span> <span class="n">method_name</span><span class="p">,</span> <span class="n">user_dertype</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Figures out the derivative type (0, 1, 2) for a given method_name. Will</span>
-<span class="sd">    first use user default and then the highest available derivative type for</span>
-<span class="sd">    a given method.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">derivatives</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;gradient&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;hessian&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
-
-    <span class="k">if</span> <span class="n">ptype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">derivatives</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;_find_derivative_type: ptype must either be gradient or hessian.&quot;</span><span class="p">)</span>
-
-    <span class="n">dertype</span> <span class="o">=</span> <span class="s2">&quot;(auto)&quot;</span>
-
-    <span class="c1"># If user type is None, try to find the highest derivative</span>
-    <span class="k">if</span> <span class="n">user_dertype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">ptype</span> <span class="o">==</span> <span class="s1">&#39;hessian&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">method_name</span> <span class="ow">in</span> <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;hessian&#39;</span><span class="p">]):</span>
-            <span class="n">dertype</span> <span class="o">=</span> <span class="mi">2</span>
-            <span class="c1"># Will need special logic if we ever have managed Hessians</span>
-        <span class="k">elif</span> <span class="n">method_name</span> <span class="ow">in</span> <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;gradient&#39;</span><span class="p">]:</span>
-            <span class="n">dertype</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;gradient&#39;</span><span class="p">][</span><span class="n">method_name</span><span class="p">]</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;select_&#39;</span><span class="p">):</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;gradient&#39;</span><span class="p">][</span><span class="n">method_name</span><span class="p">](</span><span class="n">method_name</span><span class="p">,</span> <span class="n">probe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="k">except</span> <span class="n">ManagedMethodError</span><span class="p">:</span>
-                    <span class="n">dertype</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">elif</span> <span class="n">method_name</span> <span class="ow">in</span> <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]:</span>
-            <span class="n">dertype</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># Quick sanity check. Only *should* be able to be None or int, but hey, kids today...</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user_dertype</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;_find_derivative_type: user_dertype should only be None or int!&quot;</span><span class="p">)</span>
-        <span class="n">dertype</span> <span class="o">=</span> <span class="n">user_dertype</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;INTEGRAL_PACKAGE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;ERD&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">dertype</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;INTEGRAL_PACKAGE ERD does not play nicely with derivatives, so stopping.&#39;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;PCM&#39;</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">dertype</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PCM analytic gradients are not implemented yet, re-routing to finite differences.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">dertype</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;RELATIVISTIC&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;X2C&quot;</span><span class="p">,</span> <span class="s2">&quot;DKH&quot;</span><span class="p">]:</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Relativistic analytic gradients are not implemented yet, re-routing to finite differences.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">dertype</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="c1"># Summary validation</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">dertype</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">method_name</span> <span class="ow">in</span> <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;hessian&#39;</span><span class="p">]):</span>
-        <span class="k">pass</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="n">dertype</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">method_name</span> <span class="ow">in</span> <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;gradient&#39;</span><span class="p">]):</span>
-        <span class="k">pass</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="n">dertype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">method_name</span> <span class="ow">in</span> <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]):</span>
-        <span class="k">pass</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">alternatives</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-        <span class="n">alt_method_name</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">find_approximate_string_matches</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alt_method_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">alternatives</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot; Did you mean? </span><span class="si">%s</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">alt_method_name</span><span class="p">))</span>
-
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Derivative method &#39;name&#39; </span><span class="si">%s</span><span class="s2"> and derivative level &#39;dertype&#39; </span><span class="si">%s</span><span class="s2"> are not available.</span><span class="si">%s</span><span class="s2">&quot;&quot;&quot;</span>
-                              <span class="o">%</span> <span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">dertype</span><span class="p">),</span> <span class="n">alternatives</span><span class="p">))</span>
-
-    <span class="n">dertype</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">dertype</span><span class="p">,</span> <span class="n">derivatives</span><span class="p">[</span><span class="n">ptype</span><span class="p">])</span>
-
-    <span class="k">return</span> <span class="n">dertype</span>
 
 
 <span class="k">def</span> <span class="nf">_energy_is_invariant</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="n">stationary_criterion</span><span class="o">=</span><span class="mf">1.e-2</span><span class="p">):</span>
@@ -676,7 +610,10 @@
     <span class="k">if</span> <span class="n">ep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ep</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">set_external_potential</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;external_potentials&#39;</span><span class="p">])</span>
 
-    <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">_set_convergence_criterion</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="c1"># only point is to trigger MissingMethodError</span>
+    <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_derivative_type</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_convergence_criterion</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">return_optstash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">optstash2</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">([</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;GUESS&#39;</span><span class="p">])</span>
 
     <span class="c1"># Before invoking the procedure, we rename any file that should be read.</span>
@@ -798,7 +735,7 @@
         <span class="k">if</span> <span class="n">dertype</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">name</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;custom function&#39;</span><span class="p">),</span> <span class="n">ptype</span><span class="o">=</span><span class="s1">&#39;gradient&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">_set_convergence_criterion</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="s1">&#39;scf&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+            <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_convergence_criterion</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;scf&quot;</span><span class="p">,</span> <span class="n">return_optstash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">lowername</span> <span class="o">=</span> <span class="n">name</span>
 
     <span class="k">elif</span> <span class="n">gradient_type</span> <span class="o">==</span> <span class="s1">&#39;nbody_gufunc&#39;</span><span class="p">:</span>
@@ -806,12 +743,12 @@
 
     <span class="k">elif</span> <span class="n">gradient_type</span> <span class="o">==</span> <span class="s1">&#39;cbs_wrapper&#39;</span><span class="p">:</span>
         <span class="n">cbs_methods</span> <span class="o">=</span> <span class="n">driver_cbs</span><span class="o">.</span><span class="n">_cbs_wrapper_methods</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">dertype</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">_find_derivative_type</span><span class="p">(</span><span class="s1">&#39;gradient&#39;</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">user_dertype</span><span class="p">)</span> <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">cbs_methods</span><span class="p">])</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">dertype</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_derivative_type</span><span class="p">(</span><span class="s1">&#39;gradient&#39;</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">user_dertype</span><span class="p">)</span> <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">cbs_methods</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">dertype</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c1"># Bounce to CBS (directly) in pure-gradient mode if name is CBS and all parts have analytic grad. avail.</span>
             <span class="k">return</span> <span class="n">name</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;custom function&#39;</span><span class="p">),</span> <span class="n">ptype</span><span class="o">=</span><span class="s1">&#39;gradient&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">_set_convergence_criterion</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">cbs_methods</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+            <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_convergence_criterion</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">cbs_methods</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">return_optstash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">lowername</span> <span class="o">=</span> <span class="n">name</span>
             <span class="c1"># Pass through to G by E</span>
 
@@ -819,14 +756,14 @@
         <span class="n">cbs_methods</span> <span class="o">=</span> <span class="n">driver_cbs</span><span class="o">.</span><span class="n">_parse_cbs_gufunc_string</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">cbs_methods</span><span class="p">:</span>
             <span class="n">_filter_renamed_methods</span><span class="p">(</span><span class="s2">&quot;gradient&quot;</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
-        <span class="n">dertype</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">_find_derivative_type</span><span class="p">(</span><span class="s1">&#39;gradient&#39;</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">user_dertype</span><span class="p">)</span> <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">cbs_methods</span><span class="p">])</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">dertype</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_derivative_type</span><span class="p">(</span><span class="s1">&#39;gradient&#39;</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">user_dertype</span><span class="p">)</span> <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">cbs_methods</span><span class="p">])</span>
         <span class="n">lowername</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">dertype</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c1"># Bounce to CBS in pure-gradient mode if &quot;method/basis&quot; name and all parts have analytic grad. avail.</span>
             <span class="k">return</span> <span class="n">driver_cbs</span><span class="o">.</span><span class="n">_cbs_gufunc</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ptype</span><span class="o">=</span><span class="s1">&#39;gradient&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Set method-dependent scf convergence criteria (test on procedures[&#39;energy&#39;] since that&#39;s guaranteed)</span>
-            <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">_set_convergence_criterion</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">cbs_methods</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+            <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_convergence_criterion</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">cbs_methods</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">return_optstash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Allow specification of methods to arbitrary order</span>
@@ -840,10 +777,10 @@
         <span class="k">if</span> <span class="n">lowername</span> <span class="ow">in</span> <span class="n">energy_only_methods</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;gradient(&#39;</span><span class="si">%s</span><span class="s2">&#39;) does not have an associated gradient&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
 
-        <span class="n">dertype</span> <span class="o">=</span> <span class="n">_find_derivative_type</span><span class="p">(</span><span class="s1">&#39;gradient&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">user_dertype</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">dertype</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_derivative_type</span><span class="p">(</span><span class="s1">&#39;gradient&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">user_dertype</span><span class="p">)</span>
 
         <span class="c1"># Set method-dependent scf convergence criteria (test on procedures[&#39;energy&#39;] since that&#39;s guaranteed)</span>
-        <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">_set_convergence_criterion</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_convergence_criterion</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">return_optstash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
     <span class="c1"># Commit to procedures[] call hereafter</span>
@@ -1032,6 +969,9 @@
     <span class="k">if</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">lowername</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">driver_cbs</span><span class="o">.</span><span class="n">_cbs_gufunc</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">ptype</span><span class="o">=</span><span class="s1">&#39;properties&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+    <span class="c1"># only point is to trigger MissingMethodError</span>
+    <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_derivative_type</span><span class="p">(</span><span class="s1">&#39;properties&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+
     <span class="n">ep</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;external_potentials&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ep</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">set_external_potential</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;external_potentials&#39;</span><span class="p">])</span>
@@ -1043,7 +983,7 @@
         <span class="n">props</span> <span class="o">+=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
     <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>
-    <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">_set_convergence_criterion</span><span class="p">(</span><span class="s1">&#39;properties&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">optstash</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_convergence_criterion</span><span class="p">((</span><span class="s2">&quot;prop&quot;</span><span class="p">,</span> <span class="s2">&quot;prop&quot;</span><span class="p">),</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">return_optstash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Compute properties(): method=</span><span class="si">{</span><span class="n">lowername</span><span class="si">}</span><span class="s2">, basis=</span><span class="si">{</span><span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">, molecule=</span><span class="si">{</span><span class="n">molecule</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">, nre=</span><span class="si">{</span><span class="s1">&#39;w/EFP&#39;</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="s1">&#39;EFP&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">molecule</span><span class="o">.</span><span class="n">nuclear_repulsion_energy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;w/EFP&quot;</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="s2">&quot;EFP&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">pp</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()))</span>
     <span class="n">wfn</span> <span class="o">=</span> <span class="n">procedures</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">][</span><span class="n">lowername</span><span class="p">](</span><span class="n">lowername</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1665,14 +1605,14 @@
     <span class="k">if</span> <span class="n">level</span><span class="p">:</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span>
 
-    <span class="n">dertype</span> <span class="o">=</span> <span class="n">_find_derivative_type</span><span class="p">(</span><span class="s1">&#39;hessian&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;freq_dertype&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dertype&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)))</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">dertype</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_derivative_type</span><span class="p">(</span><span class="s1">&#39;hessian&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;freq_dertype&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dertype&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)))</span>
 
     <span class="c1"># Make sure the molecule the user provided is the active one</span>
     <span class="n">molecule</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_active_molecule</span><span class="p">())</span>
     <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
 
     <span class="c1"># Set method-dependent scf convergence criteria (test on procedures[&#39;energy&#39;] since that&#39;s guaranteed)</span>
-    <span class="n">optstash_conv</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">_set_convergence_criterion</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">optstash_conv</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_convergence_criterion</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">return_optstash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Select certain irreps</span>
     <span class="n">irrep</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;irrep&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -1695,7 +1635,10 @@
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;hessian() using ref_gradient to assess stationary point.</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
         <span class="n">G0</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ref_gradient&#39;</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">G0</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">lowername</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">molecule</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">dup_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">dup_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dertype&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">dup_kwargs</span><span class="p">[</span><span class="s2">&quot;dertype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">G0</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">lowername</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">molecule</span><span class="p">,</span> <span class="o">**</span><span class="n">dup_kwargs</span><span class="p">)</span>
     <span class="n">translations_projection_sound</span><span class="p">,</span> <span class="n">rotations_projection_sound</span> <span class="o">=</span> <span class="n">_energy_is_invariant</span><span class="p">(</span><span class="n">G0</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span>
         <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">  Based on options and gradient (rms=</span><span class="si">{:.2E}</span><span class="s1">), recommend </span><span class="si">{}</span><span class="s1">projecting translations and </span><span class="si">{}</span><span class="s1">projecting rotations.</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -1781,7 +1724,7 @@
         <span class="c1"># Set method-dependent scf convergence criteria (test on procedures[&#39;energy&#39;] since that&#39;s guaranteed)</span>
         <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
         <span class="n">optstash_conv</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
-        <span class="n">optstash_conv</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">_set_convergence_criterion</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">lowername</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">optstash_conv</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_convergence_criterion</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">return_optstash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># Obtain list of displacements</span>
         <span class="n">findif_meta_dict</span> <span class="o">=</span> <span class="n">driver_findif</span><span class="o">.</span><span class="n">hessian_from_energies_geometries</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">irrep</span><span class="p">)</span>
@@ -2494,7 +2437,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/3170618">1.6a1.dev144</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7636787">1.6a1.dev145</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2508,7 +2451,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 12 April 2022 01:53PM.
+      Last updated on Tuesday, 12 April 2022 02:39PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
