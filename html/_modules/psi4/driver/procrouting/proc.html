@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5a56a74">1.6a1.dev146</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/42f7d39">1.6a1.dev147</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -3277,36 +3277,56 @@
         <span class="n">core</span><span class="o">.</span><span class="n">cclambda</span><span class="p">(</span><span class="n">ccwfn</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">ccdensity</span><span class="p">(</span><span class="n">ccwfn</span><span class="p">)</span>
 
+    <span class="c1"># =&gt; Make OEProp calls &lt;=</span>
     <span class="k">if</span> <span class="n">n_one</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="c1"># call oe prop for GS density</span>
+        <span class="c1"># ==&gt; Initialize OEProp  &lt;==</span>
         <span class="n">oe</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">OEProp</span><span class="p">(</span><span class="n">ccwfn</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">oe_prop_name</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
+            <span class="n">oe</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">oe_prop_name</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="c1"># ==&gt; OEProp for the ground state &lt;==</span>
         <span class="c1"># TODO: When Psi is Py 3.9+, transition to the removeprefix version.</span>
         <span class="n">title</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;EOM-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="c1">#title = name.upper().removeprefix(&quot;EOM-&quot;)</span>
         <span class="n">oe</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-        <span class="n">oe</span><span class="o">.</span><span class="n">set_names</span><span class="p">({</span><span class="n">title</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;CC </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">})</span>
-        <span class="k">for</span> <span class="n">oe_name</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
-            <span class="n">oe</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">oe_name</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="n">set_of_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">title</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;CC </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;eom&quot;</span><span class="p">):</span>
+            <span class="n">gs_h</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ccwfn</span><span class="o">.</span><span class="n">soccpi</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">gs_h</span> <span class="o">=</span> <span class="n">gs_h</span> <span class="o">^</span> <span class="n">h</span>
+            <span class="n">ct</span> <span class="o">=</span> <span class="n">ccwfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">point_group</span><span class="p">()</span><span class="o">.</span><span class="n">char_table</span><span class="p">()</span>
+            <span class="n">total_h_lbl</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">symbol</span><span class="p">()</span>
+            <span class="n">gs_h_lbl</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">gs_h</span><span class="p">)</span><span class="o">.</span><span class="n">symbol</span><span class="p">()</span>
+            <span class="n">set_of_names</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">title</span> <span class="o">+</span> <span class="s2">&quot; ROOT 0 </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;CC ROOT 0 </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> ROOT 0 </span><span class="se">{{}}</span><span class="s2"> - </span><span class="si">{</span><span class="n">total_h_lbl</span><span class="si">}</span><span class="s2"> TRANSITION&quot;</span><span class="p">,</span>
+                                      <span class="sa">f</span><span class="s2">&quot;CC ROOT 0 </span><span class="se">{{}}</span><span class="s2"> - </span><span class="si">{</span><span class="n">total_h_lbl</span><span class="si">}</span><span class="s2"> TRANSITION&quot;</span><span class="p">,</span>
+                                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> ROOT 0 (</span><span class="si">{</span><span class="n">gs_h_lbl</span><span class="si">}</span><span class="s2">) </span><span class="se">{{}}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;CC ROOT 0 (</span><span class="si">{</span><span class="n">gs_h_lbl</span><span class="si">}</span><span class="s2">) </span><span class="se">{{}}</span><span class="s2">&quot;</span><span class="p">})</span>
+        <span class="n">oe</span><span class="o">.</span><span class="n">set_names</span><span class="p">(</span><span class="n">set_of_names</span><span class="p">)</span>
         <span class="n">oe</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-        <span class="c1"># call oe prop for each ES density</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ccwfn</span><span class="o">.</span><span class="n">variables</span><span class="p">())</span>
+        <span class="c1"># ==&gt; OEProp for Excited States &lt;==</span>
         <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;eom&#39;</span><span class="p">):</span>
-            <span class="c1"># copy GS CC DIP/QUAD ... to CC ROOT 0 DIP/QUAD ... if we are doing multiple roots</span>
-            <span class="k">if</span> <span class="s1">&#39;DIPOLE&#39;</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
-                <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 DIPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC DIPOLE&quot;</span><span class="p">))</span>
-                <span class="c1"># core.set_variable(&quot;CC ROOT n DIPOLE&quot;, core.variable(&quot;CC DIPOLE&quot;))  # P::e CCENERGY</span>
-            <span class="k">if</span> <span class="s1">&#39;QUADRUPOLE&#39;</span> <span class="ow">in</span> <span class="n">one</span><span class="p">:</span>
-                <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT 0 QUADRUPOLE&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC QUADRUPOLE&quot;</span><span class="p">))</span>
-                <span class="c1"># core.set_variable(&quot;CC ROOT n QUADRUPOLE&quot;, core.variable(&quot;CC QUADRUPOLE&quot;))  # P::e CCENERGY</span>
-
-            <span class="n">n_root</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;ROOTS_PER_IRREP&quot;</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">rn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_root</span><span class="p">):</span>
-                <span class="n">oe</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;CC ROOT </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-                <span class="n">Da</span> <span class="o">=</span> <span class="n">ccwfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT </span><span class="si">{}</span><span class="s2"> Da&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-                <span class="n">oe</span><span class="o">.</span><span class="n">set_Da_so</span><span class="p">(</span><span class="n">Da</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;REFERENCE&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;UHF&quot;</span><span class="p">:</span>
-                    <span class="n">Db</span> <span class="o">=</span> <span class="n">ccwfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CC ROOT </span><span class="si">{}</span><span class="s2"> Db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-                    <span class="n">oe</span><span class="o">.</span><span class="n">set_Db_so</span><span class="p">(</span><span class="n">Db</span><span class="p">)</span>
-                <span class="n">oe</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+            <span class="n">n_root_pi</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;ROOTS_PER_IRREP&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ccwfn</span><span class="o">.</span><span class="n">nirrep</span><span class="p">()):</span>
+                <span class="n">root_h_lbl</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="o">.</span><span class="n">symbol</span><span class="p">()</span>
+                <span class="n">trans_h_lbl</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">h</span> <span class="o">^</span> <span class="n">gs_h</span><span class="p">)</span><span class="o">.</span><span class="n">symbol</span><span class="p">()</span>
+                <span class="c1"># Don&#39;t forget to count the ground state!</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_root_pi</span><span class="p">[</span><span class="n">h</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">h</span> <span class="o">==</span> <span class="n">gs_h</span><span class="p">:</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">root_title</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; ROOT </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">root_h_lbl</span><span class="si">}</span><span class="s2">)&quot;</span>
+                    <span class="n">oe</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">root_title</span><span class="p">)</span>
+                    <span class="n">total_idx</span> <span class="o">=</span> <span class="n">ccwfn</span><span class="o">.</span><span class="n">total_index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+                    <span class="n">set_of_names</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> ROOT </span><span class="si">{</span><span class="n">total_idx</span><span class="si">}</span><span class="s2"> </span><span class="se">{{}}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;CC ROOT </span><span class="si">{</span><span class="n">total_idx</span><span class="si">}</span><span class="s2"> </span><span class="se">{{}}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> ROOT </span><span class="si">{</span><span class="n">total_idx</span><span class="si">}</span><span class="s2"> </span><span class="se">{{}}</span><span class="s2"> - </span><span class="si">{</span><span class="n">trans_h_lbl</span><span class="si">}</span><span class="s2"> TRANSITION&quot;</span><span class="p">,</span>
+                                         <span class="sa">f</span><span class="s2">&quot;CC ROOT </span><span class="si">{</span><span class="n">total_idx</span><span class="si">}</span><span class="s2"> </span><span class="se">{{}}</span><span class="s2"> - </span><span class="si">{</span><span class="n">trans_h_lbl</span><span class="si">}</span><span class="s2"> TRANSITION&quot;</span><span class="p">,</span>
+                                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> ROOT </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">root_h_lbl</span><span class="si">}</span><span class="s2">) </span><span class="se">{{}}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;CC ROOT </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">root_h_lbl</span><span class="si">}</span><span class="s2">) </span><span class="se">{{}}</span><span class="s2">&quot;</span><span class="p">}</span>
+                    <span class="n">oe</span><span class="o">.</span><span class="n">set_names</span><span class="p">(</span><span class="n">set_of_names</span><span class="p">)</span>
+                    <span class="n">Da</span> <span class="o">=</span> <span class="n">ccwfn</span><span class="o">.</span><span class="n">get_alpha_density</span><span class="p">(</span><span class="n">root_title</span> <span class="o">+</span> <span class="s2">&quot; Da&quot;</span><span class="p">)</span>
+                    <span class="n">oe</span><span class="o">.</span><span class="n">set_Da_so</span><span class="p">(</span><span class="n">Da</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">ccwfn</span><span class="o">.</span><span class="n">same_a_b_dens</span><span class="p">():</span>
+                        <span class="n">Db</span> <span class="o">=</span> <span class="n">ccwfn</span><span class="o">.</span><span class="n">get_beta_density</span><span class="p">(</span><span class="n">root_title</span> <span class="o">+</span> <span class="s2">&quot; Db&quot;</span><span class="p">)</span>
+                        <span class="n">oe</span><span class="o">.</span><span class="n">set_Db_so</span><span class="p">(</span><span class="n">Db</span><span class="p">)</span>
+                    <span class="n">oe</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">,</span> <span class="s1">&#39;SCF&#39;</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">revoke_global_option_changed</span><span class="p">(</span><span class="s1">&#39;WFN&#39;</span><span class="p">)</span>
@@ -5519,7 +5539,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5a56a74">1.6a1.dev146</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/42f7d39">1.6a1.dev147</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5533,7 +5553,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Wednesday, 13 April 2022 08:08PM.
+      Last updated on Monday, 18 April 2022 03:49PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
