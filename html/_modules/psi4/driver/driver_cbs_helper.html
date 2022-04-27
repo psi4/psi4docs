@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs_helper.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/3bd8ef0">1.6a1.dev154</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c18efed">1.6a1.dev155</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -141,14 +141,16 @@
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
-<span class="kn">from</span> <span class="nn">psi4.driver.p4util.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">psi4.driver.p4util.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
 <span class="n">nppp</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array_str</span><span class="p">,</span> <span class="n">max_line_width</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">suppress_small</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># when safe, &quot;from psi4.driver import nppp&quot;</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.aliases</span> <span class="kn">import</span> <span class="n">sherrill_gold_standard</span><span class="p">,</span> <span class="n">allen_focal_point</span>
 
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">_zeta_val2sym</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="s1">&#39;dtq5678&#39;</span><span class="p">)}</span>
 <span class="n">Extrapolatable</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Vector</span><span class="p">]</span>
@@ -194,6 +196,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;   HI-zeta (</span><span class="si">{</span><span class="n">zHI</span><span class="si">}</span><span class="s2">) Energy:               </span><span class="si">{</span><span class="n">valueHI</span><span class="si">:</span><span class="s2"> 16.12f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
 
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">valueHI</span>
 
@@ -205,6 +208,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;   HI-zeta (</span><span class="si">{</span><span class="n">zHI</span><span class="si">}</span><span class="s2">) Data</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="n">nppp</span><span class="p">(</span><span class="n">valueHI</span><span class="p">)</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="n">valueHI</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">valueHI</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">valueHI</span></div>
@@ -287,6 +291,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">18</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_str</span><span class="p">))</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span><span class="si">% 16.12f</span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">value</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">value</span>
 
@@ -311,6 +316,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="n">nppp</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="n">value</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">value</span>
@@ -391,6 +397,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">18</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_str</span><span class="p">))</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span><span class="si">% 16.12f</span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">value</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">value</span>
 
@@ -415,6 +422,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="n">nppp</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="n">value</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">value</span>
@@ -497,6 +505,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">18</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_str</span><span class="p">))</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span><span class="si">% 16.12f</span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">value</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">value</span>
 
@@ -521,6 +530,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="n">nppp</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="n">value</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">value</span>
@@ -612,6 +622,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">18</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_str</span><span class="p">))</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span><span class="si">% 16.12f</span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">value</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">value</span>
 
@@ -648,6 +659,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="n">nppp</span><span class="p">(</span><span class="n">np_value</span><span class="p">)</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="c1">## Build and set from numpy routines</span>
         <span class="c1">#value = core.Matrix(*valueHI.shape)</span>
@@ -737,6 +749,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">19</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_str</span><span class="p">))</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span><span class="si">% 16.12f</span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">final</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">final</span>
 
@@ -761,6 +774,7 @@
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="n">nppp</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="n">cbsscheme</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">cbsscheme</span><span class="p">)</span>
 
         <span class="n">value</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">value</span>
@@ -903,7 +917,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs_helper.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/3bd8ef0">1.6a1.dev154</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c18efed">1.6a1.dev155</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -917,7 +931,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Friday, 22 April 2022 12:56PM.
+      Last updated on Wednesday, 27 April 2022 09:13AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
