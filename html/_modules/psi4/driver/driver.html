@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c18efed">1.6a1.dev155</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7328bb0">1.6a1.dev159</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -822,7 +822,8 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Performing finite difference calculations&#39;</span><span class="p">)</span>
 
         <span class="c1"># Obtain list of displacements</span>
-        <span class="n">findif_meta_dict</span> <span class="o">=</span> <span class="n">driver_findif</span><span class="o">.</span><span class="n">gradient_from_energies_geometries</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span>
+        <span class="n">fdargs</span> <span class="o">=</span> <span class="n">driver_findif</span><span class="o">.</span><span class="n">prep_findif</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">irrep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;1_0&quot;</span><span class="p">,</span> <span class="n">gradient</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">findif_meta_dict</span> <span class="o">=</span> <span class="n">driver_findif</span><span class="o">.</span><span class="n">gradient_from_energies_geometries</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="o">**</span><span class="n">fdargs</span><span class="p">)</span>
         <span class="n">ndisp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">findif_meta_dict</span><span class="p">[</span><span class="s2">&quot;displacements&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot; </span><span class="si">%d</span><span class="s2"> displacements needed ...&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ndisp</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
@@ -862,9 +863,7 @@
 
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;FINDIF&#39;</span><span class="p">,</span> <span class="s1">&#39;GRADIENT_WRITE&#39;</span><span class="p">):</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;.grad&quot;</span>
-        <span class="n">qcdb</span><span class="o">.</span><span class="n">gradparse</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">gradient</span><span class="p">()),</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;GRD&#39;</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">molecule</span><span class="p">,</span> <span class="n">energy</span><span class="o">=</span><span class="n">wfn</span><span class="o">.</span><span class="n">energy</span><span class="p">())</span>
+    <span class="n">driver_findif</span><span class="o">.</span><span class="n">gradient_write</span><span class="p">(</span><span class="n">wfn</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">return_wfn</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">gradient</span><span class="p">(),</span> <span class="n">wfn</span><span class="p">)</span>
@@ -1671,7 +1670,8 @@
             <span class="sd">&quot;&quot;&quot;hessian() will perform frequency computation by finite difference of analytic gradients.\n&quot;&quot;&quot;</span><span class="p">)</span>
 
         <span class="c1"># Obtain list of displacements</span>
-        <span class="n">findif_meta_dict</span> <span class="o">=</span> <span class="n">driver_findif</span><span class="o">.</span><span class="n">hessian_from_gradients_geometries</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">irrep</span><span class="p">)</span>
+        <span class="n">fdargs</span> <span class="o">=</span> <span class="n">driver_findif</span><span class="o">.</span><span class="n">prep_findif</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">irrep</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;2_0&quot;</span><span class="p">,</span> <span class="n">gradient</span><span class="o">=</span><span class="n">G0</span><span class="p">)</span>
+        <span class="n">findif_meta_dict</span> <span class="o">=</span> <span class="n">driver_findif</span><span class="o">.</span><span class="n">hessian_from_gradients_geometries</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="o">**</span><span class="n">fdargs</span><span class="p">)</span>
 
         <span class="c1"># Record undisplaced symmetry for projection of displaced point groups</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s2">&quot;PARENT_SYMMETRY&quot;</span><span class="p">,</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">())</span>
@@ -1727,7 +1727,8 @@
         <span class="n">optstash_conv</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">negotiate_convergence_criterion</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">lowername</span><span class="p">,</span> <span class="n">return_optstash</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># Obtain list of displacements</span>
-        <span class="n">findif_meta_dict</span> <span class="o">=</span> <span class="n">driver_findif</span><span class="o">.</span><span class="n">hessian_from_energies_geometries</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">irrep</span><span class="p">)</span>
+        <span class="n">fdargs</span> <span class="o">=</span> <span class="n">driver_findif</span><span class="o">.</span><span class="n">prep_findif</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">irrep</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;2_0&quot;</span><span class="p">,</span> <span class="n">gradient</span><span class="o">=</span><span class="n">G0</span><span class="p">)</span>
+        <span class="n">findif_meta_dict</span> <span class="o">=</span> <span class="n">driver_findif</span><span class="o">.</span><span class="n">hessian_from_energies_geometries</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="o">**</span><span class="n">fdargs</span><span class="p">)</span>
 
         <span class="c1"># Record undisplaced symmetry for projection of diplaced point groups</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s2">&quot;PARENT_SYMMETRY&quot;</span><span class="p">,</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">())</span>
@@ -1771,7 +1772,7 @@
         <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
         <span class="n">optstash_conv</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
 
-    <span class="n">_hessian_write</span><span class="p">(</span><span class="n">wfn</span><span class="p">)</span>
+    <span class="n">driver_findif</span><span class="o">.</span><span class="n">hessian_write</span><span class="p">(</span><span class="n">wfn</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">return_wfn</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">hessian</span><span class="p">(),</span> <span class="n">wfn</span><span class="p">)</span>
@@ -2005,13 +2006,6 @@
             <span class="n">handle</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">qcdb</span><span class="o">.</span><span class="n">vib</span><span class="o">.</span><span class="n">print_molden_vibs</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">,</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">geom</span><span class="p">,</span> <span class="n">standalone</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">vibinfo</span></div>
-
-
-<span class="k">def</span> <span class="nf">_hessian_write</span><span class="p">(</span><span class="n">wfn</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;FINDIF&#39;</span><span class="p">,</span> <span class="s1">&#39;HESSIAN_WRITE&#39;</span><span class="p">):</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;.hess&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
-            <span class="n">qcdb</span><span class="o">.</span><span class="n">hessparse</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">hessian</span><span class="p">()),</span> <span class="n">handle</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;psi4&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="gdma"><a class="viewcode-back" href="../../../gdma.html#psi4.driver.gdma">[docs]</a><span class="k">def</span> <span class="nf">gdma</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">datafile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
@@ -2437,7 +2431,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c18efed">1.6a1.dev155</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7328bb0">1.6a1.dev159</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2451,7 +2445,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Wednesday, 27 April 2022 09:13AM.
+      Last updated on Wednesday, 11 May 2022 04:15PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
