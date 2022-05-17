@@ -268,7 +268,7 @@ Keywords by Alpha
       :ref:`apdx:GLOBALS` |w---w| What algorithm to use for the SCF computation. See Table :ref:`SCF Convergence & Algorithm <table:conv_scf>` for default algorithm for different calculation types.
 
       * **Type**: string
-      * **Possible Values**: DIRECT, DF, MEM\_DF, DISK\_DF, PK, OUT\_OF\_CORE, CD, GTFOCK
+      * **Possible Values**: DIRECT, DF, MEM\_DF, DISK\_DF, PK, OUT\_OF\_CORE, CD, GTFOCK, COSX
       * **Default**: PK
 
    SCREENING (GLOBALS)
@@ -2292,7 +2292,7 @@ Keywords by Alpha
       :ref:`apdx:CPHF` |w---w| SCF Type
 
       * **Type**: string
-      * **Possible Values**: DIRECT, DF, PK, OUT\_OF\_CORE, PS, INDEPENDENT, GTFOCK
+      * **Possible Values**: DIRECT, DF, PK, OUT\_OF\_CORE, PS, INDEPENDENT, GTFOCK, COSX
       * **Default**: DIRECT
 
    SOLVER_CONVERGENCE (CPHF)
@@ -5892,6 +5892,36 @@ Keywords by Alpha
       * **Type**: double
       * **Default**: 1.0
 
+   COSX_INTS_TOLERANCE (SCF)
+      :ref:`apdx:SCF` |w---w| Screening criteria for integrals and intermediates in COSX
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1.0e-11
+
+   COSX_RADIAL_POINTS_FINAL (SCF)
+      :ref:`apdx:SCF` |w---w| Number of radial points in final COSX grid.
+
+      * **Type**: integer
+      * **Default**: 35
+
+   COSX_RADIAL_POINTS_INITIAL (SCF)
+      :ref:`apdx:SCF` |w---w| Number of radial points in initial COSX grid.
+
+      * **Type**: integer
+      * **Default**: 25
+
+   COSX_SPHERICAL_POINTS_FINAL (SCF)
+      :ref:`apdx:SCF` |w---w| Number of spherical points in final COSX grid.
+
+      * **Type**: integer
+      * **Default**: 110
+
+   COSX_SPHERICAL_POINTS_INITIAL (SCF)
+      :ref:`apdx:SCF` |w---w| Number of spherical points in initial COSX grid.
+
+      * **Type**: integer
+      * **Default**: 50
+
    SAD_D_CONVERGENCE (SCF)
       :ref:`apdx:SCF` |w---w| Convergence criterion for SCF density in the SAD guess, analogous to |scf__d_convergence|.
 
@@ -7143,6 +7173,36 @@ Keywords by Alpha
       * **Type**: string
       * **Possible Values**: NONE, SAVE, LOAD
       * **Default**: NONE
+
+   COSX_BASIS_TOLERANCE (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Screening criteria for basis function values on COSX grids 
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1.0e-10
+
+   COSX_DENSITY_TOLERANCE (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Screening criteria for shell-pair densities in COSX 
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1.0e-10
+
+   COSX_INCFOCK (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Do allow for improved COSX screening performance by constructing the Fock matrix incrementally? 
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: true
+
+   COSX_OVERLAP_FITTING (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Do reduce numerical COSX errors with overlap fitting? 
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: true
+
+   COSX_PRUNING_SCHEME (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Pruning scheme for COSX grids 
+
+      * **Type**: string
+      * **Default**: ROBUST
 
    DF_BASIS_SAD (SCF)
       :ref:`apdx:SCF` **(Expert)** |w---w| Density fitting basis used in SAD 
