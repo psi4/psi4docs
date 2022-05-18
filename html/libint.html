@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/libint.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/bcbb0c9">1.6a1.dev165</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6fda9b3">1.6a1.dev166</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -141,27 +141,31 @@ Libint compilation with a different integrals ordering. See notes at top of
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p><strong>Binary</strong></p>
 <ul>
-<li><a class="reference external image-reference" href="https://anaconda.org/psi4/libint"><img alt="https://anaconda.org/psi4/libint/badges/version.svg" src="https://anaconda.org/psi4/libint/badges/version.svg" /></a>
+<li><a class="reference external image-reference" href="https://anaconda.org/psi4/libint2"><img alt="https://anaconda.org/psi4/libint2/badges/version.svg" src="https://anaconda.org/psi4/libint2/badges/version.svg" /></a>
 </li>
-<li><p>Libint is available as a conda package for Linux and macOS (and Windows, through the Ubuntu shell).</p></li>
+<li><p>Libint is available as a conda package for Linux and macOS and Windows.</p></li>
 <li><p>If using the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> binary, Libint has already been installed alongside.</p></li>
 <li><p>If using <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> built from source, and anaconda or miniconda has
 already been installed (instructions at <a class="reference internal" href="conda.html#sec-quickconda"><span class="std std-ref">Quick Installation</span></a>),
-Libint can be obtained through <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">libint</span> <span class="pre">-c</span> <span class="pre">psi4</span></code>.
+Libint can be obtained through <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">libint2</span> <span class="pre">-c</span> <span class="pre">psi4</span></code>.
 Then, hint its location with <strong class="makevar">CMAKE_PREFIX_PATH</strong>,
 and rebuild <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> to detect Libint and activate dependent code.</p></li>
 </ul>
 <ul class="simple">
-<li><p>To remove a conda installation, <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">remove</span> <span class="pre">libint</span></code>.</p></li>
+<li><p>To remove a conda installation, <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">remove</span> <span class="pre">libint2</span></code>.</p></li>
 </ul>
 <p><strong>Source</strong></p>
 <ul>
-<li><a class="reference external image-reference" href="https://github.com/evaleev/libint/tree/v1"><img alt="https://img.shields.io/github/tag/evaleev/libint.svg?maxAge=2592000" src="https://img.shields.io/github/tag/evaleev/libint.svg?maxAge=2592000" /></a>
-<p>Note that <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> uses v1.</p>
+<li><a class="reference external image-reference" href="https://github.com/evaleev/libint/pull/233"><img alt="https://img.shields.io/github/tag/evaleev/libint.svg?maxAge=2592000" src="https://img.shields.io/github/tag/evaleev/libint.svg?maxAge=2592000" /></a>
+<p>Note that <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> uses v2 and a modified branch.</p>
 </li>
 <li><p>If using <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> built from source and you want Libint built from
 from source also,
-let the build system fetch and build it and activate dependent code.</p></li>
+let the build system fetch and build it and activate dependent code.
+Note that Libint2 has many more integral class enabling and AM knobs
+than Libint1 and that the generation step (generator source to
+library source) preceding the compilation step (library source to
+built library) takes far longer than in Libint1 for production builds.</p></li>
 </ul>
 </section>
 <section id="how-to-configure-libint-for-building-psi4">
@@ -175,10 +179,11 @@ two-body molecular integrals over Gaussian functions.</p></li>
 </ul>
 <p><strong>CMake Variables</strong></p>
 <ul class="simple">
-<li><p><strong class="makevar">CMAKE_PREFIX_PATH</strong> — CMake list variable to specify where pre-built dependencies can be found. For Libint, set to an installation directory containing <code class="docutils literal notranslate"><span class="pre">include/libint/libint.h</span></code></p></li>
-<li><p><strong class="makevar">Libint_DIR</strong> — CMake variable to specify where pre-built Libint can be found. Set to installation directory containing <code class="docutils literal notranslate"><span class="pre">share/cmake/Libint/LibintConfig.cmake</span></code></p></li>
-<li><p><strong class="makevar">CMAKE_DISABLE_FIND_PACKAGE_Libint</strong> — CMake variable to force internal build of Libint instead of detecting pre-built</p></li>
-<li><p><strong class="makevar">CMAKE_INSIST_FIND_PACKAGE_Libint</strong> — CMake variable to force detecting pre-built Libint and not falling back on internal build</p></li>
+<li><p><strong class="makevar">CMAKE_PREFIX_PATH</strong> — CMake list variable to specify where pre-built dependencies can be found. For Libint, set to an installation directory containing <code class="docutils literal notranslate"><span class="pre">include/libint2.h</span></code></p></li>
+<li><p><strong class="makevar">Libint2_DIR</strong> — CMake variable to specify where pre-built Libint can be found. Set to installation directory containing <code class="docutils literal notranslate"><span class="pre">lib/cmake/libint2/libint2-config.cmake</span></code></p></li>
+<li><p><strong class="makevar">CMAKE_DISABLE_FIND_PACKAGE_Libint2</strong> — CMake variable to force internal build of Libint instead of detecting pre-built</p></li>
+<li><p><strong class="makevar">CMAKE_INSIST_FIND_PACKAGE_Libint2</strong> — CMake variable to force detecting pre-built Libint and not falling back on internal build</p></li>
+<li><p><strong class="makevar">BUILD_Libint2_GENERATOR</strong> — CMake variable to allow internal build to start from generator source, not generated source</p></li>
 <li><p><strong class="makevar">MAX_AM_ERI</strong> — CMake variable to specify minimum highest angular momentum built or detected</p></li>
 </ul>
 <p><strong>Examples</strong></p>
@@ -197,7 +202,7 @@ two-body molecular integrals over Gaussian functions.</p></li>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/libint/root
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DLibint_DIR<span class="o">=</span>/path/to/libint/configdir
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DLibint_DIR2<span class="o">=</span>/path/to/libint/configdir
 </pre></div>
 </div>
 </div></blockquote>
@@ -205,15 +210,25 @@ two-body molecular integrals over Gaussian functions.</p></li>
 <li><p>Build bundled despite pre-built being detectable</p></li>
 </ol>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/unwanted/libint/root/and/wanted/other/dependencies/root -DCMAKE_DISABLE_FIND_PACKAGE_Libint<span class="o">=</span>ON
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/unwanted/libint/root/and/wanted/other/dependencies/root -DCMAKE_DISABLE_FIND_PACKAGE_Libint2<span class="o">=</span>ON
 </pre></div>
 </div>
 </div></blockquote>
 <ol class="upperalpha simple" start="4">
-<li><p>Build bundled shared library with AM=6</p></li>
+<li><p>Build bundled shared library with up to AM=5</p></li>
 </ol>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DMAX_AM_ERI<span class="o">=</span><span class="m">6</span> -DBUILD_SHARED_LIBS<span class="o">=</span>ON
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; cmake -DBUILD_SHARED_LIBS<span class="o">=</span>ON
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="upperalpha simple" start="5">
+<li><p>Build custom library from generator source</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="c1"># find the &quot;new-cmake-harness-lab-rb1&quot; block at :source:`external/upstream/libint2/CMakeLists.txt`</span>
+&gt;&gt;&gt; <span class="c1"># edit the &quot;ENABLE&quot; and &quot;AM&quot; variables</span>
+&gt;&gt;&gt; cmake -DBUILD_Libint2_GENERATOR<span class="o">=</span>ON -DCMAKE_DISABLE_FIND_PACKAGE_Libint2<span class="o">=</span>ON
 </pre></div>
 </div>
 </div></blockquote>
@@ -326,7 +341,7 @@ two-body molecular integrals over Gaussian functions.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/libint.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/bcbb0c9">1.6a1.dev165</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6fda9b3">1.6a1.dev166</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -340,7 +355,7 @@ two-body molecular integrals over Gaussian functions.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 17 May 2022 11:14PM.
+      Last updated on Wednesday, 18 May 2022 02:21AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

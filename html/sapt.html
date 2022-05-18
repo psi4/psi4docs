@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/sapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/bcbb0c9">1.6a1.dev165</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6fda9b3">1.6a1.dev166</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -161,6 +161,27 @@ is now standardized. Specifically, we now rigorously enforce that the number of 
 frozen in dimer computations is equal to the sum of frozen orbitals of each monomer. Prior to
 this, a discrepency between these values was possible when one of the monomers was (exclusively)
 a charged alkali metal.</p>
+</div>
+<div class="admonition caution" id="sec-saptfita">
+<p class="admonition-title">Caution</p>
+<p>May 2022 c. v1.6, the default for <a class="reference internal" href="autodoc_glossary_options_c.html#term-DF_BASIS_ELST-SAPT"><span class="xref std std-term">DF_BASIS_ELST</span></a>
+changed from the value of <a class="reference internal" href="autodoc_glossary_options_c.html#term-DF_BASIS_SAPT-SAPT"><span class="xref std std-term">DF_BASIS_SAPT</span></a> (which itself
+defaults to the RI of the orbital basis) to the JKFIT of the orbital
+basis. This affects SAPT0 and sSAPT0 computed with the <a class="reference internal" href="#sec-sapt"><span class="std std-ref">SAPT
+module</span></a> (the default code for <code class="docutils literal notranslate"><span class="pre">energy(&quot;sapt0&quot;)</span></code> that
+can also compute higher-order SAPT). Electostatics, exchange,
+and induction terms for SAPT0 and sSAPT0 accessed through
+<code class="docutils literal notranslate"><span class="pre">energy(&quot;sapt0&quot;)</span></code> or <code class="docutils literal notranslate"><span class="pre">energy(&quot;ssapt0&quot;)</span></code> change; the dispersion
+term does not change. The SAPT0 and sSAPT0 terms accessed as
+subsidiary calculations of higher-order SAPT do not change; that is,
+the <a class="reference internal" href="#sec-sapt"><span class="std std-ref">SAPT module</span></a> breaks the consistency of its SAPT0
+results. The reasoning and reward behind this change is that the JKFIT
+basis better describes the physics (see <a class="reference internal" href="#sec-saptfitb"><span class="std std-ref">fitting changes</span></a> ) and the
+default SAPT0 results from the <a class="reference internal" href="#sec-sapt"><span class="std std-ref">SAPT module</span></a> are now
+consistent with those from the <a class="reference internal" href="fisapt.html#sec-fisapt"><span class="std std-ref">FISAPT module</span></a> and
+the sapt(dft) module. See <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples/sapt-compare/input.dat">sapt-compare</a> for an example.
+To reproduce former behavior, set <a class="reference internal" href="autodoc_glossary_options_c.html#term-DF_BASIS_ELST-SAPT"><span class="xref std std-term">DF_BASIS_ELST</span></a> to the
+orbital basis set’s RI auxiliary basis.</p>
 </div>
 <p>Symmetry-adapted perturbation theory (SAPT) provides a means of directly
 computing the noncovalent interaction between two molecules, that is, the
@@ -538,7 +559,7 @@ should cite the following publications: <a class="reference internal" href="bibl
 <section id="df-basis-elst">
 <h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-DF_BASIS_ELST-SAPT"><span class="xref std std-term">DF_BASIS_ELST</span></a><a class="headerlink" href="#df-basis-elst" title="Permalink to this headline">¶</a></h4>
 <blockquote>
-<div><p>Auxiliary basis set for SAPT Elst10 and Exch10 density fitting computations, may be important if heavier elements are involved. Defaults to <a class="reference internal" href="autodoc_glossary_options_c.html#term-DF_BASIS_SAPT-SAPT"><span class="xref std std-term">DF_BASIS_SAPT</span></a></p>
+<div><p>Auxiliary basis set for SAPT Elst10 and Exch10 density fitting computations, may be important if heavier elements are involved. <a class="reference internal" href="basissets_byfamily.html#apdx-basisfamily"><span class="std std-ref">Defaults</span></a> to a JKFIT basis. Previous to v1.6, defaulted to <a class="reference internal" href="autodoc_glossary_options_c.html#term-DF_BASIS_SAPT-SAPT"><span class="xref std std-term">DF_BASIS_SAPT</span></a>  See <a class="reference internal" href="#sec-saptfita"><span class="std std-ref">fitting notes</span></a> .</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: string</p></li>
 <li><p><strong>Possible Values</strong>: <a class="reference internal" href="basissets_byelement.html#apdx-basiselement"><span class="std std-ref">basis string</span></a></p></li>
@@ -1281,24 +1302,23 @@ relevant terms:</p>
 <span class="math notranslate nohighlight">\(\alpha\)</span> parameter. All terms that are scaled are indicated by the <code class="docutils literal notranslate"><span class="pre">sc.</span></code>
 label. Note that if Exch10 is less than <span class="math notranslate nohighlight">\(10^{-5}\)</span>, the scaling factor is
 set to <span class="math notranslate nohighlight">\(1.0\)</span>.</p>
-<div class="admonition caution">
+<div class="admonition caution" id="sec-saptfitb">
 <p class="admonition-title">Caution</p>
 <p>To density fit the dispersion terms in SAPT, the RI auxiliary
 basis set (<em>e.g.</em>, aug-cc-pVDZ-RI) controlled through
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-DF_BASIS_SAPT-SAPT"><span class="xref std std-term">DF_BASIS_SAPT</span></a> performs well. For Fock-type terms (<em>i.e.</em>,
 electrostatics, exchange, induction, and core Fock matrix elements in
-exchange-dispersion), the density-fitting auxiliary basis in the
-<a class="reference internal" href="#sec-sapt"><span class="std std-ref">SAPT module</span></a> (both SAPT0 and higher-order) is RI (more
-efficient for the small basis sets at which SAPT0 performs best) while
-the <a class="reference internal" href="fisapt.html#sec-fisapt"><span class="std std-ref">FISAPT module</span></a> uses the more appropriate JKFIT
-(<em>e.g.</em>, aug-cc-pVDZ-JKFIT). For heavier elements (<em>i.e.</em>, second-row
-and beyond), the RI auxiliary basis is unsound for this role
-(insufficiently flexible). For SAPT0 in the <a class="reference internal" href="#sec-sapt"><span class="std std-ref">SAPT
-module</span></a>, a workaround is to set <a class="reference internal" href="autodoc_glossary_options_c.html#term-DF_BASIS_ELST-SAPT"><span class="xref std std-term">DF_BASIS_ELST</span></a> (which
-controls Elst10 and Exch10 terms) to a JKFIT basis. For higher-order
-methods in <a class="reference internal" href="#sec-sapt"><span class="std std-ref">SAPT module</span></a>, there is no workaround;
-on-the-fly construction of an auxiliary basis through Cholesky
-decomposition (not implemented) is the long-term solution.</p>
+exchange-dispersion), the JKFIT density-fitting auxiliary basis
+(<em>e.g.</em>, aug-cc-pVDZ-JKFIT) is more appropriate. The <a class="reference internal" href="fisapt.html#sec-fisapt"><span class="std std-ref">FISAPT
+module</span></a> has always used JKFIT in this role. The
+<a class="reference internal" href="#sec-sapt"><span class="std std-ref">SAPT module</span></a> newly (see <a class="reference internal" href="#sec-saptfita"><span class="std std-ref">fitting notes</span></a> ) uses
+JKFIT for computations targeting SAPT0 and sSAPT0 methods. But the
+<a class="reference internal" href="#sec-sapt"><span class="std std-ref">SAPT module</span></a> still uses the RI basis for higher-order
+SAPT. For heavier elements (<em>i.e.</em>, second-row and beyond), the RI
+auxiliary basis is unsound for this role (insufficiently flexible).
+For higher-order methods in <a class="reference internal" href="#sec-sapt"><span class="std std-ref">SAPT module</span></a>, there is
+no workaround; on-the-fly construction of an auxiliary basis through
+Cholesky decomposition (not implemented) is the long-term solution.</p>
 </div>
 </section>
 <section id="spin-flip-sapt">
@@ -1619,7 +1639,7 @@ for functional group analyses.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/sapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/bcbb0c9">1.6a1.dev165</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6fda9b3">1.6a1.dev166</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1633,7 +1653,7 @@ for functional group analyses.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 17 May 2022 11:14PM.
+      Last updated on Wednesday, 18 May 2022 02:21AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

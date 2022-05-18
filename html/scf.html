@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/bcbb0c9">1.6a1.dev165</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6fda9b3">1.6a1.dev166</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -985,7 +985,9 @@ Otherwise, if the solver is almost converged but reaches the maximum number of i
 <section id="effective-core-potentials-ecps">
 <span id="sec-scf-ecps"></span><h2>Effective core potentials (ECPs)<a class="headerlink" href="#effective-core-potentials-ecps" title="Permalink to this headline">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> supports the use of effective core potentials to describe the
-innermost electrons in heavy elements.  If a basis set is designed to use an
+innermost electrons in heavy elements.
+ECPs are only available if <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is compiled with the <a class="reference internal" href="ecpint.html#cmake-ecpint"><span class="std std-ref">LibECPInt</span></a> library.
+If a basis set is designed to use an
 effective core potential, the ECP definition should be simply placed alongside
 the orbital basis set definition, <em>c.f.</em> <a class="reference internal" href="basissets.html#sec-basissets-ecps"><span class="std std-ref">Inputting effective core potentials (ECPs)</span></a>.  All
 information related to the definition and number of core electrons will
@@ -994,7 +996,11 @@ ECP-containing basis set.  See <a class="reference external" href="https://githu
 for examples of computations with ECP-containing basis sets.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Analytic derivatives of ECPs are not yet available.  The HF and DFT derivatives are implemented in a semi-numerical scheme, where numerical ECP gradients are added to analytic SCF gradients.  Analytic gradients for (DF)MP2 are not yet available, but the standard numerical gradients will work correctly.  Fully analytic gradients will be implemented soon.</p>
+<p>Prior to May 2022, v1.6, Psi4 used a built-in ECP code. Analytic derivatives of ECPs were not available. The HF and DFT derivatives were implemented in a semi-numerical scheme, where numerical ECP gradients were added to analytic SCF gradients. For post-SCF methods, the entire gradient computation needed to be run as finite difference of energies.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>As of May 2022, v1.6, Psi4 uses the LibECPInt library, and analytic derivatives and Hessians of ECPs are available. Analytic derivatives of molecular systems including ECPs should be available whenever the method has analytic derivatives, but these have so far only been verified for HF and DFT.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1356,7 +1362,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/bcbb0c9">1.6a1.dev165</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6fda9b3">1.6a1.dev166</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1370,7 +1376,7 @@ types.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Tuesday, 17 May 2022 11:14PM.
+      Last updated on Wednesday, 18 May 2022 02:21AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
