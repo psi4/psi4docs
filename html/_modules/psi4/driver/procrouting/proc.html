@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f251cf4">1.6a1.dev167</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/821134f">1.6a1.dev168</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -148,6 +148,7 @@
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">qcelemental</span> <span class="kn">import</span> <span class="n">constants</span>
@@ -173,6 +174,33 @@
 
 <span class="c1"># ATTN NEW ADDITIONS!</span>
 <span class="c1"># consult http://psicode.org/psi4manual/master/proc_py.html</span>
+
+
+<span class="k">def</span> <span class="nf">select_scf_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an SCF gradient call</span>
+<span class="sd">    and directing to specified or best-performance default modules.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span>
+    <span class="n">mtd_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;QC_MODULE&#39;</span><span class="p">)</span>
+    <span class="c1"># Considering only scf</span>
+
+    <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CD&#39;</span><span class="p">:</span>
+        <span class="c1"># manifestation of `&quot;&quot;&quot;No analytic derivatives for SCF_TYPE CD.&quot;&quot;&quot;`.</span>
+        <span class="c1">#   here, only hits upon `gradient(&quot;scf&quot;)` so above message also present in driver.py to catch e.g., mp2 gradient atop a cd reference.</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">run_scf_gradient</span>
+
+    <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ManagedMethodError</span><span class="p">([</span><span class="s1">&#39;select_scf_gradient&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">,</span> <span class="n">mtd_type</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">module</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;probe&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
 
 <span class="k">def</span> <span class="nf">select_mp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a MP2 energy call</span>
@@ -1350,32 +1378,50 @@
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">core</span><span class="p">,</span> <span class="s2">&quot;EXTERN&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;external_potentials&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span> 
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Warning! Both an external potential EXTERN object and the external_potential&quot;</span> <span class="o">+</span>
                        <span class="s2">&quot; keyword argument are specified. The external_potentials keyword argument will be ignored.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;double extern&quot;</span><span class="p">)</span>
 
-    <span class="c1"># If EXTERN is set, then place that potential on the wfn</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">core</span><span class="p">,</span> <span class="s2">&quot;EXTERN&quot;</span><span class="p">):</span>
-        <span class="n">wfn</span><span class="o">.</span><span class="n">set_potential_variable</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">EXTERN</span><span class="p">)</span> <span class="c1"># This is for the FSAPT procedure</span>
-        <span class="n">wfn</span><span class="o">.</span><span class="n">set_external_potential</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">EXTERN</span><span class="p">)</span>
+    <span class="n">ep</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;external_potentials&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_set_external_potentials_to_wavefunction</span><span class="p">(</span><span class="n">ep</span><span class="p">,</span> <span class="n">wfn</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="s1">&#39;external_potentials&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">wfn</span></div>
+
+
+<span class="k">def</span> <span class="nf">_set_external_potentials_to_wavefunction</span><span class="p">(</span><span class="n">external_potential</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">]],</span> <span class="n">wfn</span><span class="p">:</span> <span class="s2">&quot;core.Wavefunction&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initialize :py:class:`psi4.core.ExternalPotential` object(s) from charges and locations and set on **wfn**.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    external_potential</span>
+<span class="sd">        List-like structure where each row corresponds to a charge. Lines can be composed of ``q, [x, y, z]`` or</span>
+<span class="sd">        ``q, x, y, z``. Locations are in [a0].</span>
+<span class="sd">        Or, dictionary where keys are FI-SAPT fragments A, B, or C and values are as above.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">psi4.driver.qmmm</span> <span class="kn">import</span> <span class="n">QMMMbohr</span>
+
+    <span class="k">def</span> <span class="nf">validate_qxyz</span><span class="p">(</span><span class="n">qxyz</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qxyz</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qxyz</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Point charge &#39;</span><span class="si">{</span><span class="n">qxyz</span><span class="si">}</span><span class="s2">&#39; not mapping into &#39;chg, [x, y, z]&#39; or &#39;chg, x, y, z&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">external_potential</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="c1"># For FSAPT, we can take a dictionary of external potentials, e.g.,</span>
         <span class="c1"># external_potentials={&#39;A&#39;: potA, &#39;B&#39;: potB, &#39;C&#39;: potC} (any optional)</span>
         <span class="c1"># For the dimer SAPT calculation, we need to account for the external potential</span>
         <span class="c1"># in all of the subsystems A, B, C. So we add them all in total_external_potential</span>
         <span class="c1"># and set the external potential to the dimer wave function</span>
-        <span class="kn">from</span> <span class="nn">psi4.driver.qmmm</span> <span class="kn">import</span> <span class="n">QMMMbohr</span>
 
         <span class="n">total_external_potential</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">ExternalPotential</span><span class="p">()</span>
 
-        <span class="k">for</span> <span class="n">frag</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;external_potentials&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">frag</span><span class="p">,</span> <span class="n">frag_qxyz</span> <span class="ow">in</span> <span class="n">external_potential</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">frag</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="s2">&quot;ABC&quot;</span><span class="p">:</span>
                 <span class="n">chrgfield</span> <span class="o">=</span> <span class="n">QMMMbohr</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">qxyz</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;external_potentials&#39;</span><span class="p">][</span><span class="n">frag</span><span class="p">]:</span>
-                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qxyz</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                        <span class="n">chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="o">.</span><span class="n">addCharge</span><span class="p">(</span><span class="n">qxyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
-                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qxyz</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-                        <span class="n">chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="o">.</span><span class="n">addCharge</span><span class="p">(</span><span class="n">qxyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Point charge &#39;</span><span class="si">{</span><span class="n">qxyz</span><span class="si">}</span><span class="s2">&#39; not mapping into &#39;chg, [x, y, z]&#39; or &#39;chg, x, y, z&#39;&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">qxyz</span> <span class="ow">in</span> <span class="n">frag_qxyz</span><span class="p">:</span>
+                    <span class="n">chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="o">.</span><span class="n">addCharge</span><span class="p">(</span><span class="o">*</span><span class="n">validate_qxyz</span><span class="p">(</span><span class="n">qxyz</span><span class="p">))</span>
 
                 <span class="n">wfn</span><span class="o">.</span><span class="n">set_potential_variable</span><span class="p">(</span><span class="n">frag</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="p">)</span>
                 <span class="n">total_external_potential</span><span class="o">.</span><span class="n">appendCharges</span><span class="p">(</span><span class="n">chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="o">.</span><span class="n">getCharges</span><span class="p">())</span>
@@ -1385,7 +1431,12 @@
 
         <span class="n">wfn</span><span class="o">.</span><span class="n">set_external_potential</span><span class="p">(</span><span class="n">total_external_potential</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">wfn</span></div>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">chrgfield</span> <span class="o">=</span> <span class="n">QMMMbohr</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">qxyz</span> <span class="ow">in</span> <span class="n">external_potential</span><span class="p">:</span>
+            <span class="n">chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="o">.</span><span class="n">addCharge</span><span class="p">(</span><span class="o">*</span><span class="n">validate_qxyz</span><span class="p">(</span><span class="n">qxyz</span><span class="p">))</span>
+        <span class="n">wfn</span><span class="o">.</span><span class="n">set_potential_variable</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="p">)</span>  <span class="c1"># This is for the FSAPT procedure</span>
+        <span class="n">wfn</span><span class="o">.</span><span class="n">set_external_potential</span><span class="p">(</span><span class="n">chrgfield</span><span class="o">.</span><span class="n">extern</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="scf_helper"><a class="viewcode-back" href="../../../../api/psi4.driver.scf_helper.html#psi4.driver.scf_helper">[docs]</a><span class="k">def</span> <span class="nf">scf_helper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">post_scf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -2659,10 +2710,11 @@
     <span class="n">H</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">scfhess</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
     <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_hessian</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
 
-    <span class="c1"># Clearly, add some logic when the reach of this fn expands</span>
-    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;HF TOTAL HESSIAN&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>  <span class="c1"># P::e SCF</span>
     <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SCF TOTAL HESSIAN&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>  <span class="c1"># P::e SCF</span>
-    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;SCF TOTAL HESSIAN&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>  <span class="c1"># P::e SCF</span>
+    <span class="k">if</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">functional</span><span class="p">()</span><span class="o">.</span><span class="n">needs_xc</span><span class="p">():</span>
+        <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;DFT TOTAL HESSIAN&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>  <span class="c1"># overwritten later for DH -- TODO when DH Hessians # P::e SCF</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;HF TOTAL HESSIAN&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>  <span class="c1"># P::e SCF</span>
 
     <span class="c1"># Shove variables into global space</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -5520,7 +5572,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f251cf4">1.6a1.dev167</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/821134f">1.6a1.dev168</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5534,7 +5586,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Thursday, 19 May 2022 03:00PM.
+      Last updated on Thursday, 19 May 2022 06:06PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

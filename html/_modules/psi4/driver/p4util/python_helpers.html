@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f251cf4">1.6a1.dev167</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/821134f">1.6a1.dev168</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -169,6 +169,7 @@
                    <span class="n">other</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">puream</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
                    <span class="n">return_atomlist</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="o">*</span><span class="p">,</span>
                    <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;ORBITAL&#39;</span><span class="p">:</span>
         <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;BASIS&#39;</span>
@@ -230,11 +231,11 @@
 
 
 <span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">_core_wavefunction_build</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">basis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_core_wavefunction_build</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">basis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">quiet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">basis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+        <span class="n">basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="n">quiet</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="s2">&quot;ORBITAL&quot;</span><span class="p">,</span> <span class="n">basis</span><span class="p">)</span>
+        <span class="n">basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="s2">&quot;ORBITAL&quot;</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="n">quiet</span><span class="p">)</span>
 
     <span class="n">wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">basis</span><span class="p">)</span>
     <span class="c1"># Set basis for density-fitted calculations to the zero basis...</span>
@@ -736,15 +737,34 @@
 <span class="c1">## QCvar helps</span>
 
 <span class="n">_qcvar_transitions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;SCSN-MP2 CORRELATION ENERGY&quot;</span><span class="p">:</span> <span class="s2">&quot;SCS(N)-MP2 CORRELATION ENERGY&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SCSN-MP2 TOTAL ENERGY&quot;</span><span class="p">:</span> <span class="s2">&quot;SCS(N)-MP2 TOTAL ENERGY&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MAYER_INDICES&quot;</span><span class="p">:</span> <span class="s2">&quot;MAYER INDICES&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;WIBERG_LOWDIN_INDICES&quot;</span><span class="p">:</span> <span class="s2">&quot;WIBERG LOWDIN INDICES&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LOWDIN_CHARGES&quot;</span><span class="p">:</span> <span class="s2">&quot;LOWDIN CHARGES&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MULLIKEN_CHARGES&quot;</span><span class="p">:</span> <span class="s2">&quot;MULLIKEN CHARGES&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;(AT) CORRECTION ENERGY&quot;</span><span class="p">:</span> <span class="s2">&quot;A-(T) CORRECTION ENERGY&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CCSD(AT) TOTAL ENERGY&quot;</span><span class="p">:</span> <span class="s2">&quot;A-CCSD(T) TOTAL ENERGY&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CCSD(AT) CORRELATION ENERGY&quot;</span><span class="p">:</span> <span class="s2">&quot;A-CCSD(T) CORRELATION ENERGY&quot;</span><span class="p">,</span>
+    <span class="c1"># old: (replacement, release after next)</span>
+    <span class="s2">&quot;SCSN-MP2 CORRELATION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;SCS(N)-MP2 CORRELATION ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+    <span class="s2">&quot;SCSN-MP2 TOTAL ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;SCS(N)-MP2 TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+    <span class="s2">&quot;MAYER_INDICES&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;MAYER INDICES&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+    <span class="s2">&quot;WIBERG_LOWDIN_INDICES&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;WIBERG LOWDIN INDICES&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+    <span class="s2">&quot;LOWDIN_CHARGES&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;LOWDIN CHARGES&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+    <span class="s2">&quot;MULLIKEN_CHARGES&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;MULLIKEN CHARGES&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+    <span class="s2">&quot;(AT) CORRECTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;A-(T) CORRECTION ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+    <span class="s2">&quot;CCSD(AT) TOTAL ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;A-CCSD(T) TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+    <span class="s2">&quot;CCSD(AT) CORRELATION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;A-CCSD(T) CORRELATION ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span>
+    <span class="s2">&quot;CP-CORRECTED 2-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;CP-CORRECTED INTERACTION ENERGY THROUGH 2-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;CP-CORRECTED 3-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;CP-CORRECTED INTERACTION ENERGY THROUGH 3-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;CP-CORRECTED 4-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;CP-CORRECTED INTERACTION ENERGY THROUGH 4-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;CP-CORRECTED 5-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;CP-CORRECTED INTERACTION ENERGY THROUGH 5-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;NOCP-CORRECTED 2-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;NOCP-CORRECTED INTERACTION ENERGY THROUGH 2-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;NOCP-CORRECTED 3-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;NOCP-CORRECTED INTERACTION ENERGY THROUGH 3-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;NOCP-CORRECTED 4-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;NOCP-CORRECTED INTERACTION ENERGY THROUGH 4-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;NOCP-CORRECTED 5-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;NOCP-CORRECTED INTERACTION ENERGY THROUGH 5-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;VMFC-CORRECTED 2-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;VMFC-CORRECTED INTERACTION ENERGY THROUGH 2-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;VMFC-CORRECTED 3-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;VMFC-CORRECTED INTERACTION ENERGY THROUGH 3-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;VMFC-CORRECTED 4-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;VMFC-CORRECTED INTERACTION ENERGY THROUGH 4-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;VMFC-CORRECTED 5-BODY INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;VMFC-CORRECTED INTERACTION ENERGY THROUGH 5-BODY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;COUNTERPOISE CORRECTED TOTAL ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;CP-CORRECTED TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;COUNTERPOISE CORRECTED INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;CP-CORRECTED INTERACTION ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;NON-COUNTERPOISE CORRECTED TOTAL ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;NOCP-CORRECTED TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;NON-COUNTERPOISE CORRECTED INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;NOCP-CORRECTED INTERACTION ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>
+    <span class="s2">&quot;VALIRON-MAYER FUNCTION COUTERPOISE TOTAL ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;VALIRON-MAYER FUNCTION COUNTERPOISE TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>  <span class="c1"># note misspelling</span>
+    <span class="s2">&quot;VALIRON-MAYER FUNCTION COUTERPOISE INTERACTION ENERGY&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;VMFC-CORRECTED INTERACTION ENERGY&quot;</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">),</span>  <span class="c1"># note misspelling</span>
 <span class="p">}</span>
 
 <span class="n">_qcvar_cancellations</span> <span class="o">=</span> <span class="p">{</span>
@@ -769,11 +789,12 @@
         <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()[:</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span> <span class="mf">1.6</span><span class="p">,</span> <span class="s2">&quot; Note the Debye -&gt; a.u. units change.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">_qcvar_transitions</span><span class="p">:</span>
+        <span class="n">replacement</span><span class="p">,</span> <span class="n">version</span> <span class="o">=</span> <span class="n">_qcvar_transitions</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Using QCVariable `</span><span class="si">{</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">` instead of `</span><span class="si">{</span><span class="n">_qcvar_transitions</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span><span class="si">}</span><span class="s2">` is deprecated, and as soon as 1.5 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Using QCVariable `</span><span class="si">{</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">` instead of `</span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">` is deprecated, and as soon as </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2"> it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
             <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">_qcvar_transitions</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="n">replacement</span>
 
     <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">_qcvar_cancellations</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="s2">&quot;no direct replacement&quot;</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="s2">&quot; Consult QCVariables &quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_qcvar_cancellations</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()])</span> <span class="o">+</span> <span class="s2">&quot; to recompose the quantity.&quot;</span><span class="p">)</span>
@@ -1423,7 +1444,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f251cf4">1.6a1.dev167</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/821134f">1.6a1.dev168</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1437,7 +1458,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Thursday, 19 May 2022 03:00PM.
+      Last updated on Thursday, 19 May 2022 06:06PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->

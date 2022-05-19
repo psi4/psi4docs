@@ -91,7 +91,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/mdi_engine.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f251cf4">1.6a1.dev167</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/821134f">1.6a1.dev168</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -393,13 +393,13 @@
     <span class="k">def</span> <span class="nf">set_lattice_field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Set a field of lattice point charges using information received through MDI</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lattice_field</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">QMMMbohr</span><span class="p">()</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">ilat</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nlattice</span><span class="p">):</span>
-            <span class="n">latx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clattice</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ilat</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span>
-            <span class="n">laty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clattice</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ilat</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="n">latz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clattice</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ilat</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lattice_field</span><span class="o">.</span><span class="n">extern</span><span class="o">.</span><span class="n">addCharge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">ilat</span><span class="p">],</span> <span class="n">latx</span><span class="p">,</span> <span class="n">laty</span><span class="p">,</span> <span class="n">latz</span><span class="p">)</span>
-        <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_global_option_python</span><span class="p">(</span><span class="s1">&#39;EXTERN&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice_field</span><span class="o">.</span><span class="n">extern</span><span class="p">)</span>
+            <span class="n">arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">ilat</span><span class="p">])</span>
+            <span class="n">arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clattice</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ilat</span> <span class="o">+</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clattice</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ilat</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clattice</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ilat</span> <span class="o">+</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;external_potentials&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_lattice</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="c1"># Respond to the &gt;NLATTICE command</span>
@@ -509,7 +509,7 @@
 
         <span class="c1"># If a lattice of point charges was set, unset it now</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_lattice</span><span class="p">:</span>
-            <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_global_option_python</span><span class="p">(</span><span class="s1">&#39;EXTERN&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;external_potentials&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             
 
     <span class="c1"># Enter server mode, listening for commands from the driver</span>
@@ -646,7 +646,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/mdi_engine.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f251cf4">1.6a1.dev167</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/821134f">1.6a1.dev168</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -660,7 +660,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Thursday, 19 May 2022 03:00PM.
+      Last updated on Thursday, 19 May 2022 06:06PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
     <!-- cloud_sptheme 1.4 -->
