@@ -34,21 +34,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Adding Methods to Driver</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -102,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/proc_py.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -121,9 +123,9 @@
           <div class="body" role="main">
             
   <section id="adding-methods-to-driver">
-<span id="sec-proc-py"></span><h1>Adding Methods to Driver<a class="headerlink" href="#adding-methods-to-driver" title="Permalink to this headline">¶</a></h1>
+<span id="sec-proc-py"></span><h1>Adding Methods to Driver<a class="headerlink" href="#adding-methods-to-driver" title="Permalink to this heading">¶</a></h1>
 <section id="proc-py">
-<h2><code class="docutils literal notranslate"><span class="pre">proc.py</span></code><a class="headerlink" href="#proc-py" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">proc.py</span></code><a class="headerlink" href="#proc-py" title="Permalink to this heading">¶</a></h2>
 <p>This is concerned at present with normal methods added first to the
 procedures table in driver.py that associates method names with functions
 to run them located in proc.py .</p>
@@ -141,7 +143,7 @@ The function must always take as arguments <code class="docutils literal notrans
 <p>If the function needs to test the identity of <code class="docutils literal notranslate"><span class="pre">name</span></code> several times, it
 can be convenient to predefine the lowercase version of the variable. The
 case of all other py-side options (in kwargs) has already been handled by
-<code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code>, etc. in driver.py and need not be repeated here.</p>
+<a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a>, etc. in driver.py and need not be repeated here.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># include if convenient</span>
 <span class="n">lowername</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
@@ -152,7 +154,7 @@ case of all other py-side options (in kwargs) has already been handled by
 <p>It’s often necessary to The function often needs to set options for the
 c-side modules it calls. In order that the state of the options set by the
 user remains when control is returned to the user, an
-<code class="xref py py-class docutils literal notranslate"><span class="pre">OptionsState</span></code> object is set up. See
+<a class="reference internal" href="api/psi4.driver.p4util.OptionsState.html#psi4.driver.p4util.OptionsState" title="psi4.driver.p4util.OptionsState"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptionsState</span></code></a> object is set up. See
 <a class="reference internal" href="optionshandling.html#sec-handlingoptions-py"><span class="std std-ref">LibOptions: globals, locals, has_changed and all that</span></a> for details. <em>All</em> options set by the
 function need to be included here, and <em>only</em> options set by the function
 should be included. Most options should be associated with a particular
@@ -174,7 +176,7 @@ module, but a few (see below) are given without module.</p>
 </div>
 <p>If options need to be set, set them anywhere here. Options should be set
 locally to a module, except for those without a module in
-<code class="xref py py-class docutils literal notranslate"><span class="pre">OptionsState</span></code>.</p>
+<a class="reference internal" href="api/psi4.driver.p4util.OptionsState.html#psi4.driver.p4util.OptionsState" title="psi4.driver.p4util.OptionsState"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptionsState</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># include if necessary as globals</span>
 <span class="n">psi4</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">,</span> <span class="n">guessbasis</span><span class="p">)</span>
 <span class="n">psi4</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;DF_BASIS_SCF&#39;</span><span class="p">,</span> <span class="n">guessbasisdf</span><span class="p">)</span>
@@ -209,21 +211,21 @@ only the df integrals were run previously.</p>
 <span class="n">psi4</span><span class="o">.</span><span class="n">mp2</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>If an <code class="xref py py-class docutils literal notranslate"><span class="pre">OptionsState</span></code> object was set up, those options
+<p>If an <a class="reference internal" href="api/psi4.driver.p4util.OptionsState.html#psi4.driver.p4util.OptionsState" title="psi4.driver.p4util.OptionsState"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptionsState</span></code></a> object was set up, those options
 need to be returned to the original user state with the following.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># include if optstash = OptionsState( was set up previously</span>
 <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>No function should return anything. <code class="docutils literal notranslate"><span class="pre">CURRENT</span> <span class="pre">ENERGY</span></code> will be set by
-<code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code>, etc.</p>
+<a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a>, etc.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># never include</span>
 <span class="k">return</span> <span class="n">returnvalue</span>
 </pre></div>
 </div>
 </section>
 <section id="managed-methods">
-<h2>Managed Methods<a class="headerlink" href="#managed-methods" title="Permalink to this headline">¶</a></h2>
+<h2>Managed Methods<a class="headerlink" href="#managed-methods" title="Permalink to this heading">¶</a></h2>
 <p>When functionality overlaps between modules, a pattern is needed to (1)
 access each route through the code without contrivances like <code class="docutils literal notranslate"><span class="pre">ccsd2</span></code>,
 <code class="docutils literal notranslate"><span class="pre">_ccsd</span></code>, <code class="docutils literal notranslate"><span class="pre">sdci</span></code> and (2) apportion defaulting among the modules, taking
@@ -433,7 +435,7 @@ available.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/proc_py.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -446,9 +448,9 @@ available.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

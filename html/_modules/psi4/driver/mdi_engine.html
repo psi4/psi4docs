@@ -34,7 +34,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,12 +42,14 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
@@ -91,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/mdi_engine.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -141,6 +143,13 @@
 <span class="sd">For details regarding MDI, see https://molssi.github.io/MDI_Library/html/index.html.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;mdi_init&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mdi_run&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MDIEngine&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">qcelemental</span> <span class="k">as</span> <span class="nn">qcel</span>
 
@@ -163,11 +172,19 @@
 
 
 <span class="k">class</span> <span class="nc">MDIEngine</span><span class="p">():</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scf_method</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scf_method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Initialize an MDIEngine object for communication with MDI</span>
 
-<span class="sd">        Arguments:</span>
-<span class="sd">           scf_method: Method used when calculating energies or gradients</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        scf_method</span>
+<span class="sd">            Method (SCF or post-SCF) used when calculating energies or gradients.</span>
+<span class="sd">        molecule</span>
+<span class="sd">            The target molecule, if not the last molecule defined.</span>
+<span class="sd">        kwargs</span>
+<span class="sd">            Any additional arguments to pass to :func:`psi4.driver.energy` or</span>
+<span class="sd">            :func:`psi4.driver.gradient` computation.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Method used when the SCF command is received</span>
@@ -541,17 +558,28 @@
 <span class="k">def</span> <span class="nf">mdi_init</span><span class="p">(</span><span class="n">mdi_arguments</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Initialize the MDI Library</span>
 
-<span class="sd">    Arguments:</span>
-<span class="sd">        mdi_arguments: MDI configuration options</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mdi_arguments</span>
+<span class="sd">        MDI configuration options</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">MDI_Init</span><span class="p">(</span><span class="n">mdi_arguments</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="mdi_run"><a class="viewcode-back" href="../../../api/psi4.driver.mdi_run.html#psi4.driver.mdi_run">[docs]</a><span class="k">def</span> <span class="nf">mdi_run</span><span class="p">(</span><span class="n">scf_method</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="mdi_run"><a class="viewcode-back" href="../../../api/psi4.driver.mdi_run.html#psi4.driver.mdi_run">[docs]</a><span class="k">def</span> <span class="nf">mdi_run</span><span class="p">(</span><span class="n">scf_method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Begin functioning as an MDI engine</span>
 
-<span class="sd">    Arguments:</span>
-<span class="sd">        scf_method: Method used when calculating energies or gradients</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    scf_method</span>
+<span class="sd">        Method (SCF or post-SCF) used when calculating energies or gradients.</span>
+<span class="sd">    molecule</span>
+<span class="sd">        The target molecule, if not the last molecule defined.</span>
+<span class="sd">    kwargs</span>
+<span class="sd">        Any additional arguments to pass to :func:`psi4.driver.energy` or</span>
+<span class="sd">        :func:`psi4.driver.gradient` computation.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">engine</span> <span class="o">=</span> <span class="n">MDIEngine</span><span class="p">(</span><span class="n">scf_method</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">engine</span><span class="o">.</span><span class="n">listen_for_commands</span><span class="p">()</span></div>
@@ -646,7 +674,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/mdi_engine.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -659,9 +687,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

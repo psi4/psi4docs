@@ -34,21 +34,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>DFT: Density Functional Theory</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -102,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dft.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -121,7 +123,7 @@
           <div class="body" role="main">
             
   <section id="dft-density-functional-theory">
-<span id="sec-dft"></span><span id="index-0"></span><h1>DFT: Density Functional Theory<a class="headerlink" href="#dft-density-functional-theory" title="Permalink to this headline">¶</a></h1>
+<span id="sec-dft"></span><span id="index-0"></span><h1>DFT: Density Functional Theory<a class="headerlink" href="#dft-density-functional-theory" title="Permalink to this heading">¶</a></h1>
 <p><em>Code author: Robert M. Parrish, Justin M. Turney, and Daniel G. A. Smith</em></p>
 <p><em>Section author: Robert M. Parrish</em></p>
 <p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scfdft"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__scf.html#apdx-scf-psivar"><span class="std std-ref">PSI Variables</span></a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/libfunctional">LIBFUNCTIONAL</a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/libfock">LIBFOCK</a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/libscf_solver">LIBSCF_SOLVER</a></p>
@@ -149,7 +151,7 @@ slightly different are B97-D, wB97X (note, <em>not</em> wB97X-D), SOGGA,
 DFDL, and M05.</p>
 </div>
 <section id="theory">
-<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this heading">¶</a></h2>
 <p>Generalized Kohn–Sham Density Functional Theory (KS-DFT) <a class="reference internal" href="bibliography.html#kohn-1965-a1133" id="id1"><span>[Kohn:1965:A1133]</span></a> <a class="reference internal" href="bibliography.html#parr-1989" id="id2"><span>[Parr:1989]</span></a> is one of the primary
 workhorses of modern computational chemistry due to its phenomenal accuracy/cost
 ratio.</p>
@@ -366,7 +368,7 @@ remarkably accurate results with KS-DFT. This approach was championed by Grimme,
 whose “-D2” and more modern “-D3” approaches are a de facto industry standards.</p>
 </section>
 <section id="minimal-input">
-<h2>Minimal Input<a class="headerlink" href="#minimal-input" title="Permalink to this headline">¶</a></h2>
+<h2>Minimal Input<a class="headerlink" href="#minimal-input" title="Permalink to this heading">¶</a></h2>
 <p>Minimal input for a KS-DFT computation is a molecule block, basis set
 option, and a call to <code class="docutils literal notranslate"><span class="pre">energy('b3lyp')</span></code> (or other valid functional name):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="p">{</span>
@@ -386,7 +388,7 @@ any of these options, see the relevant section below, or in the preceding
 <a class="reference internal" href="scf.html#sec-scf"><span class="std std-ref">Hartree–Fock section</span></a>.</p>
 </section>
 <section id="spin-symmetry-treatment">
-<h2>Spin/Symmetry Treatment<a class="headerlink" href="#spin-symmetry-treatment" title="Permalink to this headline">¶</a></h2>
+<h2>Spin/Symmetry Treatment<a class="headerlink" href="#spin-symmetry-treatment" title="Permalink to this heading">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> implements the most popular spin specializations of KS-DFT, including:</p>
 <dl class="simple">
 <dt>Restricted Kohn–Sham (RKS) [Default]</dt><dd><p>Appropriate only for closed-shell singlet systems, but twice as efficient
@@ -413,7 +415,7 @@ solution to positive definite spin polarization is  not physical. See the
 section in <a class="reference internal" href="bibliography.html#szabo-1982" id="id4"><span>[Szabo:1982]</span></a> on methyl radical for an example.</p>
 </section>
 <section id="functional-selection">
-<h2>Functional Selection<a class="headerlink" href="#functional-selection" title="Permalink to this headline">¶</a></h2>
+<h2>Functional Selection<a class="headerlink" href="#functional-selection" title="Permalink to this heading">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> features an extensive list of LSDA, GGA, Meta, Hybrid, LRC, and -D
 functionals. These can be specified by a variety of means. Perhaps the simplest
 is to use the functional name as the energy procedure call:</p>
@@ -496,7 +498,7 @@ functional or have a request for a new functional, please let us know on our
 forum or GitHub page.</p>
 </section>
 <section id="grid-selection">
-<h2>Grid Selection<a class="headerlink" href="#grid-selection" title="Permalink to this headline">¶</a></h2>
+<h2>Grid Selection<a class="headerlink" href="#grid-selection" title="Permalink to this heading">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> uses the standard Lebedev-Laikov spherical quadratures in concert with a
 number of radial quadratures and atomic partitioning schemes.
 The default grid in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is a Lebedev-Treutler (75,302) grid with a Treutler
@@ -506,10 +508,6 @@ Spherical grid resolution is controlled by the <a class="reference internal" hre
 option, which may take one of the following values:</p>
 <blockquote id="table-lebedevorder">
 <div><table class="docutils align-default">
-<colgroup>
-<col style="width: 81%" />
-<col style="width: 19%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-DFT_SPHERICAL_POINTS-SCF"><span class="xref std std-term">DFT_SPHERICAL_POINTS</span></a></p></th>
 <th class="head"><p>Order</p></th>
@@ -682,7 +680,7 @@ is sensible.</p>
 </div>
 </section>
 <section id="eri-algorithms">
-<h2>ERI Algorithms<a class="headerlink" href="#eri-algorithms" title="Permalink to this headline">¶</a></h2>
+<h2>ERI Algorithms<a class="headerlink" href="#eri-algorithms" title="Permalink to this heading">¶</a></h2>
 <p>The ERI algorithms for the Coulomb and hybrid exchange are identical to
 <a class="reference internal" href="scf.html#sec-scferi"><span class="std std-ref">those for Hartree–Fock</span></a>. However, for LRC functionals, the long-range
 exchange contributions to the Kohn–Sham matrix have only been implemented in the
@@ -692,10 +690,10 @@ auxiliary basis) are orders of magnitude smaller than the accuracy of any known
 functional.</p>
 </section>
 <section id="ip-fitting">
-<h2>IP Fitting<a class="headerlink" href="#ip-fitting" title="Permalink to this headline">¶</a></h2>
+<h2>IP Fitting<a class="headerlink" href="#ip-fitting" title="Permalink to this heading">¶</a></h2>
 <p>In collaboration with the Bredas group, we have developed an automatic procedure
 for IP fitting of LRC functionals, based on a modified Regula-Falsi method. To
-perform IP fitting, one simply calls the <code class="xref py py-func docutils literal notranslate"><span class="pre">ip_fitting()</span></code> Python macro, after
+perform IP fitting, one simply calls the <a class="reference internal" href="external_apis.html#psi4.driver.frac.ip_fitting" title="psi4.driver.frac.ip_fitting"><code class="xref py py-func docutils literal notranslate"><span class="pre">ip_fitting()</span></code></a> Python macro, after
 setting up a standard LRC UKS computation. A representative example is:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">memory</span> <span class="mi">512</span> <span class="n">MB</span>
 
@@ -728,7 +726,7 @@ particularly conjugated systems, will typically have an optimized <span class="m
 between 0.1 and 0.5.</p>
 </section>
 <section id="fractional-particle-curves">
-<h2>Fractional Particle Curves<a class="headerlink" href="#fractional-particle-curves" title="Permalink to this headline">¶</a></h2>
+<h2>Fractional Particle Curves<a class="headerlink" href="#fractional-particle-curves" title="Permalink to this heading">¶</a></h2>
 <p>The behavior of the electronic energy and HOMO energy across fractional numbers
 of electrons is extremely useful for elucidating the MSIE behavior of various
 functional technologies. <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> features an efficient fractional-particle DFT
@@ -736,7 +734,7 @@ code, written into the UKS spin specialization. Due to a combination of DIIS and
 reuse of integrals/guess orbitals across a range of fractional occupations, this
 code is able to perform fractional occupation curves for systems with up to 60
 atoms, across a wide range of the particle number <span class="math notranslate nohighlight">\(N\)</span>.</p>
-<p>Two python macros exist for this code. The first is <code class="xref py py-func docutils literal notranslate"><span class="pre">frac_traverse()</span></code>, which is
+<p>Two python macros exist for this code. The first is <a class="reference internal" href="external_apis.html#psi4.driver.frac.frac_traverse" title="psi4.driver.frac.frac_traverse"><code class="xref py py-func docutils literal notranslate"><span class="pre">frac_traverse()</span></code></a>, which is
 used to investigate the fractional occupation behavior within one electron above
 and below the neutral. An example is:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="n">h2o</span> <span class="p">{</span>
@@ -758,9 +756,9 @@ and below the neutral. An example is:</p>
 <span class="n">frac_traverse</span><span class="p">(</span><span class="s1">&#39;wb97&#39;</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">h2o</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The other macro is <code class="xref py py-func docutils literal notranslate"><span class="pre">frac_nuke()</span></code>, which strips several electrons out of the
+<p>The other macro is <a class="reference internal" href="external_apis.html#psi4.driver.frac.frac_nuke" title="psi4.driver.frac.frac_nuke"><code class="xref py py-func docutils literal notranslate"><span class="pre">frac_nuke()</span></code></a>, which strips several electrons out of the
 system to gather information on the MSIE over a range of orbitals. The input is
-identical to the above, except that the <code class="xref py py-func docutils literal notranslate"><span class="pre">frac_traverse()</span></code> call is substituted
+identical to the above, except that the <a class="reference internal" href="external_apis.html#psi4.driver.frac.frac_traverse" title="psi4.driver.frac.frac_traverse"><code class="xref py py-func docutils literal notranslate"><span class="pre">frac_traverse()</span></code></a> call is substituted
 for something like:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Argument is the functional.</span>
 <span class="c1"># A useful optional argument is nmax, the total number of electrons to</span>
@@ -771,13 +769,13 @@ for something like:</p>
 </div>
 </section>
 <section id="dispersion-corrections">
-<h2>Dispersion Corrections<a class="headerlink" href="#dispersion-corrections" title="Permalink to this headline">¶</a></h2>
+<h2>Dispersion Corrections<a class="headerlink" href="#dispersion-corrections" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference internal" href="dftd3.html#sec-dftd3"><span class="std std-ref">DFT-D dispersion corrections are discussed here.</span></a></p>
 <p><a class="reference internal" href="gcp.html#sec-gcp"><span class="std std-ref">HF-3c and PBEh-3c dispersion and BSSE corrections are discussed here.</span></a></p>
 <p><a class="reference internal" href="dftnl.html#sec-dftnl"><span class="std std-ref">DFT-NL dispersion corrections are discussed here.</span></a></p>
 </section>
 <section id="recommendations">
-<h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this headline">¶</a></h2>
+<h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this heading">¶</a></h2>
 <p>The KS-DFT code is quite new, but relatively complete. During code development,
 emphasis was placed on flexibility of functional technology, efficiency for
 medium to large systems in difficult electronic environments (<em>e.g.</em>, compact
@@ -815,7 +813,7 @@ contains far too many papers using B3LYP on noncovalent interactions without a -
 </div>
 </section>
 <section id="advanced-functional-use-and-manipulation">
-<span id="sec-dftdictbuilder"></span><h2>Advanced Functional Use and Manipulation<a class="headerlink" href="#advanced-functional-use-and-manipulation" title="Permalink to this headline">¶</a></h2>
+<span id="sec-dftdictbuilder"></span><h2>Advanced Functional Use and Manipulation<a class="headerlink" href="#advanced-functional-use-and-manipulation" title="Permalink to this heading">¶</a></h2>
 <p>New DFT functionals can be created from scratch from within the input
 file and accessed using the <code class="docutils literal notranslate"><span class="pre">dft_functional</span></code> keyword argument in the
 energy call:</p>
@@ -1085,7 +1083,7 @@ and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DFT
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dft.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1098,9 +1096,9 @@ and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DFT
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

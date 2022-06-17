@@ -34,7 +34,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,12 +42,14 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
@@ -91,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/wrapper_database.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -138,17 +140,25 @@
 <span class="c1"># @END LICENSE</span>
 <span class="c1">#</span>
 
-<span class="sd">&quot;&quot;&quot;Module with functions that call the four main :py:mod:`driver`</span>
-<span class="sd">functions: :py:mod:`driver.energy`, :py:mod:`driver.optimize`,</span>
-<span class="sd">:py:mod:`driver.response`, and :py:mod:`driver.frequency`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module with database functionality.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;database&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;db&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DB_RGT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DB_RXN&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
+<span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">p4util</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.driver</span> <span class="kn">import</span> <span class="o">*</span>
@@ -198,7 +208,7 @@
 
 <span class="sd">        First argument, usually unlabeled. Indicates the computational method</span>
 <span class="sd">        to be applied to the database. May be any valid argument to</span>
-<span class="sd">        :py:func:`psi4.energy`.</span>
+<span class="sd">        :py:func:`psi4.driver.energy`.</span>
 
 <span class="sd">    :type db_name: str</span>
 <span class="sd">    :param db_name: ``&#39;BASIC&#39;`` || ``&#39;S22&#39;`` || ``&#39;HTBH&#39;`` || etc.</span>
@@ -849,7 +859,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/wrapper_database.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -862,9 +872,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

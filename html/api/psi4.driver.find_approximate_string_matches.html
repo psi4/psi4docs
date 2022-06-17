@@ -34,21 +34,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>find_approximate_string_matches</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -73,7 +75,7 @@
     <link rel="shortcut icon" href="../_static/favicon-psi4.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="free_atom_volumes" href="psi4.driver.free_atom_volumes.html" />
+    <link rel="next" title="freq" href="psi4.driver.freq.html" />
     <link rel="prev" title="fcidump_from_file" href="psi4.driver.fcidump_from_file.html" /> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
   </head><body>
@@ -89,7 +91,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> &nbsp; &nbsp;</li>
         <li class="right" >
-          <a href="psi4.driver.free_atom_volumes.html" title="free_atom_volumes"
+          <a href="psi4.driver.freq.html" title="freq"
              accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
         <li class="right" >
           <a href="psi4.driver.fcidump_from_file.html" title="fcidump_from_file"
@@ -102,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.driver.find_approximate_string_matches.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -121,11 +123,23 @@
           <div class="body" role="main">
             
   <section id="find-approximate-string-matches">
-<h1>find_approximate_string_matches<a class="headerlink" href="#find-approximate-string-matches" title="Permalink to this headline">¶</a></h1>
+<h1>find_approximate_string_matches<a class="headerlink" href="#find-approximate-string-matches" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="psi4.driver.find_approximate_string_matches">
 <span class="sig-prename descclassname"><span class="pre">psi4.driver.</span></span><span class="sig-name descname"><span class="pre">find_approximate_string_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seq1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/text.html#find_approximate_string_matches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.find_approximate_string_matches" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find list of approximate (within <cite>max_distance</cite>) matches to string <cite>seq1</cite> among <cite>options</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seq1</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Target string to look for near matches to.</p></li>
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – Alternatives among which to look for near matches to <cite>seq1</cite>.</p></li>
+<li><p><strong>max_distance</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Maximum Levenshtein distance from <cite>seq1</cite> to return.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -213,7 +227,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> &nbsp; &nbsp;</li>
         <li class="right" >
-          <a href="psi4.driver.free_atom_volumes.html" title="free_atom_volumes"
+          <a href="psi4.driver.freq.html" title="freq"
              ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
         <li class="right" >
           <a href="psi4.driver.fcidump_from_file.html" title="fcidump_from_file"
@@ -226,7 +240,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.driver.find_approximate_string_matches.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -239,9 +253,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

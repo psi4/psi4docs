@@ -34,21 +34,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>DF-MP2: Density-Fitted 2nd-Order Møller–Plesset Perturbation Theory</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -102,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dfmp2.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -121,12 +123,12 @@
           <div class="body" role="main">
             
   <section id="df-mp2-density-fitted-2nd-order-mollerplesset-perturbation-theory">
-<span id="sec-dfmp2"></span><span id="index-0"></span><h1>DF-MP2: Density-Fitted 2nd-Order Møller–Plesset Perturbation Theory<a class="headerlink" href="#df-mp2-density-fitted-2nd-order-mollerplesset-perturbation-theory" title="Permalink to this headline">¶</a></h1>
+<span id="sec-dfmp2"></span><span id="index-0"></span><h1>DF-MP2: Density-Fitted 2nd-Order Møller–Plesset Perturbation Theory<a class="headerlink" href="#df-mp2-density-fitted-2nd-order-mollerplesset-perturbation-theory" title="Permalink to this heading">¶</a></h1>
 <p><em>Code author: Robert M. Parrish</em></p>
 <p><em>Section author: Robert M. Parrish</em></p>
 <p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__dfmp2.html#apdx-dfmp2"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__dfmp2.html#apdx-dfmp2-psivar"><span class="std std-ref">PSI Variables</span></a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/dfmp2">DFMP2</a></p>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>Second-order Møller–Plesset Perturbation Theory (MP2) occupies a unique role
 in quantum chemistry due to its small-prefactor <span class="math notranslate nohighlight">\({\cal O}(N^5)\)</span> treatment of
 dynamic electron correlation. This unusually cheap
@@ -162,7 +164,7 @@ MP2 defaults in <span style="font-family: Optima, sans-serif; text-transform: no
 <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;mp2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">energy('mp2')</span></code> call to <code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code> executes
+<p>The <code class="docutils literal notranslate"><span class="pre">energy('mp2')</span></code> call to <a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a> executes
 the predefined DF-MP2 procedure, first calling
 the SCF module with a default RHF reference and DF algorithm for the
 two-electron integrals. When the orbitals are converged, the DF-MP2 module is
@@ -196,7 +198,7 @@ functions. The result looks something like:</p>
 <p>The theory, breakdown of results, and common keywords used in DF-MP2 are presented below.</p>
 </section>
 <section id="theory">
-<span id="index-1"></span><h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<span id="index-1"></span><h2>Theory<a class="headerlink" href="#theory" title="Permalink to this heading">¶</a></h2>
 <p>Møller–Plesset Theory (MPn) or Many-Body Perturbation Theory
 (MBPT) through second order has the spin-orbital formula:</p>
 <div class="math notranslate nohighlight" id="equation-mp2">
@@ -256,7 +258,7 @@ ROHF-MBPT(2) energy should take roughly three times as long as an RHF-MP2
 energy.</p>
 </section>
 <section id="recommendations">
-<h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this headline">¶</a></h2>
+<h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this heading">¶</a></h2>
 <p>All-in-all, DFMP2 should be a simple module to use, with few keywords (fully
 documented in the Appendix <a class="reference internal" href="autodir_options_c/module__dfmp2.html#apdx-dfmp2"><span class="std std-ref">DFMP2</span></a>). Some basic recommendations are included below:</p>
 <ul class="simple">
@@ -402,7 +404,7 @@ orbital energies will come together and an explosion will occur.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dfmp2.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -415,9 +417,9 @@ orbital energies will come together and an explosion will occur.</p></li>
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

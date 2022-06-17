@@ -34,21 +34,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Creating New Plugins</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -102,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/plugins.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -121,9 +123,9 @@
           <div class="body" role="main">
             
   <section id="creating-new-plugins">
-<span id="sec-plugins"></span><h1>Creating New Plugins<a class="headerlink" href="#creating-new-plugins" title="Permalink to this headline">¶</a></h1>
+<span id="sec-plugins"></span><h1>Creating New Plugins<a class="headerlink" href="#creating-new-plugins" title="Permalink to this heading">¶</a></h1>
 <section id="modular-approach-to-development">
-<h2>Modular Approach to Development<a class="headerlink" href="#modular-approach-to-development" title="Permalink to this headline">¶</a></h2>
+<h2>Modular Approach to Development<a class="headerlink" href="#modular-approach-to-development" title="Permalink to this heading">¶</a></h2>
 <p>It is slightly cumbersome to the development cycle to recompile <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
 every time a change is made to the C++ code.
 It’s also daunting to new developers if they’re required to
@@ -137,7 +139,7 @@ still link against Psi’s vast library. The plugins can be loaded at
 run-time from any location.</p>
 </section>
 <section id="creating-a-new-plugin">
-<span id="sec-newplugins"></span><h2>Creating a New Plugin<a class="headerlink" href="#creating-a-new-plugin" title="Permalink to this headline">¶</a></h2>
+<span id="sec-newplugins"></span><h2>Creating a New Plugin<a class="headerlink" href="#creating-a-new-plugin" title="Permalink to this heading">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> can create basic plugins for you and automatically tailor them
 to your compilation environment. To create a basic plugin, run the
 following while replacing <code class="docutils literal notranslate"><span class="pre">myplugin</span></code> with the name of your great code.
@@ -169,7 +171,7 @@ one of the following commands that meets your needs:</p>
 </div>
 </section>
 <section id="creating-a-new-plugin-using-a-conda-pre-compiled-binary">
-<span id="sec-condaplugins"></span><h2>Creating a New Plugin Using a Conda Pre-compiled Binary<a class="headerlink" href="#creating-a-new-plugin-using-a-conda-pre-compiled-binary" title="Permalink to this headline">¶</a></h2>
+<span id="sec-condaplugins"></span><h2>Creating a New Plugin Using a Conda Pre-compiled Binary<a class="headerlink" href="#creating-a-new-plugin-using-a-conda-pre-compiled-binary" title="Permalink to this heading">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> plugins can also be created using Conda for both <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
 binary and development environment. On Linux (or Ubuntu shell on Windows), one can use the <code class="docutils literal notranslate"><span class="pre">gcc</span></code>
 compiler installed alongside <code class="docutils literal notranslate"><span class="pre">psi4</span></code> itself in the Conda distribution
@@ -246,7 +248,7 @@ conda enviroment must be activated before compilation and execution of
 plugins created using this procedure.</p>
 </section>
 <section id="files-in-a-plugin-directory">
-<h2>Files in a Plugin Directory<a class="headerlink" href="#files-in-a-plugin-directory" title="Permalink to this headline">¶</a></h2>
+<h2>Files in a Plugin Directory<a class="headerlink" href="#files-in-a-plugin-directory" title="Permalink to this heading">¶</a></h2>
 <p>In addition to the main <code class="docutils literal notranslate"><span class="pre">myplugin.cc</span></code> file, a fresh plugin directory contains the following files</p>
 <ul class="simple">
 <li><p><strong>CMakeLists.txt</strong> — CMake file governing project <em>plugin</em>.
@@ -281,7 +283,7 @@ protection.</p></li>
 By encoding the sequence of <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> module
 calls needed to run the plugin in the <code class="docutils literal notranslate"><span class="pre">run_myplugin()</span></code> function in this
 file, the plugin is hooked into the main <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> driver function
-<code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code> and so can be accessed through
+<a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a> and so can be accessed through
 <code class="docutils literal notranslate"><span class="pre">energy('myplugin')</span></code> in an input file. Any other Python functions can
 also be placed in this file.</p></li>
 <li><p><strong>__init__.py</strong> — Init script for the plugin (in the sense that
@@ -421,7 +423,7 @@ necessary.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/plugins.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -434,9 +436,9 @@ necessary.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

@@ -34,7 +34,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,12 +42,14 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
     <script src="../../../../_static/jquery.js"></script>
     <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
@@ -91,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/text.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -141,6 +143,16 @@
 <span class="sd">to data tables and text.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;banner&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;find_approximate_string_matches&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;levenshtein&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;message_box&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
@@ -149,130 +161,27 @@
 <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
 
 
-<div class="viewcode-block" id="Table"><a class="viewcode-back" href="../../../../api/psi4.driver.Table.html#psi4.driver.Table">[docs]</a><span class="k">class</span> <span class="nc">Table</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class defining a flexible Table object for storing data.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="banner"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.banner.html#psi4.driver.banner">[docs]</a><span class="k">def</span> <span class="nf">banner</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">35</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Format `text` into a banner style and print or return it.</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="p">(),</span> <span class="n">row_label_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">row_label_precision</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">(),</span> <span class="n">width</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;Using `psi4.driver.p4util.Table` is deprecated, and as soon as 1.4 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
-            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">row_label_width</span> <span class="o">=</span> <span class="n">row_label_width</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">row_label_precision</span> <span class="o">=</span> <span class="n">row_label_precision</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="n">precision</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text</span>
+<span class="sd">        String to be emphasized.</span>
+<span class="sd">    type</span>
+<span class="sd">        Style 1 has minimum three-line height. Style 2 has minimum one-light</span>
+<span class="sd">        height.</span>
+<span class="sd">    width</span>
+<span class="sd">        Minimum length of banner string.</span>
+<span class="sd">    strNotOutfile</span>
+<span class="sd">        Controls mode of return.</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="n">cols</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-
-<div class="viewcode-block" id="Table.format_label"><a class="viewcode-back" href="../../../../api/psi4.driver.Table.html#psi4.driver.Table.format_label">[docs]</a>    <span class="k">def</span> <span class="nf">format_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Function to pad the width of Table object labels.&quot;&quot;&quot;</span>
-        <span class="c1">#str = lambda x: ((&#39;%%%d.%df&#39; % (self.row_label_width, self.row_label_precision)) % x)</span>
-        <span class="nb">str</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">((</span><span class="s1">&#39;</span><span class="si">%%%d</span><span class="s1">s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">row_label_width</span><span class="p">))</span> <span class="o">%</span> <span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="Table.format_values"><a class="viewcode-back" href="../../../../api/psi4.driver.Table.html#psi4.driver.Table.format_values">[docs]</a>    <span class="k">def</span> <span class="nf">format_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Function to pad the width of Table object data cells.&quot;&quot;&quot;</span>
-        <span class="nb">str</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">((</span><span class="s1">&#39;</span><span class="si">%%%d</span><span class="s1">.</span><span class="si">%d</span><span class="s1">f&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">))</span> <span class="o">%</span> <span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">))</span></div>
-
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_label</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">label</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">label</span><span class="p">,</span> <span class="p">[</span><span class="n">value</span><span class="p">]))</span>
-
-<div class="viewcode-block" id="Table.save"><a class="viewcode-back" href="../../../../api/psi4.driver.Table.html#psi4.driver.Table.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Function to save string of the Table object to *file*.&quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">pickle</span>
-        <span class="n">pickle_str</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">fileobj</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
-        <span class="n">fileobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="n">fileobj</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
-
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">rowstr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%%%d</span><span class="s1">s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">row_label_width</span> <span class="o">%</span> <span class="n">x</span>
-        <span class="n">colstr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%%%d</span><span class="s1">s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">%</span> <span class="n">x</span>
-
-        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="n">table_header</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">table_header</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">%%%d</span><span class="s2">s&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">row_label_width</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">table_header</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">rowstr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">))</span>
-        <span class="n">table_header</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">colstr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">))</span>
-
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table_header</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">datarow</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-            <span class="c1">#print datarow</span>
-            <span class="n">row_data</span> <span class="o">=</span> <span class="n">datarow</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">row_data</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_values</span><span class="p">(</span><span class="n">datarow</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row_data</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-
-<div class="viewcode-block" id="Table.copy"><a class="viewcode-back" href="../../../../api/psi4.driver.Table.html#psi4.driver.Table.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Function to return a copy of the Table object.&quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">copy</span>
-        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Table.absolute_to_relative"><a class="viewcode-back" href="../../../../api/psi4.driver.Table.html#psi4.driver.Table.absolute_to_relative">[docs]</a>    <span class="k">def</span> <span class="nf">absolute_to_relative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Factor</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">hartree2kcalmol</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Function to shift the data of each column of the Table object</span>
-<span class="sd">        such that the lowest value is zero. A scaling factor of *Factor* is applied.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">copy</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span>
-
-        <span class="n">current_min</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="k">for</span> <span class="n">datarow</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">datarow</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
-                <span class="k">if</span> <span class="n">current_min</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">datarow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">]:</span>
-                    <span class="n">current_min</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">datarow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">]</span>
-
-        <span class="k">for</span> <span class="n">datarow</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">datarow</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
-                <span class="c1">#print datarow[1][col]</span>
-                <span class="n">datarow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">datarow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">current_min</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">*</span> <span class="n">Factor</span></div>
-
-<div class="viewcode-block" id="Table.scale"><a class="viewcode-back" href="../../../../api/psi4.driver.Table.html#psi4.driver.Table.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Factor</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">hartree2kcalmol</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Function to apply a scaling factor *Factor* to the</span>
-<span class="sd">        data of the Table object.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span>
-
-        <span class="k">for</span> <span class="n">datarow</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">datarow</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
-                <span class="c1">#print datarow[1][col]</span>
-                <span class="n">datarow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">datarow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">*</span> <span class="n">Factor</span></div></div>
-
-
-<div class="viewcode-block" id="banner"><a class="viewcode-back" href="../../../../api/psi4.driver.banner.html#psi4.driver.banner">[docs]</a><span class="k">def</span> <span class="nf">banner</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function to print *text* to output file in a banner of</span>
-<span class="sd">    minimum width *width* and minimum three-line height for</span>
-<span class="sd">    *type* = 1 or one-line height for *type* = 2. If *strNotOutfile*</span>
-<span class="sd">    is True, function returns string rather than printing it</span>
-<span class="sd">    to output file.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        If *strNotOutfile* is True, return string.</span>
+<span class="sd">    None</span>
+<span class="sd">        If *strNotOutfile* is False, print it to output file.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -300,29 +209,17 @@
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">banner</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="print_stdout"><a class="viewcode-back" href="../../../../api/psi4.driver.print_stdout.html#psi4.driver.print_stdout">[docs]</a><span class="k">def</span> <span class="nf">print_stdout</span><span class="p">(</span><span class="n">stuff</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function to print *stuff* to standard output stream.&quot;&quot;&quot;</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="s2">&quot;Using `psi4.driver.p4util.print_stdout` instead of `print` is deprecated, and as soon as 1.4 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
-        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="viewcode-block" id="levenshtein"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.levenshtein.html#psi4.driver.levenshtein">[docs]</a><span class="k">def</span> <span class="nf">levenshtein</span><span class="p">(</span><span class="n">seq1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">seq2</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Compute the Levenshtein distance between two strings.</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="n">stuff</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span></div>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    seq1</span>
+<span class="sd">        First string.</span>
+<span class="sd">    seq2</span>
+<span class="sd">        Second string.</span>
 
-
-<div class="viewcode-block" id="print_stderr"><a class="viewcode-back" href="../../../../api/psi4.driver.print_stderr.html#psi4.driver.print_stderr">[docs]</a><span class="k">def</span> <span class="nf">print_stderr</span><span class="p">(</span><span class="n">stuff</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function to print *stuff* to standard error stream.&quot;&quot;&quot;</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="s2">&quot;Using `psi4.driver.p4util.print_stderr` instead of `print(..., file=sys.stderr)` is deprecated, and as soon as 1.4 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
-        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="n">stuff</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="levenshtein"><a class="viewcode-back" href="../../../../api/psi4.driver.levenshtein.html#psi4.driver.levenshtein">[docs]</a><span class="k">def</span> <span class="nf">levenshtein</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the Levenshtein distance between two strings.&quot;&quot;&quot;</span>
-
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">oneago</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">thisrow</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seq1</span><span class="p">)):</span>
@@ -335,26 +232,38 @@
     <span class="k">return</span> <span class="n">thisrow</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">seq2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="find_approximate_string_matches"><a class="viewcode-back" href="../../../../api/psi4.driver.find_approximate_string_matches.html#psi4.driver.find_approximate_string_matches">[docs]</a><span class="k">def</span> <span class="nf">find_approximate_string_matches</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">max_distance</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Find list of approximate (within `max_distance`) matches to string `seq1` among `options`.&quot;&quot;&quot;</span>
-
-    <span class="k">return</span> <span class="p">[</span><span class="n">seq2</span> <span class="k">for</span> <span class="n">seq2</span> <span class="ow">in</span> <span class="n">options</span> <span class="k">if</span> <span class="p">(</span><span class="n">levenshtein</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_distance</span><span class="p">)]</span></div>
-
-<div class="viewcode-block" id="message_box"><a class="viewcode-back" href="../../../../api/psi4.driver.message_box.html#psi4.driver.message_box">[docs]</a><span class="k">def</span> <span class="nf">message_box</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span> <span class="n">min_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; put a message string into a box for extra attention</span>
+<div class="viewcode-block" id="find_approximate_string_matches"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.find_approximate_string_matches.html#psi4.driver.find_approximate_string_matches">[docs]</a><span class="k">def</span> <span class="nf">find_approximate_string_matches</span><span class="p">(</span><span class="n">seq1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">max_distance</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Find list of approximate (within `max_distance`) matches to string `seq1` among `options`.</span>
 
 <span class="sd">    Parameters</span>
-<span class="sd">    -----------</span>
-<span class="sd">    message</span>
-<span class="sd">       message string to be boxed</span>
+<span class="sd">    ----------</span>
+<span class="sd">    seq1</span>
+<span class="sd">        Target string to look for near matches to.</span>
+<span class="sd">    options</span>
+<span class="sd">        Alternatives among which to look for near matches to `seq1`.</span>
+<span class="sd">    max_distance</span>
+<span class="sd">        Maximum Levenshtein distance from `seq1` to return.</span>
 
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">seq2</span> <span class="k">for</span> <span class="n">seq2</span> <span class="ow">in</span> <span class="n">options</span> <span class="k">if</span> <span class="p">(</span><span class="n">levenshtein</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_distance</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="message_box"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.message_box.html#psi4.driver.message_box">[docs]</a><span class="k">def</span> <span class="nf">message_box</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span> <span class="n">min_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Put a message string into a box for extra attention.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    message</span>
+<span class="sd">       Message string to be boxed.</span>
 <span class="sd">    max_width</span>
-<span class="sd">        maximal character width of the box</span>
+<span class="sd">        Maximal character width of the box.</span>
+<span class="sd">    min_width</span>
+<span class="sd">        Minimal character width of the box.</span>
 
 <span class="sd">    Returns</span>
-<span class="sd">    --------</span>
+<span class="sd">    -------</span>
 <span class="sd">    str</span>
-<span class="sd">       box containing the message as a multiline string</span>
+<span class="sd">       Box containing the message as a multiline string.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">wrap</span>
 
@@ -467,7 +376,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/text.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -480,9 +389,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

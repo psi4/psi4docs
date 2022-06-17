@@ -34,21 +34,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Interface to NumPy</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -102,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/numpy.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -121,12 +123,12 @@
           <div class="body" role="main">
             
   <section id="interface-to-numpy">
-<span id="sec-numpy"></span><span id="index-0"></span><h1>Interface to NumPy<a class="headerlink" href="#interface-to-numpy" title="Permalink to this headline">¶</a></h1>
+<span id="sec-numpy"></span><span id="index-0"></span><h1>Interface to NumPy<a class="headerlink" href="#interface-to-numpy" title="Permalink to this heading">¶</a></h1>
 <p><em>Code author: Daniel G. A. Smith</em></p>
 <p><em>Section author: Daniel G. A. Smith</em></p>
 <p><em>Module:</em> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/p4util/numpy_helper.py">psi4/psi4/driver/p4util/numpy_helper.py</a></p>
 <section id="basics">
-<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
+<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this heading">¶</a></h2>
 <p>Converting between the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Data classes and a NumPy array is easy through
 various helper functions as detailed in this section.  A quick overview NumPy
 functionality can be found <a class="reference external" href="https://numpy.org/doc/stable/user/quickstart.html">here</a>.  In addition,
@@ -154,7 +156,7 @@ back to <span style="font-family: Optima, sans-serif; text-transform: none;">P<s
 </div>
 </section>
 <section id="numpy-views">
-<h2>NumPy Views<a class="headerlink" href="#numpy-views" title="Permalink to this headline">¶</a></h2>
+<h2>NumPy Views<a class="headerlink" href="#numpy-views" title="Permalink to this heading">¶</a></h2>
 <p>Copying the data between NumPy and Psi4 objects can lead to excessive data
 movement and convoluted code. Here we introduce the idea of “Views” where the
 same data can be viewed by multiple objects. However, this can lead to very
@@ -178,7 +180,7 @@ views.  Views can be created in two ways:</p>
 <p>this operation is identical to the above.</p>
 </section>
 <section id="psifour-data-objects-with-irreps">
-<h2><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Data Objects with Irreps<a class="headerlink" href="#psifour-data-objects-with-irreps" title="Permalink to this headline">¶</a></h2>
+<h2><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Data Objects with Irreps<a class="headerlink" href="#psifour-data-objects-with-irreps" title="Permalink to this heading">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> data objects natively support multiple <a class="reference internal" href="psithonmol.html#sec-symmetry"><span class="std std-ref">irreducible representations</span></a>
 which is quite useful for Quantum Chemistry. However, this is not fundamental
 to NumPy and some work around are required to natively support these
@@ -198,28 +200,32 @@ called on irreped Matrices or Vectors an error will be thrown; however, the
 irreped form is always valid for non-irreped matrices.</p>
 </section>
 <section id="array-to-matrix">
-<h2>Array to Matrix<a class="headerlink" href="#array-to-matrix" title="Permalink to this headline">¶</a></h2>
+<h2>Array to Matrix<a class="headerlink" href="#array-to-matrix" title="Permalink to this heading">¶</a></h2>
 <p>A general function that converts <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> data objects to NumPy arrays.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="psi4.driver.p4util.numpy_helper.array_to_matrix">
 <span class="sig-prename descclassname"><span class="pre">psi4.driver.p4util.numpy_helper.</span></span><span class="sig-name descname"><span class="pre">array_to_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'New</span> <span class="pre">Matrix'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/p4util/numpy_helper.html#array_to_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.numpy_helper.array_to_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a numpy array or list of numpy arrays into a Psi4 Matrix (irreped if list).</p>
+<dd><p>Converts a <a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.ndarray.html">NumPy array</a> or list of
+NumPy arrays into a <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> <a class="reference internal" href="api/psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a> or
+<a class="reference internal" href="api/psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a> (irreped if list).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>arr</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.List" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]]) – Numpy array or list of arrays to use as the data for a new core.Matrix</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name to give the new core.Matrix</p></li>
-<li><p><strong>dim1</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.List" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>, <a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Tuple" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>, <a class="reference internal" href="api/psi4.core.Dimension.html#psi4.core.Dimension" title="psi4.core.Dimension"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dimension</span></code></a>, <a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – If a single dense numpy array is given, a dimension can be supplied to
+<li><p><strong>self</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="api/psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>, <a class="reference internal" href="api/psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a>]) – Matrix or Vector class.</p></li>
+<li><p><strong>arr</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]]) – NumPy array or list of arrays to use as the data for a new
+<a class="reference internal" href="api/psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a> or <a class="reference internal" href="api/psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a>.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name to give the new <a class="reference internal" href="api/psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>.</p></li>
+<li><p><strong>dim1</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>, <a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>, <a class="reference internal" href="api/psi4.core.Dimension.html#psi4.core.Dimension" title="psi4.core.Dimension"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dimension</span></code></a>, <a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – If a single dense NumPy array is given, a dimension can be supplied to
 apply irreps to this array. Note that this discards all extra information
 given in the matrix besides the diagonal blocks determined by the passed
 dimension.</p></li>
-<li><p><strong>dim2</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="api/psi4.core.Dimension.html#psi4.core.Dimension" title="psi4.core.Dimension"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dimension</span></code></a>]) – Same as dim1 only if using a psi4.core.Dimension object.</p></li>
+<li><p><strong>dim2</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="api/psi4.core.Dimension.html#psi4.core.Dimension" title="psi4.core.Dimension"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dimension</span></code></a>]) – Same as <cite>dim1</cite> only if using a <a class="reference internal" href="api/psi4.core.Dimension.html#psi4.core.Dimension" title="psi4.core.Dimension"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dimension</span></code></a> object.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returns the given Psi4 object</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the given (<cite>self</cite>) Psi4 object.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="api/psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix">Matrix</a> or <a class="reference internal" href="api/psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector">Vector</a></p>
 </dd>
 </dl>
@@ -240,26 +246,27 @@ dimension.</p></li>
 
 </section>
 <section id="matrix-to-array">
-<h2>Matrix to Array<a class="headerlink" href="#matrix-to-array" title="Permalink to this headline">¶</a></h2>
+<h2>Matrix to Array<a class="headerlink" href="#matrix-to-array" title="Permalink to this heading">¶</a></h2>
 <p>A general function that converts NumPy arrays to <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> data objects.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="psi4.driver.p4util.numpy_helper._to_array">
 <span class="sig-prename descclassname"><span class="pre">psi4.driver.p4util.numpy_helper.</span></span><span class="sig-name descname"><span class="pre">_to_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dense</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/p4util/numpy_helper.html#_to_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.numpy_helper._to_array" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a Psi4 Matrix or Vector to a NumPy array. Either copies the data or simply
-constructs a view.</p>
+<dd><p>Converts a <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Matrix or Vector to a NumPy array. Either copies the
+data or simply constructs a view.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>matrix</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="api/psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>, <a class="reference internal" href="api/psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a>]) – Pointers to which Psi4 core class should be used in the construction.</p></li>
-<li><p><strong>copy</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Copy the data if <cite>True</cite>, return a view otherwise</p></li>
-<li><p><strong>dense</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Converts irreped Psi4 objects to diagonally blocked dense arrays if <cite>True</cite>. Returns a list of arrays otherwise.</p></li>
+<li><p><strong>matrix</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="api/psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>, <a class="reference internal" href="api/psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a>]) – Pointers to which Psi4 core class should be used in the construction.</p></li>
+<li><p><strong>copy</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Copy the data if <cite>True</cite>, return a view otherwise</p></li>
+<li><p><strong>dense</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Converts irreped Psi4 objects to diagonally blocked dense arrays if
+<cite>True</cite>. Returns a list of arrays otherwise.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returns either a list of np.array’s or the base array depending on options.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns a single or list of NumPy arrays depending on options.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)">numpy.ndarray</a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>ndarray</em></a> or <a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>ndarray</em></a>]</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -386,7 +393,7 @@ constructs a view.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/numpy.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -399,9 +406,9 @@ constructs a view.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

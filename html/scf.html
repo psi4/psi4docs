@@ -34,21 +34,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>HF: Hartree–Fock Theory</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -102,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -121,12 +123,12 @@
           <div class="body" role="main">
             
   <section id="hf-hartree-fock-theory">
-<span id="sec-scf"></span><span id="index-0"></span><h1>HF: Hartree–Fock Theory<a class="headerlink" href="#hf-hartree-fock-theory" title="Permalink to this headline">¶</a></h1>
+<span id="sec-scf"></span><span id="index-0"></span><h1>HF: Hartree–Fock Theory<a class="headerlink" href="#hf-hartree-fock-theory" title="Permalink to this heading">¶</a></h1>
 <p><em>Code author: Justin M. Turney, Robert M. Parrish, and Andrew C. Simmonett</em></p>
 <p><em>Section author: Robert M. Parrish and Jerome F. Gonthier</em></p>
 <p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__scf.html#apdx-scf-psivar"><span class="std std-ref">PSI Variables</span></a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/libscf_solver">LIBSCF_SOLVER</a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/libmints">LIBMINTS</a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/libfock">LIBFOCK</a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/libdiis">LIBDIIS</a></p>
 <section id="introduction">
-<span id="sec-scfintro"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfintro"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>Self-Consistent-Field (SCF) theory forms the cornerstone of <em>ab initio</em> quantum
 chemistry. Here SCF refers both to conventional Hartree–Fock (HF) molecular
 orbital theory and also to generalized Kohn–Sham Density Functional Theory
@@ -199,7 +201,7 @@ computations. Additional one-electron properties are available by increasing the
 which are useful in elucidating the stability and reactivity of the system.</p>
 </section>
 <section id="theory">
-<span id="sec-scftheory"></span><span id="index-1"></span><h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scftheory"></span><span id="index-1"></span><h2>Theory<a class="headerlink" href="#theory" title="Permalink to this heading">¶</a></h2>
 <p>The objective of Hartree–Fock (HF) Theory is to produce the optimized Molecular
 Orbitals (MOs) <span class="math notranslate nohighlight">\(\{\psi_i\}\)</span>,</p>
 <div class="math notranslate nohighlight">
@@ -282,7 +284,7 @@ very large systems, diagonalization of the Fock matrix can also present a
 significant hurdle.</p>
 </section>
 <section id="minimal-input">
-<span id="sec-scfinput"></span><h2>Minimal Input<a class="headerlink" href="#minimal-input" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfinput"></span><h2>Minimal Input<a class="headerlink" href="#minimal-input" title="Permalink to this heading">¶</a></h2>
 <p>Minimal input for a Hartree–Fock computation is a molecule block, basis set
 option, and a call to <code class="docutils literal notranslate"><span class="pre">energy('scf')</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="p">{</span>
@@ -302,7 +304,7 @@ orthogonalization, DIIS, and a core Hamiltonian guess. For more
 information on any of these options, see the relevant section below.</p>
 </section>
 <section id="spin-symmetry-treatment">
-<span id="sec-scfsymm"></span><h2>Spin/Symmetry Treatment<a class="headerlink" href="#spin-symmetry-treatment" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfsymm"></span><h2>Spin/Symmetry Treatment<a class="headerlink" href="#spin-symmetry-treatment" title="Permalink to this heading">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> implements the most popular spin specializations of Hartree–Fock
 theory, including:</p>
 <dl class="simple">
@@ -381,7 +383,7 @@ actually,:</p>
 </div>
 </section>
 <section id="broken-symmetry">
-<span id="sec-scfbrokensymm"></span><h2>Broken Symmetry<a class="headerlink" href="#broken-symmetry" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfbrokensymm"></span><h2>Broken Symmetry<a class="headerlink" href="#broken-symmetry" title="Permalink to this heading">¶</a></h2>
 <p>For certain problems, such diradicals, allowing the spin-up and spin-down
 orbitals to differ in closed-shell computations can be advantageous;
 this is known as symmetry breaking.  The resulting unrestricted wavefunction
@@ -398,7 +400,7 @@ keyword to true:</p>
 </div>
 </section>
 <section id="orthogonalization">
-<span id="sec-scflindep"></span><h2>Orthogonalization<a class="headerlink" href="#orthogonalization" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scflindep"></span><h2>Orthogonalization<a class="headerlink" href="#orthogonalization" title="Permalink to this heading">¶</a></h2>
 <p>One of the first steps in the SCF procedure is the determination of an
 orthogonal basis (known as the OSO basis) from the atomic orbital
 basis (known as the AO basis). The Molecular Orbital basis (MO basis)
@@ -497,7 +499,7 @@ above the eigenvalue cutoff. In total, 284 molecular orbitals are chosen from
 287 AOs/USOs.</p>
 </section>
 <section id="initial-guess">
-<span id="sec-scfguess"></span><h2>Initial Guess<a class="headerlink" href="#initial-guess" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfguess"></span><h2>Initial Guess<a class="headerlink" href="#initial-guess" title="Permalink to this heading">¶</a></h2>
 <p>In each step of the SCF procedure, a new Fock or Kohn–Sham potential is built
 according to the previous density, following which the potential is diagonalized
 to produce new molecular orbitals, from which a new density is computed. This
@@ -583,7 +585,7 @@ in a 3-21G basis and then casting up to cc-pVTZ is shown below:</p>
 </div>
 </section>
 <section id="restarting-the-scf">
-<span id="sec-scfrestart"></span><h2>Restarting the SCF<a class="headerlink" href="#restarting-the-scf" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfrestart"></span><h2>Restarting the SCF<a class="headerlink" href="#restarting-the-scf" title="Permalink to this heading">¶</a></h2>
 <p>Reading orbital data from a previous calculations is done via the <code class="docutils literal notranslate"><span class="pre">restart_file</span></code> option,
 where the actual file is a serialized <code class="docutils literal notranslate"><span class="pre">wfn</span></code> object (see <a class="reference internal" href="external.html#sec-save-wfn"><span class="std std-ref">saving the wfn</span></a>)
 By default, the orbital data file of the converged SCF(<code class="docutils literal notranslate"><span class="pre">psi.PID.name.180.npy</span></code>) is deleted
@@ -609,7 +611,7 @@ The restart can then be done as follows:</p>
 that <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> expects the numpy file on disk to have the <code class="docutils literal notranslate"><span class="pre">.npy</span></code> extension, not, e.g., <cite>.npz</cite>.</p>
 </section>
 <section id="convergence-stabilization">
-<span id="sec-scfconv"></span><span id="index-2"></span><h2>Convergence Stabilization<a class="headerlink" href="#convergence-stabilization" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfconv"></span><span id="index-2"></span><h2>Convergence Stabilization<a class="headerlink" href="#convergence-stabilization" title="Permalink to this heading">¶</a></h2>
 <p>A summary of Psi’s supported convergence stabilization techniques is presented below:</p>
 <dl class="simple">
 <dt>DIIS [On by Default]</dt><dd><p>DIIS uses previous iterates of the Fock matrix together
@@ -673,7 +675,7 @@ respectively.</p>
 </dl>
 </section>
 <section id="eri-algorithms">
-<span id="sec-scferi"></span><h2>ERI Algorithms<a class="headerlink" href="#eri-algorithms" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scferi"></span><h2>ERI Algorithms<a class="headerlink" href="#eri-algorithms" title="Permalink to this heading">¶</a></h2>
 <p>The key difficulty in the SCF procedure is treatment of the four-index ERI
 contributions to the Fock Matrix. A number of algorithms are available in
 <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> for these terms. The algorithm is selected by the <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a>
@@ -779,7 +781,7 @@ basis set defined for all atoms in the system, or set <a class="reference intern
 to false, which disables this acceleration entirely.</p>
 </section>
 <section id="cosx-exchange">
-<h2>COSX Exchange<a class="headerlink" href="#cosx-exchange" title="Permalink to this headline">¶</a></h2>
+<h2>COSX Exchange<a class="headerlink" href="#cosx-exchange" title="Permalink to this heading">¶</a></h2>
 <p>The semi-numerical COSX algorithm described in <a class="reference internal" href="bibliography.html#neese-2009-98" id="id15"><span>[Neese:2009:98]</span></a> evaluates
 two-electron ERIs analytically over one electron coordinate and numerically
 over the other electron coordinate, and belongs to the family of pseudospectral
@@ -815,7 +817,7 @@ integration errors using the method described in <a class="reference internal" h
 always recommended.</p>
 </section>
 <section id="link-exchange">
-<h2>LinK Exchange<a class="headerlink" href="#link-exchange" title="Permalink to this headline">¶</a></h2>
+<h2>LinK Exchange<a class="headerlink" href="#link-exchange" title="Permalink to this heading">¶</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The LinK code is currently under development and should not be used.</p>
@@ -834,7 +836,7 @@ since a fast J matrix build compatible to use with LinK has not been developed y
 </div></blockquote>
 </section>
 <section id="second-order-convergence">
-<span id="sec-soscf"></span><span id="index-3"></span><h2>Second-order Convergence<a class="headerlink" href="#second-order-convergence" title="Permalink to this headline">¶</a></h2>
+<span id="sec-soscf"></span><span id="index-3"></span><h2>Second-order Convergence<a class="headerlink" href="#second-order-convergence" title="Permalink to this heading">¶</a></h2>
 <p>Second-order convergence takes into account both the gradient and Hessian to
 take a full Newton step with respect to the orbital parameters. This results in
 quadratic convergence with respect to density for SCF methods. For cases where
@@ -867,7 +869,7 @@ follows:</p>
 </div></blockquote>
 </section>
 <section id="stability-analysis">
-<span id="sec-scfstability-doc"></span><h2>Stability Analysis<a class="headerlink" href="#stability-analysis" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfstability-doc"></span><h2>Stability Analysis<a class="headerlink" href="#stability-analysis" title="Permalink to this heading">¶</a></h2>
 <p>SCF algorithms attempt to minimize the gradient of the energy with respect
 to orbital variation parameters. At convergence, the gradient should be approximately zero
 given a convergence criterion. Although this is enough to make sure the SCF converged to a
@@ -917,13 +919,6 @@ much more efficient than the Direct Inversion, but at present, it is only availa
 analysis. The capabilities of both algorithms are summarized below:</p>
 <span id="table-stab-methods"></span><table class="docutils align-default" id="id29">
 <caption><span class="caption-text">Stability analysis methods available in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></span><a class="headerlink" href="#id29" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 14%" />
-<col style="width: 35%" />
-<col style="width: 21%" />
-<col style="width: 16%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Algorithm</p></th>
 <th class="head"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-REFERENCE-SCF"><span class="xref std std-term">REFERENCE</span></a></p></th>
@@ -983,7 +978,7 @@ Otherwise, if the solver is almost converged but reaches the maximum number of i
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_MAXITER-CPHF"><span class="xref std std-term">SOLVER_MAXITER</span></a>.</p>
 </section>
 <section id="effective-core-potentials-ecps">
-<span id="sec-scf-ecps"></span><h2>Effective core potentials (ECPs)<a class="headerlink" href="#effective-core-potentials-ecps" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scf-ecps"></span><h2>Effective core potentials (ECPs)<a class="headerlink" href="#effective-core-potentials-ecps" title="Permalink to this heading">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> supports the use of effective core potentials to describe the
 innermost electrons in heavy elements.
 ECPs are only available if <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is compiled with the <a class="reference internal" href="ecpint.html#cmake-ecpint"><span class="std std-ref">LibECPInt</span></a> library.
@@ -1008,7 +1003,7 @@ for examples of computations with ECP-containing basis sets.</p>
 </div>
 </section>
 <section id="external-potentials-and-qm-mm">
-<span id="sec-scfqmmm"></span><h2>External potentials and QM/MM<a class="headerlink" href="#external-potentials-and-qm-mm" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfqmmm"></span><h2>External potentials and QM/MM<a class="headerlink" href="#external-potentials-and-qm-mm" title="Permalink to this heading">¶</a></h2>
 <p>In addition to the implementation of <a class="reference internal" href="libefp.html#sec-libefp"><span class="std std-ref">EFP</span></a> for accurate QM/MM
 computations, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> can perform more rudimentary QM/MM procedures via the
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-EXTERN-SCF"><span class="xref std std-term">EXTERN</span></a> keyword.  The following snippet, extracted from the
@@ -1067,16 +1062,9 @@ calculation in C1 symmetry.  For examples of SCF and MP2 calculations in an
 external field, see <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples/scf7/input.dat">scf7</a> and <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples/dfmp2-grad5/input.dat">dfmp2-grad5</a>.</p>
 </section>
 <section id="convergence-and-algorithm-defaults">
-<span id="sec-scfdefault"></span><h2>Convergence and Algorithm Defaults<a class="headerlink" href="#convergence-and-algorithm-defaults" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfdefault"></span><h2>Convergence and Algorithm Defaults<a class="headerlink" href="#convergence-and-algorithm-defaults" title="Permalink to this heading">¶</a></h2>
 <span id="table-conv-scf"></span><table class="docutils align-default" id="id30">
-<caption><span class="caption-text">SCF algorithm and convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f1" id="id19">1</a></span><a class="headerlink" href="#id30" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col style="width: 19%" />
-<col style="width: 19%" />
-<col style="width: 21%" />
-<col style="width: 21%" />
-<col style="width: 20%" />
-</colgroup>
+<caption><span class="caption-text">SCF algorithm and convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f1" id="id19" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></span><a class="headerlink" href="#id30" title="Permalink to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p><em>Ab Initio</em> Method</p></th>
 <th class="head"><p>Calculation Type</p></th>
@@ -1096,7 +1084,7 @@ external field, see <a class="reference external" href="https://github.com/psi4/
 <td><p>8</p></td>
 <td><p>8</p></td>
 </tr>
-<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id20">7</a></p></td>
+<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id20" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
 <td><p>8</p></td>
 <td><p>8</p></td>
 </tr>
@@ -1104,35 +1092,29 @@ external field, see <a class="reference external" href="https://github.com/psi4/
 <td><p>energy</p></td>
 <td><p>8</p></td>
 <td><p>8</p></td>
-<td rowspan="4"><p>PK <a class="footnote-reference brackets" href="#f3" id="id21">3</a></p></td>
+<td rowspan="4"><p>PK <a class="footnote-reference brackets" href="#f3" id="id21" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p>optimization</p></td>
 <td><p>10</p></td>
 <td><p>10</p></td>
 </tr>
-<tr class="row-odd"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id22">7</a></p></td>
+<tr class="row-odd"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id22" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
 <td><p>10</p></td>
 <td><p>10</p></td>
 </tr>
-<tr class="row-even"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id23">2</a></p></td>
+<tr class="row-even"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id23" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
 <td><p>10</p></td>
 <td><p>10</p></td>
 </tr>
 </tbody>
 </table>
 <span id="table-conv-corl"></span><table class="docutils align-default" id="id31">
-<caption><span class="caption-text">Post-SCF convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f4" id="id24">4</a></span><a class="headerlink" href="#id31" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col style="width: 23%" />
-<col style="width: 23%" />
-<col style="width: 25%" />
-<col style="width: 29%" />
-</colgroup>
+<caption><span class="caption-text">Post-SCF convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f4" id="id24" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></span><a class="headerlink" href="#id31" title="Permalink to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p><em>Ab Initio</em> Method</p></th>
 <th class="head"><p>Calculation Type</p></th>
-<th class="head"><p>E_CONVERGENCE <a class="footnote-reference brackets" href="#f5" id="id25">5</a></p></th>
-<th class="head"><p>R_CONVERGENCE <a class="footnote-reference brackets" href="#f6" id="id26">6</a></p></th>
+<th class="head"><p>E_CONVERGENCE <a class="footnote-reference brackets" href="#f5" id="id25" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></th>
+<th class="head"><p>R_CONVERGENCE <a class="footnote-reference brackets" href="#f6" id="id26" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></th>
 </tr>
 </thead>
 <tbody>
@@ -1145,57 +1127,64 @@ external field, see <a class="reference external" href="https://github.com/psi4/
 <td><p>8</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id27">7</a></p></td>
+<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id27" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
 <td><p>8</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id28">2</a></p></td>
+<tr class="row-odd"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id28" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
 <td><p>8</p></td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Footnotes</p>
-<dl class="footnote brackets">
-<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id19">1</a></span></dt>
-<dd><p>Note that this table applies only the SCF module,
+<aside class="footnote brackets" id="f1" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id19">1</a><span class="fn-bracket">]</span></span>
+<p>Note that this table applies only the SCF module,
 not to the final convergence criteria for post-HF methods or to methods
 that use an alternate starting point, like MCSCF. SAPT computations, too,
 set tighter values.</p>
-</dd>
-<dt class="label" id="f2"><span class="brackets">2</span><span class="fn-backref">(<a href="#id23">1</a>,<a href="#id28">2</a>)</span></dt>
-<dd><p>This applies to properties computed through the <code class="xref py py-func docutils literal notranslate"><span class="pre">properties()</span></code> function.</p>
-</dd>
-<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id21">3</a></span></dt>
-<dd><p>Post-HF methods that do not rely upon the usual 4-index AO integrals use a
+</aside>
+<aside class="footnote brackets" id="f2" role="note">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id23">1</a>,<a role="doc-backlink" href="#id28">2</a>)</span>
+<p>This applies to properties computed through the <a class="reference internal" href="api/psi4.driver.properties.html#psi4.driver.properties" title="psi4.driver.properties"><code class="xref py py-func docutils literal notranslate"><span class="pre">properties()</span></code></a> function.</p>
+</aside>
+<aside class="footnote brackets" id="f3" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id21">3</a><span class="fn-bracket">]</span></span>
+<p>Post-HF methods that do not rely upon the usual 4-index AO integrals use a
 density-fitted SCF reference. That is, for DF-MP2 and SAPT, the default <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> is DF.</p>
-</dd>
-<dt class="label" id="f4"><span class="brackets"><a class="fn-backref" href="#id24">4</a></span></dt>
-<dd><p>Note that this table applies to the final convergence criteria for
+</aside>
+<aside class="footnote brackets" id="f4" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id24">4</a><span class="fn-bracket">]</span></span>
+<p>Note that this table applies to the final convergence criteria for
 all the post-SCF modules that define a <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-CCENERGY"><span class="xref std std-term">E_CONVERGENCE</span></a> keyword.</p>
-</dd>
-<dt class="label" id="f5"><span class="brackets"><a class="fn-backref" href="#id25">5</a></span></dt>
-<dd><p>The E_CONVERGENCE keyword is implemented for most post-SCF modules.
+</aside>
+<aside class="footnote brackets" id="f5" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id25">5</a><span class="fn-bracket">]</span></span>
+<p>The E_CONVERGENCE keyword is implemented for most post-SCF modules.
 See a list beginning at <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-CCENERGY"><span class="xref std std-term">E_CONVERGENCE</span></a>.</p>
-</dd>
-<dt class="label" id="f6"><span class="brackets"><a class="fn-backref" href="#id26">6</a></span></dt>
-<dd><p>The R_CONVERGENCE keyword places a convergence check on an internal
+</aside>
+<aside class="footnote brackets" id="f6" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id26">6</a><span class="fn-bracket">]</span></span>
+<p>The R_CONVERGENCE keyword places a convergence check on an internal
 residual error measure and is implemented for several post-SCF
 modules (see list beginning at <a class="reference internal" href="autodoc_glossary_options_c.html#term-R_CONVERGENCE-CCENERGY"><span class="xref std std-term">R_CONVERGENCE</span></a>). It is defined
 according to the quantum chemical method and so its default value is set
 by each module individually.</p>
-</dd>
-<dt class="label" id="f7"><span class="brackets">7</span><span class="fn-backref">(<a href="#id20">1</a>,<a href="#id22">2</a>,<a href="#id27">3</a>)</span></dt>
-<dd><p>For frequency computations by finite difference of energies,
+</aside>
+<aside class="footnote brackets" id="f7" role="note">
+<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id20">1</a>,<a role="doc-backlink" href="#id22">2</a>,<a role="doc-backlink" href="#id27">3</a>)</span>
+<p>For frequency computations by finite difference of energies,
 convergence criteria are tightened further still to 10 for
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-SCF"><span class="xref std std-term">E_CONVERGENCE</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a> for SCF of HF or DFT, 11
 for <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-SCF"><span class="xref std std-term">E_CONVERGENCE</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a> for SCF of post-HF,
 and 10 for E_CONVERGENCE for post-HF of post-HF.</p>
-</dd>
-</dl>
+</aside>
 </section>
 <section id="recommendations">
-<span id="sec-scfrec"></span><h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this headline">¶</a></h2>
+<span id="sec-scfrec"></span><h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this heading">¶</a></h2>
 <p>The SCF code is quite flexible and powerful.
 We have tried as much as possible to keep the number of options to
 a minimum and to allow all options to be used in the presence of all other
@@ -1362,7 +1351,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1375,9 +1364,9 @@ types.</p></li>
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

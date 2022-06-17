@@ -34,7 +34,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,12 +42,14 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
     <script src="../../../../_static/jquery.js"></script>
     <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
@@ -91,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/util.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -139,25 +141,38 @@
 <span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot;Module with utility functions for use in input files.&quot;&quot;&quot;</span>
 
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;copy_file_to_scratch&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;copy_file_from_scratch&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cubeprop&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_memory&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;oeprop&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;set_memory&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.procrouting</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
 <span class="kn">from</span> <span class="nn">.prop_util</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="oeprop"><a class="viewcode-back" href="../../../../oeprop.html#psi4.driver.oeprop">[docs]</a><span class="k">def</span> <span class="nf">oeprop</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="oeprop"><a class="viewcode-back" href="../../../../oeprop.html#psi4.driver.oeprop">[docs]</a><span class="k">def</span> <span class="nf">oeprop</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Evaluate one-electron properties.</span>
 
 <span class="sd">    :returns: None</span>
 
 <span class="sd">    :param wfn: set of molecule, basis, orbitals from which to compute properties</span>
 
-<span class="sd">    How to specify args, which are actually the most important</span>
+<span class="sd">    :param args:</span>
+
+<span class="sd">        Arbitrary-number of properties to be computed from *wfn*.</span>
+<span class="sd">        See :ref:`Available One-Electron Properties &lt;table:oe_features&gt;`.</span>
 
 <span class="sd">    :type title: str</span>
 <span class="sd">    :param title: label prepended to all psivars computed</span>
@@ -186,7 +201,7 @@
     <span class="n">oe</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="cubeprop"><a class="viewcode-back" href="../../../../cubeprop.html#psi4.driver.cubeprop">[docs]</a><span class="k">def</span> <span class="nf">cubeprop</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="cubeprop"><a class="viewcode-back" href="../../../../cubeprop.html#psi4.driver.cubeprop">[docs]</a><span class="k">def</span> <span class="nf">cubeprop</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Evaluate properties on a grid and generate cube files.</span>
 
 <span class="sd">    .. versionadded:: 0.5</span>
@@ -194,7 +209,6 @@
 
 <span class="sd">    :returns: None</span>
 
-<span class="sd">    :type wfn: :py:class:`~psi4.core.Wavefunction`</span>
 <span class="sd">    :param wfn: set of molecule, basis, orbitals from which to generate cube files</span>
 
 <span class="sd">    :examples:</span>
@@ -223,17 +237,31 @@
 
 
 <div class="viewcode-block" id="set_memory"><a class="viewcode-back" href="../../../../api/psi4.driver.set_memory.html#psi4.driver.set_memory">[docs]</a><span class="k">def</span> <span class="nf">set_memory</span><span class="p">(</span><span class="n">inputval</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">execute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">quiet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Function to reset the total memory allocation. Takes memory value</span>
-<span class="sd">    *inputval* as type int, float, or str; int and float are taken literally</span>
-<span class="sd">    as bytes to be set, string taken as a unit-containing value (e.g., 30 mb)</span>
-<span class="sd">    which is case-insensitive. Set *execute* to False to interpret *inputval*</span>
-<span class="sd">    without setting in Psi4 core.</span>
+    <span class="sd">&quot;&quot;&quot;Reset the total memory allocation.</span>
 
-<span class="sd">    :returns: *memory_amount* Number of bytes of memory set</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputval</span>
+<span class="sd">        Memory value. An Integer or float is taken literally as bytes to be set.</span>
+<span class="sd">        A string is taken as a unit-containing value (e.g., 30 mb), which is</span>
+<span class="sd">        case-insensitive.</span>
+<span class="sd">    execute</span>
+<span class="sd">        When False, interpret *inputval* without setting in Psi4 core.</span>
+<span class="sd">    quiet</span>
+<span class="sd">        When True, do not print to the output file.</span>
 
-<span class="sd">    :raises: :py:class:`psi4.ValidationError` when &lt;500MiB or disallowed type or misformatted</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        Number of bytes of memory set.</span>
 
-<span class="sd">    :examples:</span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValidationError</span>
+<span class="sd">        When &lt;500MiB or disallowed type or misformatted.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 
 <span class="sd">    &gt;&gt;&gt; # [1] Passing absolute number of bytes</span>
 <span class="sd">    &gt;&gt;&gt; psi4.set_memory(600000000)</span>
@@ -310,38 +338,41 @@
     <span class="k">return</span> <span class="n">memory_amount</span></div>
 
 
-<div class="viewcode-block" id="get_memory"><a class="viewcode-back" href="../../../../api/psi4.driver.get_memory.html#psi4.driver.get_memory">[docs]</a><span class="k">def</span> <span class="nf">get_memory</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Function to return the total memory allocation.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_memory"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.get_memory.html#psi4.driver.get_memory">[docs]</a><span class="k">def</span> <span class="nf">get_memory</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return the total memory allocation in bytes.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">get_memory</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="copy_file_to_scratch"><a class="viewcode-back" href="../../../../api/psi4.driver.copy_file_to_scratch.html#psi4.driver.copy_file_to_scratch">[docs]</a><span class="k">def</span> <span class="nf">copy_file_to_scratch</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">move</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function to move file into scratch with correct naming</span>
-<span class="sd">    convention.</span>
+<div class="viewcode-block" id="copy_file_to_scratch"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.copy_file_to_scratch.html#psi4.driver.copy_file_to_scratch">[docs]</a><span class="k">def</span> <span class="nf">copy_file_to_scratch</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">move</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Move a file into scratch following the naming convention.</span>
 
-<span class="sd">    Arguments:</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename</span>
+<span class="sd">        Full path to file.</span>
+<span class="sd">    prefix</span>
+<span class="sd">        Computation prefix, usually &#39;psi&#39;.</span>
+<span class="sd">    namespace</span>
+<span class="sd">        Context namespace, usually molecule name.</span>
+<span class="sd">    unit</span>
+<span class="sd">        Unit number, e.g. 32.</span>
+<span class="sd">    move</span>
+<span class="sd">        Whether to copy (default) or move?</span>
 
-<span class="sd">    @arg filename  full path to file</span>
-<span class="sd">    @arg prefix    computation prefix, usually &#39;psi&#39;</span>
-<span class="sd">    @arg namespace context namespace, usually molecule name</span>
-<span class="sd">    @arg unit      unit number, e.g. 32</span>
-<span class="sd">    @arg move      copy or move? (default copy)</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 
-<span class="sd">    Example:</span>
-
-<span class="sd">    Assume PID is 12345 and SCRATCH is /scratch/parrish/</span>
-
-<span class="sd">    copy_file_to_scratch(&#39;temp&#39;, &#39;psi&#39;, &#39;h2o&#39;, 32):</span>
-<span class="sd">        -cp ./temp /scratch/parrish/psi.12345.h2o.32</span>
-<span class="sd">    copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;h2o&#39;, 32):</span>
-<span class="sd">        -cp /tmp/temp /scratch/parrish/psi.12345.h2o.32</span>
-<span class="sd">    copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;&#39;, 32):</span>
-<span class="sd">        -cp /tmp/temp /scratch/parrish/psi.12345.32</span>
-<span class="sd">    copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;&#39;, 32, True):</span>
-<span class="sd">        -mv /tmp/temp /scratch/parrish/psi.12345.32</span>
+<span class="sd">    &gt;&gt;&gt; # Assume PID is 12345 and SCRATCH is /scratch/parrish/</span>
+<span class="sd">    &gt;&gt;&gt; copy_file_to_scratch(&#39;temp&#39;, &#39;psi&#39;, &#39;h2o&#39;, 32):</span>
+<span class="sd">    Out[1]:  -cp ./temp /scratch/parrish/psi.12345.h2o.32</span>
+<span class="sd">    &gt;&gt;&gt; copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;h2o&#39;, 32):</span>
+<span class="sd">    Out[2]:  -cp /tmp/temp /scratch/parrish/psi.12345.h2o.32</span>
+<span class="sd">    &gt;&gt;&gt; copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;&#39;, 32):</span>
+<span class="sd">    Out[3]:  -cp /tmp/temp /scratch/parrish/psi.12345.32</span>
+<span class="sd">    &gt;&gt;&gt; copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;&#39;, 32, True):</span>
+<span class="sd">    Out[4]:  -mv /tmp/temp /scratch/parrish/psi.12345.32</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">pid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">())</span>
     <span class="n">scratch</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">get_file_path</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">unit</span><span class="p">))</span>
 
@@ -364,33 +395,37 @@
     <span class="n">command</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">scratch</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
 
     <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
-    <span class="c1">#print command</span>
 
 
-<div class="viewcode-block" id="copy_file_from_scratch"><a class="viewcode-back" href="../../../../api/psi4.driver.copy_file_from_scratch.html#psi4.driver.copy_file_from_scratch">[docs]</a><span class="k">def</span> <span class="nf">copy_file_from_scratch</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">move</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function to move file out of scratch with correct naming</span>
-<span class="sd">    convention.</span>
+<div class="viewcode-block" id="copy_file_from_scratch"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.copy_file_from_scratch.html#psi4.driver.copy_file_from_scratch">[docs]</a><span class="k">def</span> <span class="nf">copy_file_from_scratch</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">move</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Move a file out of scratch following the naming convention.</span>
 
-<span class="sd">    Arguments:</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
 
-<span class="sd">    @arg filename  full path to target file</span>
-<span class="sd">    @arg prefix    computation prefix, usually &#39;psi&#39;</span>
-<span class="sd">    @arg namespace context namespace, usually molecule name</span>
-<span class="sd">    @arg unit      unit number, e.g. 32</span>
-<span class="sd">    @arg move      copy or move? (default copy)</span>
+<span class="sd">    filename</span>
+<span class="sd">        Full path to target file.</span>
+<span class="sd">    prefix</span>
+<span class="sd">        Computation prefix, usually &#39;psi&#39;.</span>
+<span class="sd">    namespace</span>
+<span class="sd">        Context namespace, usually molecule name.</span>
+<span class="sd">    unit</span>
+<span class="sd">        Unit number, e.g. 32</span>
+<span class="sd">    move</span>
+<span class="sd">        Whether to copy (default) or move?</span>
 
-<span class="sd">    Example:</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 
-<span class="sd">    Assume PID is 12345 and SCRATCH is /scratch/parrish/</span>
-
-<span class="sd">    copy_file_to_scratch(&#39;temp&#39;, &#39;psi&#39;, &#39;h2o&#39;, 32):</span>
-<span class="sd">        -cp /scratch/parrish/psi.12345.h2o.32 .temp</span>
-<span class="sd">    copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;h2o&#39;, 32):</span>
-<span class="sd">        -cp /scratch/parrish/psi.12345.h2o.32 /tmp/temp</span>
-<span class="sd">    copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;&#39;, 32):</span>
-<span class="sd">        -cp /scratch/parrish/psi.12345.32 /tmp/temp</span>
-<span class="sd">    copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;&#39;, 32, True):</span>
-<span class="sd">        -mv /scratch/parrish/psi.12345.32 /tmp/temp</span>
+<span class="sd">    &gt;&gt;&gt; # Assume PID is 12345 and SCRATCH is /scratch/parrish/</span>
+<span class="sd">    &gt;&gt;&gt; copy_file_to_scratch(&#39;temp&#39;, &#39;psi&#39;, &#39;h2o&#39;, 32):</span>
+<span class="sd">    Out[1]:  -cp /scratch/parrish/psi.12345.h2o.32 .temp</span>
+<span class="sd">    &gt;&gt;&gt; copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;h2o&#39;, 32):</span>
+<span class="sd">    Out[2]:  -cp /scratch/parrish/psi.12345.h2o.32 /tmp/temp</span>
+<span class="sd">    &gt;&gt;&gt; copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;&#39;, 32):</span>
+<span class="sd">    Out[3]:  -cp /scratch/parrish/psi.12345.32 /tmp/temp</span>
+<span class="sd">    &gt;&gt;&gt; copy_file_to_scratch(&#39;/tmp/temp&#39;, &#39;psi&#39;, &#39;&#39;, 32, True):</span>
+<span class="sd">    Out[4]:  -mv /scratch/parrish/psi.12345.32 /tmp/temp</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -507,7 +542,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/util.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -520,9 +555,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

@@ -34,7 +34,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,12 +42,14 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
@@ -91,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -137,10 +139,10 @@
 <span class="c1">#</span>
 <span class="c1"># @END LICENSE</span>
 <span class="c1">#</span>
-<span class="sd">&quot;&quot;&quot;Module with a *procedures* dictionary specifying available quantum</span>
-<span class="sd">chemical methods and functions driving the main quantum chemical</span>
-<span class="sd">functionality, namely single-point energies, geometry optimizations,</span>
-<span class="sd">properties, and vibrational frequency calculations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Nexus of psi4.driver module with primary user-facing functions, including</span>
+<span class="sd">single-point energies, geometry optimizations, properties, and vibrational</span>
+<span class="sd">frequency calculations.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -150,7 +152,7 @@
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -636,7 +638,7 @@
 
 
 <div class="viewcode-block" id="gradient"><a class="viewcode-back" href="../../../opt.html#psi4.driver.gradient">[docs]</a><span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function complementary to :py:func:`~psi4.optimize()`. Carries out one gradient pass,</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function complementary to :py:func:`~psi4.driver.optimize()`. Carries out one gradient pass,</span>
 <span class="sd">    deciding analytic or finite difference.</span>
 
 <span class="sd">    :returns: :py:class:`~psi4.core.Matrix` |w--w| Total electronic gradient in Hartrees/Bohr.</span>
@@ -1091,7 +1093,7 @@
 
 <span class="sd">    :returns: (*float*, :py:class:`~psi4.core.Wavefunction`) |w--w| energy and wavefunction when **return_wfn** specified.</span>
 
-<span class="sd">    :raises: :py:class:`psi4.OptimizationConvergenceError` if :term:`GEOM_MAXITER &lt;GEOM_MAXITER (OPTKING)&gt;` exceeded without reaching geometry convergence.</span>
+<span class="sd">    :raises: :py:class:`psi4.driver.OptimizationConvergenceError` if :term:`GEOM_MAXITER &lt;GEOM_MAXITER (OPTKING)&gt;` exceeded without reaching geometry convergence.</span>
 
 <span class="sd">    :PSI variables:</span>
 
@@ -1105,7 +1107,7 @@
 
 <span class="sd">        First argument, usually unlabeled. Indicates the computational method</span>
 <span class="sd">        to be applied to the database. May be any valid argument to</span>
-<span class="sd">        :py:func:`psi4.energy`.</span>
+<span class="sd">        :py:func:`psi4.driver.energy`.</span>
 
 <span class="sd">    :type molecule: :ref:`molecule &lt;op_py_molecule&gt;`</span>
 <span class="sd">    :param molecule: ``h2o`` || etc.</span>
@@ -1431,7 +1433,7 @@
 
 
 <div class="viewcode-block" id="hessian"><a class="viewcode-back" href="../../../freq.html#psi4.driver.hessian">[docs]</a><span class="k">def</span> <span class="nf">hessian</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function complementary to :py:func:`~frequency`. Computes force</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function complementary to :py:func:`~psi4.driver.frequency`. Computes force</span>
 <span class="sd">    constants, deciding analytic, finite difference of gradients, or</span>
 <span class="sd">    finite difference of energies.</span>
 
@@ -1695,7 +1697,14 @@
         <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="vibanal_wfn"><a class="viewcode-back" href="../../../api/psi4.driver.vibanal_wfn.html#psi4.driver.vibanal_wfn">[docs]</a><span class="k">def</span> <span class="nf">vibanal_wfn</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">hess</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">irrep</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project_trans</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">project_rot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="vibanal_wfn"><a class="viewcode-back" href="../../../api/psi4.driver.vibanal_wfn.html#psi4.driver.vibanal_wfn">[docs]</a><span class="k">def</span> <span class="nf">vibanal_wfn</span><span class="p">(</span>
+    <span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span>
+    <span class="n">hess</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">irrep</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">molecule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">project_trans</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">project_rot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Function to perform analysis of a hessian or hessian block, specifically...</span>
 <span class="sd">    calling for and printing vibrational and thermochemical analysis, setting thermochemical variables,</span>
 <span class="sd">    and writing the vibrec and normal mode files.</span>
@@ -1708,7 +1717,8 @@
 <span class="sd">        Hessian to analyze, if not the hessian in wfn.</span>
 <span class="sd">        (3*nat, 3*nat) non-mass-weighted Hessian in atomic units, [Eh/a0/a0].</span>
 <span class="sd">    irrep</span>
-<span class="sd">        The irrep for which frequencies are calculated. Thermochemical analysis is skipped if this is given,</span>
+<span class="sd">        The irrep for which frequencies are calculated. Thermochemical analysis</span>
+<span class="sd">        is skipped if this is specified (non-None),</span>
 <span class="sd">        as only one symmetry block of the hessian has been computed.</span>
 <span class="sd">    molecule : :py:class:`~psi4.core.Molecule` or qcdb.Molecule, optional</span>
 <span class="sd">        The molecule to pull information from, if not the molecule in wfn. Must at least have similar</span>
@@ -1720,8 +1730,9 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    vibinfo : dict</span>
+<span class="sd">    vibinfo : ~typing.Dict[str, ~numpy.ndarray]</span>
 <span class="sd">        A dictionary of vibrational information. See :py:func:`~psi4.driver.qcdb.vib.harmonic_analysis`</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">hess</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -2219,7 +2230,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2232,9 +2243,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

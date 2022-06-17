@@ -34,21 +34,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>PsiAPI Tutorial: Using Psi4 as a Python Module</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -102,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psiapi.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -335,6 +337,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -343,10 +346,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -358,18 +365,21 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <section id="PsiAPI-Tutorial:-Using-Psi4-as-a-Python-Module">
-<h1>PsiAPI Tutorial: Using Psi4 as a Python Module<a class="headerlink" href="#PsiAPI-Tutorial:-Using-Psi4-as-a-Python-Module" title="Permalink to this headline">¶</a></h1>
+<h1>PsiAPI Tutorial: Using Psi4 as a Python Module<a class="headerlink" href="#PsiAPI-Tutorial:-Using-Psi4-as-a-Python-Module" title="Permalink to this heading">¶</a></h1>
 <p>transcribed by D. A. Sirianni</p>
 <div class="admonition note">
 <p><strong>Note:</strong> Psithon and PsiAPI refer to two modes of interacting with Psi4. In Psithon mode, you write an input file in our domain-specific language (not quite Python) where commands don’t have <code class="docutils literal notranslate"><span class="pre">psi4.</span></code> in front, then submit it to the executable <code class="docutils literal notranslate"><span class="pre">psi4</span></code> which processes the Psithon into pure Python and runs it internally. In PsiAPI mode, you write a pure Python script with <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">psi4</span></code> at the top, and commands are behind the <code class="docutils literal notranslate"><span class="pre">psi4.</span></code> namespace, then submit it to the <code class="docutils literal notranslate"><span class="pre">python</span></code> interpreter.
@@ -382,7 +392,7 @@ Both modes are equally powerful. This tutorial covers the PsiAPI mode.</p>
 <p>Here, we will explore the basics of using Psi4 in the interactive PsiAPI style where it is loaded directly as a Python module by reproducing the section <a class="reference external" href="http://psicode.org/psi4manual/master/tutorial.html">A Psi4 Tutorial</a> from the Psi4 manual in an interactive Jupyter Notebook.</p>
 <p>Note: If the newest version of Psi4 (v.1.1a2dev42 or newer) is in your path, feel free to execute each cell as you read along by pressing <code class="docutils literal notranslate"><span class="pre">Shift+Enter</span></code> when the cell is selected.</p>
 <section id="I.-Basic-Input-Structure">
-<h2>I. Basic Input Structure<a class="headerlink" href="#I.-Basic-Input-Structure" title="Permalink to this headline">¶</a></h2>
+<h2>I. Basic Input Structure<a class="headerlink" href="#I.-Basic-Input-Structure" title="Permalink to this heading">¶</a></h2>
 <p>Psi4 is now a Python module; so, we need to import it into our Python environment:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -412,7 +422,7 @@ Both modes are equally powerful. This tutorial covers the PsiAPI mode.</p>
 <p>Additionally, output may be suppressed by instead setting <code class="docutils literal notranslate"><span class="pre">psi4.core.be_quiet()</span></code> :psicode:<code class="docutils literal notranslate"><span class="pre">[API]</span> <span class="pre">&lt;psi4manual/master/api/psi4.core.be_quiet&gt;</span></code> .</p>
 </section>
 <section id="II.-Running-a-Basic-Hartree-Fock-Calculation">
-<h2>II. Running a Basic Hartree-Fock Calculation<a class="headerlink" href="#II.-Running-a-Basic-Hartree-Fock-Calculation" title="Permalink to this headline">¶</a></h2>
+<h2>II. Running a Basic Hartree-Fock Calculation<a class="headerlink" href="#II.-Running-a-Basic-Hartree-Fock-Calculation" title="Permalink to this heading">¶</a></h2>
 <p>In our first example, we will consider a Hartree-Fock SCF computation for the water molecule using a cc-pVDZ basis set. First, we will set the available memory for Psi4 to use with the <code class="docutils literal notranslate"><span class="pre">psi4.set_memory()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.set_memory.html#psi4.driver.set_memory">API</a> function, which takes either a string like <code class="docutils literal notranslate"><span class="pre">'30</span> <span class="pre">GB'</span></code> (with units!) or an integer number of bytes of memory as its argument. Next, our molecular geometry is passed as a string into
 <code class="docutils literal notranslate"><span class="pre">psi4.geometry()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.geometry.html#psi4.driver.geometry">API</a>. We may input this geometry in either Z-matrix or Cartesian format; to allow the string to break over multiple lines, use Python’s triple-quote <code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;string&quot;&quot;&quot;</span></code> syntax. Finally, we will compute the Hartree-Fock SCF energy with the cc-pVDZ basis set by passing the method/basis set as a string (<code class="docutils literal notranslate"><span class="pre">'scf/cc-pvdz'</span></code>) into the function <code class="docutils literal notranslate"><span class="pre">psi4.energy()</span></code>
 <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.energy.html#psi4.driver.energy">API</a>:</p>
@@ -493,7 +503,7 @@ integers in the Z-matrix (note the line with <code class="docutils literal notra
 (unrestricted Hartree-Fock, or UHF) or restricted orbitals (restricted open-shell Hartree-Fock, or ROHF). Usually, UHF is a little easier to converge (although it may be more susceptible to spin contamination than ROHF).</p>
 </section>
 <section id="III.-Geometry-Optimization-and-Vibrational-Frequency-Analysis">
-<h2>III. Geometry Optimization and Vibrational Frequency Analysis<a class="headerlink" href="#III.-Geometry-Optimization-and-Vibrational-Frequency-Analysis" title="Permalink to this headline">¶</a></h2>
+<h2>III. Geometry Optimization and Vibrational Frequency Analysis<a class="headerlink" href="#III.-Geometry-Optimization-and-Vibrational-Frequency-Analysis" title="Permalink to this heading">¶</a></h2>
 <p>The above examples were simple single-point energy computations (as specified by the <code class="docutils literal notranslate"><span class="pre">psi4.energy()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.energy.html#psi4.driver.energy">API</a> function). Of course there are other kinds of computations to perform, such as geometry optimizations and vibrational frequency computations. These can be specified by replacing <code class="docutils literal notranslate"><span class="pre">psi4.energy()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.energy.html#psi4.driver.energy">API</a> with
 <code class="docutils literal notranslate"><span class="pre">psi4.optimize()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.optimize.html#psi4.driver.optimize">API</a> or <code class="docutils literal notranslate"><span class="pre">psi4.frequency()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.frequency.html#psi4.driver.frequency">API</a>, respectively.</p>
 <p>Let’s take a look at an example of optimizing the H<span class="math notranslate nohighlight">\(_2\)</span>O molecule using Hartree-Fock with a cc-pVDZ basis set.</p>
@@ -571,7 +581,7 @@ H        0.000  -0.416   0.536       1.007825
 <p>Note: Psi4 has several synonyms for the functions called in this example. For instance, <code class="docutils literal notranslate"><span class="pre">psi4.frequency()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.frequency.html#psi4.driver.frequency">API</a> will compute molecular vibrational frequencies, and <code class="docutils literal notranslate"><span class="pre">psi4.optimize()</span></code> <a class="reference external" href="http://psicode.org/psi4manual/master/api/psi4.driver.optimize.html#psi4.driver.optimize">API</a> will perform a geometry optimization.</p>
 </section>
 <section id="IV.-Analysis-of-Intermolecular-Interactions">
-<h2>IV. Analysis of Intermolecular Interactions<a class="headerlink" href="#IV.-Analysis-of-Intermolecular-Interactions" title="Permalink to this headline">¶</a></h2>
+<h2>IV. Analysis of Intermolecular Interactions<a class="headerlink" href="#IV.-Analysis-of-Intermolecular-Interactions" title="Permalink to this heading">¶</a></h2>
 <p>Now let’s consider something a little more interesting. Psi4 contains code to analyze the nature of intermolecular interactions between two molecules, via symmetry-adapted perturbation theory (SAPT) <a class="reference external" href="http://psicode.org/psi4manual/master/bibliography.html#jeziorski-1994-1887">(Jeziorski:1994:1887)</a>. This kind of analysis gives a lot of insight into the nature of intermolecular interactions, and Psi4 makes these computations easier than ever.</p>
 <p>For a SAPT computation, the input needs to provide information on two distinct molecules. This is very easy, we just give a Z-matrix or set of Cartesian coordinates for each molecule, and separate the two with two dashes, like this:</p>
 <div class="nbinput nblast docutils container">
@@ -638,7 +648,7 @@ the ethylene, with the acetylene hydrogen pointing directly at the double bond i
 interaction between the two monomers.</p>
 </section>
 <section id="V.-Potential-Surface-Scans-and-Counterpoise-Correction-Made-Easy">
-<h2>V. Potential Surface Scans and Counterpoise Correction Made Easy<a class="headerlink" href="#V.-Potential-Surface-Scans-and-Counterpoise-Correction-Made-Easy" title="Permalink to this headline">¶</a></h2>
+<h2>V. Potential Surface Scans and Counterpoise Correction Made Easy<a class="headerlink" href="#V.-Potential-Surface-Scans-and-Counterpoise-Correction-Made-Easy" title="Permalink to this heading">¶</a></h2>
 <p>Finally, let’s consider an example which highlights the advantages of being able to interact with Psi4 directly with Python.</p>
 <p>Suppose you want to do a limited potential energy surface scan, such as computing the interaction energy between two neon atoms at various interatomic distances. One simple but unappealing way to do this is to generate separate geometries for each distance to be studied. Instead, we can leverage Python loops and string formatting to make our lives simpler. Additionally, let’s suppose you want to do counterpoise (CP) correction to compute interaction energies. Counterpoise correction involves
 computing the dimer energy and then subtracting out the energies of the two monomers, each evaluated in the dimer basis. Again, each of these computations could be run in a separate input file, but because counterpoise correction is a fairly standard procedure for intermolecular interactions, Psi4 knows about it and has a built-in routine to perform counterpoise correction. It only needs to know what method you want to do the couterpoise correction on (here, let’s consider CCSD(T)), and it needs
@@ -849,7 +859,7 @@ Constants</a>. The table can be printed either to the screen, by using standard 
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psiapi.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -862,9 +872,9 @@ Constants</a>. The table can be printed either to the screen, by using standard 
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

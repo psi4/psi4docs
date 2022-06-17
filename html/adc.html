@@ -34,21 +34,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>ADC: Ab Initio Polarization Propagator</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -102,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/adc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -121,7 +123,7 @@
           <div class="body" role="main">
             
   <span class="target" id="index-0"></span><span class="target" id="index-1"></span><section id="adc-ab-initio-polarization-propagator">
-<span id="sec-adc"></span><span id="index-2"></span><h1>ADC: Ab Initio Polarization Propagator<a class="headerlink" href="#adc-ab-initio-polarization-propagator" title="Permalink to this headline">¶</a></h1>
+<span id="sec-adc"></span><span id="index-2"></span><h1>ADC: Ab Initio Polarization Propagator<a class="headerlink" href="#adc-ab-initio-polarization-propagator" title="Permalink to this heading">¶</a></h1>
 <p><em>Section author: Michael F. Herbst</em></p>
 <p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__adc.html#apdx-adc"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__adc.html#apdx-adc-psivar"><span class="std std-ref">PSI Variables</span></a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/adc">ADC</a></p>
 <div class="admonition caution">
@@ -184,7 +186,7 @@ exciting an electron and flipping its spin.
 A more detailed overview of such modifications gives <a class="reference internal" href="bibliography.html#dreuw-2014-82" id="id5"><span>[Dreuw:2014:82]</span></a>
 and the <a class="reference external" href="https://adc-connect.org/latest/theory.html">adcc theory documentation</a>.</p>
 <section id="available-adc-methods">
-<h2>Available ADC methods<a class="headerlink" href="#available-adc-methods" title="Permalink to this headline">¶</a></h2>
+<h2>Available ADC methods<a class="headerlink" href="#available-adc-methods" title="Permalink to this heading">¶</a></h2>
 <p><em>Section author: Michael F. Herbst</em></p>
 <p>Several ADC methods are available in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> for the computation of excited states,
 see <a class="reference internal" href="#table-adcsummary"><span class="std std-ref">ADC capabilities of Psi4</span></a>.
@@ -197,14 +199,6 @@ After a more general introduction, specific aspects of the two implementations w
 in section <a class="reference internal" href="#sec-interfaceadcc"><span class="std std-ref">Interface to adcc</span></a> and <a class="reference internal" href="#sec-adcbuiltin"><span class="std std-ref">Built-in ADC(2) code</span></a>.</p>
 <span id="table-adcsummary"></span><table class="docutils align-default" id="id9">
 <caption><span class="caption-text">ADC capabilities of Psi4</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 11%" />
-<col style="width: 13%" />
-<col style="width: 16%" />
-<col style="width: 7%" />
-<col style="width: 38%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Method</p></th>
 <th class="head"><p>Backend</p></th>
@@ -279,21 +273,21 @@ in section <a class="reference internal" href="#sec-interfaceadcc"><span class="
 </table>
 <p>The leftmost column of table <a class="reference internal" href="#table-adcsummary"><span class="std std-ref">ADC capabilities of Psi4</span></a> provides the supported ADC methods.
 If only excitation energies are desired, one can simply pass one
-of the listed method strings to the function <code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code>.
+of the listed method strings to the function <a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a>.
 For example, <code class="docutils literal notranslate"><span class="pre">energy('adc(2)-x')</span></code> will compute
 excitation energies at ADC(2)-x level.
 Properties such as oscillator strengths, transition or state dipole moments
-are available by calling the function <code class="xref py py-func docutils literal notranslate"><span class="pre">properties()</span></code>
+are available by calling the function <a class="reference internal" href="api/psi4.driver.properties.html#psi4.driver.properties" title="psi4.driver.properties"><code class="xref py py-func docutils literal notranslate"><span class="pre">properties()</span></code></a>
 with appropriate arguments.
 Most commonly users will want to compute at least oscillator strengths
 along with the excitation energies,
 resulting in a call like <code class="docutils literal notranslate"><span class="pre">properties('adc(2)',</span> <span class="pre">properties=[&quot;oscillator_strength&quot;])</span></code>.</p>
 </section>
 <section id="running-adc-calculations">
-<h2>Running ADC calculations<a class="headerlink" href="#running-adc-calculations" title="Permalink to this headline">¶</a></h2>
+<h2>Running ADC calculations<a class="headerlink" href="#running-adc-calculations" title="Permalink to this heading">¶</a></h2>
 <p><em>Section author: Michael F. Herbst</em></p>
 <p>Running an ADC calculation with <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> requires
-the call to <code class="xref py py-func docutils literal notranslate"><span class="pre">properties()</span></code> as discussed above
+the call to <a class="reference internal" href="api/psi4.driver.properties.html#psi4.driver.properties" title="psi4.driver.properties"><code class="xref py py-func docutils literal notranslate"><span class="pre">properties()</span></code></a> as discussed above
 as well as one or more mandatory keyword arguments.</p>
 <p>The most important keyword argument is <a class="reference internal" href="autodoc_glossary_options_c.html#term-ROOTS_PER_IRREP-ADC"><span class="xref std std-term">ROOTS_PER_IRREP</span></a>,
 which is an array with the number of excited states desired
@@ -342,7 +336,7 @@ are part of the core space.</p>
 <p><strong>Other keywords and examples.</strong>
 Apart from the mentioned keywords, the following are common:</p>
 <section id="reference">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-REFERENCE-ADC"><span class="xref std std-term">REFERENCE</span></a><a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-REFERENCE-ADC"><span class="xref std std-term">REFERENCE</span></a><a class="headerlink" href="#reference" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Reference wavefunction type</p>
 <ul class="simple">
@@ -353,7 +347,7 @@ Apart from the mentioned keywords, the following are common:</p>
 </div></blockquote>
 </section>
 <section id="r-convergence">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-R_CONVERGENCE-ADC"><span class="xref std std-term">R_CONVERGENCE</span></a><a class="headerlink" href="#r-convergence" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-R_CONVERGENCE-ADC"><span class="xref std std-term">R_CONVERGENCE</span></a><a class="headerlink" href="#r-convergence" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Convergence threshold for ADC matrix diagonalisation. Negative values keep the * adcc default (1e-6)</p>
 <ul class="simple">
@@ -363,7 +357,7 @@ Apart from the mentioned keywords, the following are common:</p>
 </div></blockquote>
 </section>
 <section id="num-guesses">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-NUM_GUESSES-ADC"><span class="xref std std-term">NUM_GUESSES</span></a><a class="headerlink" href="#num-guesses" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-NUM_GUESSES-ADC"><span class="xref std std-term">NUM_GUESSES</span></a><a class="headerlink" href="#num-guesses" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Number of guess vectors to generate and use. Negative values keep * the adcc default (currently 2 * ROOTS_PER_IRREP). This option is only available for the adcc backend.</p>
 <ul class="simple">
@@ -373,7 +367,7 @@ Apart from the mentioned keywords, the following are common:</p>
 </div></blockquote>
 </section>
 <section id="cutoff-amps-print">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-CUTOFF_AMPS_PRINT-ADC"><span class="xref std std-term">CUTOFF_AMPS_PRINT</span></a><a class="headerlink" href="#cutoff-amps-print" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-CUTOFF_AMPS_PRINT-ADC"><span class="xref std std-term">CUTOFF_AMPS_PRINT</span></a><a class="headerlink" href="#cutoff-amps-print" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Tolerance for extracted or printed amplitudes. This option is only available for the adcc backend.</p>
 <ul class="simple">
@@ -392,7 +386,7 @@ enforce using adcc also for this case.</p>
 </section>
 </section>
 <section id="interface-to-adcc">
-<span id="sec-interfaceadcc"></span><h2>Interface to adcc<a class="headerlink" href="#interface-to-adcc" title="Permalink to this headline">¶</a></h2>
+<span id="sec-interfaceadcc"></span><h2>Interface to adcc<a class="headerlink" href="#interface-to-adcc" title="Permalink to this heading">¶</a></h2>
 <p><em>Code author: Michael F. Herbst</em></p>
 <p><em>Section author: Michael F. Herbst</em></p>
 <p>For most implemented ADC methods <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> relies
@@ -458,7 +452,7 @@ solve the problems.</p></li>
 </ul>
 </section>
 <section id="built-in-adc-2-code">
-<span id="sec-adcbuiltin"></span><h2>Built-in ADC(2) code<a class="headerlink" href="#built-in-adc-2-code" title="Permalink to this headline">¶</a></h2>
+<span id="sec-adcbuiltin"></span><h2>Built-in ADC(2) code<a class="headerlink" href="#built-in-adc-2-code" title="Permalink to this heading">¶</a></h2>
 <p><em>Code author: Masaaki Saitow</em></p>
 <p><em>Section author: Masaaki Saitow</em></p>
 <div class="admonition warning">
@@ -695,7 +689,7 @@ in the file <a class="reference external" href="https://github.com/psi4/psi4/blo
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/adc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -708,9 +702,9 @@ in the file <a class="reference external" href="https://github.com/psi4/psi4/blo
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

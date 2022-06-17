@@ -34,7 +34,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,12 +42,14 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
@@ -91,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs_helper.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -158,7 +160,7 @@
 
 <div class="viewcode-block" id="xtpl_highest_1"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.xtpl_highest_1">[docs]</a><span class="k">def</span> <span class="nf">xtpl_highest_1</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scheme for total or correlation energies with a single basis or the highest</span>
-<span class="sd">    zeta-level among an array of bases. Used by :py:func:`~psi4.cbs`.</span>
+<span class="sd">    zeta-level among an array of bases. Used by :py:func:`~psi4.driver.cbs`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -173,7 +175,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    float or ndarray</span>
+<span class="sd">    float or ~numpy.ndarray</span>
 <span class="sd">        Returns :math:`E_{total}^{\infty}` which is equal to valueHI.</span>
 <span class="sd">        Eponymous function applied to input zetas and values; type from `valueHI`.</span>
 
@@ -214,7 +216,7 @@
 
 <div class="viewcode-block" id="scf_xtpl_helgaker_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.scf_xtpl_helgaker_2">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_helgaker_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extrapolation scheme using exponential form for reference energies with two adjacent</span>
-<span class="sd">    zeta-level bases. Used by :py:func:`~psi4.cbs`.</span>
+<span class="sd">    zeta-level bases. Used by :py:func:`~psi4.driver.cbs`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -238,7 +240,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    float or ndarray</span>
+<span class="sd">    float or ~numpy.ndarray</span>
 <span class="sd">        Eponymous function applied to input zetas and values; type from `valueLO`.</span>
 
 <span class="sd">    Notes</span>
@@ -322,7 +324,7 @@
 
 <div class="viewcode-block" id="scf_xtpl_truhlar_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.scf_xtpl_truhlar_2">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_truhlar_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extrapolation scheme using power form for reference energies with two adjacent</span>
-<span class="sd">    zeta-level bases. Used by :py:func:`~psi4.cbs`.</span>
+<span class="sd">    zeta-level bases. Used by :py:func:`~psi4.driver.cbs`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -346,7 +348,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    float or ndarray</span>
+<span class="sd">    float or ~numpy.ndarray</span>
 <span class="sd">        Eponymous function applied to input zetas and values; type from `valueLO`.</span>
 
 <span class="sd">    Notes</span>
@@ -425,7 +427,7 @@
 
 <div class="viewcode-block" id="scf_xtpl_karton_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.scf_xtpl_karton_2">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_karton_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extrapolation scheme using root-power form for reference energies with two adjacent</span>
-<span class="sd">    zeta-level bases. Used by :py:func:`~psi4.cbs`.</span>
+<span class="sd">    zeta-level bases. Used by :py:func:`~psi4.driver.cbs`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -449,7 +451,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    float or ndarray</span>
+<span class="sd">    float or ~numpy.ndarray</span>
 <span class="sd">        Eponymous function applied to input zetas and values; type from `valueLO`.</span>
 
 <span class="sd">    Notes</span>
@@ -530,7 +532,7 @@
 
 <div class="viewcode-block" id="scf_xtpl_helgaker_3"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.scf_xtpl_helgaker_3">[docs]</a><span class="k">def</span> <span class="nf">scf_xtpl_helgaker_3</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zMD</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueMD</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extrapolation scheme for reference energies with three adjacent zeta-level bases.</span>
-<span class="sd">    Used by :py:func:`~psi4.cbs`.</span>
+<span class="sd">    Used by :py:func:`~psi4.driver.cbs`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -560,7 +562,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    float or ndarray</span>
+<span class="sd">    float or ~numpy.ndarray</span>
 <span class="sd">        Eponymous function applied to input zetas and values; type from `valueLO`.</span>
 
 <span class="sd">    Notes</span>
@@ -661,7 +663,7 @@
 
 <div class="viewcode-block" id="corl_xtpl_helgaker_2"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2">[docs]</a><span class="k">def</span> <span class="nf">corl_xtpl_helgaker_2</span><span class="p">(</span><span class="n">functionname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zLO</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueLO</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">zHI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valueHI</span><span class="p">:</span> <span class="n">Extrapolatable</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Extrapolatable</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extrapolation scheme for correlation energies with two adjacent zeta-level bases.</span>
-<span class="sd">    Used by :py:func:`~psi4.cbs`.</span>
+<span class="sd">    Used by :py:func:`~psi4.driver.cbs`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -685,7 +687,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    float or numpy.ndarray</span>
+<span class="sd">    float or ~numpy.ndarray</span>
 <span class="sd">        Eponymous function applied to input zetas and values; type from `valueLO`.</span>
 
 <span class="sd">    Notes</span>
@@ -803,7 +805,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    func</span>
-<span class="sd">        A Python function that defines a configuration of the :py:func:`psi4.cbs` wrapper.</span>
+<span class="sd">        A Python function that defines a configuration of the :py:func:`psi4.driver.cbs` wrapper.</span>
 <span class="sd">        See :source:`psi4/driver/aliases.py` and :srcsample:`cbs-xtpl-nbody` for examples.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -899,7 +901,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs_helper.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -912,9 +914,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

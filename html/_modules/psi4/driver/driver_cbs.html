@@ -34,7 +34,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,12 +42,14 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
@@ -91,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -259,7 +261,7 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">pprint</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 <span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
@@ -275,6 +277,9 @@
 <span class="kn">from</span> <span class="nn">psi4.driver.p4util.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.procrouting.interface_cfour</span> <span class="kn">import</span> <span class="n">cfour_psivar_list</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.task_base</span> <span class="kn">import</span> <span class="n">AtomicComputer</span><span class="p">,</span> <span class="n">BaseComputer</span><span class="p">,</span> <span class="n">EnergyGradientHessianWfnReturn</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">qcportal</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -969,100 +974,100 @@
 <span class="sd">        An exception is the default, ``&#39;xtpl_highest_1&#39;``, which uses the best basis</span>
 <span class="sd">        set available. See :ref:`sec:cbs_xtpl` for all available schemes.</span>
 
-<span class="sd">    :type scf_scheme: string</span>
+<span class="sd">    :type scf_scheme: str</span>
 <span class="sd">    :param scf_scheme: |dl| ``&#39;xtpl_highest_1&#39;`` |dr| || ``&#39;scf_xtpl_helgaker_3&#39;`` || etc.</span>
 
 <span class="sd">        Indicates the basis set extrapolation scheme to be applied to the reference energy.</span>
-<span class="sd">        Defaults to :py:func:`~psi4.driver.driver_cbs.scf_xtpl_helgaker_3` if three valid basis sets</span>
-<span class="sd">        present in ``psi4.driver.driver_cbs.scf_basis``, :py:func:`~psi4.driver.driver_cbs.scf_xtpl_helgaker_2` if two valid basis</span>
-<span class="sd">        sets present in ``scf_basis``, and :py:func:`~psi4.driver.driver_cbs.xtpl_highest_1` otherwise.</span>
+<span class="sd">        Defaults to :py:func:`~psi4.driver.driver_cbs_helper.scf_xtpl_helgaker_3` if three valid basis sets</span>
+<span class="sd">        present in ``psi4.driver.driver_cbs.scf_basis``, :py:func:`~psi4.driver.driver_cbs_helper.scf_xtpl_helgaker_2` if two valid basis</span>
+<span class="sd">        sets present in ``scf_basis``, and :py:func:`~psi4.driver.driver_cbs_helper.xtpl_highest_1` otherwise.</span>
 
 <span class="sd">        .. hlist::</span>
 <span class="sd">           :columns: 1</span>
 
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.xtpl_highest_1`</span>
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.scf_xtpl_helgaker_3`</span>
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.scf_xtpl_helgaker_2`</span>
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.scf_xtpl_truhlar_2`</span>
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.scf_xtpl_karton_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.xtpl_highest_1`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.scf_xtpl_helgaker_3`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.scf_xtpl_helgaker_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.scf_xtpl_truhlar_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.scf_xtpl_karton_2`</span>
 
-<span class="sd">    :type corl_scheme: string</span>
+<span class="sd">    :type corl_scheme: str</span>
 <span class="sd">    :param corl_scheme: |dl| ``&#39;xtpl_highest_1&#39;`` |dr| || ``&#39;corl_xtpl_helgaker_2&#39;`` || etc.</span>
 
 <span class="sd">        Indicates the basis set extrapolation scheme to be applied to the correlation energy.</span>
-<span class="sd">        Defaults to :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2` if two valid basis sets</span>
-<span class="sd">        present in ``corl_basis`` and :py:func:`~psi4.driver.driver_cbs.xtpl_highest_1` otherwise.</span>
+<span class="sd">        Defaults to :py:func:`~psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2` if two valid basis sets</span>
+<span class="sd">        present in ``corl_basis`` and :py:func:`~psi4.driver.driver_cbs_helper.xtpl_highest_1` otherwise.</span>
 
 <span class="sd">        .. hlist::</span>
 <span class="sd">           :columns: 1</span>
 
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.xtpl_highest_1`</span>
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.xtpl_highest_1`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2`</span>
 
-<span class="sd">    :type delta_scheme: string</span>
+<span class="sd">    :type delta_scheme: str</span>
 <span class="sd">    :param delta_scheme: |dl| ``&#39;xtpl_highest_1&#39;`` |dr| || ``&#39;corl_xtpl_helgaker_2&#39;`` || etc.</span>
 
 <span class="sd">        Indicates the basis set extrapolation scheme to be applied to the delta correction</span>
 <span class="sd">        to the correlation energy.</span>
-<span class="sd">        Defaults to :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2` if two valid basis sets</span>
-<span class="sd">        present in ``delta_basis`` and :py:func:`~psi4.driver.driver_cbs.xtpl_highest_1` otherwise.</span>
+<span class="sd">        Defaults to :py:func:`~psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2` if two valid basis sets</span>
+<span class="sd">        present in ``delta_basis`` and :py:func:`~psi4.driver.driver_cbs_helper.xtpl_highest_1` otherwise.</span>
 
 <span class="sd">        .. hlist::</span>
 <span class="sd">           :columns: 1</span>
 
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.xtpl_highest_1`</span>
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.xtpl_highest_1`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2`</span>
 
-<span class="sd">    :type delta2_scheme: string</span>
+<span class="sd">    :type delta2_scheme: str</span>
 <span class="sd">    :param delta2_scheme: |dl| ``&#39;xtpl_highest_1&#39;`` |dr| || ``&#39;corl_xtpl_helgaker_2&#39;`` || etc.</span>
 
 <span class="sd">        Indicates the basis set extrapolation scheme to be applied to the second delta correction</span>
 <span class="sd">        to the correlation energy.</span>
-<span class="sd">        Defaults to :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2` if two valid basis sets</span>
-<span class="sd">        present in ``delta2_basis`` and :py:func:`~psi4.driver.driver_cbs.xtpl_highest_1` otherwise.</span>
+<span class="sd">        Defaults to :py:func:`~psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2` if two valid basis sets</span>
+<span class="sd">        present in ``delta2_basis`` and :py:func:`~psi4.driver.driver_cbs_helper.xtpl_highest_1` otherwise.</span>
 
 <span class="sd">        .. hlist::</span>
 <span class="sd">           :columns: 1</span>
 
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.xtpl_highest_1`</span>
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.xtpl_highest_1`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2`</span>
 
 <span class="sd">    :type scf_alpha: float</span>
 <span class="sd">    :param scf_alpha: |dl| ``1.63`` |dr|</span>
 
 <span class="sd">        Overrides the default \alpha parameter used in the listed SCF extrapolation procedures.</span>
-<span class="sd">        Has no effect on others, including :py:func:`~psi4.driver.driver_cbs.xtpl_highest_1` and :py:func:`~psi4.driver.driver_cbs.scf_xtpl_helgaker_3`.</span>
+<span class="sd">        Has no effect on others, including :py:func:`~psi4.driver.driver_cbs_helper.xtpl_highest_1` and :py:func:`~psi4.driver.driver_cbs_helper.scf_xtpl_helgaker_3`.</span>
 
 <span class="sd">        .. hlist::</span>
 <span class="sd">           :columns: 1</span>
 
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.scf_xtpl_helgaker_2`</span>
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.scf_xtpl_truhlar_2`</span>
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.scf_xtpl_karton_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.scf_xtpl_helgaker_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.scf_xtpl_truhlar_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.scf_xtpl_karton_2`</span>
 
 <span class="sd">    :type corl_alpha: float</span>
 <span class="sd">    :param corl_alpha: |dl| ``3.00`` |dr| </span>
 
-<span class="sd">        Overrides the default \alpha parameter used in the listed :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2` correlation</span>
+<span class="sd">        Overrides the default \alpha parameter used in the listed :py:func:`~psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2` correlation</span>
 <span class="sd">        extrapolation to the corl stage. The supplied \alpha does not impact delta or any further stages.</span>
 
 <span class="sd">        .. hlist::</span>
 <span class="sd">           :columns: 1</span>
 
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2`</span>
 
 <span class="sd">    :type delta_alpha: float</span>
 <span class="sd">    :param delta_alpha: |dl| ``3.00`` |dr| </span>
 
 <span class="sd">        Overrides the default \alpha parameter used in the listed</span>
-<span class="sd">        :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2` correlation extrapolation for the delta correction. Useful when</span>
+<span class="sd">        :py:func:`~psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2` correlation extrapolation for the delta correction. Useful when</span>
 <span class="sd">        delta correction is performed using smaller basis sets for which a different \alpha might</span>
 <span class="sd">        be more appropriate.</span>
 
 <span class="sd">        .. hlist::</span>
 <span class="sd">           :columns: 1</span>
 
-<span class="sd">           * :py:func:`~psi4.driver.driver_cbs.corl_xtpl_helgaker_2`</span>
+<span class="sd">           * :py:func:`~psi4.driver.driver_cbs_helper.corl_xtpl_helgaker_2`</span>
 
 <span class="sd">    * Combined interface</span>
 <span class="sd">    </span>
@@ -1261,7 +1266,7 @@
 <span class="sd">        String in a ``&quot;method/basis&quot;`` syntax. Simple calls (e.g. ``&quot;blyp/sto-3g&quot;``) are</span>
 <span class="sd">        bounced out of CBS. More complex calls (e.g. ``&quot;mp2/cc-pv[tq]z&quot;`` or</span>
 <span class="sd">        ``&quot;mp2/cc-pv[tq]z+D:ccsd(t)/cc-pvtz&quot;``) are expanded by `_parse_cbs_gufunc_string()`</span>
-<span class="sd">        and pushed through :py:func:`~psi4.cbs`.</span>
+<span class="sd">        and pushed through :py:func:`~psi4.driver.cbs`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1612,7 +1617,7 @@
     <span class="k">return</span> <span class="n">tables</span>
 
 
-<span class="k">class</span> <span class="nc">CompositeComputer</span><span class="p">(</span><span class="n">BaseComputer</span><span class="p">):</span>
+<div class="viewcode-block" id="CompositeComputer"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer">[docs]</a><span class="k">class</span> <span class="nc">CompositeComputer</span><span class="p">(</span><span class="n">BaseComputer</span><span class="p">):</span>
 
     <span class="n">molecule</span><span class="p">:</span> <span class="n">Any</span>
     <span class="n">basis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;(auto)&quot;</span>
@@ -1639,12 +1644,12 @@
     <span class="c1"># One-to-One list of QCSchema corresponding to `task_list`.</span>
     <span class="n">results_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="CompositeComputer.set_molecule"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.set_molecule">[docs]</a>    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_molecule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mol</span><span class="p">):</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">fix_com</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">fix_orientation</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">mol</span>
+        <span class="k">return</span> <span class="n">mol</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">kwargs_lower</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -1696,15 +1701,15 @@
 
                 <span class="c1"># logger.debug(&quot;TASK\n&quot; + pp.pformat(task.dict()))</span>
 
-    <span class="k">def</span> <span class="nf">build_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="CompositeComputer.build_tasks"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.build_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">build_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># permanently a dummy function</span>
-        <span class="k">pass</span>
+        <span class="k">pass</span></div>
 
-    <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CompositeComputer.plan"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.plan">[docs]</a>    <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># uncalled function</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">plan</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">plan</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="p">]</span></div>
 
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CompositeComputer.compute"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metameta</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
         <span class="n">instructions</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; CBS Computations</span><span class="si">{</span><span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">label</span> <span class="k">if</span> <span class="n">label</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">,</span>
                                             <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -1713,9 +1718,9 @@
 
         <span class="k">with</span> <span class="n">p4util</span><span class="o">.</span><span class="n">hold_options_state</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="p">):</span>
-                <span class="n">t</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_prepare_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_prepare_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">results_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="p">]</span>
 
         <span class="n">modules</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">provenance</span><span class="p">,</span> <span class="s2">&quot;module&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">results_list</span><span class="p">]</span>
@@ -1782,7 +1787,7 @@
         <span class="n">cbs_results</span><span class="p">[</span><span class="s2">&quot;module&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">modules</span>
         <span class="k">return</span> <span class="n">cbs_results</span>
 
-    <span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
+<div class="viewcode-block" id="CompositeComputer.get_results"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.get_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return results as Composite-flavored QCSchema.&quot;&quot;&quot;</span>
 
         <span class="n">assembled_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
@@ -1854,9 +1859,9 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;CBS QCSchema</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">pp</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">cbs_model</span><span class="o">.</span><span class="n">dict</span><span class="p">()))</span>
 
-        <span class="k">return</span> <span class="n">cbs_model</span>
+        <span class="k">return</span> <span class="n">cbs_model</span></div>
 
-    <span class="k">def</span> <span class="nf">get_psi_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_wfn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyGradientHessianWfnReturn</span><span class="p">:</span>
+<div class="viewcode-block" id="CompositeComputer.get_psi_results"><a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.get_psi_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_psi_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_wfn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyGradientHessianWfnReturn</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Called by driver to assemble results into Composite-flavored QCSchema,</span>
 <span class="sd">        then reshape and return them in the customary Psi4 driver interface: ``(e/g/h, wfn)``.</span>
 
@@ -1891,7 +1896,7 @@
         <span class="k">if</span> <span class="n">return_wfn</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">ret_ptype</span><span class="p">,</span> <span class="n">wfn</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ret_ptype</span>
+            <span class="k">return</span> <span class="n">ret_ptype</span></div></div>
 
 
 <span class="k">def</span> <span class="nf">_cbs_schema_to_wfn</span><span class="p">(</span><span class="n">cbs_model</span><span class="p">):</span>
@@ -2000,7 +2005,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2013,9 +2018,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

@@ -34,7 +34,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,12 +42,14 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
@@ -91,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -250,13 +252,15 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;BsseEnum&quot;</span><span class="p">,</span>
     <span class="s2">&quot;ManyBodyComputer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nbody&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 <span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">literal_eval</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 
@@ -272,13 +276,18 @@
 <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">constants</span><span class="p">,</span> <span class="n">driver_nbody_multilevel</span><span class="p">,</span> <span class="n">p4util</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.p4util.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">psi4.driver.task_base</span> <span class="kn">import</span> <span class="n">BaseComputer</span><span class="p">,</span> <span class="n">EnergyGradientHessianWfnReturn</span>
+<span class="kn">from</span> <span class="nn">psi4.driver.task_base</span> <span class="kn">import</span> <span class="n">BaseComputer</span><span class="p">,</span> <span class="n">AtomicComputer</span><span class="p">,</span> <span class="n">EnergyGradientHessianWfnReturn</span>
+<span class="kn">from</span> <span class="nn">psi4.driver.driver_cbs</span> <span class="kn">import</span> <span class="n">CompositeComputer</span>
+<span class="kn">from</span> <span class="nn">psi4.driver.driver_findif</span> <span class="kn">import</span> <span class="n">FiniteDifferenceComputer</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">qcportal</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">SubTaskComputers</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;AtomicComputer&quot;</span><span class="p">,</span> <span class="s2">&quot;CompositeComputer&quot;</span><span class="p">,</span> <span class="s2">&quot;FiniteDifferenceComputer&quot;</span><span class="p">]</span>
 <span class="n">FragBasIndex</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
 
+<span class="n">SubTaskComputers</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AtomicComputer</span><span class="p">,</span> <span class="n">CompositeComputer</span><span class="p">,</span> <span class="n">FiniteDifferenceComputer</span><span class="p">]</span>
 
 <div class="viewcode-block" id="nbody"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.nbody">[docs]</a><span class="k">def</span> <span class="nf">nbody</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -342,12 +351,12 @@
     <span class="k">pass</span></div>
 
 
-<span class="k">class</span> <span class="nc">BsseEnum</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="BsseEnum"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.BsseEnum">[docs]</a><span class="k">class</span> <span class="nc">BsseEnum</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Available basis-set superposition error (BSSE) treatments.&quot;&quot;&quot;</span>
 
     <span class="n">nocp</span> <span class="o">=</span> <span class="s2">&quot;nocp&quot;</span>  <span class="c1"># plain supramolecular interaction energy</span>
     <span class="n">cp</span> <span class="o">=</span> <span class="s2">&quot;cp&quot;</span>      <span class="c1"># counterpoise correction</span>
-    <span class="n">vmfc</span> <span class="o">=</span> <span class="s2">&quot;vmfc&quot;</span>  <span class="c1"># Valiron-Mayer function counterpoise</span>
+    <span class="n">vmfc</span> <span class="o">=</span> <span class="s2">&quot;vmfc&quot;</span>  <span class="c1"># Valiron-Mayer function counterpoise</span></div>
 
 
 <span class="k">def</span> <span class="nf">_sum_cluster_ptype_data</span><span class="p">(</span>
@@ -973,39 +982,39 @@
 
     <span class="c1"># Note that validation of user fields happens through typing and validator functions, so no class __init__ needed.</span>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;bsse_type&quot;</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="ManyBodyComputer.set_bsse_type"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.set_bsse_type">[docs]</a>    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;bsse_type&quot;</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_bsse_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span>
         <span class="c1"># emulate ordered set</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">([</span><span class="n">bt</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">bt</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">([</span><span class="n">bt</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">bt</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]))</span></div>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="ManyBodyComputer.set_molecule"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.set_molecule">[docs]</a>    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_molecule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mol</span><span class="p">):</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">fix_com</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">fix_orientation</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">mol</span>
+        <span class="k">return</span> <span class="n">mol</span></div>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;nfragments&quot;</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="ManyBodyComputer.set_nfragments"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.set_nfragments">[docs]</a>    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;nfragments&quot;</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_nfragments</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;molecule&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nfragments</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;molecule&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nfragments</span><span class="p">()</span></div>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;max_nbody&quot;</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="ManyBodyComputer.set_max_nbody"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.set_max_nbody">[docs]</a>    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;max_nbody&quot;</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_max_nbody</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;nfragments&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;nfragments&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;nfragments&quot;</span><span class="p">])</span></div>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;embedding_charges&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="ManyBodyComputer.set_embedding_charges"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.set_embedding_charges">[docs]</a>    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;embedding_charges&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_embedding_charges</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;nfragments&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;embedding_charges dict should have entries for each 1-indexed fragment.&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="n">v</span></div>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;return_total_data&quot;</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="ManyBodyComputer.set_return_total_data"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.set_return_total_data">[docs]</a>    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;return_total_data&quot;</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_return_total_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">rtd</span> <span class="o">=</span> <span class="n">v</span>
@@ -1017,16 +1026,21 @@
         <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;embedding_charges&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="n">rtd</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot return interaction data when using embedding scheme.&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">rtd</span>
+        <span class="k">return</span> <span class="n">rtd</span></div>
 
-<div class="viewcode-block" id="ManyBodyComputer.build_tasks"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.build_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">build_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mb_computer</span><span class="p">:</span> <span class="n">SubTaskComputers</span><span class="p">,</span> <span class="n">mc_level_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="ManyBodyComputer.build_tasks"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.build_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">build_tasks</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">mb_computer</span><span class="p">:</span> <span class="n">SubTaskComputers</span><span class="p">,</span>
+        <span class="n">mc_level_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Adds to the task_list as many new unique tasks as necessary to treat a single model chemistry level at one or several n-body levels.</span>
 <span class="sd">        New tasks are of type *mb_computer* with model chemistry level specified in *kwargs* and n-body levels accessed through *mc_level_idx*.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        mb_computer</span>
-<span class="sd">            Class of TaskComputers to instantiate and add to self.task_list. Usually AtomicComputer but may be other when wrappers are layered.</span>
+<span class="sd">            Class of task computers to instantiate and add to self.task_list. Usually :class:`~psi4.driver.AtomicComputer` but may be other when wrappers are layered.</span>
 <span class="sd">        mc_level_idx</span>
 <span class="sd">            Position in field self.nbodies_per_mc_level used to obtain ``nbodies``, the list of n-body</span>
 <span class="sd">            levels (e.g., `[1]` or `[1, 2]` or `[&quot;supersystem&quot;]`) to which the modelchem specified in **kwargs** applies.</span>
@@ -1039,7 +1053,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        count</span>
+<span class="sd">        count : int</span>
 <span class="sd">            Number of new tasks planned by this call.</span>
 <span class="sd">            Formerly, didn&#39;t include supersystem in count.</span>
 
@@ -1050,6 +1064,10 @@
         <span class="n">info</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ManyBody Setup: N-Body Levels </span><span class="si">{</span><span class="n">nbodies</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">kwg</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;dft_functional&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">kwg</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">][</span><span class="s1">&#39;function_kwargs&#39;</span><span class="p">][</span><span class="n">kwg</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">kwg</span><span class="p">)</span>
 
         <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">template</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1098,11 +1116,11 @@
 
         <span class="k">return</span> <span class="n">count</span></div>
 
-    <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ManyBodyComputer.plan"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.plan">[docs]</a>    <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># uncalled function</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">plan</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">plan</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span></div>
 
-<div class="viewcode-block" id="ManyBodyComputer.compute"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ManyBodyComputer.compute"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Run quantum chemistry.&quot;&quot;&quot;</span>
 
         <span class="n">info</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ManyBody Computations &quot;</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -1116,7 +1134,7 @@
 <div class="viewcode-block" id="ManyBodyComputer.prepare_results"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.prepare_results">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_results</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">results</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SubTaskComputers</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Process the results from all n-body component molecular systems and model chemistry levels into final quantities.</span>
 
@@ -1452,7 +1470,7 @@
 
         <span class="k">return</span> <span class="n">nbody_results</span></div>
 
-<div class="viewcode-block" id="ManyBodyComputer.get_results"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.get_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
+<div class="viewcode-block" id="ManyBodyComputer.get_results"><a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.get_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return results as ManyBody-flavored QCSchema.&quot;&quot;&quot;</span>
 
         <span class="n">info</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ManyBody Results &quot;</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -1686,7 +1704,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1699,9 +1717,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

@@ -34,7 +34,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,12 +42,14 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
     <script src="../../../../_static/jquery.js"></script>
     <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
@@ -91,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -138,6 +140,29 @@
 <span class="c1"># @END LICENSE</span>
 <span class="c1">#</span>
 
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module with PsiAPI helpers for PSIthon `{...}` syntax.</span>
+<span class="sd">Also, many Python extensions to core classes:</span>
+
+<span class="sd"> - core (variable-related, gradient, python option),</span>
+<span class="sd"> - Wavefunction (variable-related, freq, Lagrangian, constructor, scratch file, serialization),</span>
+<span class="sd"> - Matrix (doublet, triplet),</span>
+<span class="sd"> - BasisSet (constructor)</span>
+<span class="sd"> - JK (constructor)</span>
+<span class="sd"> - VBase (grid)</span>
+<span class="sd"> - OEProp (avail prop)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;basis_helper&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pcm_helper&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;set_options&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;set_module_options&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;temp_circular_import_blocker&quot;</span><span class="p">,</span>  <span class="c1"># retire ASAP</span>
+<span class="p">]</span>
+
+
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -147,7 +172,7 @@
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -160,17 +185,66 @@
 
 <span class="c1">## Python basis helps</span>
 
-
 <span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">_pybuild_basis</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span>
-                   <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">fitrole</span><span class="o">=</span><span class="s1">&#39;ORBITAL&#39;</span><span class="p">,</span>
-                   <span class="n">other</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">puream</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
-                   <span class="n">return_atomlist</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                   <span class="o">*</span><span class="p">,</span>
-                   <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_pybuild_basis</span><span class="p">(</span>
+        <span class="n">mol</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">,</span>
+        <span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fitrole</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ORBITAL&quot;</span><span class="p">,</span>
+        <span class="n">other</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">puream</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">return_atomlist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">quiet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Build a primary or auxiliary basis set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mol</span>
+<span class="sd">        Molecule for which to build the basis set instance.</span>
+<span class="sd">    key</span>
+<span class="sd">        {&#39;BASIS&#39;, &#39;ORBITAL&#39;, &#39;DF_BASIS_SCF&#39;, &#39;DF_BASIS_MP2&#39;, &#39;DF_BASIS_CC&#39;, &#39;BASIS_RELATIVISTIC&#39;, &#39;DF_BASIS_SAD&#39;}</span>
+<span class="sd">        Label (effectively Psi4 keyword) to append the basis on the molecule.</span>
+<span class="sd">        The primary basis set is indicated by any of values None or</span>
+<span class="sd">        ``&quot;ORBITAL&quot;`` or ``&quot;BASIS&quot;``.</span>
+<span class="sd">    target</span>
+<span class="sd">        Defines the basis set to be constructed. Can be a string (naming a</span>
+<span class="sd">        basis file) or a callable (providing shells or multiple basis files).</span>
+<span class="sd">        For auxiliary bases to be built entirely from primary default, can be</span>
+<span class="sd">        an empty string. If None, value taken from `key` in global options. If</span>
+<span class="sd">        a user-defined-basis callable is available at string `target`, `target`</span>
+<span class="sd">        value will be set to it. In practice, setting this argument to a</span>
+<span class="sd">        |PSIfour| keyword (e.g., ``core.get_option(&quot;SCF&quot;, &quot;DF_BASIS_SCF&quot;)`` or</span>
+<span class="sd">        ``core.get_global_option(&quot;BASIS&quot;)``) works to handle both simple and</span>
+<span class="sd">        user-defined bases.</span>
+<span class="sd">    fitrole</span>
+<span class="sd">        {&#39;ORBITAL&#39;, &#39;JKFIT&#39;, &#39;RIFIT&#39;, &#39;DECON&#39;}</span>
+<span class="sd">        Role for which to build basis. Only used when `key` indicates auxiliary</span>
+<span class="sd">        (i.e., *is not* ``&quot;BASIS&quot;``) and auxiliary spec from processing `target`</span>
+<span class="sd">        can&#39;t complete the `mol`. Then, primary spec from `other` can be used</span>
+<span class="sd">        to complete the auxiliary basis by looking up suitable default basis</span>
+<span class="sd">        according to `fitrole`.</span>
+<span class="sd">    other</span>
+<span class="sd">        Only used when building auxiliary basis sets. Defines the primary basis through a string or callable like `target`.</span>
+<span class="sd">    puream</span>
+<span class="sd">        Whether to override the native spherical/cartesian-ness of `target` for</span>
+<span class="sd">        returned basis? Value ``1`` forces spherical, value ``0`` forces</span>
+<span class="sd">        Cartesian, value ``-1`` (default) uses native puream. Note that</span>
+<span class="sd">        explicitly setting :term:`PUREAM &lt;PUREAM (GLOBALS)&gt;` trumps both native</span>
+<span class="sd">        puream and this `puream` argument.</span>
+<span class="sd">    return_atomlist</span>
+<span class="sd">        Build one-atom basis sets (e.g., for SAD) rather than one whole-`mol`</span>
+<span class="sd">        basis set.</span>
+<span class="sd">    quiet</span>
+<span class="sd">        When True, do not print to the output file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    BasisSet or ~typing.List[BasisSet]</span>
+<span class="sd">        Single basis for `mol`, unless `return_atomlist` is True.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;ORBITAL&#39;</span><span class="p">:</span>
         <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;BASIS&#39;</span>
 
@@ -231,7 +305,26 @@
 
 
 <span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">_core_wavefunction_build</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">basis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">quiet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_core_wavefunction_build</span><span class="p">(</span>
+        <span class="n">mol</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">,</span>
+        <span class="n">basis</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">quiet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Build a wavefunction from minimal inputs, molecule and basis set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mol</span>
+<span class="sd">        Molecule for which to build the wavefunction instance.</span>
+<span class="sd">    basis</span>
+<span class="sd">        Basis set for which to build the wavefunction instance. If a</span>
+<span class="sd">        :class:`BasisSet`, taken as-is. If a string, taken as a name for the</span>
+<span class="sd">        primary basis. If None, name taken from :term:`BASIS &lt;BASIS (MINTS)&gt;`.</span>
+<span class="sd">    quiet</span>
+<span class="sd">        When True, do not print to the output file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">basis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="n">quiet</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -247,9 +340,17 @@
 <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">build</span> <span class="o">=</span> <span class="n">_core_wavefunction_build</span>
 
 
-<span class="k">def</span> <span class="nf">_core_wavefunction_get_scratch_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filenumber</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Given a wavefunction and a scratch file number, canonicalizes the name</span>
-<span class="sd">        so that files can be consistently written and read &quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">_core_wavefunction_get_scratch_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">filenumber</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return canonical path to scratch file `filenumber` based on molecule on `self`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    self</span>
+<span class="sd">        Wavefunction instance.</span>
+<span class="sd">    filenumber</span>
+<span class="sd">        Scratch file number from :source:`psi4/include/psi4/psifiles.h`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">())))[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">psi_scratch</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">psi_scratch</span><span class="p">,</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">filenumber</span><span class="p">))</span>
@@ -260,13 +361,14 @@
 
 <span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">_core_wavefunction_from_file</span><span class="p">(</span><span class="n">wfn_data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Build Wavefunction from data.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Build Wavefunction from data laid out like</span>
+<span class="sd">    :meth:`~psi4.core.Wavefunction.to_file`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    wfn_data</span>
-<span class="sd">        If a dict, use data directly. Otherwise, path-like passed to :py:func:`numpy.load`</span>
-<span class="sd">        to read from disk.</span>
+<span class="sd">        If a dict, use data directly. Otherwise, path-like passed to</span>
+<span class="sd">        :py:func:`numpy.load` to read from disk.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -341,19 +443,20 @@
 <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">from_file</span> <span class="o">=</span> <span class="n">_core_wavefunction_from_file</span>
 
 
-<span class="k">def</span> <span class="nf">_core_wavefunction_to_file</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Converts a Wavefunction object to a base class</span>
+<span class="k">def</span> <span class="nf">_core_wavefunction_to_file</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Serialize a Wavefunction object. Opposite of</span>
+<span class="sd">    :meth:`~psi4.core.Wavefunction.from_file`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    wfn</span>
-<span class="sd">        A Wavefunction or inherited class</span>
+<span class="sd">        Wavefunction or inherited class instance.</span>
 <span class="sd">    filename</span>
-<span class="sd">        An optional filename to write the data to</span>
+<span class="sd">        An optional filename to which to write the data.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    dict</span>
+<span class="sd">    ~typing.Dict[str, ~typing.Dict[str, ~typing.Any]]</span>
 <span class="sd">        A dictionary and NumPy representation of the Wavefunction.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -439,7 +542,13 @@
 
 
 <span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">_core_jk_build</span><span class="p">(</span><span class="n">orbital_basis</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="p">,</span> <span class="n">aux</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">jk_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">do_wK</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">JK</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_core_jk_build</span><span class="p">(</span>
+        <span class="n">orbital_basis</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="p">,</span>
+        <span class="n">aux</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">jk_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">do_wK</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">memory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">JK</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Constructs a Psi4 JK object from an input basis.</span>
 
@@ -449,11 +558,17 @@
 <span class="sd">        Orbital basis to use in the JK object.</span>
 <span class="sd">    aux</span>
 <span class="sd">        Optional auxiliary basis set for density-fitted tensors. Defaults</span>
-<span class="sd">        to the DF_BASIS_SCF if set, otherwise the correspond JKFIT basis</span>
+<span class="sd">        to the :term:`DF_BASIS_SCF &lt;DF_BASIS_SCF (SCF)&gt;` if set, otherwise the corresponding JKFIT basis</span>
 <span class="sd">        to the passed in `orbital_basis`.</span>
 <span class="sd">    jk_type</span>
 <span class="sd">        Type of JK object to build (DF, Direct, PK, etc). Defaults to the</span>
-<span class="sd">        current global SCF_TYPE option.</span>
+<span class="sd">        current :term:`SCF_TYPE &lt;SCF_TYPE (GLOBALS)&gt;` option.</span>
+<span class="sd">    do_wK</span>
+<span class="sd">        Set up JK to do omega K tasks. Set `do_wK` and `memory` together to</span>
+<span class="sd">        activate either.</span>
+<span class="sd">    memory</span>
+<span class="sd">        Memory in doubles to use for JK. Set `do_wK` and `memory` together to</span>
+<span class="sd">        activate either.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -462,18 +577,14 @@
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
-
-<span class="sd">    jk = psi4.core.JK.build(bas)</span>
-<span class="sd">    jk.set_memory(int(5e8)) # 4GB of memory</span>
-<span class="sd">    jk.initialize()</span>
-
-<span class="sd">    ...</span>
-
-<span class="sd">    jk.C_left_add(matirx)</span>
-<span class="sd">    jk.compute()</span>
-<span class="sd">    jk.C_clear()</span>
-
-<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; jk = psi4.core.JK.build(bas)</span>
+<span class="sd">    &gt;&gt;&gt; jk.set_memory(int(5e8))  # 4GB of memory</span>
+<span class="sd">    &gt;&gt;&gt; jk.initialize()</span>
+<span class="sd">    &gt;&gt;&gt; ...</span>
+<span class="sd">    &gt;&gt;&gt; jk.C_left_add(matirx)</span>
+<span class="sd">    &gt;&gt;&gt; jk.compute()</span>
+<span class="sd">    &gt;&gt;&gt; jk.C_clear()</span>
+<span class="sd">    &gt;&gt;&gt; ...</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -503,9 +614,15 @@
 <span class="c1">## Grid Helpers</span>
 
 
-<span class="k">def</span> <span class="nf">_core_vbase_get_np_xyzw</span><span class="p">(</span><span class="n">Vpot</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_core_vbase_get_np_xyzw</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">VBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the x, y, z, and weights of a grid as a tuple of NumPy array objects.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    self</span>
+<span class="sd">        VBase instance.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">y_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -513,10 +630,10 @@
     <span class="n">w_list</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># Loop over every block in the potenital</span>
-    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Vpot</span><span class="o">.</span><span class="n">nblocks</span><span class="p">()):</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nblocks</span><span class="p">()):</span>
 
         <span class="c1"># Obtain the block</span>
-        <span class="n">block</span> <span class="o">=</span> <span class="n">Vpot</span><span class="o">.</span><span class="n">get_block</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_block</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 
         <span class="c1"># Obtain the x, y, and z coordinates along with the weight</span>
         <span class="n">x_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">x</span><span class="p">())</span>
@@ -537,18 +654,32 @@
 <span class="c1">## Python other helps</span>
 
 
-<div class="viewcode-block" id="set_options"><a class="viewcode-back" href="../../../../api/psi4.driver.set_options.html#psi4.driver.set_options">[docs]</a><span class="k">def</span> <span class="nf">set_options</span><span class="p">(</span><span class="n">options_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="set_options"><a class="viewcode-back" href="../../../../api/psi4.driver.set_options.html#psi4.driver.set_options">[docs]</a><span class="k">def</span> <span class="nf">set_options</span><span class="p">(</span><span class="n">options_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sets Psi4 options from an input dictionary.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    options_dict</span>
-<span class="sd">        Dictionary where keys are &quot;option_name&quot; for global options or</span>
-<span class="sd">        &quot;module_name__option_name&quot; (double underscore separation) for</span>
-<span class="sd">        option local to &quot;module_name&quot;. Values are the option value. All</span>
-<span class="sd">        are case insensitive.</span>
+<span class="sd">        Dictionary where keys are case insensitive and values are the option value.</span>
+
+<span class="sd">        - For global options, keys are ``&quot;&lt;option_name&gt;&quot;``.</span>
+<span class="sd">        - For option local to &quot;&lt;module_name&gt;&quot;, keys are ``&quot;&lt;module_name&gt;__&lt;option_name&gt;&quot;``</span>
+<span class="sd">          (double underscore separation).</span>
+<span class="sd">        - For contents that would be in ``pcm = {...}``, use ``&quot;PCM__INPUT&quot;`` key.</span>
 <span class="sd">    verbose</span>
 <span class="sd">        Control print volume.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; psi4.set_options({</span>
+<span class="sd">            &quot;basis&quot;: &quot;cc-pvtz&quot;,</span>
+<span class="sd">            &quot;df_basis_scf&quot;: &quot;cc-pvtz-jkfit&quot;,</span>
+<span class="sd">            &quot;scf__reference&quot;: &quot;uhf&quot;,</span>
+<span class="sd">            &quot;print&quot;: 2})</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">optionre</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\A(?P&lt;module&gt;\w+__)?(?P&lt;option&gt;\w+)\Z&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
@@ -589,6 +720,10 @@
 <div class="viewcode-block" id="set_module_options"><a class="viewcode-back" href="../../../../api/psi4.driver.set_module_options.html#psi4.driver.set_module_options">[docs]</a><span class="k">def</span> <span class="nf">set_module_options</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">options_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sets Psi4 module options from a module specification and input dictionary.</span>
+
+<span class="sd">    .. deprecated:: 1.5</span>
+<span class="sd">       Use :py:func:`psi4.driver.p4util.set_options` instead.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
         <span class="s2">&quot;Using `psi4.set_module_options(&lt;module&gt;, {&lt;key&gt;: &lt;val&gt;})` instead of `psi4.set_options({&lt;module&gt;__&lt;key&gt;: &lt;val&gt;})` is deprecated, and as soon as 1.5 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -603,13 +738,14 @@
 
 
 <div class="viewcode-block" id="pcm_helper"><a class="viewcode-back" href="../../../../api/psi4.driver.pcm_helper.html#psi4.driver.pcm_helper">[docs]</a><span class="k">def</span> <span class="nf">pcm_helper</span><span class="p">(</span><span class="n">block</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Passes multiline string *block* to PCMSolver parser.</span>
+    <span class="sd">&quot;&quot;&quot;Helper to specify the multiline PCMSolver syntax for PCM.</span>
+<span class="sd">    Prefer to use :py:func:`set_options` with key ``&quot;PCM__INPUT&quot;``.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    block</span>
-<span class="sd">        multiline string with PCM input in PCMSolver syntax.</span>
+<span class="sd">        Text that goes in a PSIthon ``pcm = {...}`` block.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">pcmsolver</span>
 
@@ -623,8 +759,8 @@
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;PCM&quot;</span><span class="p">,</span> <span class="s2">&quot;PCMSOLVER_PARSED_FNAME&quot;</span><span class="p">,</span> <span class="n">fl</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">basname</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Imitates BasisSet.make_filename() without the gbs extension&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">_basname</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Imitates :py:meth:`core.BasisSet.make_filename` without the gbs extension.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
 
 
@@ -632,18 +768,30 @@
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="basis_helper"><a class="viewcode-back" href="../../../../api/psi4.driver.basis_helper.html#psi4.driver.basis_helper">[docs]</a><span class="k">def</span> <span class="nf">basis_helper</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;BASIS&#39;</span><span class="p">,</span> <span class="n">set_option</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;For PsiAPI mode, forms a basis specification function from *block*</span>
+<div class="viewcode-block" id="basis_helper"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.basis_helper.html#psi4.driver.basis_helper">[docs]</a><span class="k">def</span> <span class="nf">basis_helper</span><span class="p">(</span><span class="n">block</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;BASIS&#39;</span><span class="p">,</span> <span class="n">set_option</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper to specify a custom basis set in PsiAPI mode.</span>
+
+<span class="sd">    This function forms a basis specification function from *block*</span>
 <span class="sd">    and associates it with keyword *key* under handle *name*. Registers</span>
 <span class="sd">    the basis spec with Psi4 so that it can be applied again to future</span>
-<span class="sd">    molecules. For usage, see mints2, mints9, and cc54 test cases. Unless</span>
-<span class="sd">    *set_option* is False, *name* will be set as current active *key*,</span>
-<span class="sd">    equivalent to `set key name` or `set_option({key: name})`.</span>
+<span class="sd">    molecules. For usage, see :srcsample:`mints2`, :srcsample:`mints9`, and</span>
+<span class="sd">    :srcsample:`cc54` test cases.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    block</span>
+<span class="sd">        Text that goes in a PSIthon ``basis {...}`` block.</span>
+<span class="sd">    name</span>
+<span class="sd">        Name label to associated with basis specified by `block`.</span>
+<span class="sd">    key</span>
+<span class="sd">        Basis keyword specified by `block`.</span>
+<span class="sd">    set_option</span>
+<span class="sd">        When True, execute the equivalent of ``set key name`` or ``set_option({key: name})``. When False, skip execution.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;anonymous&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())[:</span><span class="mi">8</span><span class="p">])</span> <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">name</span>
-    <span class="n">cleanbas</span> <span class="o">=</span> <span class="n">basname</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># further remove hyphens so can be function name</span>
+    <span class="n">cleanbas</span> <span class="o">=</span> <span class="n">_basname</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># further remove hyphens so can be function name</span>
     <span class="n">block</span> <span class="o">=</span> <span class="n">qcel</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">filter_comments</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
     <span class="n">command_lines</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">block</span><span class="p">)</span>
 
@@ -687,7 +835,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">assignments</span><span class="p">:</span>
                 <span class="c1"># case with no [basname] markers where whole block is contents of gbs file</span>
                 <span class="n">mol</span><span class="o">.</span><span class="n">set_basis_all_atoms</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="n">role</span><span class="p">)</span>
-                <span class="n">basstrings</span><span class="p">[</span><span class="n">basname</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">basblock</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">basstrings</span><span class="p">[</span><span class="n">_basname</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">basblock</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="s2">&quot;Conflicting basis set specification: assign lines present but shells have no [basname] label.&quot;</span>
@@ -696,7 +844,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># case with specs separated by [basname] markers</span>
             <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">basblock</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
-                <span class="n">basstrings</span><span class="p">[</span><span class="n">basname</span><span class="p">(</span><span class="n">basblock</span><span class="p">[</span><span class="n">idx</span><span class="p">])]</span> <span class="o">=</span> <span class="n">basblock</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">basstrings</span><span class="p">[</span><span class="n">_basname</span><span class="p">(</span><span class="n">basblock</span><span class="p">[</span><span class="n">idx</span><span class="p">])]</span> <span class="o">=</span> <span class="n">basblock</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">basstrings</span>
 
@@ -782,6 +930,10 @@
 
 
 <span class="k">def</span> <span class="nf">_qcvar_warnings</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Intercept QCVariable keys to issue warnings or upgrade hints. Otherwise,</span>
+<span class="sd">    pass through.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot; DIPOLE &quot;</span> <span class="o">+</span> <span class="n">cart</span><span class="p">)</span> <span class="k">for</span> <span class="n">cart</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">]]):</span>
         <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()[:</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="mf">1.6</span><span class="p">,</span> <span class="s2">&quot; Note the Debye -&gt; a.u. units change.&quot;</span><span class="p">)</span>
 
@@ -807,9 +959,11 @@
     <span class="n">_multipole_order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">order</span><span class="p">)</span><span class="si">}</span><span class="s2">-POLE&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_qcvar_reshape_set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Reverse `_qcvar_reshape_get` for internal psi4.core.Matrix storage.&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">_qcvar_reshape_set</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Reverse :py:func:`_qcvar_reshape_get` for internal</span>
+<span class="sd">    :py:class:`psi4.core.Matrix` storage.</span>
 
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">reshaper</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;MBIS&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;CHARGES&quot;</span><span class="p">):</span>
@@ -842,9 +996,11 @@
         <span class="k">return</span> <span class="n">val</span>
 
 
-<span class="k">def</span> <span class="nf">_qcvar_reshape_get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;For QCVariables where the 2D psi4.core.Matrix shape is unnatural, convert to natural shape in ndarray.&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">_qcvar_reshape_get</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;For QCVariables where the 2D :py:class:`psi4.core.Matrix` shape is</span>
+<span class="sd">    unnatural, convert to natural shape in :class:`numpy.ndarray`.</span>
 
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">reshaper</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;MBIS&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;CHARGES&quot;</span><span class="p">):</span>
@@ -875,19 +1031,20 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">val</span>
 
-<span class="k">def</span> <span class="nf">_multipole_compressor</span><span class="p">(</span><span class="n">complete</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+
+<span class="k">def</span> <span class="nf">_multipole_compressor</span><span class="p">(</span><span class="n">complete</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Form flat unique components multipole array from complete Cartesian array.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    order : int</span>
+<span class="sd">    order</span>
 <span class="sd">        Multipole order. e.g., 1 for dipole, 4 for hexadecapole.</span>
-<span class="sd">    complete : ndarray</span>
+<span class="sd">    complete</span>
 <span class="sd">        Multipole array, order-dimensional Cartesian array expanded to complete components.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    compressed : ndarray</span>
+<span class="sd">    compressed : numpy.ndarray</span>
 <span class="sd">        Multipole array, length (order + 1) * (order + 2) / 2 compressed to unique components.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -946,26 +1103,60 @@
 
 
 <span class="k">def</span> <span class="nf">_core_has_variable</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Whether scalar or array QCVariable *key* has been set in global memory.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Whether scalar or array :ref:`QCVariable &lt;sec:appendices:qcvars&gt;` *key*</span>
+<span class="sd">    has been set in global memory.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key</span>
+<span class="sd">        Case-insensitive key to global double or :py:class:`~psi4.core.Matrix`</span>
+<span class="sd">        storage maps.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">or</span> <span class="n">core</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_core_wavefunction_has_variable</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Whether scalar or array QCVariable *key* has been set on *self* :class:`psi4.core.Wavefunction`.&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">_core_wavefunction_has_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Whether scalar or array :ref:`QCVariable &lt;sec:appendices:qcvars&gt;` *key*</span>
+<span class="sd">    has been set on *self*.</span>
 
-    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    self</span>
+<span class="sd">        Wavefunction instance.</span>
+<span class="sd">    key</span>
+<span class="sd">        Case-insensitive key to instance&#39;s double or</span>
+<span class="sd">        :py:class:`~psi4.core.Matrix` storage maps.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_core_variable</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Return copy of scalar or array QCVariable *key* from global memory.</span>
+    <span class="sd">&quot;&quot;&quot;Return copy of scalar or array :ref:`QCVariable &lt;sec:appendices:qcvars&gt;`</span>
+<span class="sd">    *key* from global memory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key</span>
+<span class="sd">        Case-insensitive key to global double or :py:class:`~psi4.core.Matrix`</span>
+<span class="sd">        storage maps.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    float or numpy.ndarray or Matrix</span>
-<span class="sd">        Scalar variables are returned as floats.</span>
-<span class="sd">        Array variables not naturally 2D (like multipoles) are returned as :class:`numpy.ndarray` of natural dimensionality.</span>
-<span class="sd">        Other array variables are returned as :py:class:`~psi4.core.Matrix` and may have an extra dimension with symmetry information.</span>
+<span class="sd">    float or ~numpy.ndarray or Matrix</span>
+<span class="sd">        Requested QCVariable from global memory.</span>
+
+<span class="sd">        - Scalar variables are returned as floats.</span>
+<span class="sd">        - Array variables not naturally 2D (like multipoles or per-atom charges)</span>
+<span class="sd">          are returned as :class:`~numpy.ndarray` of natural dimensionality.</span>
+<span class="sd">        - Other array variables are returned as :py:class:`~psi4.core.Matrix` and</span>
+<span class="sd">          may have an extra dimension with symmetry information.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    KeyError</span>
+<span class="sd">        If `key` not set on `self`.</span>
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
@@ -991,15 +1182,33 @@
         <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;psi4.core.variable: Requested variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; was not set!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_core_wavefunction_variable</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Return copy of scalar or array QCVariable *key* from *self* :class:`psi4.core.Wavefunction`.</span>
+<span class="k">def</span> <span class="nf">_core_wavefunction_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Return copy of scalar or array :ref:`QCVariable &lt;sec:appendices:qcvars&gt;`</span>
+<span class="sd">    *key* from *self*.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    self</span>
+<span class="sd">        Wavefunction instance.</span>
+<span class="sd">    key</span>
+<span class="sd">        Case-insensitive key to instance&#39;s double or :py:class:`~psi4.core.Matrix`</span>
+<span class="sd">        storage maps.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    float or numpy.ndarray or Matrix</span>
-<span class="sd">        Scalar variables are returned as floats.</span>
-<span class="sd">        Array variables not naturally 2D (like multipoles) are returned as :class:`numpy.ndarray` of natural dimensionality.</span>
-<span class="sd">        Other array variables are returned as :py:class:`~psi4.core.Matrix` and may have an extra dimension with symmetry information.</span>
+<span class="sd">    float or ~numpy.ndarray or Matrix</span>
+<span class="sd">        Requested QCVariable from `self`.</span>
+
+<span class="sd">        - Scalar variables are returned as floats.</span>
+<span class="sd">        - Array variables not naturally 2D (like multipoles or per-atom charges)</span>
+<span class="sd">          are returned as :class:`~numpy.ndarray` of natural dimensionality.</span>
+<span class="sd">        - Other array variables are returned as :py:class:`~psi4.core.Matrix` and</span>
+<span class="sd">          may have an extra dimension with symmetry information.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    KeyError</span>
+<span class="sd">        If `key` not set on `self`.</span>
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
@@ -1017,17 +1226,36 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">_qcvar_warnings</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">_qcvar_reshape_get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_qcvar_reshape_get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;psi4.core.Wavefunction.variable: Requested variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; was not set!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_core_set_variable</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Sets scalar or array QCVariable *key* to *val* in global memory.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Sets scalar or array :ref:`QCVariable &lt;sec:appendices:qcvars&gt;` *key* to</span>
+<span class="sd">    *val* in global memory.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key</span>
+<span class="sd">        Case-insensitive key to global double or :py:class:`~psi4.core.Matrix`</span>
+<span class="sd">        storage maps.</span>
+<span class="sd">    val</span>
+<span class="sd">        Scalar or array to be stored in `key`. If :class:`~numpy.ndarray` and</span>
+<span class="sd">        data `key` does not naturally fit in 2D Matrix (often charge and</span>
+<span class="sd">        multipole QCVariables), it will be reshaped, as all</span>
+<span class="sd">        :class:`~numpy.ndarray` are stored as :class:`~psi4.core.Matrix`.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValidationError</span>
+<span class="sd">        If `val` is a scalar but `key` already exists as an array variable. Or</span>
+<span class="sd">        if `val` is an array but `key` already exists as a scalar variable.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;psi4.core.set_variable: Target variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; already a scalar variable!&quot;</span><span class="p">)</span>
@@ -1047,66 +1275,147 @@
     <span class="c1"># TODO _qcvar_warnings(key)</span>
 
 
-<span class="k">def</span> <span class="nf">_core_wavefunction_set_variable</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Sets scalar or array QCVariable *key* to *val* on *cls*.&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">_core_wavefunction_set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Sets scalar or array :ref:`QCVariable &lt;sec:appendices:qcvars&gt;` *key* to</span>
+<span class="sd">    *val* on *self*.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    self</span>
+<span class="sd">        Wavefunction instance.</span>
+<span class="sd">    key</span>
+<span class="sd">        Case-insensitive key to instance&#39;s double or :class:`~psi4.core.Matrix`</span>
+<span class="sd">        storage maps.</span>
+
+<span class="sd">        - If ``CURRENT ENERGY``, syncs with ``self.energy_``.</span>
+<span class="sd">        - If ``CURRENT GRADIENT``, syncs with ``gradient_``.</span>
+<span class="sd">        - If ``CURRENT HESSIAN``, syncs with ``self.hessian_``.</span>
+<span class="sd">    val</span>
+<span class="sd">        Scalar or array to be stored in `key`. If :class:`~numpy.ndarray` and</span>
+<span class="sd">        data `key` does not naturally fit in 2D Matrix (often charge and</span>
+<span class="sd">        multipole QCVariables), it will be reshaped, as all</span>
+<span class="sd">        :class:`~numpy.ndarray` are stored as :class:`~psi4.core.Matrix`.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ~psi4.driver.ValidationError</span>
+<span class="sd">        If `val` is a scalar but `key` already exists as an array variable. Or</span>
+<span class="sd">        if `val` is an array but `key` already exists as a scalar variable.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.Wavefunction.set_variable: Target variable &#39;</span><span class="si">{key}</span><span class="s2">&#39; already a scalar variable!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">set_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.Wavefunction.set_variable: Target variable &#39;</span><span class="si">{key}</span><span class="s2">&#39; already a scalar variable!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">set_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">_qcvar_reshape_set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">_qcvar_reshape_set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;psi4.core.Wavefunction.set_variable: Target variable &#39;</span><span class="si">{key}</span><span class="s2">&#39; already an array variable!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">set_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
 
     <span class="c1"># TODO _qcvar_warnings(key)</span>
 
 
 <span class="k">def</span> <span class="nf">_core_del_variable</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Removes scalar or array QCVariable *key* from global memory if present.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Removes scalar or array :ref:`QCVariable &lt;sec:appendices:qcvars&gt;` *key*</span>
+<span class="sd">    from global memory if present.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key</span>
+<span class="sd">        Case-insensitive key to global double or :py:class:`~psi4.core.Matrix`</span>
+<span class="sd">        storage maps.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
         <span class="n">core</span><span class="o">.</span><span class="n">del_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">core</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
         <span class="n">core</span><span class="o">.</span><span class="n">del_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_core_wavefunction_del_variable</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Removes scalar or array QCVariable *key* from *cls* if present.&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">_core_wavefunction_del_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Removes scalar or array :ref:`QCVariable &lt;sec:appendices:qcvars&gt;` *key*</span>
+<span class="sd">    from *self* if present.</span>
 
-    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">del_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="bp">cls</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">del_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    self</span>
+<span class="sd">        Wavefunction instance.</span>
+<span class="sd">    key</span>
+<span class="sd">        Case-insensitive key to instance&#39;s double or</span>
+<span class="sd">        :py:class:`~psi4.core.Matrix` storage maps.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">del_scalar_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">del_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_core_variables</span><span class="p">(</span><span class="n">include_deprecated_keys</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Return all scalar or array QCVariables from global memory.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Return all scalar or array :ref:`QCVariables &lt;sec:appendices:qcvars&gt;`</span>
+<span class="sd">    from global memory.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    include_deprecated_keys</span>
+<span class="sd">        Also return duplicate entries with keys that have been deprecated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ~typing.Dict[str, ~typing.Union[float, ~numpy.ndarray, Matrix]</span>
+<span class="sd">        Map of all QCVariables that have been set.</span>
+
+<span class="sd">        - Scalar variables are returned as floats.</span>
+<span class="sd">        - Array variables not naturally 2D (like multipoles or per-atom charges)</span>
+<span class="sd">          are returned as :class:`~numpy.ndarray` of natural dimensionality.</span>
+<span class="sd">        - Other array variables are returned as :py:class:`~psi4.core.Matrix` and</span>
+<span class="sd">          may have an extra dimension with symmetry information.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dicary</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">core</span><span class="o">.</span><span class="n">scalar_variables</span><span class="p">(),</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_qcvar_reshape_get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">array_variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()}}</span>
 
     <span class="k">if</span> <span class="n">include_deprecated_keys</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">old_key</span><span class="p">,</span> <span class="n">current_key</span> <span class="ow">in</span> <span class="n">_qcvar_transitions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">old_key</span><span class="p">,</span> <span class="p">(</span><span class="n">current_key</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_qcvar_transitions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">current_key</span> <span class="ow">in</span> <span class="n">dicary</span><span class="p">:</span>
                 <span class="n">dicary</span><span class="p">[</span><span class="n">old_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">dicary</span><span class="p">[</span><span class="n">current_key</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">dicary</span>
 
 
-<span class="k">def</span> <span class="nf">_core_wavefunction_variables</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">include_deprecated_keys</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Return all scalar or array QCVariables from *cls*.&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">_core_wavefunction_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_deprecated_keys</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Return all scalar or array :ref:`QCVariables &lt;sec:appendices:qcvars&gt;`</span>
+<span class="sd">    from *self*.</span>
 
-    <span class="n">dicary</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">cls</span><span class="o">.</span><span class="n">scalar_variables</span><span class="p">(),</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_qcvar_reshape_get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">array_variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()}}</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    self</span>
+<span class="sd">        Wavefunction instance.</span>
+<span class="sd">    include_deprecated_keys</span>
+<span class="sd">        Also return duplicate entries with keys that have been deprecated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ~typing.Dict[str, ~typing.Union[float, ~numpy.ndarray, Matrix]</span>
+<span class="sd">        Map of all QCVariables that have been set on `self`.</span>
+
+<span class="sd">        - Scalar variables are returned as floats.</span>
+<span class="sd">        - Array variables not naturally 2D (like multipoles or per-atom charges)</span>
+<span class="sd">          are returned as :class:`~numpy.ndarray` of natural dimensionality.</span>
+<span class="sd">        - Other array variables are returned as :py:class:`~psi4.core.Matrix` and</span>
+<span class="sd">          may have an extra dimension with symmetry information.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dicary</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar_variables</span><span class="p">(),</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_qcvar_reshape_get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">array_variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()}}</span>
 
     <span class="k">if</span> <span class="n">include_deprecated_keys</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">old_key</span><span class="p">,</span> <span class="n">current_key</span> <span class="ow">in</span> <span class="n">_qcvar_transitions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">old_key</span><span class="p">,</span> <span class="p">(</span><span class="n">current_key</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_qcvar_transitions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">current_key</span> <span class="ow">in</span> <span class="n">dicary</span><span class="p">:</span>
                 <span class="n">dicary</span><span class="p">[</span><span class="n">old_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">dicary</span><span class="p">[</span><span class="n">current_key</span><span class="p">]</span>
 
@@ -1131,7 +1440,7 @@
 <span class="k">def</span> <span class="nf">_core_get_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. deprecated:: 1.4</span>
-<span class="sd">       Use :py:func:`psi4.variable` instead.</span>
+<span class="sd">       Use :py:func:`psi4.core.variable` instead.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
@@ -1157,7 +1466,7 @@
 <span class="k">def</span> <span class="nf">_core_get_array_variable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. deprecated:: 1.4</span>
-<span class="sd">       Use :py:func:`psi4.variable` instead.</span>
+<span class="sd">       Use :py:func:`psi4.core.variable` instead.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
@@ -1244,11 +1553,24 @@
 <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">arrays</span> <span class="o">=</span> <span class="n">_core_wavefunction_arrays</span>
 
 
-<span class="k">def</span> <span class="nf">_core_wavefunction_frequencies</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s1">&#39;frequency_analysis&#39;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_core_wavefunction_frequencies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns the results of a frequency analysis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    self</span>
+<span class="sd">        Wavefunction instance.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ~typing.Optional[~typing.Dict[str, ~numpy.ndarray]]</span>
+<span class="sd">        A dictionary of vibrational information. See :py:func:`psi4.driver.qcdb.vib.harmonic_analysis`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;frequency_analysis&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">vibinfo</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">frequency_analysis</span>
+    <span class="n">vibinfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequency_analysis</span>
     <span class="n">vibonly</span> <span class="o">=</span> <span class="n">qcdb</span><span class="o">.</span><span class="n">vib</span><span class="o">.</span><span class="n">filter_nonvib</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">Vector</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">qcdb</span><span class="o">.</span><span class="n">vib</span><span class="o">.</span><span class="n">filter_omega_to_real</span><span class="p">(</span><span class="n">vibonly</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
 
@@ -1256,6 +1578,7 @@
 <span class="k">def</span> <span class="nf">_core_wavefunction_legacy_frequencies</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. deprecated:: 1.4</span>
+<span class="sd">       Use :py:meth:`~psi4.core.Wavefunction.frequencies` instead.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
@@ -1283,6 +1606,11 @@
 
 
 <span class="k">def</span> <span class="nf">_core_wavefunction_X</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. deprecated:: 1.5</span>
+<span class="sd">       Use :py:meth:`~psi4.core.Wavefunction.lagrangian` instead.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
         <span class="s2">&quot;Using `psi4.core.Wavefunction.X` instead of `psi4.core.Wavefunction.lagrangian` is deprecated, and as soon as 1.5 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
@@ -1444,7 +1772,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1457,9 +1785,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>

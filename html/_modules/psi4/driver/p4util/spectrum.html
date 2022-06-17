@@ -1,0 +1,625 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>psi4.driver.p4util.spectrum</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    
+    
+     
+        <script src="../../../../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../../../../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../../../../_static/cloud.js"></script>
+    
+
+    <link rel="shortcut icon" href="../../../../_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../../index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/spectrum.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">psi4.driver.p4util.spectrum</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for psi4.driver.p4util.spectrum</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># @BEGIN LICENSE</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4: an open-source quantum chemistry software package</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2007-2022 The Psi4 Developers.</span>
+<span class="c1">#</span>
+<span class="c1"># The copyrights for code used from other parties are included in</span>
+<span class="c1"># the corresponding files.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of Psi4.</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4 is free software; you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Lesser General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, version 3.</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4 is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU Lesser General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU Lesser General Public License along</span>
+<span class="c1"># with Psi4; if not, write to the Free Software Foundation, Inc.,</span>
+<span class="c1"># 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span>
+<span class="c1">#</span>
+<span class="c1"># @END LICENSE</span>
+<span class="c1">#</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Gaussian&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Lineshape&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Lorentzian&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prefactor_ecd&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prefactor_opa&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;spectrum&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">constants</span>
+
+
+<div class="viewcode-block" id="Lineshape"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.Lineshape.html#psi4.driver.p4util.Lineshape">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Lineshape</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Lineshape ABC</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    domain</span>
+<span class="sd">        Domain of the spectral band.</span>
+<span class="sd">    gamma</span>
+<span class="sd">        A function returning the broadening factor.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Why do we use a callable broadening factor?</span>
+<span class="sd">    For plots in the *wavelength domain*, the broadening factor depends on the location of the band&#39;s maximum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">domain</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span>
+    <span class="n">gamma</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Lineshape.lineshape"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.Lineshape.html#psi4.driver.p4util.Lineshape.lineshape">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">lineshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_0</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Lineshape.maximum"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.Lineshape.html#psi4.driver.p4util.Lineshape.maximum">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">maximum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_0</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="Gaussian"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.Gaussian.html#psi4.driver.p4util.Gaussian">[docs]</a><span class="k">class</span> <span class="nc">Gaussian</span><span class="p">(</span><span class="n">Lineshape</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gaussian function on `domain`, centered at `x_0` with broadening `gamma`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    domain</span>
+<span class="sd">        The domain of the Gaussian profile.</span>
+<span class="sd">    gamma</span>
+<span class="sd">        Broadening parameter.</span>
+<span class="sd">        This is related to the full width at half maximum as :math:`\mathrm{FWHM} = \gamma \sqrt{2\ln 2}`</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Use this profile to model inhomegenous broadening.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Gaussian.lineshape"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.Gaussian.html#psi4.driver.p4util.Gaussian.lineshape">[docs]</a>    <span class="k">def</span> <span class="nf">lineshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_0</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gaussian function on :py:attr:`Lineshape.domain`, centered at `x_0` with broadening :py:attr:`Lineshape.gamma`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x_0</span>
+<span class="sd">            Center of the Gaussian, i.e. its maximum.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The Gaussian profile.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prefactor</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+        <span class="n">exponent</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">-</span> <span class="n">x_0</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">x_0</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+
+        <span class="k">return</span> <span class="n">prefactor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">exponent</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Gaussian.maximum"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.Gaussian.html#psi4.driver.p4util.Gaussian.maximum">[docs]</a>    <span class="k">def</span> <span class="nf">maximum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_0</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Maximum value of Gaussian profile centered at `x_0`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x_0</span>
+<span class="sd">            Center of the Lorentzian, i.e. its maximum.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="Lorentzian"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.Lorentzian.html#psi4.driver.p4util.Lorentzian">[docs]</a><span class="k">class</span> <span class="nc">Lorentzian</span><span class="p">(</span><span class="n">Lineshape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lorentzian function on `domain`, centered at `x_0` with broadening `gamma`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    domain</span>
+<span class="sd">        The domain of the Lorentzian profile.</span>
+<span class="sd">    gamma</span>
+<span class="sd">        Broadening parameter.</span>
+<span class="sd">        This is the full width at half maximum (FWHM).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Use this profile to model homogeneous broadening.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Lorentzian.lineshape"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.Lorentzian.html#psi4.driver.p4util.Lorentzian.lineshape">[docs]</a>    <span class="k">def</span> <span class="nf">lineshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_0</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Lorentzian function on :py:attr:`Lineshape.domain`, centered at `x_0` with broadening :py:attr:`Lineshape.gamma`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x_0</span>
+<span class="sd">            Center of the Lorentzian, i.e. its maximum.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The Lorentzian profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prefactor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">numerator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">denominator</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">-</span> <span class="n">x_0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">numerator</span><span class="o">**</span><span class="mi">2</span>
+
+        <span class="k">return</span> <span class="n">prefactor</span> <span class="o">*</span> <span class="p">(</span><span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Lorentzian.maximum"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.Lorentzian.html#psi4.driver.p4util.Lorentzian.maximum">[docs]</a>    <span class="k">def</span> <span class="nf">maximum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_0</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Maximum value of Lorentzian profile centered at `x_0`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x_0</span>
+<span class="sd">            Center of the Lorentzian, i.e. its maximum.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">x_0</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="prefactor_opa"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.prefactor_opa.html#psi4.driver.p4util.prefactor_opa">[docs]</a><span class="k">def</span> <span class="nf">prefactor_opa</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Prefactor for converting microscopic observable to decadic molar</span>
+<span class="sd">    extinction coefficient in one-photon absorption.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function implements the calculation of the following prefactor:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        k = \frac{4\pi^{2}N_{\mathrm{A}}}{3\times 1000\times \ln(10) (4 \pi \epsilon_{0}) n \hbar c}</span>
+
+<span class="sd">    The prefactor is computed in SI units and then adjusted for the fact that</span>
+<span class="sd">    we use atomic units to express microscopic observables: excitation energies</span>
+<span class="sd">    and transition dipole moments.</span>
+<span class="sd">    The refractive index :math:`n` is, in general, frequency-dependent. We</span>
+<span class="sd">    assume it to be constant and equal to 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">N_A</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Avogadro constant&quot;</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;speed of light in vacuum&quot;</span><span class="p">)</span>
+    <span class="n">hbar</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Planck constant over 2 pi&quot;</span><span class="p">)</span>
+    <span class="n">e_0</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;electric constant&quot;</span><span class="p">)</span>
+    <span class="n">au_to_Coulomb_centimeter</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;elementary charge&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;Bohr radius&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">conversion_factor</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;cm&quot;</span><span class="p">)</span>
+
+    <span class="n">numerator</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">N_A</span>
+    <span class="n">denominator</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">e_0</span><span class="p">)</span> <span class="o">*</span> <span class="n">hbar</span> <span class="o">*</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">)</span> <span class="o">*</span> <span class="n">au_to_Coulomb_centimeter</span><span class="o">**</span><span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="prefactor_ecd"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.prefactor_ecd.html#psi4.driver.p4util.prefactor_ecd">[docs]</a><span class="k">def</span> <span class="nf">prefactor_ecd</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Prefactor for converting microscopic observable to decadic molar</span>
+<span class="sd">    extinction coefficient in electronic circular dichroism.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function implements the calculation of the following prefactor:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        k = \frac{16\pi^{2}N_{\mathrm{A}}}{3\times 1000\times \ln(10) (4 \pi \epsilon_{0}) n \hbar c^{2}}</span>
+
+<span class="sd">    The prefactor is computed in SI units and then adjusted for the fact that</span>
+<span class="sd">    we use atomic units to express microscopic observables: excitation energies</span>
+<span class="sd">    and transition dipole moments.</span>
+<span class="sd">    The refractive index :math:`n` is, in general, frequency-dependent. We</span>
+<span class="sd">    assume it to be constant and equal to 1.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">N_A</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Avogadro constant&quot;</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;speed of light in vacuum&quot;</span><span class="p">)</span>
+    <span class="n">hbar</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Planck constant over 2 pi&quot;</span><span class="p">)</span>
+    <span class="n">e_0</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;electric constant&quot;</span><span class="p">)</span>
+
+    <span class="n">au_to_Coulomb_centimeter</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;elementary charge&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;Bohr radius&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">conversion_factor</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;cm&quot;</span><span class="p">)</span>
+    <span class="n">au_to_Joule_inverse_Tesla</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Bohr magneton&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">conversion_factor</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;cm&quot;</span><span class="p">)</span>
+    <span class="n">conversion</span> <span class="o">=</span> <span class="n">au_to_Coulomb_centimeter</span> <span class="o">*</span> <span class="n">au_to_Joule_inverse_Tesla</span>
+
+    <span class="n">numerator</span> <span class="o">=</span> <span class="mf">16.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">N_A</span>
+    <span class="n">denominator</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">e_0</span><span class="p">)</span> <span class="o">*</span> <span class="n">hbar</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">)</span> <span class="o">*</span> <span class="n">conversion</span></div>
+
+
+<div class="viewcode-block" id="spectrum"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.spectrum.html#psi4.driver.p4util.spectrum">[docs]</a><span class="k">def</span> <span class="nf">spectrum</span><span class="p">(</span><span class="o">*</span><span class="p">,</span>
+             <span class="n">poles</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+             <span class="n">residues</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+             <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;opa&quot;</span><span class="p">,</span>
+             <span class="n">lineshape</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;gaussian&quot;</span><span class="p">,</span>
+             <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+             <span class="n">npoints</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">,</span>
+             <span class="n">out_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;One-photon absorption (OPA) or electronic circular dichroism (ECD)</span>
+<span class="sd">    spectra with phenomenological line broadening.</span>
+
+<span class="sd">    This function gives arrays of values ready to be plotted as OPA spectrum:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \varepsilon(\omega) =</span>
+<span class="sd">          \frac{4\pi^{2}N_{\mathrm{A}}\omega}{3\times 1000\times \ln(10) (4 \pi \epsilon_{0}) n \hbar c}</span>
+<span class="sd">          \sum_{i \rightarrow j}g_{ij}(\omega)|\mathbf{\mu}_{ij}|^{2}</span>
+
+<span class="sd">    or ECD spectrum:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \Delta\varepsilon(\omega) =</span>
+<span class="sd">          \frac{16\pi^{2}N_{\mathrm{A}}\omega}{3\times 1000\times \ln(10) (4 \pi \epsilon_{0}) n \hbar c^{2}}</span>
+<span class="sd">          \sum_{i \rightarrow j}g_{ij}(\omega)\Im(\mathbf{\mu}_{ij}\cdot\mathbf{m}_{ij})</span>
+
+<span class="sd">    in macroscopic units of :math:`\mathrm{L}\cdot\mathrm{mol}^{-1}\cdot\mathrm{cm}^{-1}`.</span>
+<span class="sd">    The lineshape function :math:`g_{ij}(\omega)` with phenomenological</span>
+<span class="sd">    broadening :math:`\gamma` is used for the convolution of the infinitely</span>
+<span class="sd">    narrow results from a linear response calculation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    poles</span>
+<span class="sd">        Poles of the response function, i.e. the excitation energies.</span>
+<span class="sd">        These are **expected** in atomic units of angular frequency.</span>
+<span class="sd">    residues</span>
+<span class="sd">        Residues of the linear response functions, i.e. transition dipole moments (OPA) and rotatory strengths (ECD).</span>
+<span class="sd">        These are **expected** in atomic units.</span>
+<span class="sd">    kind</span>
+<span class="sd">        {&quot;opa&quot;, &quot;ecd&quot;}</span>
+<span class="sd">        Which kind of spectrum to generate, one-photon absorption (&quot;opa&quot;) or electronic circular dichroism (&quot;ecd&quot;).</span>
+<span class="sd">        Default is `opa`.</span>
+<span class="sd">    lineshape</span>
+<span class="sd">        {&quot;gaussian&quot;, &quot;lorentzian&quot;}</span>
+<span class="sd">        The lineshape function to use in the fitting. Default is `gaussian`.</span>
+<span class="sd">    gamma</span>
+<span class="sd">        Full width at half maximum of the lineshape function.</span>
+<span class="sd">        Default is 0.2 au of angular frequency.</span>
+<span class="sd">        This value is **expected** in atomic units of angular frequency.</span>
+<span class="sd">    npoints</span>
+<span class="sd">        How many points to generate for the x axis. Default is 5000.</span>
+<span class="sd">    out_units</span>
+<span class="sd">        Units for the output array `x`, the x axis of the spectrum plot.</span>
+<span class="sd">        Default is wavelengths in nanometers.</span>
+<span class="sd">        Valid (and case-insensitive) values for the units are:</span>
+
+<span class="sd">          - `au` atomic units of angular frequency</span>
+<span class="sd">          - `Eh` atomic units of energy</span>
+<span class="sd">          - `eV`</span>
+<span class="sd">          - `nm`</span>
+<span class="sd">          - `THz`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spectrum : Dict[str, numpy.ndarray]</span>
+<span class="sd">        The fitted electronic absorption spectrum, with units for the x axis specified by the `out_units` parameter.</span>
+<span class="sd">        This is a dictionary containing the convoluted (key: `convolution`) and the infinitely narrow spectra (key: `sticks`).</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">           {&quot;convolution&quot;: {&quot;x&quot;: np.ndarray, &quot;y&quot;: np.ndarray},</span>
+<span class="sd">            &quot;sticks&quot;: {&quot;poles&quot;: np.ndarray, &quot;residues&quot;: np.ndarray}}</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    * Conversion of the broadening parameter :math:`\gamma`.</span>
+<span class="sd">      The lineshape functions are formulated as functions of the angular frequency :math:`\omega`.</span>
+<span class="sd">      When converting to other physical quantities, the broadening parameter has to be modified accordingly.</span>
+<span class="sd">      If :math:`\gamma_{\omega}` is the chosen broadening parameter then:</span>
+
+<span class="sd">        - Wavelength: :math:`gamma_{\lambda} = \frac{\lambda_{ij}^{2}}{2\pi c}\gamma_{\omega}`</span>
+<span class="sd">        - Frequency: :math:`gamma_{\nu} = \frac{\gamma_{\omega}}{2\pi}`</span>
+<span class="sd">        - Energy: :math:`gamma_{E} = \gamma_{\omega}\hbar`</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A. Rizzo, S. Coriani, K. Ruud, &quot;Response Function Theory Computational Approaches to Linear and Nonlinear Optical Spectroscopy&quot;. In Computational Strategies for Spectroscopy.</span>
+<span class="sd">    https://doi.org/10.1002/9781118008720.ch2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Transmute inputs to np.ndarray</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">poles</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">poles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">poles</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">residues</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">residues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">residues</span><span class="p">)</span>
+    <span class="c1"># Validate input arrays</span>
+    <span class="k">if</span> <span class="n">poles</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">residues</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shapes of poles (</span><span class="si">{</span><span class="n">poles</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">) and residues (</span><span class="si">{</span><span class="n">residues</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">) vectors do not match!&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Validate kind of spectrum</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">valid_kinds</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;opa&quot;</span><span class="p">,</span> <span class="s2">&quot;ecd&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_kinds</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spectrum kind </span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2"> not among recognized (</span><span class="si">{</span><span class="n">valid_kinds</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Validate output units</span>
+    <span class="n">out_units</span> <span class="o">=</span> <span class="n">out_units</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">valid_out_units</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;au&quot;</span><span class="p">,</span> <span class="s2">&quot;eh&quot;</span><span class="p">,</span> <span class="s2">&quot;ev&quot;</span><span class="p">,</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span> <span class="s2">&quot;thz&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">out_units</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_out_units</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Output units </span><span class="si">{</span><span class="n">out_units</span><span class="si">}</span><span class="s2"> not among recognized (</span><span class="si">{</span><span class="n">valid_out_units</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;speed of light in vacuum&quot;</span><span class="p">)</span>
+    <span class="n">c_nm</span> <span class="o">=</span> <span class="n">c</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">conversion_factor</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;nm&quot;</span><span class="p">)</span>
+    <span class="n">hbar</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Planck constant over 2 pi&quot;</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Planck constant&quot;</span><span class="p">)</span>
+    <span class="n">Eh</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Hartree energy&quot;</span><span class="p">)</span>
+    <span class="n">au_to_nm</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">c_nm</span> <span class="o">*</span> <span class="n">hbar</span> <span class="o">/</span> <span class="n">Eh</span>
+    <span class="n">au_to_THz</span> <span class="o">=</span> <span class="p">(</span><span class="n">Eh</span> <span class="o">/</span> <span class="n">h</span><span class="p">)</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">conversion_factor</span><span class="p">(</span><span class="s2">&quot;Hz&quot;</span><span class="p">,</span> <span class="s2">&quot;THz&quot;</span><span class="p">)</span>
+    <span class="n">au_to_eV</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Hartree energy in eV&quot;</span><span class="p">)</span>
+
+    <span class="n">converters</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;au&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>  <span class="c1"># Angular frequency in atomic units</span>
+        <span class="s2">&quot;eh&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>  <span class="c1"># Energy in atomic units</span>
+        <span class="s2">&quot;ev&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">au_to_eV</span><span class="p">,</span>  <span class="c1"># Energy in electronvolts</span>
+        <span class="s2">&quot;nm&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">au_to_nm</span> <span class="o">/</span> <span class="n">x</span><span class="p">,</span>  <span class="c1"># Wavelength in nanometers</span>
+        <span class="s2">&quot;thz&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">au_to_THz</span><span class="p">,</span>  <span class="c1"># Frequency in terahertz</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Perform conversion of poles from au of angular frequency to output units</span>
+    <span class="n">poles</span> <span class="o">=</span> <span class="n">converters</span><span class="p">[</span><span class="n">out_units</span><span class="p">](</span><span class="n">poles</span><span class="p">)</span>
+
+    <span class="c1"># Broadening functions</span>
+    <span class="n">gammas</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;au&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x_0</span><span class="p">:</span> <span class="n">gamma</span><span class="p">,</span>  <span class="c1"># Angular frequency in atomic units</span>
+        <span class="s2">&quot;eh&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x_0</span><span class="p">:</span> <span class="n">gamma</span><span class="p">,</span>  <span class="c1"># Energy in atomic units</span>
+        <span class="s2">&quot;ev&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x_0</span><span class="p">:</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">au_to_eV</span><span class="p">,</span>  <span class="c1"># Energy in electronvolts</span>
+        <span class="s2">&quot;nm&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x_0</span><span class="p">:</span> <span class="p">((</span><span class="n">x_0</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">Eh</span> <span class="o">/</span> <span class="n">hbar</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">c_nm</span><span class="p">)),</span>  <span class="c1"># Wavelength in nanometers</span>
+        <span class="s2">&quot;thz&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x_0</span><span class="p">:</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">au_to_THz</span><span class="p">,</span>  <span class="c1"># Frequency in terahertz</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Generate x axis</span>
+    <span class="c1"># Add a fifth of the range on each side</span>
+    <span class="n">expand_side</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">poles</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">poles</span><span class="p">))</span> <span class="o">/</span> <span class="mi">5</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">poles</span><span class="p">)</span> <span class="o">-</span> <span class="n">expand_side</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">poles</span><span class="p">)</span> <span class="o">+</span> <span class="n">expand_side</span><span class="p">,</span> <span class="n">npoints</span><span class="p">)</span>
+
+    <span class="c1"># Validate lineshape</span>
+    <span class="n">lineshape</span> <span class="o">=</span> <span class="n">lineshape</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">valid_lineshapes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gaussian&quot;</span><span class="p">,</span> <span class="s2">&quot;lorentzian&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">lineshape</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_lineshapes</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lineshape </span><span class="si">{</span><span class="n">lineshape</span><span class="si">}</span><span class="s2"> not among recognized (</span><span class="si">{</span><span class="n">valid_lineshapes</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Obtain lineshape function</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">Gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">gammas</span><span class="p">[</span><span class="n">out_units</span><span class="p">])</span> <span class="k">if</span> <span class="n">lineshape</span> <span class="o">==</span> <span class="s2">&quot;gaussian&quot;</span> <span class="k">else</span> <span class="n">Lorentzian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">gammas</span><span class="p">[</span><span class="n">out_units</span><span class="p">])</span>
+
+    <span class="c1"># Generate y axis, i.e. molar decadic absorption coefficient</span>
+    <span class="n">prefactor</span> <span class="o">=</span> <span class="n">prefactor_opa</span><span class="p">()</span> <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;opa&quot;</span> <span class="k">else</span> <span class="n">prefactor_ecd</span><span class="p">()</span>
+    <span class="n">transform_residue</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;opa&quot;</span> <span class="k">else</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">prefactor</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">transform_residue</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">shape</span><span class="o">.</span><span class="n">lineshape</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">poles</span><span class="p">,</span> <span class="n">residues</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Generate sticks</span>
+    <span class="n">sticks</span> <span class="o">=</span> <span class="n">prefactor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span> <span class="o">*</span> <span class="n">transform_residue</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">shape</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">poles</span><span class="p">,</span> <span class="n">residues</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;convolution&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">},</span> <span class="s2">&quot;sticks&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;poles&quot;</span><span class="p">:</span> <span class="n">poles</span><span class="p">,</span> <span class="s2">&quot;residues&quot;</span><span class="p">:</span> <span class="n">sticks</span><span class="p">}}</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../../../../index.html" title="index">
+          <img class="logo" src="../../../../_static/psi4square.png" alt="Logo"/>
+        </a></p><!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+<div id="searchbox" style="display: none" role="search">
+  <!--<h3>Quick search</h3>-->
+    <form class="search" action="../../../../search.html" method="get">
+      <!--<div><input type="text" name="q" placeholder="search docs" /></div>-->
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel" /></div>
+      <!--<div><input type="submit" value="Go" /></div>-->
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../../index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/spectrum.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">psi4.driver.p4util.spectrum</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

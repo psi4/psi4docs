@@ -34,21 +34,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Psithon: Structuring an Input File</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -102,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psithoninput.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -120,7 +122,7 @@
           <div class="body" role="main">
             
   <section id="psithon-structuring-an-input-file">
-<span id="sec-psithoninput"></span><h1>Psithon: Structuring an Input File<a class="headerlink" href="#psithon-structuring-an-input-file" title="Permalink to this headline">¶</a></h1>
+<span id="sec-psithoninput"></span><h1>Psithon: Structuring an Input File<a class="headerlink" href="#psithon-structuring-an-input-file" title="Permalink to this heading">¶</a></h1>
 <p>To allow arbitrarily complex computations to be performed, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> was built
 upon the Python interpreter. However, to make the input syntax simpler, some
 pre-processing of the input file is performed before it is interpreted,
@@ -131,7 +133,7 @@ this section we will describe the essential features of the Psithon language.
 samples subdirectory of the top-level <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> source directory and should
 serve as useful examples.</p>
 <section id="physical-constants">
-<span id="sec-physicalconstants"></span><span id="index-0"></span><h2>Physical Constants<a class="headerlink" href="#physical-constants" title="Permalink to this headline">¶</a></h2>
+<span id="sec-physicalconstants"></span><span id="index-0"></span><h2>Physical Constants<a class="headerlink" href="#physical-constants" title="Permalink to this heading">¶</a></h2>
 <p>For convenience, the Python interpreter will execute the contents of the
 <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> file in the current user’s home area (if present) before performing any
 tasks in the input file.  This allows frequently used python variables to be
@@ -154,7 +156,7 @@ prevent clashes with user-defined variables (<em>e.g.</em>, <code class="docutil
 PsiAPI mode, access as, <em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">psi4.constants.h</span></code>.</p>
 </section>
 <section id="memory-specification">
-<span id="sec-memory"></span><span id="index-1"></span><h2>Memory Specification<a class="headerlink" href="#memory-specification" title="Permalink to this headline">¶</a></h2>
+<span id="sec-memory"></span><span id="index-1"></span><h2>Memory Specification<a class="headerlink" href="#memory-specification" title="Permalink to this heading">¶</a></h2>
 <p>By default, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> assumes that 500 MiB of memory are available. While this is
 enough for many computations, many of the algorithms will perform better if
 more is available. To specify memory, the <code class="docutils literal notranslate"><span class="pre">memory</span></code> keyword should be used. The following
@@ -200,7 +202,7 @@ available to the job, <em>not</em> the memory per thread.</p>
 </div>
 </section>
 <section id="molecule-and-geometry-specification">
-<h2>Molecule and Geometry Specification<a class="headerlink" href="#molecule-and-geometry-specification" title="Permalink to this headline">¶</a></h2>
+<h2>Molecule and Geometry Specification<a class="headerlink" href="#molecule-and-geometry-specification" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="psithonmol.html">Molecule and Geometry Specification</a><ul>
@@ -220,7 +222,7 @@ available to the job, <em>not</em> the memory per thread.</p>
 <p>To add EFP fragments to a molecule, see <a class="reference internal" href="libefp.html#sec-usingefpfragments"><span class="std std-ref">Molecule Specification</span></a>.</p>
 </section>
 <section id="job-control-keywords">
-<span id="sec-jobcontrol"></span><span id="index-2"></span><h2>Job Control Keywords<a class="headerlink" href="#job-control-keywords" title="Permalink to this headline">¶</a></h2>
+<span id="sec-jobcontrol"></span><span id="index-2"></span><h2>Job Control Keywords<a class="headerlink" href="#job-control-keywords" title="Permalink to this heading">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> comprises a number of C++ modules that each perform
 specific tasks and are callable directly from the Python front end. Each module
 recognizes specific keywords in the input file which control its function.
@@ -294,7 +296,7 @@ applied to all modules. For example, in the following input</p>
 level of 1 and the ccenergy code, which performs coupled cluster computations,
 will use a print level of 3. In this example a full CCSD computation is
 performed by running the SCF code first, then the coupled cluster modules;
-the <code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code> Python helper function ensures that this is performed correctly.
+the <a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a> Python helper function ensures that this is performed correctly.
 Note that the Python interpreter executes commands in the order they appear in
 the input file, so if the last four commands in the above example were to read</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">basis</span> <span class="n">cc</span><span class="o">-</span><span class="n">pVDZ</span>
@@ -305,7 +307,7 @@ the input file, so if the last four commands in the above example were to read</
 </div>
 <p>the commands that set the print level would be ineffective, as they would be
 processed after the CCSD computation completes.</p>
-<p>In PsiAPI mode, one can use the command <code class="xref py py-func docutils literal notranslate"><span class="pre">set_options()</span></code>
+<p>In PsiAPI mode, one can use the command <a class="reference internal" href="api/psi4.driver.set_options.html#psi4.driver.set_options" title="psi4.driver.set_options"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_options()</span></code></a>
 like below for general and module-specific options. Note that these values
 should be of correct type, strings for strings, floats for floats like
 convergences. The function <cite>~psi4.core.clean_options</cite> that reinitializes
@@ -321,7 +323,7 @@ session.</p>
 </div>
 </section>
 <section id="basis-sets">
-<h2>Basis Sets<a class="headerlink" href="#basis-sets" title="Permalink to this headline">¶</a></h2>
+<h2>Basis Sets<a class="headerlink" href="#basis-sets" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="basissets.html">Basis Sets</a><ul>
@@ -336,7 +338,7 @@ session.</p>
 </div>
 </section>
 <section id="psi-variables">
-<span id="sec-psivariables"></span><h2>PSI Variables<a class="headerlink" href="#psi-variables" title="Permalink to this headline">¶</a></h2>
+<span id="sec-psivariables"></span><h2>PSI Variables<a class="headerlink" href="#psi-variables" title="Permalink to this heading">¶</a></h2>
 <p>To harness the power of Python, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> makes the most pertinent results
 of each computation available to the Python interpreter for
 post-processing. To demonstrate, we can embellish the previous example of
@@ -362,7 +364,7 @@ H<sub>2</sub> and H atom:</p>
 <span class="nb">print</span> <span class="s2">&quot;De=</span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">D_e</span>
 </pre></div>
 </div>
-<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code> function returns the final result of the
+<p>The <a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a> function returns the final result of the
 computation, the requested total energy in Hartrees, which we assign to a
 Python variable. The two energies are then converted to a dissociation
 energy and printed to the output file using standard Python notation.</p>
@@ -379,7 +381,7 @@ scaled energy and the unscaled MP2 energy are made available:</p>
 <p>Each module and the Python driver set PSI variables over the course of a
 calculation.  The values for all can be printed in the output file with
 the input file command <a class="reference internal" href="api/psi4.core.print_variables.html#psi4.core.print_variables" title="psi4.core.print_variables"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_variables()</span></code></a>. Note that PSI variables
-are cleared at the start of each <code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code>, etc. in an input
+are cleared at the start of each <a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a>, etc. in an input
 file by <a class="reference internal" href="api/psi4.core.clean_variables.html#psi4.core.clean_variables" title="psi4.core.clean_variables"><code class="xref py py-func docutils literal notranslate"><span class="pre">clean_variables()</span></code></a>.
 So if you run in a single input file a STO-3G FCI followed by a
 aug-cc-pVQZ SCF followed by a <a class="reference internal" href="api/psi4.core.print_variables.html#psi4.core.print_variables" title="psi4.core.print_variables"><code class="xref py py-func docutils literal notranslate"><span class="pre">print_variables()</span></code></a> command, the
@@ -389,10 +391,10 @@ The entire dictionary of PSI variables can be obtained through
 <a class="reference internal" href="api/psi4.core.get_variables.html#psi4.core.get_variables" title="psi4.core.get_variables"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_variables()</span></code></a>.</p>
 </section>
 <section id="return-values">
-<span id="sec-returnvals"></span><h2>Return Values<a class="headerlink" href="#return-values" title="Permalink to this headline">¶</a></h2>
+<span id="sec-returnvals"></span><h2>Return Values<a class="headerlink" href="#return-values" title="Permalink to this heading">¶</a></h2>
 <p>Most of the usual user computation functions (<em>i.e.</em>,
-<code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code>, and
-<code class="xref py py-func docutils literal notranslate"><span class="pre">frequency()</span></code>) return simply the current total energy.
+<a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a>, <a class="reference internal" href="api/psi4.driver.optimize.html#psi4.driver.optimize" title="psi4.driver.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a>, and
+<a class="reference internal" href="api/psi4.driver.frequency.html#psi4.driver.frequency" title="psi4.driver.frequency"><code class="xref py py-func docutils literal notranslate"><span class="pre">frequency()</span></code></a>) return simply the current total energy.
 Consult the descriptions of other functions in <a class="reference internal" href="psithonfunc.html#sec-psithonfunc"><span class="std std-ref">Psithon Functions: Invoking a Calculation</span></a> for
 what quantities they return and for what data structures they make
 available for post-processing. Many users need only deal with the simple return
@@ -433,7 +435,7 @@ form for the computation functions.</p>
 </div>
 </section>
 <section id="loops">
-<span id="sec-loops"></span><h2>Loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h2>
+<span id="sec-loops"></span><h2>Loops<a class="headerlink" href="#loops" title="Permalink to this heading">¶</a></h2>
 <p>Python provides many control structures, any of which can be used within <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
 input files. For example, to loop over three basis sets, the following code can
 be used:</p>
@@ -479,9 +481,11 @@ geometry scans are performed. See <a class="reference external" href="https://gi
 and Cartiesian scans.</p>
 </section>
 <section id="tables-of-results">
-<span id="sec-resultstables"></span><h2>Tables of Results<a class="headerlink" href="#tables-of-results" title="Permalink to this headline">¶</a></h2>
-<p>The results of computations can be compactly tabulated with the <code class="xref py py-func docutils literal notranslate"><span class="pre">Table()</span></code> Psithon
-function. For example, in the following potential energy surface scan for water</p>
+<span id="sec-resultstables"></span><h2>Tables of Results<a class="headerlink" href="#tables-of-results" title="Permalink to this heading">¶</a></h2>
+<p>The Psithon function <code class="docutils literal notranslate"><span class="pre">psi4.driver.p4util.Table</span></code> has been removed,
+as the Python ecosystem provides many more flexible alternatives. An
+example tabulating a potential energy surface scan for water with Pandas
+is shown below:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="n">h2o</span> <span class="p">{</span>
   <span class="n">O</span>
   <span class="n">H</span> <span class="mi">1</span> <span class="n">R</span>
@@ -489,9 +493,10 @@ function. For example, in the following potential energy surface scan for water<
 <span class="p">}</span>
 
 <span class="n">Rvals</span><span class="o">=</span><span class="p">[</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.1</span><span class="p">]</span>
-<span class="n">Avals</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Avals</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="n">table</span><span class="o">=</span><span class="n">Table</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;R&quot;</span><span class="p">,</span><span class="s2">&quot;A&quot;</span><span class="p">],</span> <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;E(SCF)&quot;</span><span class="p">,</span><span class="s2">&quot;E(SCS)&quot;</span><span class="p">,</span><span class="s2">&quot;E(DFMP2)&quot;</span><span class="p">])</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">table</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="nb">set</span> <span class="n">basis</span> <span class="n">cc</span><span class="o">-</span><span class="n">pvdz</span>
 
@@ -500,28 +505,28 @@ function. For example, in the following potential energy surface scan for water<
     <span class="k">for</span> <span class="n">A</span> <span class="ow">in</span> <span class="n">Avals</span><span class="p">:</span>
         <span class="n">h2o</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A</span>
         <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;mp2&#39;</span><span class="p">)</span>
-        <span class="n">escf</span> <span class="o">=</span> <span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;SCF TOTAL ENERGY&#39;</span><span class="p">)</span>
-        <span class="n">edfmp2</span> <span class="o">=</span> <span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;MP2 TOTAL ENERGY&#39;</span><span class="p">)</span>
-        <span class="n">escsmp2</span> <span class="o">=</span> <span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;SCS-MP2 TOTAL ENERGY&#39;</span><span class="p">)</span>
-        <span class="n">table</span><span class="p">[</span><span class="n">R</span><span class="p">][</span><span class="n">A</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">escf</span><span class="p">,</span> <span class="n">escsmp2</span><span class="p">,</span> <span class="n">edfmp2</span><span class="p">]</span>
+        <span class="n">escf</span> <span class="o">=</span> <span class="n">variable</span><span class="p">(</span><span class="s1">&#39;SCF TOTAL ENERGY&#39;</span><span class="p">)</span>
+        <span class="n">edfmp2</span> <span class="o">=</span> <span class="n">variable</span><span class="p">(</span><span class="s1">&#39;MP2 TOTAL ENERGY&#39;</span><span class="p">)</span>
+        <span class="n">escsmp2</span> <span class="o">=</span> <span class="n">variable</span><span class="p">(</span><span class="s1">&#39;SCS-MP2 TOTAL ENERGY&#39;</span><span class="p">)</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">R</span><span class="p">,</span> <span class="n">A</span><span class="p">))</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">escf</span><span class="p">,</span> <span class="n">escsmp2</span><span class="p">,</span> <span class="n">edfmp2</span><span class="p">])</span>
 
-<span class="nb">print</span> <span class="n">table</span>
-<span class="n">relative</span><span class="o">=</span><span class="n">table</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">relative</span><span class="o">.</span><span class="n">absolute_to_relative</span><span class="p">()</span>
-<span class="nb">print</span> <span class="n">relative</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;E(SCF)&quot;</span><span class="p">,</span> <span class="s2">&quot;E(SCS)&quot;</span><span class="p">,</span> <span class="s2">&quot;E(DFMP2)&quot;</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">rows</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1">#                E(SCF)     E(SCS)   E(DFMP2)</span>
+<span class="c1"># (0.9, 100) -76.020680 -76.217006 -76.221189</span>
+<span class="c1"># (0.9, 102) -76.021305 -76.217439 -76.221605</span>
+<span class="c1"># (1.0, 100) -76.021264 -76.224987 -76.228727</span>
+<span class="c1"># (1.0, 102) -76.021460 -76.224946 -76.228668</span>
+<span class="c1"># (1.1, 100) -75.990195 -76.201891 -76.205087</span>
+<span class="c1"># (1.1, 102) -75.990085 -76.201498 -76.204676</span>
 </pre></div>
 </div>
-<p>we first define a table (on line 10) with two row indices and three column
-indices. As the potential energy scan is performed, the results are stored
-(line 22) and the final table is printed to the output file (line 24). The
-table is converted from absolute energies to relative energies (in kcal mol<sup>-1</sup>)
-on line 26, before being printed again. The relative energies are reported with
-respect to the lowest value in each column. More examples of how to control the
-formatting of the tables can be found in the sample input files provided; see
-Appendix <a class="reference internal" href="testsuite.html#apdx-testsuite"><span class="std std-ref">Test Suite and Sample Inputs</span></a> for a complete listing.</p>
 </section>
 <section id="python-wrappers">
-<span id="sec-wrappers"></span><h2>Python Wrappers<a class="headerlink" href="#python-wrappers" title="Permalink to this headline">¶</a></h2>
+<span id="sec-wrappers"></span><h2>Python Wrappers<a class="headerlink" href="#python-wrappers" title="Permalink to this heading">¶</a></h2>
 <p>The Python foundations of the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> driver and Psithon syntax permit
 many commonly performed post-processing procedures to be integrated into
 the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> suite.</p>
@@ -534,7 +539,7 @@ example,</p>
 </div>
 <p>will compute the counterpoise-corrected density-fitted MP2 interaction energy
 between two molecules.</p>
-<p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> also provides the <code class="xref py py-func docutils literal notranslate"><span class="pre">cbs()</span></code> wrapper,
+<p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> also provides the <a class="reference internal" href="api/psi4.driver.cbs.html#psi4.driver.cbs" title="psi4.driver.cbs"><code class="xref py py-func docutils literal notranslate"><span class="pre">cbs()</span></code></a> wrapper,
 which automatically computes a complete-basis-set extrapolation (and
 automatically sets up the computations with different basis sets required to
 do the extrapolation).  For example,:</p>
@@ -548,7 +553,7 @@ do the extrapolation).  For example,:</p>
 <p>will compute a 2-point Helgaker extrapolation of the correlation energy
 using the cc-pVDZ and cc-pVTZ basis sets (with method MP2) and add this
 extrapolated correlation energy to the Hartree–Fock energy in the
-largest basis (cc-pVTZ). <code class="xref py py-func docutils literal notranslate"><span class="pre">cbs()</span></code> can
+largest basis (cc-pVTZ). <a class="reference internal" href="api/psi4.driver.cbs.html#psi4.driver.cbs" title="psi4.driver.cbs"><code class="xref py py-func docutils literal notranslate"><span class="pre">cbs()</span></code></a> can
 be configured behind-the-scenes with explicit arguments, as in the
 first example, or the convenience syntax of the equivalent second
 example can be used.</p>
@@ -684,7 +689,7 @@ not in the <code class="docutils literal notranslate"><span class="pre">set</spa
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psithoninput.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9240cbe">1.7a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3245f12">1.7a1.dev11</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -696,9 +701,9 @@ not in the <code class="docutils literal notranslate"><span class="pre">set</spa
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Psi4 Project.
-      Last updated on Monday, 23 May 2022 07:20AM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Friday, 17 June 2022 10:20PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>
