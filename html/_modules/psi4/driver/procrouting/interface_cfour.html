@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/interface_cfour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/443e480">1.7a1.dev13</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2d7224c">1.7a1.dev14</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -154,10 +154,12 @@
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 
+<span class="kn">import</span> <span class="nn">qcelemental</span> <span class="k">as</span> <span class="nn">qcel</span>
+
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">qcdb</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">p4util</span>
-<span class="kn">from</span> <span class="nn">psi4.driver.molutil</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.p4util.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
 <span class="c1"># never import driver, wrappers, or aliases into this file</span>
 
 <span class="n">P4C4_INFO</span> <span class="o">=</span> <span class="p">{}</span>
@@ -370,7 +372,17 @@
         <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="nb">float</span><span class="p">(</span><span class="n">psivar</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
 
     <span class="k">if</span> <span class="n">qcdbmolecule</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">c4mol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">molecule</span> <span class="o">=</span> <span class="n">geometry</span><span class="p">(</span><span class="n">c4mol</span><span class="o">.</span><span class="n">create_psi4_string_from_molecule</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;blank_molecule_psi4_yo&#39;</span><span class="p">)</span>
+
+        <span class="n">molrec</span> <span class="o">=</span> <span class="n">qcel</span><span class="o">.</span><span class="n">molparse</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span>
+            <span class="n">c4mol</span><span class="o">.</span><span class="n">create_psi4_string_from_molecule</span><span class="p">(),</span>
+            <span class="n">enable_qm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">missing_enabled_return_qm</span><span class="o">=</span><span class="s1">&#39;minimal&#39;</span><span class="p">,</span>
+            <span class="n">enable_efp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">missing_enabled_return_efp</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">molecule</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;qm&#39;</span><span class="p">])</span>
+        <span class="n">molecule</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s1">&#39;blank_molecule_psi4_yo&#39;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_active_molecule</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span>
         <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="c1"># This case arises when no Molecule going into calc (cfour {} block) but want</span>
         <span class="c1">#   to know the orientation at which grad, properties, etc. are returned (c4mol).</span>
@@ -496,11 +508,16 @@
 
     <span class="c1"># new skeleton wavefunction w/mol, highest-SCF basis (just to choose one), &amp; not energy</span>
     <span class="c1">#   Feb 2017 hack. Could get proper basis in skel wfn even if not through p4 basis kw</span>
-    <span class="n">gobas</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;sto-3g&#39;</span>
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;(AUTO)&quot;</span><span class="p">]:</span>
+        <span class="n">gobas</span> <span class="o">=</span> <span class="s2">&quot;sto-3g&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gobas</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">)</span>
     <span class="n">basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="s2">&quot;ORBITAL&quot;</span><span class="p">,</span> <span class="n">gobas</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">basis</span><span class="o">.</span><span class="n">has_ECP</span><span class="p">():</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;ECPs not hooked up for Cfour&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="n">wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">basis</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">psivar</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
 
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
 
@@ -567,7 +584,7 @@
         <span class="n">qcdbmolecule</span><span class="o">.</span><span class="n">tagline</span> <span class="o">=</span> <span class="n">molecule</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
         <span class="n">molcmd</span><span class="p">,</span> <span class="n">molkw</span> <span class="o">=</span> <span class="n">qcdbmolecule</span><span class="o">.</span><span class="n">format_molecule_for_cfour</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;(AUTO)&quot;</span><span class="p">]:</span>
             <span class="n">bascmd</span><span class="p">,</span> <span class="n">baskw</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">{}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">user_pg</span> <span class="o">=</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span>
@@ -710,7 +727,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/interface_cfour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/443e480">1.7a1.dev13</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2d7224c">1.7a1.dev14</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -724,7 +741,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Monday, 27 June 2022 06:00PM.
+      Last updated on Tuesday, 28 June 2022 05:14PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
