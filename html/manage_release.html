@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/manage_release.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/79a2859">1.7a1.dev17</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ae65c94">1.7a1.dev18</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -305,10 +305,17 @@
 <span class="n">bc8d7f5</span> <span class="n">v1</span><span class="mf">.3</span><span class="n">rc2</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="n">v1</span><span class="mf">.3</span><span class="n">rc2</span> <span class="n">bc8d7f5</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;v1.3rc2&quot;</span>
 
-<span class="c1"># pause here and push to upstream and let Azure complete if want an</span>
-<span class="c1">#       on-tag Windows conda package, not just tag+1.dev1</span>
-<span class="c1">#       below pushes commit and tag together so only one CI</span>
-<span class="c1">#       &gt; git push --atomic upstream master v1.5</span>
+<span class="c1"># goto GH:psi4/psi4 &gt; Settings &gt; Branches &gt; master &gt; Edit</span>
+<span class="c1">#      https://github.com/psi4/psi4/settings/branch_protection_rules/424295</span>
+<span class="c1"># uncheck &quot;Include administrators&quot; and Save changes</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">atomic</span> <span class="n">upstream</span> <span class="n">master</span> <span class="n">v1</span><span class="mf">.3</span><span class="n">rc2</span>
+
+<span class="c1"># pause here and push to upstream and let Azure complete for an</span>
+<span class="c1">#       on-tag Windows conda package and docs, not tag+1.dev1 .</span>
+<span class="c1">#       the atomic flag below pushes commit and tag together so only one CI</span>
+<span class="c1">#       which is necessary for Windows conda package to compute the right version.</span>
+<span class="c1">#       After push, can temporarily re-engage &quot;Include administrators&quot; protections.</span>
 <span class="c1">#       also, grab the docs build from GHA artifacts</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">vi</span> <span class="n">psi4</span><span class="o">/</span><span class="n">metadata</span><span class="o">.</span><span class="n">py</span>
@@ -327,7 +334,6 @@
 <span class="c1"># uncheck &quot;Include administrators&quot; and Save changes</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">git</span> <span class="n">push</span> <span class="n">upstream</span> <span class="n">master</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">git</span> <span class="n">push</span> <span class="n">upstream</span> <span class="n">v1</span><span class="mf">.3</span><span class="n">rc2</span>
 
 <span class="c1"># re-engage &quot;Include administrators&quot; protections</span>
 </pre></div>
@@ -365,14 +371,10 @@
 <span class="c1"># skipping the hash recording and &quot;upcoming&quot; step b/c only tags matter on maintenance branch</span>
 
 <span class="c1"># free pushing to maintenance branches at present so GitHub interface steps not needed</span>
-<span class="c1"># goto GH:psi4/psi4 &gt; Settings &gt; Branches &gt; 1.3.x &gt; Edit</span>
-<span class="c1">#      https://github.com/psi4/psi4/settings/branch_protection_rules/4385008  # !Varies!</span>
-<span class="c1"># uncheck &quot;Include administrators&quot; and Save changes</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">git</span> <span class="n">push</span> <span class="n">upstream</span> <span class="mf">1.3</span><span class="o">.</span><span class="n">x</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">git</span> <span class="n">push</span> <span class="n">upstream</span> <span class="n">v1</span><span class="mf">.3.1</span>
+<span class="c1"># see note at &quot;Tag postrelease&quot; for why atomic commit needed. Collect docs from GHA artifacts.</span>
 
-<span class="c1"># re-engage &quot;Include administrators&quot; protections</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">atomic</span> <span class="n">upstream</span> <span class="mf">1.3</span><span class="o">.</span><span class="n">x</span> <span class="n">v1</span><span class="mf">.3.1</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -712,7 +714,7 @@ Other packages, the “ecosystem stack” (e.g., <code class="docutils literal n
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/manage_release.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/79a2859">1.7a1.dev17</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ae65c94">1.7a1.dev18</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -726,7 +728,7 @@ Other packages, the “ecosystem stack” (e.g., <code class="docutils literal n
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Thursday, 07 July 2022 08:49PM.
+      Last updated on Monday, 11 July 2022 06:22PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
