@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/occ.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/09a31a5">1.7a1.dev31</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d3d403a">1.7a1.dev32</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -247,13 +247,23 @@ yields</p>
 <div class="math notranslate nohighlight">
 \[{\bf \kappa} = -{\bf A^{-1}w}\]</div>
 <p>This final equation corresponds to the usual Newton-Raphson step.</p>
-<p>Publications resulting from the use of the orbital-optimized code should cite the following publications:</p>
 <ul class="simple">
-<li><p><strong>OMP2</strong> <a class="reference internal" href="bibliography.html#bozkaya-2011-omp2" id="id12"><span>[Bozkaya:2011:omp2]</span></a> and <a class="reference internal" href="bibliography.html#bozkaya-2013-omp2grad" id="id13"><span>[Bozkaya:2013:omp2grad]</span></a></p></li>
-<li><p><strong>OMP3</strong> <a class="reference internal" href="bibliography.html#bozkaya-2011-omp3" id="id14"><span>[Bozkaya:2011:omp3]</span></a> , <a class="reference internal" href="bibliography.html#bozkaya-2013-omp3" id="id15"><span>[Bozkaya:2013:omp3]</span></a>, and <a class="reference internal" href="bibliography.html#bozkaya-2013-omp3grad" id="id16"><span>[Bozkaya:2013:omp3grad]</span></a></p></li>
-<li><p><strong>OMP2.5</strong> <a class="reference internal" href="bibliography.html#bozkaya-2011-omp3" id="id17"><span>[Bozkaya:2011:omp3]</span></a></p></li>
-<li><p><strong>OLCCD</strong> <a class="reference internal" href="bibliography.html#bozkaya-2013-ocepa" id="id18"><span>[Bozkaya:2013:ocepa]</span></a></p></li>
-<li><p><strong>LCCD</strong> <a class="reference internal" href="bibliography.html#bozkaya-2013-ocepa" id="id19"><span>[Bozkaya:2013:ocepa]</span></a></p></li>
+<li><p>OREMP</p></li>
+</ul>
+<p>The REMP hybrid perturbation theory is a constrained mixture of the Møller–Plesset perturbation theory and the
+Retaining the Excitation degree perturbation theory(<a class="reference internal" href="bibliography.html#fink-2006-re" id="id12"><span>[Fink:2006:RE]</span></a>, <a class="reference internal" href="bibliography.html#behnle-2019-remp" id="id13"><span>[Behnle:2019:REMP]</span></a>).
+The mixing ratio is determined by the parameter :math’:<cite>A</cite>:</p>
+<div class="math notranslate nohighlight">
+\[\widehat{H}^{(0)}_\text{REMP} = (1-A)\widehat{H}^{(0)}_\text{RE} + A\widehat{H}^{(0)}_\text{MP}\]</div>
+<p>Technically, the second order of RE corresponds to LCCD for RHF and UHF references. REMP2 and its orbital-optimized variant OREMP2
+are thus straightforward to implement in a (O)LCCD program by appropriate scaling of residual vector contributions and density matrices.</p>
+<ul class="simple">
+<li><p><strong>OMP2</strong> <a class="reference internal" href="bibliography.html#bozkaya-2011-omp2" id="id14"><span>[Bozkaya:2011:omp2]</span></a> and <a class="reference internal" href="bibliography.html#bozkaya-2013-omp2grad" id="id15"><span>[Bozkaya:2013:omp2grad]</span></a></p></li>
+<li><p><strong>OMP3</strong> <a class="reference internal" href="bibliography.html#bozkaya-2011-omp3" id="id16"><span>[Bozkaya:2011:omp3]</span></a> , <a class="reference internal" href="bibliography.html#bozkaya-2013-omp3" id="id17"><span>[Bozkaya:2013:omp3]</span></a>, and <a class="reference internal" href="bibliography.html#bozkaya-2013-omp3grad" id="id18"><span>[Bozkaya:2013:omp3grad]</span></a></p></li>
+<li><p><strong>OMP2.5</strong> <a class="reference internal" href="bibliography.html#bozkaya-2011-omp3" id="id19"><span>[Bozkaya:2011:omp3]</span></a></p></li>
+<li><p><strong>OLCCD</strong> <a class="reference internal" href="bibliography.html#bozkaya-2013-ocepa" id="id20"><span>[Bozkaya:2013:ocepa]</span></a></p></li>
+<li><p><strong>LCCD</strong> <a class="reference internal" href="bibliography.html#bozkaya-2013-ocepa" id="id21"><span>[Bozkaya:2013:ocepa]</span></a></p></li>
+<li><p><strong>OREMP2</strong> <a class="reference internal" href="bibliography.html#behnle-2021-oremp" id="id22"><span>[Behnle:2021:OREMP]</span></a>, and <a class="reference internal" href="bibliography.html#behnle-2022-oremp" id="id23"><span>[Behnle:2022:OREMP]</span></a></p></li>
 </ul>
 </section>
 <section id="convergence-problems">
@@ -272,8 +282,8 @@ and can be controlled through OCC (conventional integrals <code class="docutils 
 and DFOCC (density-fitted <code class="docutils literal notranslate"><span class="pre">DF</span></code> and Cholesky-decomposed <code class="docutils literal notranslate"><span class="pre">CD</span></code>)
 keywords. Switching between the integrals treatments is controlled
 through “type select” values in the rightmost Table column.</p>
-<span id="table-occ-oo-calls"></span><table class="docutils align-default" id="id30">
-<caption><span class="caption-text">Orbital-Optimized MP and LCCD capabilities of OCC/DFOCC modules</span><a class="headerlink" href="#id30" title="Permalink to this table">¶</a></caption>
+<span id="table-occ-oo-calls"></span><table class="docutils align-default" id="id35">
+<caption><span class="caption-text">Orbital-Optimized MP and LCCD capabilities of OCC/DFOCC modules</span><a class="headerlink" href="#id35" title="Permalink to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>name</p></th>
 <th class="head"><p>calls method</p></th>
@@ -347,10 +357,26 @@ through “type select” values in the rightmost Table column.</p>
 <td><p>—</p></td>
 <td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
 </tr>
+<tr class="row-even"><td rowspan="3"><p>oremp2</p></td>
+<td><p>Orbital-Optimized 2nd order REMP hybrid perturbation theory</p></td>
+<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
+<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
+</tr>
+<tr class="row-odd"><td><p>Density-Fitted Orbital-Optimized REMP</p></td>
+<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
+<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> DF</p></td>
+</tr>
+<tr class="row-even"><td><p>Cholesky-Decomposed Orbital-Optimized REMP</p></td>
+<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
+<td><p>—</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
+</tr>
 </tbody>
 </table>
-<span id="table-occ-scsoo-calls"></span><table class="docutils align-default" id="id31">
-<caption><span class="caption-text">Spin-Component-Scaled Orbital-Optimized MP capabilities of OCC/DFOCC modules</span><a class="headerlink" href="#id31" title="Permalink to this table">¶</a></caption>
+<span id="table-occ-scsoo-calls"></span><table class="docutils align-default" id="id36">
+<caption><span class="caption-text">Spin-Component-Scaled Orbital-Optimized MP capabilities of OCC/DFOCC modules</span><a class="headerlink" href="#id36" title="Permalink to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>name</p></th>
 <th class="head"><p>calls method</p></th>
@@ -411,9 +437,9 @@ through “type select” values in the rightmost Table column.</p>
 </tr>
 </tbody>
 </table>
-<span class="target" id="index-2"></span><span class="target" id="index-3"></span><span class="target" id="index-4"></span></section>
+<span class="target" id="index-2"></span><span class="target" id="index-3"></span><span class="target" id="index-4"></span><span class="target" id="index-5"></span></section>
 <section id="basic-occ-keywords">
-<span id="index-5"></span><h2>Basic OCC Keywords<a class="headerlink" href="#basic-occ-keywords" title="Permalink to this heading">¶</a></h2>
+<span id="index-6"></span><h2>Basic OCC Keywords<a class="headerlink" href="#basic-occ-keywords" title="Permalink to this heading">¶</a></h2>
 <section id="e-convergence">
 <h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-OCC"><span class="xref std std-term">E_CONVERGENCE</span></a><a class="headerlink" href="#e-convergence" title="Permalink to this heading">¶</a></h3>
 <blockquote>
@@ -470,7 +496,7 @@ through “type select” values in the rightmost Table column.</p>
 <div><p>Type of the wavefunction.</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: string</p></li>
-<li><p><strong>Possible Values</strong>: OMP2, OMP3, OCEPA, OMP2.5</p></li>
+<li><p><strong>Possible Values</strong>: OMP2, OMP3, OCEPA, OMP2.5, REMP, OREMP</p></li>
 <li><p><strong>Default</strong>: OMP2</p></li>
 </ul>
 </div></blockquote>
@@ -615,8 +641,8 @@ through “type select” values in the rightmost Table column.</p>
 </section>
 <section id="basic-dfocc-keywords">
 <h2>Basic DFOCC Keywords<a class="headerlink" href="#basic-dfocc-keywords" title="Permalink to this heading">¶</a></h2>
-<section id="id20">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a><a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h3>
+<section id="id24">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a><a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Convergence criterion for energy. See Table <a class="reference internal" href="scf.html#table-conv-corl"><span class="std std-ref">Post-SCF Convergence</span></a> for default convergence criteria for different calculation types.</p>
 <ul class="simple">
@@ -625,8 +651,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id21">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-R_CONVERGENCE-DFOCC"><span class="xref std std-term">R_CONVERGENCE</span></a><a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h3>
+<section id="id25">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-R_CONVERGENCE-DFOCC"><span class="xref std std-term">R_CONVERGENCE</span></a><a class="headerlink" href="#id25" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Convergence criterion for amplitudes (residuals).</p>
 <ul class="simple">
@@ -635,8 +661,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id22">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-RMS_MOGRAD_CONVERGENCE-DFOCC"><span class="xref std std-term">RMS_MOGRAD_CONVERGENCE</span></a><a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
+<section id="id26">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-RMS_MOGRAD_CONVERGENCE-DFOCC"><span class="xref std std-term">RMS_MOGRAD_CONVERGENCE</span></a><a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Convergence criterion for RMS orbital gradient. If this keyword is not set by the user, DFOCC will estimate and use a value required to achieve the desired <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a>  The listed default will be used for the default value of <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a></p>
 <ul class="simple">
@@ -645,8 +671,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id23">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-MAX_MOGRAD_CONVERGENCE-DFOCC"><span class="xref std std-term">MAX_MOGRAD_CONVERGENCE</span></a><a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h3>
+<section id="id27">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-MAX_MOGRAD_CONVERGENCE-DFOCC"><span class="xref std std-term">MAX_MOGRAD_CONVERGENCE</span></a><a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Convergence criterion for maximum orbital gradient. If this keyword is not set by the user, DFOCC will estimate and use a value required to achieve the desired <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a>  The listed default will be used for the default value of <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a></p>
 <ul class="simple">
@@ -655,8 +681,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id24">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-MO_MAXITER-DFOCC"><span class="xref std std-term">MO_MAXITER</span></a><a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h3>
+<section id="id28">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-MO_MAXITER-DFOCC"><span class="xref std std-term">MO_MAXITER</span></a><a class="headerlink" href="#id28" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Maximum number of iterations to determine the orbitals</p>
 <ul class="simple">
@@ -665,8 +691,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id25">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-ORB_OPT-DFOCC"><span class="xref std std-term">ORB_OPT</span></a><a class="headerlink" href="#id25" title="Permalink to this heading">¶</a></h3>
+<section id="id29">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-ORB_OPT-DFOCC"><span class="xref std std-term">ORB_OPT</span></a><a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Do optimize the orbitals?</p>
 <ul class="simple">
@@ -678,8 +704,8 @@ through “type select” values in the rightmost Table column.</p>
 </section>
 <section id="advanced-dfocc-keywords">
 <h2>Advanced DFOCC Keywords<a class="headerlink" href="#advanced-dfocc-keywords" title="Permalink to this heading">¶</a></h2>
-<section id="id26">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OPT_METHOD-DFOCC"><span class="xref std std-term">OPT_METHOD</span></a><a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h3>
+<section id="id30">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OPT_METHOD-DFOCC"><span class="xref std std-term">OPT_METHOD</span></a><a class="headerlink" href="#id30" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>The orbital optimization algorithm. Presently quasi-Newton-Raphson algorithm available with several Hessian * options.</p>
 <ul class="simple">
@@ -710,8 +736,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id27">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-ORTH_TYPE-DFOCC"><span class="xref std std-term">ORTH_TYPE</span></a><a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h3>
+<section id="id31">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-ORTH_TYPE-DFOCC"><span class="xref std std-term">ORTH_TYPE</span></a><a class="headerlink" href="#id31" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>The algorithm for orthogonalization of MOs</p>
 <ul class="simple">
@@ -721,8 +747,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id28">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DO_DIIS-DFOCC"><span class="xref std std-term">DO_DIIS</span></a><a class="headerlink" href="#id28" title="Permalink to this heading">¶</a></h3>
+<section id="id32">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DO_DIIS-DFOCC"><span class="xref std std-term">DO_DIIS</span></a><a class="headerlink" href="#id32" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Do apply DIIS extrapolation?</p>
 <ul class="simple">
@@ -731,8 +757,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id29">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DO_LEVEL_SHIFT-DFOCC"><span class="xref std std-term">DO_LEVEL_SHIFT</span></a><a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h3>
+<section id="id33">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DO_LEVEL_SHIFT-DFOCC"><span class="xref std std-term">DO_LEVEL_SHIFT</span></a><a class="headerlink" href="#id33" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Do apply level shifting?</p>
 <ul class="simple">
@@ -756,8 +782,12 @@ or may not be the default in <span style="font-family: Optima, sans-serif; text-
 details.) To call the OCC/DFOCC implementation of any method below in
 preference to the default module, issue <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">qc_module</span> <span class="pre">occ</span></code>.</p>
 <p>Starting in v1.4, MP2.5 and MP3 default to the density-fit algorithm. Set <a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> to <code class="docutils literal notranslate"><span class="pre">CONV</span></code> to get previous behavior.</p>
-<span id="table-occ-nonoo-calls"></span><table class="docutils align-default" id="id32">
-<caption><span class="caption-text">Conventional (non-OO) CC and MP capabilities of OCC/DFOCC modules</span><a class="headerlink" href="#id32" title="Permalink to this table">¶</a></caption>
+<p>Publications resulting from the use of the non-OO CC codes should cite the following publications:</p>
+<ul class="simple">
+<li><p><strong>REMP</strong> <a class="reference internal" href="bibliography.html#behnle-2019-remp" id="id34"><span>[Behnle:2019:REMP]</span></a>, [Behnle:2022:OREMP]</p></li>
+</ul>
+<span id="table-occ-nonoo-calls"></span><table class="docutils align-default" id="id37">
+<caption><span class="caption-text">Conventional (non-OO) CC and MP capabilities of OCC/DFOCC modules</span><a class="headerlink" href="#id37" title="Permalink to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>name</p></th>
 <th class="head"><p>calls method</p></th>
@@ -895,6 +925,22 @@ preference to the default module, issue <code class="docutils literal notranslat
 <td><p>—</p></td>
 <td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
 </tr>
+<tr class="row-even"><td rowspan="3"><p>remp2</p></td>
+<td><p>2nd order REMP hybrid perturbation theory</p></td>
+<td><p>RHF/UHF</p></td>
+<td><p>—</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
+</tr>
+<tr class="row-odd"><td><p>Density-Fitted REMP</p></td>
+<td><p>RHF/UHF</p></td>
+<td><p>—</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> DF</p></td>
+</tr>
+<tr class="row-even"><td><p>Cholesky-Decomposed REMP</p></td>
+<td><p>RHF/UHF</p></td>
+<td><p>—</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -983,21 +1029,21 @@ preference to the default module, issue <code class="docutils literal notranslat
 </ul>
 </li>
 <li><a class="reference internal" href="#basic-dfocc-keywords">Basic DFOCC Keywords</a><ul>
-<li><a class="reference internal" href="#id20"><span class="xref std std-term">E_CONVERGENCE</span></a></li>
-<li><a class="reference internal" href="#id21"><span class="xref std std-term">R_CONVERGENCE</span></a></li>
-<li><a class="reference internal" href="#id22"><span class="xref std std-term">RMS_MOGRAD_CONVERGENCE</span></a></li>
-<li><a class="reference internal" href="#id23"><span class="xref std std-term">MAX_MOGRAD_CONVERGENCE</span></a></li>
-<li><a class="reference internal" href="#id24"><span class="xref std std-term">MO_MAXITER</span></a></li>
-<li><a class="reference internal" href="#id25"><span class="xref std std-term">ORB_OPT</span></a></li>
+<li><a class="reference internal" href="#id24"><span class="xref std std-term">E_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#id25"><span class="xref std std-term">R_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#id26"><span class="xref std std-term">RMS_MOGRAD_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#id27"><span class="xref std std-term">MAX_MOGRAD_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#id28"><span class="xref std std-term">MO_MAXITER</span></a></li>
+<li><a class="reference internal" href="#id29"><span class="xref std std-term">ORB_OPT</span></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#advanced-dfocc-keywords">Advanced DFOCC Keywords</a><ul>
-<li><a class="reference internal" href="#id26"><span class="xref std std-term">OPT_METHOD</span></a></li>
+<li><a class="reference internal" href="#id30"><span class="xref std std-term">OPT_METHOD</span></a></li>
 <li><a class="reference internal" href="#hess-type"><span class="xref std std-term">HESS_TYPE</span></a></li>
 <li><a class="reference internal" href="#mo-diis-num-vecs"><span class="xref std std-term">MO_DIIS_NUM_VECS</span></a></li>
-<li><a class="reference internal" href="#id27"><span class="xref std std-term">ORTH_TYPE</span></a></li>
-<li><a class="reference internal" href="#id28"><span class="xref std std-term">DO_DIIS</span></a></li>
-<li><a class="reference internal" href="#id29"><span class="xref std std-term">DO_LEVEL_SHIFT</span></a></li>
+<li><a class="reference internal" href="#id31"><span class="xref std std-term">ORTH_TYPE</span></a></li>
+<li><a class="reference internal" href="#id32"><span class="xref std std-term">DO_DIIS</span></a></li>
+<li><a class="reference internal" href="#id33"><span class="xref std std-term">DO_LEVEL_SHIFT</span></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#conventional-non-oo-coupled-cluster-and-mollerplesset-perturbation-theories">Conventional (Non-OO) Coupled-Cluster and Møller–Plesset Perturbation Theories</a></li>
@@ -1052,7 +1098,7 @@ preference to the default module, issue <code class="docutils literal notranslat
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/occ.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/09a31a5">1.7a1.dev31</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d3d403a">1.7a1.dev32</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1066,7 +1112,7 @@ preference to the default module, issue <code class="docutils literal notranslat
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Monday, 08 August 2022 09:26PM.
+      Last updated on Tuesday, 09 August 2022 05:39PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
