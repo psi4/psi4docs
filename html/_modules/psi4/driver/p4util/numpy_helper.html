@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/numpy_helper.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/808cb64">1.7a1.dev42</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/194e464">1.7a1.dev43</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -207,7 +207,7 @@
 <span class="sd">    Converts a `NumPy array</span>
 <span class="sd">    &lt;https://numpy.org/doc/stable/reference/arrays.ndarray.html&gt;`_ or list of</span>
 <span class="sd">    NumPy arrays into a |PSIfour| :class:`~psi4.core.Matrix` or</span>
-<span class="sd">    :class:`~psi4.core.Vector` (irreped if list).</span>
+<span class="sd">    :class:`~psi4.core.Vector` (irrepped if list).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -250,7 +250,7 @@
     <span class="c1"># What type is it? MRO can help.</span>
     <span class="n">arr_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="c1"># Irreped case</span>
+    <span class="c1"># Irrepped case</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">dim1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">dim2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Array_to_Matrix: If passed input is list of arrays dimension cannot be specified.&quot;</span><span class="p">)</span>
@@ -288,7 +288,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">arr_type</span> <span class="o">==</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
 
-            <span class="c1"># Build an irreped array back out</span>
+            <span class="c1"># Build an irrepped array back out</span>
             <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Array_to_Matrix: If dim1 is supplied must supply dim2 also&quot;</span><span class="p">)</span>
@@ -323,7 +323,7 @@
                 <span class="k">return</span> <span class="n">ret</span>
 
         <span class="k">elif</span> <span class="n">arr_type</span> <span class="o">==</span> <span class="n">core</span><span class="o">.</span><span class="n">Vector</span><span class="p">:</span>
-            <span class="c1"># Build an irreped array back out</span>
+            <span class="c1"># Build an irrepped array back out</span>
             <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Array_to_Matrix: If dim2 should not be supplied for 1D vectors.&quot;</span><span class="p">)</span>
@@ -369,7 +369,7 @@
 <span class="sd">    copy</span>
 <span class="sd">        Copy the data if `True`, return a view otherwise</span>
 <span class="sd">    dense</span>
-<span class="sd">        Converts irreped Psi4 objects to diagonally blocked dense arrays if</span>
+<span class="sd">        Converts irrepped Psi4 objects to diagonally blocked dense arrays if</span>
 <span class="sd">        `True`. Returns a list of arrays otherwise.</span>
 
 <span class="sd">    Returns</span>
@@ -496,7 +496,7 @@
     <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Writes the irreped matrix to a NumPy uncompressed file using :func:`numpy.savez`.</span>
+<span class="sd">    Writes the irrepped matrix to a NumPy uncompressed file using :func:`numpy.savez`.</span>
 
 <span class="sd">    Can return the packed data for saving many matrices into the same file.</span>
 
@@ -692,7 +692,7 @@
 
 <span class="k">def</span> <span class="nf">_irrep_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Warns user when iterating/accessing an irreped object.</span>
+<span class="sd">    Warns user when iterating/accessing an irrepped object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Attempted to access by index/iteration a Psi4 data object that supports multiple&quot;</span>
                           <span class="s2">&quot; irreps. Please use .np or .nph explicitly.&quot;</span><span class="p">)</span>
@@ -934,7 +934,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/numpy_helper.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/808cb64">1.7a1.dev42</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/194e464">1.7a1.dev43</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -948,7 +948,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Tuesday, 16 August 2022 04:36PM.
+      Last updated on Wednesday, 17 August 2022 05:29AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
