@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/14c230f">1.7a1.dev58</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4a98182">1.7a1.dev61</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2904,7 +2904,6 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;proc.py:run_bccd name </span><span class="si">%s</span><span class="s2"> not recognized&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
 
-
     <span class="c1"># Bypass routine scf if user did something special to get it to converge</span>
     <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ref_wfn&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ref_wfn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -2930,6 +2929,21 @@
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PastureRequiredError</span><span class="p">(</span><span class="s2">&quot;RUN_CCTRANSORT&quot;</span><span class="p">)</span>
 
+    <span class="n">hold_qcvars</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;MP2 TOTAL ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;MP2 CORRELATION ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;MP2 SAME-SPIN CORRELATION ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;MP2 OPPOSITE-SPIN CORRELATION ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;MP2 SINGLES ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;MP2 DOUBLES ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;CCSD TOTAL ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;CCSD CORRELATION ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;CCSD SAME-SPIN CORRELATION ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;CCSD OPPOSITE-SPIN CORRELATION ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;CCSD SINGLES ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;CCSD DOUBLES ENERGY&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">sort_func</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
 
@@ -2944,11 +2958,48 @@
             <span class="k">break</span>
         <span class="n">bcc_iter_cnt</span> <span class="o">+=</span> <span class="mi">1</span>
 
+        <span class="k">if</span> <span class="n">bcc_iter_cnt</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pv</span> <span class="ow">in</span> <span class="n">hold_qcvars</span><span class="p">:</span>
+                <span class="n">hold_qcvars</span><span class="p">[</span><span class="n">pv</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">pv</span><span class="p">)</span>
+
+    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;BCCD TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CCSD TOTAL ENERGY&quot;</span><span class="p">))</span>
+    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;BCCD CORRELATION ENERGY&quot;</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;BCCD TOTAL ENERGY&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;SCF TOTAL ENERGY&quot;</span><span class="p">))</span>
+    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT CORRELATION ENERGY&quot;</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;BCCD CORRELATION ENERGY&quot;</span><span class="p">))</span>
+
+    <span class="c1"># copy back canonical MP2 and CCSD from initial iteration</span>
+    <span class="k">for</span> <span class="n">pv</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hold_qcvars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">pv</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">pv</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;bccd(t)&#39;</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">cctriples</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
+        <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;B(T) CORRECTION ENERGY&quot;</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;(T) CORRECTION ENERGY&quot;</span><span class="p">))</span>
+        <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;BCCD(T) TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;CCSD(T) TOTAL ENERGY&quot;</span><span class="p">))</span>
+        <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;BCCD(T) CORRELATION ENERGY&quot;</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;BCCD(T) TOTAL ENERGY&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;SCF TOTAL ENERGY&quot;</span><span class="p">))</span>  <span class="c1"># note != CCSD(T) CORRELATION ENERGY</span>
+        <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;CURRENT CORRELATION ENERGY&quot;</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s2">&quot;BCCD(T) CORRELATION ENERGY&quot;</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">pv</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;(T) CORRECTION ENERGY&quot;</span><span class="p">,</span> <span class="s2">&quot;CCSD(T) TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="s2">&quot;CCSD(T) CORRELATION ENERGY&quot;</span><span class="p">]:</span>
+            <span class="n">ref_wfn</span><span class="o">.</span><span class="n">del_variable</span><span class="p">(</span><span class="n">pv</span><span class="p">)</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">del_variable</span><span class="p">(</span><span class="n">pv</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">pv</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="s2">&quot;BCCD TOTAL ENERGY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BCCD CORRELATION ENERGY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B(T) CORRECTION ENERGY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BCCD(T) TOTAL ENERGY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BCCD(T) CORRELATION ENERGY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CURRENT CORRELATION ENERGY&quot;</span><span class="p">,</span>
+    <span class="p">]:</span>
+        <span class="k">if</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">has_variable</span><span class="p">(</span><span class="n">pv</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">pv</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">pv</span><span class="p">))</span>
+
+    <span class="c1"># Notes</span>
+    <span class="c1"># * BCCD or BCCD(T) correlation energy is total energy of last Brueckner iteration minus HF energy of first Brueckner iteration</span>
 
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">ref_wfn</span>
+
 
 <span class="k">def</span> <span class="nf">run_tdscf_excitations</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
@@ -5497,7 +5548,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/14c230f">1.7a1.dev58</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/4a98182">1.7a1.dev61</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5511,7 +5562,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Monday, 12 September 2022 01:22PM.
+      Last updated on Tuesday, 13 September 2022 10:48PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
