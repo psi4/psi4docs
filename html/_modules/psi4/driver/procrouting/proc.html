@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f790135">1.7a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6b0030f">1.7a1.dev82</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1231,47 +1231,6 @@
 
     <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ManagedMethodError</span><span class="p">([</span><span class="s1">&#39;select_mp4&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;MP_TYPE&#39;</span><span class="p">,</span> <span class="n">mtd_type</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">module</span><span class="p">])</span>
-
-    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;probe&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="k">return</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">select_adc2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function selecting the algorithm for ADC(2) excited state energy</span>
-<span class="sd">    call and directing to specified or best-performance default modules.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">reference</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span>
-    <span class="n">mtd_type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;MP_TYPE&#39;</span><span class="p">)</span>
-    <span class="n">module</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;QC_MODULE&#39;</span><span class="p">)</span>
-    <span class="c1"># Considering only adcc/adc</span>
-
-    <span class="c1"># TODO Actually one should do selection on a couple of other options here</span>
-    <span class="c1">#      as well, e.g. adcc supports frozen-core and frozen-virtual,</span>
-    <span class="c1">#      spin-specific states or spin-flip methods.</span>
-    <span class="c1">#      But as far as I (mfherbst) know the BUILTIN ADC routine only supports</span>
-    <span class="c1">#      singlet states and without freezing some core or some virtual orbitals.</span>
-
-    <span class="n">func</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">reference</span> <span class="o">==</span> <span class="s1">&#39;RHF&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CONV&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;ADCC&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">}</span> <span class="ow">and</span> <span class="n">extras</span><span class="o">.</span><span class="n">addons</span><span class="p">(</span><span class="s2">&quot;adcc&quot;</span><span class="p">):</span>
-                <span class="n">func</span> <span class="o">=</span> <span class="n">run_adcc</span>
-            <span class="k">elif</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;BUILTIN&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">}:</span>
-                <span class="n">func</span> <span class="o">=</span> <span class="n">run_adc</span>
-
-    <span class="k">if</span> <span class="n">reference</span> <span class="o">==</span> <span class="s1">&#39;UHF&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CONV&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ADCC&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">extras</span><span class="o">.</span><span class="n">addons</span><span class="p">(</span><span class="s2">&quot;adcc&quot;</span><span class="p">):</span>
-                <span class="n">func</span> <span class="o">=</span> <span class="n">run_adcc</span>
-
-    <span class="c1"># Note: ROHF is theoretically available in adcc, but are not fully tested</span>
-    <span class="c1">#       ... so will be added later.</span>
-
-    <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ManagedMethodError</span><span class="p">([</span><span class="s1">&#39;select_adc2&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;MP_TYPE&#39;</span><span class="p">,</span> <span class="n">mtd_type</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">module</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;probe&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
         <span class="k">return</span>
@@ -3595,48 +3554,6 @@
     <span class="k">return</span> <span class="n">ref_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_adc_deprecated</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The method &#39;adc&#39; has been deprecated, please use &#39;adc2&#39; instead.&quot;</span>
-                   <span class="s2">&quot;The method key &#39;adc&#39; will be removed Psi4 1.6.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
-     <span class="k">return</span> <span class="n">select_adc2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">run_adc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
-<span class="sd">    an algebraic diagrammatic construction calculation.</span>
-
-<span class="sd">    .. caution:: Get rid of active molecule lines- should be handled in energy.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;ADC&#39;</span><span class="p">,</span> <span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;RHF&#39;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ADC requires reference RHF&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Bypass the scf call if a reference wavefunction is given</span>
-    <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ref_wfn&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">ref_wfn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">scf_helper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="c1"># Ensure IWL files have been written</span>
-    <span class="n">proc_util</span><span class="o">.</span><span class="n">check_iwl_file_from_scf_type</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">),</span> <span class="n">ref_wfn</span><span class="p">)</span>
-
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Using built-in `adc` module instead of add-on `adcc` interface is deprecated due &quot;</span>
-                  <span class="s2">&quot;to certain wrong results, and as soon as 1.7, it will stop working.&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
-
-    <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t\t\t\t</span><span class="s2">!!!!! WARNING !!!!!</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>
-            <span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">The built-in ADC(2) method may give incorrect results if</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">multiple roots are requested, due to an error in the Davidson solver,</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">and is no longer maintained. It is slated for removal in Psi4 1.7.</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">Use of the Psi interface to `adcc` instead is strongly recommended.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
-
-    <span class="n">wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">adc</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
-
-    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">wfn</span>
-
-
 <span class="k">def</span> <span class="nf">run_adcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Prepare and run an ADC calculation in adcc, interpret the result and return</span>
 <span class="sd">    as a wavefunction.</span>
@@ -3728,14 +3645,6 @@
                               <span class="s2">&quot;unless a CVS ADC method is requested.&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="s2">&quot;cvs&quot;</span> <span class="ow">in</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;spin_flip&quot;</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Spin-flip for CVS-ADC variants is not available.&quot;</span><span class="p">)</span>
-
-    <span class="c1">#</span>
-    <span class="c1"># Check for unsupported options</span>
-    <span class="c1">#</span>
-    <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;PR&quot;</span><span class="p">,</span> <span class="s2">&quot;NORM_TOLERANCE&quot;</span><span class="p">,</span> <span class="s2">&quot;POLE_MAXITER&quot;</span><span class="p">,</span> <span class="s2">&quot;SEM_MAXITER&quot;</span><span class="p">,</span>
-                   <span class="s2">&quot;NEWTON_CONVERGENCE&quot;</span><span class="p">,</span> <span class="s2">&quot;MEMORY&quot;</span><span class="p">,</span> <span class="s2">&quot;CACHELEVEL&quot;</span><span class="p">,</span> <span class="s2">&quot;NUM_AMPS_PRINT&quot;</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_option_changed</span><span class="p">(</span><span class="s2">&quot;ADC&quot;</span><span class="p">,</span> <span class="n">option</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ADC backend adcc does not support option &#39;</span><span class="si">{</span><span class="n">option</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
     <span class="c1">#</span>
     <span class="c1"># Launch the rocket</span>
@@ -5560,7 +5469,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f790135">1.7a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6b0030f">1.7a1.dev82</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5574,7 +5483,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Wednesday, 19 October 2022 04:25PM.
+      Last updated on Thursday, 20 October 2022 02:49PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

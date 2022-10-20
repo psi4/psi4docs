@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/adc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f790135">1.7a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6b0030f">1.7a1.dev82</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -125,12 +125,7 @@
   <span class="target" id="index-0"></span><span class="target" id="index-1"></span><section id="adc-ab-initio-polarization-propagator">
 <span id="sec-adc"></span><span id="index-2"></span><h1>ADC: Ab Initio Polarization Propagator<a class="headerlink" href="#adc-ab-initio-polarization-propagator" title="Permalink to this heading">¶</a></h1>
 <p><em>Section author: Michael F. Herbst</em></p>
-<p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__adc.html#apdx-adc"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__adc.html#apdx-adc-psivar"><span class="std std-ref">PSI Variables</span></a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/adc">ADC</a></p>
-<div class="admonition caution">
-<p class="admonition-title">Caution</p>
-<p>As of Spring 2022, v1.6, the built-in backend is deprecated and will only be active
-when adcc addon backend is unavailable. In v1.7, built-in ADC will be removed.</p>
-</div>
+<p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__adc.html#apdx-adc"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__adc.html#apdx-adc-psivar"><span class="std std-ref">PSI Variables</span></a></p>
 <p>Algebraic-diagrammatic construction methods for the polarization propagator (ADC)
 determine correlated excitation energies by investigating the pole structure
 of said propagator. For this the propagator is expressed in a representation
@@ -190,18 +185,13 @@ and the <a class="reference external" href="https://adc-connect.org/latest/theor
 <p><em>Section author: Michael F. Herbst</em></p>
 <p>Several ADC methods are available in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> for the computation of excited states,
 see <a class="reference internal" href="#table-adcsummary"><span class="std std-ref">ADC capabilities of Psi4</span></a>.
-The methods are implemented in two distinct codes,
-one is part of <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> itself and will be referred to as the <em>built-in</em> implementation,
-the other is available via an interface to the <a class="reference external" href="https://adc-connect.org">adcc</a> python module.
-The two backends follow different approaches to compute ADC excited states
-and as a result details and supported keywords differ.
-After a more general introduction, specific aspects of the two implementations will be highlighted
-in section <a class="reference internal" href="#sec-interfaceadcc"><span class="std std-ref">Interface to adcc</span></a> and <a class="reference internal" href="#sec-adcbuiltin"><span class="std std-ref">Built-in ADC(2) code</span></a>.</p>
-<span id="table-adcsummary"></span><table class="docutils align-default" id="id9">
-<caption><span class="caption-text">ADC capabilities of Psi4</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+The methods are available via an interface to the <a class="reference external" href="https://adc-connect.org">adcc</a> python module.
+After a more general introduction, specific aspects of the implementation will be highlighted
+in section <a class="reference internal" href="#sec-interfaceadcc"><span class="std std-ref">Interface to adcc</span></a>.</p>
+<span id="table-adcsummary"></span><table class="docutils align-default" id="id8">
+<caption><span class="caption-text">ADC capabilities of Psi4</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Method</p></th>
-<th class="head"><p>Backend</p></th>
 <th class="head"><p>References</p></th>
 <th class="head"><p>Exc. Energies</p></th>
 <th class="head"><p>Props</p></th>
@@ -210,60 +200,46 @@ in section <a class="reference internal" href="#sec-interfaceadcc"><span class="
 </thead>
 <tbody>
 <tr class="row-even"><td><p>ADC(1)</p></td>
-<td><p>adcc</p></td>
 <td><p>RHF, UHF</p></td>
 <td><p>yes</p></td>
 <td><p>yes</p></td>
 <td><p>any, singlet, triplet, spin_flip</p></td>
 </tr>
-<tr class="row-odd"><td rowspan="2"><p>ADC(2)</p></td>
-<td><p>adcc</p></td>
+<tr class="row-odd"><td><p>ADC(2)</p></td>
 <td><p>RHF, UHF</p></td>
 <td><p>yes</p></td>
 <td><p>yes</p></td>
 <td><p>any, singlet, triplet, spin_flip</p></td>
 </tr>
-<tr class="row-even"><td><p>built-in</p></td>
-<td><p>RHF</p></td>
-<td><p>yes</p></td>
-<td><p>—</p></td>
-<td><p>singlet</p></td>
-</tr>
-<tr class="row-odd"><td><p>ADC(2)-x</p></td>
-<td><p>adcc</p></td>
+<tr class="row-even"><td><p>ADC(2)-x</p></td>
 <td><p>RHF, UHF</p></td>
 <td><p>yes</p></td>
 <td><p>yes</p></td>
 <td><p>any, singlet, triplet, spin_flip</p></td>
 </tr>
-<tr class="row-even"><td><p>ADC(3)</p></td>
-<td><p>adcc</p></td>
+<tr class="row-odd"><td><p>ADC(3)</p></td>
 <td><p>RHF, UHF</p></td>
 <td><p>yes</p></td>
 <td colspan="2"><p>yes   |  any, singlet, triplet, spin_flip</p></td>
 </tr>
-<tr class="row-odd"><td><p>CVS-ADC(1)</p></td>
-<td><p>adcc</p></td>
+<tr class="row-even"><td><p>CVS-ADC(1)</p></td>
 <td><p>RHF, UHF</p></td>
 <td><p>yes</p></td>
 <td colspan="2"><p>yes   |  any, singlet, triplet</p></td>
 </tr>
-<tr class="row-even"><td><p>CVS-ADC(2)</p></td>
-<td><p>adcc</p></td>
+<tr class="row-odd"><td><p>CVS-ADC(2)</p></td>
 <td><p>RHF, UHF</p></td>
 <td><p>yes</p></td>
 <td><p>yes</p></td>
 <td><p>any, singlet, triplet</p></td>
 </tr>
-<tr class="row-odd"><td><p>CVS-ADC(2)-x</p></td>
-<td><p>adcc</p></td>
+<tr class="row-even"><td><p>CVS-ADC(2)-x</p></td>
 <td><p>RHF, UHF</p></td>
 <td><p>yes</p></td>
 <td><p>yes</p></td>
 <td><p>any, singlet, triplet</p></td>
 </tr>
-<tr class="row-even"><td><p>CVS-ADC(3)</p></td>
-<td><p>adcc</p></td>
+<tr class="row-odd"><td><p>CVS-ADC(3)</p></td>
 <td><p>RHF, UHF</p></td>
 <td><p>yes</p></td>
 <td><p>yes</p></td>
@@ -379,10 +355,6 @@ Apart from the mentioned keywords, the following are common:</p>
 and many more sample input files can be found in the adc and adcc
 subfolders of <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples">psi4/samples</a>.
 Note, that not all keywords are supported by all backends.</p>
-<p><strong>Switching between ADC backends.</strong>
-Psi4 currently defaults to the built-in implementation for all ADC(2) energy calculations.
-You can explicitly set the <a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a> option to <code class="docutils literal notranslate"><span class="pre">'adcc'</span></code>
-enforce using adcc also for this case.</p>
 </section>
 </section>
 <section id="interface-to-adcc">
@@ -451,128 +423,6 @@ If you encounter a convergence to zero eigenvalues, than decreasing this paramet
 solve the problems.</p></li>
 </ul>
 </section>
-<section id="built-in-adc-2-code">
-<span id="sec-adcbuiltin"></span><h2>Built-in ADC(2) code<a class="headerlink" href="#built-in-adc-2-code" title="Permalink to this heading">¶</a></h2>
-<p><em>Code author: Masaaki Saitow</em></p>
-<p><em>Section author: Masaaki Saitow</em></p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The built-in ADC(2) method may give incorrect results if
-multiple roots are requested, due to an error in the Davidson solver,
-and is no longer maintained. It is slated for removal in Psi4 1.7.
-Use of the Psi interface to <cite>adcc</cite> instead is strongly recommended.
-To use this code regardless, either do not have <cite>adcc</cite> installed, or
-set <cite>qc_module builtin</cite>.</p>
-</div>
-<p>The ADC code built into <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is capable of ADC(2) computations
-of singlet excited states only.
-It makes use of the libtrans library for efficient and flexible
-integral-transformation and also the libdpd library to
-utilize molecular symmetry in the tensorial manipulations in framework
-of the direct-product decomposition algorithm. By this feature, the Ritz
-space and intermediate tensors are blocked according to the irreducible
-representations of the point group, and the excited states that belong
-to different symmetry are sought separately.</p>
-<p>In the output of ADC, the ADC(2) results may look as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">-&gt;</span>  <span class="mi">1</span> <span class="n">B1</span> <span class="n">state</span>   <span class="p">:</span>  <span class="mf">0.2565095</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="p">),</span>  <span class="mf">6.9799824</span> <span class="p">(</span><span class="n">eV</span><span class="p">)</span>
-<span class="n">Non</span><span class="o">-</span><span class="n">iterative</span><span class="p">:</span>  <span class="mf">0.2565636</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="p">),</span>  <span class="mf">6.9814532</span> <span class="p">(</span><span class="n">eV</span><span class="p">)</span>
-         <span class="n">Occ</span> <span class="n">Vir</span>        <span class="n">Coefficient</span>
-<span class="o">---------------------------------------------</span>
-          <span class="mi">3</span>   <span class="mi">0</span>        <span class="o">-</span><span class="mf">0.9017047264</span>
-          <span class="mi">3</span>   <span class="mi">2</span>         <span class="mf">0.3038332241</span>
-          <span class="mi">3</span>   <span class="mi">1</span>         <span class="mf">0.2907567119</span>
-          <span class="mi">3</span>   <span class="mi">5</span>        <span class="o">-</span><span class="mf">0.0790167706</span>
-          <span class="mi">3</span>   <span class="mi">4</span>        <span class="o">-</span><span class="mf">0.0425829926</span>
-
-<span class="n">Converged</span> <span class="ow">in</span>   <span class="mi">4</span> <span class="n">iteration</span><span class="o">.</span>
-<span class="n">Squared</span> <span class="n">norm</span> <span class="n">of</span> <span class="n">the</span> <span class="n">S</span> <span class="n">component</span><span class="p">:</span>  <span class="mf">0.9315336</span>
-<span class="n">The</span> <span class="n">S</span> <span class="n">vector</span> <span class="ow">is</span> <span class="n">rotated</span> <span class="n">up</span> <span class="n">to</span>  <span class="mf">8.102</span> <span class="p">(</span><span class="n">deg</span><span class="o">.</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>in which the ADC(2) excitation energy is indicated with arrow symbol
-and the pseudo-perturbative value, which is calculated in very similar
-fashion to the CIS(D) energy, is also presented on the following line. In
-this implementation, the ADC(2) secular matrix is treated effectively
-by renormalization of the double excitation manifold into the single
-excitation manifold. So, the effective secular equation is solved for
-several times for the specific state due to the eigenvalue dependence of
-the effective response matrix. Only the S component of the transition
-amplitude is obtained explicitly and the squared norm of the S block
-and the rotation angle from the corresponding CIS vector are given
-below the element of the amplitude. The difference between the ADC(2)
-value and its non-iterative counterpart is mostly negligible if the
-mixture among the CIS excited states is small and the quasi-degeneracy
-in the excited state is tolerably weak. But if there is a significant
-discrepancy in these energies, or the rotation angle is visibly large,
-special care may have to be taken for the strong effects caused by the
-higher excited states.</p>
-<p><strong>Partial Renormalization Scheme</strong></p>
-<p>The built-in ADC code is capable of performing the partially-renormalized
-ADC(2) computation, termed PR-ADC(2). In the perturbative treatment of
-the singly-excited state, the doubly and triply excited configurations
-are accounted for as in the case of CIS(D). In the language of
-CIS(D), the former is regarded to introduce the orbital relaxation (OR)
-effect while the latter is argued to give rise to the differential
-correlation (DC) correction to the excited state. In the PR-ADC(2)
-scheme, the DC term is corrected according to the ground state
-PR-MP2 correlation, in which the correlation between the electron pairs
-is accounted for in size-consistent and unitary-invariant fashion by
-modulating the MP1 amplitude. By utilizing the <a class="reference internal" href="autodoc_glossary_options_c.html#term-PR-ADC"><span class="xref std std-term">PR</span></a> scheme, substantial
-resistance against quasi-degeneracy is readily granted as discussed
-in Ref. <a class="reference internal" href="bibliography.html#saitow-2012" id="id8"><span>[Saitow:2012]</span></a>.</p>
-<p><strong>Theory of the built-in ADC(2) implementation</strong></p>
-<p>For the built-in ADC(2) implementation
-some very essential points shall be emphasized. In ADC(2) specifically
-one may write the response equation as</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{pmatrix}
-\mathbf{A_{SS}^{(2)}} &amp; \mathbf{A_{SD}^{(1)}}\\
-\mathbf{A_{DS}^{(1)}} &amp; \mathbf{A_{DD}^{(0)}}
-\end{pmatrix}
-\begin{pmatrix}
-\mathbf{X_S}\\
-\mathbf{X_D}
-\end{pmatrix}
-=\omega
-\begin{pmatrix}
-\mathbf{X_S}\\
-\mathbf{X_D}
-\end{pmatrix}\end{split}\]</div>
-<p>where the superscript on each matrix block indicates the order of
-the fluctuation. Instead of solving the above equation explicitly,
-the large D manifold is treated effectively as</p>
-<div class="math notranslate nohighlight">
-\[[\mathbf{A_{SS}^{(2)}}+
-\mathbf{A_{SD}^{(1)}}^{\dagger}(\omega-
-\mathbf{A_{DD}^{(0)}})^{-1}\mathbf{A_{DS}^{(1)}}]\mathbf{X_{S}}=
-\omega\mathbf{X_{S}}.\]</div>
-<p>This form of the ADC(2) equation requires 7–10 iterations for
-convergence on only one root. But thanks to Newton-Raphson
-acceleration,</p>
-<div class="math notranslate nohighlight">
-\[\omega^{n+1}=\omega^{n}-
-\frac{\omega^n-\mathbf{X_{S}}(\omega^n)^{\dagger}
-[\mathbf{A_{SS}^{(2)}}+
-\mathbf{A_{SD}^{(1)}}^{\dagger}(\omega^n-\mathbf{A_{DD}^{(0)}})^{-1}
-\mathbf{A_{DS}^{(1)}}]\mathbf{X_{S}}(\omega^n)}{1+\mathbf{X_{S}}
-(\omega^n)^{\dagger}[\mathbf{A_{SD}^{(1)}}^{\dagger}
-(\omega^n-\mathbf{A_{DD}^{(0)}})^{-2}\mathbf{A_{DS}^{(1)}}]\mathbf{X_{S}}
-(\omega^n)}\]</div>
-<p>the computational time reduces to shorter than half of the simple iterative
-procedure. Construction of the denominator of the second term in the above
-equation is less computationally expensive than construction of one <span class="math notranslate nohighlight">\(\sigma\)</span>-vector
-with respect to the effective response matrix. The non-iterative excitation energy stated
-above is calculated as a diagonal element of the Davidson mini-Hamiltonian matrix in the SEM as,</p>
-<div class="math notranslate nohighlight">
-\[\omega^{Non-Iterative}=
-\mathbf{X_{CIS}}^{\dagger}[\mathbf{A_{SS}^{(2)}}+
-\mathbf{A_{SD}^{(1)}}^{\dagger}(\omega^{CIS}-\mathbf{A_{DD}^{(0)}})^{-1}
-\mathbf{A_{DS}^{(1)}}]\mathbf{X_{CIS}}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\omega^{CIS}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{X_{CIS}}\)</span> denote the CIS
-excitation energy and wave function, respectively. The explicit form of the
-σ-vector is provided in a note accompanying the source code,
-in the file <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/adc/sigma.pdf">psi4/psi4/src/psi4/adc/sigma.pdf</a>.</p>
-</section>
 </section>
 
 
@@ -637,7 +487,6 @@ in the file <a class="reference external" href="https://github.com/psi4/psi4/blo
 </ul>
 </li>
 <li><a class="reference internal" href="#interface-to-adcc">Interface to adcc</a></li>
-<li><a class="reference internal" href="#built-in-adc-2-code">Built-in ADC(2) code</a></li>
 </ul>
 </li>
 </ul>
@@ -689,7 +538,7 @@ in the file <a class="reference external" href="https://github.com/psi4/psi4/blo
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/adc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f790135">1.7a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6b0030f">1.7a1.dev82</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -703,7 +552,7 @@ in the file <a class="reference external" href="https://github.com/psi4/psi4/blo
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Wednesday, 19 October 2022 04:25PM.
+      Last updated on Thursday, 20 October 2022 02:49PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
