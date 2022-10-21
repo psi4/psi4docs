@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/occ.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/60844f2">1.7a1.dev83</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c5ae134">1.7a1.dev84</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -167,7 +167,7 @@ should be followed.
 In general, choose the desired method, reference, and ERI type (<em>e.g.</em>,
 <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">reference</span> <span class="pre">uhf</span></code>, <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mp2_type</span> <span class="pre">df</span></code>, <code class="docutils literal notranslate"><span class="pre">opt('mp2')</span></code>) and the most
 efficient module will be selected automatically, according to
-<a class="reference internal" href="notes_c.html#table-managedmethods"><span class="std std-ref">Cross-module Redundancies</span></a>.</p>
+<a class="reference internal" href="capabilities.html#table-managedmethods"><span class="std std-ref">Cross-module Redundancies</span></a>.</p>
 <p>Thus, there arise a few categories of method, each with corresponding input keywords:</p>
 <ul class="simple">
 <li><p>Orbital-optimized MP and CC methods with conventional integrals (<a class="reference internal" href="#sec-occ-oo-mtds"><span class="std std-ref">OMP Methods</span></a> OCC keywords)</p></li>
@@ -275,108 +275,359 @@ course users can use any DFT functional available in <span style="font-family: O
 </section>
 <section id="methods">
 <span id="sec-occ-oo-mtds"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">¶</a></h2>
-<p>The orbital-optimized MPn and OLCCD methods currently supported in
-<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> are outlined in Table <a class="reference internal" href="#table-occ-oo-calls"><span class="std std-ref">Orbital-Optimzed OCC/DFOCC
-Methods</span></a>. The following methods are available
-and can be controlled through OCC (conventional integrals <code class="docutils literal notranslate"><span class="pre">CONV</span></code>)
-and DFOCC (density-fitted <code class="docutils literal notranslate"><span class="pre">DF</span></code> and Cholesky-decomposed <code class="docutils literal notranslate"><span class="pre">CD</span></code>)
-keywords. Switching between the integrals treatments is controlled
-through “type select” values in the rightmost Table column.</p>
-<span id="table-occ-oo-calls"></span><table class="docutils align-default" id="id35">
-<caption><span class="caption-text">Orbital-Optimized MP and LCCD capabilities of OCC/DFOCC modules</span><a class="headerlink" href="#id35" title="Permalink to this table">¶</a></caption>
+<p>The various orbital-optimized methods supported by the OCC/DFOCC
+modules in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> are summarized in Table <a class="reference internal" href="#table-occ-oo-calls"><span class="std std-ref">OCC OO
+Methods</span></a> and detailed in Table <a class="reference internal" href="#table-occ-stdsuite-oo"><span class="std std-ref">OCC
+OO Capabilities</span></a>. Note that while two
+separate libraries OCC (conventional integrals <code class="docutils literal notranslate"><span class="pre">CONV</span></code>) and DFOCC
+(density-fitted <code class="docutils literal notranslate"><span class="pre">DF</span></code> and Cholesky-decomposed <code class="docutils literal notranslate"><span class="pre">CD</span></code>) together provide
+the methods described on this page, they are controlled through one
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a> value <code class="docutils literal notranslate"><span class="pre">OCC</span></code>. Without <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">qc_module</span> <span class="pre">occ</span></code>,
+these methods may default to implementations in <a class="reference internal" href="capabilities.html#table-managedmethods"><span class="std std-ref">other modules</span></a> based on efficiency considerations.</p>
+<span id="table-occ-oo-calls"></span><table class="docutils align-default" id="id51">
+<caption><span class="caption-text">Orbital-optimized theoretical methods accessible through OCC/DFOCC</span><a class="headerlink" href="#id51" title="Permalink to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>name</p></th>
 <th class="head"><p>calls method</p></th>
-<th class="head"><p>Energy</p></th>
-<th class="head"><p>Gradient</p></th>
-<th class="head"><p>type select</p></th>
+<th class="head"><p>OO</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td rowspan="3"><p>omp2</p></td>
-<td><p>Orbital-Optimized MP2</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP2_TYPE-GLOBALS"><span class="xref std std-term">MP2_TYPE</span></a> CONV</p></td>
+<tr class="row-even"><td><p>omp2</p></td>
+<td><p>orbital-optimized second-order MP perturbation theory</p></td>
+<td><p>E/G</p></td>
 </tr>
-<tr class="row-odd"><td><p>Density-Fitted Orbital-Optimized MP2</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP2_TYPE-GLOBALS"><span class="xref std std-term">MP2_TYPE</span></a> DF</p></td>
+<tr class="row-odd"><td><p>omp2.5</p></td>
+<td><p>orbital-optimized average of MP2 and MP3</p></td>
+<td><p>E/G</p></td>
 </tr>
-<tr class="row-even"><td><p>Cholesky-Decomposed Orbital-Optimized MP2</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP2_TYPE-GLOBALS"><span class="xref std std-term">MP2_TYPE</span></a> CD</p></td>
+<tr class="row-even"><td><p>omp3</p></td>
+<td><p>orbital-optimized third-order MP perturbation theory</p></td>
+<td><p>E/G</p></td>
 </tr>
-<tr class="row-odd"><td rowspan="3"><p>omp3</p></td>
-<td><p>Orbital-Optimized MP3</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
+<tr class="row-odd"><td><p>oremp2</p></td>
+<td><p>orbital-optimized second-order REMP hybrid PT</p></td>
+<td><p>E/G</p></td>
 </tr>
-<tr class="row-even"><td><p>Density-Fitted Orbital-Optimized MP3</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> DF</p></td>
-</tr>
-<tr class="row-odd"><td><p>Cholesky-Decomposed Orbital-Optimized MP3</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CD</p></td>
-</tr>
-<tr class="row-even"><td rowspan="3"><p>omp2.5</p></td>
-<td><p>Orbital-Optimized MP2.5</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>Density-Fitted Orbital-Optimized MP2.5</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> DF</p></td>
-</tr>
-<tr class="row-even"><td><p>Cholesky-Decomposed Orbital-Optimized MP2.5</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CD</p></td>
-</tr>
-<tr class="row-odd"><td rowspan="3"><p>olccd</p></td>
-<td><p>Orbital-Optimized Linear CCD</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>Density-Fitted Orbital-Optimized LCCD</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> DF</p></td>
-</tr>
-<tr class="row-odd"><td><p>Cholesky-Decomposed Orbital-Optimized LCCD</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
-</tr>
-<tr class="row-even"><td rowspan="3"><p>oremp2</p></td>
-<td><p>Orbital-Optimized 2nd order REMP hybrid perturbation theory</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>Density-Fitted Orbital-Optimized REMP</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> DF</p></td>
-</tr>
-<tr class="row-even"><td><p>Cholesky-Decomposed Orbital-Optimized REMP</p></td>
-<td><p>RHF/UHF/ROHF/RKS/UKS</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
+<tr class="row-even"><td><p>olccd</p></td>
+<td><p>orbital-optimized linear coupled cluster doubles</p></td>
+<td><p>E/G</p></td>
 </tr>
 </tbody>
 </table>
-<span id="table-occ-scsoo-calls"></span><table class="docutils align-default" id="id36">
-<caption><span class="caption-text">Spin-Component-Scaled Orbital-Optimized MP capabilities of OCC/DFOCC modules</span><a class="headerlink" href="#id36" title="Permalink to this table">¶</a></caption>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(".gbg").parent().addClass("gbg-parent");
+  });
+</script>
+<style>
+   .gbg-parent {background-color:#cceecc;}
+</style><span id="table-occ-stdsuite-oo"></span><table class="docutils align-left" id="id52">
+<caption><span class="caption-text">Detailed orbital-optimized capabilities of the OCC module. “✓” runs analytically. Single underline “✓̲” is default module when <a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a> unspecified. Double underline “✓̳” is default algorithm type when type selector (e.g., <a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a>) unspecified.</span><a class="headerlink" href="#id52" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head" rowspan="5"><p>◻</p>
+<p>◻</p>
+<p>name ↓ →</p>
+<p>◻</p>
+<p>◻</p>
+</th>
+<th class="head" rowspan="5"><p>◻</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-REFERENCE-SCF"><span class="xref std std-term">REFERENCE</span></a> →</p>
+<p>◻</p>
+<p>type<a class="footnote-reference brackets" href="#c1" id="id24" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> ↓ →</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-FREEZE_CORE-GLOBALS"><span class="xref std std-term">FREEZE_CORE</span></a><a class="footnote-reference brackets" href="#c2" id="id25" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>→</p>
+</th>
+<th class="head" colspan="36"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a>=OCC Capabilities</p></th>
+</tr>
+<tr class="row-even"><th class="head" colspan="12"><p>Restricted (RHF)</p></th>
+<th class="head" colspan="12"><p>Unrestricted (UHF)</p></th>
+<th class="head" colspan="12"><p>Restricted Open (ROHF)</p></th>
+</tr>
+<tr class="row-odd"><th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.gradient.html#psi4.driver.gradient" title="psi4.driver.gradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">gradient()</span></code></a><a class="footnote-reference brackets" href="#c3" id="id26" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.gradient.html#psi4.driver.gradient" title="psi4.driver.gradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">gradient()</span></code></a><a class="footnote-reference brackets" href="#c3" id="id27" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.gradient.html#psi4.driver.gradient" title="psi4.driver.gradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">gradient()</span></code></a><a class="footnote-reference brackets" href="#c3" id="id28" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></th>
+</tr>
+<tr class="row-even"><th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+</tr>
+<tr class="row-odd"><th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>omp2<a class="footnote-reference brackets" href="#c10" id="id29" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP2_TYPE-GLOBALS"><span class="xref std std-term">MP2_TYPE</span></a></p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>omp2.5<a class="footnote-reference brackets" href="#c10" id="id30" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>omp3<a class="footnote-reference brackets" href="#c10" id="id31" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>oremp2<a class="footnote-reference brackets" href="#c10" id="id32" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>olccd<a class="footnote-reference brackets" href="#c10" id="id33" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="c1" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id24">1</a><span class="fn-bracket">]</span></span>
+<p>Algorithm type selection keyword below. Values to the right: conventional <code class="docutils literal notranslate"><span class="pre">CV</span></code>, density-fitted <code class="docutils literal notranslate"><span class="pre">DF</span></code>, and Cholesky-decomposed <code class="docutils literal notranslate"><span class="pre">CD</span></code>.</p>
+</aside>
+<aside class="footnote brackets" id="c2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id25">2</a><span class="fn-bracket">]</span></span>
+<p>Active orbital values to the right: all-electron <code class="docutils literal notranslate"><span class="pre">A</span></code> and frozen-core <code class="docutils literal notranslate"><span class="pre">F</span></code>.</p>
+</aside>
+<aside class="footnote brackets" id="c3" role="note">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id26">1</a>,<a role="doc-backlink" href="#id27">2</a>,<a role="doc-backlink" href="#id28">3</a>)</span>
+<p>Finite difference gradients are not marked explicitly by “∷”, but the capability can be gleaned from the energy availability.</p>
+</aside>
+<aside class="footnote brackets" id="c10" role="note">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id29">1</a>,<a role="doc-backlink" href="#id30">2</a>,<a role="doc-backlink" href="#id31">3</a>,<a role="doc-backlink" href="#id32">4</a>,<a role="doc-backlink" href="#id33">5</a>)</span>
+<p>Also available for DFT references RKS/UKS</p>
+</aside>
+</aside>
+<span id="table-occ-scsoo-calls"></span><table class="docutils align-default" id="id53">
+<caption><span class="caption-text">Spin-Component-Scaled Orbital-Optimized MP capabilities of OCC/DFOCC modules</span><a class="headerlink" href="#id53" title="Permalink to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>name</p></th>
 <th class="head"><p>calls method</p></th>
@@ -641,8 +892,8 @@ through “type select” values in the rightmost Table column.</p>
 </section>
 <section id="basic-dfocc-keywords">
 <h2>Basic DFOCC Keywords<a class="headerlink" href="#basic-dfocc-keywords" title="Permalink to this heading">¶</a></h2>
-<section id="id24">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a><a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h3>
+<section id="id34">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a><a class="headerlink" href="#id34" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Convergence criterion for energy. See Table <a class="reference internal" href="scf.html#table-conv-corl"><span class="std std-ref">Post-SCF Convergence</span></a> for default convergence criteria for different calculation types.</p>
 <ul class="simple">
@@ -651,8 +902,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id25">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-R_CONVERGENCE-DFOCC"><span class="xref std std-term">R_CONVERGENCE</span></a><a class="headerlink" href="#id25" title="Permalink to this heading">¶</a></h3>
+<section id="id35">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-R_CONVERGENCE-DFOCC"><span class="xref std std-term">R_CONVERGENCE</span></a><a class="headerlink" href="#id35" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Convergence criterion for amplitudes (residuals).</p>
 <ul class="simple">
@@ -661,8 +912,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id26">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-RMS_MOGRAD_CONVERGENCE-DFOCC"><span class="xref std std-term">RMS_MOGRAD_CONVERGENCE</span></a><a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h3>
+<section id="id36">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-RMS_MOGRAD_CONVERGENCE-DFOCC"><span class="xref std std-term">RMS_MOGRAD_CONVERGENCE</span></a><a class="headerlink" href="#id36" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Convergence criterion for RMS orbital gradient. If this keyword is not set by the user, DFOCC will estimate and use a value required to achieve the desired <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a>  The listed default will be used for the default value of <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a></p>
 <ul class="simple">
@@ -671,8 +922,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id27">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-MAX_MOGRAD_CONVERGENCE-DFOCC"><span class="xref std std-term">MAX_MOGRAD_CONVERGENCE</span></a><a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h3>
+<section id="id37">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-MAX_MOGRAD_CONVERGENCE-DFOCC"><span class="xref std std-term">MAX_MOGRAD_CONVERGENCE</span></a><a class="headerlink" href="#id37" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Convergence criterion for maximum orbital gradient. If this keyword is not set by the user, DFOCC will estimate and use a value required to achieve the desired <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a>  The listed default will be used for the default value of <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-DFOCC"><span class="xref std std-term">E_CONVERGENCE</span></a></p>
 <ul class="simple">
@@ -681,8 +932,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id28">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-MO_MAXITER-DFOCC"><span class="xref std std-term">MO_MAXITER</span></a><a class="headerlink" href="#id28" title="Permalink to this heading">¶</a></h3>
+<section id="id38">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-MO_MAXITER-DFOCC"><span class="xref std std-term">MO_MAXITER</span></a><a class="headerlink" href="#id38" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Maximum number of iterations to determine the orbitals</p>
 <ul class="simple">
@@ -691,8 +942,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id29">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-ORB_OPT-DFOCC"><span class="xref std std-term">ORB_OPT</span></a><a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h3>
+<section id="id39">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-ORB_OPT-DFOCC"><span class="xref std std-term">ORB_OPT</span></a><a class="headerlink" href="#id39" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Do optimize the orbitals?</p>
 <ul class="simple">
@@ -704,8 +955,8 @@ through “type select” values in the rightmost Table column.</p>
 </section>
 <section id="advanced-dfocc-keywords">
 <h2>Advanced DFOCC Keywords<a class="headerlink" href="#advanced-dfocc-keywords" title="Permalink to this heading">¶</a></h2>
-<section id="id30">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OPT_METHOD-DFOCC"><span class="xref std std-term">OPT_METHOD</span></a><a class="headerlink" href="#id30" title="Permalink to this heading">¶</a></h3>
+<section id="id40">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OPT_METHOD-DFOCC"><span class="xref std std-term">OPT_METHOD</span></a><a class="headerlink" href="#id40" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>The orbital optimization algorithm. Presently quasi-Newton-Raphson algorithm available with several Hessian * options.</p>
 <ul class="simple">
@@ -736,8 +987,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id31">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-ORTH_TYPE-DFOCC"><span class="xref std std-term">ORTH_TYPE</span></a><a class="headerlink" href="#id31" title="Permalink to this heading">¶</a></h3>
+<section id="id41">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-ORTH_TYPE-DFOCC"><span class="xref std std-term">ORTH_TYPE</span></a><a class="headerlink" href="#id41" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>The algorithm for orthogonalization of MOs</p>
 <ul class="simple">
@@ -747,8 +998,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id32">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DO_DIIS-DFOCC"><span class="xref std std-term">DO_DIIS</span></a><a class="headerlink" href="#id32" title="Permalink to this heading">¶</a></h3>
+<section id="id42">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DO_DIIS-DFOCC"><span class="xref std std-term">DO_DIIS</span></a><a class="headerlink" href="#id42" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Do apply DIIS extrapolation?</p>
 <ul class="simple">
@@ -757,8 +1008,8 @@ through “type select” values in the rightmost Table column.</p>
 </ul>
 </div></blockquote>
 </section>
-<section id="id33">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DO_LEVEL_SHIFT-DFOCC"><span class="xref std std-term">DO_LEVEL_SHIFT</span></a><a class="headerlink" href="#id33" title="Permalink to this heading">¶</a></h3>
+<section id="id43">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DO_LEVEL_SHIFT-DFOCC"><span class="xref std std-term">DO_LEVEL_SHIFT</span></a><a class="headerlink" href="#id43" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><p>Do apply level shifting?</p>
 <ul class="simple">
@@ -770,179 +1021,535 @@ through “type select” values in the rightmost Table column.</p>
 </section>
 <section id="conventional-non-oo-coupled-cluster-and-mollerplesset-perturbation-theories">
 <span id="sec-occ-nonoo"></span><h2>Conventional (Non-OO) Coupled-Cluster and Møller–Plesset Perturbation Theories<a class="headerlink" href="#conventional-non-oo-coupled-cluster-and-mollerplesset-perturbation-theories" title="Permalink to this heading">¶</a></h2>
-<p>Non-orbital-optimized counterparts to higher order MPn methods are also
-available. The following methods are available and can be controlled
-through OCC (conventional integrals <code class="docutils literal notranslate"><span class="pre">CONV</span></code>) and DFOCC (density-fitted
-<code class="docutils literal notranslate"><span class="pre">DF</span></code> and Cholesky-decomposed <code class="docutils literal notranslate"><span class="pre">CD</span></code>) keywords. Switching between
-the integrals treatments is controlled through ‘type select’ values;
-see rightmost column in Table <a class="reference internal" href="#table-occ-nonoo-calls"><span class="std std-ref">Conventional OCC/DFOCC Methods</span></a>.</p>
-<p>Depending on efficiency considerations, the OCC &amp; DFOCC modules may
-or may not be the default in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> for available methods. (See
-<a class="reference internal" href="notes_c.html#table-managedmethods"><span class="std std-ref">Cross-module Redundancies</span></a> for gory
-details.) To call the OCC/DFOCC implementation of any method below in
-preference to the default module, issue <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">qc_module</span> <span class="pre">occ</span></code>.</p>
+<p>The various non-orbital-optimized methods supported by the OCC/DFOCC
+modules in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> are summarized in Table <a class="reference internal" href="#table-occ-nonoo-calls"><span class="std std-ref">OCC non-OO
+Methods</span></a> and detailed in Table <a class="reference internal" href="#table-occ-stdsuite-nonoo"><span class="std std-ref">OCC
+non-OO Capabilities</span></a>. Note that while two
+separate libraries OCC (conventional integrals <code class="docutils literal notranslate"><span class="pre">CONV</span></code>) and DFOCC
+(density-fitted <code class="docutils literal notranslate"><span class="pre">DF</span></code> and Cholesky-decomposed <code class="docutils literal notranslate"><span class="pre">CD</span></code>) together provide
+the methods described on this page, they are controlled through one
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a> value <code class="docutils literal notranslate"><span class="pre">OCC</span></code>. Without <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">qc_module</span> <span class="pre">occ</span></code>,
+these methods may default to implementations in <a class="reference internal" href="capabilities.html#table-managedmethods"><span class="std std-ref">other modules</span></a> based on efficiency considerations.</p>
 <p>Starting in v1.4, MP2.5 and MP3 default to the density-fit algorithm. Set <a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> to <code class="docutils literal notranslate"><span class="pre">CONV</span></code> to get previous behavior.</p>
 <p>Publications resulting from the use of the non-OO CC codes should cite the following publications:</p>
 <ul class="simple">
-<li><p><strong>REMP</strong> <a class="reference internal" href="bibliography.html#behnle-2019-remp" id="id34"><span>[Behnle:2019:REMP]</span></a>, [Behnle:2022:OREMP]</p></li>
+<li><p><strong>REMP</strong> <a class="reference internal" href="bibliography.html#behnle-2019-remp" id="id44"><span>[Behnle:2019:REMP]</span></a>, [Behnle:2022:OREMP]</p></li>
 </ul>
-<span id="table-occ-nonoo-calls"></span><table class="docutils align-default" id="id37">
-<caption><span class="caption-text">Conventional (non-OO) CC and MP capabilities of OCC/DFOCC modules</span><a class="headerlink" href="#id37" title="Permalink to this table">¶</a></caption>
+<span id="table-occ-nonoo-calls"></span><table class="docutils align-default" id="id54">
+<caption><span class="caption-text">Non-OO theoretical methods accessible through OCC/DFOCC</span><a class="headerlink" href="#id54" title="Permalink to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>name</p></th>
 <th class="head"><p>calls method</p></th>
-<th class="head"><p>Energy</p></th>
-<th class="head"><p>Gradient</p></th>
-<th class="head"><p>type select</p></th>
+<th class="head"><p>plain</p></th>
+<th class="head"><p>FNO</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td rowspan="3"><p>mp2</p></td>
-<td><p>MP2</p></td>
-<td><p>RHF/UHF/ROHF</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP2_TYPE-GLOBALS"><span class="xref std std-term">MP2_TYPE</span></a> CONV</p></td>
+<tr class="row-even"><td><p>mp2</p></td>
+<td><p>second-order MP perturbation theory</p></td>
+<td><p>E/G</p></td>
+<td><p>n/a</p></td>
 </tr>
-<tr class="row-odd"><td><p>Density-Fitted MP2</p></td>
-<td><p>RHF/UHF/ROHF</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP2_TYPE-GLOBALS"><span class="xref std std-term">MP2_TYPE</span></a> DF</p></td>
+<tr class="row-odd"><td><p>mp2.5</p></td>
+<td><p>average of MP2 and MP3</p></td>
+<td><p>E/G</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><p>Cholesky-Decomposed MP2</p></td>
-<td><p>RHF/UHF/ROHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP2_TYPE-GLOBALS"><span class="xref std std-term">MP2_TYPE</span></a> CD</p></td>
+<tr class="row-even"><td><p>mp3</p></td>
+<td><p>third-order MP perturbation theory</p></td>
+<td><p>E/G</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td rowspan="3"><p>mp3</p></td>
-<td><p>MP3</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
+<tr class="row-odd"><td><p>remp2</p></td>
+<td><p>second-order retaining-the-excitation-degree MP hybrid PT</p></td>
+<td><p>E</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><p>Density-Fitted MP3</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> DF</p></td>
+<tr class="row-even"><td><p>lccd</p></td>
+<td><p>linear coupled cluster doubles</p></td>
+<td><p>E/G</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><p>Cholesky-Decomposed MP3</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CD</p></td>
+<tr class="row-odd"><td><p>ccd</p></td>
+<td><p>coupled cluster doubles</p></td>
+<td><p>E/G</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td rowspan="3"><p>mp2.5</p></td>
-<td><p>MP2.5</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
+<tr class="row-even"><td><p>ccsd</p></td>
+<td><p>coupled cluster singles and doubles</p></td>
+<td><p>E/G</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><p>Density-Fitted MP2.5</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> DF</p></td>
+<tr class="row-odd"><td><p>ccsd(t)</p></td>
+<td><p>coupled cluster singles and doubles with perturbative triples</p></td>
+<td><p>E/G</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><p>Cholesky-Decomposed MP2.5</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CD</p></td>
-</tr>
-<tr class="row-odd"><td rowspan="3"><p>lccd</p></td>
-<td><p>Linearized CCD</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>Density-Fitted LCCD</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> DF</p></td>
-</tr>
-<tr class="row-odd"><td><p>Cholesky-Decomposed LCCD</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
-</tr>
-<tr class="row-even"><td rowspan="3"><p>ccd</p></td>
-<td><p>CCD</p></td>
-<td><p>—</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>Density-Fitted CCD</p></td>
-<td><p>RHF</p></td>
-<td><p>RHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> DF</p></td>
-</tr>
-<tr class="row-even"><td><p>Cholesky-Decomposed CCD</p></td>
-<td><p>RHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
-</tr>
-<tr class="row-odd"><td rowspan="3"><p>ccsd</p></td>
-<td><p>CCSD</p></td>
-<td><p>—</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>Density-Fitted CCSD</p></td>
-<td><p>RHF</p></td>
-<td><p>RHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> DF</p></td>
-</tr>
-<tr class="row-odd"><td><p>Cholesky-Decomposed CCSD</p></td>
-<td><p>RHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
-</tr>
-<tr class="row-even"><td rowspan="3"><p>ccsd(t)</p></td>
-<td><p>CCSD(T)</p></td>
-<td><p>—</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>Density-Fitted CCSD(T)</p></td>
-<td><p>RHF</p></td>
-<td><p>RHF</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> DF</p></td>
-</tr>
-<tr class="row-even"><td><p>Cholesky-Decomposed CCSD(T)</p></td>
-<td><p>RHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
-</tr>
-<tr class="row-odd"><td rowspan="3"><p>a-ccsd(t)</p></td>
-<td><p>Lambda-CCSD(T)</p></td>
-<td><p>—</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>Density-Fitted Lambda-CCSD(T)</p></td>
-<td><p>RHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> DF</p></td>
-</tr>
-<tr class="row-odd"><td><p>Cholesky-Decomposed Lambda-CCSD(T)</p></td>
-<td><p>RHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
-</tr>
-<tr class="row-even"><td rowspan="3"><p>remp2</p></td>
-<td><p>2nd order REMP hybrid perturbation theory</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>Density-Fitted REMP</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> DF</p></td>
-</tr>
-<tr class="row-even"><td><p>Cholesky-Decomposed REMP</p></td>
-<td><p>RHF/UHF</p></td>
-<td><p>—</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CD</p></td>
+<tr class="row-even"><td><p>a-ccsd(t)</p></td>
+<td><p>CCSD with asymmetric perturbative triples</p></td>
+<td><p>E</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
+<span id="table-occ-stdsuite-nonoo"></span><table class="docutils align-left" id="id55">
+<caption><span class="caption-text">Detailed non-orbital-optimized capabilities of the OCC module. “✓” runs analytically. Single underline “✓̲” is default module when <a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a> unspecified. Double underline “✓̳” is default algorithm type when type selector (e.g., <a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a>) unspecified.</span><a class="headerlink" href="#id55" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head" rowspan="5"><p>◻</p>
+<p>◻</p>
+<p>name ↓ →</p>
+<p>◻</p>
+<p>◻</p>
+</th>
+<th class="head" rowspan="5"><p>◻</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-REFERENCE-SCF"><span class="xref std std-term">REFERENCE</span></a> →</p>
+<p>◻</p>
+<p>type<a class="footnote-reference brackets" href="#n1" id="id45" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> ↓ →</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-FREEZE_CORE-GLOBALS"><span class="xref std std-term">FREEZE_CORE</span></a><a class="footnote-reference brackets" href="#n2" id="id46" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>→</p>
+</th>
+<th class="head" colspan="36"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a>=OCC Capabilities</p></th>
+</tr>
+<tr class="row-even"><th class="head" colspan="12"><p>Restricted (RHF)</p></th>
+<th class="head" colspan="12"><p>Unrestricted (UHF)</p></th>
+<th class="head" colspan="12"><p>Restricted Open (ROHF)</p></th>
+</tr>
+<tr class="row-odd"><th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.gradient.html#psi4.driver.gradient" title="psi4.driver.gradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">gradient()</span></code></a><a class="footnote-reference brackets" href="#n3" id="id47" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.gradient.html#psi4.driver.gradient" title="psi4.driver.gradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">gradient()</span></code></a><a class="footnote-reference brackets" href="#n3" id="id48" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.gradient.html#psi4.driver.gradient" title="psi4.driver.gradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">gradient()</span></code></a><a class="footnote-reference brackets" href="#n3" id="id49" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></th>
+</tr>
+<tr class="row-even"><th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+</tr>
+<tr class="row-odd"><th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>mp2</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP2_TYPE-GLOBALS"><span class="xref std std-term">MP2_TYPE</span></a></p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓</span></p></td>
+<td><p><span class="gbg">✓</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>mp2.5</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a></p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>mp3</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a></p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>remp2</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>lccd</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>ccd</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>ccsd</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>ccsd(t)</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>a-ccsd(t)<a class="footnote-reference brackets" href="#n10" id="id50" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a></p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="n1" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id45">5</a><span class="fn-bracket">]</span></span>
+<p>Algorithm type selection keyword below. Values to the right: conventional <code class="docutils literal notranslate"><span class="pre">CV</span></code>, density-fitted <code class="docutils literal notranslate"><span class="pre">DF</span></code>, and Cholesky-decomposed <code class="docutils literal notranslate"><span class="pre">CD</span></code>.</p>
+</aside>
+<aside class="footnote brackets" id="n2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id46">6</a><span class="fn-bracket">]</span></span>
+<p>Active orbital values to the right: all-electron <code class="docutils literal notranslate"><span class="pre">A</span></code> and frozen-core <code class="docutils literal notranslate"><span class="pre">F</span></code>.</p>
+</aside>
+<aside class="footnote brackets" id="n3" role="note">
+<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id47">1</a>,<a role="doc-backlink" href="#id48">2</a>,<a role="doc-backlink" href="#id49">3</a>)</span>
+<p>Finite difference gradients are not marked explicitly by “∷”, but the capability can be gleaned from the energy availability.</p>
+</aside>
+<aside class="footnote brackets" id="n10" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id50">8</a><span class="fn-bracket">]</span></span>
+<p>a-CCSD(T) also known as CCSD(aT), Lambda-CCSD(T), and CCSD(T)_L</p>
+</aside>
+</aside>
 </section>
 </section>
 
@@ -1029,21 +1636,21 @@ preference to the default module, issue <code class="docutils literal notranslat
 </ul>
 </li>
 <li><a class="reference internal" href="#basic-dfocc-keywords">Basic DFOCC Keywords</a><ul>
-<li><a class="reference internal" href="#id24"><span class="xref std std-term">E_CONVERGENCE</span></a></li>
-<li><a class="reference internal" href="#id25"><span class="xref std std-term">R_CONVERGENCE</span></a></li>
-<li><a class="reference internal" href="#id26"><span class="xref std std-term">RMS_MOGRAD_CONVERGENCE</span></a></li>
-<li><a class="reference internal" href="#id27"><span class="xref std std-term">MAX_MOGRAD_CONVERGENCE</span></a></li>
-<li><a class="reference internal" href="#id28"><span class="xref std std-term">MO_MAXITER</span></a></li>
-<li><a class="reference internal" href="#id29"><span class="xref std std-term">ORB_OPT</span></a></li>
+<li><a class="reference internal" href="#id34"><span class="xref std std-term">E_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#id35"><span class="xref std std-term">R_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#id36"><span class="xref std std-term">RMS_MOGRAD_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#id37"><span class="xref std std-term">MAX_MOGRAD_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#id38"><span class="xref std std-term">MO_MAXITER</span></a></li>
+<li><a class="reference internal" href="#id39"><span class="xref std std-term">ORB_OPT</span></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#advanced-dfocc-keywords">Advanced DFOCC Keywords</a><ul>
-<li><a class="reference internal" href="#id30"><span class="xref std std-term">OPT_METHOD</span></a></li>
+<li><a class="reference internal" href="#id40"><span class="xref std std-term">OPT_METHOD</span></a></li>
 <li><a class="reference internal" href="#hess-type"><span class="xref std std-term">HESS_TYPE</span></a></li>
 <li><a class="reference internal" href="#mo-diis-num-vecs"><span class="xref std std-term">MO_DIIS_NUM_VECS</span></a></li>
-<li><a class="reference internal" href="#id31"><span class="xref std std-term">ORTH_TYPE</span></a></li>
-<li><a class="reference internal" href="#id32"><span class="xref std std-term">DO_DIIS</span></a></li>
-<li><a class="reference internal" href="#id33"><span class="xref std std-term">DO_LEVEL_SHIFT</span></a></li>
+<li><a class="reference internal" href="#id41"><span class="xref std std-term">ORTH_TYPE</span></a></li>
+<li><a class="reference internal" href="#id42"><span class="xref std std-term">DO_DIIS</span></a></li>
+<li><a class="reference internal" href="#id43"><span class="xref std std-term">DO_LEVEL_SHIFT</span></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#conventional-non-oo-coupled-cluster-and-mollerplesset-perturbation-theories">Conventional (Non-OO) Coupled-Cluster and Møller–Plesset Perturbation Theories</a></li>
@@ -1098,7 +1705,7 @@ preference to the default module, issue <code class="docutils literal notranslat
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/occ.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/60844f2">1.7a1.dev83</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c5ae134">1.7a1.dev84</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1112,7 +1719,7 @@ preference to the default module, issue <code class="docutils literal notranslat
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Thursday, 20 October 2022 11:20PM.
+      Last updated on Friday, 21 October 2022 05:46AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

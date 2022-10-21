@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dft.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/60844f2">1.7a1.dev83</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c5ae134">1.7a1.dev84</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -688,6 +688,503 @@ DF and DIRECT algorithms. The use of DF is highly recommended for KS-DFT, as the
 errors incurred by the density fitting approximation (in a proper -JKFIT
 auxiliary basis) are orders of magnitude smaller than the accuracy of any known
 functional.</p>
+<p>Key representative methods supported by the SCF module in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> are
+detailed in Table <a class="reference internal" href="#table-scf-stdsuite"><span class="std std-ref">SCF Capabilities</span></a>. Note
+from <a class="reference internal" href="scf.html#table-conv-scf"><span class="std std-ref">SCF algorithm and convergence criteria defaults by calculation type 1</span></a> that these SCF-level methods default to
+density-fitted reference; use <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> to select an alternate
+algorithm. SCF-level methods have no alternate implementations.</p>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(".gbg").parent().addClass("gbg-parent");
+  });
+</script>
+<style>
+   .gbg-parent {background-color:#cceecc;}
+</style><span id="table-scf-stdsuite"></span><table class="docutils align-left" id="id15">
+<caption><span class="caption-text">Detailed capabilities of the SCF module. “✓” runs analytically. Single underline “✓̲” is default module when <a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a> unspecified. Double underline “✓̳” is default algorithm type when type selector (e.g., <a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a>) unspecified.</span><a class="headerlink" href="#id15" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head" rowspan="5"><p>◻</p>
+<p>◻</p>
+<p>name ↓ →</p>
+<p>◻</p>
+<p>◻</p>
+</th>
+<th class="head" rowspan="5"><p>◻</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-REFERENCE-SCF"><span class="xref std std-term">REFERENCE</span></a> →</p>
+<p>◻</p>
+<p>type<a class="footnote-reference brackets" href="#r1" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> ↓ →</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-FREEZE_CORE-GLOBALS"><span class="xref std std-term">FREEZE_CORE</span></a><a class="footnote-reference brackets" href="#r2" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>→</p>
+</th>
+<th class="head" colspan="54"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a>=SCF Capabilities</p></th>
+</tr>
+<tr class="row-even"><th class="head" colspan="18"><p>Restricted (RHF)</p></th>
+<th class="head" colspan="18"><p>Unrestricted (UHF)</p></th>
+<th class="head" colspan="18"><p>Restricted Open (ROHF)</p></th>
+</tr>
+<tr class="row-odd"><th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.gradient.html#psi4.driver.gradient" title="psi4.driver.gradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">gradient()</span></code></a><a class="footnote-reference brackets" href="#r3" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.hessian.html#psi4.driver.hessian" title="psi4.driver.hessian"><code class="xref py py-func docutils literal notranslate"><span class="pre">hessian()</span></code></a><a class="footnote-reference brackets" href="#r4" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.gradient.html#psi4.driver.gradient" title="psi4.driver.gradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">gradient()</span></code></a><a class="footnote-reference brackets" href="#r3" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.hessian.html#psi4.driver.hessian" title="psi4.driver.hessian"><code class="xref py py-func docutils literal notranslate"><span class="pre">hessian()</span></code></a><a class="footnote-reference brackets" href="#r4" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.gradient.html#psi4.driver.gradient" title="psi4.driver.gradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">gradient()</span></code></a><a class="footnote-reference brackets" href="#r3" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.hessian.html#psi4.driver.hessian" title="psi4.driver.hessian"><code class="xref py py-func docutils literal notranslate"><span class="pre">hessian()</span></code></a><a class="footnote-reference brackets" href="#r4" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></th>
+</tr>
+<tr class="row-even"><th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+</tr>
+<tr class="row-odd"><th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>hf</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a></p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>svwn, LSDA DFT</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a></p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>pbe, GGA DFT</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a></p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>b3lyp, Hybrid DFT</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a></p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>wb97x, LRC DFT</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a></p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>b2plyp, DH DFT<a class="footnote-reference brackets" href="#r10" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a></p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td><p><span class="gbg">✓̳</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td><p><span class="gbg">✓̲</span></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="r1" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">1</a><span class="fn-bracket">]</span></span>
+<p>Algorithm type selection keyword below. Values to the right: conventional <code class="docutils literal notranslate"><span class="pre">CV</span></code>, density-fitted <code class="docutils literal notranslate"><span class="pre">DF</span></code>, and Cholesky-decomposed <code class="docutils literal notranslate"><span class="pre">CD</span></code>.</p>
+</aside>
+<aside class="footnote brackets" id="r2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">2</a><span class="fn-bracket">]</span></span>
+<p>Active orbital values to the right: all-electron <code class="docutils literal notranslate"><span class="pre">A</span></code> and frozen-core <code class="docutils literal notranslate"><span class="pre">F</span></code>.</p>
+</aside>
+<aside class="footnote brackets" id="r3" role="note">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id8">1</a>,<a role="doc-backlink" href="#id10">2</a>,<a role="doc-backlink" href="#id12">3</a>)</span>
+<p>Finite difference gradients are not marked explicitly by “∷”, but the capability can be gleaned from the energy availability.</p>
+</aside>
+<aside class="footnote brackets" id="r4" role="note">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id9">1</a>,<a role="doc-backlink" href="#id11">2</a>,<a role="doc-backlink" href="#id13">3</a>)</span>
+<p>Finite difference Hessians are not marked explicitly by “∷”, but the capability can be gleaned from the gradient or energy availability.</p>
+</aside>
+<aside class="footnote brackets" id="r10" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">5</a><span class="fn-bracket">]</span></span>
+<p>DH-DFT only available with DF-MP2</p>
+</aside>
+</aside>
 </section>
 <section id="ip-fitting">
 <h2>IP Fitting<a class="headerlink" href="#ip-fitting" title="Permalink to this heading">¶</a></h2>
@@ -1083,7 +1580,7 @@ and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DFT
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dft.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/60844f2">1.7a1.dev83</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c5ae134">1.7a1.dev84</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1097,7 +1594,7 @@ and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DFT
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Thursday, 20 October 2022 11:20PM.
+      Last updated on Friday, 21 October 2022 05:46AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

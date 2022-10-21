@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/fnocc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/60844f2">1.7a1.dev83</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c5ae134">1.7a1.dev84</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -408,131 +408,484 @@ of composite methods.  Currently, only the G2 method is supported
 </section>
 <section id="supported-methods">
 <h2>Supported methods<a class="headerlink" href="#supported-methods" title="Permalink to this heading">¶</a></h2>
-<p>The various methods supported by the FNOCC module in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> are detailed
-in Table <a class="reference internal" href="#table-fnocc-methods"><span class="std std-ref">FNOCC Methods</span></a>.  Note that these methods
-are implemented for closed-shell references only.  For open-shell references,
-the calls <code class="docutils literal notranslate"><span class="pre">energy('mp2.5')</span></code>, <code class="docutils literal notranslate"><span class="pre">energy('mp3')</span></code>, and <code class="docutils literal notranslate"><span class="pre">energy('mp4')</span></code> will
-default to implementations of these methods in <a class="reference internal" href="notes_c.html#table-managedmethods"><span class="std std-ref">other modules</span></a>.</p>
-<blockquote>
-<div><table class="docutils align-default" id="table-fnocc-methods">
+<p>The various methods supported by the FNOCC module in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> are
+summarized in Table <a class="reference internal" href="#table-fnocc-methods"><span class="std std-ref">FNOCC Methods</span></a>
+and detailed (except FNO) in Table <a class="reference internal" href="#table-fnocc-stdsuite"><span class="std std-ref">FNOCC Capabilities</span></a>. Note that these methods are implemented
+for closed-shell reference only. Without <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">qc_module</span> <span class="pre">fnocc</span></code>,
+these methods may default to implementations in <a class="reference internal" href="capabilities.html#table-managedmethods"><span class="std std-ref">other modules</span></a>.</p>
+<span id="table-fnocc-methods"></span><table class="docutils align-default" id="id12">
+<caption><span class="caption-text">Theoretical methods accessible through FNOCC</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>name</p></th>
 <th class="head"><p>calls method</p></th>
-<th class="head"><p>type select</p></th>
+<th class="head"><p>plain</p></th>
+<th class="head"><p>FNO</p></th>
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p>mp3</p></td>
+<td><p>third-order MP perturbation theory</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
+</tr>
+<tr class="row-odd"><td><p>mp4(sdq)</p></td>
+<td><p>fourth-order MP perturbation theory, less triples</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
+</tr>
+<tr class="row-even"><td><p>mp4</p></td>
+<td><p>full fourth-order MP perturbation theory</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
+</tr>
+<tr class="row-odd"><td><p>cisd</p></td>
+<td><p>configuration interaction singles and doubles</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
+</tr>
 <tr class="row-even"><td><p>qcisd</p></td>
 <td><p>quadratic configuration interaction singles doubles</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CI_TYPE-GLOBALS"><span class="xref std std-term">CI_TYPE</span></a> CONV</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
 </tr>
 <tr class="row-odd"><td><p>qcisd(t)</p></td>
-<td><p>qcisd with perturbative triples</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CI_TYPE-GLOBALS"><span class="xref std std-term">CI_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>mp2.5</p></td>
-<td><p>average of second- and third-order perturbation theories</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>mp3</p></td>
-<td><p>third-order perturbation theory</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>mp4(sdq)</p></td>
-<td><p>fourth-order perturbation theory, minus triples contribution</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>mp4</p></td>
-<td><p>full fourth-order perturbation theory</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
+<td><p>QCISD with perturbative triples</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
 </tr>
 <tr class="row-even"><td><p>lccd</p></td>
-<td><p>linear ccd</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
+<td><p>linear coupled cluster doubles</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
 </tr>
 <tr class="row-odd"><td><p>cepa(0), lccsd</p></td>
 <td><p>coupled electron pair approximation, variant 0</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
 </tr>
 <tr class="row-even"><td><p>cepa(1)</p></td>
 <td><p>coupled electron pair approximation, variant 1</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
 </tr>
 <tr class="row-odd"><td><p>cepa(3)</p></td>
 <td><p>coupled electron pair approximation, variant 3</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
 </tr>
 <tr class="row-even"><td><p>acpf</p></td>
 <td><p>averaged coupled-pair functional</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
 </tr>
 <tr class="row-odd"><td><p>aqcc</p></td>
 <td><p>averaged quadratic coupled-cluster</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
 </tr>
-<tr class="row-even"><td><p>cisd</p></td>
-<td><p>configuration interaction with single and double excitations</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CI_TYPE-GLOBALS"><span class="xref std std-term">CI_TYPE</span></a> CONV</p></td>
+<tr class="row-even"><td><p>ccsd</p></td>
+<td><p>coupled cluster singles and doubles</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
 </tr>
-<tr class="row-odd"><td><p>fno-qcisd</p></td>
-<td><p>qcisd with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CI_TYPE-GLOBALS"><span class="xref std std-term">CI_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>fno-qcisd(t)</p></td>
-<td><p>qcisd(t) with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CI_TYPE-GLOBALS"><span class="xref std std-term">CI_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>fno-ccsd</p></td>
-<td><p>coupled cluster singles doubles with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV, DF, CD</p></td>
-</tr>
-<tr class="row-even"><td><p>fno-ccsd(t)</p></td>
-<td><p>ccsd with perturbative triples and frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV, DF, CD</p></td>
-</tr>
-<tr class="row-odd"><td><p>fno-mp3</p></td>
-<td><p>mp3 with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>fno-mp4(sdq)</p></td>
-<td><p>mp4(sdq) with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>fno-mp4</p></td>
-<td><p>mp4 with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>fno-lccd</p></td>
-<td><p>linear ccd with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>fno-cepa(0), fno-lccsd</p></td>
-<td><p>cepa(0) with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>fno-cepa(1)</p></td>
-<td><p>cepa(1) with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>fno-cepa(3)</p></td>
-<td><p>cepa(3) with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>fno-acpf</p></td>
-<td><p>acpf with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-odd"><td><p>fno-aqcc</p></td>
-<td><p>aqcc with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a> CONV</p></td>
-</tr>
-<tr class="row-even"><td><p>fno-cisd</p></td>
-<td><p>cisd with frozen natural orbitals</p></td>
-<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CI_TYPE-GLOBALS"><span class="xref std std-term">CI_TYPE</span></a> CONV</p></td>
+<tr class="row-odd"><td><p>ccsd(t)</p></td>
+<td><p>coupled cluster singles and doubles with perturbative triples</p></td>
+<td><p>E</p></td>
+<td><p>E</p></td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(".gbg").parent().addClass("gbg-parent");
+  });
+</script>
+<style>
+   .gbg-parent {background-color:#cceecc;}
+</style><span id="table-fnocc-stdsuite"></span><table class="docutils align-left" id="id13">
+<caption><span class="caption-text">Detailed capabilities of the FNOCC module. “✓” runs analytically. Single underline “✓̲” is default module when <a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a> unspecified. Double underline “✓̳” is default algorithm type when type selector (e.g., <a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a>) unspecified.</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head" rowspan="5"><p>◻</p>
+<p>◻</p>
+<p>name ↓ →</p>
+<p>◻</p>
+<p>◻</p>
+</th>
+<th class="head" rowspan="5"><p>◻</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-REFERENCE-SCF"><span class="xref std std-term">REFERENCE</span></a> →</p>
+<p>◻</p>
+<p>type<a class="footnote-reference brackets" href="#f1" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> ↓ →</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-FREEZE_CORE-GLOBALS"><span class="xref std std-term">FREEZE_CORE</span></a><a class="footnote-reference brackets" href="#f2" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>→</p>
+</th>
+<th class="head" colspan="18"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a>=FNOCC Capabilities</p></th>
+</tr>
+<tr class="row-even"><th class="head" colspan="6"><p>Restricted (RHF)</p></th>
+<th class="head" colspan="6"><p>Unrestricted (UHF)</p></th>
+<th class="head" colspan="6"><p>ROHF</p></th>
+</tr>
+<tr class="row-odd"><th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+<th class="head" colspan="6"><p><a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a></p></th>
+</tr>
+<tr class="row-even"><th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+<th class="head" colspan="2"><p>CV</p></th>
+<th class="head" colspan="2"><p>DF</p></th>
+<th class="head" colspan="2"><p>CD</p></th>
+</tr>
+<tr class="row-odd"><th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p><span class="gbg">A</span></p></th>
+<th class="head"><p><span class="gbg">F</span></p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+<th class="head"><p>A</p></th>
+<th class="head"><p>F</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>mp2</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP2_TYPE-GLOBALS"><span class="xref std std-term">MP2_TYPE</span></a></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>mp3</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>mp4(sdq)</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>mp4</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MP_TYPE-GLOBALS"><span class="xref std std-term">MP_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>cisd</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CI_TYPE-GLOBALS"><span class="xref std std-term">CI_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>qcisd</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CI_TYPE-GLOBALS"><span class="xref std std-term">CI_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>qcisd(t)</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CI_TYPE-GLOBALS"><span class="xref std std-term">CI_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>lccd</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>lccsd, cepa(0)</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>cepa(1)</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>cepa(3)</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>acpf</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>aqcc</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓̳</p></td>
+<td><p>✓̳</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>ccsd</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>ccsd(t)</p></td>
+<td><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-CC_TYPE-GLOBALS"><span class="xref std std-term">CC_TYPE</span></a></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td><p>✓̲</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f1" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">1</a><span class="fn-bracket">]</span></span>
+<p>Algorithm type selection keyword below. Values to the right: conventional <code class="docutils literal notranslate"><span class="pre">CV</span></code>, density-fitted <code class="docutils literal notranslate"><span class="pre">DF</span></code>, and Cholesky-decomposed <code class="docutils literal notranslate"><span class="pre">CD</span></code>.</p>
+</aside>
+<aside class="footnote brackets" id="f2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">2</a><span class="fn-bracket">]</span></span>
+<p>Active orbital values to the right: all-electron <code class="docutils literal notranslate"><span class="pre">A</span></code> and frozen-core <code class="docutils literal notranslate"><span class="pre">F</span></code>.</p>
+</aside>
+</aside>
 </section>
 <section id="basic-fnocc-keywords">
 <span id="index-2"></span><h2>Basic FNOCC Keywords<a class="headerlink" href="#basic-fnocc-keywords" title="Permalink to this heading">¶</a></h2>
@@ -982,7 +1335,7 @@ default to implementations of these methods in <a class="reference internal" hre
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/fnocc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/60844f2">1.7a1.dev83</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c5ae134">1.7a1.dev84</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -996,7 +1349,7 @@ default to implementations of these methods in <a class="reference internal" hre
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Thursday, 20 October 2022 11:20PM.
+      Last updated on Friday, 21 October 2022 05:46AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

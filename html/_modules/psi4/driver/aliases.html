@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/aliases.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/60844f2">1.7a1.dev83</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c5ae134">1.7a1.dev84</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -259,43 +259,62 @@
 <span class="sd">    &gt;&gt;&gt; energy(&#39;allen_focal_point&#39;, scf_basis=&#39;cc-pV[TQ5]Z&#39;)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-
+    <span class="kn">import</span> <span class="nn">psi4</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">psi4</span><span class="o">.</span><span class="n">addons</span><span class="p">(</span><span class="s2">&quot;mrcc&quot;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Install MRCC (executable &#39;dmrcc&#39;) to use the allen_focal_point function.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Note: HF and MP2 steps (which don&#39;t need MRCC and indeed can&#39;t be</span>
+    <span class="c1">#  run directly in MRCC through the Psi4 interface) nevertheless have</span>
+    <span class="c1">#  qc_module=mrcc set here so that options sets (below, `&quot;options&quot;`</span>
+    <span class="c1">#  and `&quot;options_lo&quot;`) are the same and the cbs() driver knows it&#39;s</span>
+    <span class="c1">#  safe (that is, consistent) to use the &quot;free&quot; values (e.g.,</span>
+    <span class="c1">#  HF from CCSD) resulting from</span>
+    <span class="c1">#  MRCC CCSD calcs. This logic can be made smarter if needed.</span>
 
     <span class="n">scf</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># HF</span>
         <span class="s1">&#39;wfn&#39;</span><span class="p">:</span> <span class="s1">&#39;hf&#39;</span><span class="p">,</span>
         <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;scf_basis&#39;</span><span class="p">,</span> <span class="s1">&#39;cc-pV[Q56]Z&#39;</span><span class="p">),</span>
         <span class="s1">&#39;scheme&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;scf_scheme&#39;</span><span class="p">,</span> <span class="s1">&#39;scf_xtpl_helgaker_3&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
     <span class="p">}</span>
     <span class="n">corl</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># MP2 - HF</span>
         <span class="s1">&#39;wfn&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;corl_wfn&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2&#39;</span><span class="p">),</span>
         <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;corl_basis&#39;</span><span class="p">,</span> <span class="s1">&#39;cc-pV[56]Z&#39;</span><span class="p">),</span>
         <span class="s1">&#39;scheme&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;corl_scheme&#39;</span><span class="p">,</span> <span class="s1">&#39;corl_xtpl_helgaker_2&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
+        <span class="s1">&#39;options_lo&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
     <span class="p">}</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># CCSD - MP2</span>
-        <span class="s1">&#39;wfn&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta_wfn&#39;</span><span class="p">,</span> <span class="s1">&#39;mrccsd&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;wfn&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta_wfn&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsd&#39;</span><span class="p">),</span>
         <span class="s1">&#39;wfn_lesser&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta_wfn_lesser&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2&#39;</span><span class="p">),</span>
         <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta_basis&#39;</span><span class="p">,</span> <span class="s1">&#39;cc-pV[56]Z&#39;</span><span class="p">),</span>
         <span class="s1">&#39;scheme&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta_scheme&#39;</span><span class="p">,</span> <span class="s1">&#39;corl_xtpl_helgaker_2&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
+        <span class="s1">&#39;options_lo&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
     <span class="p">}</span>
     <span class="n">delta2</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># CCSD(T) - CCSD</span>
-        <span class="s1">&#39;wfn&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta2_wfn&#39;</span><span class="p">,</span> <span class="s1">&#39;mrccsd(t)&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;wfn_lesser&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta2_wfn_lesser&#39;</span><span class="p">,</span> <span class="s1">&#39;mrccsd&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;wfn&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta2_wfn&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsd(t)&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;wfn_lesser&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta2_wfn_lesser&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsd&#39;</span><span class="p">),</span>
         <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta2_basis&#39;</span><span class="p">,</span> <span class="s1">&#39;cc-pV[56]Z&#39;</span><span class="p">),</span>
         <span class="s1">&#39;scheme&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta2_scheme&#39;</span><span class="p">,</span> <span class="s1">&#39;corl_xtpl_helgaker_2&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
+        <span class="s1">&#39;options_lo&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
     <span class="p">}</span>
     <span class="n">delta3</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># CCSDT - CCSD(T)</span>
-        <span class="s1">&#39;wfn&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta3_wfn&#39;</span><span class="p">,</span> <span class="s1">&#39;mrccsdt&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;wfn_lesser&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta3_wfn_lesser&#39;</span><span class="p">,</span> <span class="s1">&#39;mrccsd(t)&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;wfn&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta3_wfn&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsdt&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;wfn_lesser&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta3_wfn_lesser&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsd(t)&#39;</span><span class="p">),</span>
         <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta3_basis&#39;</span><span class="p">,</span> <span class="s1">&#39;cc-pVTZ&#39;</span><span class="p">),</span>
         <span class="s1">&#39;scheme&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta3_scheme&#39;</span><span class="p">,</span> <span class="s1">&#39;xtpl_highest_1&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
+        <span class="s1">&#39;options_lo&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
     <span class="p">}</span>
     <span class="n">delta4</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># CCSDT(Q) - CCSDT</span>
-        <span class="s1">&#39;wfn&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta4_wfn&#39;</span><span class="p">,</span> <span class="s1">&#39;mrccsdt(q)&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;wfn_lesser&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta4_wfn_lesser&#39;</span><span class="p">,</span> <span class="s1">&#39;mrccsdt&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;wfn&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta4_wfn&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsdt(q)&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;wfn_lesser&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta4_wfn_lesser&#39;</span><span class="p">,</span> <span class="s1">&#39;ccsdt&#39;</span><span class="p">),</span>
         <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta4_basis&#39;</span><span class="p">,</span> <span class="s1">&#39;cc-pVDZ&#39;</span><span class="p">),</span>
         <span class="s1">&#39;scheme&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta4_scheme&#39;</span><span class="p">,</span> <span class="s1">&#39;xtpl_highest_1&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
+        <span class="s1">&#39;options_lo&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="s2">&quot;mrcc&quot;</span><span class="p">},</span>
     <span class="p">}</span>
 
     <span class="k">return</span> <span class="p">[</span><span class="n">scf</span><span class="p">,</span> <span class="n">corl</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">delta2</span><span class="p">,</span> <span class="n">delta3</span><span class="p">,</span> <span class="n">delta4</span><span class="p">]</span></div>
@@ -390,7 +409,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/aliases.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/60844f2">1.7a1.dev83</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c5ae134">1.7a1.dev84</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -404,7 +423,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Thursday, 20 October 2022 11:20PM.
+      Last updated on Friday, 21 October 2022 05:46AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

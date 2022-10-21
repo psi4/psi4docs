@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/exceptions.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/60844f2">1.7a1.dev83</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c5ae134">1.7a1.dev84</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -154,6 +154,8 @@
     <span class="s2">&quot;TestComparisonError&quot;</span><span class="p">,</span>
     <span class="s2">&quot;UpgradeHelper&quot;</span><span class="p">,</span>
     <span class="s2">&quot;ValidationError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;docs_table_link&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sanitize_method&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
@@ -488,22 +490,62 @@
 <span class="sd">    ----------</span>
 <span class="sd">    message</span>
 <span class="sd">        Human readable string describing the exception.</span>
+<span class="sd">    stats</span>
+<span class="sd">        Dictionary of conditions for which method request was made.</span>
+<span class="sd">        Keys are:</span>
+
+<span class="sd">          - driver : {&quot;energy&quot;, &quot;gradient&quot;, &quot;hessian&quot;, &quot;properties&quot;}</span>
+<span class="sd">          - derivative_int : {0, 1, 2, &quot;prop&quot;}, integer representation of driver</span>
+<span class="sd">          - method : str, model/method/level-of-theory</span>
+<span class="sd">          - link : str, link address to table in docs</span>
+<span class="sd">          - method_type : (str, str), raw value and str repr of governing variable and algorithm</span>
+<span class="sd">          - reference : (str, str), raw value and str repr of reference type</span>
+<span class="sd">          - qc_module : (str, str), raw value and str repr of targeted implementation</span>
+<span class="sd">          - fcae : (str, str), raw value and str repr of all-electron/frozen-core status</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">stats</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-        <span class="k">if</span> <span class="n">circs</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
-            <span class="n">modulemsg</span> <span class="o">=</span> <span class="s2">&quot;not available&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">modulemsg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;not directable to QC_MODULE &#39;</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">circs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">: Method &#39;</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; with </span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, FREEZE_CORE &#39;</span><span class="si">{</span><span class="ow">not</span> <span class="n">circs</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, and REFERENCE &#39;</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; </span><span class="si">{</span><span class="n">modulemsg</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">circs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_property&quot;</span><span class="p">):</span>
+            <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;properties&quot;</span>
+            <span class="n">derivative_int</span> <span class="o">=</span> <span class="s2">&quot;prop&quot;</span>  <span class="c1"># differs from QCSchema Driver.derivative_int that uses `0` here</span>
+        <span class="k">elif</span> <span class="n">circs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_hessian&quot;</span><span class="p">):</span>
+            <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;hessian&quot;</span>
+            <span class="n">derivative_int</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">elif</span> <span class="n">circs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_gradient&quot;</span><span class="p">):</span>
+            <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;gradient&quot;</span>
+            <span class="n">derivative_int</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">: Method &#39;</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; with </span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and REFERENCE &#39;</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; </span><span class="si">{</span><span class="n">modulemsg</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+            <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;energy&quot;</span>
+            <span class="n">derivative_int</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">docslink</span> <span class="o">=</span> <span class="n">docs_table_link</span><span class="p">(</span><span class="n">circs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;summary&quot;</span> <span class="k">if</span> <span class="n">circs</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="k">else</span> <span class="s2">&quot;details&quot;</span><span class="p">))</span>
+        <span class="n">all_electron</span> <span class="o">=</span> <span class="n">circs</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">circs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;(n/a)&quot;</span>
+
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># use QCSchema AtomicInput keys where available</span>
+            <span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="n">driver</span><span class="p">,</span>
+            <span class="s2">&quot;derivative_int&quot;</span><span class="p">:</span> <span class="n">derivative_int</span><span class="p">,</span>
+            <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="n">circs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="n">docslink</span><span class="p">,</span>
+            <span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">circs</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;reference&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">circs</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;REFERENCE=</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;qc_module&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">circs</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;QC_MODULE=</span><span class="si">{</span><span class="n">circs</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;(auto)&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="c1"># Note on fcae: most select_* functions don&#39;t consider this circumstance. Index 0 of tuple documents this.</span>
+            <span class="c1">#   Index 1 of tuple always returns the circumstance, regardless of whether considered, so user can look up availability in table.</span>
+            <span class="s2">&quot;fcae&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">all_electron</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;FREEZE_CORE=</span><span class="si">{</span><span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;FREEZE_CORE&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Note that this message is not generally seen, as driver_util catches and edits it from `stats`</span>
+        <span class="n">conditions2</span> <span class="o">=</span> <span class="p">[</span><span class="n">stats</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;method_type&quot;</span><span class="p">,</span> <span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="s2">&quot;fcae&quot;</span><span class="p">,</span> <span class="s2">&quot;qc_module&quot;</span><span class="p">]]</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Method=</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> is not available for target derivative level (dertype=</span><span class="si">{</span><span class="n">derivative_int</span><span class="si">}</span><span class="s2">) under conditions </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conditions2</span><span class="p">)</span><span class="si">}</span><span class="s2">. See </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;link&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+
         <span class="n">PsiException</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PsiException: </span><span class="si">%s</span><span class="se">\n\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">msg</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">msg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="n">stats</span></div>
 
 
 <span class="c1"># Dftd3Error ceased to be used by v1.4. Class removed by v1.7</span>
@@ -552,6 +594,56 @@
         <span class="n">msg</span> <span class="o">+=</span> <span class="n">PastureRequiredError</span><span class="o">.</span><span class="n">install_instructions</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">module_args</span><span class="o">=</span><span class="n">module_cmake_args</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PsiException: </span><span class="si">{}</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sanitize_method"><a class="viewcode-back" href="../../../../api/psi4.driver.sanitize_method.html#psi4.driver.sanitize_method">[docs]</a><span class="k">def</span> <span class="nf">sanitize_method</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Replace characters in method name so that suitable for function name or Sphinx table anchor</span>
+<span class="sd">    (both as-is) or HTML table link (replace underscore in returned string by dash).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;_pr&quot;</span>  <span class="c1"># ccsd(t)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot;_pr&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span>    <span class="c1"># mp2.5</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span>    <span class="c1"># ccsd+t(ccsd)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>     <span class="c1"># ccsdt-1a</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="docs_table_link"><a class="viewcode-back" href="../../../../api/psi4.driver.p4util.docs_table_link.html#psi4.driver.docs_table_link">[docs]</a><span class="k">def</span> <span class="nf">docs_table_link</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Compose a link to *mode* documentation table.</span>
+<span class="sd">    For modes {&quot;summary&quot;, &quot;details&quot;}, link will be anchored at the table row for method *name*. (Method row not guaranteed to exist.)</span>
+<span class="sd">    For other modes, link will be to table in general.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DOCS_BASE</span> <span class="o">=</span> <span class="s2">&quot;https://psicode.org/psi4manual/master/&quot;</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;summary&quot;</span><span class="p">:</span>
+        <span class="n">anchor</span> <span class="o">=</span> <span class="s2">&quot;introduction.html#ss&quot;</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span>
+        <span class="n">anchor</span> <span class="o">=</span> <span class="s2">&quot;capabilities.html#dd&quot;</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;ccenergy&quot;</span><span class="p">:</span>
+        <span class="n">anchor</span> <span class="o">=</span> <span class="s2">&quot;cc.html#table-ccenergy-stdsuite&quot;</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;dfmp2&quot;</span><span class="p">:</span>
+        <span class="n">anchor</span> <span class="o">=</span> <span class="s2">&quot;dfmp2.html#table-dfmp2-stdsuite&quot;</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;fnocc&quot;</span><span class="p">:</span>
+        <span class="n">anchor</span> <span class="o">=</span> <span class="s2">&quot;fnocc.html#table-fnocc-stdsuite&quot;</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;occ_nonoo&quot;</span><span class="p">:</span>
+        <span class="n">anchor</span> <span class="o">=</span> <span class="s2">&quot;occ.html#table-occ-stdsuite-nonoo&quot;</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;occ_oo&quot;</span><span class="p">:</span>
+        <span class="n">anchor</span> <span class="o">=</span> <span class="s2">&quot;occ.html#table-occ-stdsuite-oo&quot;</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;scf&quot;</span><span class="p">:</span>
+        <span class="n">anchor</span> <span class="o">=</span> <span class="s2">&quot;dft.html#table-scf-stdsuite&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;invalid table mode&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Sphinx reST anchors with underscore build into HTML docs with dash</span>
+    <span class="n">sanitized_method</span> <span class="o">=</span> <span class="n">sanitize_method</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;summary&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DOCS_BASE</span><span class="si">}{</span><span class="n">anchor</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">sanitized_method</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DOCS_BASE</span><span class="si">}{</span><span class="n">anchor</span><span class="si">}</span><span class="s2">&quot;</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -643,7 +735,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/exceptions.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/60844f2">1.7a1.dev83</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c5ae134">1.7a1.dev84</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -657,7 +749,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Thursday, 20 October 2022 11:20PM.
+      Last updated on Friday, 21 October 2022 05:46AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
