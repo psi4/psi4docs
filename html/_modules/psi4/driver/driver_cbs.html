@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f01bcb7">1.7a1.dev86</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/8c94a16">1.7a1.dev87</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1816,24 +1816,24 @@
             <span class="n">qcvars</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;CBS </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cbsrec</span><span class="p">[</span><span class="n">dc</span><span class="p">][</span><span class="s1">&#39;d_stage&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> TOTAL ENERGY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbsrec</span><span class="p">[</span><span class="n">dc</span><span class="p">][</span><span class="s2">&quot;d_energy&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbsrec</span><span class="p">[</span><span class="n">dc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;d_energy&quot;</span><span class="p">]</span>
 
         <span class="n">G0</span> <span class="o">=</span> <span class="n">assembled_results</span><span class="p">[</span><span class="s2">&quot;gradient&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">G0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">G0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">qcvars</span><span class="p">[</span><span class="s2">&quot;CURRENT GRADIENT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">G0</span>
             <span class="n">qcvars</span><span class="p">[</span><span class="s2">&quot;CBS TOTAL GRADIENT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">G0</span>
             <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;return_gradient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">G0</span>
 
         <span class="n">H0</span> <span class="o">=</span> <span class="n">assembled_results</span><span class="p">[</span><span class="s2">&quot;hessian&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">H0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">H0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">qcvars</span><span class="p">[</span><span class="s2">&quot;CURRENT HESSIAN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">H0</span>
             <span class="n">qcvars</span><span class="p">[</span><span class="s2">&quot;CBS TOTAL HESSIAN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">H0</span>
             <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;return_hessian&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">H0</span>
 
         <span class="n">D0</span> <span class="o">=</span> <span class="n">assembled_results</span><span class="p">[</span><span class="s2">&quot;dipole&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">D0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">D0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">qcvars</span><span class="p">[</span><span class="s2">&quot;CURRENT DIPOLE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">D0</span>
             <span class="n">qcvars</span><span class="p">[</span><span class="s2">&quot;CBS DIPOLE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">D0</span>
 
         <span class="n">DD0</span> <span class="o">=</span> <span class="n">assembled_results</span><span class="p">[</span><span class="s2">&quot;dipole gradient&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">DD0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">DD0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">qcvars</span><span class="p">[</span><span class="s2">&quot;CURRENT DIPOLE GRADIENT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DD0</span>
             <span class="n">qcvars</span><span class="p">[</span><span class="s2">&quot;CBS DIPOLE GRADIENT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DD0</span>
 
@@ -2004,7 +2004,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f01bcb7">1.7a1.dev86</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/8c94a16">1.7a1.dev87</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2018,7 +2018,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Saturday, 22 October 2022 11:50PM.
+      Last updated on Wednesday, 02 November 2022 08:39AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
