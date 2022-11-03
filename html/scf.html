@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/83b2dd3">1.7a1.dev88</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7517c5d">1.7a1.dev92</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -722,6 +722,16 @@ direct density-fitting algorithm. The COSX algorithm uses no I/O, scales
 well with system size, and requires minimal memory, making it ideal for
 large systems and multi-core CPUs. See the COSX section below for more information.</p>
 </dd>
+<dt>LINK</dt><dd><p>An implementation of the linear-scaling “Linear Exchange” (LinK)
+algorithm described in <a class="reference internal" href="bibliography.html#ochsenfeld-1998-1663" id="id12"><span>[Ochsenfeld:1998:1663]</span></a>. As with the COSX option,
+the Coulomb term is computed with an integral-direct density-fitting
+algorithm. The LINK algorithm provides many of the benefits of integral-direct
+SCF algorithms, including no disk I/O, low memory usage, and effective
+parallelization. Additionally, the
+LINK implementation scales well with system size
+while simultaneously providing a formally-exact computation of the
+Exchange term. See <a class="reference internal" href="#sec-scflink"><span class="std std-ref">Linear Exchange</span></a> for more information.</p>
+</dd>
 </dl>
 <p>In some cases the above algorithms have multiple implementations that return
 the same result, but are optimal under different molecules sizes and hardware
@@ -757,10 +767,10 @@ to <code class="docutils literal notranslate"><span class="pre">SCHWARZ</span></
 <div class="math notranslate nohighlight">
 \[(PQ|RS) &lt;= \sqrt{(PQ|PQ)(RS|RS)}\]</div>
 <dl class="simple">
-<dt>CSAM</dt><dd><p>An extension of the Schwarz estimate that also screens over the long range 1/r operator, described in <a class="reference internal" href="bibliography.html#thompson-2017-144101" id="id12"><span>[Thompson:2017:144101]</span></a>.</p>
+<dt>CSAM</dt><dd><p>An extension of the Schwarz estimate that also screens over the long range 1/r operator, described in <a class="reference internal" href="bibliography.html#thompson-2017-144101" id="id13"><span>[Thompson:2017:144101]</span></a>.</p>
 </dd>
 <dt>DENSITY</dt><dd><p>An extension of the Schwarz estimate that also screens over elements of the density matrix.
-For the RHF case, described in <a class="reference internal" href="bibliography.html#haser-1989-104" id="id13"><span>[Haser:1989:104]</span></a></p>
+For the RHF case, described in <a class="reference internal" href="bibliography.html#haser-1989-104" id="id14"><span>[Haser:1989:104]</span></a></p>
 </dd>
 </dl>
 <div class="math notranslate nohighlight">
@@ -768,7 +778,7 @@ For the RHF case, described in <a class="reference internal" href="bibliography.
 <div class="math notranslate nohighlight">
 \[DCON(PQ, RS) = max(4D_{PQ}, 4D_{RS}, D_{PR}, D_{PS}, D_{QR}, D_{QS})\]</div>
 <p>When using density-matrix based integral screening, it is useful to build the J and K matrices
-incrementally, also described in <a class="reference internal" href="bibliography.html#haser-1989-104" id="id14"><span>[Haser:1989:104]</span></a>, using the difference in the density matrix between iterations, rather than the
+incrementally, also described in <a class="reference internal" href="bibliography.html#haser-1989-104" id="id15"><span>[Haser:1989:104]</span></a>, using the difference in the density matrix between iterations, rather than the
 full density matrix. To turn on this option, set <a class="reference internal" href="autodoc_glossary_options_c.html#term-INCFOCK-SCF"><span class="xref std std-term">INCFOCK</span></a> to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
 <p>We have added the automatic capability to use the extremely fast DF
 code for intermediate convergence of the orbitals, for <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a>
@@ -782,7 +792,7 @@ to false, which disables this acceleration entirely.</p>
 </section>
 <section id="cosx-exchange">
 <h2>COSX Exchange<a class="headerlink" href="#cosx-exchange" title="Permalink to this heading">¶</a></h2>
-<p>The semi-numerical COSX algorithm described in <a class="reference internal" href="bibliography.html#neese-2009-98" id="id15"><span>[Neese:2009:98]</span></a> evaluates
+<p>The semi-numerical COSX algorithm described in <a class="reference internal" href="bibliography.html#neese-2009-98" id="id16"><span>[Neese:2009:98]</span></a> evaluates
 two-electron ERIs analytically over one electron coordinate and numerically
 over the other electron coordinate, and belongs to the family of pseudospectral
 methods originally suggested by Friesner. In COSX, numerical integration is performed on standard
@@ -813,26 +823,21 @@ by constructing the Fock matrix from differences in the density matrix, which
 are more amenable to screening. This option is disabled by default because of
 potential SCF convergence issues, particularly when using diffuse basis functions.
 The <a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_OVERLAP_FITTING-SCF"><span class="xref std std-term">COSX_OVERLAP_FITTING</span></a> keyword (defaults to <code class="docutils literal notranslate"><span class="pre">true</span></code>) reduces numerical
-integration errors using the method described in <a class="reference internal" href="bibliography.html#izsak-2011-144105" id="id16"><span>[Izsak:2011:144105]</span></a> and is
+integration errors using the method described in <a class="reference internal" href="bibliography.html#izsak-2011-144105" id="id17"><span>[Izsak:2011:144105]</span></a> and is
 always recommended.</p>
 </section>
-<section id="link-exchange">
-<h2>LinK Exchange<a class="headerlink" href="#link-exchange" title="Permalink to this heading">¶</a></h2>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The LinK code is currently under development and should not be used.</p>
-</div>
+<section id="linear-exchange">
+<span id="sec-scflink"></span><h2>Linear Exchange<a class="headerlink" href="#linear-exchange" title="Permalink to this heading">¶</a></h2>
 <p>Large SCF calculations can benefit from specialized screening procedures that further reduce the scaling of the ERI contribution to the Fock matrix.
-LinK, the linear-scaling exchange method described in <a class="reference internal" href="bibliography.html#ochsenfeld-1998-1663" id="id17"><span>[Ochsenfeld:1998:1663]</span></a>, is available with the direct SCF algorithm (<a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> set to <code class="docutils literal notranslate"><span class="pre">DIRECT</span></code>).
-LinK achieves linear-scaling by exploiting shell pair sparsity in the density matrix and overlap sparsity between shell pairs.
-This method is most competitive when used with non-diffuse orbital basis sets, since orbital and density overlaps decay slower with diffuse functions.
+LinK, the linear-scaling exchange method described in <a class="reference internal" href="bibliography.html#ochsenfeld-1998-1663" id="id18"><span>[Ochsenfeld:1998:1663]</span></a>, is available in Psi4 in conjunction with integral-direct density fitting for Coulomb construction (<a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> set to <code class="docutils literal notranslate"><span class="pre">LINK</span></code>).
+LinK achieves linear-scaling by exploiting shell pair sparsity in the density matrix and overlap sparsity between shell pairs. Specifically, LinK exploits the fact that the Exchange term
+requires only a linear-scaling number of significant elements through reformulating the
+shell quartet screening process to scale linearly with system size.
+LinK is most competitive when used with non-diffuse orbital basis sets, since orbital and density overlaps decay slower with diffuse functions.
 LinK is especially powerful when combined with density-matrix based ERI screening (set <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCREENING-GLOBALS"><span class="xref std std-term">SCREENING</span></a> to <code class="docutils literal notranslate"><span class="pre">DENSITY</span></code>) and incremental Fock builds (set <a class="reference internal" href="autodoc_glossary_options_c.html#term-INCFOCK-SCF"><span class="xref std std-term">INCFOCK</span></a> to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>), which decrease the number of significant two-electron integrals to calculate.</p>
-<p>NOTE: Turning on LinK is currently only recommended for research and development purposes, and not for performance,
-since a fast J matrix build compatible to use with LinK has not been developed yet.</p>
-<p>To turn on and control the LinK algorithm, here are the list of options provided.</p>
+<p>To control the LinK algorithm, here are the list of options provided.</p>
 <blockquote>
-<div><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-DO_LINK-SCF"><span class="xref std std-term">DO_LINK</span></a>: Defaults to false. If turned on, the K matrix will be built using the algorithm described in <a class="reference internal" href="bibliography.html#ochsenfeld-1998-1663" id="id18"><span>[Ochsenfeld:1998:1663]</span></a>.</p>
-<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-LINK_INTS_TOLERANCE-SCF"><span class="xref std std-term">LINK_INTS_TOLERANCE</span></a>: The integral screening tolerance used for sparsity-prep in the LinK algorithm. Defaults to the <a class="reference internal" href="autodoc_glossary_options_c.html#term-INTS_TOLERANCE-SCF"><span class="xref std std-term">INTS_TOLERANCE</span></a> option.</p>
+<div><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-LINK_INTS_TOLERANCE-SCF"><span class="xref std std-term">LINK_INTS_TOLERANCE</span></a>: The integral screening tolerance used for sparsity-prep in the LinK algorithm. Defaults to the <a class="reference internal" href="autodoc_glossary_options_c.html#term-INTS_TOLERANCE-SCF"><span class="xref std std-term">INTS_TOLERANCE</span></a> option.</p>
 </div></blockquote>
 </section>
 <section id="second-order-convergence">
@@ -1295,7 +1300,7 @@ types.</p></li>
 <li><a class="reference internal" href="#convergence-stabilization">Convergence Stabilization</a></li>
 <li><a class="reference internal" href="#eri-algorithms">ERI Algorithms</a></li>
 <li><a class="reference internal" href="#cosx-exchange">COSX Exchange</a></li>
-<li><a class="reference internal" href="#link-exchange">LinK Exchange</a></li>
+<li><a class="reference internal" href="#linear-exchange">Linear Exchange</a></li>
 <li><a class="reference internal" href="#second-order-convergence">Second-order Convergence</a></li>
 <li><a class="reference internal" href="#stability-analysis">Stability Analysis</a></li>
 <li><a class="reference internal" href="#effective-core-potentials-ecps">Effective core potentials (ECPs)</a></li>
@@ -1353,7 +1358,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/83b2dd3">1.7a1.dev88</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7517c5d">1.7a1.dev92</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1367,7 +1372,7 @@ types.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Wednesday, 02 November 2022 07:18PM.
+      Last updated on Thursday, 03 November 2022 11:19PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
