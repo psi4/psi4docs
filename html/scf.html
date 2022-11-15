@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c593068">1.7a1.dev99</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b3af00e">1.7a1.dev100</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -958,29 +958,26 @@ adapt <a class="reference internal" href="autodoc_glossary_options_c.html#term-F
 will automatically increment <a class="reference internal" href="autodoc_glossary_options_c.html#term-FOLLOW_STEP_SCALE-SCF"><span class="xref std std-term">FOLLOW_STEP_SCALE</span></a> by 0.2 every time the SCF falls back to the previously
 found unstable minimum. The increment can be adjusted by setting <a class="reference internal" href="autodoc_glossary_options_c.html#term-FOLLOW_STEP_INCREMENT-SCF"><span class="xref std std-term">FOLLOW_STEP_INCREMENT</span></a>.
 The default value is 0.2; adjust if needed to try different values of <a class="reference internal" href="autodoc_glossary_options_c.html#term-FOLLOW_STEP_SCALE-SCF"><span class="xref std std-term">FOLLOW_STEP_SCALE</span></a> in a single computation.</p>
-<p>The Davidson solver for the eigenvalues is controlled through several keywords. In the following
-we only report the most pertinent for stability analysis, see documentation for the <a class="reference internal" href="autodir_options_c/module__cphf.html#apdx-cphf"><span class="std std-ref">CPHF</span></a>
-module for a complete list.
-Some default values were modified for the stability analysis code, in that case they are
-explicitly indicated here.</p>
+<p>The Davidson solver for the eigenvalues is controlled through several keywords.</p>
 <blockquote>
-<div><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_MAXITER-CPHF"><span class="xref std std-term">SOLVER_MAXITER</span></a>: maximum number of iterations</p>
-<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_CONVERGENCE-CPHF"><span class="xref std std-term">SOLVER_CONVERGENCE</span></a>: eigenvector convergence threshold</p>
-<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_N_ROOT-CPHF"><span class="xref std std-term">SOLVER_N_ROOT</span></a>: Solve for N eigenvectors in each irreducible representation</p>
-<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_N_GUESS-CPHF"><span class="xref std std-term">SOLVER_N_GUESS</span></a>: Use N guess vectors, this needs to be larger than the number of roots so that the lowest ones can be captured reliably. Default within this context: 3</p>
-<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_MIN_SUBSPACE-CPHF"><span class="xref std std-term">SOLVER_MIN_SUBSPACE</span></a>: Minimum size of the subspace when collapsing.</p>
-<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_MAX_SUBSPACE-CPHF"><span class="xref std std-term">SOLVER_MAX_SUBSPACE</span></a>: Maximum size of the subspace. Default within this context: 12</p>
+<div><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_MAXITER-SCF"><span class="xref std std-term">SOLVER_MAXITER</span></a>: maximum number of iterations</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_CONVERGENCE-SCF"><span class="xref std std-term">SOLVER_CONVERGENCE</span></a>: eigenvector convergence threshold</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_N_ROOT-SCF"><span class="xref std std-term">SOLVER_N_ROOT</span></a>: Solve for N eigenvectors in each irreducible representation</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_ROOTS_PER_IRREP-SCF"><span class="xref std std-term">SOLVER_ROOTS_PER_IRREP</span></a>: The number of eigenvectors to solve in each irreducible representation. An array of as many integers as there are irreducible representations.</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_N_GUESS-SCF"><span class="xref std std-term">SOLVER_N_GUESS</span></a>: Use N guess vectors, this needs to be larger than the number of roots so that the lowest ones can be captured reliably. Defaults to 4 guess vectors per root.</p>
 </div></blockquote>
-<p>In case convergence problems are encountered during the Davidson procedure,
-it is recommended to first increase <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_MAX_SUBSPACE-CPHF"><span class="xref std std-term">SOLVER_MAX_SUBSPACE</span></a>, especially if you solve
-for a large number of roots. This will result in a higher computational cost of each iteration, but should
-make the solver better behaved. However, note that <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_MAX_SUBSPACE-CPHF"><span class="xref std std-term">SOLVER_MAX_SUBSPACE</span></a> should never be larger than
-the full subspace minus the number of desired roots to avoid adding artificial zero eigenvalues.
-This may happen in minimal basis sets, especially with symmetry, but the code automatically adjusts
-<a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_MAX_SUBSPACE-CPHF"><span class="xref std std-term">SOLVER_MAX_SUBSPACE</span></a> if it is too large.
-If the solver seems to converge on the wrong eigenvalue, try increasing <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_N_GUESS-CPHF"><span class="xref std std-term">SOLVER_N_GUESS</span></a>.
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Prior to Dec 2022, v1.7, Psi4 had a different set of keywords controlling instability analysis, and those were included in the CPHF module rather than the SCF module.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Extending Davidson instability analysis to Kohn-Sham references is under development. As of 1.7, only LDA functionals are currently supported.</p>
+</div>
+<p>In case convergence problems are encountered during the Davidson procedure, file a bug report.
+If the solver seems to converge on the wrong eigenvalue, try increasing <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_N_GUESS-SCF"><span class="xref std std-term">SOLVER_N_GUESS</span></a>.
 Otherwise, if the solver is almost converged but reaches the maximum number of iterations, try increasing
-<a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_MAXITER-CPHF"><span class="xref std std-term">SOLVER_MAXITER</span></a>.</p>
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-SOLVER_MAXITER-SCF"><span class="xref std std-term">SOLVER_MAXITER</span></a>.</p>
 </section>
 <section id="effective-core-potentials-ecps">
 <span id="sec-scf-ecps"></span><h2>Effective core potentials (ECPs)<a class="headerlink" href="#effective-core-potentials-ecps" title="Permalink to this heading">¶</a></h2>
@@ -1358,7 +1355,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c593068">1.7a1.dev99</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b3af00e">1.7a1.dev100</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1372,7 +1369,7 @@ types.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Tuesday, 15 November 2022 01:13AM.
+      Last updated on Tuesday, 15 November 2022 08:03PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

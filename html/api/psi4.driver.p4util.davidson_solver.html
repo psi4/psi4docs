@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.driver.p4util.davidson_solver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c593068">1.7a1.dev99</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b3af00e">1.7a1.dev100</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -126,7 +126,7 @@
 <h1>davidson_solver<a class="headerlink" href="#davidson-solver" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="psi4.driver.p4util.davidson_solver">
-<span class="sig-prename descclassname"><span class="pre">psi4.driver.p4util.</span></span><span class="sig-name descname"><span class="pre">davidson_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guess</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nroot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_convergence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_ss_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#davidson_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.davidson_solver" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">psi4.driver.p4util.</span></span><span class="sig-name descname"><span class="pre">davidson_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guess</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nroot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_convergence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_ss_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonneg_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#davidson_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.davidson_solver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Solves for the lowest few eigenvalues and eigenvectors of a large problem emulated through an engine.</p>
 <p>If the large matrix <cite>A</cite> has dimension <cite>{NxN}</cite> and N is very large, and only
 a small number of roots, <cite>k</cite> are desired this algorithm is preferable to
@@ -149,6 +149,7 @@ At least <cite>nroot</cite> initial expansion vectors</p></li>
 be stored before a collapse is done.</p></li>
 <li><p><strong>maxiter</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – The maximum number of iterations</p></li>
 <li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – The amount of logging info to print (0 -&gt; none, 1 -&gt; some, &gt;1 -&gt; everything)</p></li>
+<li><p><strong>nonneg_only</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Should eigenpairs with eigenvalue &lt; 0 be ignored?</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -277,7 +278,7 @@ The caller <strong>must check</strong> <code class="docutils literal notranslate
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.driver.p4util.davidson_solver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/c593068">1.7a1.dev99</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b3af00e">1.7a1.dev100</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -291,7 +292,7 @@ The caller <strong>must check</strong> <code class="docutils literal notranslate
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Tuesday, 15 November 2022 01:13AM.
+      Last updated on Tuesday, 15 November 2022 08:03PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

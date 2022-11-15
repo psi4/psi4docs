@@ -2259,44 +2259,14 @@ Keywords by Alpha
       * **Type**: :ref:`conv double <op_c_conv>`
       * **Default**: 1.0e-6
 
-   SOLVER_EXACT_DIAGONAL (CPHF)
-      :ref:`apdx:CPHF` |w---w| Solver exact diagonal or eigenvalue difference?
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
-
    SOLVER_MAXITER (CPHF)
       :ref:`apdx:CPHF` |w---w| Solver maximum iterations
 
       * **Type**: integer
       * **Default**: 100
 
-   SOLVER_MAX_SUBSPACE (CPHF)
-      :ref:`apdx:CPHF` |w---w| DL Solver maximum number of subspace vectors
-
-      * **Type**: integer
-      * **Default**: 6
-
-   SOLVER_MIN_SUBSPACE (CPHF)
-      :ref:`apdx:CPHF` |w---w| DL Solver number of subspace vectors to collapse to
-
-      * **Type**: integer
-      * **Default**: 2
-
-   SOLVER_NORM (CPHF)
-      :ref:`apdx:CPHF` |w---w| DL Solver minimum corrector norm to add to subspace
-
-      * **Type**: double
-      * **Default**: 1.0e-6
-
    SOLVER_N_GUESS (CPHF)
       :ref:`apdx:CPHF` |w---w| DL Solver number of guesses
-
-      * **Type**: integer
-      * **Default**: 1
-
-   SOLVER_N_ROOT (CPHF)
-      :ref:`apdx:CPHF` |w---w| DL Solver number of roots
 
       * **Type**: integer
       * **Default**: 1
@@ -2307,33 +2277,6 @@ Keywords by Alpha
       * **Type**: string
       * **Possible Values**: SUBSPACE, JACOBI, NONE
       * **Default**: JACOBI
-
-   SOLVER_PRECONDITION_MAXITER (CPHF)
-      :ref:`apdx:CPHF` |w---w| Solver precondition max steps
-
-      * **Type**: integer
-      * **Default**: 1
-
-   SOLVER_PRECONDITION_STEPS (CPHF)
-      :ref:`apdx:CPHF` |w---w| Solver precondition step type
-
-      * **Type**: string
-      * **Possible Values**: CONSTANT, TRIANGULAR
-      * **Default**: TRIANGULAR
-
-   SOLVER_QUANTITY (CPHF)
-      :ref:`apdx:CPHF` |w---w| Solver residue or eigenvector delta
-
-      * **Type**: string
-      * **Possible Values**: EIGENVECTOR, RESIDUAL
-      * **Default**: RESIDUAL
-
-   SOLVER_TYPE (CPHF)
-      :ref:`apdx:CPHF` |w---w| Solver type (for interchangeable solvers)
-
-      * **Type**: string
-      * **Possible Values**: DL, RAYLEIGH
-      * **Default**: DL
 
    ALGORITHM (DCT)
       :ref:`apdx:DCT` |w---w| Algorithm to use for the density cumulant and orbital updates in the DCT energy computation. Two-step algorithm is usually more efficient for small systems, but for large systems simultaneous algorithm (default) is recommended. If convergence problems are encountered (especially for highly symmetric systems) QC algorithm can be used.
@@ -5671,6 +5614,36 @@ Keywords by Alpha
 
       * **Type**: double
       * **Default**: 1.0e-1
+
+   SOLVER_CONVERGENCE (SCF)
+      :ref:`apdx:SCF` |w---w| Convergence threshold (max 2-norm) for numerical solvers (instability analysis and CPHF/CPKS).
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1.0e-6
+
+   SOLVER_MAXITER (SCF)
+      :ref:`apdx:SCF` |w---w| Maximum iterations for numerical solvers (instability analysis and CPHF/CPKS).
+
+      * **Type**: integer
+      * **Default**: 100
+
+   SOLVER_N_GUESS (SCF)
+      :ref:`apdx:SCF` |w---w| Number of guess vectors per root for instability analysis.
+
+      * **Type**: integer
+      * **Default**: 1
+
+   SOLVER_N_ROOT (SCF)
+      :ref:`apdx:SCF` |w---w| Number of roots to converge for all irreps during instability analysis. (Overridden by SOLVER_ROOTS_PER_IRREP.)
+
+      * **Type**: integer
+      * **Default**: 1
+
+   SOLVER_ROOTS_PER_IRREP (SCF)
+      :ref:`apdx:SCF` |w---w| Number of roots to converge, per irrep, during instability analysis. (Overrides SOLVER_N_ROOT.)
+
+      * **Type**: array
+      * **Default**: No Default
 
    SOSCF (SCF)
       :ref:`apdx:SCF` |w---w| Do use second-order SCF convergence methods?
