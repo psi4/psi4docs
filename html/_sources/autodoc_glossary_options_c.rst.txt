@@ -390,48 +390,6 @@ Keywords by Alpha
       * **Type**: :ref:`conv double <op_c_conv>`
       * **Default**: 1e-14
 
-   ONEPDM (CCDENSITY)
-      :ref:`apdx:CCDENSITY` |w---w| Deprecated and will be removed in 1.7. Use OPDM_ONLY.
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
-
-   ONEPDM_GRID_CUTOFF (CCDENSITY)
-      :ref:`apdx:CCDENSITY` |w---w| Deprecated and will be removed in 1.7. Use OPDM_GRID_CUTOFF.
-
-      * **Type**: double
-      * **Default**: 1.0e-30
-
-   ONEPDM_GRID_DUMP (CCDENSITY)
-      :ref:`apdx:CCDENSITY` |w---w| Deprecated and will be removed in 1.7. Use OPDM_GRID_DUMP.
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
-
-   ONEPDM_GRID_STEPSIZE (CCDENSITY)
-      :ref:`apdx:CCDENSITY` |w---w| Deprecated and will be removed in 1.7. Use OPDM_GRID_STEPSIZE.
-
-      * **Type**: double
-      * **Default**: 0.1
-
-   OPDM_GRID_CUTOFF (CCDENSITY)
-      :ref:`apdx:CCDENSITY` |w---w| Cutoff (e/A^3) for printing one-particle density matrix values on a grid
-
-      * **Type**: double
-      * **Default**: 1.0e-30
-
-   OPDM_GRID_DUMP (CCDENSITY)
-      :ref:`apdx:CCDENSITY` |w---w| Write one-particle density matrix on a grid to file opdm.dx
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
-
-   OPDM_GRID_STEPSIZE (CCDENSITY)
-      :ref:`apdx:CCDENSITY` |w---w| Step size (Angstrom) for one-particle density matrix values on a grid
-
-      * **Type**: double
-      * **Default**: 0.1
-
    OPDM_RELAX (CCDENSITY)
       :ref:`apdx:CCDENSITY` |w---w| Do relax the one-particle density matrix?
 
@@ -2529,7 +2487,7 @@ Keywords by Alpha
       * **Default**: 0
 
    DIAG_METHOD (DETCI)
-      :ref:`apdx:DETCI` |w---w| This specifies which method is to be used in diagonalizing the Hamiltonian. The valid options are: ``RSP``, to form the entire H matrix and diagonalize using libciomr to obtain all eigenvalues (n.b. requires HUGE memory); ``OLSEN``, to use Olsen's preconditioned inverse subspace method (1990); ``MITRUSHENKOV``, to use a 2x2 Olsen/Davidson method; and ``DAVIDSON`` (or ``SEM``) to use Liu's Simultaneous Expansion Method, which is identical to the Davidson method if only one root is to be found. There also exists a SEM debugging mode, ``SEMTEST``. The ``SEM`` method is the most robust, but it also requires :math:`2NM+1` CI vectors on disk, where :math:`N` is the maximum number of iterations and :math:`M` is the number of roots.
+      :ref:`apdx:DETCI` |w---w| This specifies which method is to be used in diagonalizing the Hamiltonian. The valid options are: ``RSP``, to form the entire H matrix and diagonalize using libciomr to obtain all eigenvalues (n.b. requires HUGE memory); ``OLSEN``, to use Olsen's preconditioned inverse subspace method (1990); ``MITRUSHENKOV``, to use a 2x2 Olsen/Davidson method; and ``DAVIDSON`` (or ``SEM``) to use Liu's Simultaneous Expansion Method, which is identical to the Davidson method if only one root is to be found. The ``SEM`` method is the most robust, but it also requires :math:`2NM+1` CI vectors on disk, where :math:`N` is the maximum number of iterations and :math:`M` is the number of roots.
 
       * **Type**: string
       * **Possible Values**: RSP, DAVIDSON, SEM
@@ -4191,13 +4149,6 @@ Keywords by Alpha
       * **Type**: double
       * **Default**: 0.02
 
-   LINEQ_SOLVER (OCC)
-      :ref:`apdx:OCC` |w---w| The solver will be used for simultaneous linear equations.
-
-      * **Type**: string
-      * **Possible Values**: CDGESV, FLIN, POPLE
-      * **Default**: CDGESV
-
    MAX_MOGRAD_CONVERGENCE (OCC)
       :ref:`apdx:OCC` |w---w| Convergence criterion for maximum orbital gradient. If this keyword is not set by the user, OCC will estimate and use a value required to achieve the desired |occ__e_convergence|. The listed default will be used for the default value of |occ__e_convergence|.
 
@@ -5314,11 +5265,11 @@ Keywords by Alpha
       * **Default**: true
 
    SAPT_DFT_EXCH_DISP_SCALE_SCHEME (SAPT)
-      :ref:`apdx:SAPT` |w---w| Scheme for approximating exchange-dispersion for SAPT-DFT. ``NONE`` Use unscaled ``Exch-Disp2,u`` . ``FIXED`` Use a fixed factor |sapt__sapt_dft_exch_disp_fixed_scale| to scale ``Exch-Disp2,u`` . ``DISP`` Use the ratio of ``Disp2,r`` and ``Disp2,u`` to scale ``Exch-Disp2,u`` .
+      :ref:`apdx:SAPT` |w---w| Scheme for approximating exchange-dispersion for SAPT-DFT. Previous to Nov 2022, default was ``FIXED`` with Hesselmann value. ``NONE`` Use unscaled ``Exch-Disp2,u`` . ``FIXED`` Use a fixed factor |sapt__sapt_dft_exch_disp_fixed_scale| to scale ``Exch-Disp2,u`` . ``DISP`` Use the ratio of ``Disp2,r`` and ``Disp2,u`` to scale ``Exch-Disp2,u`` .
 
       * **Type**: string
       * **Possible Values**: NONE, FIXED, DISP
-      * **Default**: DISP
+      * **Default**: FIXED
 
    SAPT_DFT_GRAC_SHIFT_A (SAPT)
       :ref:`apdx:SAPT` |w---w| Monomer A GRAC shift in Hartree
@@ -6963,10 +6914,10 @@ Keywords by Alpha
       * **Default**: true
 
    SAPT_DFT_EXCH_DISP_FIXED_SCALE (SAPT)
-      :ref:`apdx:SAPT` **(Expert)** |w---w| Exch-disp scaling factor for FIXED scheme for |sapt__sapt_dft_exch_disp_scale_scheme|. Default value of 0.686 suggested by Hesselmann and Korona, J. Chem. Phys. 141, 094107 (2014). 
+      :ref:`apdx:SAPT` **(Expert)** |w---w| Exch-disp scaling factor for FIXED scheme for |sapt__sapt_dft_exch_disp_scale_scheme|. Default value of 0.770 suggested in Y. Xie, D. G. A. Smith and C. D. Sherrill, 2022 (submitted). Previous to Nov 2022, default value was 0.686 suggested by Hesselmann and Korona, J. Chem. Phys. 141, 094107 (2014). 
 
       * **Type**: double
-      * **Default**: 0.686
+      * **Default**: 0.770
 
    SAPT_DFT_FUNCTIONAL (SAPT)
       :ref:`apdx:SAPT` **(Expert)** |w---w| Underlying funcitonal to use for SAPT(DFT) 
