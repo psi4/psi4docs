@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/2a1d280">1.7a1.dev118</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9f46726">1.7a1.dev118</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -283,6 +283,8 @@ build system will automatically download and build.</p>
 <li><p>pint <a class="reference external" href="https://pint.readthedocs.io/en/latest/">https://pint.readthedocs.io/en/latest/</a> (transitive dependency of QCElemental)</p></li>
 <li><p>pydantic <a class="reference external" href="https://pydantic-docs.helpmanual.io">https://pydantic-docs.helpmanual.io</a>/# (transitive dependency of QCElemental)</p></li>
 <li><p>SciPy <a class="reference external" href="https://scipy.org/">https://scipy.org/</a> (avoidable if necessary by following directions in runtime error message)</p></li>
+<li><p>py-cpuinfo (provides <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">cpuinfo</span></code>) <a class="reference external" href="https://github.com/workhorsy/py-cpuinfo">https://github.com/workhorsy/py-cpuinfo</a> (transitive dependency of QCEngine)</p></li>
+<li><p>psutil <a class="reference external" href="https://github.com/giampaolo/psutil">https://github.com/giampaolo/psutil</a> (transitive dependency of QCEngine)</p></li>
 </ul>
 <p>Dropped Dependencies:</p>
 <ul class="simple">
@@ -504,6 +506,8 @@ message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GEN
 #    - msgpack-python (runtime only; e.g., `conda install msgpack-python`)
 #    - Eigen (for Libint2; e.g., `conda install eigen`)
 #    - SciPy (runtime only; e.g., `conda install scipy`)
+#    - py-cpuinfo (runtime only; e.g., `conda install py-cpuinfo`)
+#    - psutil (runtime only; e.g., `conda install psutil`)
 
 #  These three &quot;###  Options  ###&quot; sections contain useful CMake variables for build configuration.
 
@@ -556,7 +560,7 @@ message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GEN
 option(ENABLE_ambit &quot;Enables the ambit tensor library&quot; OFF)
 option(ENABLE_CheMPS2 &quot;Enables CheMPS2 for DMRG (requires HDF5)&quot; OFF)
 option(ENABLE_cppe &quot;Enables CPPE for Polarizable Embedding&quot; OFF)
-option(ENABLE_adcc &quot;Enables adcc for algebraic-diagrammatic construction methods (can also be added at runtime)&quot; OFF)
+option(ENABLE_adcc &quot;Enables adcc for algebraic-diagrammatic construction methods (requires libtensorlight; can also be added at runtime)&quot; OFF)
 option(ENABLE_dkh &quot;Enables DKH integrals (requires Fortran)&quot; OFF)
 option(ENABLE_ecpint &quot;Enables libecpint for effective core potentials (ECP)&quot; OFF)
 option(ENABLE_libefp &quot;Enables LIBEFP and PylibEFP for fragments&quot; OFF)
@@ -596,8 +600,6 @@ endif()
 ############################  Options: Build How?  #############################
 include(psi4OptionsTools)
 option_with_print(BUILD_SHARED_LIBS &quot;Build internally built Psi4 add-on libraries as shared, not static&quot; OFF)
-option_with_print(ENABLE_OPENMP &quot;Enables OpenMP parallelization&quot; ON)
-option_with_print(ENABLE_AUTO_BLAS &quot;Enables CMake to auto-detect BLAS&quot; ON)
 </pre></div>
 </div>
 <p>Note that external projects will have their own sets of build
@@ -1946,7 +1948,7 @@ can show where the executable is.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/2a1d280">1.7a1.dev118</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9f46726">1.7a1.dev118</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1960,7 +1962,7 @@ can show where the executable is.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Tuesday, 29 November 2022 05:47AM.
+      Last updated on Tuesday, 29 November 2022 03:38PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
