@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/65baa8e">1.7a1.dev119</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2278417">1.7a1.dev121</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -515,7 +515,6 @@
             <span class="s1">&#39;PCM_enabled&#39;</span><span class="p">:</span>    <span class="n">wfn</span><span class="o">.</span><span class="n">PCM_enabled</span><span class="p">(),</span>
             <span class="s1">&#39;same_a_b_dens&#39;</span><span class="p">:</span>  <span class="n">wfn</span><span class="o">.</span><span class="n">same_a_b_dens</span><span class="p">(),</span>
             <span class="s1">&#39;same_a_b_orbs&#39;</span><span class="p">:</span>  <span class="n">wfn</span><span class="o">.</span><span class="n">same_a_b_orbs</span><span class="p">(),</span>
-            <span class="s1">&#39;density_fitted&#39;</span><span class="p">:</span> <span class="n">wfn</span><span class="o">.</span><span class="n">density_fitted</span><span class="p">(),</span>
             <span class="s1">&#39;basispuream&#39;</span><span class="p">:</span>    <span class="n">wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()</span><span class="o">.</span><span class="n">has_puream</span><span class="p">()</span>
         <span class="p">},</span>
         <span class="s1">&#39;float&#39;</span><span class="p">:</span> <span class="p">{</span>
@@ -1575,52 +1574,7 @@
     <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">Vector</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">qcdb</span><span class="o">.</span><span class="n">vib</span><span class="o">.</span><span class="n">filter_omega_to_real</span><span class="p">(</span><span class="n">vibonly</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">_core_wavefunction_legacy_frequencies</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. deprecated:: 1.4</span>
-<span class="sd">       Use :py:meth:`~psi4.core.Wavefunction.frequencies` instead.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="s2">&quot;Using `psi4.core.Wavefunction.legacy_frequencies` (accessing c-side member data) is deprecated, and as soon as 1.4 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
-        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">legacy_frequencies</span><span class="p">()</span>
-
-
-<span class="k">def</span> <span class="nf">_core_wavefunction_set_frequencies</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. deprecated:: 1.4</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="s2">&quot;Using `psi4.core.Wavefunction.set_frequencies` (accessing c-side member data) instead of `psi4.core.Wavefunction.frequency_analysis` (py-side member data) is deprecated, and as soon as 1.4 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
-        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">set_legacy_frequencies</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-
-
 <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">frequencies</span> <span class="o">=</span> <span class="n">_core_wavefunction_frequencies</span>
-<span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">legacy_frequencies</span> <span class="o">=</span> <span class="n">_core_wavefunction_legacy_frequencies</span>
-<span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">set_frequencies</span> <span class="o">=</span> <span class="n">_core_wavefunction_set_frequencies</span>
-
-
-<span class="k">def</span> <span class="nf">_core_wavefunction_X</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. deprecated:: 1.5</span>
-<span class="sd">       Use :py:meth:`~psi4.core.Wavefunction.lagrangian` instead.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="s2">&quot;Using `psi4.core.Wavefunction.X` instead of `psi4.core.Wavefunction.lagrangian` is deprecated, and as soon as 1.5 it will stop working</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
-        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">lagrangian</span><span class="p">()</span>
-
-
-<span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">_core_wavefunction_X</span>
-
-<span class="c1">## Psi4 v1.3 Export Deprecations</span>
 
 
 <span class="k">def</span> <span class="nf">_core_get_gradient</span><span class="p">():</span>
@@ -1772,7 +1726,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/65baa8e">1.7a1.dev119</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2278417">1.7a1.dev121</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1786,7 +1740,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Tuesday, 29 November 2022 05:42PM.
+      Last updated on Wednesday, 30 November 2022 04:27PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
