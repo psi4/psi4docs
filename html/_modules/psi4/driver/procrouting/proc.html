@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/b9a6040">1.7a1.dev127</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/38cca14">1.7a1.dev128</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -960,6 +960,9 @@
                 <span class="n">func</span> <span class="o">=</span> <span class="n">run_mrcc</span>
             <span class="k">elif</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;CCENERGY&#39;</span><span class="p">]:</span>
                 <span class="n">func</span> <span class="o">=</span> <span class="n">run_ccenergy</span>
+        <span class="k">elif</span> <span class="n">mtd_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;DF&quot;</span><span class="p">,</span> <span class="s2">&quot;CD&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;OCC&quot;</span><span class="p">]:</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">run_dfocc</span>
     <span class="k">elif</span> <span class="n">reference</span> <span class="o">==</span> <span class="s1">&#39;ROHF&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CONV&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">module</span> <span class="o">==</span> <span class="s1">&#39;CCT3&#39;</span> <span class="ow">and</span> <span class="n">extras</span><span class="o">.</span><span class="n">addons</span><span class="p">(</span><span class="s2">&quot;cct3&quot;</span><span class="p">):</span>
@@ -1000,6 +1003,9 @@
         <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CONV&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;CCENERGY&#39;</span><span class="p">]:</span>
                 <span class="n">func</span> <span class="o">=</span> <span class="n">run_ccenergy_gradient</span>
+        <span class="k">elif</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;DF&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;OCC&#39;</span><span class="p">]:</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">run_dfocc_gradient</span>
     <span class="k">elif</span> <span class="n">reference</span> <span class="o">==</span> <span class="s1">&#39;ROHF&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CONV&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;CCENERGY&#39;</span><span class="p">]:</span>
@@ -1078,6 +1084,9 @@
                 <span class="n">func</span> <span class="o">=</span> <span class="n">run_mrcc</span>
             <span class="k">elif</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;CCENERGY&#39;</span><span class="p">]:</span>
                 <span class="n">func</span> <span class="o">=</span> <span class="n">run_ccenergy</span>
+        <span class="k">elif</span> <span class="n">mtd_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;DF&quot;</span><span class="p">,</span> <span class="s2">&quot;CD&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;OCC&quot;</span><span class="p">]:</span>  <span class="c1"># SOON &quot;&quot;,</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">run_dfocc</span>
     <span class="k">elif</span> <span class="n">reference</span> <span class="o">==</span> <span class="s1">&#39;ROHF&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CONV&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">module</span> <span class="o">==</span> <span class="s1">&#39;MRCC&#39;</span> <span class="ow">and</span> <span class="n">which</span><span class="p">(</span><span class="s2">&quot;dmrcc&quot;</span><span class="p">,</span> <span class="n">return_bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -1115,6 +1124,9 @@
         <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CONV&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;CCENERGY&#39;</span><span class="p">]:</span>
                 <span class="n">func</span> <span class="o">=</span> <span class="n">run_ccenergy_gradient</span>
+        <span class="k">elif</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;DF&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;OCC&#39;</span><span class="p">]:</span>  <span class="c1"># SOON &quot;&quot;,</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">run_dfocc_gradient</span>
 
     <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ManagedMethodError</span><span class="p">([</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">type_var</span><span class="p">,</span> <span class="n">mtd_type</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">module</span><span class="p">])</span>
@@ -1126,7 +1138,7 @@
 
 
 <span class="k">def</span> <span class="nf">select_ccsd_at_</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CCSD(AT) energy call</span>
+    <span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a a-CCSD(T) energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1157,6 +1169,12 @@
         <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CONV&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;MRCC&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">which</span><span class="p">(</span><span class="s2">&quot;dmrcc&quot;</span><span class="p">,</span> <span class="n">return_bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
                 <span class="n">func</span> <span class="o">=</span> <span class="n">run_mrcc</span>
+        <span class="k">elif</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s2">&quot;DF&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;OCC&quot;</span><span class="p">]:</span>  <span class="c1"># SOON &quot;&quot;,</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">run_dfocc</span>
+        <span class="k">elif</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s2">&quot;CD&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;OCC&quot;</span><span class="p">]:</span>  <span class="c1"># SOON &quot;&quot;,</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">run_dfocc</span>
     <span class="k">elif</span> <span class="n">reference</span> <span class="o">==</span> <span class="s2">&quot;ROHF&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CONV&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;MRCC&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">which</span><span class="p">(</span><span class="s2">&quot;dmrcc&quot;</span><span class="p">,</span> <span class="n">return_bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -1276,7 +1294,7 @@
     <span class="n">module</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;QC_MODULE&quot;</span><span class="p">)</span>
 
     <span class="n">func</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">reference</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;RHF&quot;</span><span class="p">]:</span>  <span class="c1"># , &quot;UHF&quot;]</span>
+    <span class="k">if</span> <span class="n">reference</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;RHF&quot;</span><span class="p">,</span> <span class="s2">&quot;UHF&quot;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s2">&quot;CONV&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]:</span>
                 <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">This method is not available with conventional integrals. Add &quot;set &quot;&quot;&quot;</span>
@@ -1307,7 +1325,7 @@
     <span class="n">module</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;QC_MODULE&quot;</span><span class="p">)</span>
 
     <span class="n">func</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">reference</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;RHF&quot;</span><span class="p">]:</span>  <span class="c1"># , &quot;UHF&quot;]</span>
+    <span class="k">if</span> <span class="n">reference</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;RHF&quot;</span><span class="p">,</span> <span class="s2">&quot;UHF&quot;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s2">&quot;CONV&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]:</span>
                 <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">This method is not available with conventional integrals. Add &quot;set &quot;&quot;&quot;</span>
@@ -2036,6 +2054,8 @@
         <span class="n">c1_molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="n">c1_basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">c1_molecule</span><span class="p">,</span> <span class="s2">&quot;ORBITAL&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">),</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">c1_deep_copy</span><span class="p">(</span><span class="n">c1_basis</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">has_variable</span><span class="p">(</span><span class="s2">&quot;-D ENERGY&quot;</span><span class="p">):</span>
+            <span class="n">tmp</span><span class="o">.</span><span class="n">del_variable</span><span class="p">(</span><span class="s2">&quot;-D ENERGY&quot;</span><span class="p">)</span>
         <span class="n">c1_jkbasis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">c1_molecule</span><span class="p">,</span> <span class="s2">&quot;DF_BASIS_SCF&quot;</span><span class="p">,</span>
                                          <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;DF_BASIS_SCF&quot;</span><span class="p">),</span>
                                          <span class="s2">&quot;JKFIT&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">),</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -5694,7 +5714,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/b9a6040">1.7a1.dev127</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/38cca14">1.7a1.dev128</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5708,7 +5728,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Friday, 02 December 2022 10:38PM.
+      Last updated on Sunday, 04 December 2022 10:43PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
