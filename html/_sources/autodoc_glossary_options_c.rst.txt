@@ -4453,6 +4453,12 @@ Keywords by Alpha
       * **Possible Values**: OMP2, OMP3, OCEPA, OMP2.5, REMP, OREMP
       * **Default**: OMP2
 
+   CARTESIAN_SYM_TOLERANCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Tolerance for symmetrizing cartesian geometry between steps
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1e-7
+
    CONSECUTIVE_BACKSTEPS (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Set number of consecutive backward steps allowed in optimization
 
@@ -4471,20 +4477,32 @@ Keywords by Alpha
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
 
-   FIXED_BEND (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify angles between atoms to be fixed (eq. value specified)
+   EXT_FORCE_BEND (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Specify formula for external forces for angles between atoms
 
       * **Type**: string
       * **Default**: No Default
 
-   FIXED_DIHEDRAL (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify dihedral angles between atoms to be fixed (eq. value specified)
+   EXT_FORCE_CARTESIAN (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Symmetry formula for external forces for cartesian coordinates on atoms .
 
       * **Type**: string
       * **Default**: No Default
 
-   FIXED_DISTANCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify distances between atoms to be fixed (eq. value specified)
+   EXT_FORCE_DIHEDRAL (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Specify formula for external forces for dihedral angles between atoms
+
+      * **Type**: string
+      * **Default**: No Default
+
+   EXT_FORCE_DISTANCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Specify formula for external forces for the distance between atoms
+
+      * **Type**: string
+      * **Default**: No Default
+
+   EXT_FORCE_OOFP (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Specify formula for external forces for out-of-plane angles between atoms
 
       * **Type**: string
       * **Default**: No Default
@@ -4509,6 +4527,12 @@ Keywords by Alpha
 
    FROZEN_DISTANCE (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Specify distances between atoms to be frozen (unchanged)
+
+      * **Type**: string
+      * **Default**: No Default
+
+   FROZEN_OOFP (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Specify out-of-plane angles between atoms to be frozen (unchanged)
 
       * **Type**: string
       * **Default**: No Default
@@ -4556,24 +4580,23 @@ Keywords by Alpha
       * **Possible Values**: FORWARD, BACKWARD
       * **Default**: FORWARD
 
+   IRC_POINTS (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Maximum number of IRC points to collect before stopping.
+
+      * **Type**: integer
+      * **Default**: 20
+
    IRC_STEP_SIZE (OPTKING)
       :ref:`apdx:OPTKING` |w---w| IRC step size in bohr(amu)\ :math:`^{1/2}`.
 
       * **Type**: double
       * **Default**: 0.2
 
-   IRC_STOP (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Decide when to stop IRC calculations
-
-      * **Type**: string
-      * **Possible Values**: ASK, STOP, GO
-      * **Default**: STOP
-
    OPT_COORDINATES (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Geometry optimization coordinates to use. REDUNDANT and INTERNAL are synonyms and the default. DELOCALIZED are the coordinates of Baker. NATURAL are the coordinates of Pulay. CARTESIAN uses only cartesian coordinates. BOTH uses both redundant and cartesian coordinates.
+      :ref:`apdx:OPTKING` |w---w| Geometry optimization coordinates to use. REDUNDANT and INTERNAL are synonyms and the default. CARTESIAN uses only cartesian coordinates. BOTH uses both redundant and cartesian coordinates.
 
       * **Type**: string
-      * **Possible Values**: REDUNDANT, INTERNAL, DELOCALIZED, NATURAL, CARTESIAN, BOTH
+      * **Possible Values**: REDUNDANT, INTERNAL, CARTESIAN, BOTH
       * **Default**: INTERNAL
 
    OPT_TYPE (OPTKING)
@@ -4589,11 +4612,29 @@ Keywords by Alpha
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
 
-   PRINT_TRAJECTORY_XYZ_FILE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Should an xyz trajectory file be kept (useful for visualization)?
+   RANGED_BEND (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Specify range for angles between atoms to be constrained to (eq. value specified) analogous to the previous FIXED_BEND
 
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
+      * **Type**: string
+      * **Default**: No Default
+
+   RANGED_DIHEDRAL (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Specify range for the dihedral angles between atoms to be constrained to (eq. value specified) analogous to the previous FIXED_DIHEDRAL
+
+      * **Type**: string
+      * **Default**: No Default
+
+   RANGED_DISTANCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Specify range for distances between atoms to be constrained to (eq. value specified) analogous to the previous FIXED_DISTANCE
+
+      * **Type**: string
+      * **Default**: No Default
+
+   RANGED_OOFP (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Specify range for the out-of-plane angles between atoms to be constrained to (eq. value specified) analogous to the old FIXED_<COORD> keyword
+
+      * **Type**: string
+      * **Default**: No Default
 
    RFO_FOLLOW_ROOT (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Do follow the initial RFO vector after the first step?
@@ -4623,14 +4664,8 @@ Keywords by Alpha
       :ref:`apdx:OPTKING` |w---w| Geometry optimization step type, either Newton-Raphson or Rational Function Optimization
 
       * **Type**: string
-      * **Possible Values**: RFO, NR, SD, LINESEARCH\_STATIC
+      * **Possible Values**: RFO, P\_RFO, NR, SD, LINESEARCH
       * **Default**: RFO
-
-   SYMM_TOL (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Symmetry tolerance for testing whether a mode is symmetric.
-
-      * **Type**: :ref:`conv double <op_c_conv>`
-      * **Default**: 0.05
 
    FLEXIBLE_G_CONVERGENCE (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Even if a user-defined threshold is set, allow for normal, flexible convergence criteria
@@ -4716,7 +4751,7 @@ Keywords by Alpha
       :ref:`apdx:OPTKING` |w---w| Number of previous steps to use in Hessian update, 0 uses all
 
       * **Type**: integer
-      * **Default**: 2
+      * **Default**: 4
 
    INTRAFRAG_HESS (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Model Hessian to guess intrafragment force constants
@@ -4751,7 +4786,7 @@ Keywords by Alpha
       * **Default**: SINGLE
 
    FRAG_REF_ATOMS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Which atoms define the reference points for interfragment coordinates?
+      :ref:`apdx:OPTKING` |w---w| Specify atoms to use for reference points in interfragment coordinates
 
       * **Type**: array
       * **Default**: No Default
@@ -4792,8 +4827,20 @@ Keywords by Alpha
       * **Type**: double
       * **Default**: 1.8
 
+   INTERFRAG_COLLINEAR_TOL (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Tolerance for whether to reject a set of generated reference atoms due to collinearity
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 0.01
+
+   INTERFRAG_COORDS (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Dictionary to define a dimer. Contains "Natoms per frag", "A Frag", "A Ref Atoms", "B Frag", and "B Ref Atoms"
+
+      * **Type**: string
+      * **Default**: No Default
+
    INTERFRAG_DIST_INV (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do use :math:`\frac{1}{R_{AB}}` for the stretching coordinate between fragments? Otherwise, use :math:`R_{AB}`.
+      :ref:`apdx:OPTKING` |w---w| Use 1/R for the interfragment stretching coordinate instead of R
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
@@ -4812,41 +4859,23 @@ Keywords by Alpha
       * **Possible Values**: FIXED, PRINCIPAL\_AXES
       * **Default**: FIXED
 
-   FINAL_GEOM_WRITE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do save and print the geometry from the last projected step at the end of a geometry optimization? Otherwise (and by default), save and print the previous geometry at which was computed the gradient that satisfied the convergence criteria.
+   OPT_RESTART (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Restart the optimization from optking's written history
+
+      * **Type**: double
+      * **Default**: 0
+
+   PRINT_TRAJECTORY_XYZ_FILE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Should an xyz trajectory file be kept (useful for visualization)?
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
 
-   FIXED_COORD_FORCE_CONSTANT (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| In constrained optimizations, for coordinates with user-specified equilibrium values, this is the initial force constant (in au) used to apply an additional force to each coordinate.
-
-      * **Type**: double
-      * **Default**: 0.5
-
-   KEEP_INTCOS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Keep internal coordinate definition file.
+   SAVE_OPTIMIZATION (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Save OptKing's internal classes for possible restart upon error
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
-
-   LINESEARCH_STATIC_MAX (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| If doing a static line search, this fixes the largest step, whose largest change in an internal coordinate is set to this value (in au)
-
-      * **Type**: double
-      * **Default**: 0.100
-
-   LINESEARCH_STATIC_MIN (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| If doing a static line search, this fixes the shortest step, whose largest change in an internal coordinate is set to this value (in au)
-
-      * **Type**: double
-      * **Default**: 0.001
-
-   LINESEARCH_STATIC_N (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| If doing a static line search, scan this many points.
-
-      * **Type**: integer
-      * **Default**: 8
 
    TEST_B (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Do test B matrix?
@@ -4856,6 +4885,24 @@ Keywords by Alpha
 
    TEST_DERIVATIVE_B (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Do test derivative B matrix?
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   WRITE_OPT_HISTORY (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Write the full history to disk. Produces a non validated OptimizationResult.
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   WRITE_OPT_RESULT (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Write the optimization history / state to disc
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   WRITE_TRAJECTORY (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Write Optimization Trajectory
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false

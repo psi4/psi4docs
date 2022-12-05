@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/extras.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/0629923">1.7a1.dev135</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e6e8deb">1.7a1.dev136</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -391,7 +391,10 @@
 
     <span class="k">if</span> <span class="n">execute</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_output_file</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">append</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">f_handler</span><span class="p">)</span>
+        <span class="c1"># Warning: baseFilename is not part of the documented API for the logging module and could change.</span>
+        <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">baseFilename</span> <span class="k">for</span> <span class="n">handle</span> <span class="ow">in</span> <span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">f_handler</span><span class="o">.</span><span class="n">baseFilename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">f_handler</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">out</span></div>
 </pre></div>
 
@@ -484,7 +487,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/extras.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/0629923">1.7a1.dev135</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e6e8deb">1.7a1.dev136</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -498,7 +501,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Monday, 05 December 2022 11:13PM.
+      Last updated on Monday, 05 December 2022 11:47PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

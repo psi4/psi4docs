@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/interface_cfour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/0629923">1.7a1.dev135</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e6e8deb">1.7a1.dev136</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -328,7 +328,7 @@
     <span class="c1"># Call executable xcfour, directing cfour output to the psi4 output file</span>
     <span class="n">cfour_executable</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;c4exec&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;c4exec&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="s1">&#39;xcfour&#39;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">retcode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="n">cfour_executable</span><span class="p">],</span> <span class="n">bufsize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">lenv</span><span class="p">)</span>
+        <span class="n">retcode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cfour_executable</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">bufsize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">lenv</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Program </span><span class="si">%s</span><span class="s1"> not found in path or execution failed: </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cfour_executable</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">))</span>
         <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Program </span><span class="si">%s</span><span class="s1"> not found in path or execution failed: </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cfour_executable</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">))</span>
@@ -390,8 +390,7 @@
         <span class="c1">#   blank_molecule_psi4_yo so as to not interfere with future cfour {} blocks</span>
 
     <span class="k">if</span> <span class="n">c4grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">mat</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="n">c4grad</span><span class="p">)</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">set_gradient</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+        <span class="n">psi_grad</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="n">c4grad</span><span class="p">)</span>
 
         <span class="c1">#print &#39;    &lt;&lt;&lt;   [3] C4-GRD-GRAD   &gt;&gt;&gt;&#39;</span>
         <span class="c1">#mat.print()</span>
@@ -489,13 +488,13 @@
     <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="s1">&#39; Cfour </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1"> Results &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">calledby</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()))</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_variables</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">c4grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">get_gradient</span><span class="p">()</span><span class="o">.</span><span class="n">print_out</span><span class="p">()</span>
+        <span class="n">psi_grad</span><span class="o">.</span><span class="n">print_out</span><span class="p">()</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="s1">&#39; Cfour </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1"> Results &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">calledby</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()))</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_variables</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">c4grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">get_gradient</span><span class="p">()</span><span class="o">.</span><span class="n">print_out</span><span class="p">()</span>
+        <span class="n">psi_grad</span><span class="o">.</span><span class="n">print_out</span><span class="p">()</span>
 
     <span class="c1"># Quit if Cfour threw error</span>
     <span class="k">if</span> <span class="s1">&#39;CFOUR ERROR CODE&#39;</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">variables</span><span class="p">():</span>
@@ -524,7 +523,7 @@
     <span class="k">if</span> <span class="n">dertype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">finalquantity</span> <span class="o">=</span> <span class="n">psivar</span><span class="p">[</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">]</span>
     <span class="k">elif</span> <span class="n">dertype</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">finalquantity</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_gradient</span><span class="p">()</span>
+        <span class="n">finalquantity</span> <span class="o">=</span> <span class="n">psi_grad</span>
         <span class="n">wfn</span><span class="o">.</span><span class="n">set_gradient</span><span class="p">(</span><span class="n">finalquantity</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">finalquantity</span><span class="o">.</span><span class="n">rows</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;CURRENT GRADIENT&#39;</span><span class="p">)</span>
@@ -727,7 +726,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/interface_cfour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/0629923">1.7a1.dev135</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e6e8deb">1.7a1.dev136</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -741,7 +740,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Monday, 05 December 2022 11:13PM.
+      Last updated on Monday, 05 December 2022 11:47PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
