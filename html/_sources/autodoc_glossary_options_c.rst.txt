@@ -90,6 +90,12 @@ Keywords by Alpha
       * **Type**: array
       * **Default**: No Default
 
+   DDX (GLOBALS)
+      :ref:`apdx:GLOBALS` |w---w| DDX boolean for ddx module
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
    DF_BASIS_CC (GLOBALS)
       :ref:`apdx:GLOBALS` |w---w| The density fitting basis to use in coupled cluster computations.
 
@@ -2346,6 +2352,110 @@ Keywords by Alpha
       * **Type**: string
       * **Possible Values**: NONE, PERTURBATIVE
       * **Default**: NONE
+
+   DDX_DIIS_MAX_VECS (DDX)
+      :ref:`apdx:DDX` |w---w| Number of previous iterates to use in DIIS acceleration inside DDX
+
+      * **Type**: integer
+      * **Default**: 20
+
+   DDX_FMM (DDX)
+      :ref:`apdx:DDX` |w---w| Use the fast multipole method to accelerate the solver
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: true
+
+   DDX_FMM_LOCAL_LMAX (DDX)
+      :ref:`apdx:DDX` |w---w| Maximal degree of local spherical harmonics (near-field FMM interations).
+
+      * **Type**: integer
+      * **Default**: 6
+
+   DDX_FMM_MULTIPOLE_LMAX (DDX)
+      :ref:`apdx:DDX` |w---w| Maximal degree of multipole spherical harmonics (far-field FMM interactions). Using the same value as |ddx__ddx_lmax| is recommended and done by default.
+
+      * **Type**: integer
+      * **Default**: 9
+
+   DDX_INCORE (DDX)
+      :ref:`apdx:DDX` |w---w| Use an in-core version, which uses more memory, but is generally faster
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   DDX_LMAX (DDX)
+      :ref:`apdx:DDX` |w---w| Maximal degree of modelling spherical harmonics
+
+      * **Type**: integer
+      * **Default**: 9
+
+   DDX_MAXITER (DDX)
+      :ref:`apdx:DDX` |w---w| Maximal number of iterations used inside DDX
+
+      * **Type**: integer
+      * **Default**: 100
+
+   DDX_MODEL (DDX)
+      :ref:`apdx:DDX` |w---w| Switch available solvation models
+
+      * **Type**: string
+      * **Possible Values**: PCM, COSMO
+      * **Default**: PCM
+
+   DDX_N_LEBEDEV (DDX)
+      :ref:`apdx:DDX` |w---w| Number of Lebedev grid points to use. (A :ref:`Lebedev Points <table:lebedevorder>` number)
+
+      * **Type**: integer
+      * **Default**: 302
+
+   DDX_RADII (DDX)
+      :ref:`apdx:DDX` |w---w| Custom cavity radii. One per atom, uses the unit of the molecule.
+
+      * **Type**: array
+      * **Default**: No Default
+
+   DDX_RADII_SCALING (DDX)
+      :ref:`apdx:DDX` |w---w| Scaling factor for cavity spheres. Ignored if RADII is set. The default depends on the radii set chosen.
+
+      * **Type**: double
+      * **Default**: 1.1
+
+   DDX_RADII_SET (DDX)
+      :ref:`apdx:DDX` |w---w| Radius set for cavity spheres. Ignored if RADII is set.
+
+      * **Type**: string
+      * **Possible Values**: UFF, BONDI
+      * **Default**: UFF
+
+   DDX_SOLUTE_RADIAL_POINTS (DDX)
+      :ref:`apdx:DDX` |w---w| Number of radial points used to compute the integrals for DDX calculations
+
+      * **Type**: integer
+      * **Default**: 35
+
+   DDX_SOLUTE_SPHERICAL_POINTS (DDX)
+      :ref:`apdx:DDX` |w---w| Number of spherical points used to compute the solute electric potential/field integrals for DDX calculations (A :ref:`Lebedev Points <table:lebedevorder>` number)
+
+      * **Type**: integer
+      * **Default**: 110
+
+   DDX_SOLVATION_CONVERGENCE (DDX)
+      :ref:`apdx:DDX` |w---w| Tolerance to which DDX linear systems are solved
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1e-8
+
+   DDX_SOLVENT (DDX)
+      :ref:`apdx:DDX` |w---w| Solvent to use. Not case sensitive. Ignored if SOLVENT_EPSILON is set.
+
+      * **Type**: string
+      * **Default**: No Default
+
+   DDX_SOLVENT_EPSILON (DDX)
+      :ref:`apdx:DDX` |w---w| Dielectric constant of the solvent to use
+
+      * **Type**: double
+      * **Default**: 0
 
    AVG_STATES (DETCI)
       :ref:`apdx:DETCI` |w---w| Array giving the root numbers of the states to average in a state-averaged procedure such as SA-CASSCF. Root numbering starts from 0.
@@ -6354,6 +6464,24 @@ Keywords by Alpha
       * **Type**: double
       * **Default**: 0.0
 
+   DDX_ETA (DDX)
+      :ref:`apdx:DDX` **(Expert)** |w---w| Regularization parameter for characteristic function of sphere overlap. Advanced parameter, which usually does not need to be modified. Valid values are within the range [0, 1]. 
+
+      * **Type**: double
+      * **Default**: 0.1
+
+   DDX_LOGFILE (DDX)
+      :ref:`apdx:DDX` **(Expert)** |w---w| Logfile to dump a full trace of the DDX solver history for debugging. 
+
+      * **Type**: string
+      * **Default**: No Default
+
+   DDX_SHIFT (DDX)
+      :ref:`apdx:DDX` **(Expert)** |w---w| Shift for characteristic function of sphere overlap. Advanced parameter, which usually does not need to be modified. Valid values are within the range [-1, 1] with -100 denoting an automatic selection of the best shift. 
+
+      * **Type**: double
+      * **Default**: -100.0
+
    CI_NUM_THREADS (DETCI)
       :ref:`apdx:DETCI` **(Expert)** |w---w| Number of threads for DETCI. 
 
@@ -7067,12 +7195,6 @@ Keywords by Alpha
 
       * **Type**: :ref:`conv double <op_c_conv>`
       * **Default**: 1.0e-10
-
-   COSX_INCFOCK (SCF)
-      :ref:`apdx:SCF` **(Expert)** |w---w| Do allow for improved COSX screening performance by constructing the Fock matrix incrementally? 
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
 
    COSX_OVERLAP_FITTING (SCF)
       :ref:`apdx:SCF` **(Expert)** |w---w| Do reduce numerical COSX errors with overlap fitting? 

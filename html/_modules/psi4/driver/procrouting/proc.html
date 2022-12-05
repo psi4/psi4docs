@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/744d321">1.7a1.dev131</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9842f7b">1.7a1.dev134</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1716,14 +1716,14 @@
     <span class="k">elif</span> <span class="n">_chkfile</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">write_checkpoint_file</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="c1"># PCM needs to be run w/o symmetry</span>
-    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;PCM&quot;</span><span class="p">):</span>
+    <span class="c1"># Continuum solvation needs to be run w/o symmetry</span>
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;PCM&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;DDX&quot;</span><span class="p">):</span>
         <span class="n">c1_molecule</span> <span class="o">=</span> <span class="n">scf_molecule</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="n">c1_molecule</span><span class="o">.</span><span class="n">reset_point_group</span><span class="p">(</span><span class="s1">&#39;c1&#39;</span><span class="p">)</span>
         <span class="n">c1_molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
 
         <span class="n">scf_molecule</span> <span class="o">=</span> <span class="n">c1_molecule</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  PCM does not make use of molecular symmetry: &quot;&quot;&quot;</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  PCM or DDX continuum solvation does not make use of molecular symmetry: &quot;&quot;&quot;</span>
                        <span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n&quot;&quot;&quot;</span><span class="p">)</span>
 
     <span class="c1"># PE needs to use exactly input orientation to correspond to potfile</span>
@@ -1956,6 +1956,16 @@
         <span class="n">pcmsolver_parsed_fname</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_local_option</span><span class="p">(</span><span class="s1">&#39;PCM&#39;</span><span class="p">,</span> <span class="s1">&#39;PCMSOLVER_PARSED_FNAME&#39;</span><span class="p">)</span>
         <span class="n">pcm_print_level</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s2">&quot;PRINT&quot;</span><span class="p">)</span>
         <span class="n">scf_wfn</span><span class="o">.</span><span class="n">set_PCM</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">PCM</span><span class="p">(</span><span class="n">pcmsolver_parsed_fname</span><span class="p">,</span> <span class="n">pcm_print_level</span><span class="p">,</span> <span class="n">scf_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()))</span>
+
+    <span class="c1"># DDPCM preparation</span>
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;DDX&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">solvent</span><span class="o">.</span><span class="n">_have_ddx</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s1">&#39;Python module ddx not found. Solve by installing it: `pip install pyddx`&#39;</span><span class="p">)</span>
+        <span class="n">ddx_options</span> <span class="o">=</span> <span class="n">solvent</span><span class="o">.</span><span class="n">ddx</span><span class="o">.</span><span class="n">get_ddx_options</span><span class="p">(</span><span class="n">scf_molecule</span><span class="p">)</span>
+        <span class="n">scf_wfn</span><span class="o">.</span><span class="n">ddx_state</span> <span class="o">=</span> <span class="n">solvent</span><span class="o">.</span><span class="n">ddx</span><span class="o">.</span><span class="n">DdxInterface</span><span class="p">(</span>
+            <span class="n">molecule</span><span class="o">=</span><span class="n">scf_molecule</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">ddx_options</span><span class="p">,</span>
+            <span class="n">basisset</span><span class="o">=</span><span class="n">scf_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()</span>
+        <span class="p">)</span>
 
     <span class="c1"># PE preparation</span>
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;PE&#39;</span><span class="p">):</span>
@@ -5714,7 +5724,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/744d321">1.7a1.dev131</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9842f7b">1.7a1.dev134</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5728,7 +5738,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Monday, 05 December 2022 06:32PM.
+      Last updated on Monday, 05 December 2022 10:01PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
