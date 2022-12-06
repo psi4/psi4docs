@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/fisapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e6e8deb">1.7a1.dev136</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7b4cf84">1.7a1.dev138</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -277,6 +277,24 @@ is presented in the “Orbital Check” section in these files – a value large
 be breaking down. We also <em>strongly discourage</em> the cutting of double,
 triple, or aromatic bonding motifs when partitioning the molecule into fragments
 – cuts across only simple sigma bonds are encouraged.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>November 2022, previous to QCEngine v0.26.0 and Psi4
+v1.7.0, there was a scaling inconsistency in the pairwise analysis
+such that <a class="reference internal" href="glossary_psivariables.html#psivar-2-BODY-PAIRWISE-DISPERSION-CORRECTION-ANALYSIS"><code class="xref std std-psivar docutils literal notranslate"><span class="pre">2-BODY</span> <span class="pre">PAIRWISE</span> <span class="pre">DISPERSION</span> <span class="pre">CORRECTION</span> <span class="pre">ANALYSIS</span></code></a>
+was doubled when generated from dftd3 compared to the output from other
+programs (s-dftd3 and dftd4). This shows up in the QCVariable and in the
+<code class="docutils literal notranslate"><span class="pre">Empirical_Disp.dat</span></code> file written during <code class="docutils literal notranslate"><span class="pre">energy(&quot;fisapt0-d3&quot;)</span></code> (all
+-D3 variants). Fortunately, the <code class="docutils literal notranslate"><span class="pre">fsapt.py</span></code> script compensated
+for dftd3 (by far the most used program for this task). Users of the
+pairwise analysis should take care to use the new QCEngine
+AND <code class="docutils literal notranslate"><span class="pre">fsapt.py</span></code> script distributed with NEW Psi4. <code class="docutils literal notranslate"><span class="pre">fisapt0-d4</span></code> run
+with previous Psi4/fsapt.py will be wrong. <code class="docutils literal notranslate"><span class="pre">fisapt0-d3</span></code> run with previous
+Psi4/fsapt.py but new QCEngine will be wrong. If you’ve got legacy
+calculations, it is extremely easy to check or reanalyze them to
+salvage them, so please contact the developers with the circumstances
+for guidance.</p>
+</div>
 </section>
 <section id="order-1-visualization-with-pymol">
 <h2>Order-1 Visualization with PyMol<a class="headerlink" href="#order-1-visualization-with-pymol" title="Permalink to this heading">¶</a></h2>
@@ -568,7 +586,7 @@ provide an accurate result.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/fisapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e6e8deb">1.7a1.dev136</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7b4cf84">1.7a1.dev138</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -582,7 +600,7 @@ provide an accurate result.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Monday, 05 December 2022 11:47PM.
+      Last updated on Tuesday, 06 December 2022 07:01AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

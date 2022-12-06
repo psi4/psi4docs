@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e6e8deb">1.7a1.dev136</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7b4cf84">1.7a1.dev138</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -141,7 +141,7 @@
 <span class="c1">#</span>
 
 <span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">qcelemental.models</span> <span class="kn">import</span> <span class="n">AtomicInput</span>
@@ -152,17 +152,41 @@
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">driver_findif</span>
 <span class="kn">from</span> <span class="nn">psi4.driver.p4util.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
 
-<span class="n">_engine_can_do</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;libdisp&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;d1&#39;</span><span class="p">,</span> <span class="s1">&#39;d2&#39;</span><span class="p">,</span> <span class="s1">&#39;chg&#39;</span><span class="p">,</span> <span class="s1">&#39;das2009&#39;</span><span class="p">,</span> <span class="s1">&#39;das2010&#39;</span><span class="p">]),</span>
-                                          <span class="p">(</span><span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;d2&#39;</span><span class="p">,</span> <span class="s1">&#39;d3zero&#39;</span><span class="p">,</span> <span class="s1">&#39;d3bj&#39;</span><span class="p">,</span> <span class="s1">&#39;d3mzero&#39;</span><span class="p">,</span> <span class="s1">&#39;d3mbj&#39;</span><span class="p">]),</span>
-                                          <span class="p">(</span><span class="s1">&#39;nl&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;nl&#39;</span><span class="p">]),</span>
-                                          <span class="p">(</span><span class="s1">&#39;mp2d&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;dmp2&#39;</span><span class="p">]),</span>
-                                          <span class="p">(</span><span class="s2">&quot;dftd4&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;d4bjeeqatm&quot;</span><span class="p">]),</span>
-                                        <span class="p">])</span> <span class="c1"># yapf: disable</span>
+<span class="n">_engine_can_do</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">([</span>
+    <span class="c1"># engine order establishes default for each disp</span>
+    <span class="p">(</span><span class="s2">&quot;libdisp&quot;</span><span class="p">,</span>  <span class="p">[</span><span class="s2">&quot;d1&quot;</span><span class="p">,</span> <span class="s2">&quot;d2&quot;</span><span class="p">,</span>                                                                                                               <span class="s2">&quot;chg&quot;</span><span class="p">,</span> <span class="s2">&quot;das2009&quot;</span><span class="p">,</span> <span class="s2">&quot;das2010&quot;</span><span class="p">,]),</span>
+    <span class="p">(</span><span class="s2">&quot;s-dftd3&quot;</span><span class="p">,</span>  <span class="p">[</span>            <span class="s2">&quot;d3zero2b&quot;</span><span class="p">,</span> <span class="s2">&quot;d3bj2b&quot;</span><span class="p">,</span> <span class="s2">&quot;d3mzero2b&quot;</span><span class="p">,</span> <span class="s2">&quot;d3mbj2b&quot;</span><span class="p">,</span> <span class="s2">&quot;d3zeroatm&quot;</span><span class="p">,</span> <span class="s2">&quot;d3bjatm&quot;</span><span class="p">,</span> <span class="s2">&quot;d3mzeroatm&quot;</span><span class="p">,</span> <span class="s2">&quot;d3mbjatm&quot;</span><span class="p">,</span>                                           <span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;dftd3&quot;</span><span class="p">,</span>    <span class="p">[</span>      <span class="s2">&quot;d2&quot;</span><span class="p">,</span> <span class="s2">&quot;d3zero2b&quot;</span><span class="p">,</span> <span class="s2">&quot;d3bj2b&quot;</span><span class="p">,</span> <span class="s2">&quot;d3mzero2b&quot;</span><span class="p">,</span> <span class="s2">&quot;d3mbj2b&quot;</span><span class="p">,</span>                                                                                             <span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;nl&quot;</span><span class="p">,</span>       <span class="p">[</span>                                                                                                                          <span class="s2">&quot;nl&quot;</span><span class="p">,</span>                       <span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;mp2d&quot;</span><span class="p">,</span>     <span class="p">[</span>                                                                                                                          <span class="s2">&quot;dmp2&quot;</span><span class="p">,</span>                     <span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;dftd4&quot;</span><span class="p">,</span>    <span class="p">[</span>                                                                                                            <span class="s2">&quot;d4bjeeqatm&quot;</span><span class="p">,</span>                             <span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;mctc-gcp&quot;</span><span class="p">,</span> <span class="p">[</span>                                                                                                                          <span class="s2">&quot;3c&quot;</span><span class="p">,</span>                       <span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;gcp&quot;</span><span class="p">,</span>      <span class="p">[</span>                                                                                                                          <span class="s2">&quot;3c&quot;</span><span class="p">,</span>                       <span class="p">]),</span>
+<span class="p">])</span> <span class="c1"># yapf: disable</span>
 
-<span class="n">_capable_engines_for_disp</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">eng</span><span class="p">,</span> <span class="n">disps</span> <span class="ow">in</span> <span class="n">_engine_can_do</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="k">for</span> <span class="n">disp</span> <span class="ow">in</span> <span class="n">disps</span><span class="p">:</span>
-        <span class="n">_capable_engines_for_disp</span><span class="p">[</span><span class="n">disp</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eng</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_capable_engines_for_disp</span><span class="p">()</span><span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Invert _engine_can_do dictionary and check program detection.</span>
+
+<span class="sd">    Returns a dictionary with keys all dispersion levels and values a list of all</span>
+<span class="sd">    capable engines, where the engine in the first element is available, if any are.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">qcengine.testing</span> <span class="kn">import</span> <span class="n">_programs</span> <span class="k">as</span> <span class="n">_programs_qcng</span>
+
+    <span class="n">programs_disp</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_programs_qcng</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">_engine_can_do</span><span class="p">}</span>
+    <span class="n">programs_disp</span><span class="p">[</span><span class="s2">&quot;libdisp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">programs_disp</span><span class="p">[</span><span class="s2">&quot;nl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">capable</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">capable_sorted_by_available</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">eng</span><span class="p">,</span> <span class="n">disps</span> <span class="ow">in</span> <span class="n">_engine_can_do</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">disp</span> <span class="ow">in</span> <span class="n">disps</span><span class="p">:</span>
+            <span class="n">capable</span><span class="p">[</span><span class="n">disp</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eng</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">disp</span><span class="p">,</span> <span class="n">engines</span> <span class="ow">in</span> <span class="n">capable</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">capable_sorted_by_available</span><span class="p">[</span><span class="n">disp</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">engines</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="ow">not</span> <span class="n">programs_disp</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">x</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">capable_sorted_by_available</span>
 
 
 <div class="viewcode-block" id="EmpiricalDispersion"><a class="viewcode-back" href="../../../../dftd3.html#psi4.driver.EmpiricalDispersion">[docs]</a><span class="k">class</span> <span class="nc">EmpiricalDispersion</span><span class="p">():</span>
@@ -171,7 +195,7 @@
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dashlevel : str</span>
-<span class="sd">        {&#39;d1&#39;, &#39;d2&#39;, &#39;d3zero&#39;, &#39;d3bj&#39;, &#39;d3mzero&#39;, &#39;d3mbj&#39;, &#39;chg&#39;, &#39;das2009&#39;, &#39;das2010&#39;, &#39;nl&#39;, &#39;dmp2&#39;, &quot;d4bjeeqatm&quot;}</span>
+<span class="sd">        {&quot;d1&quot;, &quot;d2&quot;, &quot;chg&quot;, &quot;das2009&quot;, &quot;das2010&quot;, &quot;nl&quot;, &quot;dmp2&quot;, &quot;d3zero2b&quot;, &quot;d3bj2b&quot;, &quot;d3mzero2b&quot;, &quot;d3mbj2b&quot;, &quot;d3zeroatm&quot;, &quot;d3bjatm&quot;, &quot;d3mzeroatm&quot;, &quot;d3mbjatm&quot;, &quot;d4bjeeqatm&quot;}</span>
 <span class="sd">        Name of dispersion correction to be applied. Resolved</span>
 <span class="sd">        from `name_hint` and/or `level_hint` into a key of</span>
 <span class="sd">        `empirical_dispersion_resources.dashcoeff`.</span>
@@ -202,7 +226,7 @@
 <span class="sd">        `qcengine.programs.empirical_dispersion_resources.dashcoeff` itself for purposes of</span>
 <span class="sd">        validating :py:attr:`fctldash`.</span>
 <span class="sd">    engine : str</span>
-<span class="sd">        {&#39;libdisp&#39;, &#39;dftd3&#39;, &#39;nl&#39;, &#39;mp2d&#39;, &quot;dftd4&quot;}</span>
+<span class="sd">        {&#39;libdisp&#39;, &quot;s-dftd3&quot;, &#39;dftd3&#39;, &#39;nl&#39;, &#39;mp2d&#39;, &quot;dftd4&quot;}</span>
 <span class="sd">        Compute engine for dispersion. One of Psi4&#39;s internal libdisp</span>
 <span class="sd">        library, external Grimme or Beran projects, or nl.</span>
 <span class="sd">    disp : Dispersion</span>
@@ -231,11 +255,17 @@
 <span class="sd">        initialized by `name_hint`.  Extra parameters will error.</span>
 <span class="sd">    engine</span>
 <span class="sd">        Override which code computes dispersion. See above for allowed</span>
-<span class="sd">        values. Really only relevant for -D2, which can be computed by</span>
-<span class="sd">        libdisp or dftd3.</span>
+<span class="sd">        values. Formerly (pre Nov 2022) only relevant for -D2, which can be computed by</span>
+<span class="sd">        libdisp or dftd3. Now (post Nov 2022) also relevant for -D3 variants,</span>
+<span class="sd">        which can be computed by dftd3 executable or simple-dftd3 Python module.</span>
+<span class="sd">    gcp_engine</span>
+<span class="sd">        Override which code computes the gcp correction. Now can use</span>
+<span class="sd">        classic gcp or mctc-gcp executables.</span>
+<span class="sd">    save_pairwise_disp</span>
+<span class="sd">        Whether to request atomic pairwise analysis.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">name_hint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">level_hint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">param_tweaks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">save_pairwise_disp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">name_hint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">level_hint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">param_tweaks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">gcp_engine</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">save_pairwise_disp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="kn">from</span> <span class="nn">.dft</span> <span class="kn">import</span> <span class="n">dashcoeff_supplement</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dashcoeff_supplement</span> <span class="o">=</span> <span class="n">dashcoeff_supplement</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">save_pairwise_disp</span> <span class="o">=</span> <span class="n">save_pairwise_disp</span>
@@ -253,16 +283,25 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dashlevel_citation</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">programs</span><span class="o">.</span><span class="n">empirical_dispersion_resources</span><span class="o">.</span><span class="n">dashcoeff</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="p">][</span><span class="s1">&#39;citation&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dashparams_citation</span> <span class="o">=</span> <span class="n">resolved</span><span class="p">[</span><span class="s1">&#39;dashparams_citation&#39;</span><span class="p">]</span>
 
+        <span class="n">capable_engines_for_disp</span> <span class="o">=</span> <span class="n">_capable_engines_for_disp</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">engine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">_capable_engines_for_disp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">capable_engines_for_disp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span> <span class="ow">in</span> <span class="n">_engine_can_do</span><span class="p">[</span><span class="n">engine</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;This little engine (</span><span class="si">{}</span><span class="s2">) can&#39;t (</span><span class="si">{}</span><span class="s2">)&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This little engine (</span><span class="si">{</span><span class="n">engine</span><span class="si">}</span><span class="s2">) can&#39;t (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;libdisp&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">disp</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Dispersion</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="p">,</span> <span class="o">**</span><span class="n">resolved</span><span class="p">[</span><span class="s1">&#39;dashparams&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">gcp_engine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gcp_engine</span> <span class="o">=</span> <span class="n">capable_engines_for_disp</span><span class="p">[</span><span class="s2">&quot;3c&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;3c&quot;</span> <span class="ow">in</span> <span class="n">_engine_can_do</span><span class="p">[</span><span class="n">gcp_engine</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gcp_engine</span> <span class="o">=</span> <span class="n">gcp_engine</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This little engine (</span><span class="si">{</span><span class="n">engine</span><span class="si">}</span><span class="s2">) can&#39;t (3c)&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="EmpiricalDispersion.print_out"><a class="viewcode-back" href="../../../../api/psi4.driver.EmpiricalDispersion.html#psi4.driver.EmpiricalDispersion.print_out">[docs]</a>    <span class="k">def</span> <span class="nf">print_out</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Format dispersion parameters of `self` for output file.&quot;&quot;&quot;</span>
@@ -305,7 +344,7 @@
 <span class="sd">            Set if :py:attr:`fctldash` nonempty.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2d&#39;</span><span class="p">,</span> <span class="s2">&quot;dftd4&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;s-dftd3&quot;</span><span class="p">,</span> <span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2d&#39;</span><span class="p">,</span> <span class="s2">&quot;dftd4&quot;</span><span class="p">]:</span>
             <span class="n">resi</span> <span class="o">=</span> <span class="n">AtomicInput</span><span class="p">(</span>
                 <span class="o">**</span><span class="p">{</span>
                     <span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="s1">&#39;energy&#39;</span><span class="p">,</span>
@@ -318,6 +357,7 @@
                         <span class="s1">&#39;params_tweaks&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashparams</span><span class="p">,</span>
                         <span class="s1">&#39;dashcoeff_supplement&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashcoeff_supplement</span><span class="p">,</span>
                         <span class="s1">&#39;pair_resolved&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_pairwise_disp</span><span class="p">,</span>
+                        <span class="s1">&#39;apply_qcengine_aliases&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># for s-dftd3</span>
                         <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                     <span class="p">},</span>
                     <span class="s1">&#39;molecule&#39;</span><span class="p">:</span> <span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
@@ -343,7 +383,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;hf3c&#39;</span><span class="p">,</span> <span class="s1">&#39;pbeh3c&#39;</span><span class="p">]:</span>
                 <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span>
                     <span class="n">resi</span><span class="p">,</span>
-                    <span class="s2">&quot;gcp&quot;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">gcp_engine</span><span class="p">,</span>
                     <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">task_config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;scratch_directory&quot;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">(),</span> <span class="s2">&quot;ncores&quot;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">()})</span>
                 <span class="n">gcp_part</span> <span class="o">=</span> <span class="n">jobrec</span><span class="o">.</span><span class="n">return_result</span>
@@ -376,7 +416,7 @@
 <span class="sd">            (nat, 3) dispersion gradient [Eh/a0].</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2d&#39;</span><span class="p">,</span> <span class="s2">&quot;dftd4&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;s-dftd3&quot;</span><span class="p">,</span> <span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="s1">&#39;mp2d&#39;</span><span class="p">,</span> <span class="s2">&quot;dftd4&quot;</span><span class="p">]:</span>
             <span class="n">resi</span> <span class="o">=</span> <span class="n">AtomicInput</span><span class="p">(</span>
                 <span class="o">**</span><span class="p">{</span>
                     <span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="s1">&#39;gradient&#39;</span><span class="p">,</span>
@@ -388,6 +428,7 @@
                         <span class="s1">&#39;level_hint&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="p">,</span>
                         <span class="s1">&#39;params_tweaks&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashparams</span><span class="p">,</span>
                         <span class="s1">&#39;dashcoeff_supplement&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashcoeff_supplement</span><span class="p">,</span>
+                        <span class="s1">&#39;apply_qcengine_aliases&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># for s-dftd3</span>
                         <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                     <span class="p">},</span>
                     <span class="s1">&#39;molecule&#39;</span><span class="p">:</span> <span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
@@ -408,7 +449,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;hf3c&#39;</span><span class="p">,</span> <span class="s1">&#39;pbeh3c&#39;</span><span class="p">]:</span>
                 <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span>
                     <span class="n">resi</span><span class="p">,</span>
-                    <span class="s2">&quot;gcp&quot;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">gcp_engine</span><span class="p">,</span>
                     <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">task_config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;scratch_directory&quot;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span><span class="o">.</span><span class="n">get_default_path</span><span class="p">(),</span> <span class="s2">&quot;ncores&quot;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">()})</span>
                 <span class="n">gcp_part</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">jobrec</span><span class="o">.</span><span class="n">return_result</span><span class="p">)</span>
@@ -555,7 +596,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e6e8deb">1.7a1.dev136</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7b4cf84">1.7a1.dev138</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -569,7 +610,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Monday, 05 December 2022 11:47PM.
+      Last updated on Tuesday, 06 December 2022 07:01AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
