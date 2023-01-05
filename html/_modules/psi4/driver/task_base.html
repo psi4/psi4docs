@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4d94910">1.8a1.dev5</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/758d3af">1.8a1.dev6</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -168,7 +168,7 @@
 
 
 <div class="viewcode-block" id="BaseComputer"><a class="viewcode-back" href="../../../external_apis.html#psi4.driver.BaseComputer">[docs]</a><span class="k">class</span> <span class="nc">BaseComputer</span><span class="p">(</span><span class="n">qcel</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ProtoModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class for &quot;computers&quot; that plan, run, and process QC tasks.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for &quot;computers&quot; that plan, run, and process QC tasks.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="BaseComputer.compute"><a class="viewcode-back" href="../../../external_apis.html#psi4.driver.BaseComputer.compute">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -184,7 +184,7 @@
 
 
 <div class="viewcode-block" id="AtomicComputer"><a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer">[docs]</a><span class="k">class</span> <span class="nc">AtomicComputer</span><span class="p">(</span><span class="n">BaseComputer</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Computer for analytic single-geometry computations.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computer for analytic single-geometry computations.&quot;&quot;&quot;</span>
 
     <span class="n">molecule</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The molecule to use in the computation.&quot;</span><span class="p">)</span>
     <span class="n">basis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The quantum chemistry basis set to evaluate (e.g., 6-31g, cc-pVDZ, ...).&quot;</span><span class="p">)</span>
@@ -212,7 +212,7 @@
         <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AtomicComputer.plan"><a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.plan">[docs]</a>    <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicInput</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Form QCSchema input from member data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Form QCSchema input from member data.&quot;&quot;&quot;</span>
 
         <span class="n">atomic_model</span> <span class="o">=</span> <span class="n">AtomicInput</span><span class="p">(</span><span class="o">**</span><span class="p">{</span>
             <span class="s2">&quot;molecule&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
@@ -234,7 +234,7 @@
         <span class="k">return</span> <span class="n">atomic_model</span></div>
 
 <div class="viewcode-block" id="AtomicComputer.compute"><a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.client.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run quantum chemistry.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run quantum chemistry.&quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">pp</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">computed</span><span class="p">:</span>
@@ -333,7 +333,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">computed</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="AtomicComputer.get_results"><a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.get_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return results as Atomic-flavored QCSchema.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return results as Atomic-flavored QCSchema.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span>
@@ -397,7 +397,7 @@
 
 
 <span class="k">def</span> <span class="nf">_drink_filter</span><span class="p">(</span><span class="n">stdout</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Don&#39;t mess up the widespread ``grep beer`` test of Psi4 doneness by printing multiple drinks per outfile.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Don&#39;t mess up the widespread ``grep beer`` test of Psi4 doneness by printing multiple drinks per outfile.&quot;&quot;&quot;</span>
 
     <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*** Psi4 exiting successfully. Buy a developer a beer!&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*** Psi4 encountered an error. Buy a developer more coffee!&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
@@ -493,7 +493,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4d94910">1.8a1.dev5</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/758d3af">1.8a1.dev6</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -506,8 +506,8 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Wednesday, 14 December 2022 05:23PM.
+        &#169; Copyright 2007-2023, The Psi4 Project.
+      Last updated on Thursday, 05 January 2023 09:29PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

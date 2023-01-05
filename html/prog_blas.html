@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_blas.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4d94910">1.8a1.dev5</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/758d3af">1.8a1.dev6</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -324,18 +324,18 @@ but you can just as easily use the <code class="docutils literal notranslate"><s
 careful (the outer index is the submatrix for each irrep). Here’s an
 example:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// BLAS/LAPACK</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;psi4/libqt/qt.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;psi4/libqt/qt.h&quot;</span>
 <span class="c1">// Matrix</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;psi4/libmints/matrix.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;psi4/libmints/matrix.h&quot;</span>
 
-<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">psi</span><span class="p">;</span><span class="w"></span>
-<span class="p">...</span><span class="w"></span>
-<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">psi</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
 
 <span class="c1">// Allocate A Matrix (new C1 convenience constructor);</span>
-<span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Matrix</span><span class="p">(</span><span class="s">&quot;Still A, but way cooler&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">));</span><span class="w"></span>
+<span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Matrix</span><span class="p">(</span><span class="s">&quot;Still A, but way cooler&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">));</span>
 <span class="c1">// Get the pointer to the 0 irrep (C1 for now, it errors if you ask for too high of an index)</span>
-<span class="kt">double</span><span class="o">**</span><span class="w"> </span><span class="n">A_pointer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">-&gt;</span><span class="n">get_pointer</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="kt">double</span><span class="o">**</span><span class="w"> </span><span class="n">A_pointer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">-&gt;</span><span class="n">get_pointer</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 
 <span class="c1">// Call the LAPACK DPOTRF to get the Cholesky factor</span>
 <span class="c1">// Note this works in column-major order</span>
@@ -350,10 +350,10 @@ example:</p>
 <span class="c1">//   * * *</span>
 <span class="c1">//   * * * *</span>
 <span class="c1">//</span>
-<span class="kt">int</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">C_DPOTRF</span><span class="p">(</span><span class="sc">&#39;L&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">A_pointer</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">n</span><span class="p">);</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">C_DPOTRF</span><span class="p">(</span><span class="sc">&#39;L&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">A_pointer</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
 
 <span class="c1">// Wow that&#39;s a lot easier</span>
-<span class="n">A</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">();</span><span class="w"></span>
+<span class="n">A</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">();</span>
 
 <span class="c1">// Don&#39;t free, it&#39;s shared_ptr!</span>
 </pre></div>
@@ -629,7 +629,7 @@ conventions are:</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_blas.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4d94910">1.8a1.dev5</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/758d3af">1.8a1.dev6</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -642,8 +642,8 @@ conventions are:</p>
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Wednesday, 14 December 2022 05:23PM.
+        &#169; Copyright 2007-2023, The Psi4 Project.
+      Last updated on Thursday, 05 January 2023 09:29PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

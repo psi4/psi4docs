@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/frac.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4d94910">1.8a1.dev5</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/758d3af">1.8a1.dev6</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -155,7 +155,7 @@
 
 
 <div class="viewcode-block" id="frac_traverse"><a class="viewcode-back" href="../../../external_apis.html#psi4.driver.frac.frac_traverse">[docs]</a><span class="k">def</span> <span class="nf">frac_traverse</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Scan electron occupancy from +1 electron to -1.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scan electron occupancy from +1 electron to -1.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -216,7 +216,7 @@
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;frac_traverse requires neutral molecule to start.&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  Requested procedure `frac_traverse` does not make use of molecular symmetry: &quot;&quot;&quot;</span>
-                       <span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="w">                       </span><span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="n">molecule</span> <span class="o">=</span> <span class="n">molecule</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
     <span class="n">molecule</span><span class="o">.</span><span class="n">reset_point_group</span><span class="p">(</span><span class="s1">&#39;c1&#39;</span><span class="p">)</span>
     <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
@@ -399,7 +399,7 @@
 
 
 <div class="viewcode-block" id="frac_nuke"><a class="viewcode-back" href="../../../external_apis.html#psi4.driver.frac.frac_nuke">[docs]</a><span class="k">def</span> <span class="nf">frac_nuke</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Pull all the electrons out, one at a time&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pull all the electrons out, one at a time&quot;&quot;&quot;</span>
     <span class="n">optstash</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">(</span>
         <span class="p">[</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;GUESS&#39;</span><span class="p">],</span>
         <span class="p">[</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;DF_INTS_IO&#39;</span><span class="p">],</span>
@@ -420,7 +420,7 @@
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;frac_nuke requires neutral molecule to start.&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  Requested procedure `frac_nuke` does not make use of molecular symmetry: &quot;&quot;&quot;</span>
-                       <span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="w">                       </span><span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="n">molecule</span> <span class="o">=</span> <span class="n">molecule</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
     <span class="n">molecule</span><span class="o">.</span><span class="n">reset_point_group</span><span class="p">(</span><span class="s1">&#39;c1&#39;</span><span class="p">)</span>
     <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
@@ -595,7 +595,7 @@
 
 
 <div class="viewcode-block" id="ip_fitting"><a class="viewcode-back" href="../../../external_apis.html#psi4.driver.frac.ip_fitting">[docs]</a><span class="k">def</span> <span class="nf">ip_fitting</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">],</span> <span class="n">omega_l</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">omega_r</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span><span class="p">,</span> <span class="n">omega_convergence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0e-3</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Optimize DFT omega parameter for molecular system.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optimize DFT omega parameter for molecular system.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -648,7 +648,7 @@
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;IP Fitting requires neutral molecule to start.&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  Requested procedure `ip_fitting` does not make use of molecular symmetry: &quot;&quot;&quot;</span>
-                       <span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="w">                       </span><span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="n">molecule</span> <span class="o">=</span> <span class="n">molecule</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
     <span class="n">molecule</span><span class="o">.</span><span class="n">reset_point_group</span><span class="p">(</span><span class="s1">&#39;c1&#39;</span><span class="p">)</span>
     <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
@@ -1001,7 +1001,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/frac.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4d94910">1.8a1.dev5</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/758d3af">1.8a1.dev6</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1014,8 +1014,8 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2007-2022, The Psi4 Project.
-      Last updated on Wednesday, 14 December 2022 05:23PM.
+        &#169; Copyright 2007-2023, The Psi4 Project.
+      Last updated on Thursday, 05 January 2023 09:29PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
