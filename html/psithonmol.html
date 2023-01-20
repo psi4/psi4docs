@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psithonmol.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e81a787">1.8a1.dev15</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/a0e535e">1.8a1.dev16</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -234,8 +234,11 @@ provided in the molecule block <code class="samp docutils literal notranslate"><
 <dl class="simple">
 <dt><strong>Charge &amp; Multiplicity</strong></dt><dd><p>If two integers <code class="samp docutils literal notranslate"><em><span class="pre">charge</span></em> <em><span class="pre">multiplicity</span></em></code> are encountered on any
 line of the molecule block, they are interpreted as the molecular charge
-and multiplicity (<span class="math notranslate nohighlight">\(2 M_s + 1\)</span>), respectively. For multi-fragment
-complexes, each fragment can have a <code class="samp docutils literal notranslate"><em><span class="pre">charge</span></em> <em><span class="pre">multiplicity</span></em></code> line.</p>
+and multiplicity (<span class="math notranslate nohighlight">\(2 M_s + 1\)</span>), respectively. If not specified, the
+charge is taken to be zero, and the multiplicity will be taken to be the
+lowest multiplicity consistent with that charge. For multi-fragment
+complexes, each fragment can have a <code class="samp docutils literal notranslate"><em><span class="pre">charge</span></em> <em><span class="pre">multiplicity</span></em></code> line.
+See <a class="reference internal" href="#sec-fragments"><span class="std std-ref">Non-Covalently Bonded Molecule Fragments</span></a> for details.</p>
 </dd>
 <dt><strong>Units</strong></dt><dd><p>By default, Ångström units are used; this is changed by adding
 a line that reads <code class="samp docutils literal notranslate"><span class="pre">units</span> <em><span class="pre">spec</span></em></code>, where <code class="samp docutils literal notranslate"><em><span class="pre">spec</span></em></code> is one
@@ -648,12 +651,16 @@ block:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>In this case, the charge and multiplicity of each interacting fragment is
-explicitly specified. If the charge and multiplicity are specified for the
-first fragment, it is assumed to be the same for all fragments. When
-considering interacting fragments, the overall charge is simply the sum of all
-fragment charges, and any unpaired electrons are assumed to be coupled to
-yield the highest possible <span class="math notranslate nohighlight">\(M_s\)</span> value.</p>
+<p>This specifies that there are two neutral, spin-singlet fragments. It is
+possible to further specify that the overall complex is neutral and spin-singlet
+by inserting another <code class="samp docutils literal notranslate"><em><span class="pre">charge</span></em> <em><span class="pre">multiplicity</span></em></code> line, separated from the first
+molecule block by a <cite>–</cite> line. If any information is missing, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> will set the
+unprovided charges and multiplicities to be consistent with those that are given.
+For example, the overall charge must be simply the sum of all fragment charges.
+<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> further assumes that any unpaired electrons are coupled to yield the highest
+possible <span class="math notranslate nohighlight">\(M_s\)</span> value. Psi will also favor neutral, spin-singlet fragments.
+For anything complicated, we strongly suggest explicitly providing the charge
+and multiplicity of each fragment as well as the total molecular charge and multiplicity. For details and examples, see <a class="reference external" href="https://github.com/MolSSI/QCElemental/blob/master/qcelemental/molparse/chgmult.py#L105-L136">https://github.com/MolSSI/QCElemental/blob/master/qcelemental/molparse/chgmult.py#L105-L136</a> .</p>
 <p>Having defined a molecule containing fragments like <code class="docutils literal notranslate"><span class="pre">eneyne</span></code> above, it
 is a simple matter to perform calculations on only a subset of the
 fragments. For instance, the commands below run a scf first on the ethene
@@ -926,7 +933,7 @@ coordinates in an input file in Python.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/psithonmol.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/e81a787">1.8a1.dev15</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/a0e535e">1.8a1.dev16</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -940,7 +947,7 @@ coordinates in an input file in Python.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Thursday, 19 January 2023 09:55PM.
+      Last updated on Friday, 20 January 2023 04:00PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
