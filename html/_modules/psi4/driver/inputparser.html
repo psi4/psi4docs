@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/inputparser.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/7345320">1.8a1.dev36</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ef66d38">1.8a1.dev37</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -202,7 +202,7 @@
     <span class="c1"># This wraps anything that looks like a string in quotes, and removes leading</span>
     <span class="c1"># dollar signs from python variables</span>
     <span class="k">if</span> <span class="n">isbasis</span><span class="p">:</span>
-        <span class="n">wordre</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(([$]?)([-+()*.,\w\&quot;</span><span class="se">\&#39;</span><span class="s1">/</span><span class="se">\\</span><span class="s1">]+))&#39;</span><span class="p">)</span>
+        <span class="n">wordre</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(([$]?)([-+:()*.,\w\&quot;</span><span class="se">\&#39;</span><span class="s1">/</span><span class="se">\\</span><span class="s1">]+))&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">wordre</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(([$]?)([-+()*.\w\&quot;</span><span class="se">\&#39;</span><span class="s1">/</span><span class="se">\\</span><span class="s1">]+))&#39;</span><span class="p">)</span>
     <span class="n">string</span> <span class="o">=</span> <span class="n">wordre</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">process_word_quotes</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
@@ -390,11 +390,11 @@
     <span class="n">cleanbas</span> <span class="o">=</span> <span class="n">basname</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># further remove hyphens so can be function name</span>
     <span class="n">command_lines</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">matchobj</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 
-    <span class="n">symbol_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*assign\s+(?P&lt;symbol&gt;[A-Z]{1,3})\s+(?P&lt;basis&gt;[-+*\(\)\w]+)\s*$&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+    <span class="n">symbol_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*assign\s+(?P&lt;symbol&gt;[A-Z]{1,3})\s+(?P&lt;basis&gt;[-+:*\(\)\w]+)\s*$&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
     <span class="n">label_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
-        <span class="sa">r</span><span class="s1">&#39;^\s*assign\s+(?P&lt;label&gt;(?P&lt;symbol&gt;[A-Z]{1,3})(?:(_\w+)|(\d+))?)\s+(?P&lt;basis&gt;[-+*\(\)\w]+)\s*$&#39;</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s1">&#39;^\s*assign\s+(?P&lt;label&gt;(?P&lt;symbol&gt;[A-Z]{1,3})(?:(_\w+)|(\d+))?)\s+(?P&lt;basis&gt;[-+:*\(\)\w]+)\s*$&#39;</span><span class="p">,</span>
         <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
-    <span class="n">all_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*assign\s+(?P&lt;basis&gt;[-+*\(\)\w]+)\s*$&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+    <span class="n">all_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*assign\s+(?P&lt;basis&gt;[-+:*\(\)\w]+)\s*$&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
     <span class="n">basislabel</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s*\[\s*([-*\(\)\w]+)\s*\]\s*&#39;</span><span class="p">)</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="si">%s</span><span class="s2">def basisspec_psi4_yo__</span><span class="si">%s</span><span class="s2">(mol, role):</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">spaces</span><span class="p">,</span> <span class="n">cleanbas</span><span class="p">)</span>
@@ -786,7 +786,7 @@
     <span class="c1"># with undesired multiline matches.  Better the double-negative [^\S\n] instead, which</span>
     <span class="c1"># will match any space, tab, etc., except a newline</span>
     <span class="n">set_command</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
-        <span class="sa">r</span><span class="s1">&#39;^(\s*?)set\s+(?:([-,\w]+)[^\S\n]+)?(\w+)(?:[^\S\n]|=)+((\[.*\])|(\$?[-+,*()\.\w]+))\s*$&#39;</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s1">&#39;^(\s*?)set\s+(?:([-,\w]+)[^\S\n]+)?(\w+)(?:[^\S\n]|=)+((\[.*\])|(\$?[-+,*:()\.\w]+))\s*$&#39;</span><span class="p">,</span>
         <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">set_command</span><span class="p">,</span> <span class="n">process_set_command</span><span class="p">,</span> <span class="n">temp</span><span class="p">)</span>
 
@@ -987,7 +987,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/inputparser.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/7345320">1.8a1.dev36</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ef66d38">1.8a1.dev37</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1001,7 +1001,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Wednesday, 15 March 2023 05:33PM.
+      Last updated on Wednesday, 22 March 2023 08:31PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
