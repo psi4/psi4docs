@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/ddx.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/340d732">1.8a1.dev43</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c98ddce">1.8a1.dev44</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -133,9 +133,9 @@
 by A. Mikhalev <em>et. al.</em>. The library provides a linear-scaling implementation
 of standard continuum solvation models using a domain-decomposition ansatz
 <a class="reference internal" href="bibliography.html#cances-2013-054111" id="id1"><span>[Cances:2013:054111]</span></a> <a class="reference internal" href="bibliography.html#stamm-2016-054101" id="id2"><span>[Stamm:2016:054101]</span></a>.
-Currently the conductor-like screening model (COSMO) <a class="reference internal" href="bibliography.html#klamt-1993-799" id="id3"><span>[Klamt:1993:799]</span></a> <a class="reference internal" href="bibliography.html#lipparini-2014-184108" id="id4"><span>[Lipparini:2014:184108]</span></a>
-and the polarisable continuum model (PCM) <a class="reference internal" href="bibliography.html#tomasi-2005-2999" id="id5"><span>[Tomasi:2005:2999]</span></a> <a class="reference internal" href="bibliography.html#nottoli-2019-6061" id="id6"><span>[Nottoli:2019:6061]</span></a>
-are supported.
+Currently the conductor-like screening model (COSMO) <a class="reference internal" href="bibliography.html#klamt-1993-799" id="id3"><span>[Klamt:1993:799]</span></a> <a class="reference internal" href="bibliography.html#lipparini-2014-184108" id="id4"><span>[Lipparini:2014:184108]</span></a>,
+the polarisable continuum model (PCM) <a class="reference internal" href="bibliography.html#tomasi-2005-2999" id="id5"><span>[Tomasi:2005:2999]</span></a> <a class="reference internal" href="bibliography.html#nottoli-2019-6061" id="id6"><span>[Nottoli:2019:6061]</span></a>
+and the linearized poisson-boltzmann model (LPB) <a class="reference internal" href="bibliography.html#lu-2008-973" id="id7"><span>[Lu:2008:973]</span></a> <a class="reference internal" href="bibliography.html#jha-2023-104105" id="id8"><span>[Jha:2023:104105]</span></a> are supported.
 No additional licence or configuration is required to use ddx with Psi4.</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
@@ -163,9 +163,9 @@ and let the build system fetch and install it.</p></li>
 <span id="sec-usingddx"></span><h2>Using dd-based continum solvation models<a class="headerlink" href="#using-dd-based-continum-solvation-models" title="Permalink to this heading">¶</a></h2>
 <p>In <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> two option to enable continuum solvation models
 are currently implemented using either the PCMSolver or ddx package.
-PCMSolver is based on a boundary-element discretisation <a class="reference internal" href="bibliography.html#cances-1998-309" id="id7"><span>[Cances:1998:309]</span></a>,
+PCMSolver is based on a boundary-element discretisation <a class="reference internal" href="bibliography.html#cances-1998-309" id="id9"><span>[Cances:1998:309]</span></a>,
 while ddx is based on a domain decomposition approach
-<a class="reference internal" href="bibliography.html#cances-2013-054111" id="id8"><span>[Cances:2013:054111]</span></a> making it linear scaling.
+<a class="reference internal" href="bibliography.html#cances-2013-054111" id="id10"><span>[Cances:2013:054111]</span></a> making it linear scaling.
 For more details about PCMSolver see the <a class="reference internal" href="pcmsolver.html#sec-pcmsolver"><span class="std std-ref">section on PCMsolver</span></a>.
 For a concise introduction to the
 <a class="reference external" href="https://ddsolvation.github.io/ddX/md_docs_theory.html">theory behind ddx</a>
@@ -239,17 +239,36 @@ The full list understood by ddx can be obtained using</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">pyddx</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">solvent_epsilon</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 </pre></div>
 </div>
+<p>For when an LPB solvent model is selected (<a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_MODEL-DDX"><span class="xref std std-term">DDX_MODEL</span></a> is <code class="docutils literal notranslate"><span class="pre">LPB</span></code>)
+additionally the <strong>Debye-Hückel parameter</strong> <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLVENT_KAPPA-DDX"><span class="xref std std-term">DDX_SOLVENT_KAPPA</span></a> needs to be provided
+(in units of inverse Bohr or inverse Angström, depending on the unit used to define
+the molecular geometry). <code class="docutils literal notranslate"><span class="pre">pyddx</span></code> provides a handy utility function to compute
+the Debye-Hückel parameter. For example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyddx</span>
+<span class="kn">from</span> <span class="nn">qcelemental</span> <span class="kn">import</span> <span class="n">constants</span>
+
+<span class="n">list_of_ions</span> <span class="o">=</span> <span class="p">[(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)]</span>
+<span class="n">dielectric_constant</span> <span class="o">=</span> <span class="n">pyddx</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">solvent_epsilon</span><span class="p">[</span><span class="s2">&quot;water&quot;</span><span class="p">]</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="mf">298.15</span>  <span class="c1"># Kelvin</span>
+<span class="n">kappa_invbohr</span> <span class="o">=</span> <span class="n">pyddx</span><span class="o">.</span><span class="n">solvent_kappa</span><span class="p">(</span><span class="n">list_of_ions</span><span class="p">,</span> <span class="n">dielectric_constant</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span>
+<span class="n">kappa_invang</span> <span class="o">=</span> <span class="n">kappa_invbohr</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+</pre></div>
+</div>
+<p>computes the parameter (in inverse Angström) for a 0.1 mol/l solution of sodium
+chloride in water, thus a solution woith 0.1 mol/l of a <code class="docutils literal notranslate"><span class="pre">+1</span></code>-charged ion
+and 0.1 mol/l of a <code class="docutils literal notranslate"><span class="pre">-1</span></code>-charged ion.</p>
 <p>The <strong>cavity</strong> in ddx is defined as a union of spheres around each atom.
 Usually the spehere radii for each atom are determined using a standard
 set of tabulated radii per atomic species, determined by the <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII_SET-DDX"><span class="xref std std-term">DDX_RADII_SET</span></a> parameter.
-Currently <code class="docutils literal notranslate"><span class="pre">bondi</span></code> <a class="reference internal" href="bibliography.html#bondi-1964-441" id="id9"><span>[Bondi:1964:441]</span></a> and <code class="docutils literal notranslate"><span class="pre">uff</span></code> <a class="reference internal" href="bibliography.html#rappe-1992-114" id="id10"><span>[Rappe:1992:114]</span></a>
+Currently <code class="docutils literal notranslate"><span class="pre">bondi</span></code> <a class="reference internal" href="bibliography.html#bondi-1964-441" id="id11"><span>[Bondi:1964:441]</span></a> and <code class="docutils literal notranslate"><span class="pre">uff</span></code> <a class="reference internal" href="bibliography.html#rappe-1992-114" id="id12"><span>[Rappe:1992:114]</span></a>
 are supported for <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII_SET-DDX"><span class="xref std std-term">DDX_RADII_SET</span></a> with <code class="docutils literal notranslate"><span class="pre">uff</span></code> selected by default.
 These radius values are conventionally scaled by an additional factor before use,
 conventionally 1.1 for <code class="docutils literal notranslate"><span class="pre">uff</span></code> and 1.2 for <code class="docutils literal notranslate"><span class="pre">bondi</span></code>. Customisation of the scaling
 is possible using the <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII_SCALING-DDX"><span class="xref std std-term">DDX_RADII_SCALING</span></a> parameter.
 A more fine-grained control over the sphere radii is available by explicitly providing
 a list of radii (one per atom, exactly in the order of the input geometry)
-using the <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII-DDX"><span class="xref std std-term">DDX_RADII</span></a> parameter.</p>
+using the <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII-DDX"><span class="xref std std-term">DDX_RADII</span></a> parameter. Note that the same unit as for the molecular
+input is expected for the radii.</p>
 <section id="ddx">
 <h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX-GLOBALS"><span class="xref std std-term">DDX</span></a><a class="headerlink" href="#ddx" title="Permalink to this heading">¶</a></h3>
 <blockquote>
@@ -266,7 +285,7 @@ using the <a class="reference internal" href="autodoc_glossary_options_c.html#te
 <div><p>Switch available solvation models</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: string</p></li>
-<li><p><strong>Possible Values</strong>: PCM, COSMO</p></li>
+<li><p><strong>Possible Values</strong>: PCM, COSMO, LPB</p></li>
 <li><p><strong>Default</strong>: PCM</p></li>
 </ul>
 </div></blockquote>
@@ -319,6 +338,16 @@ using the <a class="reference internal" href="autodoc_glossary_options_c.html#te
 <ul class="simple">
 <li><p><strong>Type</strong>: string</p></li>
 <li><p><strong>Default</strong>: No Default</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-solvent-kappa">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLVENT_KAPPA-DDX"><span class="xref std std-term">DDX_SOLVENT_KAPPA</span></a><a class="headerlink" href="#ddx-solvent-kappa" title="Permalink to this heading">¶</a></h3>
+<blockquote>
+<div><p>Debye-Hückel parameter of the solvent to use. Ignored if DDX_MODEL is not LPB; mandatory for LPB. Uses the unit of the molecule (i.e. either ang^{-1} or bohr^{-1}).</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 0</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -592,6 +621,7 @@ solvation models.</p></li>
 <li><a class="reference internal" href="#ddx-radii-set"><span class="xref std std-term">DDX_RADII_SET</span></a></li>
 <li><a class="reference internal" href="#ddx-solvent-epsilon"><span class="xref std std-term">DDX_SOLVENT_EPSILON</span></a></li>
 <li><a class="reference internal" href="#ddx-solvent"><span class="xref std std-term">DDX_SOLVENT</span></a></li>
+<li><a class="reference internal" href="#ddx-solvent-kappa"><span class="xref std std-term">DDX_SOLVENT_KAPPA</span></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#numerical-integration-and-discretisation-parameters">Numerical integration and discretisation parameters</a><ul>
@@ -669,7 +699,7 @@ solvation models.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/ddx.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/340d732">1.8a1.dev43</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c98ddce">1.8a1.dev44</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -683,7 +713,7 @@ solvation models.</p></li>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Tuesday, 11 April 2023 12:29PM.
+      Last updated on Wednesday, 12 April 2023 03:37PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
