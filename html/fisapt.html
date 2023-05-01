@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/fisapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/d2518f2">1.8a1.dev56</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/81dce9a">1.8a1.dev58</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -439,7 +439,7 @@ publication-quality renderings.</p>
 <h2>Adding Point Charges to F/I-SAPT Computations<a class="headerlink" href="#adding-point-charges-to-f-i-sapt-computations" title="Permalink to this heading">¶</a></h2>
 <p>Point charges can be added to the interacting subsystems A and B as well
 as to the <code class="docutils literal notranslate"><span class="pre">linking</span></code> fragment C. Briefly, the interaction between the point charges in A(B)
-and fragment B(A) enters the SAPT0 interction energy. It explicitly affects in the electrostatics
+and fragment B(A) enters the SAPT0 interaction energy. It explicitly affects the electrostatics
 and induction components, and implicitly affects other SAPT0 components by polarizing the orbitals.
 If point charges are present in both subsystems A and B, an additional charge-charge interaction
 term is also added to the electrostatic energy. When point charges are assigned to subsystem C, the point
@@ -448,8 +448,87 @@ directly contribute to the SAPT0 interaction energy.</p>
 <p>Examples <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples/fsapt-ext-abc/input.dat">fsapt-ext-abc</a> and <a class="reference external" href="https://github.com/psi4/psi4/blob/master/samples/fsapt-ext-abc2/input.dat">fsapt-ext-abc2</a>
 illustrate the use of point charges in F/I-SAPT procedure.</p>
 </section>
-<section id="f-i-sapt-keywords">
-<h2>F/I-SAPT Keywords<a class="headerlink" href="#f-i-sapt-keywords" title="Permalink to this heading">¶</a></h2>
+<section id="link-orbital-partitioning-in-i-sapt">
+<h2>Link Orbital Partitioning in I-SAPT<a class="headerlink" href="#link-orbital-partitioning-in-i-sapt" title="Permalink to this heading">¶</a></h2>
+<p>The assignment of the A-C and B-C linking electron pairs is controlled by the <a class="reference internal" href="autodoc_glossary_options_c.html#term-FISAPT_LINK_ASSIGNMENT-FISAPT"><span class="xref std std-term">FISAPT_LINK_ASSIGNMENT</span></a>
+keyword. The default setting <code class="docutils literal notranslate"><span class="pre">fisapt_link_assignment</span> <span class="pre">c</span></code> assigns the entire pair to the linker C together with
+a +1 nuclear charge from the connecting atoms of A/B to preserve the electrical neutrality of each fragment.
+However, as already noticed in <a class="reference internal" href="bibliography.html#parrish-2015-051103" id="id9"><span>[Parrish:2015:051103]</span></a>, such a partitioning might result in unphysical dipole
+moments at the interfragment boundaries. Imagine, for example, that I-SAPT is used to examine the interaction
+of two methyl groups connected by some linker fragment. When the linking bonds are assigned to C, the carbon atoms
+of the methyl groups are missing electrons on one of their <em>sp^3</em> hybrid orbitals and a dipole moment appears.
+These dipole moments have been observed to lead, in some cases, to I-SAPT energy contributions that do not make
+physical sense, for example, to a strongly repulsive electrostatic energy between two fragments connected by an
+intramolecular hydrogen bond.</p>
+<p>To overcome this issue, Luu and Patkowski proposed a reassignment of the linking electron pairs so that each fragment
+(C and A/B) gets one electron <a class="reference internal" href="bibliography.html#luu-2023-356" id="id10"><span>[Luu:2023:356]</span></a>. This electron is placed on a hybrid orbital of the connecting atom
+pointing in the direction of the interfragment bond. Several schemes for determining this link hybrid were proposed
+in <a class="reference internal" href="bibliography.html#luu-2023-356" id="id11"><span>[Luu:2023:356]</span></a> and they all are implemented in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>. We recommend the so-called <em>SIAO1</em> scheme,
+<code class="docutils literal notranslate"><span class="pre">fisapt_link_assignment</span> <span class="pre">siao1</span></code>, as it has been observed to provide consistently meaningful I-SAPT terms and a
+smooth basis set convergence. The SIAO1 name implies that the projection to construct the link hybrids happens in the
+intrinsic atomic orbital space (as opposed to the SAO1 method where the standard atomic orbital space is used), with
+one iteration of fragment orbital optimization and link orbital orthogonalization, a process that very quickly
+achieves self-consistency. Altogether, the allowed values for <a class="reference internal" href="autodoc_glossary_options_c.html#term-FISAPT_LINK_ASSIGNMENT-FISAPT"><span class="xref std std-term">FISAPT_LINK_ASSIGNMENT</span></a> are <code class="docutils literal notranslate"><span class="pre">c</span></code> (default),
+<code class="docutils literal notranslate"><span class="pre">ab</span></code> (the opposite of <code class="docutils literal notranslate"><span class="pre">c</span></code> where the entire linking pair is assigned to A/B), <code class="docutils literal notranslate"><span class="pre">sao0</span></code>, <code class="docutils literal notranslate"><span class="pre">sao1</span></code>, <code class="docutils literal notranslate"><span class="pre">sao2</span></code>,
+<code class="docutils literal notranslate"><span class="pre">siao0</span></code>, <code class="docutils literal notranslate"><span class="pre">siao1</span></code> (recommended for all I-SAPT applications), and <code class="docutils literal notranslate"><span class="pre">siao2</span></code> (essentially identical to <code class="docutils literal notranslate"><span class="pre">siao1</span></code> but
+slightly more expensive).</p>
+<section id="advanced-i-sapt-keywords-for-saon-siaon-partitionings">
+<h3>Advanced I-SAPT Keywords for SAOn/SIAOn Partitionings<a class="headerlink" href="#advanced-i-sapt-keywords-for-saon-siaon-partitionings" title="Permalink to this heading">¶</a></h3>
+<section id="fisapt-link-ortho">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-FISAPT_LINK_ORTHO-FISAPT"><span class="xref std std-term">FISAPT_LINK_ORTHO</span></a><a class="headerlink" href="#fisapt-link-ortho" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><p>Orthogonalization of link orbitals for FISAPT_LINK_ASSIGNMENT=SAOx/SIAOx Link A orthogonalized to A in whole (interacting) molecule or in the (noninteracting) fragment?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: FRAGMENT, WHOLE, NONE</p></li>
+<li><p><strong>Default</strong>: FRAGMENT</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="fisapt-exch-parperp">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-FISAPT_EXCH_PARPERP-FISAPT"><span class="xref std std-term">FISAPT_EXCH_PARPERP</span></a><a class="headerlink" href="#fisapt-exch-parperp" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><p>Calculate separate exchange corrections for parallel and perpendicular spin coupling of link orbitals? When false, only the averaged out exchange corrections are computed.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="fisapt-cube-linkibos">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-FISAPT_CUBE_LINKIBOS-FISAPT"><span class="xref std std-term">FISAPT_CUBE_LINKIBOS</span></a><a class="headerlink" href="#fisapt-cube-linkibos" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><p>Generate cube files for unsplit link orbitals (IBOs)?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="fisapt-cube-linkihos">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-FISAPT_CUBE_LINKIHOS-FISAPT"><span class="xref std std-term">FISAPT_CUBE_LINKIHOS</span></a><a class="headerlink" href="#fisapt-cube-linkihos" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><p>Generate cube files for split link orbitals (IHOs)?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="fisapt-cube-densmat">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-FISAPT_CUBE_DENSMAT-FISAPT"><span class="xref std std-term">FISAPT_CUBE_DENSMAT</span></a><a class="headerlink" href="#fisapt-cube-densmat" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><p>Generate cube files for fragment density matrices?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+</section>
+<section id="other-f-i-sapt-keywords">
+<h2>Other F/I-SAPT Keywords<a class="headerlink" href="#other-f-i-sapt-keywords" title="Permalink to this heading">¶</a></h2>
 <p>The input files described above cover roughly 90% of all F/I-SAPT analyses. For
 more delicate or involved problems, there are a large number of user options
 that permit the customization of the I-SAPT subsystem partition, the convergence
@@ -533,7 +612,18 @@ provide an accurate result.</p>
 <li><a class="reference internal" href="#i-sapt-a-representative-example">I-SAPT: A Representative Example</a></li>
 <li><a class="reference internal" href="#cube-file-visualization-with-pymol">Cube File Visualization with PyMol</a></li>
 <li><a class="reference internal" href="#adding-point-charges-to-f-i-sapt-computations">Adding Point Charges to F/I-SAPT Computations</a></li>
-<li><a class="reference internal" href="#f-i-sapt-keywords">F/I-SAPT Keywords</a></li>
+<li><a class="reference internal" href="#link-orbital-partitioning-in-i-sapt">Link Orbital Partitioning in I-SAPT</a><ul>
+<li><a class="reference internal" href="#advanced-i-sapt-keywords-for-saon-siaon-partitionings">Advanced I-SAPT Keywords for SAOn/SIAOn Partitionings</a><ul>
+<li><a class="reference internal" href="#fisapt-link-ortho"><span class="xref std std-term">FISAPT_LINK_ORTHO</span></a></li>
+<li><a class="reference internal" href="#fisapt-exch-parperp"><span class="xref std std-term">FISAPT_EXCH_PARPERP</span></a></li>
+<li><a class="reference internal" href="#fisapt-cube-linkibos"><span class="xref std std-term">FISAPT_CUBE_LINKIBOS</span></a></li>
+<li><a class="reference internal" href="#fisapt-cube-linkihos"><span class="xref std std-term">FISAPT_CUBE_LINKIHOS</span></a></li>
+<li><a class="reference internal" href="#fisapt-cube-densmat"><span class="xref std std-term">FISAPT_CUBE_DENSMAT</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-f-i-sapt-keywords">Other F/I-SAPT Keywords</a></li>
 <li><a class="reference internal" href="#additional-notes">Additional Notes</a></li>
 </ul>
 </li>
@@ -586,7 +676,7 @@ provide an accurate result.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/fisapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/d2518f2">1.8a1.dev56</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/81dce9a">1.8a1.dev58</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -600,7 +690,7 @@ provide an accurate result.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Saturday, 29 April 2023 12:16AM.
+      Last updated on Monday, 01 May 2023 07:05PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
