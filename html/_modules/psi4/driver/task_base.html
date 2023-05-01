@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/81dce9a">1.8a1.dev58</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3128f69">1.8a1.dev59</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -149,6 +149,7 @@
 <span class="kn">import</span> <span class="nn">abc</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
@@ -158,6 +159,7 @@
 <span class="kn">import</span> <span class="nn">qcengine</span> <span class="k">as</span> <span class="nn">qcng</span>
 
 <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">p4util</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">qcportal</span>
@@ -367,31 +369,16 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span></div></div>
 
 
-<span class="k">def</span> <span class="nf">_singlepointrecord_to_atomicresult</span><span class="p">(</span><span class="n">spr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
-    <span class="n">extras</span> <span class="o">=</span> <span class="n">spr</span><span class="o">.</span><span class="n">raw_data</span><span class="o">.</span><span class="n">extras</span>
-    <span class="n">extras</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_qcfractal_compressed_outputs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_singlepointrecord_to_atomicresult</span><span class="p">(</span><span class="n">spr</span><span class="p">:</span> <span class="s2">&quot;qcportal.singlepoint.SinglepointRecord&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
+    <span class="n">atres</span> <span class="o">=</span> <span class="n">spr</span><span class="o">.</span><span class="n">to_qcschema_result</span><span class="p">()</span>
 
-    <span class="n">atres</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">raw_data</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span>
-        <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">raw_data</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
-          <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">raw_data</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span>
-        <span class="p">},</span>
-        <span class="s2">&quot;molecule&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">molecule</span><span class="p">,</span>
-        <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">raw_data</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">keywords</span><span class="p">,</span>
-        <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span>
-        <span class="s2">&quot;protocols&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">raw_data</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">protocols</span><span class="p">,</span>
-        <span class="s2">&quot;return_result&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">return_result</span><span class="p">,</span>
-        <span class="s2">&quot;extras&quot;</span><span class="p">:</span> <span class="n">extras</span><span class="p">,</span>
-        <span class="s2">&quot;stdout&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span>
-        <span class="s2">&quot;native_files&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">native_files</span><span class="p">,</span>
-        <span class="s2">&quot;wavefunction&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">wavefunction</span><span class="p">,</span>
-        <span class="s2">&quot;provenance&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">raw_data</span><span class="o">.</span><span class="n">compute_history</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">provenance</span><span class="p">,</span>
-        <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;complete&quot;</span><span class="p">,</span>
-    <span class="p">}</span>
-
-    <span class="kn">from</span> <span class="nn">qcelemental.models</span> <span class="kn">import</span> <span class="n">AtomicResult</span>
-    <span class="n">atres</span> <span class="o">=</span> <span class="n">AtomicResult</span><span class="p">(</span><span class="o">**</span><span class="n">atres</span><span class="p">)</span>
+    <span class="c1"># QCFractal `next` database stores return_result, properties, and extras[&quot;qcvars&quot;] merged</span>
+    <span class="c1">#   together and with lowercase keys. `to_qcschema_result` partitions properties back out,</span>
+    <span class="c1">#   but we need to restore qcvars keys, types, and dimensions.</span>
+    <span class="n">qcvars</span> <span class="o">=</span> <span class="n">atres</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;extra_properties&quot;</span><span class="p">)</span>
+    <span class="n">qcvars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;return_result&quot;</span><span class="p">)</span>
+    <span class="n">qcvars</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">p4util</span><span class="o">.</span><span class="n">plump_qcvar</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">qcvars</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">atres</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">&quot;qcvars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">qcvars</span>
 
     <span class="k">return</span> <span class="n">atres</span>
 
@@ -493,7 +480,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/81dce9a">1.8a1.dev58</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3128f69">1.8a1.dev59</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -507,7 +494,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Monday, 01 May 2023 07:05PM.
+      Last updated on Monday, 01 May 2023 09:50PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->

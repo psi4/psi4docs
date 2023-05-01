@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.driver.p4util.plump_qcvar.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/81dce9a">1.8a1.dev58</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3128f69">1.8a1.dev59</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -126,25 +126,23 @@
 <h1>plump_qcvar<a class="headerlink" href="#plump-qcvar" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="psi4.driver.p4util.plump_qcvar">
-<span class="sig-prename descclassname"><span class="pre">psi4.driver.p4util.</span></span><span class="sig-name descname"><span class="pre">plump_qcvar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_clue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'np'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/procutil.html#plump_qcvar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.plump_qcvar" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prepare serialized QCVariable for <a class="reference internal" href="psi4.core.set_variable.html#psi4.core.set_variable" title="psi4.core.set_variable"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_variable()</span></code></a> by
-converting flat arrays into shaped ones and floating strings.</p>
+<span class="sig-prename descclassname"><span class="pre">psi4.driver.p4util.</span></span><span class="sig-name descname"><span class="pre">plump_qcvar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/python_helpers.html#plump_qcvar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.plump_qcvar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare serialized QCVariables for QCSchema AtomicResult.extras[“qcvars”] by
+converting flat arrays into numpy, shaped ones and floating strings.
+Unlike _qcvar_reshape_get/set, multipoles aren’t compressed or plumped, only reshaped.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Shape clue (usually QCVariable key) that includes (case insensitive) an identifier like
+‘gradient’ as a clue to the array’s natural dimensions.</p></li>
 <li><p><strong>val</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>]) – flat (?, ) list or scalar or string, probably from JSON storage.</p></li>
-<li><p><strong>shape_clue</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Label that includes (case insensitive) one of the following as
-a clue to the array’s natural dimensions: ‘gradient’, ‘hessian’</p></li>
-<li><p><strong>ret</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – {‘np’, ‘psi4’}
-Whether for arrays to return <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> or
-<a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">psi4.core.Matrix</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Reshaped array of type <cite>ret</cite> with natural dimensions of <cite>shape_clue</cite>.</p>
+<dd class="field-even"><p>Reshaped array of <cite>val</cite> with natural dimensions of <cite>key</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)">float</a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)">numpy.ndarray</a> or <a class="reference internal" href="psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix">Matrix</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)">float</a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)">numpy.ndarray</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -247,7 +245,7 @@ Whether for arrays to return <a class="reference external" href="https://numpy.o
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.driver.p4util.plump_qcvar.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/81dce9a">1.8a1.dev58</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3128f69">1.8a1.dev59</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -261,7 +259,7 @@ Whether for arrays to return <a class="reference external" href="https://numpy.o
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Monday, 01 May 2023 07:05PM.
+      Last updated on Monday, 01 May 2023 09:50PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
