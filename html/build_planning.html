@@ -104,7 +104,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/3128f69">1.8a1.dev59</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6e7e94b">1.8a1.dev61</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -587,6 +587,7 @@ option(ENABLE_Libint1t &quot;Enables Libint1 in special _t variety&quot; OFF)
 # These options are relevant to pasture, expert only
 option(ENABLE_ccsort &quot;Enables ccsort plugin installed from psi4pasture&quot; OFF)
 option(ENABLE_transqt2 &quot;Enables transqt2 plugin installed from psi4pasture&quot; OFF)
+option(psi4_SKIP_ENABLE_Fortran &quot;Suppress enabling Fortran language even when Fortran addons enabled. Use when only linking pre-built, not compiling addon code.&quot; OFF)
 
 # Append modules added to pasture as needed
 if(ENABLE_ccsort OR ENABLE_transqt2)
@@ -595,14 +596,13 @@ if(ENABLE_ccsort OR ENABLE_transqt2)
 endif()
 
 if(ENABLE_gdma OR ENABLE_dkh OR ENABLE_erd OR ENABLE_PCMSolver)
+  if(psi4_SKIP_ENABLE_Fortran)
+    message(STATUS &quot;NOT Enabling Fortran&quot;)
+  else()
     enable_language(Fortran)
     set(Fortran_ENABLED ON)  # communicate required languages with psi4-core
     message(STATUS &quot;Enabling Fortran&quot;)
-endif()
-
-if(ENABLE_erd)
-    message(FATAL_ERROR &quot;The Psi4/ERD interface is broken, probably since spring 2017. It&#39;s toast (comment this line to try), but disabling for now.&quot;)
-    message(WARNING &quot;ERD will build, link, and run in Psi4 just fine. However, it has not been hooked into Psi4 in all roles, notably gradients, LRC DFT energies, and ESP. So upon activating through ``set integral_package erd``, known failures will be caught and halted, but perhaps other types not tested and identified will give *wrong* answers. Consider this your warning.&quot;)
+  endif()
 endif()
 
 </pre></div>
@@ -1953,7 +1953,7 @@ can show where the executable is.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/3128f69">1.8a1.dev59</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6e7e94b">1.8a1.dev61</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1967,7 +1967,7 @@ can show where the executable is.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Monday, 01 May 2023 09:50PM.
+      Last updated on Tuesday, 02 May 2023 01:17PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
