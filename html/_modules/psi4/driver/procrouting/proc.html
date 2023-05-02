@@ -93,7 +93,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/6e7e94b">1.8a1.dev61</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ee46553">1.8a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1727,7 +1727,7 @@
 <span class="w">                       </span><span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n&quot;&quot;&quot;</span><span class="p">)</span>
 
     <span class="c1"># PE needs to use exactly input orientation to correspond to potfile</span>
-    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;PE&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;PE&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;external_potentials&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
         <span class="n">c1_molecule</span> <span class="o">=</span> <span class="n">scf_molecule</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">scf_molecule</span><span class="p">,</span> <span class="s2">&quot;_initial_cartesian&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">c1_molecule</span><span class="o">.</span><span class="n">_initial_cartesian</span> <span class="o">=</span> <span class="n">scf_molecule</span><span class="o">.</span><span class="n">_initial_cartesian</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
@@ -1737,7 +1737,7 @@
             <span class="n">c1_molecule</span><span class="o">.</span><span class="n">fix_com</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">c1_molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Set no_com/no_reorient/symmetry c1 by hand for PE on non-Cartesian molecules.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Set no_com/no_reorient/symmetry c1 by hand for PE or external potentials on non-Cartesian molecules.&quot;</span><span class="p">)</span>
 
         <span class="n">scf_molecule</span> <span class="o">=</span> <span class="n">c1_molecule</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  PE does not make use of molecular symmetry: &quot;&quot;&quot;</span>
@@ -4960,11 +4960,14 @@
     <span class="c1"># Shifting to C1 so we need to copy the active molecule</span>
     <span class="k">if</span> <span class="n">sapt_dimer</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;  FISAPT does not make use of molecular symmetry, further calculations in C1 point group.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">_ini_cart</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sapt_dimer</span><span class="p">,</span> <span class="s2">&quot;_initial_cartesian&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">sapt_dimer</span> <span class="o">=</span> <span class="n">sapt_dimer</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="n">sapt_dimer</span><span class="o">.</span><span class="n">reset_point_group</span><span class="p">(</span><span class="s1">&#39;c1&#39;</span><span class="p">)</span>
         <span class="n">sapt_dimer</span><span class="o">.</span><span class="n">fix_orientation</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">sapt_dimer</span><span class="o">.</span><span class="n">fix_com</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">sapt_dimer</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">_ini_cart</span><span class="p">:</span>
+            <span class="n">sapt_dimer</span><span class="o">.</span><span class="n">_initial_cartesian</span> <span class="o">=</span> <span class="n">_ini_cart</span>
 
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;RHF&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;FISAPT requires requires </span><span class="se">\&quot;</span><span class="s1">reference rhf</span><span class="se">\&quot;</span><span class="s1">.&#39;</span><span class="p">)</span>
@@ -5729,7 +5732,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/6e7e94b">1.8a1.dev61</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ee46553">1.8a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5743,7 +5746,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Tuesday, 02 May 2023 01:17PM.
+      Last updated on Tuesday, 02 May 2023 06:12PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
