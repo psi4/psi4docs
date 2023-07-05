@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/3ec8ae7">1.9a1.dev20</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/5187879">1.9a1.dev22</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1673,8 +1673,11 @@
         <span class="n">do_csam</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">ERISieve</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Constructs a Psi4 ERISieve object from an input basis set, with an optional cutoff threshold for</span>
+<span class="sd">    This function previously constructed a Psi4 ERISieve object from an input basis set, with an optional cutoff threshold for</span>
 <span class="sd">    ERI screening and an optional input to enable CSAM screening (over Schwarz screening).</span>
+
+<span class="sd">    However, as the ERISieve class was removed from Psi4 in v1.9, the function now throws with an UpgradeHelper</span>
+<span class="sd">    exception, and lets the user know to use TwoBodyAOInt instead.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1696,12 +1699,7 @@
 <span class="sd">    &gt;&gt;&gt; sieve = psi4.core.ERISieve.build(bas, cutoff, csam)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="s2">&quot;`ERISieve` is deprecated in favor of `TwoBodyAOInt`, and will be removed as soon as Psi4 v1.9 is released.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">,</span>
-        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">ERISieve</span><span class="p">(</span><span class="n">orbital_basis</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">,</span> <span class="n">do_csam</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="s2">&quot;ERISieve&quot;</span><span class="p">,</span> <span class="s2">&quot;TwoBodyAOInt&quot;</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="s2">&quot; The ERISieve class has been removed and replaced with the TwoBodyAOInt class. ERISieve.build(orbital_basis, cutoff, do_csam) can be replaced with the command sequence factory = psi4.core.IntegralFactory(basis); factory.eri(0).&quot;</span><span class="p">)</span>
 
 
 <span class="n">core</span><span class="o">.</span><span class="n">ERISieve</span><span class="o">.</span><span class="n">build</span> <span class="o">=</span> <span class="n">_core_erisieve_build</span>
@@ -1793,7 +1791,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/3ec8ae7">1.9a1.dev20</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/5187879">1.9a1.dev22</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1807,7 +1805,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Wednesday, 05 July 2023 04:12PM.
+      Last updated on Wednesday, 05 July 2023 11:07PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
