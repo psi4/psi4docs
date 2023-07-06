@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5187879">1.9a1.dev22</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3439bbe">1.9a1.dev23</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -177,6 +177,7 @@
 
 <span class="kn">import</span> <span class="nn">qcelemental</span> <span class="k">as</span> <span class="nn">qcel</span>
 <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">extras</span>
 <span class="kn">from</span> <span class="nn">psi4.driver</span> <span class="kn">import</span> <span class="n">qcdb</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">optproc</span>
@@ -747,14 +748,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">pcmsolver</span>
 
+    <span class="c1"># delete=True works for Unix but not for Windows</span>
     <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w+t&quot;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">fl</span><span class="p">:</span>
         <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
         <span class="n">fl</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">parsed_pcm</span> <span class="o">=</span> <span class="n">pcmsolver</span><span class="o">.</span><span class="n">parse_pcm_input</span><span class="p">(</span><span class="n">fl</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">extras</span><span class="o">.</span><span class="n">register_scratch_file</span><span class="p">(</span><span class="n">fl</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w+t&quot;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">fl</span><span class="p">:</span>
         <span class="n">fl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">parsed_pcm</span><span class="p">)</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;PCM&quot;</span><span class="p">,</span> <span class="s2">&quot;PCMSOLVER_PARSED_FNAME&quot;</span><span class="p">,</span> <span class="n">fl</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;PCM&quot;</span><span class="p">,</span> <span class="s2">&quot;PCMSOLVER_PARSED_FNAME&quot;</span><span class="p">,</span> <span class="n">fl</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">extras</span><span class="o">.</span><span class="n">register_scratch_file</span><span class="p">(</span><span class="n">fl</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>  <span class="c1"># retain with -m (messy) option</span></div>
 
 
 <span class="k">def</span> <span class="nf">_basname</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1791,7 +1795,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5187879">1.9a1.dev22</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3439bbe">1.9a1.dev23</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1805,7 +1809,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Wednesday, 05 July 2023 11:07PM.
+      Last updated on Thursday, 06 July 2023 01:02AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
     </div>
     <!-- cloud_sptheme 1.4 -->
