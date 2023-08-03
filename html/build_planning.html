@@ -39,16 +39,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Compiling and Installing from Source</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
     <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=30992f20"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/2cd33ed">1.9a1.dev28</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/977fe52">1.9a1.dev29</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -136,11 +136,13 @@ many choices in building this project. For a specific, well-tested,
 and performance-tuned build path, see <a class="reference external" href="https://psicode.org/installs/latest">psicode.org/installs/latest</a>
 (select “source”). For pre-built binaries again well-tested,
 performance-tuned, and available for all common operating systems,
-see <a class="reference external" href="https://psicode.org/installs/latest">psicode.org/installs/latest</a> (select “conda”).</p>
+see <a class="reference external" href="https://psicode.org/installs/latest">psicode.org/installs/latest</a> (select “conda”).
+To see working builds for Linux, Mac, and Windows, see :src:
+<a class="reference external" href="https://github.com/psi4/psi4/blob/master/.github/workflows/ecosystem.yml">[this GHA]</a></p>
 <section id="planning-how-to-configure-psi4-and-invoke-cmake">
 <span id="faq-cmakeviasetup"></span><h2>Planning: how to configure Psi4 and invoke CMake<a class="headerlink" href="#planning-how-to-configure-psi4-and-invoke-cmake" title="Permalink to this heading">¶</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is built through CMake. An abbreviated build guide can be found
-<a class="reference external" href="https://github.com/psi4/psi4/blob/master/CMakeLists.txt#L22">within the source itself</a> .</p>
+<a class="reference external" href="https://github.com/psi4/psi4/blob/master/CMakeLists.txt#L27">within the source itself</a> .</p>
 <p>CMake does a good job scanning your computer to locate libraries, header
 files, and executables needed for compilation. So it’s very possible that
 from <code class="samp docutils literal notranslate"><em><span class="pre">top-level-psi4-dir</span></em></code> source directory, you can call <code class="samp docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-S.</span>
@@ -160,9 +162,12 @@ your computer. Proceed to <a class="reference internal" href="#faq-buildquick"><
 installing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>. More detail is given <a class="reference internal" href="#faq-builddetailed"><span class="std std-ref">here</span></a>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; cd {top-level-psi4-dir}</span>
 <span class="go">&gt;&gt;&gt; cmake -S. -Bobjdir [your configuration options]</span>
+<span class="gp"># </span>make
 <span class="go">&gt;&gt;&gt; cd objdir</span>
 <span class="go">&gt;&gt;&gt; make -j`getconf _NPROCESSORS_ONLN`</span>
 <span class="go">&gt;&gt;&gt; make install</span>
+<span class="gp"># </span>-or-<span class="w"> </span>general
+<span class="go">&gt;&gt;&gt; cmake --build objdir --target install -j`getconf _NPROCESSORS_ONLN`</span>
 </pre></div>
 </div>
 </section>
@@ -216,7 +221,7 @@ creates <code class="samp docutils literal notranslate"><em><span class="pre">ob
 <div><p>Compile the code (optional <code class="docutils literal notranslate"><span class="pre">-j</span></code> triggers parallel compilation).</p>
 </div></blockquote>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; cd {objdir}</span>
-<span class="go">&gt;&gt;&gt; make -j`getconf _NPROCESSORS_ONLN`</span>
+<span class="go">&gt;&gt;&gt; cmake --build . -j`getconf _NPROCESSORS_ONLN`</span>
 </pre></div>
 </div>
 <p><strong>5. Test</strong></p>
@@ -237,7 +242,7 @@ creates <code class="samp docutils literal notranslate"><em><span class="pre">ob
 <p><strong>6. Install</strong></p>
 <blockquote>
 <div><p>If tests pass, install the code.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">make</span> <span class="n">install</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmake</span> <span class="o">--</span><span class="n">install</span> <span class="o">.</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -270,15 +275,16 @@ Linux distribution)</p></li>
 build system will automatically download and build.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="gau2grid.html#cmake-gau2grid"><span class="std std-ref">gau2grid</span></a> — <a class="reference internal" href="gau2grid.html#sec-gau2grid"><span class="std std-ref">[what is gau2grid?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/gau2grid/CMakeLists.txt#L1">[gau2grid min version]</a></p></li>
-<li><p><a class="reference internal" href="libint.html#cmake-libint"><span class="std std-ref">Libint</span></a> — <a class="reference internal" href="libint.html#sec-libint"><span class="std std-ref">[what is Libint?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libint/CMakeLists.txt#L1">[Libint min version]</a> (Libint2 as of Nov 2020; added by v1.4)</p>
+<li><p><a class="reference internal" href="libint.html#cmake-libint"><span class="std std-ref">Libint</span></a> — <a class="reference internal" href="libint.html#sec-libint"><span class="std std-ref">[what is Libint?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libint2/CMakeLists.txt#L1">[Libint min version]</a> (Libint2 as of Nov 2020; added by v1.4)</p>
 <ul>
 <li><p>Eigen <a class="reference external" href="https://eigen.tuxfamily.org/index.php?title=Main_Page">https://eigen.tuxfamily.org/index.php?title=Main_Page</a></p></li>
+<li><p>Boost <a class="reference external" href="https://www.boost.org/">https://www.boost.org/</a> header-only preprocessor library</p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="libxc.html#cmake-libxc"><span class="std std-ref">Libxc</span></a> — <a class="reference internal" href="libxc.html#sec-libxc"><span class="std std-ref">[what is Libxc?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libxc/CMakeLists.txt#L1">[Libxc min version]</a></p></li>
-<li><p>pybind11 — <a class="reference external" href="https://pybind11.readthedocs.io/en/stable/">[what is Pybind11?]</a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/pybind11/CMakeLists.txt#L1">[Pybind11 min version]</a></p></li>
-<li><p>QCElemental — <a class="reference external" href="https://qcelemental.readthedocs.io/en/latest/">[what is QCElemental?]</a></p></li>
-<li><p>QCEngine — <a class="reference external" href="https://qcengine.readthedocs.io/en/latest/">[what is QCEngine?]</a> (March 2019; added by v1.4)</p></li>
+<li><p><a class="reference internal" href="libxc.html#cmake-libxc"><span class="std std-ref">Libxc</span></a> — <a class="reference internal" href="libxc.html#sec-libxc"><span class="std std-ref">[what is Libxc?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libxc/CMakeLists.txt#L4">[Libxc min version]</a></p></li>
+<li><p>pybind11 — <a class="reference external" href="https://pybind11.readthedocs.io/en/stable/">[what is Pybind11?]</a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/pybind11/CMakeLists.txt#L2">[Pybind11 min version]</a></p></li>
+<li><p>QCElemental — <a class="reference external" href="https://molssi.github.io/QCElemental/">[what is QCElemental?]</a></p></li>
+<li><p>QCEngine — <a class="reference external" href="https://molssi.github.io/QCEngine/">[what is QCEngine?]</a> (March 2019; added by v1.4)</p></li>
 <li><p>optking — <a class="reference external" href="https://optking.readthedocs.io/en/latest/">[what is optking]</a> (runtime dependency, required at build-time)</p></li>
 </ul>
 <p>Additionally, there are runtime-only dependencies:</p>
@@ -321,7 +327,7 @@ are available pre-built from conda.</p>
 <li><p>Perl (for some auto-documentation scripts) <a class="reference external" href="https://www.perl.org/">https://www.perl.org/</a></p></li>
 <li><p>nbsphinx (for converting Jupyter notebooks) <a class="reference external" href="http://nbsphinx.readthedocs.io/en/jupyter-theme/">http://nbsphinx.readthedocs.io/en/jupyter-theme/</a></p></li>
 <li><p>sphinx-psi-theme <a class="reference external" href="https://github.com/psi4/sphinx-psi-theme">https://github.com/psi4/sphinx-psi-theme</a></p></li>
-<li><p>See <cite>[“message” lines] :source:`doc/sphinxman/CMakeLists.txt</cite> for advice on obtaining docs dependencies</p></li>
+<li><p>See <a class="reference external" href="https://github.com/psi4/psi4/blob/master/doc/sphinxman/CMakeLists.txt">[“message” lines]</a> for advice on obtaining docs dependencies or <a class="reference external" href="https://github.com/psi4/psi4/blob/master/devtools/conda-envs/docs-cf.yaml">[conda env spec]</a></p></li>
 <li><p>See <a class="reference external" href="https://github.com/psi4/psi4/blob/master/.github/workflows/docs.yml">psi4/.github/workflows/docs.yml</a> for full docs building procedure to follow</p></li>
 </ul>
 </li>
@@ -517,7 +523,7 @@ message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GEN
 #    - msgpack-python (runtime only; e.g., `conda install msgpack-python`)
 #    - Eigen (for Libint2; e.g., `conda install eigen`)
 #    - Boost (header-only libs for Libint2; e.g., `conda install boost-cpp`)
-#    - SciPy (runtime only; e.g., `conda install scipy`)
+#    - SciPy (runtime only; avoidable through keyword setting; e.g., `conda install scipy`)
 #    - py-cpuinfo (runtime only; e.g., `conda install py-cpuinfo`)
 #    - psutil (runtime only; e.g., `conda install psutil`)
 
@@ -1955,7 +1961,7 @@ can show where the executable is.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/2cd33ed">1.9a1.dev28</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/977fe52">1.9a1.dev29</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1968,9 +1974,9 @@ can show where the executable is.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Friday, 14 July 2023 07:47PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2007-2023, The Psi4 Project.
+      Last updated on Thursday, 03 August 2023 10:34PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>
