@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=97a47264"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=acca935e"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f83a46b">1.9a1.dev34</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b0e621f">1.9a1.dev35</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1859,7 +1859,7 @@
 
 <div class="viewcode-block" id="gdma"><a class="viewcode-back" href="../../../gdma.html#psi4.driver.gdma">[docs]</a><span class="k">def</span> <span class="nf">gdma</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">datafile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to use wavefunction information in *wfn* and, if specified,</span>
-<span class="sd">    additional commands in *filename* to run GDMA analysis.</span>
+<span class="sd">    additional commands in *filename* to run GDMA analysis with A. J. Stone&#39;s program.</span>
 
 <span class="sd">    .. versionadded:: 0.6</span>
 
@@ -1913,7 +1913,54 @@
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Limit </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;GDMA&#39;</span><span class="p">,</span> <span class="s1">&#39;GDMA_LIMIT&#39;</span><span class="p">))</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Start</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Finish</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">core</span><span class="o">.</span><span class="n">run_gdma</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">commands</span><span class="p">)</span>
+
+    <span class="c1"># from outside the Psi4 ecosystem</span>
+    <span class="kn">from</span> <span class="nn">qcelemental.util</span> <span class="kn">import</span> <span class="n">which_import</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">which_import</span><span class="p">(</span><span class="s2">&quot;gdma&quot;</span><span class="p">,</span> <span class="n">return_bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s1">&#39;Python module gdma not found. Solve by installing it: `conda install -c conda-forge gdma` or recompile with `-DENABLE_gdma`&#39;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">gdma</span>
+
+    <span class="n">min_version</span> <span class="o">=</span> <span class="s2">&quot;2.3.3&quot;</span>
+    <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">parse_version</span>
+    <span class="k">if</span> <span class="n">parse_version</span><span class="p">(</span><span class="n">gdma</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">parse_version</span><span class="p">(</span><span class="n">min_version</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GDMA version </span><span class="si">{</span><span class="n">min_version</span><span class="si">}</span><span class="s2"> is required at least. Version </span><span class="si">{</span><span class="n">gdma</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2"> was found.&quot;</span><span class="p">)</span>
+
+    <span class="n">core</span><span class="o">.</span><span class="n">prepare_options_for_module</span><span class="p">(</span><span class="s2">&quot;GDMA&quot;</span><span class="p">)</span>
+
+    <span class="n">gof</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_output_file</span><span class="p">()</span>
+    <span class="n">gdma</span><span class="o">.</span><span class="n">run_gdma</span><span class="p">(</span><span class="n">gof</span><span class="p">,</span> <span class="n">commands</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">set_output_file</span><span class="p">(</span><span class="n">gof</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">reopen_outfile</span><span class="p">()</span>
+
+    <span class="n">nsites</span> <span class="o">=</span> <span class="n">gdma</span><span class="o">.</span><span class="n">get_nsites</span><span class="p">()</span>
+    <span class="n">maxorder</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">gdma</span><span class="o">.</span><span class="n">get_order</span><span class="p">(</span><span class="n">site</span><span class="p">)</span> <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nsites</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">nvals</span> <span class="o">=</span> <span class="p">(</span><span class="n">maxorder</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">maxorder</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">dmavals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nsites</span><span class="p">,</span> <span class="n">nvals</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nsites</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">site_order</span> <span class="o">=</span> <span class="n">gdma</span><span class="o">.</span><span class="n">get_order</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+        <span class="n">site_nvals</span> <span class="o">=</span> <span class="p">(</span><span class="n">site_order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">site_order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">site_nvals</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">dmavals</span><span class="p">[</span><span class="n">site</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdma</span><span class="o">.</span><span class="n">get_dma_value</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">dmavals</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">dmavals</span><span class="p">)</span>
+    <span class="n">dmavals</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Spherical Harmonic DMA for each site&quot;</span>
+
+    <span class="n">totvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">nvals</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nvals</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">totvals</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdma</span><span class="o">.</span><span class="n">get_tot_value</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">totvals</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">totvals</span><span class="p">)</span>
+    <span class="n">totvals</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Total multipoles, translated to the origin&quot;</span>
+
+    <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;DMA DISTRIBUTED MULTIPOLES&quot;</span><span class="p">,</span> <span class="n">dmavals</span><span class="p">)</span>  <span class="c1"># P::e GDMA</span>
+    <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;DMA TOTAL MULTIPOLES&quot;</span><span class="p">,</span> <span class="n">totvals</span><span class="p">)</span>  <span class="c1"># P::e GDMA</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;DMA DISTRIBUTED MULTIPOLES&quot;</span><span class="p">,</span> <span class="n">dmavals</span><span class="p">)</span>  <span class="c1"># P::e GDMA</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;DMA TOTAL MULTIPOLES&quot;</span><span class="p">,</span> <span class="n">totvals</span><span class="p">)</span>  <span class="c1"># P::e GDMA</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">  DMA results are available in the Python driver through the commands:</span>
+<span class="s2">  variable(&#39;DMA DISTRIBUTED MULTIPOLES&#39;)</span>
+<span class="s2">  variable(&#39;DMA TOTAL MULTIPOLES&#39;)</span>
+
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 
     <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fchkfile</span><span class="p">)</span>
     <span class="c1"># If we generated the DMA control file, we should clean up here</span>
@@ -2257,7 +2304,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f83a46b">1.9a1.dev34</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b0e621f">1.9a1.dev35</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2271,7 +2318,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Thursday, 10 August 2023 08:19PM.
+      Last updated on Friday, 11 August 2023 05:05AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     </div>
     <!-- cloud_sptheme 1.4 -->

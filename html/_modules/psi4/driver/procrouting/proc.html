@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=97a47264"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=acca935e"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f83a46b">1.9a1.dev34</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b0e621f">1.9a1.dev35</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1959,7 +1959,7 @@
     <span class="c1"># DDPCM preparation</span>
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;DDX&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">solvent</span><span class="o">.</span><span class="n">_have_ddx</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s1">&#39;Python module ddx not found. Solve by installing it: `pip install pyddx`&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s1">&#39;Python module ddx not found. Solve by installing it: `conda install -c conda-forge pyddx` or `pip install pyddx`&#39;</span><span class="p">)</span>
         <span class="n">ddx_options</span> <span class="o">=</span> <span class="n">solvent</span><span class="o">.</span><span class="n">ddx</span><span class="o">.</span><span class="n">get_ddx_options</span><span class="p">(</span><span class="n">scf_molecule</span><span class="p">)</span>
         <span class="n">scf_wfn</span><span class="o">.</span><span class="n">ddx</span> <span class="o">=</span> <span class="n">solvent</span><span class="o">.</span><span class="n">ddx</span><span class="o">.</span><span class="n">DdxInterface</span><span class="p">(</span>
             <span class="n">molecule</span><span class="o">=</span><span class="n">scf_molecule</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">ddx_options</span><span class="p">,</span>
@@ -1970,7 +1970,7 @@
     <span class="c1"># PE preparation</span>
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;PE&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">solvent</span><span class="o">.</span><span class="n">_have_pe</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s1">&#39;Python module cppe not found. Solve by installing it: `conda install -c psi4 pycppe`&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s1">&#39;Python module cppe not found. Solve by installing it: `conda install -c conda-forge cppe`&#39;</span><span class="p">)</span>
         <span class="c1"># PE needs information about molecule and basis set</span>
         <span class="n">pol_embed_options</span> <span class="o">=</span> <span class="n">solvent</span><span class="o">.</span><span class="n">pol_embed</span><span class="o">.</span><span class="n">get_pe_options</span><span class="p">()</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot; Using potential file</span>
@@ -3797,7 +3797,7 @@
         <span class="kn">from</span> <span class="nn">adcc.exceptions</span> <span class="kn">import</span> <span class="n">InvalidReference</span>
     <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;adcc extras qc_module not available. Try installing &quot;</span>
-            <span class="s2">&quot;via &#39;pip install adcc&#39; or &#39;conda install -c adcc adcc&#39;.&quot;</span><span class="p">)</span>
+            <span class="s2">&quot;via &#39;pip install adcc&#39; or &#39;conda install -c conda-forge adcc&#39;.&quot;</span><span class="p">)</span>
 
     <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">parse_version</span>
     <span class="n">min_version</span> <span class="o">=</span> <span class="s2">&quot;0.15.16&quot;</span>
@@ -5068,6 +5068,11 @@
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">mrcc_tmpdir</span><span class="p">)</span>
 
     <span class="c1"># Generate integrals and input file (dumps files to the current directory)</span>
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;FNOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;NAT_ORBS&#39;</span><span class="p">):</span>
+        <span class="n">mints</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MintsHelper</span><span class="p">(</span><span class="n">ref_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">())</span>
+        <span class="n">mints</span><span class="o">.</span><span class="n">set_print</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">mints</span><span class="o">.</span><span class="n">integrals</span><span class="p">()</span>
+
     <span class="n">core</span><span class="o">.</span><span class="n">mrcc_generate_input</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
     <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_module</span><span class="p">(</span><span class="s2">&quot;mrcc&quot;</span><span class="p">)</span>
 
@@ -5728,7 +5733,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f83a46b">1.9a1.dev34</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/b0e621f">1.9a1.dev35</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5742,7 +5747,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Thursday, 10 August 2023 08:19PM.
+      Last updated on Friday, 11 August 2023 05:05AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
