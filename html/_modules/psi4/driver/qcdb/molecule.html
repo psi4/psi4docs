@@ -31,24 +31,23 @@
 
 
 
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>psi4.driver.qcdb.molecule</title>
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=eafc0fe6" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-    <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/documentation_options.js?v=20338fa0"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
     
@@ -91,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/qcdb/molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/722810a">1.9a1.dev40</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c6418e5">1.9a1.dev41</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -148,6 +147,7 @@
 <span class="kn">import</span> <span class="nn">qcelemental</span> <span class="k">as</span> <span class="nn">qcel</span>
 
 <span class="kn">import</span> <span class="nn">psi4</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">parse_dertype</span>
 <span class="kn">from</span> <span class="nn">.libmintsmolecule</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.testing</span> <span class="kn">import</span> <span class="n">compare_values</span><span class="p">,</span> <span class="n">compare_integers</span><span class="p">,</span> <span class="n">compare_molrecs</span>
@@ -155,7 +155,9 @@
 
 <span class="n">qcdbmol</span> <span class="o">=</span> <span class="s2">&quot;psi4.driver.qcdb.molecule.Molecule&quot;</span>
 
-<div class="viewcode-block" id="Molecule"><a class="viewcode-back" href="../../../../external_apis.html#psi4.core.Molecule">[docs]</a><span class="k">class</span> <span class="nc">Molecule</span><span class="p">(</span><span class="n">LibmintsMolecule</span><span class="p">):</span>
+<div class="viewcode-block" id="Molecule">
+<a class="viewcode-back" href="../../../../external_apis.html#psi4.core.Molecule">[docs]</a>
+<span class="k">class</span> <span class="nc">Molecule</span><span class="p">(</span><span class="n">LibmintsMolecule</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to store the elements, coordinates, fragmentation pattern,</span>
 <span class="sd">    charge, multiplicity of a molecule. Largely replicates psi4&#39;s libmints</span>
 <span class="sd">    Molecule class, developed by Justin M. Turney and Andy M. Simmonett</span>
@@ -409,7 +411,7 @@
         <span class="k">if</span> <span class="n">fileUnits</span> <span class="o">==</span> <span class="s1">&#39;Bohr&#39;</span><span class="p">:</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">PYinput_units_to_au</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="k">elif</span> <span class="n">fileUnits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span><span class="p">:</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">PYinput_units_to_au</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">PYinput_units_to_au</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
 
         <span class="n">instance</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">instance</span>
@@ -428,7 +430,7 @@
 <span class="sd">         H    1.680398000000   -0.373741000000    0.758561000000</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
 
         <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">natom</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">save_ghosts</span><span class="p">:</span>
@@ -465,7 +467,7 @@
 <span class="sd">        NumPy array.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
 
         <span class="c1"># TODO fn title is format_mol... but return args not compatible</span>
@@ -494,7 +496,7 @@
 <span class="sd">        prints whole dimer for unCP mono when called dir (as opposed to passing thru str</span>
 <span class="sd">        no frag markers</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
 
         <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;$molecule</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -528,7 +530,7 @@
         <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nallatom</span><span class="p">():</span>
 
-            <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
             <span class="c1"># append units and any other non-default molecule keywords</span>
             <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;units Angstrom</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="c1">#text += &quot;    units %-s\n&quot; % (&quot;Angstrom&quot; if self.units() == &#39;Angstrom&#39; else &quot;Bohr&quot;)</span>
@@ -569,7 +571,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
         <span class="c1"># TODO keep fix_or?  # Jan 2015 turning off fix_or</span>
         <span class="c1">#self.fix_orientation(True)</span>
         <span class="c1">#self.PYmove_to_com = False</span>
@@ -599,7 +601,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
-        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
         <span class="c1">#factor = 1.0 if self.PYunits == &#39;Bohr&#39; else 1.0/psi_bohr2angstroms</span>
 
         <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;auto-generated by qcdb from molecule </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tagline</span><span class="p">)</span>
@@ -674,7 +676,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">options</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
-        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
 
         <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;* xyz </span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">molecular_charge</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">())</span>
@@ -712,7 +714,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nallatom</span><span class="p">():</span>
-            <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
             <span class="n">Pfr</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="c1"># any general starting notation here &lt;&lt;&lt;</span>
             <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;$molecule</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -841,7 +843,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PYunits</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="k">else</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
 
         <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> </span><span class="si">%d</span><span class="s1"> </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">molecular_charge</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagline</span><span class="p">)</span>
@@ -949,9 +951,9 @@
                 <span class="n">cent</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">cent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">(</span><span class="n">at</span><span class="p">))</span>
             <span class="n">cent</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">cent</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">entity</span><span class="p">))</span>
             <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;  Centroid:      </span><span class="si">%14.8f</span><span class="s1"> </span><span class="si">%14.8f</span><span class="s1"> </span><span class="si">%14.8f</span><span class="s1">                  [Angstrom]</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> \
-                <span class="p">(</span><span class="n">cent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">,</span>
-                 <span class="n">cent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">,</span>
-                 <span class="n">cent</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">cent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">,</span>
+                 <span class="n">cent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">,</span>
+                 <span class="n">cent</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">)</span>
             <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;  Centroid:      </span><span class="si">%14.8f</span><span class="s1"> </span><span class="si">%14.8f</span><span class="s1"> </span><span class="si">%14.8f</span><span class="s1">                  [Bohr]</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> \
                 <span class="p">(</span><span class="n">cent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cent</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
@@ -1006,16 +1008,16 @@
 
             <span class="n">distCC</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">cent1</span><span class="p">,</span> <span class="n">cent2</span><span class="p">)</span>
             <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;  Distance from Center of </span><span class="si">%s</span><span class="s1"> to Center of </span><span class="si">%s</span><span class="s1">:                   </span><span class="si">%14.8f</span><span class="s1">   [Angstrom]</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> \
-                <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">distCC</span> <span class="o">*</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">)</span>
+                <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">distCC</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">)</span>
 
             <span class="n">distCP</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">plane1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">cent2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">plane1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">cent2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">plane1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">cent2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">plane1</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
             <span class="c1"># distCP expression has a denominator that&#39;s one since plane constructed from unit vector</span>
             <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;  Distance from Center of </span><span class="si">%s</span><span class="s1"> to Plane of </span><span class="si">%s</span><span class="s1">:                    </span><span class="si">%14.8f</span><span class="s1">   [Angstrom]</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> \
-                <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">distCP</span> <span class="o">*</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">)</span>
+                <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">distCP</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">)</span>
 
             <span class="n">distCPC</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">distCC</span> <span class="o">*</span> <span class="n">distCC</span> <span class="o">-</span> <span class="n">distCP</span> <span class="o">*</span> <span class="n">distCP</span><span class="p">)</span>
             <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;  Distance from Center of </span><span class="si">%s</span><span class="s1"> to Center of </span><span class="si">%s</span><span class="s1"> along Plane of </span><span class="si">%s</span><span class="s1">:  </span><span class="si">%14.8f</span><span class="s1">   [Angstrom]</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> \
-                <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">distCPC</span> <span class="o">*</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">)</span>
+                <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">distCPC</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span><span class="p">)</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
@@ -1171,7 +1173,9 @@
 
         <span class="k">return</span> <span class="n">ar</span>
 
-<div class="viewcode-block" id="Molecule.to_arrays"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_arrays">[docs]</a>    <span class="k">def</span> <span class="nf">to_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ghost_as_dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="Molecule.to_arrays">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_arrays">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ghost_as_dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Exports coordinate info into NumPy arrays.</span>
 
 <span class="sd">        Parameters</span>
@@ -1231,6 +1235,7 @@
             <span class="p">])</span>
 
         <span class="k">return</span> <span class="n">geom</span><span class="p">,</span> <span class="n">mass</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="n">elez</span><span class="p">,</span> <span class="n">uniq</span></div>
+
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="n">molstr</span><span class="p">,</span>
@@ -1347,7 +1352,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Molecule.to_string"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">atom_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ghost_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span> <span class="n">prec</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
+<div class="viewcode-block" id="Molecule.to_string">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_string">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">atom_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ghost_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span> <span class="n">prec</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Format a string representation of QM molecule.&quot;&quot;&quot;</span>
 
         <span class="n">molrec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">np_out</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1365,7 +1372,10 @@
             <span class="n">prec</span><span class="o">=</span><span class="n">prec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">smol</span></div>
 
-<div class="viewcode-block" id="Molecule.run_dftd3"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_dftd3">[docs]</a>    <span class="k">def</span> <span class="nf">run_dftd3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashlvl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashparam</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Molecule.run_dftd3">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_dftd3">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_dftd3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashlvl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashparam</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute dispersion correction via Grimme&#39;s DFTD3 program.</span>
 
 <span class="sd">        Parameters</span>
@@ -1448,7 +1458,10 @@
         <span class="k">elif</span> <span class="n">derint</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION GRADIENT&#39;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Molecule.run_dftd4"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_dftd4">[docs]</a>    <span class="k">def</span> <span class="nf">run_dftd4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashlvl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashparam</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Molecule.run_dftd4">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_dftd4">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_dftd4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashlvl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashparam</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute dispersion correction via Grimme&#39;s DFTD4 program.</span>
 
 <span class="sd">        Parameters</span>
@@ -1538,7 +1551,10 @@
         <span class="k">elif</span> <span class="n">derint</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;DISPERSION CORRECTION GRADIENT&#39;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Molecule.run_gcp"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_gcp">[docs]</a>    <span class="k">def</span> <span class="nf">run_gcp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Molecule.run_gcp">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_gcp">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_gcp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute geometrical BSSE correction via Grimme&#39;s GCP program.</span>
 
 <span class="sd">        Function to call Grimme&#39;s GCP program</span>
@@ -1622,6 +1638,7 @@
         <span class="k">elif</span> <span class="n">derint</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s1">&#39;GCP CORRECTION GRADIENT&#39;</span><span class="p">]</span></div>
 
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_schema</span><span class="p">(</span><span class="n">molschema</span><span class="p">,</span> <span class="n">return_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct Molecule from non-Psi4 schema.</span>
@@ -1653,14 +1670,19 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Molecule.to_schema"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_schema">[docs]</a>    <span class="k">def</span> <span class="nf">to_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;Bohr&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="Molecule.to_schema">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_schema">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;Bohr&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serializes instance into dictionary according to schema `dtype`.&quot;&quot;&quot;</span>
 
         <span class="n">molrec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">np_out</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">schmol</span> <span class="o">=</span> <span class="n">qcel</span><span class="o">.</span><span class="n">molparse</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">molrec</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">schmol</span></div>
 
-<div class="viewcode-block" id="Molecule.to_dict"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_c1</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_units</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">np_out</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Molecule.to_dict">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_dict">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_c1</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_units</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">np_out</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serializes instance into Molecule dictionary.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
@@ -1685,7 +1707,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">()</span>
             <span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">units</span>
-            <span class="k">if</span> <span class="n">units</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_units_to_au</span><span class="p">()</span> <span class="o">*</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.e-6</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">units</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_units_to_au</span><span class="p">()</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.e-6</span><span class="p">:</span>
                 <span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;input_units_to_au&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_units_to_au</span><span class="p">()</span>
 
         <span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;fix_com&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">com_fixed</span><span class="p">()</span>
@@ -1702,7 +1724,7 @@
         <span class="n">nat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">natom</span><span class="p">()</span>
         <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">geometry</span><span class="p">())</span>  <span class="c1"># [a0]</span>
         <span class="k">if</span> <span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Angstrom&#39;</span><span class="p">:</span>
-            <span class="n">geom</span> <span class="o">*=</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>  <span class="c1">#self.input_units_to_au()</span>
+            <span class="n">geom</span> <span class="o">*=</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>  <span class="c1">#self.input_units_to_au()</span>
         <span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 
         <span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;elea&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_number</span><span class="p">(</span><span class="n">at</span><span class="p">)</span> <span class="k">for</span> <span class="n">at</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nat</span><span class="p">)])</span>
@@ -1775,6 +1797,7 @@
             <span class="n">validated_molrec</span> <span class="o">=</span> <span class="n">qcel</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">unnp</span><span class="p">(</span><span class="n">validated_molrec</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">validated_molrec</span></div>
+
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">molrec</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -1859,7 +1882,9 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">unsettled</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Molecule.BFS"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.BFS">[docs]</a>    <span class="k">def</span> <span class="nf">BFS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="Molecule.BFS">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.BFS">[docs]</a>
+    <span class="k">def</span> <span class="nf">BFS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">seed_atoms</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">bond_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.20</span><span class="p">,</span>
             <span class="n">return_arrays</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1974,7 +1999,10 @@
         <span class="n">outputs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">frag_pattern</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span></div>
 
-<div class="viewcode-block" id="Molecule.B787"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.B787">[docs]</a>    <span class="k">def</span> <span class="nf">B787</span><span class="p">(</span><span class="n">concern_mol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">qcdbmol</span><span class="p">,</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">],</span>
+
+<div class="viewcode-block" id="Molecule.B787">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.B787">[docs]</a>
+    <span class="k">def</span> <span class="nf">B787</span><span class="p">(</span><span class="n">concern_mol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">qcdbmol</span><span class="p">,</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">],</span>
              <span class="n">ref_mol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">qcdbmol</span><span class="p">,</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">],</span>
              <span class="n">do_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
              <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
@@ -2088,7 +2116,10 @@
 
         <span class="k">return</span> <span class="n">rmsd</span><span class="p">,</span> <span class="n">solution</span><span class="p">,</span> <span class="n">amol</span></div>
 
-<div class="viewcode-block" id="Molecule.scramble"><a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.scramble">[docs]</a>    <span class="k">def</span> <span class="nf">scramble</span><span class="p">(</span><span class="n">ref_mol</span><span class="p">:</span> <span class="s2">&quot;Molecule&quot;</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Molecule.scramble">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.scramble">[docs]</a>
+    <span class="k">def</span> <span class="nf">scramble</span><span class="p">(</span><span class="n">ref_mol</span><span class="p">:</span> <span class="s2">&quot;Molecule&quot;</span><span class="p">,</span>
                  <span class="n">do_shift</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                  <span class="n">do_rotate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                  <span class="n">do_resort</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -2158,7 +2189,7 @@
             <span class="n">fix_com</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">fix_orientation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="n">rmsd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cgeom</span> <span class="o">-</span> <span class="n">rgeom</span><span class="p">)</span> <span class="o">*</span> <span class="n">qcel</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nat</span><span class="p">)</span>
+        <span class="n">rmsd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cgeom</span> <span class="o">-</span> <span class="n">rgeom</span><span class="p">)</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nat</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Start RMSD = </span><span class="si">{:8.4f}</span><span class="s1"> [A]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rmsd</span><span class="p">))</span>
 
@@ -2183,6 +2214,7 @@
         <span class="k">if</span> <span class="n">solution</span><span class="o">.</span><span class="n">mirror</span><span class="p">:</span>
             <span class="n">compare_integers</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">do_mirror</span><span class="p">,</span> <span class="s1">&#39;mirror allowed&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="nf">set_fragment_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frl</span><span class="p">,</span> <span class="n">frt</span><span class="p">,</span> <span class="n">frc</span><span class="p">,</span> <span class="n">frm</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set fragment member data through public method analogous to psi4.core.Molecule&quot;&quot;&quot;</span>
 
@@ -2193,6 +2225,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fragment_types</span> <span class="o">=</span> <span class="n">frt</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fragment_charges</span> <span class="o">=</span> <span class="n">frc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fragment_multiplicities</span> <span class="o">=</span> <span class="n">frm</span></div>
+
 
 
 <span class="c1"># Attach methods to qcdb.Molecule class</span>
@@ -2286,7 +2319,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/qcdb/molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/722810a">1.9a1.dev40</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/c6418e5">1.9a1.dev41</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2299,9 +2332,9 @@
     </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Sunday, 20 August 2023 07:15PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    &#169; Copyright 2007-2023, The Psi4 Project.
+      Last updated on Monday, 21 August 2023 01:47PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.2.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>
