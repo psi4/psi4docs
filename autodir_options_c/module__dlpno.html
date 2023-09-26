@@ -1,0 +1,631 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>DLPNO</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css?v=c7cf8c76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../_static/documentation_options.js?v=0a908d79"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autodir_options_c/module__dlpno';</script>
+    <link rel="icon" href="../_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DF_BASIS_MP2" href="dlpno__df_basis_mp2.html" />
+    <link rel="prev" title="WFN_TYPE" href="dfocc__wfn_type.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Tuesday, 26 September 2023 02:05AM"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/psi4square.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/psi4square.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">DLPNO</a><ul>
+<li><a class="reference internal" href="#general-options">General Options</a><ul>
+<li><a class="reference internal" href="#df-basis-mp2"><span class="xref std std-term">DF_BASIS_MP2</span></a></li>
+<li><a class="reference internal" href="#dlpno-local-orbitals"><span class="xref std std-term">DLPNO_LOCAL_ORBITALS</span></a></li>
+<li><a class="reference internal" href="#dlpno-maxiter"><span class="xref std std-term">DLPNO_MAXITER</span></a></li>
+<li><a class="reference internal" href="#e-convergence"><span class="xref std std-term">E_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#local-convergence"><span class="xref std std-term">LOCAL_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#local-maxiter"><span class="xref std std-term">LOCAL_MAXITER</span></a></li>
+<li><a class="reference internal" href="#pno-convergence"><span class="xref std std-term">PNO_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#r-convergence"><span class="xref std std-term">R_CONVERGENCE</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#expert-expert-options"><em>Expert</em> Expert Options</a><ul>
+<li><a class="reference internal" href="#f-cut"><span class="xref std std-term">F_CUT</span></a></li>
+<li><a class="reference internal" href="#s-cut"><span class="xref std std-term">S_CUT</span></a></li>
+<li><a class="reference internal" href="#t-cut-clmo"><span class="xref std std-term">T_CUT_CLMO</span></a></li>
+<li><a class="reference internal" href="#t-cut-cpao"><span class="xref std std-term">T_CUT_CPAO</span></a></li>
+<li><a class="reference internal" href="#t-cut-do"><span class="xref std std-term">T_CUT_DO</span></a></li>
+<li><a class="reference internal" href="#t-cut-do-pre"><span class="xref std std-term">T_CUT_DO_PRE</span></a></li>
+<li><a class="reference internal" href="#t-cut-do-ij"><span class="xref std std-term">T_CUT_DO_IJ</span></a></li>
+<li><a class="reference internal" href="#t-cut-mkn"><span class="xref std std-term">T_CUT_MKN</span></a></li>
+<li><a class="reference internal" href="#t-cut-pno"><span class="xref std std-term">T_CUT_PNO</span></a></li>
+<li><a class="reference internal" href="#t-cut-pre"><span class="xref std std-term">T_CUT_PRE</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="dfocc__wfn_type.html"
+                          title="previous chapter"><span class="xref std std-term">WFN_TYPE</span></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="dlpno__df_basis_mp2.html"
+                          title="next chapter"><span class="xref std std-term">DF_BASIS_MP2</span></a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/autodir_options_c/module__dlpno.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../appendices.html" class="nav-link">Appendices</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../autodoc_options_c_bymodule.html" class="nav-link">Keywords by Module</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">DLPNO</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="dlpno">
+<span id="apdx-dlpno"></span><h1>DLPNO<a class="headerlink" href="#dlpno" title="Link to this heading">#</a></h1>
+<p>Performs DLPNO-MP2 computations for RHF reference wavefunctions.</p>
+<div class="toctree-wrapper compound">
+</div>
+<section id="general-options">
+<span id="apdx-dlpnogeneraloptions"></span><h2>General Options<a class="headerlink" href="#general-options" title="Link to this heading">#</a></h2>
+<section id="df-basis-mp2">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-DF_BASIS_MP2-DLPNO"><span class="xref std std-term">DF_BASIS_MP2</span></a><a class="headerlink" href="#df-basis-mp2" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Auxiliary basis set for MP2 density fitting computations. <a class="reference internal" href="../basissets_byfamily.html#apdx-basisfamily"><span class="std std-ref">Defaults</span></a> to a RI basis.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: <a class="reference internal" href="../basissets_byelement.html#apdx-basiselement"><span class="std std-ref">basis string</span></a></p></li>
+<li><p><strong>Default</strong>: No Default</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="dlpno-local-orbitals">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-DLPNO_LOCAL_ORBITALS-DLPNO"><span class="xref std std-term">DLPNO_LOCAL_ORBITALS</span></a><a class="headerlink" href="#dlpno-local-orbitals" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Orbital localizer</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: BOYS, PIPEK_MEZEY</p></li>
+<li><p><strong>Default</strong>: BOYS</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="dlpno-maxiter">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-DLPNO_MAXITER-DLPNO"><span class="xref std std-term">DLPNO_MAXITER</span></a><a class="headerlink" href="#dlpno-maxiter" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Maximum number of iterations to determine the MP2 amplitudes.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 50</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="e-convergence">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-E_CONVERGENCE-DLPNO"><span class="xref std std-term">E_CONVERGENCE</span></a><a class="headerlink" href="#e-convergence" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Energy convergence criteria for local MP2 iterations</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
+<li><p><strong>Default</strong>: 1e-6</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="local-convergence">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-LOCAL_CONVERGENCE-DLPNO"><span class="xref std std-term">LOCAL_CONVERGENCE</span></a><a class="headerlink" href="#local-convergence" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Convergence criteria for the Foster-Boys orbital localization</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
+<li><p><strong>Default</strong>: 1.0e-12</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="local-maxiter">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-LOCAL_MAXITER-DLPNO"><span class="xref std std-term">LOCAL_MAXITER</span></a><a class="headerlink" href="#local-maxiter" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Maximum iterations in Foster-Boys localization</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 1000</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="pno-convergence">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-PNO_CONVERGENCE-DLPNO"><span class="xref std std-term">PNO_CONVERGENCE</span></a><a class="headerlink" href="#pno-convergence" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>General convergence criteria for DLPNO methods</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: LOOSE, NORMAL, TIGHT</p></li>
+<li><p><strong>Default</strong>: NORMAL</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="r-convergence">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-R_CONVERGENCE-DLPNO"><span class="xref std std-term">R_CONVERGENCE</span></a><a class="headerlink" href="#r-convergence" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Residual convergence criteria for local MP2 iterations</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
+<li><p><strong>Default</strong>: 1e-6</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="expert-expert-options">
+<span id="apdx-dlpnoeexpertoptions"></span><h2><em>Expert</em> Expert Options<a class="headerlink" href="#expert-expert-options" title="Link to this heading">#</a></h2>
+<section id="f-cut">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-F_CUT-DLPNO"><span class="xref std std-term">F_CUT</span></a><a class="headerlink" href="#f-cut" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Fock matrix threshold for treating ampltudes as coupled during local MP2 iterations</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1e-5</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="s-cut">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-S_CUT-DLPNO"><span class="xref std std-term">S_CUT</span></a><a class="headerlink" href="#s-cut" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Overlap matrix threshold for removing linear dependencies</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1e-8</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="t-cut-clmo">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-T_CUT_CLMO-DLPNO"><span class="xref std std-term">T_CUT_CLMO</span></a><a class="headerlink" href="#t-cut-clmo" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Basis set coefficient threshold for including basis function (m) in domain of LMO (i)</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1e-2</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="t-cut-cpao">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-T_CUT_CPAO-DLPNO"><span class="xref std std-term">T_CUT_CPAO</span></a><a class="headerlink" href="#t-cut-cpao" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Basis set coefficient threshold for including basis function (n) in domain of PAO (u)</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1e-3</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="t-cut-do">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-T_CUT_DO-DLPNO"><span class="xref std std-term">T_CUT_DO</span></a><a class="headerlink" href="#t-cut-do" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>DOI threshold for including PAO (u) in domain of LMO (i)</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1e-2</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="t-cut-do-pre">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-T_CUT_DO_PRE-DLPNO"><span class="xref std std-term">T_CUT_DO_PRE</span></a><a class="headerlink" href="#t-cut-do-pre" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>DOI threshold for including PAO (u) in domain of LMO (i) during pre-screening</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 3e-2</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="t-cut-do-ij">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-T_CUT_DO_IJ-DLPNO"><span class="xref std std-term">T_CUT_DO_IJ</span></a><a class="headerlink" href="#t-cut-do-ij" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>DOI threshold for treating LMOs (i,j) as interacting</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1e-5</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="t-cut-mkn">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-T_CUT_MKN-DLPNO"><span class="xref std std-term">T_CUT_MKN</span></a><a class="headerlink" href="#t-cut-mkn" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Mulliken charge threshold for including aux BFs on atom (a) in domain of LMO (i)</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1e-3</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="t-cut-pno">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-T_CUT_PNO-DLPNO"><span class="xref std std-term">T_CUT_PNO</span></a><a class="headerlink" href="#t-cut-pno" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Occupation number threshold for removing PNOs</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1e-8</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="t-cut-pre">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-T_CUT_PRE-DLPNO"><span class="xref std std-term">T_CUT_PRE</span></a><a class="headerlink" href="#t-cut-pre" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Pair energy threshold (dipole approximation) for treating LMOs (i, j) as interacting</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1e-6</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dfocc__wfn_type.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="xref std std-term">WFN_TYPE</span></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="dlpno__df_basis_mp2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="xref std std-term">DF_BASIS_MP2</span></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-options">General Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#df-basis-mp2"><span class="xref std std-term">DF_BASIS_MP2</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dlpno-local-orbitals"><span class="xref std std-term">DLPNO_LOCAL_ORBITALS</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dlpno-maxiter"><span class="xref std std-term">DLPNO_MAXITER</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#e-convergence"><span class="xref std std-term">E_CONVERGENCE</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-convergence"><span class="xref std std-term">LOCAL_CONVERGENCE</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-maxiter"><span class="xref std std-term">LOCAL_MAXITER</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pno-convergence"><span class="xref std std-term">PNO_CONVERGENCE</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#r-convergence"><span class="xref std std-term">R_CONVERGENCE</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expert-expert-options"><em>Expert</em> Expert Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-cut"><span class="xref std std-term">F_CUT</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#s-cut"><span class="xref std std-term">S_CUT</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t-cut-clmo"><span class="xref std std-term">T_CUT_CLMO</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t-cut-cpao"><span class="xref std std-term">T_CUT_CPAO</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t-cut-do"><span class="xref std std-term">T_CUT_DO</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t-cut-do-pre"><span class="xref std std-term">T_CUT_DO_PRE</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t-cut-do-ij"><span class="xref std std-term">T_CUT_DO_IJ</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t-cut-mkn"><span class="xref std std-term">T_CUT_MKN</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t-cut-pno"><span class="xref std std-term">T_CUT_PNO</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t-cut-pre"><span class="xref std std-term">T_CUT_PRE</span></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/autodir_options_c/module__dlpno.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2007-2023, The Psi4 Project.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

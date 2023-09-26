@@ -1,0 +1,564 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Theoretical Methods: SCF to FCI</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css?v=c7cf8c76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="_static/documentation_options.js?v=0a908d79"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'methods';</script>
+    <link rel="icon" href="_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Capabilities and Alternate Implementations" href="capabilities.html" />
+    <link rel="prev" title="Basis Sets" href="basissets.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Tuesday, 26 September 2023 02:05AM"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/psi4square.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/psi4square.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="basissets.html"
+                          title="previous chapter">Basis Sets</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="capabilities.html"
+                          title="next chapter">Capabilities and Alternate Implementations</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/methods.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Theoretical...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="theoretical-methods-scf-to-fci">
+<span id="sec-methods"></span><h1>Theoretical Methods: SCF to FCI<a class="headerlink" href="#theoretical-methods-scf-to-fci" title="Link to this heading">#</a></h1>
+<p>Several electronic structure methods are available in the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
+package, from Hartree–Fock molecular orbital theory to coupled-cluster
+theory to full configuration interaction.  This section introduces
+the methods available and some of their most common input parameters.
+A complete list of standard keywords is provided in Appendix
+<a class="reference internal" href="autodoc_options_c_bymodule.html#apdx-options-c-module"><span class="std std-ref">Keywords by Module</span></a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="capabilities.html">Capabilities and Alternate Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes_c.html">Notes on Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes_c.html#notes-on-psi-variables">Notes on PSI Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scf.html">HF: Hartree–Fock Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#theory">Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#minimal-input">Minimal Input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#spin-symmetry-treatment">Spin/Symmetry Treatment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#broken-symmetry">Broken Symmetry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#orthogonalization">Orthogonalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#initial-guess">Initial Guess</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#restarting-the-scf">Restarting the SCF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#convergence-stabilization">Convergence Stabilization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#eri-algorithms">ERI Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#integral-direct-density-fitted-coulomb-construction">Integral-Direct Density-Fitted Coulomb Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#cosx-exchange">COSX Exchange</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#linear-exchange">Linear Exchange</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#second-order-convergence">Second-order Convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#stability-analysis">Stability Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#effective-core-potentials-ecps">Effective core potentials (ECPs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#external-potentials-and-qm-mm">External potentials and QM/MM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#convergence-and-algorithm-defaults">Convergence and Algorithm Defaults</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scf.html#recommendations">Recommendations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dft.html">DFT: Density Functional Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#theory">Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#minimal-input">Minimal Input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#spin-symmetry-treatment">Spin/Symmetry Treatment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#functional-selection">Functional Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#grid-selection">Grid Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#eri-algorithms">ERI Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#ip-fitting">IP Fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#fractional-particle-curves">Fractional Particle Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#dispersion-corrections">Dispersion Corrections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#recommendations">Recommendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dft.html#advanced-functional-use-and-manipulation">Advanced Functional Use and Manipulation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dftnl.html">DFT-NL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dftnl.html#post-scf-time-savings">post-SCF time savings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dct.html">DCT: Density Cumulant Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dct.html#theory">Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dct.html#methods">Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dct.html#iterative-algorithms">Iterative Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dct.html#analytic-gradients">Analytic Gradients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dct.html#methods-summary">Methods Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dct.html#minimal-input">Minimal Input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dct.html#recommendations">Recommendations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dfmp2.html">DF-MP2: Density-Fitted 2nd-Order Møller–Plesset Perturbation Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dfmp2.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfmp2.html#theory">Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dfmp2.html#recommendations">Recommendations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dlpnomp2.html">DLPNO-MP2: Domain-Based Local Pair Natural Orbital MP2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dlpnomp2.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dlpnomp2.html#theory">Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dlpnomp2.html#recommendations">Recommendations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cc.html">CC: Coupled Cluster Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cc.html#basic-keywords">Basic Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cc.html#larger-calculations">Larger Calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cc.html#excited-state-coupled-cluster-calculations">Excited State Coupled Cluster Calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cc.html#linear-response-cclr-calculations">Linear Response (CCLR) Calculations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fnocc.html">FNOCC: Frozen natural orbitals for CCSD(T), QCISD(T), CEPA, and MP4</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fnocc.html#frozen-natural-orbitals-fno">Frozen natural orbitals (FNO)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fnocc.html#qcisd-t-ccsd-t-mp4-and-cepa">QCISD(T), CCSD(T), MP4, and CEPA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fnocc.html#quadratic-configuration-interaction-and-coupled-cluster">Quadratic configuration interaction and coupled cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fnocc.html#many-body-perturbation-theory">Many-body perturbation theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fnocc.html#coupled-electron-pair-approximation">Coupled electron pair approximation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fnocc.html#density-fitted-coupled-cluster">Density-fitted coupled cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fnocc.html#gn-theory">Gn theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fnocc.html#supported-methods">Supported methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fnocc.html#basic-fnocc-keywords">Basic FNOCC Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fnocc.html#advanced-fnocc-keywords">Advanced FNOCC Keywords</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="occ.html">OCC: Orbital-Optimized Coupled-Cluster and Møller–Plesset Perturbation Theories</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="occ.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occ.html#theory">Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occ.html#convergence-problems">Convergence Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occ.html#methods">Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occ.html#basic-occ-keywords">Basic OCC Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occ.html#advanced-occ-keywords">Advanced OCC Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occ.html#basic-dfocc-keywords">Basic DFOCC Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occ.html#advanced-dfocc-keywords">Advanced DFOCC Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="occ.html#conventional-non-oo-coupled-cluster-and-mollerplesset-perturbation-theories">Conventional (Non-OO) Coupled-Cluster and Møller–Plesset Perturbation Theories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="psimrcc.html">PSIMRCC Implementation of Mk-MRCC Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="psimrcc.html#a-simple-example">A Simple Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="psimrcc.html#orbital-ordering-and-selection-of-the-model-space">Orbital ordering and selection of the model space</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="detci.html">CI: Configuration Interaction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="detci.html#basic-detci-keywords">Basic DETCI Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detci.html#spin-multiplicities-of-higher-roots">Spin Multiplicities of Higher Roots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detci.html#arbitrary-order-perturbation-theory">Arbitrary Order Perturbation Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detci.html#arbitrary-order-coupled-cluster-theory">Arbitrary Order Coupled-Cluster Theory</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mcscf.html">MCSCF: Multi-Configurational Self-Consistent-Field</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mcscf.html#basic-mcscf-keywords">Basic MCSCF Keywords</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sapt.html">SAPT: Symmetry-Adapted Perturbation Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#the-s2-approximation-and-scaling">The <em>S</em><sup>2</sup> approximation and scaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#a-first-example">A First Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#advanced-example">Advanced example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#sapt0">SAPT0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#sapt-dft">SAPT(DFT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#higher-order-sapt">Higher-Order SAPT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#mp2-natural-orbitals">MP2 Natural Orbitals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#charge-transfer-in-sapt">Charge-Transfer in SAPT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#monomer-centered-basis-computations">Monomer-Centered Basis Computations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#computations-with-mid-bonds">Computations with Mid-bonds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#interpreting-sapt-results">Interpreting SAPT Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#spin-flip-sapt">Spin-Flip SAPT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sapt.html#higher-order-exchange-terms-without-single-exchange-approximation">Higher-Order Exchange Terms without Single-Exchange Approximation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fisapt.html">F/I-SAPT: Functional Group and/or Intramolecular SAPT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fisapt.html#f-sapt-a-representative-example">F-SAPT: A Representative Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fisapt.html#order-1-visualization-with-pymol">Order-1 Visualization with PyMol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fisapt.html#difference-f-sapt-analysis">Difference F-SAPT Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fisapt.html#i-sapt-a-representative-example">I-SAPT: A Representative Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fisapt.html#cube-file-visualization-with-pymol">Cube File Visualization with PyMol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fisapt.html#adding-point-charges-to-f-i-sapt-computations">Adding Point Charges to F/I-SAPT Computations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fisapt.html#link-orbital-partitioning-in-i-sapt">Link Orbital Partitioning in I-SAPT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fisapt.html#other-f-i-sapt-keywords">Other F/I-SAPT Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fisapt.html#additional-notes">Additional Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="adc.html">ADC: Ab Initio Polarization Propagator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="adc.html#available-adc-methods">Available ADC methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adc.html#running-adc-calculations">Running ADC calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adc.html#interface-to-adcc">Interface to adcc</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="relativistic.html">Scalar relativistic Hamiltonians</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="relativistic.html#a-first-example">A First Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relativistic.html#basis-sets-options">Basis sets options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relativistic.html#theory">Theory</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="optking.html">Geometry Optimization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#basic-keywords">Basic Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#optimizing-minima">Optimizing Minima</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#hessian">Hessian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#transition-states-and-reaction-paths">Transition States and Reaction Paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#constrained-optimizations">Constrained Optimizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#multi-fragment-optimizations">Multi-Fragment Optimizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#dealing-with-problematic-optimizations">Dealing with problematic optimizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#convergence-criteria">Convergence Criteria</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#interface-to-geometric">Interface to GeomeTRIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optking.html#important-user-changes-from-cpp-optking">Important User Changes from cpp-optking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="oeprop.html">Evaluation of One-Electron Properties — <code class="xref py py-func docutils literal notranslate"><span class="pre">oeprop()</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="oeprop.html#basic-keywords">Basic Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oeprop.html#properties-evaluated-on-a-grid">Properties evaluated on a grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oeprop.html#minimal-basis-iterative-stockholder">Minimal Basis Iterative Stockholder</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="thermo.html">Vibrational and Thermochemical Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="thermo.html#keywords">Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermo.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermo.html#output">Output</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tdscf.html">TDSCF: Time-dependent Hartree–Fock and density-functional theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tdscf.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdscf.html#known-limitations">Known limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdscf.html#theory">Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdscf.html#psithon-keywords">Psithon keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdscf.html#psiapi-usage">PsiAPI usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdscf.html#plotting-one-photon-absorption-and-electronic-circular-dichroism-spectra">Plotting one-photon absorption and electronic circular dichroism spectra</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="basissets.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Basis Sets</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="capabilities.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Capabilities and Alternate Implementations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/methods.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2007-2023, The Psi4 Project.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

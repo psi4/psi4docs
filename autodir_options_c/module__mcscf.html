@@ -1,0 +1,700 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>MCSCF</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css?v=c7cf8c76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../_static/documentation_options.js?v=0a908d79"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autodir_options_c/module__mcscf';</script>
+    <link rel="icon" href="../_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CANONICALIZE_ACTIVE_FAVG" href="mcscf__canonicalize_active_favg.html" />
+    <link rel="prev" title="GDMA_SWITCH" href="gdma__gdma_switch.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Tuesday, 26 September 2023 02:05AM"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/psi4square.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/psi4square.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">MCSCF</a><ul>
+<li><a class="reference internal" href="#general">General</a><ul>
+<li><a class="reference internal" href="#canonicalize-active-favg"><span class="xref std std-term">CANONICALIZE_ACTIVE_FAVG</span></a></li>
+<li><a class="reference internal" href="#canonicalize-inactive-favg"><span class="xref std std-term">CANONICALIZE_INACTIVE_FAVG</span></a></li>
+<li><a class="reference internal" href="#ci-diis"><span class="xref std std-term">CI_DIIS</span></a></li>
+<li><a class="reference internal" href="#diis"><span class="xref std std-term">DIIS</span></a></li>
+<li><a class="reference internal" href="#diis-max-vecs"><span class="xref std std-term">DIIS_MAX_VECS</span></a></li>
+<li><a class="reference internal" href="#docc"><span class="xref std std-term">DOCC</span></a></li>
+<li><a class="reference internal" href="#d-convergence"><span class="xref std std-term">D_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#e-convergence"><span class="xref std std-term">E_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#favg"><span class="xref std std-term">FAVG</span></a></li>
+<li><a class="reference internal" href="#favg-start"><span class="xref std std-term">FAVG_START</span></a></li>
+<li><a class="reference internal" href="#follow-root"><span class="xref std std-term">FOLLOW_ROOT</span></a></li>
+<li><a class="reference internal" href="#force-twocon"><span class="xref std std-term">FORCE_TWOCON</span></a></li>
+<li><a class="reference internal" href="#internal-rotations"><span class="xref std std-term">INTERNAL_ROTATIONS</span></a></li>
+<li><a class="reference internal" href="#level-shift"><span class="xref std std-term">LEVEL_SHIFT</span></a></li>
+<li><a class="reference internal" href="#maxiter"><span class="xref std std-term">MAXITER</span></a></li>
+<li><a class="reference internal" href="#mo-read"><span class="xref std std-term">MO_READ</span></a></li>
+<li><a class="reference internal" href="#reference"><span class="xref std std-term">REFERENCE</span></a></li>
+<li><a class="reference internal" href="#socc"><span class="xref std std-term">SOCC</span></a></li>
+<li><a class="reference internal" href="#turn-on-actv"><span class="xref std std-term">TURN_ON_ACTV</span></a></li>
+<li><a class="reference internal" href="#wfn-sym"><span class="xref std std-term">WFN_SYM</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#expert"><em>Expert</em></a><ul>
+<li><a class="reference internal" href="#rotate-mo-angle"><span class="xref std std-term">ROTATE_MO_ANGLE</span></a></li>
+<li><a class="reference internal" href="#rotate-mo-irrep"><span class="xref std std-term">ROTATE_MO_IRREP</span></a></li>
+<li><a class="reference internal" href="#rotate-mo-p"><span class="xref std std-term">ROTATE_MO_P</span></a></li>
+<li><a class="reference internal" href="#rotate-mo-q"><span class="xref std std-term">ROTATE_MO_Q</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="gdma__gdma_switch.html"
+                          title="previous chapter"><span class="xref std std-term">GDMA_SWITCH</span></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="mcscf__canonicalize_active_favg.html"
+                          title="next chapter"><span class="xref std std-term">CANONICALIZE_ACTIVE_FAVG</span></a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/autodir_options_c/module__mcscf.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../appendices.html" class="nav-link">Appendices</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../autodoc_options_c_bymodule.html" class="nav-link">Keywords by Module</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">MCSCF</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="mcscf">
+<span id="apdx-mcscf"></span><h1>MCSCF<a class="headerlink" href="#mcscf" title="Link to this heading">#</a></h1>
+<p>Performs RHF/UHF/ROHF/TCSCF and more general MCSCF computations. Called as the starting point for multireference coupled cluster computations.</p>
+<div class="toctree-wrapper compound">
+</div>
+<section id="general">
+<h2>General<a class="headerlink" href="#general" title="Link to this heading">#</a></h2>
+<section id="canonicalize-active-favg">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-CANONICALIZE_ACTIVE_FAVG-MCSCF"><span class="xref std std-term">CANONICALIZE_ACTIVE_FAVG</span></a><a class="headerlink" href="#canonicalize-active-favg" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Do canonicalize the active orbitals such that the average Fock matrix is diagonal?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="canonicalize-inactive-favg">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-CANONICALIZE_INACTIVE_FAVG-MCSCF"><span class="xref std std-term">CANONICALIZE_INACTIVE_FAVG</span></a><a class="headerlink" href="#canonicalize-inactive-favg" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Do canonicalize the inactive (DOCC and Virtual) orbitals such that the average Fock matrix is diagonal?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ci-diis">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-CI_DIIS-MCSCF"><span class="xref std std-term">CI_DIIS</span></a><a class="headerlink" href="#ci-diis" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Do use DIIS extrapolation to accelerate convergence of the CI coefficients?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="diis">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-DIIS-MCSCF"><span class="xref std std-term">DIIS</span></a><a class="headerlink" href="#diis" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Do use DIIS extrapolation to accelerate convergence of the SCF energy (MO coefficients only)?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: true</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="diis-max-vecs">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-DIIS_MAX_VECS-MCSCF"><span class="xref std std-term">DIIS_MAX_VECS</span></a><a class="headerlink" href="#diis-max-vecs" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Maximum number of error vectors stored for DIIS extrapolation</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 7</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="docc">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-DOCC-MCSCF"><span class="xref std std-term">DOCC</span></a><a class="headerlink" href="#docc" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>The number of doubly occupied orbitals, per irrep</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: array</p></li>
+<li><p><strong>Default</strong>: No Default</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="d-convergence">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-D_CONVERGENCE-MCSCF"><span class="xref std std-term">D_CONVERGENCE</span></a><a class="headerlink" href="#d-convergence" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Convergence criterion for density, as measured by the orbital gradient.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
+<li><p><strong>Default</strong>: 1e-6</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="e-convergence">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-E_CONVERGENCE-MCSCF"><span class="xref std std-term">E_CONVERGENCE</span></a><a class="headerlink" href="#e-convergence" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Convergence criterion for energy.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
+<li><p><strong>Default</strong>: 1e-6</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="favg">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-FAVG-MCSCF"><span class="xref std std-term">FAVG</span></a><a class="headerlink" href="#favg" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Do use the average Fock matrix during the SCF optimization?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="favg-start">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-FAVG_START-MCSCF"><span class="xref std std-term">FAVG_START</span></a><a class="headerlink" href="#favg-start" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Iteration at which to begin using the averaged Fock matrix</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 5</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="follow-root">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-FOLLOW_ROOT-MCSCF"><span class="xref std std-term">FOLLOW_ROOT</span></a><a class="headerlink" href="#follow-root" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Which solution of the SCF equations to find, where 1 is the SCF ground state</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 1</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="force-twocon">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-FORCE_TWOCON-MCSCF"><span class="xref std std-term">FORCE_TWOCON</span></a><a class="headerlink" href="#force-twocon" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Do attempt to force a two configuration solution by starting with CI coefficents of <span class="math notranslate nohighlight">\(\pm \sqrt{\frac{1}{2}}\)</span> ?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="internal-rotations">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-INTERNAL_ROTATIONS-MCSCF"><span class="xref std std-term">INTERNAL_ROTATIONS</span></a><a class="headerlink" href="#internal-rotations" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Do consider internal rotations?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: true</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="level-shift">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-LEVEL_SHIFT-MCSCF"><span class="xref std std-term">LEVEL_SHIFT</span></a><a class="headerlink" href="#level-shift" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Level shift to aid convergence</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 0.0</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="maxiter">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-MAXITER-MCSCF"><span class="xref std std-term">MAXITER</span></a><a class="headerlink" href="#maxiter" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Maximum number of iterations</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 100</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="mo-read">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-MO_READ-MCSCF"><span class="xref std std-term">MO_READ</span></a><a class="headerlink" href="#mo-read" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Do read in from file the MOs from a previous computation?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="../notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: true</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="reference">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-REFERENCE-MCSCF"><span class="xref std std-term">REFERENCE</span></a><a class="headerlink" href="#reference" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>Reference wavefunction type</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: RHF, ROHF, UHF, TWOCON, MCSCF, GENERAL</p></li>
+<li><p><strong>Default</strong>: RHF</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="socc">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-SOCC-MCSCF"><span class="xref std std-term">SOCC</span></a><a class="headerlink" href="#socc" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>The number of singly occupied orbitals, per irrep</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: array</p></li>
+<li><p><strong>Default</strong>: No Default</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="turn-on-actv">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-TURN_ON_ACTV-MCSCF"><span class="xref std std-term">TURN_ON_ACTV</span></a><a class="headerlink" href="#turn-on-actv" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 0</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="wfn-sym">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-WFN_SYM-MCSCF"><span class="xref std std-term">WFN_SYM</span></a><a class="headerlink" href="#wfn-sym" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>The symmetry of the SCF wavefunction.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Default</strong>: 1</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="expert">
+<h2><em>Expert</em><a class="headerlink" href="#expert" title="Link to this heading">#</a></h2>
+<section id="rotate-mo-angle">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-ROTATE_MO_ANGLE-MCSCF"><span class="xref std std-term">ROTATE_MO_ANGLE</span></a><a class="headerlink" href="#rotate-mo-angle" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>For orbital rotations after convergence, the angle (in degrees) by which to rotate.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 0.0</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="rotate-mo-irrep">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-ROTATE_MO_IRREP-MCSCF"><span class="xref std std-term">ROTATE_MO_IRREP</span></a><a class="headerlink" href="#rotate-mo-irrep" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>For orbital rotations after convergence, irrep (1-based, Cotton order) of the orbitals to rotate.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 1</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="rotate-mo-p">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-ROTATE_MO_P-MCSCF"><span class="xref std std-term">ROTATE_MO_P</span></a><a class="headerlink" href="#rotate-mo-p" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>For orbital rotations after convergence, number of the first orbital (1-based) to rotate.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 1</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="rotate-mo-q">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-ROTATE_MO_Q-MCSCF"><span class="xref std std-term">ROTATE_MO_Q</span></a><a class="headerlink" href="#rotate-mo-q" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>For orbital rotations after convergence, number of the second orbital (1-based) to rotate.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 2</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="gdma__gdma_switch.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="xref std std-term">GDMA_SWITCH</span></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="mcscf__canonicalize_active_favg.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="xref std std-term">CANONICALIZE_ACTIVE_FAVG</span></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general">General</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#canonicalize-active-favg"><span class="xref std std-term">CANONICALIZE_ACTIVE_FAVG</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#canonicalize-inactive-favg"><span class="xref std std-term">CANONICALIZE_INACTIVE_FAVG</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ci-diis"><span class="xref std std-term">CI_DIIS</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diis"><span class="xref std std-term">DIIS</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diis-max-vecs"><span class="xref std std-term">DIIS_MAX_VECS</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#docc"><span class="xref std std-term">DOCC</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-convergence"><span class="xref std std-term">D_CONVERGENCE</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#e-convergence"><span class="xref std std-term">E_CONVERGENCE</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#favg"><span class="xref std std-term">FAVG</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#favg-start"><span class="xref std std-term">FAVG_START</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#follow-root"><span class="xref std std-term">FOLLOW_ROOT</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#force-twocon"><span class="xref std std-term">FORCE_TWOCON</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-rotations"><span class="xref std std-term">INTERNAL_ROTATIONS</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#level-shift"><span class="xref std std-term">LEVEL_SHIFT</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maxiter"><span class="xref std std-term">MAXITER</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mo-read"><span class="xref std std-term">MO_READ</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference"><span class="xref std std-term">REFERENCE</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#socc"><span class="xref std std-term">SOCC</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#turn-on-actv"><span class="xref std std-term">TURN_ON_ACTV</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wfn-sym"><span class="xref std std-term">WFN_SYM</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expert"><em>Expert</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotate-mo-angle"><span class="xref std std-term">ROTATE_MO_ANGLE</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotate-mo-irrep"><span class="xref std std-term">ROTATE_MO_IRREP</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotate-mo-p"><span class="xref std std-term">ROTATE_MO_P</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotate-mo-q"><span class="xref std std-term">ROTATE_MO_Q</span></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/autodir_options_c/module__mcscf.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2007-2023, The Psi4 Project.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

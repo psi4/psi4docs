@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>DLPNO-MP2: Domain-Based Local Pair Natural Orbital MP2</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css?v=c7cf8c76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="_static/documentation_options.js?v=0a908d79"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'dlpnomp2';</script>
+    <link rel="icon" href="_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CC: Coupled Cluster Theory" href="cc.html" />
+    <link rel="prev" title="DF-MP2: Density-Fitted 2nd-Order Møller–Plesset Perturbation Theory" href="dfmp2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Tuesday, 26 September 2023 02:05AM"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/psi4square.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/psi4square.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">DLPNO-MP2: Domain-Based Local Pair Natural Orbital MP2</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#theory">Theory</a></li>
+<li><a class="reference internal" href="#recommendations">Recommendations</a></li>
+</ul>
+</li>
+</ul>
+
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="dfmp2.html"
+                          title="previous chapter">DF-MP2: Density-Fitted 2nd-Order Møller–Plesset Perturbation Theory</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cc.html"
+                          title="next chapter">CC: Coupled Cluster Theory</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/dlpnomp2.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="methods.html" class="nav-link">Theoretical Methods: SCF to FCI</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">DLPNO-MP2:...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="dlpno-mp2-domain-based-local-pair-natural-orbital-mp2">
+<span id="sec-dlpnomp2"></span><span id="index-0"></span><h1>DLPNO-MP2: Domain-Based Local Pair Natural Orbital MP2<a class="headerlink" href="#dlpno-mp2-domain-based-local-pair-natural-orbital-mp2" title="Link to this heading">#</a></h1>
+<p><em>Code author: Zach Glick</em></p>
+<p><em>Section author: Zach Glick</em></p>
+<p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__dlpno.html#apdx-dlpno"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__dlpno.html#apdx-dlpno-psivar"><span class="std std-ref">PSI Variables</span></a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/dlpno">DLPNOMP2</a></p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>The steep polynomial scaling (in both time and memory) of post-HF dynamic
+correlation methods prohibits calculations on large systems, even for efficient
+codes like <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s <a class="reference internal" href="dfmp2.html#sec-dfmp2"><span class="std std-ref">DF-MP2</span></a>. This poor scaling is in part
+due to the use of canonical HF orbitals, which are entirely delocalized across
+the molecule. Canonical orbitals are commonly used because of mathematical
+convenience. Another possible choice is localized orbitals. Any two orbitals
+localized to separate regions of a molecule can be treated as non-interacting
+to a good approximation. Thus, when working with localized orbitals, the number
+of interacting orbital pairs (and triples, quadruples, etc.) scales linearly
+with system size. If carefully implemented, programs that exploit this sparsity
+can be made to scale linearly (or else with lower order than their canonical
+counterparts) at the cost of of modest, controllable errors. This is the
+defining insight of DLPNO-MP2 and all related “local correlation” methods.</p>
+<p>The DLPNO-MP2 code is a linear-scaling alternative to the <a class="reference internal" href="dfmp2.html#sec-dfmp2"><span class="std std-ref">DF-MP2</span></a>
+code, and is intended for use with large systems for which DF-MP2 is intractable.
+When running DLPNO-MP2 with default settings, approximately 99.9% of the DF-MP2
+correlation energy is recovered. The general outline of the method is as follows:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Localize the active occupied MOs (with the Foster-Boys method)</p></li>
+<li><p>Construct projected AOs (PAOs) from the virtual MOs</p></li>
+<li><p>Calculate three-index integrals in the (sparse) LMO/PAO basis</p></li>
+<li><p>Perform local density fitting to construct (sparse) exchange integrals</p></li>
+<li><p>Transform local virtuals from PAOs to pair natural orbitals (PNOs), and truncate</p></li>
+<li><p>Solve the iterative local MP2 equations in the LMO/PNO basis</p></li>
+</ol>
+</div></blockquote>
+<p>An example input file is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="n">h2o</span> <span class="p">{</span>
+<span class="mi">0</span> <span class="mi">1</span>
+<span class="n">O</span>
+<span class="n">H</span> <span class="mi">1</span> <span class="mf">1.0</span>
+<span class="n">H</span> <span class="mi">1</span> <span class="mf">1.0</span> <span class="mi">2</span> <span class="mf">104.5</span>
+<span class="n">symmetry</span> <span class="n">c1</span>
+<span class="p">}</span>
+
+<span class="nb">set</span> <span class="n">basis</span> <span class="n">cc</span><span class="o">-</span><span class="n">pvdz</span>
+<span class="nb">set</span> <span class="n">scf_type</span> <span class="n">df</span>
+<span class="nb">set</span> <span class="n">freeze_core</span> <span class="kc">True</span>
+<span class="nb">set</span> <span class="n">pno_convergence</span> <span class="n">normal</span>
+
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;dlpno-mp2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The main difference between this input and a DF-MP2 input is the <code class="docutils literal notranslate"><span class="pre">energy('dlpno-mp2')</span></code>
+call to <a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a>. The only other addition is the <a class="reference internal" href="autodoc_glossary_options_c.html#term-PNO_CONVERGENCE-DLPNO"><span class="xref std std-term">PNO_CONVERGENCE</span></a>
+keyword, which determines the accuracy of the local approximations underlying
+the DLPNO-MP2 method. Note that the water molecule in this example is not large
+enough for DLPNO-MP2 to be of any benefit relative to DF-MP2.</p>
+<p>The theory of the DLPNO-MP2 method and practical recommendations for using the
+code are presented below.</p>
+</section>
+<section id="theory">
+<span id="index-1"></span><h2>Theory<a class="headerlink" href="#theory" title="Link to this heading">#</a></h2>
+<p>See <a class="reference internal" href="dfmp2.html#sec-dfmp2"><span class="std std-ref">DF-MP2</span></a> for background on the theory of (non-local)
+density-fitted MP2. <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s DLPNO-MP2 implementation is based on the
+manuscript by Pinski et al. <a class="reference internal" href="bibliography.html#pinski-2015-034108" id="id1"><span>[Pinski:2015:034108]</span></a>.</p>
+<p>In DLPNO-MP2, as in all local MP2 methods, the second-order MBPT energy is determined
+variationally via the Hylleraas functional <a class="reference internal" href="bibliography.html#hylleraas-1930-209" id="id2"><span>[Hylleraas:1930:209]</span></a>:</p>
+<div class="math notranslate nohighlight" id="equation-hylleraas">
+<span class="eqno">(1)<a class="headerlink" href="#equation-hylleraas" title="Link to this equation">#</a></span>\[E^{(2)} = 2 \langle \Psi_{0}^{(0)} | \hat{H} - E_{0}^{(0)} | \Psi_{0}^{(1)} \rangle - \langle \Psi_{0}^{(1)} | \hat{H}^{(0)} - E_{0}^{(0)} | \Psi_{0}^{(1)} \rangle = \min_{| \Psi_{0}^{(1)} \rangle}.\]</div>
+<p>Determining the optimal <span class="math notranslate nohighlight">\(| \Psi_{0}^{(1)} \rangle\)</span> entails iteratively
+minimizing the following residual <a class="reference internal" href="bibliography.html#pulay-1986-357" id="id3"><span>[Pulay:1986:357]</span></a>:</p>
+<div class="math notranslate nohighlight" id="equation-residual">
+<span class="eqno">(2)<a class="headerlink" href="#equation-residual" title="Link to this equation">#</a></span>\[R_{ij}^{ab} = (ia|jb) + (\epsilon_a + \epsilon_b - f_{ii} - f_{jj})t_{ij}^{ab} - \sum_{k \ne j} f_{ik} \sum_{c,d} S_{ac}t_{kj}^{c,d}S_{db} - \sum_{k \ne i} f_{kj} \sum_{cd} S_{ac}t_{ik}^{cd}S_{db}\]</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">i</span></code>, <code class="docutils literal notranslate"><span class="pre">j</span></code>, and <code class="docutils literal notranslate"><span class="pre">k</span></code> are (not necessarily canonical) occupied orbitals, <code class="docutils literal notranslate"><span class="pre">a</span></code>,
+<code class="docutils literal notranslate"><span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">c</span></code>, and <code class="docutils literal notranslate"><span class="pre">d</span></code> are virtual orbitals, <span class="math notranslate nohighlight">\(f_{ij}\)</span> are fock matrix elements,
+<span class="math notranslate nohighlight">\(S_{ab}\)</span> are orbital overlaps, and finally <span class="math notranslate nohighlight">\(t_{ij}^{ab}\)</span> are the MP2
+amplitudes to be solved for. Virtual orbitals may be different for each pair
+of occupied orbitals. For a given occupied orbital pair <code class="docutils literal notranslate"><span class="pre">ij</span></code>, all virtuals are
+orthogonal and canonical, but virtuals belonging to different pair domains
+may not be orthogonal.</p>
+<p>The following expression is used to evaluate the energy of a given set of amplitudes:</p>
+<div class="math notranslate nohighlight" id="equation-energy">
+<span class="eqno">(3)<a class="headerlink" href="#equation-energy" title="Link to this equation">#</a></span>\[\begin{split}E^{(2)} &amp;= \sum_{i,j} e_{ij}, \\
+e_{ij} &amp;= \sum_{a, b}((ia|jb) + R_{ij}^{ab})(2t_{ij}^{ab} - t_{ij}^{ba}).\end{split}\]</div>
+<p>The error in <span class="math notranslate nohighlight">\(E^{(2)}\)</span> scales quadratically with the error in the amplitudes.</p>
+<p>No local approximations have been made so far, and this iterative approach can
+be used to exactly determine <span class="math notranslate nohighlight">\(E^{(2)}\)</span> with <span class="math notranslate nohighlight">\({\cal O}(N^5)\)</span> cost.
+In DLPNO-MP2, the first local approximation is to screen distant, non-interacting
+orbital pairs <code class="docutils literal notranslate"><span class="pre">ij</span></code>. Orbital pairs are screened if below both an overlap criteria:</p>
+<div class="math notranslate nohighlight" id="equation-differential-overlap-integral">
+<span class="eqno">(4)<a class="headerlink" href="#equation-differential-overlap-integral" title="Link to this equation">#</a></span>\[DOI_{ij} \equiv \sqrt{\int d\mathbf{r} | \chi_{i}(\mathbf{r}) | ^{2} | \chi_{j}(\mathbf{r}) | ^{2}},\]</div>
+<p>and a pair energy estimate:</p>
+<div class="math notranslate nohighlight" id="equation-dipole-approximation">
+<span class="eqno">(5)<a class="headerlink" href="#equation-dipole-approximation" title="Link to this equation">#</a></span>\[e_{ij}^{approx} = -\frac{4}{R^{6}} \sum_{a_{i} \in [i],b_{j} \in [j]} \frac{ (2 \langle i | \mathbf{r} | a_{i} \rangle \langle j | \mathbf{r} | b_{j} \rangle)^{2}}{\epsilon_{a_{i}} + \epsilon_{b_{j}} - f_{ii} - f_{jj}},\]</div>
+<p>in which small domains of virtual orbitals are used for each local MO. As a
+result, an asymptotically linear number of <code class="docutils literal notranslate"><span class="pre">ij</span></code> pairs enter the local MP2
+equations, and the approximate pair energy of neglected pairs is added to
+the final energy.</p>
+<p>The second major local approximation in DLPNO-MP2 is the truncation of the virtual
+space. Initially, exchange integrals are calculated in the LMO/PAO basis using the
+standard density fitting approach:</p>
+<div class="math notranslate nohighlight" id="equation-exchange">
+<span class="eqno">(6)<a class="headerlink" href="#equation-exchange" title="Link to this equation">#</a></span>\[(ia|jb) = \sum_{K,L \in [ij]} (ia|K)[\mathbf{J}^{-1}]_{KL}(L|jb)\]</div>
+<p>This is done with linear scaling effort by exploiting the locality of the LMOs, PAOs,
+and auxiliary basis functions.
+Solving the iterative local MP2 equations in the LMO/PAO basis requires large PAO
+domains to achieve reasonable accuracy. Instead, the virtual space is transformed
+into the much more compact pair natural orbital representation. The (approximate)
+PNOs diagonalize the virtual-virtual block of the (approximate) MP2 density matrix:</p>
+<div class="math notranslate nohighlight" id="equation-pnos">
+<span class="eqno">(7)<a class="headerlink" href="#equation-pnos" title="Link to this equation">#</a></span>\[D_{ij}^{ab} = \frac{1}{1 + \delta_{ij}}[\tilde{t}_{ij}^{\dagger}t_{ij} + \tilde{t}_{ij}t_{ij}^{\dagger}]^{ab}\]</div>
+<p>which is constructed from semicanonical amplitudes:</p>
+<div class="math notranslate nohighlight" id="equation-amplitudes">
+<span class="eqno">(8)<a class="headerlink" href="#equation-amplitudes" title="Link to this equation">#</a></span>\[\begin{split}t_{ij}^{ab}         &amp;= - \frac{(iajb)}{\epsilon_{a} + \epsilon_{b} - \epsilon_{i} - \epsilon_{j}}, \\
+\tilde{t}_{ij}^{ab} &amp;= 2t_{ij}^{ab} - t_{ij}^{ba}.\end{split}\]</div>
+<p>PNOs with small occupation numbers are discarded, and the local MP2 equations are
+solved in the LMO/PNO basis.</p>
+</section>
+<section id="recommendations">
+<h2>Recommendations<a class="headerlink" href="#recommendations" title="Link to this heading">#</a></h2>
+<p>Some practical notes on running the code:</p>
+<ul class="simple">
+<li><p>DLPNO-MP2 is not a drop-in replacement for DF-MP2. Instead, it should be used for
+large calculations that cannot reasonably be performed with DF-MP2. The crossover
+point between DF-MP2 and DLPNO-MP2 depends on details of both the calculation and
+the hardware, but can be as low as 2,000 basis functions.</p></li>
+<li><p>The accuracy of DLPNO-MP2 (relative to DF-MP2) can be controlled with the
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-PNO_CONVERGENCE-DLPNO"><span class="xref std std-term">PNO_CONVERGENCE</span></a> keyword according to recommendation by Liakos et al.
+<a class="reference internal" href="bibliography.html#liakos-2015-1525" id="id4"><span>[Liakos:2015:1525]</span></a>. For non-covalent interactions <code class="docutils literal notranslate"><span class="pre">TIGHT</span></code> is highly recommended.</p></li>
+<li><p>The greater the spatial sparsity of a molecular system, the smaller the pair
+domains and consequently the faster the calculation. DLPNO-MP2 is much faster
+for linear alkanes than for globular proteins, all else constant.</p></li>
+<li><p>Similar to molecular sparsity, the sparsity of the orbital basis affects runtime.
+Diffuse functions increase the size of the pair domains and therefore lead to
+longer calculations.</p></li>
+<li><p>All aspects of DLPNO-MP2 run in core; no disk is required. As a result, the
+code exhibits very good intra-node parallelism, and benefits from many threads.
+The amount of memory needed scales linearly with system size.</p></li>
+<li><p>DLPNO-MP2 is not symmetry aware. This should not be a concern for large systems in
+which symmetry is seldom present.</p></li>
+<li><p>As with DF-MP2, freezing core orbitals (by setting <a class="reference internal" href="autodoc_glossary_options_c.html#term-FREEZE_CORE-GLOBALS"><span class="xref std std-term">FREEZE_CORE</span></a>
+to <code class="docutils literal notranslate"><span class="pre">True</span></code>) is recommended for efficiency. In DLPNO methods, this is also
+recommended for accuracy, since core excitations are known to exhibit
+greater errors relative to valence excitations.</p></li>
+<li><p>At the moment, the DLPNO-MP2 code is only compatible with with RHF references.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dfmp2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">DF-MP2: Density-Fitted 2nd-Order Møller–Plesset Perturbation Theory</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="cc.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">CC: Coupled Cluster Theory</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory">Theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommendations">Recommendations</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/dlpnomp2.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2007-2023, The Psi4 Project.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

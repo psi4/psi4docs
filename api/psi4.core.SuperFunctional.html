@@ -1,0 +1,1155 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SuperFunctional</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css?v=c7cf8c76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../_static/documentation_options.js?v=0a908d79"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/psi4.core.SuperFunctional';</script>
+    <link rel="icon" href="../_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SymmetryOperation" href="psi4.core.SymmetryOperation.html" />
+    <link rel="prev" title="Slice" href="psi4.core.Slice.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Tuesday, 26 September 2023 02:05AM"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/psi4square.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/psi4square.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">SuperFunctional</a><ul>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional</span></code></a><ul>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.XC_build"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.XC_build()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.add_c_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.add_c_functional()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.add_x_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.add_x_functional()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.allocate"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.allocate()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.ansatz"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.ansatz()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.blank"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.blank()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.c_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_alpha()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.c_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_functional()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.c_functionals"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_functionals()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.c_omega"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_omega()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.c_os_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_os_alpha()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.c_ss_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_ss_alpha()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.citation"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.citation()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.compute_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.compute_functional()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.density_tolerance"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.density_tolerance()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.deriv"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.deriv()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.description"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.description()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.grac_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.grac_alpha()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.grac_beta"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.grac_beta()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.grac_shift"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.grac_shift()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.is_c_hybrid"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_c_hybrid()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.is_c_lrc"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_c_lrc()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.is_c_scs_hybrid"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_c_scs_hybrid()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.is_gga"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_gga()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.is_libxc_func"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_libxc_func()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.is_meta"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_meta()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.is_x_hybrid"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_x_hybrid()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.is_x_lrc"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_x_lrc()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.max_points"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.max_points()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.name"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.name()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.needs_grac"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.needs_grac()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.needs_vv10"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.needs_vv10()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.needs_xc"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.needs_xc()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.print_density_threshold"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.print_density_threshold()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.print_detail"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.print_detail()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.print_out"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.print_out()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_c_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_c_alpha()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_c_omega"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_c_omega()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_c_os_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_c_os_alpha()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_c_ss_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_c_ss_alpha()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_citation"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_citation()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_density_tolerance"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_density_tolerance()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_deriv"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_deriv()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_description"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_description()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_do_vv10"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_do_vv10()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_grac_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_grac_alpha()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_grac_beta"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_grac_beta()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_grac_shift"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_grac_shift()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_lock"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_lock()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_max_points"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_max_points()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_name"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_name()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_vv10_b"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_vv10_b()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_vv10_c"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_vv10_c()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_x_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_x_alpha()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_x_beta"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_x_beta()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_x_omega"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_x_omega()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.set_xclib_description"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_xclib_description()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.test_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.test_functional()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.value"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.value()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.values"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.values()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.vv10_b"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.vv10_b()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.vv10_c"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.vv10_c()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.x_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.x_alpha()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.x_beta"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.x_beta()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.x_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.x_functional()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.x_functionals"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.x_functionals()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.x_omega"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.x_omega()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.SuperFunctional.xclib_description"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.xclib_description()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="psi4.core.Slice.html"
+                          title="previous chapter">Slice</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="psi4.core.SymmetryOperation.html"
+                          title="next chapter">SymmetryOperation</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/api/psi4.core.SuperFunctional.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../psi4api.html" class="nav-link"><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> API: Linking C++ and Python</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">SuperFunctional</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="superfunctional">
+<h1>SuperFunctional<a class="headerlink" href="#superfunctional" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">psi4.core.</span></span><span class="sig-name descname"><span class="pre">SuperFunctional</span></span><a class="headerlink" href="#psi4.core.SuperFunctional" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>docstring</p>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.XC_build" title="psi4.core.SuperFunctional.XC_build"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XC_build</span></code></a>(arg0, arg1)</p></td>
+<td><p>Builds a SuperFunctional from a XC string.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.add_c_functional" title="psi4.core.SuperFunctional.add_c_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_c_functional</span></code></a>(self, arg0)</p></td>
+<td><p>Add a correlation Functional.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.add_x_functional" title="psi4.core.SuperFunctional.add_x_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_x_functional</span></code></a>(self, arg0)</p></td>
+<td><p>Add a exchange Functional.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.allocate" title="psi4.core.SuperFunctional.allocate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">allocate</span></code></a>(self)</p></td>
+<td><p>Allocates the vectors, should be called after ansatz or npoint changes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.ansatz" title="psi4.core.SuperFunctional.ansatz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ansatz</span></code></a>(self)</p></td>
+<td><p>SuperFunctional rung.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.blank" title="psi4.core.SuperFunctional.blank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">blank</span></code></a>()</p></td>
+<td><p>Initialize a blank SuperFunctional.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.c_alpha" title="psi4.core.SuperFunctional.c_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_alpha</span></code></a>(self)</p></td>
+<td><p>Amount of MP2 correlation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.c_functional" title="psi4.core.SuperFunctional.c_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_functional</span></code></a>(self, arg0)</p></td>
+<td><p>Returns the desired C Functional.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.c_functionals" title="psi4.core.SuperFunctional.c_functionals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_functionals</span></code></a>(self)</p></td>
+<td><p>Returns all C Functionals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.c_omega" title="psi4.core.SuperFunctional.c_omega"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_omega</span></code></a>(self)</p></td>
+<td><p>Range-seperated correlation parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.c_os_alpha" title="psi4.core.SuperFunctional.c_os_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_os_alpha</span></code></a>(self)</p></td>
+<td><p>Amount of SS MP2 correlation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.c_ss_alpha" title="psi4.core.SuperFunctional.c_ss_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_ss_alpha</span></code></a>(self)</p></td>
+<td><p>Amount of OS MP2 correlation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.citation" title="psi4.core.SuperFunctional.citation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">citation</span></code></a>(self)</p></td>
+<td><p>SuperFunctional citation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.compute_functional" title="psi4.core.SuperFunctional.compute_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_functional</span></code></a>(self, vals[, npoints, ...])</p></td>
+<td><p>Computes the SuperFunctional.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.density_tolerance" title="psi4.core.SuperFunctional.density_tolerance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">density_tolerance</span></code></a>(self)</p></td>
+<td><p>Density threshold for LibXC.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.deriv" title="psi4.core.SuperFunctional.deriv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deriv</span></code></a>(self)</p></td>
+<td><p>Maximum derivative to compute.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.description" title="psi4.core.SuperFunctional.description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">description</span></code></a>(self)</p></td>
+<td><p>The description of the SuperFunctional</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.grac_alpha" title="psi4.core.SuperFunctional.grac_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grac_alpha</span></code></a>(self)</p></td>
+<td><p>GRAC Alpha.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.grac_beta" title="psi4.core.SuperFunctional.grac_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grac_beta</span></code></a>(self)</p></td>
+<td><p>GRAC Beta.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.grac_shift" title="psi4.core.SuperFunctional.grac_shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grac_shift</span></code></a>(self)</p></td>
+<td><p>Shift of the bulk potenital.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.is_c_hybrid" title="psi4.core.SuperFunctional.is_c_hybrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_c_hybrid</span></code></a>(self)</p></td>
+<td><p>Requires MP2 correlation?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.is_c_lrc" title="psi4.core.SuperFunctional.is_c_lrc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_c_lrc</span></code></a>(self)</p></td>
+<td><p>Contains range-seperated correlation?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.is_c_scs_hybrid" title="psi4.core.SuperFunctional.is_c_scs_hybrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_c_scs_hybrid</span></code></a>(self)</p></td>
+<td><p>Requires SCS-MP2 correlation?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.is_gga" title="psi4.core.SuperFunctional.is_gga"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_gga</span></code></a>(self)</p></td>
+<td><p>Is this a GGA?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.is_libxc_func" title="psi4.core.SuperFunctional.is_libxc_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_libxc_func</span></code></a>(self)</p></td>
+<td><p>A full SuperFunctional definition from LibXC.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.is_meta" title="psi4.core.SuperFunctional.is_meta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_meta</span></code></a>(self)</p></td>
+<td><p>Is this a MGGA?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.is_x_hybrid" title="psi4.core.SuperFunctional.is_x_hybrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_x_hybrid</span></code></a>(self)</p></td>
+<td><p>Requires exact exchange?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.is_x_lrc" title="psi4.core.SuperFunctional.is_x_lrc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_x_lrc</span></code></a>(self)</p></td>
+<td><p>Contains range-seperated exchange?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.max_points" title="psi4.core.SuperFunctional.max_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_points</span></code></a>(self)</p></td>
+<td><p>Maximum number of grid points per block.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.name" title="psi4.core.SuperFunctional.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>(self)</p></td>
+<td><p>The name of the SuperFunctional.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.needs_grac" title="psi4.core.SuperFunctional.needs_grac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">needs_grac</span></code></a>(self)</p></td>
+<td><p>Does this functional need GRAC.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.needs_vv10" title="psi4.core.SuperFunctional.needs_vv10"><code class="xref py py-obj docutils literal notranslate"><span class="pre">needs_vv10</span></code></a>(self)</p></td>
+<td><p>Does this functional need VV10 dispersion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.needs_xc" title="psi4.core.SuperFunctional.needs_xc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">needs_xc</span></code></a>(self)</p></td>
+<td><p>Does this functional need XC quantities.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.print_density_threshold" title="psi4.core.SuperFunctional.print_density_threshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_density_threshold</span></code></a>(self)</p></td>
+<td><p>Queries the LibXCFunctionals for their density threshold values</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.print_detail" title="psi4.core.SuperFunctional.print_detail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_detail</span></code></a>(self, arg0)</p></td>
+<td><p>Prints all SuperFunctional information.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.print_out" title="psi4.core.SuperFunctional.print_out"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_out</span></code></a>(self)</p></td>
+<td><p>Prints out functional details.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_c_alpha" title="psi4.core.SuperFunctional.set_c_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_c_alpha</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the amount of MP2 correlation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_c_omega" title="psi4.core.SuperFunctional.set_c_omega"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_c_omega</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the range-seperation correlation parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_c_os_alpha" title="psi4.core.SuperFunctional.set_c_os_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_c_os_alpha</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the amount of OS MP2 correlation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_c_ss_alpha" title="psi4.core.SuperFunctional.set_c_ss_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_c_ss_alpha</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the amount of SS MP2 correlation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_citation" title="psi4.core.SuperFunctional.set_citation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_citation</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the SuperFunctional citation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_density_tolerance" title="psi4.core.SuperFunctional.set_density_tolerance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_density_tolerance</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the density threshold for LibXC.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_deriv" title="psi4.core.SuperFunctional.set_deriv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_deriv</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the derivative level.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_description" title="psi4.core.SuperFunctional.set_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_description</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the SuperFunctional description.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_do_vv10" title="psi4.core.SuperFunctional.set_do_vv10"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_do_vv10</span></code></a>(self, arg0)</p></td>
+<td><p>Sets whether to do VV10 correction.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_grac_alpha" title="psi4.core.SuperFunctional.set_grac_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_grac_alpha</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the GRAC alpha parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_grac_beta" title="psi4.core.SuperFunctional.set_grac_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_grac_beta</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the GRAC beta parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_grac_shift" title="psi4.core.SuperFunctional.set_grac_shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_grac_shift</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the GRAC bulk shift value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_lock" title="psi4.core.SuperFunctional.set_lock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_lock</span></code></a>(self, arg0)</p></td>
+<td><p>Locks the functional to prevent changes.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_max_points" title="psi4.core.SuperFunctional.set_max_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_max_points</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the maximum number of points.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_name" title="psi4.core.SuperFunctional.set_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_name</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the SuperFunctional name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_vv10_b" title="psi4.core.SuperFunctional.set_vv10_b"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_vv10_b</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the VV10 b parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_vv10_c" title="psi4.core.SuperFunctional.set_vv10_c"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_vv10_c</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the VV10 c parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_x_alpha" title="psi4.core.SuperFunctional.set_x_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_x_alpha</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the amount of exact global HF exchange.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_x_beta" title="psi4.core.SuperFunctional.set_x_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_x_beta</span></code></a>(self, arg0)</p></td>
+<td><p>Sets how much more long-range exchange than short-range exchange.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_x_omega" title="psi4.core.SuperFunctional.set_x_omega"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_x_omega</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the range-seperation exchange parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.set_xclib_description" title="psi4.core.SuperFunctional.set_xclib_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_xclib_description</span></code></a>(self, arg0)</p></td>
+<td><p>Sets the LibXC version and citation string</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.test_functional" title="psi4.core.SuperFunctional.test_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_functional</span></code></a>(self, arg0, arg1, arg2, ...)</p></td>
+<td><p>Quick testing capabilities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.value" title="psi4.core.SuperFunctional.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a>(self, arg0)</p></td>
+<td><p>Returns a given internal value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.values" title="psi4.core.SuperFunctional.values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code></a>(self)</p></td>
+<td><p>Return all internal values.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.vv10_b" title="psi4.core.SuperFunctional.vv10_b"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vv10_b</span></code></a>(self)</p></td>
+<td><p>The VV10 b parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.vv10_c" title="psi4.core.SuperFunctional.vv10_c"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vv10_c</span></code></a>(self)</p></td>
+<td><p>The VV10 c parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.x_alpha" title="psi4.core.SuperFunctional.x_alpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x_alpha</span></code></a>(self)</p></td>
+<td><p>Amount of exact HF exchange.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.x_beta" title="psi4.core.SuperFunctional.x_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x_beta</span></code></a>(self)</p></td>
+<td><p>Amount of exact HF exchange.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.x_functional" title="psi4.core.SuperFunctional.x_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x_functional</span></code></a>(self, arg0)</p></td>
+<td><p>Returns the desired X Functional.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.x_functionals" title="psi4.core.SuperFunctional.x_functionals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x_functionals</span></code></a>(self)</p></td>
+<td><p>Returns all X Functionals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.x_omega" title="psi4.core.SuperFunctional.x_omega"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x_omega</span></code></a>(self)</p></td>
+<td><p>Range-seperated exchange parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.SuperFunctional.xclib_description" title="psi4.core.SuperFunctional.xclib_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xclib_description</span></code></a>(self)</p></td>
+<td><p>LibXC version and citation string.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.XC_build">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">XC_build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.XC_build" title="Link to this definition">#</a></dt>
+<dd><p>Builds a SuperFunctional from a XC string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.add_c_functional">
+<span class="sig-name descname"><span class="pre">add_c_functional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.Functional.html#psi4.core.Functional" title="psi4.core.Functional"><span class="pre">psi4.core.Functional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.add_c_functional" title="Link to this definition">#</a></dt>
+<dd><p>Add a correlation Functional.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.add_x_functional">
+<span class="sig-name descname"><span class="pre">add_x_functional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.Functional.html#psi4.core.Functional" title="psi4.core.Functional"><span class="pre">psi4.core.Functional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.add_x_functional" title="Link to this definition">#</a></dt>
+<dd><p>Add a exchange Functional.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.allocate">
+<span class="sig-name descname"><span class="pre">allocate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.allocate" title="Link to this definition">#</a></dt>
+<dd><p>Allocates the vectors, should be called after ansatz or npoint changes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.ansatz">
+<span class="sig-name descname"><span class="pre">ansatz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.ansatz" title="Link to this definition">#</a></dt>
+<dd><p>SuperFunctional rung.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.blank">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">blank</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.blank" title="Link to this definition">#</a></dt>
+<dd><p>Initialize a blank SuperFunctional.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.c_alpha">
+<span class="sig-name descname"><span class="pre">c_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.c_alpha" title="Link to this definition">#</a></dt>
+<dd><p>Amount of MP2 correlation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.c_functional">
+<span class="sig-name descname"><span class="pre">c_functional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="psi4.core.Functional.html#psi4.core.Functional" title="psi4.core.Functional"><span class="pre">psi4.core.Functional</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.c_functional" title="Link to this definition">#</a></dt>
+<dd><p>Returns the desired C Functional.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.c_functionals">
+<span class="sig-name descname"><span class="pre">c_functionals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="psi4.core.Functional.html#psi4.core.Functional" title="psi4.core.Functional"><span class="pre">psi4.core.Functional</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.c_functionals" title="Link to this definition">#</a></dt>
+<dd><p>Returns all C Functionals.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.c_omega">
+<span class="sig-name descname"><span class="pre">c_omega</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.c_omega" title="Link to this definition">#</a></dt>
+<dd><p>Range-seperated correlation parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.c_os_alpha">
+<span class="sig-name descname"><span class="pre">c_os_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.c_os_alpha" title="Link to this definition">#</a></dt>
+<dd><p>Amount of SS MP2 correlation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.c_ss_alpha">
+<span class="sig-name descname"><span class="pre">c_ss_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.c_ss_alpha" title="Link to this definition">#</a></dt>
+<dd><p>Amount of OS MP2 correlation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.citation">
+<span class="sig-name descname"><span class="pre">citation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.citation" title="Link to this definition">#</a></dt>
+<dd><p>SuperFunctional citation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.compute_functional">
+<span class="sig-name descname"><span class="pre">compute_functional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">singlet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.compute_functional" title="Link to this definition">#</a></dt>
+<dd><p>Computes the SuperFunctional.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.density_tolerance">
+<span class="sig-name descname"><span class="pre">density_tolerance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.density_tolerance" title="Link to this definition">#</a></dt>
+<dd><p>Density threshold for LibXC.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.deriv">
+<span class="sig-name descname"><span class="pre">deriv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.deriv" title="Link to this definition">#</a></dt>
+<dd><p>Maximum derivative to compute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.description">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.description" title="Link to this definition">#</a></dt>
+<dd><p>The description of the SuperFunctional</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.grac_alpha">
+<span class="sig-name descname"><span class="pre">grac_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.grac_alpha" title="Link to this definition">#</a></dt>
+<dd><p>GRAC Alpha.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.grac_beta">
+<span class="sig-name descname"><span class="pre">grac_beta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.grac_beta" title="Link to this definition">#</a></dt>
+<dd><p>GRAC Beta.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.grac_shift">
+<span class="sig-name descname"><span class="pre">grac_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.grac_shift" title="Link to this definition">#</a></dt>
+<dd><p>Shift of the bulk potenital.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.is_c_hybrid">
+<span class="sig-name descname"><span class="pre">is_c_hybrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.is_c_hybrid" title="Link to this definition">#</a></dt>
+<dd><p>Requires MP2 correlation?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.is_c_lrc">
+<span class="sig-name descname"><span class="pre">is_c_lrc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.is_c_lrc" title="Link to this definition">#</a></dt>
+<dd><p>Contains range-seperated correlation?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.is_c_scs_hybrid">
+<span class="sig-name descname"><span class="pre">is_c_scs_hybrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.is_c_scs_hybrid" title="Link to this definition">#</a></dt>
+<dd><p>Requires SCS-MP2 correlation?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.is_gga">
+<span class="sig-name descname"><span class="pre">is_gga</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.is_gga" title="Link to this definition">#</a></dt>
+<dd><p>Is this a GGA?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.is_libxc_func">
+<span class="sig-name descname"><span class="pre">is_libxc_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.is_libxc_func" title="Link to this definition">#</a></dt>
+<dd><p>A full SuperFunctional definition from LibXC.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.is_meta">
+<span class="sig-name descname"><span class="pre">is_meta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.is_meta" title="Link to this definition">#</a></dt>
+<dd><p>Is this a MGGA?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.is_x_hybrid">
+<span class="sig-name descname"><span class="pre">is_x_hybrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.is_x_hybrid" title="Link to this definition">#</a></dt>
+<dd><p>Requires exact exchange?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.is_x_lrc">
+<span class="sig-name descname"><span class="pre">is_x_lrc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.is_x_lrc" title="Link to this definition">#</a></dt>
+<dd><p>Contains range-seperated exchange?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.max_points">
+<span class="sig-name descname"><span class="pre">max_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.max_points" title="Link to this definition">#</a></dt>
+<dd><p>Maximum number of grid points per block.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.name" title="Link to this definition">#</a></dt>
+<dd><p>The name of the SuperFunctional.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.needs_grac">
+<span class="sig-name descname"><span class="pre">needs_grac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.needs_grac" title="Link to this definition">#</a></dt>
+<dd><p>Does this functional need GRAC.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.needs_vv10">
+<span class="sig-name descname"><span class="pre">needs_vv10</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.needs_vv10" title="Link to this definition">#</a></dt>
+<dd><p>Does this functional need VV10 dispersion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.needs_xc">
+<span class="sig-name descname"><span class="pre">needs_xc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.needs_xc" title="Link to this definition">#</a></dt>
+<dd><p>Does this functional need XC quantities.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.print_density_threshold">
+<span class="sig-name descname"><span class="pre">print_density_threshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.print_density_threshold" title="Link to this definition">#</a></dt>
+<dd><p>Queries the LibXCFunctionals for their density threshold values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.print_detail">
+<span class="sig-name descname"><span class="pre">print_detail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.print_detail" title="Link to this definition">#</a></dt>
+<dd><p>Prints all SuperFunctional information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.print_out">
+<span class="sig-name descname"><span class="pre">print_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.print_out" title="Link to this definition">#</a></dt>
+<dd><p>Prints out functional details.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_c_alpha">
+<span class="sig-name descname"><span class="pre">set_c_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_c_alpha" title="Link to this definition">#</a></dt>
+<dd><p>Sets the amount of MP2 correlation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_c_omega">
+<span class="sig-name descname"><span class="pre">set_c_omega</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_c_omega" title="Link to this definition">#</a></dt>
+<dd><p>Sets the range-seperation correlation parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_c_os_alpha">
+<span class="sig-name descname"><span class="pre">set_c_os_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_c_os_alpha" title="Link to this definition">#</a></dt>
+<dd><p>Sets the amount of OS MP2 correlation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_c_ss_alpha">
+<span class="sig-name descname"><span class="pre">set_c_ss_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_c_ss_alpha" title="Link to this definition">#</a></dt>
+<dd><p>Sets the amount of SS MP2 correlation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_citation">
+<span class="sig-name descname"><span class="pre">set_citation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_citation" title="Link to this definition">#</a></dt>
+<dd><p>Sets the SuperFunctional citation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_density_tolerance">
+<span class="sig-name descname"><span class="pre">set_density_tolerance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_density_tolerance" title="Link to this definition">#</a></dt>
+<dd><p>Sets the density threshold for LibXC.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_deriv">
+<span class="sig-name descname"><span class="pre">set_deriv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_deriv" title="Link to this definition">#</a></dt>
+<dd><p>Sets the derivative level.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_description">
+<span class="sig-name descname"><span class="pre">set_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_description" title="Link to this definition">#</a></dt>
+<dd><p>Sets the SuperFunctional description.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_do_vv10">
+<span class="sig-name descname"><span class="pre">set_do_vv10</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_do_vv10" title="Link to this definition">#</a></dt>
+<dd><p>Sets whether to do VV10 correction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_grac_alpha">
+<span class="sig-name descname"><span class="pre">set_grac_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_grac_alpha" title="Link to this definition">#</a></dt>
+<dd><p>Sets the GRAC alpha parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_grac_beta">
+<span class="sig-name descname"><span class="pre">set_grac_beta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_grac_beta" title="Link to this definition">#</a></dt>
+<dd><p>Sets the GRAC beta parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_grac_shift">
+<span class="sig-name descname"><span class="pre">set_grac_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_grac_shift" title="Link to this definition">#</a></dt>
+<dd><p>Sets the GRAC bulk shift value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_lock">
+<span class="sig-name descname"><span class="pre">set_lock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_lock" title="Link to this definition">#</a></dt>
+<dd><p>Locks the functional to prevent changes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_max_points">
+<span class="sig-name descname"><span class="pre">set_max_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_max_points" title="Link to this definition">#</a></dt>
+<dd><p>Sets the maximum number of points.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_name">
+<span class="sig-name descname"><span class="pre">set_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_name" title="Link to this definition">#</a></dt>
+<dd><p>Sets the SuperFunctional name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_vv10_b">
+<span class="sig-name descname"><span class="pre">set_vv10_b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_vv10_b" title="Link to this definition">#</a></dt>
+<dd><p>Sets the VV10 b parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_vv10_c">
+<span class="sig-name descname"><span class="pre">set_vv10_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_vv10_c" title="Link to this definition">#</a></dt>
+<dd><p>Sets the VV10 c parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_x_alpha">
+<span class="sig-name descname"><span class="pre">set_x_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_x_alpha" title="Link to this definition">#</a></dt>
+<dd><p>Sets the amount of exact global HF exchange.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_x_beta">
+<span class="sig-name descname"><span class="pre">set_x_beta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_x_beta" title="Link to this definition">#</a></dt>
+<dd><p>Sets how much more long-range exchange than short-range exchange.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_x_omega">
+<span class="sig-name descname"><span class="pre">set_x_omega</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_x_omega" title="Link to this definition">#</a></dt>
+<dd><p>Sets the range-seperation exchange parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.set_xclib_description">
+<span class="sig-name descname"><span class="pre">set_xclib_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.set_xclib_description" title="Link to this definition">#</a></dt>
+<dd><p>Sets the LibXC version and citation string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.test_functional">
+<span class="sig-name descname"><span class="pre">test_functional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg4</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg5</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg6</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.test_functional" title="Link to this definition">#</a></dt>
+<dd><p>Quick testing capabilities.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.value">
+<span class="sig-name descname"><span class="pre">value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.value" title="Link to this definition">#</a></dt>
+<dd><p>Returns a given internal value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="psi4.core.Vector.html#psi4.core.Vector" title="psi4.core.Vector"><span class="pre">psi4.core.Vector</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.values" title="Link to this definition">#</a></dt>
+<dd><p>Return all internal values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.vv10_b">
+<span class="sig-name descname"><span class="pre">vv10_b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.vv10_b" title="Link to this definition">#</a></dt>
+<dd><p>The VV10 b parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.vv10_c">
+<span class="sig-name descname"><span class="pre">vv10_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.vv10_c" title="Link to this definition">#</a></dt>
+<dd><p>The VV10 c parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.x_alpha">
+<span class="sig-name descname"><span class="pre">x_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.x_alpha" title="Link to this definition">#</a></dt>
+<dd><p>Amount of exact HF exchange.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.x_beta">
+<span class="sig-name descname"><span class="pre">x_beta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.x_beta" title="Link to this definition">#</a></dt>
+<dd><p>Amount of exact HF exchange.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.x_functional">
+<span class="sig-name descname"><span class="pre">x_functional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="psi4.core.Functional.html#psi4.core.Functional" title="psi4.core.Functional"><span class="pre">psi4.core.Functional</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.x_functional" title="Link to this definition">#</a></dt>
+<dd><p>Returns the desired X Functional.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.x_functionals">
+<span class="sig-name descname"><span class="pre">x_functionals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="psi4.core.Functional.html#psi4.core.Functional" title="psi4.core.Functional"><span class="pre">psi4.core.Functional</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.x_functionals" title="Link to this definition">#</a></dt>
+<dd><p>Returns all X Functionals.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.x_omega">
+<span class="sig-name descname"><span class="pre">x_omega</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.x_omega" title="Link to this definition">#</a></dt>
+<dd><p>Range-seperated exchange parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.SuperFunctional.xclib_description">
+<span class="sig-name descname"><span class="pre">xclib_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.SuperFunctional" title="psi4.core.SuperFunctional"><span class="pre">psi4.core.SuperFunctional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#psi4.core.SuperFunctional.xclib_description" title="Link to this definition">#</a></dt>
+<dd><p>LibXC version and citation string.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="psi4.core.Slice.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Slice</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="psi4.core.SymmetryOperation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">SymmetryOperation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.XC_build"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.XC_build()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.add_c_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.add_c_functional()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.add_x_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.add_x_functional()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.allocate"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.allocate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.ansatz"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.ansatz()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.blank"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.blank()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.c_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_alpha()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.c_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_functional()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.c_functionals"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_functionals()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.c_omega"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_omega()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.c_os_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_os_alpha()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.c_ss_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.c_ss_alpha()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.citation"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.citation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.compute_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.compute_functional()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.density_tolerance"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.density_tolerance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.deriv"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.deriv()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.description"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.grac_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.grac_alpha()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.grac_beta"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.grac_beta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.grac_shift"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.grac_shift()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.is_c_hybrid"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_c_hybrid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.is_c_lrc"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_c_lrc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.is_c_scs_hybrid"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_c_scs_hybrid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.is_gga"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_gga()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.is_libxc_func"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_libxc_func()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.is_meta"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_meta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.is_x_hybrid"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_x_hybrid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.is_x_lrc"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.is_x_lrc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.max_points"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.max_points()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.name"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.needs_grac"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.needs_grac()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.needs_vv10"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.needs_vv10()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.needs_xc"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.needs_xc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.print_density_threshold"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.print_density_threshold()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.print_detail"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.print_detail()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.print_out"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.print_out()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_c_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_c_alpha()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_c_omega"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_c_omega()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_c_os_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_c_os_alpha()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_c_ss_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_c_ss_alpha()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_citation"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_citation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_density_tolerance"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_density_tolerance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_deriv"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_deriv()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_description"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_do_vv10"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_do_vv10()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_grac_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_grac_alpha()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_grac_beta"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_grac_beta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_grac_shift"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_grac_shift()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_lock"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_lock()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_max_points"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_max_points()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_name"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_vv10_b"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_vv10_b()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_vv10_c"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_vv10_c()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_x_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_x_alpha()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_x_beta"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_x_beta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_x_omega"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_x_omega()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.set_xclib_description"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.set_xclib_description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.test_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.test_functional()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.value"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.value()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.values"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.values()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.vv10_b"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.vv10_b()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.vv10_c"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.vv10_c()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.x_alpha"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.x_alpha()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.x_beta"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.x_beta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.x_functional"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.x_functional()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.x_functionals"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.x_functionals()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.x_omega"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.x_omega()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.core.SuperFunctional.xclib_description"><code class="docutils literal notranslate"><span class="pre">SuperFunctional.xclib_description()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/api/psi4.core.SuperFunctional.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2007-2023, The Psi4 Project.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
