@@ -1,312 +1,135 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
 
 <!DOCTYPE html>
 
-
-<html lang="en" >
-
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Interface to DFTD3 by S. Grimme</title>
-  
-  
-  
-  <script data-cfasync="false">
-    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
-  </script>
-  
-  <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-
-  
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
-    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css?v=c7cf8c76" />
-  
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
-
-    <script src="_static/documentation_options.js?v=0a908d79"></script>
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="_static/documentation_options.js?v=35db0b11"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'dftd3';</script>
+
+    
+    
+     
+        <script src="_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
     <link rel="icon" href="_static/favicon-psi4.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Interface to DKH by A. Wolf, M. Reiher, and B. A. Hess" href="dkh.html" />
-    <link rel="prev" title="Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst" href="ddx.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Tuesday, 26 September 2023 02:05AM"/>
-  </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
-  
-  
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-  
-  <div id="pst-scroll-pixel-helper"></div>
-
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
-<form class="bd-search d-flex align-items-center"
-      action="search.html"
-      method="get">
-  <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search"
-         class="form-control"
-         name="q"
-         id="search-input"
-         placeholder="Search the docs ..."
-         aria-label="Search the docs ..."
-         autocomplete="off"
-         autocorrect="off"
-         autocapitalize="off"
-         spellcheck="false"/>
-  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
-  
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-<div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
-    <span class="fa-solid fa-bars"></span>
-  </label>
-  
-  
-  <div class="col-lg-3 navbar-header-items__start">
-    
-      <div class="navbar-item">
-  
-
-<a class="navbar-brand logo" href="index.html">
-  
-  
-  
-  
-    
-    
-      
-    
-    
-    <img src="_static/psi4square.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="_static/psi4square.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
-  
-  
-</a></div>
-    
-  </div>
-  
-  <div class="col-lg-9 navbar-header-items">
-    
-    
-    <div class="navbar-header-items__end">
-      
-        <div class="navbar-item navbar-persistent--container">
-          
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-        </div>
-      
-      
-    </div>
-    
-  </div>
-  
-  
-    <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-    </div>
-  
-
-  
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
-      <span class="fa-solid fa-outdent"></span>
-    </label>
-  
-</div>
-
-    </nav>
-  
-  <div class="bd-container">
-    <div class="bd-container__inner bd-page-width">
-      
-      <div class="bd-sidebar-primary bd-sidebar">
+    <link rel="prev" title="Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst" href="ddx.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
         
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="dkh.html" title="Interface to DKH by A. Wolf, M. Reiher, and B. A. Hess"
+             accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="ddx.html" title="Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst"
+             accesskey="P"><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dftd3.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/70d1c14">1.9a1.dev50</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
 
-  
-  <div class="sidebar-header-items sidebar-primary__section">
-    
-    
-    
-    
-  </div>
-  
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-  <div>
-    <h3><a href="index.html">Table of Contents</a></h3>
-    <ul>
-<li><a class="reference internal" href="#">Interface to DFTD3 by S. Grimme</a><ul>
-<li><a class="reference internal" href="#empirical-dispersion-implementations">Empirical Dispersion Implementations</a></li>
-<li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#theory">Theory</a></li>
-<li><a class="reference internal" href="#running-dftd3-or-dftd4">Running DFTD3 or DFTD4</a></li>
-<li><a class="reference internal" href="#three-body-dispersion-corrections">Three-Body Dispersion Corrections</a><ul>
-<li><a class="reference internal" href="#qcdb.Molecule.run_dftd3"><code class="docutils literal notranslate"><span class="pre">run_dftd3()</span></code></a></li>
-<li><a class="reference internal" href="#qcdb.Molecule.run_dftd4"><code class="docutils literal notranslate"><span class="pre">run_dftd4()</span></code></a></li>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion</span></code></a><ul>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashlevel</span></code></a></li>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashparams</span></code></a></li>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.fctldash"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.fctldash</span></code></a></li>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.description"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.description</span></code></a></li>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel_citation"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashlevel_citation</span></code></a></li>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams_citation"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashparams_citation</span></code></a></li>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashcoeff_supplement"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashcoeff_supplement</span></code></a></li>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.engine"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.engine</span></code></a></li>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.disp"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.disp</span></code></a></li>
-<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.ordered_params"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.ordered_params</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  </div></div>
-        <div class="sidebar-primary-item">
-  <div>
-    <h4>Previous topic</h4>
-    <p class="topless"><a href="ddx.html"
-                          title="previous chapter">Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst</a></p>
-  </div>
-  <div>
-    <h4>Next topic</h4>
-    <p class="topless"><a href="dkh.html"
-                          title="next chapter">Interface to DKH by A. Wolf, M. Reiher, and B. A. Hess</a></p>
-  </div></div>
-        <div class="sidebar-primary-item">
-  <div class="tocsection sourcelink">
-    <a href="_sources/dftd3.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
-        <div class="sidebar-primary-item">
-<div id="searchbox"></div></div>
+          <li class="nav-item nav-item-1"><a href="interfacing.html" accesskey="U">Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">Interface to DFTD3 by S. Grimme</a></li> 
+      </ul>
+    </div>
     </div>
   
-  
-  <div class="sidebar-primary-items__end sidebar-primary__section">
-  </div>
-  
-  <div id="rtd-footer-container"></div>
 
-
-      </div>
-      
-      <main id="main-content" class="bd-main">
-        
-        
-          <div class="bd-content">
-            <div class="bd-article-container">
-              
-              <div class="bd-header-article">
-<div class="header-article-items header-article__inner">
-  
-    <div class="header-article-items__start">
-      
-        <div class="header-article-item">
-
-
-
-<nav aria-label="Breadcrumb">
-  <ul class="bd-breadcrumbs">
-    
-    <li class="breadcrumb-item breadcrumb-home">
-      <a href="index.html" class="nav-link" aria-label="Home">
-        <i class="fa-solid fa-home"></i>
-      </a>
-    </li>
-    
-    <li class="breadcrumb-item"><a href="interfacing.html" class="nav-link">Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a></li>
-    
-    <li class="breadcrumb-item active" aria-current="page">Interface...</li>
-  </ul>
-</nav>
-</div>
-      
-    </div>
-  
-  
-</div>
-</div>
-              
-              
-              
-                
-<div id="searchbox"></div>
-                <article class="bd-article" role="main">
-                  
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
   <section id="interface-to-dftd3-by-s-grimme">
-<span id="sec-dftd3"></span><span id="index-0"></span><h1>Interface to DFTD3 by S. Grimme<a class="headerlink" href="#interface-to-dftd3-by-s-grimme" title="Link to this heading">#</a></h1>
+<span id="sec-dftd3"></span><span id="index-0"></span><h1>Interface to DFTD3 by S. Grimme<a class="headerlink" href="#interface-to-dftd3-by-s-grimme" title="Link to this heading">¶</a></h1>
 <p><em>Code author: Lori A. Burns</em></p>
 <p><em>Section author: Lori A. Burns</em></p>
 <p><em>Module:</em> <a class="reference internal" href="autodoc_testsuite_dftd3.html#apdx-testsuitedftd3"><span class="std std-ref">Samples</span></a></p>
 <a class="reference external image-reference" href="https://www.chemie.uni-bonn.de/pctc/mulliken-center/software/dft-d3/get-the-current-version-of-dft-d3"><img alt="https://img.shields.io/badge/home-DFTD3-5077AB.svg" src="https://img.shields.io/badge/home-DFTD3-5077AB.svg" /></a>
 <br><a class="reference external image-reference" href="https://www.chemie.uni-bonn.de/pctc/mulliken-center/software/dft-d3/man.pdf"><img alt="https://img.shields.io/badge/docs-latest-5077AB.svg" src="https://img.shields.io/badge/docs-latest-5077AB.svg" /></a>
 <section id="empirical-dispersion-implementations">
-<h2>Empirical Dispersion Implementations<a class="headerlink" href="#empirical-dispersion-implementations" title="Link to this heading">#</a></h2>
-<span id="table-empdispimpl"></span><table class="table" id="id35">
-<caption><span class="caption-text">Empirical dispersion correction packages</span><a class="headerlink" href="#id35" title="Link to this table">#</a></caption>
+<h2>Empirical Dispersion Implementations<a class="headerlink" href="#empirical-dispersion-implementations" title="Link to this heading">¶</a></h2>
+<span id="table-empdispimpl"></span><table class="docutils align-default" id="id35">
+<caption><span class="caption-text">Empirical dispersion correction packages</span><a class="headerlink" href="#id35" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Package</p></th>
 <th class="head"><p>Provides</p></th>
@@ -331,7 +154,7 @@ document.write(`
 <td><p>preferred</p></td>
 <td><p>works</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">engine=&quot;dftd3&quot;</span></code></p></td>
-<td><p><a class="github reference external" href="https://github.com/loriab/dftd3">loriab/dftd3</a></p></td>
+<td><p><a class="reference external" href="https://github.com/loriab/dftd3">https://github.com/loriab/dftd3</a></p></td>
 <td><p>classic</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">conda-forge::dftd3-python</span></code></p></td>
@@ -339,7 +162,7 @@ document.write(`
 <td><p>nyi</p></td>
 <td><p>preferred</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">engine=&quot;s-dftd3&quot;</span></code></p></td>
-<td><p><a class="github reference external" href="https://github.com/dftd3/simple-dftd3">dftd3/simple-dftd3</a></p></td>
+<td><p><a class="reference external" href="https://github.com/dftd3/simple-dftd3">https://github.com/dftd3/simple-dftd3</a></p></td>
 <td><p>s-dftd3</p></td>
 </tr>
 <tr class="row-odd"><td><p>(dep) <code class="docutils literal notranslate"><span class="pre">conda-forge::simple-dftd3</span></code></p></td>
@@ -347,7 +170,7 @@ document.write(`
 <td></td>
 <td></td>
 <td></td>
-<td><p><a class="github reference external" href="https://github.com/dftd3/simple-dftd3">dftd3/simple-dftd3</a></p></td>
+<td><p><a class="reference external" href="https://github.com/dftd3/simple-dftd3">https://github.com/dftd3/simple-dftd3</a></p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p>D4</p></td>
@@ -363,7 +186,7 @@ document.write(`
 <td><p>preferred</p></td>
 <td><p>works</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">engine=&quot;dftd4&quot;</span></code></p></td>
-<td><p><a class="github reference external" href="https://github.com/dftd4/dftd4">dftd4/dftd4</a></p></td>
+<td><p><a class="reference external" href="https://github.com/dftd4/dftd4">https://github.com/dftd4/dftd4</a></p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">conda-forge::dftd4-python</span></code></p></td>
@@ -371,7 +194,7 @@ document.write(`
 <td><p>nyi</p></td>
 <td><p>preferred</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">engine=&quot;dftd4&quot;</span></code></p></td>
-<td><p><a class="github reference external" href="https://github.com/dftd4/dftd4">dftd4/dftd4</a></p></td>
+<td><p><a class="reference external" href="https://github.com/dftd4/dftd4">https://github.com/dftd4/dftd4</a></p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p>(dep) <code class="docutils literal notranslate"><span class="pre">conda-forge::dftd4</span></code></p></td>
@@ -379,7 +202,7 @@ document.write(`
 <td></td>
 <td></td>
 <td></td>
-<td><p><a class="github reference external" href="https://github.com/dftd4/dftd4">dftd4/dftd4</a></p></td>
+<td><p><a class="reference external" href="https://github.com/dftd4/dftd4">https://github.com/dftd4/dftd4</a></p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p>GCP</p></td>
@@ -403,14 +226,14 @@ document.write(`
 <td><p>nyi</p></td>
 <td><p>preferred</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">gcp_engine=&quot;mctc-gcp&quot;</span></code></p></td>
-<td><p><a class="github reference external" href="https://github.com/grimme-lab/gcp">grimme-lab/gcp</a></p></td>
+<td><p><a class="reference external" href="https://github.com/grimme-lab/gcp">https://github.com/grimme-lab/gcp</a></p></td>
 <td><p>mctc</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
 <p><strong>Binary</strong></p>
 <ul>
 <li><a class="reference external image-reference" href="https://anaconda.org/psi4/dftd3"><img alt="https://anaconda.org/psi4/dftd3/badges/version.svg" src="https://anaconda.org/psi4/dftd3/badges/version.svg" /></a>
@@ -450,7 +273,7 @@ To preferentially use a particular dftd3 compilation, simply adjust its
 position in the path environment variables.</p>
 </section>
 <section id="theory">
-<h2>Theory<a class="headerlink" href="#theory" title="Link to this heading">#</a></h2>
+<h2>Theory<a class="headerlink" href="#theory" title="Link to this heading">¶</a></h2>
 <p>The local or semilocal character of conventional density functionals
 necessarily leads to neglect of the long-range correlation interactions
 which capture attractive van der Waals forces. Initially proposed by Yang
@@ -469,7 +292,7 @@ over a distance characterized by the sum of the two atomic vdW radii,
 to be unique to each <span class="math notranslate nohighlight">\(E_{xc}\)</span> functional. (<span class="math notranslate nohighlight">\(\alpha_6\)</span> is
 sometimes allowed to vary as well.)</p>
 <div class="math notranslate nohighlight" id="equation-dftd2">
-<span class="eqno">(1)<a class="headerlink" href="#equation-dftd2" title="Link to this equation">#</a></span>\[E_{disp}^{\text{D2}}=-s_6 \sum_{i,j&gt;i}^{N_{at}} \frac{C_6^{ij}}{(R_{ij})^6} f_{damp}(R_{ij})\]</div>
+<span class="eqno">(1)<a class="headerlink" href="#equation-dftd2" title="Link to this equation">¶</a></span>\[E_{disp}^{\text{D2}}=-s_6 \sum_{i,j&gt;i}^{N_{at}} \frac{C_6^{ij}}{(R_{ij})^6} f_{damp}(R_{ij})\]</div>
 <div class="math notranslate nohighlight">
 \[f_{damp}(R_{ij}) = \frac{1}{1 + e^{- \alpha_6 (R_{ij}/R_{vdW} - 1)}}\]</div>
 <p>Grimme recently presented a refined method, DFT-D3, <a class="reference internal" href="bibliography.html#grimme-2010-154104" id="id6"><span>[Grimme:2010:154104]</span></a>
@@ -483,7 +306,7 @@ environment into an otherwise largely heuristic correction.  The -D3
 dispersion has the following form, where <span class="math notranslate nohighlight">\(s_{r,6}\)</span> and <span class="math notranslate nohighlight">\(s_8\)</span>
 are the customary nonunity parameters fitted for individual functionals.</p>
 <div class="math notranslate nohighlight" id="equation-dftd3zero">
-<span class="eqno">(2)<a class="headerlink" href="#equation-dftd3zero" title="Link to this equation">#</a></span>\[E_{disp}^{\text{D3ZERO}}=-\sum_{n=6,8} s_n \sum_{i,j&gt;i}^{N_{at}}
+<span class="eqno">(2)<a class="headerlink" href="#equation-dftd3zero" title="Link to this equation">¶</a></span>\[E_{disp}^{\text{D3ZERO}}=-\sum_{n=6,8} s_n \sum_{i,j&gt;i}^{N_{at}}
 \frac{C_n^{ij}}{(R_{ij})^n} f_{damp}(R_{ij})\]</div>
 <div class="math notranslate nohighlight">
 \[f_{damp}(R_{ij}) = \frac{1}{1 + 6 (R_{ij}/(s_{r,n} R_0^{ij}))^{- \alpha_n}}\]</div>
@@ -502,7 +325,7 @@ or else from the literature.
 With s-dftd3, parameters are also tabulated in the program source.</p>
 </section>
 <section id="running-dftd3-or-dftd4">
-<h2>Running DFTD3 or DFTD4<a class="headerlink" href="#running-dftd3-or-dftd4" title="Link to this heading">#</a></h2>
+<h2>Running DFTD3 or DFTD4<a class="headerlink" href="#running-dftd3-or-dftd4" title="Link to this heading">¶</a></h2>
 <p>A number of <em>a posteriori</em> dispersion corrections are available in
 <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>.  While some are computed within <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s codebase (-D1, -D2,
 -CHG, -DAS2009, -DAS2010), the -D3 or -D4 corrections and their variants are
@@ -543,8 +366,8 @@ the PSI variable <a class="reference internal" href="glossary_psivariables.html#
 By default, the output from the <code class="docutils literal notranslate"><span class="pre">dftd3</span></code>
 program is suppressed; to see it in the output file, set print &gt; 2.
 No text output is available from the <code class="docutils literal notranslate"><span class="pre">dftd4</span></code> or <code class="docutils literal notranslate"><span class="pre">s-dftd3</span></code> programs.</p>
-<span id="table-dashd"></span><table class="table" id="id36">
-<caption><span class="caption-text">Variants of dispersion corrections</span><a class="headerlink" href="#id36" title="Link to this table">#</a></caption>
+<span id="table-dashd"></span><table class="docutils align-default" id="id36">
+<caption><span class="caption-text">Variants of dispersion corrections</span><a class="headerlink" href="#id36" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Extension <a class="footnote-reference brackets" href="#f0" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> and Aliases</p></th>
 <th class="head"><p>Variant</p></th>
@@ -637,7 +460,7 @@ No text output is available from the <code class="docutils literal notranslate">
 </table>
 </section>
 <section id="three-body-dispersion-corrections">
-<h2>Three-Body Dispersion Corrections<a class="headerlink" href="#three-body-dispersion-corrections" title="Link to this heading">#</a></h2>
+<h2>Three-Body Dispersion Corrections<a class="headerlink" href="#three-body-dispersion-corrections" title="Link to this heading">¶</a></h2>
 <p>In addition to the previously discussed two-body dispersion corrections,
 the <code class="docutils literal notranslate"><span class="pre">dftd3</span></code>/<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> interface enables computations of three-body dispersion
 corrections. In <code class="docutils literal notranslate"><span class="pre">DFT-D3</span></code>, three-body dispersion is approximated with the
@@ -796,7 +619,7 @@ any user-specified dispersion parameters.</p>
 </ul>
 <dl class="py function">
 <dt class="sig sig-object py" id="qcdb.Molecule.run_dftd3">
-<span class="sig-prename descclassname"><span class="pre">qcdb.Molecule.</span></span><span class="sig-name descname"><span class="pre">run_dftd3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashparam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qcdb.Molecule.run_dftd3" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">qcdb.Molecule.</span></span><span class="sig-name descname"><span class="pre">run_dftd3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashparam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qcdb.Molecule.run_dftd3" title="Link to this definition">¶</a></dt>
 <dd><p>Compute dispersion correction via Grimme’s DFTD3 program.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -831,7 +654,7 @@ efficient. Influences return values, see below.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="qcdb.Molecule.run_dftd4">
-<span class="sig-prename descclassname"><span class="pre">qcdb.Molecule.</span></span><span class="sig-name descname"><span class="pre">run_dftd4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashparam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qcdb.Molecule.run_dftd4" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">qcdb.Molecule.</span></span><span class="sig-name descname"><span class="pre">run_dftd4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dashparam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qcdb.Molecule.run_dftd4" title="Link to this definition">¶</a></dt>
 <dd><p>Compute dispersion correction via Grimme’s DFTD4 program.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -870,11 +693,11 @@ As such, the upstream convention of <cite>func</cite> trumping <cite>dashparam</
 
 <dl class="py class">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">psi4.driver.procrouting.empirical_dispersion.</span></span><span class="sig-name descname"><span class="pre">EmpiricalDispersion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_tweaks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcp_engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_pairwise_disp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/procrouting/empirical_dispersion.html#EmpiricalDispersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">psi4.driver.procrouting.empirical_dispersion.</span></span><span class="sig-name descname"><span class="pre">EmpiricalDispersion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_tweaks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcp_engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_pairwise_disp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/procrouting/empirical_dispersion.html#EmpiricalDispersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion" title="Link to this definition">¶</a></dt>
 <dd><p>Lightweight unification of empirical dispersion calculation modes.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel">
-<span class="sig-name descname"><span class="pre">dashlevel</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dashlevel</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel" title="Link to this definition">¶</a></dt>
 <dd><p>{“d1”, “d2”, “chg”, “das2009”, “das2010”, “nl”, “dmp2”, “d3zero2b”, “d3bj2b”, “d3mzero2b”, “d3mbj2b”, “d3zeroatm”, “d3bjatm”, “d3mzeroatm”, “d3mbjatm”, “d4bjeeqatm”}
 Name of dispersion correction to be applied. Resolved
 from <cite>name_hint</cite> and/or <cite>level_hint</cite> into a key of
@@ -888,7 +711,7 @@ from <cite>name_hint</cite> and/or <cite>level_hint</cite> into a key of
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams">
-<span class="sig-name descname"><span class="pre">dashparams</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dashparams</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams" title="Link to this definition">¶</a></dt>
 <dd><p>Complete set of parameter values defining the flexible parts
 of <a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel" title="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dashlevel</span></code></a>. Number and parameter names vary by
 <a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel" title="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dashlevel</span></code></a>. Resolved into a complete set (keys of
@@ -903,7 +726,7 @@ dashcoeff[dashlevel][‘default’]) from <cite>name_hint</cite> and/or
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.fctldash">
-<span class="sig-name descname"><span class="pre">fctldash</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.fctldash" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">fctldash</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.fctldash" title="Link to this definition">¶</a></dt>
 <dd><p>If <a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams" title="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dashparams</span></code></a> for <a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel" title="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dashlevel</span></code></a> corresponds to a defined,
 named, untweaked “functional-dashlevel” set, then that
 functional. Otherwise, empty string.</p>
@@ -916,7 +739,7 @@ functional. Otherwise, empty string.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.description">
-<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.description" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.description" title="Link to this definition">¶</a></dt>
 <dd><p>Tagline for dispersion <a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel" title="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dashlevel</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -927,7 +750,7 @@ functional. Otherwise, empty string.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel_citation">
-<span class="sig-name descname"><span class="pre">dashlevel_citation</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel_citation" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dashlevel_citation</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel_citation" title="Link to this definition">¶</a></dt>
 <dd><p>Literature reference for dispersion <a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel" title="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dashlevel</span></code></a> in general,
 <em>not necessarily</em> for <a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams" title="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dashparams</span></code></a>.</p>
 <dl class="field-list simple">
@@ -939,7 +762,7 @@ functional. Otherwise, empty string.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams_citation">
-<span class="sig-name descname"><span class="pre">dashparams_citation</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams_citation" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dashparams_citation</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams_citation" title="Link to this definition">¶</a></dt>
 <dd><p>Literature reference for dispersion parameters, if <a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams" title="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dashparams</span></code></a>
 corresponds to a defined, named, untweaked “functional-dashlevel”
 set with a citation. Otherwise, empty string.</p>
@@ -952,7 +775,7 @@ set with a citation. Otherwise, empty string.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashcoeff_supplement">
-<span class="sig-name descname"><span class="pre">dashcoeff_supplement</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashcoeff_supplement" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dashcoeff_supplement</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashcoeff_supplement" title="Link to this definition">¶</a></dt>
 <dd><p>See description in <cite>qcengine.programs.empirical_dispersion_resources.from_arrays</cite>. Used
 here to “bless” the dispersion definitions attached to
 the procedures/dft/&lt;rung&gt;_functionals-defined dictionaries
@@ -968,7 +791,7 @@ validating <a class="reference internal" href="#psi4.driver.procrouting.empirica
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.engine">
-<span class="sig-name descname"><span class="pre">engine</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.engine" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">engine</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.engine" title="Link to this definition">¶</a></dt>
 <dd><p>{‘libdisp’, “s-dftd3”, ‘dftd3’, ‘nl’, ‘mp2d’, “dftd4”}
 Compute engine for dispersion. One of Psi4’s internal libdisp
 library, external Grimme or Beran projects, or nl.</p>
@@ -981,7 +804,7 @@ library, external Grimme or Beran projects, or nl.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.disp">
-<span class="sig-name descname"><span class="pre">disp</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.disp" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">disp</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.disp" title="Link to this definition">¶</a></dt>
 <dd><p>Only present for <a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.engine" title="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.engine"><code class="xref py py-attr docutils literal notranslate"><span class="pre">engine</span></code></a> <cite>=libdisp</cite>. Psi4 class instance prepared
 to compute dispersion.</p>
 <dl class="field-list simple">
@@ -993,7 +816,7 @@ to compute dispersion.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.ordered_params">
-<span class="sig-name descname"><span class="pre">ordered_params</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.ordered_params" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">ordered_params</span></span><a class="headerlink" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.ordered_params" title="Link to this definition">¶</a></dt>
 <dd><p>Fixed-order list of relevant parameters for <a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel" title="psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dashlevel</span></code></a>. Matches
 <a class="reference internal" href="glossary_psivariables.html#psivar-DISPERSION-CORRECTION-ENERGY"><code class="xref std std-psivar docutils literal notranslate"><span class="pre">DISPERSION</span> <span class="pre">CORRECTION</span> <span class="pre">ENERGY</span></code></a> ordering. Used for printing.</p>
 <dl class="field-list simple">
@@ -1034,132 +857,145 @@ classic gcp or mctc-gcp executables.</p></li>
 </section>
 
 
-                </article>
-              
-              
-              
-              
-              
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
-<div class="prev-next-area">
-    <a class="left-prev"
-       href="ddx.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="dkh.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Interface to DKH by A. Wolf, M. Reiher, and B. A. Hess</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
-</div>
-                </footer>
-              
-            </div>
-            
-            
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-dispersion-implementations">Empirical Dispersion Implementations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory">Theory</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-dftd3-or-dftd4">Running DFTD3 or DFTD4</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#three-body-dispersion-corrections">Three-Body Dispersion Corrections</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qcdb.Molecule.run_dftd3"><code class="docutils literal notranslate"><span class="pre">run_dftd3()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qcdb.Molecule.run_dftd4"><code class="docutils literal notranslate"><span class="pre">run_dftd4()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashlevel</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashparams</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.fctldash"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.fctldash</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.description"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.description</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel_citation"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashlevel_citation</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams_citation"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashparams_citation</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashcoeff_supplement"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashcoeff_supplement</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.engine"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.engine</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.disp"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.disp</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.ordered_params"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.ordered_params</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-  </nav></div>
-
-  <div class="sidebar-secondary-item">
-  <div class="tocsection sourcelink">
-    <a href="_sources/dftd3.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
-
-</div></div>
-              
-            
+            <div class="clearer"></div>
           </div>
-          <footer class="bd-footer-content">
-            
-          </footer>
-        
-      </main>
-    </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+<div id="searchbox" style="display: none" role="search">
+  <!--<h3>Quick search</h3>-->
+    <form class="search" action="search.html" method="get">
+      <!--<div><input type="text" name="q" placeholder="search docs" /></div>-->
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel" /></div>
+      <!--<div><input type="submit" value="Go" /></div>-->
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="index.html">table of contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Interface to DFTD3 by S. Grimme</a><ul>
+<li><a class="reference internal" href="#empirical-dispersion-implementations">Empirical Dispersion Implementations</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#theory">Theory</a></li>
+<li><a class="reference internal" href="#running-dftd3-or-dftd4">Running DFTD3 or DFTD4</a></li>
+<li><a class="reference internal" href="#three-body-dispersion-corrections">Three-Body Dispersion Corrections</a><ul>
+<li><a class="reference internal" href="#qcdb.Molecule.run_dftd3"><code class="docutils literal notranslate"><span class="pre">run_dftd3()</span></code></a></li>
+<li><a class="reference internal" href="#qcdb.Molecule.run_dftd4"><code class="docutils literal notranslate"><span class="pre">run_dftd4()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion</span></code></a><ul>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashlevel</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashparams</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.fctldash"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.fctldash</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.description"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.description</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashlevel_citation"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashlevel_citation</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashparams_citation"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashparams_citation</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.dashcoeff_supplement"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.dashcoeff_supplement</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.engine"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.engine</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.disp"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.disp</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.procrouting.empirical_dispersion.EmpiricalDispersion.ordered_params"><code class="docutils literal notranslate"><span class="pre">EmpiricalDispersion.ordered_params</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   </div>
-  
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
-
-  <footer class="bd-footer">
-<div class="bd-footer__inner bd-page-width">
-  
-    <div class="footer-items__start">
-      
-        <div class="footer-item">
-  <p class="copyright">
+        </div>
+      </div>
     
-      © Copyright 2007-2023, The Psi4 Project.
-      <br/>
     
-  </p>
-</div>
-      
-        <div class="footer-item">
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
-    <br/>
-  </p>
-</div>
-      
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
     </div>
-  
-  
-  
-    <div class="footer-items__end">
-      
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
-</p></div>
-      
-    </div>
-  
-</div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="dkh.html" title="Interface to DKH by A. Wolf, M. Reiher, and B. A. Hess"
+             ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="ddx.html" title="Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst"
+             ><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dftd3.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/70d1c14">1.9a1.dev50</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
 
-  </footer>
+          <li class="nav-item nav-item-1"><a href="interfacing.html" >Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">Interface to DFTD3 by S. Grimme</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2023, The Psi4 Project.
+      Last updated on Tuesday, 26 September 2023 09:32AM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
   </body>
 </html>
