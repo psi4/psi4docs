@@ -1,133 +1,301 @@
-<!-- 
-#
-# @BEGIN LICENSE
-#
-# Psi4: an open-source quantum chemistry software package
-#
-# Copyright (c) 2007-2017 The Psi4 Developers.
-#
-# The copyrights for code used from other parties are included in
-# the corresponding files.
-#
-# This file is part of Psi4.
-#
-# Psi4 is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, version 3.
-#
-# Psi4 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with Psi4; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# @END LICENSE
-# -->
-
-
-
-
 
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="./">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Interface to the BrianQC GPU module by the BrianQC team</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
-    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
-    
-    <script src="_static/documentation_options.js?v=76c65451"></script>
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css?v=c7cf8c76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="_static/documentation_options.js?v=0a908d79"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-    
-    
-     
-        <script src="_static/jquery.cookie.js"></script>
-    
-
-    
-     
-        <script src="_static/cloud.base.js"></script>
-    
-
-    
-     
-        <script src="_static/cloud.js"></script>
-    
-
+    <script>DOCUMENTATION_OPTIONS.pagename = 'brianqc';</script>
     <link rel="icon" href="_static/favicon-psi4.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Interface to CFOUR by J. Stanton &amp; J. Gauss" href="cfour.html" />
-    <link rel="prev" title="Interface to adcc by M. F. Herbst and M. Scheurer" href="adcc.html" /> 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head><body>
-    <div class="relbar-top">
-        
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">Index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="cfour.html" title="Interface to CFOUR by J. Stanton &amp; J. Gauss"
-             accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="adcc.html" title="Interface to adcc by M. F. Herbst and M. Scheurer"
-             accesskey="P"><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="index.html" title="Table Of Contents"
-             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
-    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
-    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/brianqc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/990b0e8">1.9a1.dev49</a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li class="nav-item nav-item-0"><a href="index.html">
-        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
-        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+    <link rel="prev" title="Interface to adcc by M. F. Herbst and M. Scheurer" href="adcc.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Tuesday, 26 September 2023 02:05AM"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-          <li class="nav-item nav-item-1"><a href="interfacing.html" accesskey="U">Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
-        <li class="nav-item nav-item-this"><a href="">Interface to the BrianQC GPU module by the BrianQC team</a></li> 
-      </ul>
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/psi4square.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/psi4square.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
     </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
     </div>
   
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Interface to the BrianQC GPU module by the BrianQC team</a><ul>
+<li><a class="reference internal" href="#installing-brianqc">Installing BrianQC</a></li>
+<li><a class="reference internal" href="#building-brianqc-s-user-built-components">Building BrianQC’s user-built components</a></li>
+<li><a class="reference internal" href="#building-psifour-with-brianqc">Building <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> with BrianQC</a></li>
+<li><a class="reference internal" href="#using-brianqc-from-psifour">Using BrianQC from <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></a><ul>
+<li><a class="reference internal" href="#when-to-enable-brianqc">When to enable BrianQC</a></li>
+<li><a class="reference internal" href="#necessary-and-recommended-option-values">Necessary and recommended option values</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#keywords">Keywords</a><ul>
+<li><a class="reference internal" href="#brianqc-enable"><span class="xref std std-term">BRIANQC_ENABLE</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+</ul>
+</li>
+</ul>
+
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="adcc.html"
+                          title="previous chapter">Interface to adcc by M. F. Herbst and M. Scheurer</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cfour.html"
+                          title="next chapter">Interface to CFOUR by J. Stanton &amp; J. Gauss</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/brianqc.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="interfacing.html" class="nav-link">Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Interface...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section id="interface-to-the-brianqc-gpu-module-by-the-brianqc-team">
-<span id="sec-brianqc"></span><span id="index-0"></span><h1>Interface to the BrianQC GPU module by the BrianQC team<a class="headerlink" href="#interface-to-the-brianqc-gpu-module-by-the-brianqc-team" title="Link to this heading">¶</a></h1>
+<span id="sec-brianqc"></span><span id="index-0"></span><h1>Interface to the BrianQC GPU module by the BrianQC team<a class="headerlink" href="#interface-to-the-brianqc-gpu-module-by-the-brianqc-team" title="Link to this heading">#</a></h1>
 <p><em>Code author: Gergely Kis</em></p>
 <p><em>Section author: Gergely Kis</em></p>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> contains code to interface to the BrianQC GPU module developed
 by the <a class="reference external" href="https://www.brianqc.com/team">BrianQC team</a>, which is available after a license agreement from
 <a class="reference external" href="https://brianqc.com/">https://brianqc.com/</a>.</p>
 <section id="installing-brianqc">
-<h2>Installing BrianQC<a class="headerlink" href="#installing-brianqc" title="Link to this heading">¶</a></h2>
+<h2>Installing BrianQC<a class="headerlink" href="#installing-brianqc" title="Link to this heading">#</a></h2>
 <p>Please contact BrianQC at <a class="reference external" href="https://brianqc.com/">https://brianqc.com/</a>
 to download the BrianQC GPU module and obtain a license.</p>
 <p>Note that there are several prerequisites for using BrianQC, including
@@ -138,7 +306,7 @@ for a full list of prerequisites.</p>
 <span class="target" id="index-1"></span><a class="reference internal" href="#envvar-BRIANQC_SDK_INSTALL"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">BRIANQC_SDK_INSTALL</span></code></a> envoronment variable to <cite>1</cite>.</p>
 </section>
 <section id="building-brianqc-s-user-built-components">
-<h2>Building BrianQC’s user-built components<a class="headerlink" href="#building-brianqc-s-user-built-components" title="Link to this heading">¶</a></h2>
+<h2>Building BrianQC’s user-built components<a class="headerlink" href="#building-brianqc-s-user-built-components" title="Link to this heading">#</a></h2>
 <p>After the installation, build BrianQC’s example and sample programs,
 which also creates the wrapper library and CMake configuration files
 required to build <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> with BrianQC.</p>
@@ -174,13 +342,13 @@ bin/sample_hf_and_dft<span class="w"> </span>--molecule<span class="w"> </span>.
 </div>
 </section>
 <section id="building-psifour-with-brianqc">
-<h2>Building <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> with BrianQC<a class="headerlink" href="#building-psifour-with-brianqc" title="Link to this heading">¶</a></h2>
+<h2>Building <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> with BrianQC<a class="headerlink" href="#building-psifour-with-brianqc" title="Link to this heading">#</a></h2>
 <p>When CMake-ing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, set the <strong class="makevar">ENABLE_BrianQC</strong> CMake variable to <cite>1</cite>
 and set the <strong class="makevar">BrianQC_DIR</strong> CMake variable to the path where BrianQC’s
 components have been built (usually <cite>&lt;brianqc_install_path&gt;/build</cite>), then build <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> normally.</p>
 </section>
 <section id="using-brianqc-from-psifour">
-<h2>Using BrianQC from <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span><a class="headerlink" href="#using-brianqc-from-psifour" title="Link to this heading">¶</a></h2>
+<h2>Using BrianQC from <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span><a class="headerlink" href="#using-brianqc-from-psifour" title="Link to this heading">#</a></h2>
 <p>To use BrianQC, the <span class="target" id="index-3"></span><a class="reference internal" href="#envvar-BRIANQC_INSTALL_PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">BRIANQC_INSTALL_PATH</span></code></a> environment variable
 must be set to the full path of your BrianQC installation.</p>
 <p>There are two ways to enable BrianQC for a specific calculation:</p>
@@ -191,7 +359,7 @@ must be set to the full path of your BrianQC installation.</p>
 <p>If both the input option and the environment variable are specified,
 then the environment variable takes precedence.</p>
 <section id="when-to-enable-brianqc">
-<h3>When to enable BrianQC<a class="headerlink" href="#when-to-enable-brianqc" title="Link to this heading">¶</a></h3>
+<h3>When to enable BrianQC<a class="headerlink" href="#when-to-enable-brianqc" title="Link to this heading">#</a></h3>
 <p>The operation of BrianQC is transparent from a user’s point of view; every
 internal computation is either performed by <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> (if unsupported by BrianQC),
 or taken over by BrianQC, yielding the same result to within the required
@@ -209,7 +377,7 @@ those terms, such as</p>
 the actual speedup depends on the specifics of the calculation.</p>
 </section>
 <section id="necessary-and-recommended-option-values">
-<h3>Necessary and recommended option values<a class="headerlink" href="#necessary-and-recommended-option-values" title="Link to this heading">¶</a></h3>
+<h3>Necessary and recommended option values<a class="headerlink" href="#necessary-and-recommended-option-values" title="Link to this heading">#</a></h3>
 <p>To ensure that a calculation works with BrianQC, the following options need to
 be set when enabling BrianQC:</p>
 <ul class="simple">
@@ -231,9 +399,9 @@ BrianQC, set <a class="reference internal" href="autodoc_glossary_options_c.html
 </section>
 </section>
 <section id="keywords">
-<h2>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">¶</a></h2>
+<h2>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">#</a></h2>
 <section id="brianqc-enable">
-<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-BRIANQC_ENABLE-GLOBALS"><span class="xref std std-term">BRIANQC_ENABLE</span></a><a class="headerlink" href="#brianqc-enable" title="Link to this heading">¶</a></h3>
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-BRIANQC_ENABLE-GLOBALS"><span class="xref std std-term">BRIANQC_ENABLE</span></a><a class="headerlink" href="#brianqc-enable" title="Link to this heading">#</a></h3>
 <blockquote>
 <div><p>Whether to enable using the BrianQC GPU module</p>
 <ul class="simple">
@@ -244,24 +412,24 @@ BrianQC, set <a class="reference internal" href="autodoc_glossary_options_c.html
 </section>
 </section>
 <section id="environment-variables">
-<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading">¶</a></h2>
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading">#</a></h2>
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-BRIANQC_SDK_INSTALL">
-<span class="sig-name descname"><span class="pre">BRIANQC_SDK_INSTALL</span></span><a class="headerlink" href="#envvar-BRIANQC_SDK_INSTALL" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">BRIANQC_SDK_INSTALL</span></span><a class="headerlink" href="#envvar-BRIANQC_SDK_INSTALL" title="Link to this definition">#</a></dt>
 <dd><p>Toggle for type of BrianQC installation.
 See <a class="reference external" href="https://s3.amazonaws.com/streamnovation-brianqc-manual/BrianQC_Manual_v1_1_0.pdf">https://s3.amazonaws.com/streamnovation-brianqc-manual/BrianQC_Manual_v1_1_0.pdf</a> for details.</p>
 </dd></dl>
 
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-BRIANQC_INSTALL_PATH">
-<span class="sig-name descname"><span class="pre">BRIANQC_INSTALL_PATH</span></span><a class="headerlink" href="#envvar-BRIANQC_INSTALL_PATH" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">BRIANQC_INSTALL_PATH</span></span><a class="headerlink" href="#envvar-BRIANQC_INSTALL_PATH" title="Link to this definition">#</a></dt>
 <dd><p>Location of BrianQC installation.
 See <a class="reference external" href="https://s3.amazonaws.com/streamnovation-brianqc-manual/BrianQC_Manual_v1_1_0.pdf">https://s3.amazonaws.com/streamnovation-brianqc-manual/BrianQC_Manual_v1_1_0.pdf</a> for details.</p>
 </dd></dl>
 
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-BRIANQC_ENABLE">
-<span class="sig-name descname"><span class="pre">BRIANQC_ENABLE</span></span><a class="headerlink" href="#envvar-BRIANQC_ENABLE" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">BRIANQC_ENABLE</span></span><a class="headerlink" href="#envvar-BRIANQC_ENABLE" title="Link to this definition">#</a></dt>
 <dd><p>Runtime toggle of whether to use BrianQC.</p>
 </dd></dl>
 
@@ -269,136 +437,123 @@ See <a class="reference external" href="https://s3.amazonaws.com/streamnovation-
 </section>
 
 
-            <div class="clearer"></div>
-          </div>
-        </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="adcc.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Interface to adcc by M. F. Herbst and M. Scheurer</p>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><!-- 
-#
-# @BEGIN LICENSE
-#
-# Psi4: an open-source quantum chemistry software package
-#
-# Copyright (c) 2007-2017 The Psi4 Developers.
-#
-# The copyrights for code used from other parties are included in
-# the corresponding files.
-#
-# This file is part of Psi4.
-#
-# Psi4 is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, version 3.
-#
-# Psi4 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with Psi4; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# @END LICENSE
-# -->
-
-
-<div id="searchbox" style="display: none" role="search">
-  <!--<h3>Quick search</h3>-->
-    <form class="search" action="search.html" method="get">
-      <!--<div><input type="text" name="q" placeholder="search docs" /></div>-->
-      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel" /></div>
-      <!--<div><input type="submit" value="Go" /></div>-->
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
+    </a>
+    <a class="right-next"
+       href="cfour.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Interface to CFOUR by J. Stanton &amp; J. Gauss</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script><div class="sphinx-toc sphinxlocaltoc">
-    <h3><a href="index.html">table of contents</a></h3>
-    <ul>
-<li><a class="reference internal" href="#">Interface to the BrianQC GPU module by the BrianQC team</a><ul>
-<li><a class="reference internal" href="#installing-brianqc">Installing BrianQC</a></li>
-<li><a class="reference internal" href="#building-brianqc-s-user-built-components">Building BrianQC’s user-built components</a></li>
-<li><a class="reference internal" href="#building-psifour-with-brianqc">Building <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> with BrianQC</a></li>
-<li><a class="reference internal" href="#using-brianqc-from-psifour">Using BrianQC from <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></a><ul>
-<li><a class="reference internal" href="#when-to-enable-brianqc">When to enable BrianQC</a></li>
-<li><a class="reference internal" href="#necessary-and-recommended-option-values">Necessary and recommended option values</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#keywords">Keywords</a><ul>
-<li><a class="reference internal" href="#brianqc-enable"><span class="xref std std-term">BRIANQC_ENABLE</span></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
-</ul>
-</li>
-</ul>
-
-  </div>
-        </div>
-      </div>
-    
-    
-        <div class="sidebar-toggle-group no-js">
+                </footer>
+              
+            </div>
             
-            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
-                 «
-                <span class="show-for-small">hide menu</span>
-                
-            </button>
-            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
-                
-                <span class="show-for-small">menu</span>
-                <span class="hide-for-small">sidebar</span>
-                 »
-            </button>
-        </div>
-    
-      <div class="clearer"></div>
-    </div>
-    <div class="relbar-bottom">
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-brianqc">Installing BrianQC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-brianqc-s-user-built-components">Building BrianQC’s user-built components</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-psifour-with-brianqc">Building <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> with BrianQC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-brianqc-from-psifour">Using BrianQC from <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-enable-brianqc">When to enable BrianQC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#necessary-and-recommended-option-values">Necessary and recommended option values</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keywords">Keywords</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#brianqc-enable"><span class="xref std std-term">BRIANQC_ENABLE</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">Environment Variables</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/brianqc.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
         
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >Index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="cfour.html" title="Interface to CFOUR by J. Stanton &amp; J. Gauss"
-             ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="adcc.html" title="Interface to adcc by M. F. Herbst and M. Scheurer"
-             ><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="index.html" title="Table Of Contents"
-             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
-    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
-    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/brianqc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/990b0e8">1.9a1.dev49</a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li class="nav-item nav-item-0"><a href="index.html">
-        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
-        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
-          <li class="nav-item nav-item-1"><a href="interfacing.html" >Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
-        <li class="nav-item nav-item-this"><a href="">Interface to the BrianQC GPU module by the BrianQC team</a></li> 
-      </ul>
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2007-2023, The Psi4 Project.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
     </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
     </div>
+  
+</div>
 
-    <div class="footer" role="contentinfo">
-    &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Tuesday, 12 September 2023 06:44PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.5.
-    </div>
-    <!-- cloud_sptheme 1.4 -->
+  </footer>
   </body>
 </html>
