@@ -1,126 +1,291 @@
-<!-- 
-#
-# @BEGIN LICENSE
-#
-# Psi4: an open-source quantum chemistry software package
-#
-# Copyright (c) 2007-2017 The Psi4 Developers.
-#
-# The copyrights for code used from other parties are included in
-# the corresponding files.
-#
-# This file is part of Psi4.
-#
-# Psi4 is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, version 3.
-#
-# Psi4 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with Psi4; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# @END LICENSE
-# -->
-
-
-
-
 
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="./">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Interface to CFOUR by J. Stanton &amp; J. Gauss</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
-    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
-    
-    <script src="_static/documentation_options.js?v=76c65451"></script>
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css?v=c7cf8c76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="_static/documentation_options.js?v=0a908d79"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-    
-    
-     
-        <script src="_static/jquery.cookie.js"></script>
-    
-
-    
-     
-        <script src="_static/cloud.base.js"></script>
-    
-
-    
-     
-        <script src="_static/cloud.js"></script>
-    
-
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cfour';</script>
     <link rel="icon" href="_static/favicon-psi4.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Interface to CheMPS2 by S. Wouters" href="chemps2.html" />
-    <link rel="prev" title="Interface to the BrianQC GPU module by the BrianQC team" href="brianqc.html" /> 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head><body>
-    <div class="relbar-top">
-        
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">Index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="chemps2.html" title="Interface to CheMPS2 by S. Wouters"
-             accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="brianqc.html" title="Interface to the BrianQC GPU module by the BrianQC team"
-             accesskey="P"><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="index.html" title="Table Of Contents"
-             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
-    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
-    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/cfour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/990b0e8">1.9a1.dev49</a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li class="nav-item nav-item-0"><a href="index.html">
-        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
-        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+    <link rel="prev" title="Interface to the BrianQC GPU module by the BrianQC team" href="brianqc.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Tuesday, 26 September 2023 02:05AM"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-          <li class="nav-item nav-item-1"><a href="interfacing.html" accesskey="U">Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
-        <li class="nav-item nav-item-this"><a href="">Interface to CFOUR by J. Stanton &amp; J. Gauss</a></li> 
-      </ul>
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/psi4square.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/psi4square.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
     </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
     </div>
   
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Interface to CFOUR by J. Stanton &amp; J. Gauss</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#cfour-for-psifour-users">Cfour for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Users</a></li>
+<li><a class="reference internal" href="#psifour-for-cfour-users"><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> for Cfour Users</a></li>
+<li><a class="reference internal" href="#output">Output</a><ul>
+<li><a class="reference internal" href="#psi4.driver.procrouting.interface_cfour.run_cfour"><code class="docutils literal notranslate"><span class="pre">run_cfour()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#functionality">Functionality</a></li>
+<li><a class="reference internal" href="#specification-details">Specification Details</a></li>
+<li><a class="reference internal" href="#misc-running">Misc. Running</a></li>
+</ul>
+</li>
+</ul>
+
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="brianqc.html"
+                          title="previous chapter">Interface to the BrianQC GPU module by the BrianQC team</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="chemps2.html"
+                          title="next chapter">Interface to CheMPS2 by S. Wouters</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/cfour.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="interfacing.html" class="nav-link">Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Interface...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section id="interface-to-cfour-by-j-stanton-j-gauss">
-<span id="sec-cfour"></span><span id="index-0"></span><h1>Interface to CFOUR by J. Stanton &amp; J. Gauss<a class="headerlink" href="#interface-to-cfour-by-j-stanton-j-gauss" title="Link to this heading">¶</a></h1>
+<span id="sec-cfour"></span><span id="index-0"></span><h1>Interface to CFOUR by J. Stanton &amp; J. Gauss<a class="headerlink" href="#interface-to-cfour-by-j-stanton-j-gauss" title="Link to this heading">#</a></h1>
 <p><em>Code author: Lori A. Burns</em></p>
 <p><em>Section author: Lori A. Burns</em></p>
 <p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__cfour.html#apdx-cfour"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__cfour.html#apdx-cfour-psivar"><span class="std std-ref">PSI Variables</span></a>, <a class="reference internal" href="autodoc_testsuite_cfour.html#apdx-testsuitecfour"><span class="std std-ref">Samples</span></a></p>
@@ -129,7 +294,7 @@ John F. Stanton (U. Texas, Austin) and Jürgen Gauss (U. Mainz),
 which is available after a license agreement from
 <a class="reference external" href="http://www.cfour.de/">http://www.cfour.de/</a>.</p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
 <p>Follow the instructions provided with the Cfour download to install the
 executable or to build the source. To by used by <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, the program
 binary (<strong class="program">xcfour</strong>) must be found in your <span class="target" id="index-1"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a> or
@@ -145,7 +310,7 @@ will be reported.</p>
 </div>
 </section>
 <section id="cfour-for-psifour-users">
-<h2>Cfour for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Users<a class="headerlink" href="#cfour-for-psifour-users" title="Link to this heading">¶</a></h2>
+<h2>Cfour for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Users<a class="headerlink" href="#cfour-for-psifour-users" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Set memory as usual</p></li>
 <li><p>Set molecule as usual</p></li>
@@ -183,7 +348,7 @@ functionality is accessible through <span style="font-family: Optima, sans-serif
 </ul>
 </section>
 <section id="psifour-for-cfour-users">
-<h2><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> for Cfour Users<a class="headerlink" href="#psifour-for-cfour-users" title="Link to this heading">¶</a></h2>
+<h2><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> for Cfour Users<a class="headerlink" href="#psifour-for-cfour-users" title="Link to this heading">#</a></h2>
 <p>In the simplest use of the Psi4/Cfour interface, a <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> input file
 can simply “wrap” a <code class="docutils literal notranslate"><span class="pre">ZMAT</span></code> file and execute <strong class="program">xcfour</strong>. This is
 illustrated in the following example:</p>
@@ -559,7 +724,7 @@ commencing standard P4C4 jobs.</p>
 </div>
 </section>
 <section id="output">
-<span id="sec-cfouroutput"></span><h2>Output<a class="headerlink" href="#output" title="Link to this heading">¶</a></h2>
+<span id="sec-cfouroutput"></span><h2>Output<a class="headerlink" href="#output" title="Link to this heading">#</a></h2>
 <p>The output of <strong class="program">xcfour</strong> invoked from a <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> input file is
 written to the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> output file as the computation progresses.  If a
 Cfour module terminates with a non-zero error code, the value will show up
@@ -680,7 +845,7 @@ keyword arguments that get interpreted by the
 <a class="reference internal" href="#psi4.driver.procrouting.interface_cfour.run_cfour" title="psi4.driver.procrouting.interface_cfour.run_cfour"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_cfour()</span></code></a> function documented below.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="psi4.driver.procrouting.interface_cfour.run_cfour">
-<span class="sig-prename descclassname"><span class="pre">psi4.driver.procrouting.interface_cfour.</span></span><span class="sig-name descname"><span class="pre">run_cfour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">keep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/procrouting/interface_cfour.html#run_cfour"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.procrouting.interface_cfour.run_cfour" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">psi4.driver.procrouting.interface_cfour.</span></span><span class="sig-name descname"><span class="pre">run_cfour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">keep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/procrouting/interface_cfour.html#run_cfour"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.procrouting.interface_cfour.run_cfour" title="Link to this definition">#</a></dt>
 <dd><p>Function that prepares environment and input files
 for a calculation calling Stanton and Gauss’s CFOUR code.
 Also processes results back into Psi4 format.</p>
@@ -727,7 +892,7 @@ aggression, blank lines need to be replaced by the text blankline.</p>
 
 </section>
 <section id="functionality">
-<span id="sec-cfourfunctionality"></span><h2>Functionality<a class="headerlink" href="#functionality" title="Link to this heading">¶</a></h2>
+<span id="sec-cfourfunctionality"></span><h2>Functionality<a class="headerlink" href="#functionality" title="Link to this heading">#</a></h2>
 <p>Through clever use of the <code class="docutils literal notranslate"><span class="pre">cfour</span> <span class="pre">{...}</span></code> block, one could run most any
 Cfour computation through the P4C4 interface.  In contrast, enumerated
 below are tested functionalities where results from Cfour are collected
@@ -778,7 +943,7 @@ stowed in PSI Variables.</p></li>
 </ul>
 <p>Energy methods available through P4C4 interface</p>
 <blockquote id="table-energy-cfour">
-<div><table class="docutils align-default">
+<div><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>name</p></th>
 <th class="head"><p>calls method in Stanton and Gauss’s CFOUR program <a class="reference internal" href="#sec-cfour"><span class="std std-ref">[manual]</span></a></p></th>
@@ -823,7 +988,7 @@ stowed in PSI Variables.</p></li>
 </div></blockquote>
 <p>Gradient methods available through P4C4 interface</p>
 <blockquote id="table-grad-cfour">
-<div><table class="docutils align-default">
+<div><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>name</p></th>
 <th class="head"><p>calls method in Stanton and Gauss’s CFOUR program <a class="reference internal" href="#sec-cfour"><span class="std std-ref">[manual]</span></a></p></th>
@@ -868,7 +1033,7 @@ stowed in PSI Variables.</p></li>
 </div></blockquote>
 <span class="target" id="table-cfour-cc-program"></span></section>
 <section id="specification-details">
-<h2>Specification Details<a class="headerlink" href="#specification-details" title="Link to this heading">¶</a></h2>
+<h2>Specification Details<a class="headerlink" href="#specification-details" title="Link to this heading">#</a></h2>
 <p>The above narrative introduction to the P4C4 interface should be
 sufficient to get started. Issues of competition between <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> and
 Cfour specification format are generally resolved behind the scenes:
@@ -1027,7 +1192,7 @@ confining keywords to the <a class="reference internal" href="autodir_options_c/
 </div>
 </section>
 <section id="misc-running">
-<h2>Misc. Running<a class="headerlink" href="#misc-running" title="Link to this heading">¶</a></h2>
+<h2>Misc. Running<a class="headerlink" href="#misc-running" title="Link to this heading">#</a></h2>
 <p>Naturally, in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> multiple jobs can be run in succession from the input file.</p>
 <p>Control optimizations with optking keywords HERE. Cfour <code class="docutils literal notranslate"><span class="pre">GRD</span></code> file is
 written to <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> output file. Gradient transformed back into the frame
@@ -1057,133 +1222,120 @@ directory.</p>
 </section>
 
 
-            <div class="clearer"></div>
-          </div>
-        </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="brianqc.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Interface to the BrianQC GPU module by the BrianQC team</p>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><!-- 
-#
-# @BEGIN LICENSE
-#
-# Psi4: an open-source quantum chemistry software package
-#
-# Copyright (c) 2007-2017 The Psi4 Developers.
-#
-# The copyrights for code used from other parties are included in
-# the corresponding files.
-#
-# This file is part of Psi4.
-#
-# Psi4 is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, version 3.
-#
-# Psi4 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with Psi4; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# @END LICENSE
-# -->
-
-
-<div id="searchbox" style="display: none" role="search">
-  <!--<h3>Quick search</h3>-->
-    <form class="search" action="search.html" method="get">
-      <!--<div><input type="text" name="q" placeholder="search docs" /></div>-->
-      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel" /></div>
-      <!--<div><input type="submit" value="Go" /></div>-->
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
+    </a>
+    <a class="right-next"
+       href="chemps2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Interface to CheMPS2 by S. Wouters</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script><div class="sphinx-toc sphinxlocaltoc">
-    <h3><a href="index.html">table of contents</a></h3>
-    <ul>
-<li><a class="reference internal" href="#">Interface to CFOUR by J. Stanton &amp; J. Gauss</a><ul>
-<li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#cfour-for-psifour-users">Cfour for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Users</a></li>
-<li><a class="reference internal" href="#psifour-for-cfour-users"><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> for Cfour Users</a></li>
-<li><a class="reference internal" href="#output">Output</a><ul>
-<li><a class="reference internal" href="#psi4.driver.procrouting.interface_cfour.run_cfour"><code class="docutils literal notranslate"><span class="pre">run_cfour()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#functionality">Functionality</a></li>
-<li><a class="reference internal" href="#specification-details">Specification Details</a></li>
-<li><a class="reference internal" href="#misc-running">Misc. Running</a></li>
-</ul>
-</li>
-</ul>
-
-  </div>
-        </div>
-      </div>
-    
-    
-        <div class="sidebar-toggle-group no-js">
+                </footer>
+              
+            </div>
             
-            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
-                 «
-                <span class="show-for-small">hide menu</span>
-                
-            </button>
-            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
-                
-                <span class="show-for-small">menu</span>
-                <span class="hide-for-small">sidebar</span>
-                 »
-            </button>
-        </div>
-    
-      <div class="clearer"></div>
-    </div>
-    <div class="relbar-bottom">
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cfour-for-psifour-users">Cfour for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Users</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psifour-for-cfour-users"><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> for Cfour Users</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output">Output</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#psi4.driver.procrouting.interface_cfour.run_cfour"><code class="docutils literal notranslate"><span class="pre">run_cfour()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functionality">Functionality</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specification-details">Specification Details</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#misc-running">Misc. Running</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/cfour.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
         
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >Index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="chemps2.html" title="Interface to CheMPS2 by S. Wouters"
-             ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="brianqc.html" title="Interface to the BrianQC GPU module by the BrianQC team"
-             ><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="index.html" title="Table Of Contents"
-             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
-    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
-    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/cfour.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/990b0e8">1.9a1.dev49</a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li class="nav-item nav-item-0"><a href="index.html">
-        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
-        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
-          <li class="nav-item nav-item-1"><a href="interfacing.html" >Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
-        <li class="nav-item nav-item-this"><a href="">Interface to CFOUR by J. Stanton &amp; J. Gauss</a></li> 
-      </ul>
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2007-2023, The Psi4 Project.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
     </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
     </div>
+  
+</div>
 
-    <div class="footer" role="contentinfo">
-    &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Tuesday, 12 September 2023 06:44PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.5.
-    </div>
-    <!-- cloud_sptheme 1.4 -->
+  </footer>
   </body>
 </html>

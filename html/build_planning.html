@@ -1,126 +1,331 @@
-<!-- 
-#
-# @BEGIN LICENSE
-#
-# Psi4: an open-source quantum chemistry software package
-#
-# Copyright (c) 2007-2017 The Psi4 Developers.
-#
-# The copyrights for code used from other parties are included in
-# the corresponding files.
-#
-# This file is part of Psi4.
-#
-# Psi4 is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, version 3.
-#
-# Psi4 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with Psi4; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# @END LICENSE
-# -->
-
-
-
-
 
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="./">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Compiling and Installing from Source</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
-    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
-    
-    <script src="_static/documentation_options.js?v=76c65451"></script>
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css?v=c7cf8c76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="_static/documentation_options.js?v=0a908d79"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-    
-    
-     
-        <script src="_static/jquery.cookie.js"></script>
-    
-
-    
-     
-        <script src="_static/cloud.base.js"></script>
-    
-
-    
-     
-        <script src="_static/cloud.js"></script>
-    
-
+    <script>DOCUMENTATION_OPTIONS.pagename = 'build_planning';</script>
     <link rel="icon" href="_static/favicon-psi4.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Conda Binary Distribution" href="conda.html" />
-    <link rel="prev" title="Obtaining PSI4" href="build_obtaining.html" /> 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head><body>
-    <div class="relbar-top">
-        
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">Index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="conda.html" title="Conda Binary Distribution"
-             accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="build_obtaining.html" title="Obtaining PSI4"
-             accesskey="P"><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="index.html" title="Table Of Contents"
-             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
-    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
-    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/990b0e8">1.9a1.dev49</a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li class="nav-item nav-item-0"><a href="index.html">
-        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
-        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+    <link rel="prev" title="Obtaining PSI4" href="build_obtaining.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Tuesday, 26 September 2023 02:05AM"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-          <li class="nav-item nav-item-1"><a href="external.html" accesskey="U">Installation and Runtime Configuration</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
-        <li class="nav-item nav-item-this"><a href="">Compiling and Installing from Source</a></li> 
-      </ul>
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/psi4square.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/psi4square.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
     </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
     </div>
   
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Compiling and Installing from Source</a><ul>
+<li><a class="reference internal" href="#planning-how-to-configure-psi4-and-invoke-cmake">Planning: how to configure Psi4 and invoke CMake</a></li>
+<li><a class="reference internal" href="#how-to-build-and-install-psi4-the-compact-version">How to build and install Psi4, the compact version</a></li>
+<li><a class="reference internal" href="#how-to-build-test-and-install-psi4-in-detail">How to build, test, and install Psi4, in detail</a></li>
+<li><a class="reference internal" href="#what-are-the-tools-and-dependencies-strictly-required-for-building-psi4">What are the tools and dependencies strictly required for building Psi4</a></li>
+<li><a class="reference internal" href="#what-are-the-add-on-capabilities-for-psi4-and-what-are-their-dependencies">What are the add-on capabilities for Psi4 and what are their dependencies</a></li>
+<li><a class="reference internal" href="#how-to-use-conda-to-get-a-psi4-development-environment">How to use conda to get a Psi4 development environment</a></li>
+<li><a class="reference internal" href="#how-to-configure-code-to-use-high-angular-momentum-basis-sets">How to configure code to use high angular momentum basis sets</a></li>
+<li><a class="reference internal" href="#how-to-get-high-angular-momentum-integrals-from-conda">How to get high angular momentum integrals from conda</a></li>
+<li><a class="reference internal" href="#how-to-see-what-build-configuration-options-are-available">How to see what build configuration options are available</a></li>
+<li><a class="reference internal" href="#how-to-install-elsewhere-than-usr-local-psi4">How to install elsewhere than <code class="samp docutils literal notranslate"><span class="pre">/usr/local/psi4</span></code></a></li>
+<li><a class="reference internal" href="#how-to-compile-for-debugging">How to compile for debugging</a></li>
+<li><a class="reference internal" href="#how-to-choose-the-compilation-directory-objdir">How to choose the compilation directory, <code class="docutils literal notranslate"><span class="pre">{objdir}</span></code></a></li>
+<li><a class="reference internal" href="#how-to-save-configuration-settings-for-a-future-compilation">How to save configuration settings for a future compilation</a></li>
+<li><a class="reference internal" href="#what-is-the-directory-layout-of-the-installed-or-staged-psi4">What is the directory layout of the installed or staged Psi4</a></li>
+<li><a class="reference internal" href="#how-to-run-psi4-as-executable-after-compilation">How to run Psi4 as executable after compilation</a></li>
+<li><a class="reference internal" href="#how-to-solve-modulenotfounderror-no-module-named-psi4">How to solve <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'psi4'</span></code></a></li>
+<li><a class="reference internal" href="#how-to-configure-paths-for-psiapi">How to configure paths for PsiAPI</a></li>
+<li><a class="reference internal" href="#how-to-run-psi4-as-python-module-after-compilation">How to run Psi4 as Python module after compilation</a></li>
+<li><a class="reference internal" href="#how-to-run-psi4-as-executable-or-python-module-from-conda-installation">How to run Psi4 as executable or Python module from conda installation</a></li>
+<li><a class="reference internal" href="#how-to-run-psi4-as-executable-after-compilation-using-driver-from-source">How to run Psi4 as executable after compilation using driver from source</a></li>
+<li><a class="reference internal" href="#why-not-to-set-psidatadir">Why not to set <code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIDATADIR</span></code></a></li>
+<li><a class="reference internal" href="#how-to-configure-c-and-c-compilers-for-building-psi4">How to configure C++ and C compilers for building Psi4</a></li>
+<li><a class="reference internal" href="#what-c-and-c-compilers-and-versions-are-approved">What C and C++ compilers and versions are approved</a></li>
+<li><a class="reference internal" href="#how-to-obtain-c-and-c-compilers-for-mac-without-fink-macports-or-homebrew">How to obtain C and C++ compilers for Mac without Fink, MacPorts, or Homebrew</a></li>
+<li><a class="reference internal" href="#how-to-satisfy-the-gcc-4-9-requirement-on-linux-without-updating-the-os">How to satisfy the GCC &gt;= 4.9 requirement on Linux without updating the OS</a></li>
+<li><a class="reference internal" href="#how-to-configure-a-psi4-build-on-cray">How to configure a Psi4 build on Cray</a></li>
+<li><a class="reference internal" href="#how-to-configure-fortran-compilers-for-building-psi4">How to configure Fortran compilers for building Psi4</a></li>
+<li><a class="reference internal" href="#what-fortran-compilers-are-approved">What Fortran compilers are approved</a></li>
+<li><a class="reference internal" href="#how-to-obtain-a-fortran-compiler-for-mac-without-fink-macports-or-homebrew">How to obtain a Fortran compiler for Mac without Fink, MacPorts, or Homebrew</a></li>
+<li><a class="reference internal" href="#how-to-configure-blas-lapack-for-building-psi4">How to configure BLAS/LAPACK for building Psi4</a></li>
+<li><a class="reference internal" href="#how-to-configure-python-for-building-psi4">How to configure Python for building Psi4</a></li>
+<li><a class="reference internal" href="#what-python-is-psi4-running">What Python is Psi4 running</a></li>
+<li><a class="reference internal" href="#how-to-fix-undefined-symbol-py-falsestruct">How to fix “<code class="docutils literal notranslate"><span class="pre">undefined</span> <span class="pre">symbol:</span> <span class="pre">_Py_FalseStruct</span></code>”</a></li>
+<li><a class="reference internal" href="#how-to-use-gdb-and-lldb-with-psi4">How to use <code class="docutils literal notranslate"><span class="pre">gdb</span></code> and <code class="docutils literal notranslate"><span class="pre">lldb</span></code> with Psi4</a></li>
+<li><a class="reference internal" href="#how-to-see-the-actual-compiling-commands-or-errors-with-cmake">How to see the actual compiling commands (or errors) with <code class="docutils literal notranslate"><span class="pre">cmake</span></code></a></li>
+<li><a class="reference internal" href="#how-to-highlight-git-merge-conflicts-in-vi">How to highlight git merge conflicts in <code class="docutils literal notranslate"><span class="pre">vi</span></code></a></li>
+<li><a class="reference internal" href="#how-to-handle-runtime-library-may-be-hidden-when-building-with-anaconda-python">How to handle “runtime library may be hidden” when building with Anaconda Python</a></li>
+<li><a class="reference internal" href="#how-to-set-up-the-scratch-directory">How to set up the scratch directory</a></li>
+<li><a class="reference internal" href="#how-do-i-retain-specific-psi4-scratch-files">How do I retain specific Psi4 scratch files</a></li>
+<li><a class="reference internal" href="#how-to-use-psi4-within-a-pbs-queue">How to use Psi4 within a PBS queue</a></li>
+<li><a class="reference internal" href="#how-to-update-and-rebuild-psi4">How to update and rebuild Psi4</a></li>
+<li><a class="reference internal" href="#how-to-run-a-minute-s-worth-of-tests">How to run a minute’s worth of tests</a></li>
+<li><a class="reference internal" href="#how-to-run-a-subset-of-tests">How to run a subset of tests</a></li>
+<li><a class="reference internal" href="#how-to-see-ctest-testing-errors">How to see CTest testing errors</a></li>
+<li><a class="reference internal" href="#how-to-test-a-psi4-installation">How to test a Psi4 installation</a></li>
+<li><a class="reference internal" href="#how-to-refer-to-psi4">How to refer to Psi4</a></li>
+<li><a class="reference internal" href="#how-to-get-a-psi4-logo-file">How to get a Psi4 logo file</a></li>
+<li><a class="reference internal" href="#how-to-use-a-local-add-on-repository-in-the-psi4-build">How to use a local Add-On repository in the Psi4 build</a></li>
+<li><a class="reference internal" href="#how-to-use-logging-in-psi4">How to use logging in Psi4</a></li>
+<li><a class="reference internal" href="#how-to-find-the-psi4-module-from-the-executable-and-vice-versa">How to find the Psi4 module from the executable and vice versa</a></li>
+</ul>
+</li>
+</ul>
+
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="build_obtaining.html"
+                          title="previous chapter">Obtaining <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="conda.html"
+                          title="next chapter">Conda Binary Distribution</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/build_planning.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="external.html" class="nav-link">Installation and Runtime Configuration</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Compiling...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section id="compiling-and-installing-from-source">
-<span id="sec-installfile"></span><span id="index-0"></span><h1>Compiling and Installing from Source<a class="headerlink" href="#compiling-and-installing-from-source" title="Link to this heading">¶</a></h1>
+<span id="sec-installfile"></span><span id="index-0"></span><h1>Compiling and Installing from Source<a class="headerlink" href="#compiling-and-installing-from-source" title="Link to this heading">#</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>As of v1.8, primary binary distribution has moved from
@@ -140,7 +345,7 @@ see <a class="reference external" href="https://psicode.org/installs/latest">psi
 To see working builds for Linux, Mac, and Windows, see :src:
 <a class="reference external" href="https://github.com/psi4/psi4/blob/master/.github/workflows/ecosystem.yml">[this GHA]</a></p>
 <section id="planning-how-to-configure-psi4-and-invoke-cmake">
-<span id="faq-cmakeviasetup"></span><h2>Planning: how to configure Psi4 and invoke CMake<a class="headerlink" href="#planning-how-to-configure-psi4-and-invoke-cmake" title="Link to this heading">¶</a></h2>
+<span id="faq-cmakeviasetup"></span><h2>Planning: how to configure Psi4 and invoke CMake<a class="headerlink" href="#planning-how-to-configure-psi4-and-invoke-cmake" title="Link to this heading">#</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is built through CMake. An abbreviated build guide can be found
 <a class="reference external" href="https://github.com/psi4/psi4/blob/master/CMakeLists.txt#L27">within the source itself</a> .</p>
 <p>CMake does a good job scanning your computer to locate libraries, header
@@ -157,7 +362,7 @@ your computer. Proceed to <a class="reference internal" href="#faq-buildquick"><
 <a class="reference internal" href="#faq-builddetailed"><span class="std std-ref">detailed build</span></a>.</p>
 </section>
 <section id="how-to-build-and-install-psi4-the-compact-version">
-<span id="faq-buildquick"></span><h2>How to build and install Psi4, the compact version<a class="headerlink" href="#how-to-build-and-install-psi4-the-compact-version" title="Link to this heading">¶</a></h2>
+<span id="faq-buildquick"></span><h2>How to build and install Psi4, the compact version<a class="headerlink" href="#how-to-build-and-install-psi4-the-compact-version" title="Link to this heading">#</a></h2>
 <p>This section outlines the main steps of configuring, compiling, and
 installing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>. More detail is given <a class="reference internal" href="#faq-builddetailed"><span class="std std-ref">here</span></a>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; cd {top-level-psi4-dir}</span>
@@ -172,7 +377,7 @@ installing <span style="font-family: Optima, sans-serif; text-transform: none;">
 </div>
 </section>
 <section id="how-to-build-test-and-install-psi4-in-detail">
-<span id="faq-builddetailed"></span><h2>How to build, test, and install Psi4, in detail<a class="headerlink" href="#how-to-build-test-and-install-psi4-in-detail" title="Link to this heading">¶</a></h2>
+<span id="faq-builddetailed"></span><h2>How to build, test, and install Psi4, in detail<a class="headerlink" href="#how-to-build-test-and-install-psi4-in-detail" title="Link to this heading">#</a></h2>
 <p><strong>1. Plan Directories</strong></p>
 <blockquote>
 <div><p>Get ahold of the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> codebase, and navigate to the top level source
@@ -256,7 +461,7 @@ creates <code class="samp docutils literal notranslate"><em><span class="pre">ob
 </div></blockquote>
 </section>
 <section id="what-are-the-tools-and-dependencies-strictly-required-for-building-psi4">
-<span id="faq-coredepend"></span><h2>What are the tools and dependencies strictly required for building Psi4<a class="headerlink" href="#what-are-the-tools-and-dependencies-strictly-required-for-building-psi4" title="Link to this heading">¶</a></h2>
+<span id="faq-coredepend"></span><h2>What are the tools and dependencies strictly required for building Psi4<a class="headerlink" href="#what-are-the-tools-and-dependencies-strictly-required-for-building-psi4" title="Link to this heading">#</a></h2>
 <p>The core <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> build requires the software below. Note that
 practically everything (including Python, CMake, NumPy, BLAS/LAPACK,
 Libint, and even C++ compilers on Linux and Mac) can be
@@ -291,23 +496,23 @@ build system will automatically download and build.</p>
 <ul class="simple">
 <li><p>msgpack-python for MessagePack <a class="reference external" href="https://msgpack.org/">https://msgpack.org/</a> (transitive dependency of QCElemental; optional for QCElemental but required for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>)</p></li>
 <li><p>NumPy <a class="reference external" href="https://numpy.org/">https://numpy.org/</a></p></li>
-<li><p>networkx <a class="reference external" href="https://github.com/networkx/networkx">https://github.com/networkx/networkx</a> (transitive dependency of QCElemental; optional for QCElemental but required for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>)</p></li>
+<li><p>networkx <a class="github reference external" href="https://github.com/networkx/networkx">networkx/networkx</a> (transitive dependency of QCElemental; optional for QCElemental but required for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>)</p></li>
 <li><p>pint <a class="reference external" href="https://pint.readthedocs.io/en/latest/">https://pint.readthedocs.io/en/latest/</a> (transitive dependency of QCElemental)</p></li>
 <li><p>pydantic <a class="reference external" href="https://pydantic-docs.helpmanual.io">https://pydantic-docs.helpmanual.io</a>/# (transitive dependency of QCElemental)</p></li>
 <li><p>SciPy <a class="reference external" href="https://scipy.org/">https://scipy.org/</a> (avoidable if necessary by following directions in runtime error message)</p></li>
-<li><p>py-cpuinfo (provides <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">cpuinfo</span></code>) <a class="reference external" href="https://github.com/workhorsy/py-cpuinfo">https://github.com/workhorsy/py-cpuinfo</a> (transitive dependency of QCEngine)</p></li>
-<li><p>psutil <a class="reference external" href="https://github.com/giampaolo/psutil">https://github.com/giampaolo/psutil</a> (transitive dependency of QCEngine)</p></li>
+<li><p>py-cpuinfo (provides <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">cpuinfo</span></code>) <a class="github reference external" href="https://github.com/workhorsy/py-cpuinfo">workhorsy/py-cpuinfo</a> (transitive dependency of QCEngine)</p></li>
+<li><p>psutil <a class="github reference external" href="https://github.com/giampaolo/psutil">giampaolo/psutil</a> (transitive dependency of QCEngine)</p></li>
 </ul>
 <p>Dropped Dependencies:</p>
 <ul class="simple">
 <li><p>Boost (September 2016; dropped by v1.1)</p></li>
-<li><p>deepdiff <a class="reference external" href="https://github.com/seperman/deepdiff">https://github.com/seperman/deepdiff</a> (May 2019; dropped by v1.4)</p></li>
+<li><p>deepdiff <a class="github reference external" href="https://github.com/seperman/deepdiff">seperman/deepdiff</a> (May 2019; dropped by v1.4)</p></li>
 <li><p>MPFR <a class="reference external" href="https://www.mpfr.org/">https://www.mpfr.org/</a> (Mar 2022; dropped by v1.6) no longer needed to compile against Libint2</p></li>
 <li><p>Perl for testing (April 2022; dropped by v1.6)</p></li>
 </ul>
 </section>
 <section id="what-are-the-add-on-capabilities-for-psi4-and-what-are-their-dependencies">
-<span id="faq-addondepend"></span><h2>What are the add-on capabilities for Psi4 and what are their dependencies<a class="headerlink" href="#what-are-the-add-on-capabilities-for-psi4-and-what-are-their-dependencies" title="Link to this heading">¶</a></h2>
+<span id="faq-addondepend"></span><h2>What are the add-on capabilities for Psi4 and what are their dependencies<a class="headerlink" href="#what-are-the-add-on-capabilities-for-psi4-and-what-are-their-dependencies" title="Link to this heading">#</a></h2>
 <p>Each of the items below is an independent additional capability that can
 be built with <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>. Sub-items below are the respective additional
 dependencies of the add-on. Select which, if any, you want, and examine
@@ -318,7 +523,7 @@ are available pre-built from conda.</p>
 <ul>
 <li><p>CTest <a class="reference external" href="https://cmake.org/download/">https://cmake.org/download/</a></p></li>
 <li><p>pytest (for installed testing) <a class="reference external" href="http://doc.pytest.org/en/latest/">http://doc.pytest.org/en/latest/</a></p></li>
-<li><p>pytest-xdist (for installed testing many tests at once) <a class="reference external" href="https://github.com/pytest-dev/pytest-xdist">https://github.com/pytest-dev/pytest-xdist</a></p></li>
+<li><p>pytest-xdist (for installed testing many tests at once) <a class="github reference external" href="https://github.com/pytest-dev/pytest-xdist">pytest-dev/pytest-xdist</a></p></li>
 </ul>
 </li>
 <li><p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Documentation (available pre-built at <a class="reference external" href="https://psicode.org/psi4manual/master/index.html">psicode.org/psi4manual/master/index.html</a>)</p>
@@ -326,12 +531,12 @@ are available pre-built from conda.</p>
 <li><p>Sphinx (3.5+) <a class="reference external" href="http://sphinx-doc.org">http://sphinx-doc.org</a></p></li>
 <li><p>Perl (for some auto-documentation scripts) <a class="reference external" href="https://www.perl.org/">https://www.perl.org/</a></p></li>
 <li><p>nbsphinx (for converting Jupyter notebooks) <a class="reference external" href="http://nbsphinx.readthedocs.io/en/jupyter-theme/">http://nbsphinx.readthedocs.io/en/jupyter-theme/</a></p></li>
-<li><p>sphinx-psi-theme <a class="reference external" href="https://github.com/psi4/sphinx-psi-theme">https://github.com/psi4/sphinx-psi-theme</a></p></li>
+<li><p>sphinx-psi-theme <a class="github reference external" href="https://github.com/psi4/sphinx-psi-theme">psi4/sphinx-psi-theme</a></p></li>
 <li><p>See <a class="reference external" href="https://github.com/psi4/psi4/blob/master/doc/sphinxman/CMakeLists.txt">[“message” lines]</a> for advice on obtaining docs dependencies or <a class="reference external" href="https://github.com/psi4/psi4/blob/master/devtools/conda-envs/docs-cf.yaml">[conda env spec]</a></p></li>
 <li><p>See <a class="reference external" href="https://github.com/psi4/psi4/blob/master/.github/workflows/docs.yml">psi4/.github/workflows/docs.yml</a> for full docs building procedure to follow</p></li>
 </ul>
 </li>
-<li><p>Ambit — <a class="reference external" href="https://github.com/jturney/ambit">https://github.com/jturney/ambit</a></p></li>
+<li><p>Ambit — <a class="github reference external" href="https://github.com/jturney/ambit">jturney/ambit</a></p></li>
 <li><p><a class="reference internal" href="chemps2.html#cmake-chemps2"><span class="std std-ref">CheMPS2</span></a> — <a class="reference internal" href="chemps2.html#sec-chemps2"><span class="std std-ref">[what is CheMPS2?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/chemps2/CMakeLists.txt#L2">[CheMPS2 min version]</a></p>
 <ul>
 <li><p>HDF5 <a class="reference external" href="https://support.hdfgroup.org/HDF5/">https://support.hdfgroup.org/HDF5/</a></p></li>
@@ -364,30 +569,30 @@ are available pre-built from conda.</p>
 <li><p><a class="reference internal" href="libefp.html#cmake-libefp"><span class="std std-ref">PylibEFP &amp; libefp</span></a> — <a class="reference internal" href="libefp.html#sec-libefp"><span class="std std-ref">[what is LibEFP?]</span></a> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/libefp/CMakeLists.txt#L1">[LibEFP min version]</a></p></li>
 <li><p>cfour — <a class="reference internal" href="cfour.html#sec-cfour"><span class="std std-ref">[what is CFOUR?]</span></a></p></li>
 <li><p>dftd3 — <a class="reference internal" href="dftd3.html#sec-dftd3"><span class="std std-ref">[what is DFTD3?]</span></a></p></li>
-<li><p>simple-dftd3 — <a class="reference internal" href="dftd3.html#sec-dftd3"><span class="std std-ref">[what is DFTD3?]</span></a> (Nov 2022; added by v1.7) preferred alternative to dftd3 <a class="reference external" href="https://github.com/dftd3/simple-dftd3">https://github.com/dftd3/simple-dftd3</a></p></li>
+<li><p>simple-dftd3 — <a class="reference internal" href="dftd3.html#sec-dftd3"><span class="std std-ref">[what is DFTD3?]</span></a> (Nov 2022; added by v1.7) preferred alternative to dftd3 <a class="github reference external" href="https://github.com/dftd3/simple-dftd3">dftd3/simple-dftd3</a></p></li>
 <li><p>gcp — <a class="reference internal" href="gcp.html#sec-gcp"><span class="std std-ref">[what is gCP?]</span></a></p></li>
-<li><p>mctc-gcp — <a class="reference internal" href="gcp.html#sec-gcp"><span class="std std-ref">[what is gCP?]</span></a> (Nov 2022; added by v1.7) preferred alternative to gcp <a class="reference external" href="https://github.com/grimme-lab/gcp">https://github.com/grimme-lab/gcp</a></p></li>
+<li><p>mctc-gcp — <a class="reference internal" href="gcp.html#sec-gcp"><span class="std std-ref">[what is gCP?]</span></a> (Nov 2022; added by v1.7) preferred alternative to gcp <a class="github reference external" href="https://github.com/grimme-lab/gcp">grimme-lab/gcp</a></p></li>
 <li><p>dftd4 — &lt;sec:dftd3&gt; https://github.com/dftd4/dftd4</p></li>
 <li><p>mrcc — <a class="reference internal" href="mrcc.html#sec-mrcc"><span class="std std-ref">[what is MPCC?]</span></a></p></li>
 <li><p>v2rdm_casscf — <a class="reference internal" href="plugin_v2rdm_casscf.html#sec-v2rdm-casscf"><span class="std std-ref">[what is v2rdm_casscf?]</span></a></p></li>
-<li><p><a class="reference internal" href="plugin_snsmp2.html#sec-snsmp2"><span class="std std-ref">sns-mp2</span></a> — <a class="reference external" href="https://github.com/DEShawResearch/sns-mp2/commits/master">https://github.com/DEShawResearch/sns-mp2/commits/master</a></p></li>
-<li><p>resp — <a class="reference external" href="https://github.com/cdsgroup/resp">https://github.com/cdsgroup/resp</a></p></li>
-<li><p>gpu_dfcc — <a class="reference external" href="https://github.com/edeprince3/gpu_dfcc/commits/master">https://github.com/edeprince3/gpu_dfcc/commits/master</a></p></li>
-<li><p>OpenFermion-Psi4 — <a class="reference external" href="https://github.com/quantumlib/OpenFermion">https://github.com/quantumlib/OpenFermion</a></p></li>
-<li><p><a class="reference internal" href="cppe.html#sec-cppe"><span class="std std-ref">cppe</span></a> — <a class="reference external" href="https://github.com/maxscheurer/cppe">https://github.com/maxscheurer/cppe</a></p></li>
-<li><p>mp2d — <a class="reference external" href="https://github.com/Chandemonium/MP2D">https://github.com/Chandemonium/MP2D</a></p></li>
-<li><p><a class="reference internal" href="plugin_psi4fockci.html#sec-fockci"><span class="std std-ref">FockCI</span></a> — <a class="reference external" href="https://github.com/shannonhouck/psi4fockci">https://github.com/shannonhouck/psi4fockci</a></p></li>
-<li><p>cct3 — <a class="reference external" href="https://github.com/piecuch-group/cct3">https://github.com/piecuch-group/cct3</a></p></li>
-<li><p><a class="reference internal" href="adcc.html#sec-adcc"><span class="std std-ref">adcc</span></a> — <a class="reference external" href="https://github.com/adc-connect/adcc">https://github.com/adc-connect/adcc</a></p></li>
+<li><p><a class="reference internal" href="plugin_snsmp2.html#sec-snsmp2"><span class="std std-ref">sns-mp2</span></a> — <a class="github reference external" href="https://github.com/DEShawResearch/sns-mp2/commits/master">DEShawResearch/sns-mp2</a></p></li>
+<li><p>resp — <a class="github reference external" href="https://github.com/cdsgroup/resp">cdsgroup/resp</a></p></li>
+<li><p>gpu_dfcc — <a class="github reference external" href="https://github.com/edeprince3/gpu_dfcc/commits/master">edeprince3/gpu_dfcc</a></p></li>
+<li><p>OpenFermion-Psi4 — <a class="github reference external" href="https://github.com/quantumlib/OpenFermion">quantumlib/OpenFermion</a></p></li>
+<li><p><a class="reference internal" href="cppe.html#sec-cppe"><span class="std std-ref">cppe</span></a> — <a class="github reference external" href="https://github.com/maxscheurer/cppe">maxscheurer/cppe</a></p></li>
+<li><p>mp2d — <a class="github reference external" href="https://github.com/Chandemonium/MP2D">Chandemonium/MP2D</a></p></li>
+<li><p><a class="reference internal" href="plugin_psi4fockci.html#sec-fockci"><span class="std std-ref">FockCI</span></a> — <a class="github reference external" href="https://github.com/shannonhouck/psi4fockci">shannonhouck/psi4fockci</a></p></li>
+<li><p>cct3 — <a class="github reference external" href="https://github.com/piecuch-group/cct3">piecuch-group/cct3</a></p></li>
+<li><p><a class="reference internal" href="adcc.html#sec-adcc"><span class="std std-ref">adcc</span></a> — <a class="github reference external" href="https://github.com/adc-connect/adcc">adc-connect/adcc</a></p></li>
 <li><p><a class="reference internal" href="brianqc.html#sec-brianqc"><span class="std std-ref">BrianQC</span></a> — <a class="reference external" href="https://www.brianqc.com/">https://www.brianqc.com/</a></p></li>
 <li><p>i-PI — <a class="reference external" href="http://ipi-code.org/">http://ipi-code.org/</a></p></li>
-<li><p>psixas — <a class="reference external" href="https://github.com/Masterluke87/psixas">https://github.com/Masterluke87/psixas</a></p></li>
-<li><p>MDI — <a class="reference external" href="https://github.com/MolSSI-MDI/MDI_Library">https://github.com/MolSSI-MDI/MDI_Library</a></p></li>
-<li><p><a class="reference internal" href="ddx.html#sec-ddx"><span class="std std-ref">ddx</span></a> — <a class="reference external" href="https://github.com/ddsolvation/ddx">https://github.com/ddsolvation/ddx</a></p></li>
+<li><p>psixas — <a class="github reference external" href="https://github.com/Masterluke87/psixas">Masterluke87/psixas</a></p></li>
+<li><p>MDI — <a class="github reference external" href="https://github.com/MolSSI-MDI/MDI_Library">MolSSI-MDI/MDI_Library</a></p></li>
+<li><p><a class="reference internal" href="ddx.html#sec-ddx"><span class="std std-ref">ddx</span></a> — <a class="github reference external" href="https://github.com/ddsolvation/ddx">ddsolvation/ddx</a></p></li>
 </ul>
 </section>
 <section id="how-to-use-conda-to-get-a-psi4-development-environment">
-<span id="faq-condapsi4dev"></span><h2>How to use conda to get a Psi4 development environment<a class="headerlink" href="#how-to-use-conda-to-get-a-psi4-development-environment" title="Link to this heading">¶</a></h2>
+<span id="faq-condapsi4dev"></span><h2>How to use conda to get a Psi4 development environment<a class="headerlink" href="#how-to-use-conda-to-get-a-psi4-development-environment" title="Link to this heading">#</a></h2>
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> has a lot of dependencies, some of which are complicated
 to build. Fortunately, conda can supply them all. A conda
 package <code class="docutils literal notranslate"><span class="pre">psi4-dev</span></code> is available to gather the dependencies
@@ -413,7 +618,7 @@ or your own Intel compilers backed by conda’s GNU compilers (on Linux).</p>
 </div>
 </section>
 <section id="how-to-configure-code-to-use-high-angular-momentum-basis-sets">
-<span id="faq-setupmaxameri"></span><h2>How to configure code to use high angular momentum basis sets<a class="headerlink" href="#how-to-configure-code-to-use-high-angular-momentum-basis-sets" title="Link to this heading">¶</a></h2>
+<span id="faq-setupmaxameri"></span><h2>How to configure code to use high angular momentum basis sets<a class="headerlink" href="#how-to-configure-code-to-use-high-angular-momentum-basis-sets" title="Link to this heading">#</a></h2>
 <p>The <a class="reference internal" href="libint.html#sec-libint"><span class="std std-ref">Libint</span></a> integral code handles
 arbitrary order angular momentum (AM), but compiling that is
 prohibitive. The build process for Libint2 takes longer than
@@ -470,7 +675,7 @@ and point CMake toward a pre-built Libint AM8 just fine.</p>
 </ul>
 </section>
 <section id="how-to-get-high-angular-momentum-integrals-from-conda">
-<span id="faq-condamaxameri"></span><h2>How to get high angular momentum integrals from conda<a class="headerlink" href="#how-to-get-high-angular-momentum-integrals-from-conda" title="Link to this heading">¶</a></h2>
+<span id="faq-condamaxameri"></span><h2>How to get high angular momentum integrals from conda<a class="headerlink" href="#how-to-get-high-angular-momentum-integrals-from-conda" title="Link to this heading">#</a></h2>
 <p>Libint2 conda packages are available from conda for Linux, Mac, and Windows.</p>
 <p>The Linux package has base <code class="docutils literal notranslate"><span class="pre">MAX_AM_ERI=7</span></code> and can run 7z energies
 and gradients conventional, 6z energies and gradients density-fitted,
@@ -483,7 +688,7 @@ density-fitted.</p>
 .</p>
 </section>
 <section id="how-to-see-what-build-configuration-options-are-available">
-<span id="faq-setuphelp"></span><h2>How to see what build configuration options are available<a class="headerlink" href="#how-to-see-what-build-configuration-options-are-available" title="Link to this heading">¶</a></h2>
+<span id="faq-setuphelp"></span><h2>How to see what build configuration options are available<a class="headerlink" href="#how-to-see-what-build-configuration-options-are-available" title="Link to this heading">#</a></h2>
 <p>CMake doesn’t provide a summary for this (unless you want to try the CMake
 GUI, which the developers have never looked at). However, the top half of
 the main CMakeLists.txt is a passable summary:</p>
@@ -623,7 +828,7 @@ configuration options. Only the most-common user knobs of those are
 mentioned above.</p>
 </section>
 <section id="how-to-install-elsewhere-than-usr-local-psi4">
-<span id="faq-setupprefix"></span><h2>How to install elsewhere than <code class="samp docutils literal notranslate"><span class="pre">/usr/local/psi4</span></code><a class="headerlink" href="#how-to-install-elsewhere-than-usr-local-psi4" title="Link to this heading">¶</a></h2>
+<span id="faq-setupprefix"></span><h2>How to install elsewhere than <code class="samp docutils literal notranslate"><span class="pre">/usr/local/psi4</span></code><a class="headerlink" href="#how-to-install-elsewhere-than-usr-local-psi4" title="Link to this heading">#</a></h2>
 <p>The installation directory is the filesystem location for the executable
 script, the Python module, basis set data, and other administrative files.
 Unless using the conda package, which is relocatable, the installation
@@ -653,7 +858,7 @@ may just run.</p>
 </div>
 </section>
 <section id="how-to-compile-for-debugging">
-<span id="faq-setuptype"></span><h2>How to compile for debugging<a class="headerlink" href="#how-to-compile-for-debugging" title="Link to this heading">¶</a></h2>
+<span id="faq-setuptype"></span><h2>How to compile for debugging<a class="headerlink" href="#how-to-compile-for-debugging" title="Link to this heading">#</a></h2>
 <p>Flags to turn optimizations off and debugging on can be set across the
 project and plugins with CMake variable <code class="docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code> before
 compiling. Note that these flags <em>will not</em> propagate to any add-ons that
@@ -674,7 +879,7 @@ are detected pre-built rather than built.</p>
 </ul>
 </section>
 <section id="how-to-choose-the-compilation-directory-objdir">
-<span id="faq-chooseobjdir"></span><h2>How to choose the compilation directory, <code class="docutils literal notranslate"><span class="pre">{objdir}</span></code><a class="headerlink" href="#how-to-choose-the-compilation-directory-objdir" title="Link to this heading">¶</a></h2>
+<span id="faq-chooseobjdir"></span><h2>How to choose the compilation directory, <code class="docutils literal notranslate"><span class="pre">{objdir}</span></code><a class="headerlink" href="#how-to-choose-the-compilation-directory-objdir" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>there is no default</p></li>
 <li><p>common choices are <code class="docutils literal notranslate"><span class="pre">objdir</span></code> or <code class="docutils literal notranslate"><span class="pre">build</span></code> under <code class="samp docutils literal notranslate"><em><span class="pre">top-level-psi4-dir</span></em></code></p>
@@ -688,7 +893,7 @@ are detected pre-built rather than built.</p>
 </ul>
 </section>
 <section id="how-to-save-configuration-settings-for-a-future-compilation">
-<span id="faq-doconfigure"></span><h2>How to save configuration settings for a future compilation<a class="headerlink" href="#how-to-save-configuration-settings-for-a-future-compilation" title="Link to this heading">¶</a></h2>
+<span id="faq-doconfigure"></span><h2>How to save configuration settings for a future compilation<a class="headerlink" href="#how-to-save-configuration-settings-for-a-future-compilation" title="Link to this heading">#</a></h2>
 <p>Create a file like <code class="docutils literal notranslate"><span class="pre">do-configure</span></code> with the <code class="docutils literal notranslate"><span class="pre">cmake</span></code> command and options
 <em>on one line</em>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cd</span> <span class="p">{</span><span class="n">top</span><span class="o">-</span><span class="n">level</span><span class="o">-</span><span class="n">psi4</span><span class="o">-</span><span class="nb">dir</span><span class="p">}</span>
@@ -705,7 +910,7 @@ are detected pre-built rather than built.</p>
 </div>
 </section>
 <section id="what-is-the-directory-layout-of-the-installed-or-staged-psi4">
-<span id="faq-dirlayoutinstall"></span><h2>What is the directory layout of the installed or staged Psi4<a class="headerlink" href="#what-is-the-directory-layout-of-the-installed-or-staged-psi4" title="Link to this heading">¶</a></h2>
+<span id="faq-dirlayoutinstall"></span><h2>What is the directory layout of the installed or staged Psi4<a class="headerlink" href="#what-is-the-directory-layout-of-the-installed-or-staged-psi4" title="Link to this heading">#</a></h2>
 <p>After compilation (<code class="samp docutils literal notranslate"><span class="pre">cd</span> <em><span class="pre">objdir</span></em> <span class="pre">&amp;&amp;</span> <span class="pre">make</span></code>), a directory structure like the
 below will exist at <code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em><span class="pre">/stage</span></code>. This may be tested and used
 just like a full installation.</p>
@@ -755,7 +960,7 @@ directory structure. None to few need to be set; see for details:
 </ul>
 </section>
 <section id="how-to-run-psi4-as-executable-after-compilation">
-<span id="faq-runordinaryexe"></span><h2>How to run Psi4 as executable after compilation<a class="headerlink" href="#how-to-run-psi4-as-executable-after-compilation" title="Link to this heading">¶</a></h2>
+<span id="faq-runordinaryexe"></span><h2>How to run Psi4 as executable after compilation<a class="headerlink" href="#how-to-run-psi4-as-executable-after-compilation" title="Link to this heading">#</a></h2>
 <p>Substituting the full installation directory <code class="samp docutils literal notranslate"><em><span class="pre">prefix</span></em></code> and a
 suitable scratch directory, issue the following commands directly in your
 terminal or place them into your “rc” file and open a new terminal. (To
@@ -784,14 +989,14 @@ use a staged installation directory, substitute
 </div>
 </section>
 <section id="how-to-solve-modulenotfounderror-no-module-named-psi4">
-<span id="faq-modulenotfounderror"></span><h2>How to solve <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'psi4'</span></code><a class="headerlink" href="#how-to-solve-modulenotfounderror-no-module-named-psi4" title="Link to this heading">¶</a></h2>
+<span id="faq-modulenotfounderror"></span><h2>How to solve <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'psi4'</span></code><a class="headerlink" href="#how-to-solve-modulenotfounderror-no-module-named-psi4" title="Link to this heading">#</a></h2>
 <p>You’re using <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> in PsiAPI mode (<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">input.py</span></code> where
 <code class="docutils literal notranslate"><span class="pre">input.py</span></code> contains <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">psi4</span></code>) but the Python interpreter
 can’t find the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Python module. Follow the directions at
 <a class="reference internal" href="#faq-psi4psiapipath"><span class="std std-ref">How to configure paths for PsiAPI</span></a>.</p>
 </section>
 <section id="how-to-configure-paths-for-psiapi">
-<span id="faq-psi4psiapipath"></span><h2>How to configure paths for PsiAPI<a class="headerlink" href="#how-to-configure-paths-for-psiapi" title="Link to this heading">¶</a></h2>
+<span id="faq-psi4psiapipath"></span><h2>How to configure paths for PsiAPI<a class="headerlink" href="#how-to-configure-paths-for-psiapi" title="Link to this heading">#</a></h2>
 <p>If you know the location of the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> executable (<code class="docutils literal notranslate"><span class="pre">bin/psi4</span></code>)
 for Psithon mode and want to know the corresponding location to add to
 <span class="target" id="index-4"></span><a class="reference internal" href="external.html#envvar-PYTHONPATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></a> for PsiAPI mode, execute <code class="docutils literal notranslate"><span class="pre">psi4</span> <span class="pre">--psiapi</span></code>. It
@@ -812,7 +1017,7 @@ after which <code class="docutils literal notranslate"><span class="pre">import<
 </div>
 </section>
 <section id="how-to-run-psi4-as-python-module-after-compilation">
-<span id="faq-runordinarymodule"></span><h2>How to run Psi4 as Python module after compilation<a class="headerlink" href="#how-to-run-psi4-as-python-module-after-compilation" title="Link to this heading">¶</a></h2>
+<span id="faq-runordinarymodule"></span><h2>How to run Psi4 as Python module after compilation<a class="headerlink" href="#how-to-run-psi4-as-python-module-after-compilation" title="Link to this heading">#</a></h2>
 <p>Substituting the full installation directory <code class="samp docutils literal notranslate"><em><span class="pre">prefix</span></em></code> and a
 suitable scratch directory, issue the following commands directly in your
 terminal or place them into your “rc” file and open a new terminal. (To
@@ -845,7 +1050,7 @@ use a staged installation directory, substitute
 </div>
 </section>
 <section id="how-to-run-psi4-as-executable-or-python-module-from-conda-installation">
-<span id="faq-runfrombinary"></span><h2>How to run Psi4 as executable or Python module from conda installation<a class="headerlink" href="#how-to-run-psi4-as-executable-or-python-module-from-conda-installation" title="Link to this heading">¶</a></h2>
+<span id="faq-runfrombinary"></span><h2>How to run Psi4 as executable or Python module from conda installation<a class="headerlink" href="#how-to-run-psi4-as-executable-or-python-module-from-conda-installation" title="Link to this heading">#</a></h2>
 <p>The configuration commands below are generic versions of the ones printed
 to your screen as advice upon installing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> into a Anaconda,
 Miniconda, or Psi4conda distribution, <code class="samp docutils literal notranslate"><em><span class="pre">condadist</span></em> <span class="pre">=</span>
@@ -902,7 +1107,7 @@ below are redundant.</p>
 </div>
 </section>
 <section id="how-to-run-psi4-as-executable-after-compilation-using-driver-from-source">
-<span id="faq-inplace"></span><h2>How to run Psi4 as executable after compilation using driver from source<a class="headerlink" href="#how-to-run-psi4-as-executable-after-compilation-using-driver-from-source" title="Link to this heading">¶</a></h2>
+<span id="faq-inplace"></span><h2>How to run Psi4 as executable after compilation using driver from source<a class="headerlink" href="#how-to-run-psi4-as-executable-after-compilation-using-driver-from-source" title="Link to this heading">#</a></h2>
 <p>When developing python driver code, it can be annoying to keep <cite>make</cite>ing to test the code. <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> can be run “inplace” through the
 following procedure. To be clear, this is running compiled C++ from the
 build directory and python from the source directory. This is an expert
@@ -914,7 +1119,7 @@ option for development, and not all functionality will be available.</p>
 </div>
 </section>
 <section id="why-not-to-set-psidatadir">
-<span id="faq-psidatadir"></span><h2>Why not to set <span class="target" id="index-8"></span><a class="reference internal" href="external.html#envvar-PSIDATADIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIDATADIR</span></code></a><a class="headerlink" href="#why-not-to-set-psidatadir" title="Link to this heading">¶</a></h2>
+<span id="faq-psidatadir"></span><h2>Why not to set <span class="target" id="index-8"></span><a class="reference internal" href="external.html#envvar-PSIDATADIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIDATADIR</span></code></a><a class="headerlink" href="#why-not-to-set-psidatadir" title="Link to this heading">#</a></h2>
 <p><span class="target" id="index-9"></span><a class="reference internal" href="external.html#envvar-PSIDATADIR"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIDATADIR</span></code></a> is an environment variable containing the location of the
 text resource parts of the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> codebase (<em>e.g.</em>, basis sets,
 databases, EFP fragments). It is for developer use only. In <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> 1.1
@@ -938,7 +1143,7 @@ compilation directory.</p>
 </div>
 </section>
 <section id="how-to-configure-c-and-c-compilers-for-building-psi4">
-<span id="cmake-cxx"></span><h2>How to configure C++ and C compilers for building Psi4<a class="headerlink" href="#how-to-configure-c-and-c-compilers-for-building-psi4" title="Link to this heading">¶</a></h2>
+<span id="cmake-cxx"></span><h2>How to configure C++ and C compilers for building Psi4<a class="headerlink" href="#how-to-configure-c-and-c-compilers-for-building-psi4" title="Link to this heading">#</a></h2>
 <p><strong>Role and Dependencies</strong></p>
 <ul class="simple">
 <li><p>Role — In <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, a C++ compiler is vital for building the code.</p></li>
@@ -1042,7 +1247,7 @@ activation)</p></li>
 </div></blockquote>
 </section>
 <section id="what-c-and-c-compilers-and-versions-are-approved">
-<span id="faq-approvedcxx"></span><h2>What C and C++ compilers and versions are approved<a class="headerlink" href="#what-c-and-c-compilers-and-versions-are-approved" title="Link to this heading">¶</a></h2>
+<span id="faq-approvedcxx"></span><h2>What C and C++ compilers and versions are approved<a class="headerlink" href="#what-c-and-c-compilers-and-versions-are-approved" title="Link to this heading">#</a></h2>
 <p>On Linux, the following work nicely.</p>
 <blockquote>
 <div><ul class="simple">
@@ -1070,7 +1275,7 @@ been only minimally tested.</p>
 </ul>
 </section>
 <section id="how-to-obtain-c-and-c-compilers-for-mac-without-fink-macports-or-homebrew">
-<span id="faq-macxcode"></span><h2>How to obtain C and C++ compilers for Mac without Fink, MacPorts, or Homebrew<a class="headerlink" href="#how-to-obtain-c-and-c-compilers-for-mac-without-fink-macports-or-homebrew" title="Link to this heading">¶</a></h2>
+<span id="faq-macxcode"></span><h2>How to obtain C and C++ compilers for Mac without Fink, MacPorts, or Homebrew<a class="headerlink" href="#how-to-obtain-c-and-c-compilers-for-mac-without-fink-macports-or-homebrew" title="Link to this heading">#</a></h2>
 <p>The easiest compiler to obtain is <code class="docutils literal notranslate"><span class="pre">clang</span></code> which is a drop-in replacement
 for <code class="docutils literal notranslate"><span class="pre">gcc</span></code> and <code class="docutils literal notranslate"><span class="pre">g++</span></code>. Just install <a class="reference external" href="https://apps.apple.com/us/app/xcode/id497799835">XCode</a>. Some old versions
 of XCode can’t handle some of the advanced C++ language features, but this
@@ -1108,7 +1313,7 @@ x86_64-apple-darwin13.4.0
 </div>
 </section>
 <section id="how-to-satisfy-the-gcc-4-9-requirement-on-linux-without-updating-the-os">
-<span id="faq-modgcc"></span><h2>How to satisfy the GCC &gt;= 4.9 requirement on Linux without updating the OS<a class="headerlink" href="#how-to-satisfy-the-gcc-4-9-requirement-on-linux-without-updating-the-os" title="Link to this heading">¶</a></h2>
+<span id="faq-modgcc"></span><h2>How to satisfy the GCC &gt;= 4.9 requirement on Linux without updating the OS<a class="headerlink" href="#how-to-satisfy-the-gcc-4-9-requirement-on-linux-without-updating-the-os" title="Link to this heading">#</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># See if GCC too old (in this case, yes)</span>
 &gt;&gt;&gt;<span class="w"> </span>gcc<span class="w"> </span>--version
 gcc<span class="w"> </span><span class="o">(</span>GCC<span class="o">)</span><span class="w"> </span><span class="m">4</span>.8.5<span class="w"> </span><span class="m">20150623</span><span class="w"> </span><span class="o">(</span>Red<span class="w"> </span>Hat<span class="w"> </span><span class="m">4</span>.8.5-4<span class="o">)</span>
@@ -1163,7 +1368,7 @@ system. The latter route, tested on Linux with Intel compilers, is below.</p>
 </div>
 </section>
 <section id="how-to-configure-a-psi4-build-on-cray">
-<span id="faq-cray"></span><h2>How to configure a Psi4 build on Cray<a class="headerlink" href="#how-to-configure-a-psi4-build-on-cray" title="Link to this heading">¶</a></h2>
+<span id="faq-cray"></span><h2>How to configure a Psi4 build on Cray<a class="headerlink" href="#how-to-configure-a-psi4-build-on-cray" title="Link to this heading">#</a></h2>
 <p>Cray systems strongly prefer to build static libraries, but <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
 needs to be dynamic to function as a Python module. Courtesy of &#64;misha
 at the forum and various supercomputer guides, building <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> on
@@ -1173,19 +1378,19 @@ Cray requires setting environment variables before running <cite>cmake</cite>.</
 </div>
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-CRAYPE_LINK_TYPE">
-<span class="sig-name descname"><span class="pre">CRAYPE_LINK_TYPE</span></span><a class="headerlink" href="#envvar-CRAYPE_LINK_TYPE" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">CRAYPE_LINK_TYPE</span></span><a class="headerlink" href="#envvar-CRAYPE_LINK_TYPE" title="Link to this definition">#</a></dt>
 <dd><p>Set to allow <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> to build as shared library on Cray supercomputers.</p>
 </dd></dl>
 
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-CRAY_ADD_RPATH">
-<span class="sig-name descname"><span class="pre">CRAY_ADD_RPATH</span></span><a class="headerlink" href="#envvar-CRAY_ADD_RPATH" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">CRAY_ADD_RPATH</span></span><a class="headerlink" href="#envvar-CRAY_ADD_RPATH" title="Link to this definition">#</a></dt>
 <dd><p>Set to true to allow <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> to build on Cray supercomputers.</p>
 </dd></dl>
 
 </section>
 <section id="how-to-configure-fortran-compilers-for-building-psi4">
-<span id="cmake-fortran"></span><h2>How to configure Fortran compilers for building Psi4<a class="headerlink" href="#how-to-configure-fortran-compilers-for-building-psi4" title="Link to this heading">¶</a></h2>
+<span id="cmake-fortran"></span><h2>How to configure Fortran compilers for building Psi4<a class="headerlink" href="#how-to-configure-fortran-compilers-for-building-psi4" title="Link to this heading">#</a></h2>
 <p><strong>Role and Dependencies</strong></p>
 <ul class="simple">
 <li><p>Role — In <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, a Fortran compiler in unneeded for core
@@ -1221,7 +1426,7 @@ features but may be required for add-ons.</p></li>
 </div></blockquote>
 </section>
 <section id="what-fortran-compilers-are-approved">
-<span id="faq-approvedfc"></span><h2>What Fortran compilers are approved<a class="headerlink" href="#what-fortran-compilers-are-approved" title="Link to this heading">¶</a></h2>
+<span id="faq-approvedfc"></span><h2>What Fortran compilers are approved<a class="headerlink" href="#what-fortran-compilers-are-approved" title="Link to this heading">#</a></h2>
 <p>On Linux and Mac, the following work nicely.</p>
 <blockquote>
 <div><ul class="simple">
@@ -1239,14 +1444,14 @@ features but may be required for add-ons.</p></li>
 </ul>
 </section>
 <section id="how-to-obtain-a-fortran-compiler-for-mac-without-fink-macports-or-homebrew">
-<span id="faq-macgfortran"></span><h2>How to obtain a Fortran compiler for Mac without Fink, MacPorts, or Homebrew<a class="headerlink" href="#how-to-obtain-a-fortran-compiler-for-mac-without-fink-macports-or-homebrew" title="Link to this heading">¶</a></h2>
+<span id="faq-macgfortran"></span><h2>How to obtain a Fortran compiler for Mac without Fink, MacPorts, or Homebrew<a class="headerlink" href="#how-to-obtain-a-fortran-compiler-for-mac-without-fink-macports-or-homebrew" title="Link to this heading">#</a></h2>
 <p>Xcode does not provide a Fortran compiler. A way to get one is to download
 the <code class="docutils literal notranslate"><span class="pre">gfortran_osx-64</span></code> conda package. This provides
 <code class="docutils literal notranslate"><span class="pre">gfortran</span></code> compilers for Mac. The version is 4.8.5, which is quite old,
 but the Fortran compiler will work.</p>
 </section>
 <section id="how-to-configure-blas-lapack-for-building-psi4">
-<span id="cmake-lapack"></span><h2>How to configure BLAS/LAPACK for building Psi4<a class="headerlink" href="#how-to-configure-blas-lapack-for-building-psi4" title="Link to this heading">¶</a></h2>
+<span id="cmake-lapack"></span><h2>How to configure BLAS/LAPACK for building Psi4<a class="headerlink" href="#how-to-configure-blas-lapack-for-building-psi4" title="Link to this heading">#</a></h2>
 <p><strong>Role and Dependencies</strong></p>
 <ul class="simple">
 <li><p>Role — In <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, BLAS and LAPACK control much of the speed
@@ -1264,13 +1469,13 @@ linear algebra on molecular systems.</p></li>
 </ul>
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-MKL_ROOT">
-<span class="sig-name descname"><span class="pre">MKL_ROOT</span></span><a class="headerlink" href="#envvar-MKL_ROOT" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">MKL_ROOT</span></span><a class="headerlink" href="#envvar-MKL_ROOT" title="Link to this definition">#</a></dt>
 <dd><p>Environment variable set by Intel compilervars scripts. Sufficient to trigger math detection of MKL at this location.</p>
 </dd></dl>
 
 <dl class="std envvar">
 <dt class="sig sig-object std" id="envvar-MATH_ROOT">
-<span class="sig-name descname"><span class="pre">MATH_ROOT</span></span><a class="headerlink" href="#envvar-MATH_ROOT" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">MATH_ROOT</span></span><a class="headerlink" href="#envvar-MATH_ROOT" title="Link to this definition">#</a></dt>
 <dd><p>Environment variable to specify root directory in which BLAS/LAPACK libraries should be detected (<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">${MATH_ROOT}/lib64/libblas.so</span></code> and <code class="docutils literal notranslate"><span class="pre">${MATH_ROOT}/lib64/liblapack.so</span></code>).</p>
 </dd></dl>
 
@@ -1380,10 +1585,10 @@ particular distribution, including tests run multithreaded,
 if you intend to run <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> so. Use at least 0.2.15, and
 pay attention to how it was compiled - unthreaded seems safe,
 openmp-threaded is mostly safe, default pthreaded is <em>not</em> safe. See
-<a class="reference external" href="https://github.com/psi4/psi4/issues/1009">https://github.com/psi4/psi4/issues/1009</a> for recent analysis.</p></li>
+<a class="github reference external" href="https://github.com/psi4/psi4/issues/1009">psi4/psi4#1009</a> for recent analysis.</p></li>
 <li><p>Another open-source LAPACK distribution, ATLAS had
 stability issues with the DFOCC module at last testing,
-<a class="reference external" href="https://github.com/psi4/psi4/issues/391">https://github.com/psi4/psi4/issues/391</a>.</p></li>
+<a class="github reference external" href="https://github.com/psi4/psi4/issues/391">psi4/psi4#391</a>.</p></li>
 <li><p>ACML libraries are known to work with <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> v1.1 at ACML 6.</p></li>
 </ul>
 </li>
@@ -1392,9 +1597,9 @@ and the BLAS of NumPy are not independent. There can be unpredictable
 but reproducible numerical and thread-scaling errors if <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
 and NumPy BLAS don’t match down to the library name (that is,
 <code class="docutils literal notranslate"><span class="pre">libmkl_rt</span></code>, <code class="docutils literal notranslate"><span class="pre">libmkl_core.so</span></code>, <code class="docutils literal notranslate"><span class="pre">libmkl_core.a</span></code> are <em>not</em>
-interchangeable). See <a class="reference external" href="https://github.com/psi4/psi4/issues/1007">https://github.com/psi4/psi4/issues/1007</a>,
-<a class="reference external" href="https://github.com/psi4/psi4/issues/748">https://github.com/psi4/psi4/issues/748</a>,
-<a class="reference external" href="https://github.com/psi4/psi4/issues/755">https://github.com/psi4/psi4/issues/755</a> for gory discussions.
+interchangeable). See <a class="github reference external" href="https://github.com/psi4/psi4/issues/1007">psi4/psi4#1007</a>,
+<a class="github reference external" href="https://github.com/psi4/psi4/issues/748">psi4/psi4#748</a>,
+<a class="github reference external" href="https://github.com/psi4/psi4/issues/755">psi4/psi4#755</a> for gory discussions.
 Choose your NumPy and <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> compile conditions to use the same
 BLAS distribution.</p></li>
 <li><p>The BLAS/LAPACK detected for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> are also linked into any
@@ -1419,7 +1624,7 @@ BLAS threading.</p></li>
 </ul>
 </section>
 <section id="how-to-configure-python-for-building-psi4">
-<span id="cmake-python"></span><h2>How to configure Python for building Psi4<a class="headerlink" href="#how-to-configure-python-for-building-psi4" title="Link to this heading">¶</a></h2>
+<span id="cmake-python"></span><h2>How to configure Python for building Psi4<a class="headerlink" href="#how-to-configure-python-for-building-psi4" title="Link to this heading">#</a></h2>
 <p><strong>Role and Dependencies</strong></p>
 <ul class="simple">
 <li><p>Role — In <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, Python allows the core compiled C++ code to
@@ -1467,7 +1672,7 @@ guidance.</p>
 </div></blockquote>
 </section>
 <section id="what-python-is-psi4-running">
-<span id="faq-runtimepython"></span><h2>What Python is Psi4 running<a class="headerlink" href="#what-python-is-psi4-running" title="Link to this heading">¶</a></h2>
+<span id="faq-runtimepython"></span><h2>What Python is Psi4 running<a class="headerlink" href="#what-python-is-psi4-running" title="Link to this heading">#</a></h2>
 <p>The Python detected at build-time is embedded into the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
 executable. That is, the top line of <code class="docutils literal notranslate"><span class="pre">bin/psi4</span></code> is something like
 <code class="docutils literal notranslate"><span class="pre">#!/path/to/miniconda/envs/p4deps/bin/python3.5</span></code>, and that’s the Python
@@ -1480,13 +1685,13 @@ edit the shebang line.</p>
 the Python of <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">python</span></code>.</p>
 </section>
 <section id="how-to-fix-undefined-symbol-py-falsestruct">
-<span id="faq-wrongpyfalse"></span><h2>How to fix “<code class="docutils literal notranslate"><span class="pre">undefined</span> <span class="pre">symbol:</span> <span class="pre">_Py_FalseStruct</span></code>”<a class="headerlink" href="#how-to-fix-undefined-symbol-py-falsestruct" title="Link to this heading">¶</a></h2>
+<span id="faq-wrongpyfalse"></span><h2>How to fix “<code class="docutils literal notranslate"><span class="pre">undefined</span> <span class="pre">symbol:</span> <span class="pre">_Py_FalseStruct</span></code>”<a class="headerlink" href="#how-to-fix-undefined-symbol-py-falsestruct" title="Link to this heading">#</a></h2>
 <p>You’re probably loading a Py3-compiled Psi4 in Py2. Switch interpreters
 and re-run. A python of proper Py2 or Py3-ness is baked into the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
 “executable”, so you’ll see this error only for Psi4 as Python module.</p>
 </section>
 <section id="how-to-use-gdb-and-lldb-with-psi4">
-<span id="faq-gdblldb"></span><h2>How to use <code class="docutils literal notranslate"><span class="pre">gdb</span></code> and <code class="docutils literal notranslate"><span class="pre">lldb</span></code> with Psi4<a class="headerlink" href="#how-to-use-gdb-and-lldb-with-psi4" title="Link to this heading">¶</a></h2>
+<span id="faq-gdblldb"></span><h2>How to use <code class="docutils literal notranslate"><span class="pre">gdb</span></code> and <code class="docutils literal notranslate"><span class="pre">lldb</span></code> with Psi4<a class="headerlink" href="#how-to-use-gdb-and-lldb-with-psi4" title="Link to this heading">#</a></h2>
 <p>Debugging <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> has gotten a little confusing now that it’s running through Python. Here’s the syntax</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cd</span> <span class="p">{</span><span class="n">objdir</span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lldb</span> <span class="o">--</span> <span class="n">python</span> <span class="n">stage</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">psi4</span> <span class="o">../</span><span class="n">tests</span><span class="o">/</span><span class="n">tu1</span><span class="o">-</span><span class="n">h2o</span><span class="o">-</span><span class="n">energy</span><span class="o">/</span><span class="nb">input</span><span class="o">.</span><span class="n">dat</span>
@@ -1500,13 +1705,13 @@ and re-run. A python of proper Py2 or Py3-ness is baked into the <span style="fo
 </div>
 </section>
 <section id="how-to-see-the-actual-compiling-commands-or-errors-with-cmake">
-<span id="faq-cmakeverbose"></span><h2>How to see the actual compiling commands (or errors) with <code class="docutils literal notranslate"><span class="pre">cmake</span></code><a class="headerlink" href="#how-to-see-the-actual-compiling-commands-or-errors-with-cmake" title="Link to this heading">¶</a></h2>
+<span id="faq-cmakeverbose"></span><h2>How to see the actual compiling commands (or errors) with <code class="docutils literal notranslate"><span class="pre">cmake</span></code><a class="headerlink" href="#how-to-see-the-actual-compiling-commands-or-errors-with-cmake" title="Link to this heading">#</a></h2>
 <p>CMake by default hides a lot of useful debugging information to make the
 compilation cleaner. Issue <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">VERBOSE=1</span></code> to display the full
 compilation commands and errors.</p>
 </section>
 <section id="how-to-highlight-git-merge-conflicts-in-vi">
-<span id="faq-vigitmerge"></span><h2>How to highlight git merge conflicts in <code class="docutils literal notranslate"><span class="pre">vi</span></code><a class="headerlink" href="#how-to-highlight-git-merge-conflicts-in-vi" title="Link to this heading">¶</a></h2>
+<span id="faq-vigitmerge"></span><h2>How to highlight git merge conflicts in <code class="docutils literal notranslate"><span class="pre">vi</span></code><a class="headerlink" href="#how-to-highlight-git-merge-conflicts-in-vi" title="Link to this heading">#</a></h2>
 <p>Edit your <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> file to include the lines below. Hitting the <code class="docutils literal notranslate"><span class="pre">F7</span></code>
 key will toggle highlighting of git’s conflict markers.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cat<span class="w"> </span>~/.vimrc
@@ -1516,7 +1721,7 @@ map<span class="w"> </span>&lt;F7&gt;<span class="w"> </span>:/<span class="se">
 </div>
 </section>
 <section id="how-to-handle-runtime-library-may-be-hidden-when-building-with-anaconda-python">
-<span id="faq-libmwcondapy"></span><h2>How to handle “runtime library may be hidden” when building with Anaconda Python<a class="headerlink" href="#how-to-handle-runtime-library-may-be-hidden-when-building-with-anaconda-python" title="Link to this heading">¶</a></h2>
+<span id="faq-libmwcondapy"></span><h2>How to handle “runtime library may be hidden” when building with Anaconda Python<a class="headerlink" href="#how-to-handle-runtime-library-may-be-hidden-when-building-with-anaconda-python" title="Link to this heading">#</a></h2>
 <p>When building against Ana/Miniconda python (e.g., <code class="docutils literal notranslate"><span class="pre">cmake</span>
 <span class="pre">-DPython_EXECUTABLE=/path/to/conda/bin/python</span></code>), the warning below often
 appears. It is harmless, proceed.</p>
@@ -1532,7 +1737,7 @@ Some<span class="w"> </span>of<span class="w"> </span>these<span class="w"> </sp
 </div>
 </section>
 <section id="how-to-set-up-the-scratch-directory">
-<span id="faq-psi4scratch"></span><h2>How to set up the scratch directory<a class="headerlink" href="#how-to-set-up-the-scratch-directory" title="Link to this heading">¶</a></h2>
+<span id="faq-psi4scratch"></span><h2>How to set up the scratch directory<a class="headerlink" href="#how-to-set-up-the-scratch-directory" title="Link to this heading">#</a></h2>
 <p>The scratch directory is where Psi4 stores potentially large files during
 computation. It should thus be on a local, fast disk to minimize any
 computational inefficiencies caused by I/O. The scratch directory is
@@ -1548,12 +1753,12 @@ commonly set up through the <span class="target" id="index-27"></span><a class="
 <p>See also the more general <a class="reference internal" href="external.html#sec-scratch"><span class="std std-ref">scratch documentation</span></a>.</p>
 </section>
 <section id="how-do-i-retain-specific-psi4-scratch-files">
-<span id="faq-psi4fileretention"></span><h2>How do I retain specific Psi4 scratch files<a class="headerlink" href="#how-do-i-retain-specific-psi4-scratch-files" title="Link to this heading">¶</a></h2>
+<span id="faq-psi4fileretention"></span><h2>How do I retain specific Psi4 scratch files<a class="headerlink" href="#how-do-i-retain-specific-psi4-scratch-files" title="Link to this heading">#</a></h2>
 <p>You can set up a specific path for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> scratch file and keep them
 for later use through the <a class="reference internal" href="external.html#sec-scratch"><span class="std std-ref">psi4_io</span></a> handler.</p>
 </section>
 <section id="how-to-use-psi4-within-a-pbs-queue">
-<span id="faq-psi4pbs"></span><h2>How to use Psi4 within a PBS queue<a class="headerlink" href="#how-to-use-psi4-within-a-pbs-queue" title="Link to this heading">¶</a></h2>
+<span id="faq-psi4pbs"></span><h2>How to use Psi4 within a PBS queue<a class="headerlink" href="#how-to-use-psi4-within-a-pbs-queue" title="Link to this heading">#</a></h2>
 <p>You will usually need to set up a PBS job script that is setting all
 necessary environment variables, making sure the scratch directories are
 set up, and invoking the executable. An <a class="reference internal" href="external.html#sec-pbs"><span class="std std-ref">example</span></a> PBS script
@@ -1561,7 +1766,7 @@ is provided in the manual, but make sure to also consult your own PBS
 documentation for appropriate setup.</p>
 </section>
 <section id="how-to-update-and-rebuild-psi4">
-<span id="faq-recompile"></span><h2>How to update and rebuild Psi4<a class="headerlink" href="#how-to-update-and-rebuild-psi4" title="Link to this heading">¶</a></h2>
+<span id="faq-recompile"></span><h2>How to update and rebuild Psi4<a class="headerlink" href="#how-to-update-and-rebuild-psi4" title="Link to this heading">#</a></h2>
 <p>Obtain code updates as appropriate from <a class="reference internal" href="build_obtaining.html#faq-binary"><span class="std std-ref">Binary Installer</span></a>,
 <a class="reference internal" href="build_obtaining.html#faq-clonepsi4public"><span class="std std-ref">Clone from GitHub Repository</span></a>, or <a class="reference internal" href="build_obtaining.html#faq-forkpsi4public"><span class="std std-ref">Fork from GitHub Repository</span></a>.  Move into
 <code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em></code> and reissue <code class="docutils literal notranslate"><span class="pre">make</span></code> or <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span></code>, whereupon CMake may reconfigure but
@@ -1573,7 +1778,7 @@ make a new objdir since there are many full paths baked into
 <code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em><span class="pre">/CMakeCache.txt</span></code>.</p>
 </section>
 <section id="how-to-run-a-minute-s-worth-of-tests">
-<span id="faq-minutetests"></span><h2>How to run a minute’s worth of tests<a class="headerlink" href="#how-to-run-a-minute-s-worth-of-tests" title="Link to this heading">¶</a></h2>
+<span id="faq-minutetests"></span><h2>How to run a minute’s worth of tests<a class="headerlink" href="#how-to-run-a-minute-s-worth-of-tests" title="Link to this heading">#</a></h2>
 <p>When you want to do a very minimal test of the build and have
 CTest installed, the following command can be useful.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; ctest -L smoke -j`getconf _NPROCESSORS_ONLN`</span>
@@ -1585,7 +1790,7 @@ CTest installed, the following command can be useful.</p>
 </div>
 </section>
 <section id="how-to-run-a-subset-of-tests">
-<span id="faq-subsettests"></span><h2>How to run a subset of tests<a class="headerlink" href="#how-to-run-a-subset-of-tests" title="Link to this heading">¶</a></h2>
+<span id="faq-subsettests"></span><h2>How to run a subset of tests<a class="headerlink" href="#how-to-run-a-subset-of-tests" title="Link to this heading">#</a></h2>
 <p>CTest allows flexibly partitioned running of the test suite. In
 the examples below, <em>testname</em> are regex of <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests">test names</a>,
 and <em>testlabel</em> are regex of labels (<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">cc</span></code>, <code class="docutils literal notranslate"><span class="pre">mints</span></code>,
@@ -1617,7 +1822,7 @@ and <em>testlabel</em> are regex of labels (<em>e.g.</em>, <code class="docutils
 </ul>
 </section>
 <section id="how-to-see-ctest-testing-errors">
-<span id="faq-testsoutput"></span><h2>How to see CTest testing errors<a class="headerlink" href="#how-to-see-ctest-testing-errors" title="Link to this heading">¶</a></h2>
+<span id="faq-testsoutput"></span><h2>How to see CTest testing errors<a class="headerlink" href="#how-to-see-ctest-testing-errors" title="Link to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ctest</span>
 <span class="go">Test project /your/path/2/psi4/build/directory/tests</span>
 <span class="go">    Start 248: tu1-h2o-energy</span>
@@ -1635,7 +1840,7 @@ a few other factors. Either way, this file should contain CMake’s testing
 output, as well as everything that was printed to the screen.</p>
 </section>
 <section id="how-to-test-a-psi4-installation">
-<span id="faq-pytest"></span><h2>How to test a Psi4 installation<a class="headerlink" href="#how-to-test-a-psi4-installation" title="Link to this heading">¶</a></h2>
+<span id="faq-pytest"></span><h2>How to test a Psi4 installation<a class="headerlink" href="#how-to-test-a-psi4-installation" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">ctest</span></code> requires a connection to source files and <code class="docutils literal notranslate"><span class="pre">cmake</span></code>
 machinery and so can only be performed from <code class="samp docutils literal notranslate"><em><span class="pre">objdir</span></em></code>
 (staged installation). To test an installed <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> (full or staged
@@ -1703,7 +1908,7 @@ to run correctly); <code class="docutils literal notranslate"><span class="pre">
 </div>
 </section>
 <section id="how-to-refer-to-psi4">
-<span id="faq-writepsi4"></span><h2>How to refer to Psi4<a class="headerlink" href="#how-to-refer-to-psi4" title="Link to this heading">¶</a></h2>
+<span id="faq-writepsi4"></span><h2>How to refer to Psi4<a class="headerlink" href="#how-to-refer-to-psi4" title="Link to this heading">#</a></h2>
 <p>Ways to refer to <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> in text, in order of decreasing goodness:</p>
 <blockquote>
 <div><ul class="simple">
@@ -1725,11 +1930,11 @@ according to <a class="reference external" href="https://github.com/psi4/psi4/bl
 </div></blockquote>
 </section>
 <section id="how-to-get-a-psi4-logo-file">
-<span id="faq-psi4logos"></span><h2>How to get a Psi4 logo file<a class="headerlink" href="#how-to-get-a-psi4-logo-file" title="Link to this heading">¶</a></h2>
-<p>All image files are stored in <a class="reference external" href="https://github.com/psi4/psi4media">https://github.com/psi4/psi4media</a></p>
+<span id="faq-psi4logos"></span><h2>How to get a Psi4 logo file<a class="headerlink" href="#how-to-get-a-psi4-logo-file" title="Link to this heading">#</a></h2>
+<p>All image files are stored in <a class="github reference external" href="https://github.com/psi4/psi4media">psi4/psi4media</a></p>
 </section>
 <section id="how-to-use-a-local-add-on-repository-in-the-psi4-build">
-<span id="faq-localaddon"></span><h2>How to use a local Add-On repository in the Psi4 build<a class="headerlink" href="#how-to-use-a-local-add-on-repository-in-the-psi4-build" title="Link to this heading">¶</a></h2>
+<span id="faq-localaddon"></span><h2>How to use a local Add-On repository in the Psi4 build<a class="headerlink" href="#how-to-use-a-local-add-on-repository-in-the-psi4-build" title="Link to this heading">#</a></h2>
 <p>For each Add-On, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> pulls source from a specific online Git
 repository and a specific tag/branch/commit in it. This ensures success
 of the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> build, reproducibility of the runtime results, and
@@ -1772,7 +1977,7 @@ the AddOn lib. Naturally, you may need to delete <code class="docutils literal n
 as needed.</p>
 </section>
 <section id="how-to-use-logging-in-psi4">
-<span id="faq-logging"></span><h2>How to use logging in Psi4<a class="headerlink" href="#how-to-use-logging-in-psi4" title="Link to this heading">¶</a></h2>
+<span id="faq-logging"></span><h2>How to use logging in Psi4<a class="headerlink" href="#how-to-use-logging-in-psi4" title="Link to this heading">#</a></h2>
 <p>A log file is generated alongside the output file and has extension
 <code class="docutils literal notranslate"><span class="pre">.log</span></code>. Selected key information is sent to it. The log file contents
 are provisional and haphazard, so don’t start relying upon them. It is
@@ -1793,7 +1998,7 @@ be set too low.</p>
 </div>
 </section>
 <section id="how-to-find-the-psi4-module-from-the-executable-and-vice-versa">
-<span id="faq-findexemod"></span><h2>How to find the Psi4 module from the executable and vice versa<a class="headerlink" href="#how-to-find-the-psi4-module-from-the-executable-and-vice-versa" title="Link to this heading">¶</a></h2>
+<span id="faq-findexemod"></span><h2>How to find the Psi4 module from the executable and vice versa<a class="headerlink" href="#how-to-find-the-psi4-module-from-the-executable-and-vice-versa" title="Link to this heading">#</a></h2>
 <p>Because of the different conventions of C++/Linux and Python installation
 layouts, the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> executable and the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Python module aren’t
 at fixed locations relative to each other. Accessors have been added
@@ -1811,173 +2016,160 @@ can show where the executable is.</p>
 </section>
 
 
-            <div class="clearer"></div>
-          </div>
-        </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="build_obtaining.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Obtaining <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></p>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><!-- 
-#
-# @BEGIN LICENSE
-#
-# Psi4: an open-source quantum chemistry software package
-#
-# Copyright (c) 2007-2017 The Psi4 Developers.
-#
-# The copyrights for code used from other parties are included in
-# the corresponding files.
-#
-# This file is part of Psi4.
-#
-# Psi4 is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, version 3.
-#
-# Psi4 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License along
-# with Psi4; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# @END LICENSE
-# -->
-
-
-<div id="searchbox" style="display: none" role="search">
-  <!--<h3>Quick search</h3>-->
-    <form class="search" action="search.html" method="get">
-      <!--<div><input type="text" name="q" placeholder="search docs" /></div>-->
-      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel" /></div>
-      <!--<div><input type="submit" value="Go" /></div>-->
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
+    </a>
+    <a class="right-next"
+       href="conda.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Conda Binary Distribution</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script><div class="sphinx-toc sphinxlocaltoc">
-    <h3><a href="index.html">table of contents</a></h3>
-    <ul>
-<li><a class="reference internal" href="#">Compiling and Installing from Source</a><ul>
-<li><a class="reference internal" href="#planning-how-to-configure-psi4-and-invoke-cmake">Planning: how to configure Psi4 and invoke CMake</a></li>
-<li><a class="reference internal" href="#how-to-build-and-install-psi4-the-compact-version">How to build and install Psi4, the compact version</a></li>
-<li><a class="reference internal" href="#how-to-build-test-and-install-psi4-in-detail">How to build, test, and install Psi4, in detail</a></li>
-<li><a class="reference internal" href="#what-are-the-tools-and-dependencies-strictly-required-for-building-psi4">What are the tools and dependencies strictly required for building Psi4</a></li>
-<li><a class="reference internal" href="#what-are-the-add-on-capabilities-for-psi4-and-what-are-their-dependencies">What are the add-on capabilities for Psi4 and what are their dependencies</a></li>
-<li><a class="reference internal" href="#how-to-use-conda-to-get-a-psi4-development-environment">How to use conda to get a Psi4 development environment</a></li>
-<li><a class="reference internal" href="#how-to-configure-code-to-use-high-angular-momentum-basis-sets">How to configure code to use high angular momentum basis sets</a></li>
-<li><a class="reference internal" href="#how-to-get-high-angular-momentum-integrals-from-conda">How to get high angular momentum integrals from conda</a></li>
-<li><a class="reference internal" href="#how-to-see-what-build-configuration-options-are-available">How to see what build configuration options are available</a></li>
-<li><a class="reference internal" href="#how-to-install-elsewhere-than-usr-local-psi4">How to install elsewhere than <code class="samp docutils literal notranslate"><span class="pre">/usr/local/psi4</span></code></a></li>
-<li><a class="reference internal" href="#how-to-compile-for-debugging">How to compile for debugging</a></li>
-<li><a class="reference internal" href="#how-to-choose-the-compilation-directory-objdir">How to choose the compilation directory, <code class="docutils literal notranslate"><span class="pre">{objdir}</span></code></a></li>
-<li><a class="reference internal" href="#how-to-save-configuration-settings-for-a-future-compilation">How to save configuration settings for a future compilation</a></li>
-<li><a class="reference internal" href="#what-is-the-directory-layout-of-the-installed-or-staged-psi4">What is the directory layout of the installed or staged Psi4</a></li>
-<li><a class="reference internal" href="#how-to-run-psi4-as-executable-after-compilation">How to run Psi4 as executable after compilation</a></li>
-<li><a class="reference internal" href="#how-to-solve-modulenotfounderror-no-module-named-psi4">How to solve <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'psi4'</span></code></a></li>
-<li><a class="reference internal" href="#how-to-configure-paths-for-psiapi">How to configure paths for PsiAPI</a></li>
-<li><a class="reference internal" href="#how-to-run-psi4-as-python-module-after-compilation">How to run Psi4 as Python module after compilation</a></li>
-<li><a class="reference internal" href="#how-to-run-psi4-as-executable-or-python-module-from-conda-installation">How to run Psi4 as executable or Python module from conda installation</a></li>
-<li><a class="reference internal" href="#how-to-run-psi4-as-executable-after-compilation-using-driver-from-source">How to run Psi4 as executable after compilation using driver from source</a></li>
-<li><a class="reference internal" href="#why-not-to-set-psidatadir">Why not to set <code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIDATADIR</span></code></a></li>
-<li><a class="reference internal" href="#how-to-configure-c-and-c-compilers-for-building-psi4">How to configure C++ and C compilers for building Psi4</a></li>
-<li><a class="reference internal" href="#what-c-and-c-compilers-and-versions-are-approved">What C and C++ compilers and versions are approved</a></li>
-<li><a class="reference internal" href="#how-to-obtain-c-and-c-compilers-for-mac-without-fink-macports-or-homebrew">How to obtain C and C++ compilers for Mac without Fink, MacPorts, or Homebrew</a></li>
-<li><a class="reference internal" href="#how-to-satisfy-the-gcc-4-9-requirement-on-linux-without-updating-the-os">How to satisfy the GCC &gt;= 4.9 requirement on Linux without updating the OS</a></li>
-<li><a class="reference internal" href="#how-to-configure-a-psi4-build-on-cray">How to configure a Psi4 build on Cray</a></li>
-<li><a class="reference internal" href="#how-to-configure-fortran-compilers-for-building-psi4">How to configure Fortran compilers for building Psi4</a></li>
-<li><a class="reference internal" href="#what-fortran-compilers-are-approved">What Fortran compilers are approved</a></li>
-<li><a class="reference internal" href="#how-to-obtain-a-fortran-compiler-for-mac-without-fink-macports-or-homebrew">How to obtain a Fortran compiler for Mac without Fink, MacPorts, or Homebrew</a></li>
-<li><a class="reference internal" href="#how-to-configure-blas-lapack-for-building-psi4">How to configure BLAS/LAPACK for building Psi4</a></li>
-<li><a class="reference internal" href="#how-to-configure-python-for-building-psi4">How to configure Python for building Psi4</a></li>
-<li><a class="reference internal" href="#what-python-is-psi4-running">What Python is Psi4 running</a></li>
-<li><a class="reference internal" href="#how-to-fix-undefined-symbol-py-falsestruct">How to fix “<code class="docutils literal notranslate"><span class="pre">undefined</span> <span class="pre">symbol:</span> <span class="pre">_Py_FalseStruct</span></code>”</a></li>
-<li><a class="reference internal" href="#how-to-use-gdb-and-lldb-with-psi4">How to use <code class="docutils literal notranslate"><span class="pre">gdb</span></code> and <code class="docutils literal notranslate"><span class="pre">lldb</span></code> with Psi4</a></li>
-<li><a class="reference internal" href="#how-to-see-the-actual-compiling-commands-or-errors-with-cmake">How to see the actual compiling commands (or errors) with <code class="docutils literal notranslate"><span class="pre">cmake</span></code></a></li>
-<li><a class="reference internal" href="#how-to-highlight-git-merge-conflicts-in-vi">How to highlight git merge conflicts in <code class="docutils literal notranslate"><span class="pre">vi</span></code></a></li>
-<li><a class="reference internal" href="#how-to-handle-runtime-library-may-be-hidden-when-building-with-anaconda-python">How to handle “runtime library may be hidden” when building with Anaconda Python</a></li>
-<li><a class="reference internal" href="#how-to-set-up-the-scratch-directory">How to set up the scratch directory</a></li>
-<li><a class="reference internal" href="#how-do-i-retain-specific-psi4-scratch-files">How do I retain specific Psi4 scratch files</a></li>
-<li><a class="reference internal" href="#how-to-use-psi4-within-a-pbs-queue">How to use Psi4 within a PBS queue</a></li>
-<li><a class="reference internal" href="#how-to-update-and-rebuild-psi4">How to update and rebuild Psi4</a></li>
-<li><a class="reference internal" href="#how-to-run-a-minute-s-worth-of-tests">How to run a minute’s worth of tests</a></li>
-<li><a class="reference internal" href="#how-to-run-a-subset-of-tests">How to run a subset of tests</a></li>
-<li><a class="reference internal" href="#how-to-see-ctest-testing-errors">How to see CTest testing errors</a></li>
-<li><a class="reference internal" href="#how-to-test-a-psi4-installation">How to test a Psi4 installation</a></li>
-<li><a class="reference internal" href="#how-to-refer-to-psi4">How to refer to Psi4</a></li>
-<li><a class="reference internal" href="#how-to-get-a-psi4-logo-file">How to get a Psi4 logo file</a></li>
-<li><a class="reference internal" href="#how-to-use-a-local-add-on-repository-in-the-psi4-build">How to use a local Add-On repository in the Psi4 build</a></li>
-<li><a class="reference internal" href="#how-to-use-logging-in-psi4">How to use logging in Psi4</a></li>
-<li><a class="reference internal" href="#how-to-find-the-psi4-module-from-the-executable-and-vice-versa">How to find the Psi4 module from the executable and vice versa</a></li>
-</ul>
-</li>
-</ul>
-
-  </div>
-        </div>
-      </div>
-    
-    
-        <div class="sidebar-toggle-group no-js">
+                </footer>
+              
+            </div>
             
-            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
-                 «
-                <span class="show-for-small">hide menu</span>
-                
-            </button>
-            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
-                
-                <span class="show-for-small">menu</span>
-                <span class="hide-for-small">sidebar</span>
-                 »
-            </button>
-        </div>
-    
-      <div class="clearer"></div>
-    </div>
-    <div class="relbar-bottom">
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#planning-how-to-configure-psi4-and-invoke-cmake">Planning: how to configure Psi4 and invoke CMake</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-and-install-psi4-the-compact-version">How to build and install Psi4, the compact version</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-test-and-install-psi4-in-detail">How to build, test, and install Psi4, in detail</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-the-tools-and-dependencies-strictly-required-for-building-psi4">What are the tools and dependencies strictly required for building Psi4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-the-add-on-capabilities-for-psi4-and-what-are-their-dependencies">What are the add-on capabilities for Psi4 and what are their dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-conda-to-get-a-psi4-development-environment">How to use conda to get a Psi4 development environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-configure-code-to-use-high-angular-momentum-basis-sets">How to configure code to use high angular momentum basis sets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-get-high-angular-momentum-integrals-from-conda">How to get high angular momentum integrals from conda</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-see-what-build-configuration-options-are-available">How to see what build configuration options are available</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-install-elsewhere-than-usr-local-psi4">How to install elsewhere than <code class="samp docutils literal notranslate"><span class="pre">/usr/local/psi4</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-compile-for-debugging">How to compile for debugging</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-choose-the-compilation-directory-objdir">How to choose the compilation directory, <code class="docutils literal notranslate"><span class="pre">{objdir}</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-save-configuration-settings-for-a-future-compilation">How to save configuration settings for a future compilation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-directory-layout-of-the-installed-or-staged-psi4">What is the directory layout of the installed or staged Psi4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-run-psi4-as-executable-after-compilation">How to run Psi4 as executable after compilation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-solve-modulenotfounderror-no-module-named-psi4">How to solve <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'psi4'</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-configure-paths-for-psiapi">How to configure paths for PsiAPI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-run-psi4-as-python-module-after-compilation">How to run Psi4 as Python module after compilation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-run-psi4-as-executable-or-python-module-from-conda-installation">How to run Psi4 as executable or Python module from conda installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-run-psi4-as-executable-after-compilation-using-driver-from-source">How to run Psi4 as executable after compilation using driver from source</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-not-to-set-psidatadir">Why not to set <code class="xref std std-envvar docutils literal notranslate"><span class="pre">PSIDATADIR</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-configure-c-and-c-compilers-for-building-psi4">How to configure C++ and C compilers for building Psi4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-c-and-c-compilers-and-versions-are-approved">What C and C++ compilers and versions are approved</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-obtain-c-and-c-compilers-for-mac-without-fink-macports-or-homebrew">How to obtain C and C++ compilers for Mac without Fink, MacPorts, or Homebrew</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-satisfy-the-gcc-4-9-requirement-on-linux-without-updating-the-os">How to satisfy the GCC &gt;= 4.9 requirement on Linux without updating the OS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-configure-a-psi4-build-on-cray">How to configure a Psi4 build on Cray</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-configure-fortran-compilers-for-building-psi4">How to configure Fortran compilers for building Psi4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-fortran-compilers-are-approved">What Fortran compilers are approved</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-obtain-a-fortran-compiler-for-mac-without-fink-macports-or-homebrew">How to obtain a Fortran compiler for Mac without Fink, MacPorts, or Homebrew</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-configure-blas-lapack-for-building-psi4">How to configure BLAS/LAPACK for building Psi4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-configure-python-for-building-psi4">How to configure Python for building Psi4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-python-is-psi4-running">What Python is Psi4 running</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-fix-undefined-symbol-py-falsestruct">How to fix “<code class="docutils literal notranslate"><span class="pre">undefined</span> <span class="pre">symbol:</span> <span class="pre">_Py_FalseStruct</span></code>”</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-gdb-and-lldb-with-psi4">How to use <code class="docutils literal notranslate"><span class="pre">gdb</span></code> and <code class="docutils literal notranslate"><span class="pre">lldb</span></code> with Psi4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-see-the-actual-compiling-commands-or-errors-with-cmake">How to see the actual compiling commands (or errors) with <code class="docutils literal notranslate"><span class="pre">cmake</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-highlight-git-merge-conflicts-in-vi">How to highlight git merge conflicts in <code class="docutils literal notranslate"><span class="pre">vi</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-handle-runtime-library-may-be-hidden-when-building-with-anaconda-python">How to handle “runtime library may be hidden” when building with Anaconda Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-set-up-the-scratch-directory">How to set up the scratch directory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-retain-specific-psi4-scratch-files">How do I retain specific Psi4 scratch files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-psi4-within-a-pbs-queue">How to use Psi4 within a PBS queue</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-update-and-rebuild-psi4">How to update and rebuild Psi4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-run-a-minute-s-worth-of-tests">How to run a minute’s worth of tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-run-a-subset-of-tests">How to run a subset of tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-see-ctest-testing-errors">How to see CTest testing errors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-test-a-psi4-installation">How to test a Psi4 installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-refer-to-psi4">How to refer to Psi4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-get-a-psi4-logo-file">How to get a Psi4 logo file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-a-local-add-on-repository-in-the-psi4-build">How to use a local Add-On repository in the Psi4 build</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-logging-in-psi4">How to use logging in Psi4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-find-the-psi4-module-from-the-executable-and-vice-versa">How to find the Psi4 module from the executable and vice versa</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/build_planning.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
         
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >Index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="conda.html" title="Conda Binary Distribution"
-             ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="build_obtaining.html" title="Obtaining PSI4"
-             ><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
-        <li class="right" >
-          <a href="index.html" title="Table Of Contents"
-             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
-    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
-    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
-    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/990b0e8">1.9a1.dev49</a></li>
-    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li class="nav-item nav-item-0"><a href="index.html">
-        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
-        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
-          <li class="nav-item nav-item-1"><a href="external.html" >Installation and Runtime Configuration</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
-        <li class="nav-item nav-item-this"><a href="">Compiling and Installing from Source</a></li> 
-      </ul>
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2007-2023, The Psi4 Project.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
     </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
     </div>
+  
+</div>
 
-    <div class="footer" role="contentinfo">
-    &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Tuesday, 12 September 2023 06:44PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.5.
-    </div>
-    <!-- cloud_sptheme 1.4 -->
+  </footer>
   </body>
 </html>
