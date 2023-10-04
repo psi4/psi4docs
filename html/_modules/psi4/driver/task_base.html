@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=c48af6fd"></script>
+    <script src="../../../_static/documentation_options.js?v=387855cc"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9addd49">1.9a1.dev55</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3cbf5c8">1.9a1.dev56</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -157,7 +157,7 @@
 
 <span class="kn">import</span> <span class="nn">qcelemental</span> <span class="k">as</span> <span class="nn">qcel</span>
 <span class="kn">from</span> <span class="nn">qcelemental.models</span> <span class="kn">import</span> <span class="n">AtomicInput</span><span class="p">,</span> <span class="n">AtomicResult</span><span class="p">,</span> <span class="n">DriverEnum</span>
-
+<span class="kn">from</span> <span class="nn">qcelemental.models.results</span> <span class="kn">import</span> <span class="n">AtomicResultProtocols</span>
 <span class="n">qcel</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">GEOMETRY_NOISE</span> <span class="o">=</span> <span class="mi">13</span>  <span class="c1"># need more precision in geometries for high-res findif</span>
 <span class="kn">import</span> <span class="nn">qcengine</span> <span class="k">as</span> <span class="nn">qcng</span>
 
@@ -209,6 +209,10 @@
     <span class="n">driver</span><span class="p">:</span> <span class="n">DriverEnum</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The resulting type of computation: energy, gradient, hessian, properties.&quot;</span>
         <span class="s2">&quot;Note for finite difference that this should be the target driver, not the means driver.&quot;</span><span class="p">)</span>
     <span class="n">keywords</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The keywords to use in the computation.&quot;</span><span class="p">)</span>
+    <span class="n">protocols</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">AtomicResultProtocols</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">({</span><span class="s2">&quot;stdout&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Output modifications.&quot;</span><span class="p">)</span>
+    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The tags to pass along to compute managers.&quot;</span><span class="p">)</span>
+    <span class="n">priority</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The priority of a Task; higher priority will be pulled first. {high:2, normal:1, low:0}&quot;</span><span class="p">)</span>
+    <span class="n">owner_group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;group in the chown sense.&quot;</span><span class="p">)</span>
     <span class="n">computed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Whether quantum chemistry has been run on this task.&quot;</span><span class="p">)</span>
     <span class="n">result</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;:py:class:`~qcelemental.models.AtomicResult` return.&quot;</span><span class="p">)</span>
     <span class="n">result_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The optional ID for the computation.&quot;</span><span class="p">)</span>
@@ -250,9 +254,7 @@
                 <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span>
             <span class="p">},</span>
             <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">,</span>
-            <span class="s2">&quot;protocols&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;stdout&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="p">},</span>
+            <span class="s2">&quot;protocols&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocols</span><span class="p">,</span>
             <span class="s2">&quot;extras&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;psiapi&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s2">&quot;wfn_qcvars_only&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -318,7 +320,10 @@
                     <span class="n">method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
                     <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span>
                     <span class="n">keywords</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">,</span>
-                    <span class="c1"># protocols,</span>
+                    <span class="n">protocols</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">protocols</span><span class="p">,</span>
+                    <span class="n">tag</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
+                    <span class="n">priority</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span>
+                    <span class="n">owner_group</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">owner_group</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">result_id</span> <span class="o">=</span> <span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="c1"># NOTE: The following will re-run errored jobs by default</span>
@@ -360,7 +365,8 @@
         <span class="n">core</span><span class="o">.</span><span class="n">set_output_file</span><span class="p">(</span><span class="n">gof</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">reopen_outfile</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">dict</span><span class="p">()))</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">_drink_filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">dict</span><span class="p">()[</span><span class="s2">&quot;stdout&quot;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">stdout</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">dict</span><span class="p">()[</span><span class="s2">&quot;stdout&quot;</span><span class="p">]:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">_drink_filter</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">computed</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
@@ -483,7 +489,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/9addd49">1.9a1.dev55</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/3cbf5c8">1.9a1.dev56</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -497,7 +503,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Tuesday, 03 October 2023 04:09PM.
+      Last updated on Wednesday, 04 October 2023 11:42AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
     <!-- cloud_sptheme 1.4 -->
