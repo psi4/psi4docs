@@ -1,0 +1,1355 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>psi4.driver.p4util.solvers</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="../../../../_static/documentation_options.js?v=6f8febb1"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    
+    
+     
+        <script src="../../../../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../../../../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../../../../_static/cloud.js"></script>
+    
+
+    <link rel="icon" href="../../../../_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../../index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/solvers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/8a65ae0">1.8.2</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">psi4.driver.p4util.solvers</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for psi4.driver.p4util.solvers</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># @BEGIN LICENSE</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4: an open-source quantum chemistry software package</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2007-2023 The Psi4 Developers.</span>
+<span class="c1">#</span>
+<span class="c1"># The copyrights for code used from other parties are included in</span>
+<span class="c1"># the corresponding files.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of Psi4.</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4 is free software; you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Lesser General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, version 3.</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4 is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU Lesser General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU Lesser General Public License along</span>
+<span class="c1"># with Psi4; if not, write to the Free Software Foundation, Inc.,</span>
+<span class="c1"># 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span>
+<span class="c1">#</span>
+<span class="c1"># @END LICENSE</span>
+<span class="c1">#</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;cg_solver&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;davidson_solver&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DIIS&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hamiltonian_solver&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SolverEngine&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Generalized iterative solvers for Psi4.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="cg_solver">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.cg_solver.html#psi4.driver.p4util.cg_solver">[docs]</a>
+<span class="k">def</span> <span class="nf">cg_solver</span><span class="p">(</span>
+    <span class="n">rhs_vec</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">],</span>
+    <span class="n">hx_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">preconditioner</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">guess</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">printer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">printlvl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="n">rcond</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.e-6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solves the :math:`Ax = b` linear equations via Conjugate Gradient. The `A` matrix must be a hermitian, positive definite matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rhs_vec</span>
+<span class="sd">        The RHS vector in the Ax=b equation.</span>
+<span class="sd">    hx_function</span>
+<span class="sd">        Takes in a list of :py:class:`~psi4.core.Matrix` objects and a mask of active indices. Returns the Hessian-vector product.</span>
+<span class="sd">    preconditioner</span>
+<span class="sd">        Takes in a list of :py:class:`~psi4.core.Matrix` objects and a mask of active indices. Returns the preconditioned value.</span>
+<span class="sd">    guess</span>
+<span class="sd">        Starting vectors. If None, use a preconditioner (rhs) guess</span>
+<span class="sd">    printer</span>
+<span class="sd">        Takes in a list of current x and residual vectors and provides a print function. This function can also</span>
+<span class="sd">        return a value that represents the current residual.</span>
+<span class="sd">    printlvl</span>
+<span class="sd">        The level of printing provided by this function.</span>
+<span class="sd">    maxiter</span>
+<span class="sd">        The maximum number of iterations this function will take.</span>
+<span class="sd">    rcond</span>
+<span class="sd">        The residual norm for convergence.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ret : List[Matrix]</span>
+<span class="sd">        Solved `x` vectors and `r` vectors.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This is a generalized cg solver that can also take advantage of solving multiple RHS&#39;s simultaneously when</span>
+<span class="sd">    it is advantageous to do so.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">tstart</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">printlvl</span><span class="p">:</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   -----------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;   &quot;</span> <span class="o">+</span> <span class="s2">&quot;Generalized CG Solver&quot;</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">52</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;   &quot;</span> <span class="o">+</span> <span class="s2">&quot;by Daniel. G. A. Smith&quot;</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">52</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;   -----------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;    Maxiter             = </span><span class="si">%11d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">maxiter</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;    Convergence         = </span><span class="si">%11.3E</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">rcond</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;    Number of equations = </span><span class="si">%11ld</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">rhs_vec</span><span class="p">))</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;     </span><span class="si">%4s</span><span class="s2"> </span><span class="si">%14s</span><span class="s2"> </span><span class="si">%12s</span><span class="s2">  </span><span class="si">%6s</span><span class="s2">  </span><span class="si">%6s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot;Iter&quot;</span><span class="p">,</span> <span class="s2">&quot;Residual RMS&quot;</span><span class="p">,</span> <span class="s2">&quot;Max RMS&quot;</span><span class="p">,</span> <span class="s2">&quot;Remain&quot;</span><span class="p">,</span> <span class="s2">&quot;Time [s]&quot;</span><span class="p">))</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;   -----------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">nrhs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rhs_vec</span><span class="p">)</span>
+    <span class="n">active_mask</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrhs</span><span class="p">)]</span>
+
+    <span class="c1"># Start function</span>
+    <span class="k">if</span> <span class="n">guess</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">x_vec</span> <span class="o">=</span> <span class="n">preconditioner</span><span class="p">(</span><span class="n">rhs_vec</span><span class="p">,</span> <span class="n">active_mask</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rhs_vec</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;CG Solver: Guess vector length does not match RHS vector length.&quot;</span><span class="p">)</span>
+        <span class="n">x_vec</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">guess</span><span class="p">]</span>
+
+    <span class="n">Ax_vec</span> <span class="o">=</span> <span class="n">hx_function</span><span class="p">(</span><span class="n">x_vec</span><span class="p">,</span> <span class="n">active_mask</span><span class="p">)</span>
+
+    <span class="c1"># Set it up</span>
+    <span class="n">r_vec</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Residual vectors</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrhs</span><span class="p">):</span>
+        <span class="n">tmp_r</span> <span class="o">=</span> <span class="n">rhs_vec</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">tmp_r</span><span class="o">.</span><span class="n">axpy</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Ax_vec</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+        <span class="n">r_vec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_r</span><span class="p">)</span>
+
+    <span class="n">z_vec</span> <span class="o">=</span> <span class="n">preconditioner</span><span class="p">(</span><span class="n">r_vec</span><span class="p">,</span> <span class="n">active_mask</span><span class="p">)</span>
+    <span class="n">p_vec</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">z_vec</span><span class="p">]</span>
+
+    <span class="c1"># First RMS</span>
+    <span class="n">grad_dot</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">sum_of_squares</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rhs_vec</span><span class="p">]</span>
+
+    <span class="n">resid</span> <span class="o">=</span> <span class="p">[(</span><span class="n">r_vec</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">sum_of_squares</span><span class="p">()</span> <span class="o">/</span> <span class="n">grad_dot</span><span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="o">**</span><span class="mf">0.5</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrhs</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">printer</span><span class="p">:</span>
+        <span class="n">resid</span> <span class="o">=</span> <span class="n">printer</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_vec</span><span class="p">,</span> <span class="n">r_vec</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">printlvl</span><span class="p">:</span>
+        <span class="c1"># core.print_out(&#39;         CG Iteration Guess:    Rel. RMS = %1.5e\n&#39; %  np.mean(resid))</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%5s</span><span class="s2"> </span><span class="si">%14.3e</span><span class="s2"> </span><span class="si">%12.3e</span><span class="s2"> </span><span class="si">%7d</span><span class="s2"> </span><span class="si">%9d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                       <span class="p">(</span><span class="s2">&quot;Guess&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">resid</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">resid</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">z_vec</span><span class="p">),</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">tstart</span><span class="p">))</span>
+
+    <span class="n">rms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">resid</span><span class="p">)</span>
+    <span class="n">rz_old</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrhs</span><span class="p">)]</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrhs</span><span class="p">)]</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">active_mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># CG iterations</span>
+    <span class="k">for</span> <span class="n">rot_iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxiter</span><span class="p">):</span>
+
+        <span class="c1"># Build old RZ so we can discard vectors</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">active</span><span class="p">:</span>
+            <span class="n">rz_old</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">r_vec</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">z_vec</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+
+        <span class="c1"># Build Hx product</span>
+        <span class="n">Ap_vec</span> <span class="o">=</span> <span class="n">hx_function</span><span class="p">(</span><span class="n">p_vec</span><span class="p">,</span> <span class="n">active_mask</span><span class="p">)</span>
+
+        <span class="c1"># Update x and r</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">active</span><span class="p">:</span>
+            <span class="n">alpha</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">rz_old</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ap_vec</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">p_vec</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">alpha</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;CG: Alpha is NaN for vector </span><span class="si">%d</span><span class="s2">. Stopping vector.&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">)</span>
+                <span class="n">active_mask</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">continue</span>
+
+            <span class="n">x_vec</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">axpy</span><span class="p">(</span><span class="n">alpha</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">p_vec</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+            <span class="n">r_vec</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">axpy</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">Ap_vec</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+            <span class="n">resid</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r_vec</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">sum_of_squares</span><span class="p">()</span> <span class="o">/</span> <span class="n">grad_dot</span><span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="o">**</span><span class="mf">0.5</span>
+
+        <span class="c1"># Print out or compute the resid function</span>
+        <span class="k">if</span> <span class="n">printer</span><span class="p">:</span>
+            <span class="n">resid</span> <span class="o">=</span> <span class="n">printer</span><span class="p">(</span><span class="n">rot_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x_vec</span><span class="p">,</span> <span class="n">r_vec</span><span class="p">)</span>
+
+        <span class="c1"># Figure out active updated active mask</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">active</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">resid</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rcond</span><span class="p">):</span>
+                <span class="n">active_mask</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Print out if requested</span>
+        <span class="k">if</span> <span class="n">printlvl</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%5d</span><span class="s2"> </span><span class="si">%14.3e</span><span class="s2"> </span><span class="si">%12.3e</span><span class="s2"> </span><span class="si">%7d</span><span class="s2"> </span><span class="si">%9d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                           <span class="p">(</span><span class="n">rot_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">resid</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">resid</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">active_mask</span><span class="p">),</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">tstart</span><span class="p">))</span>
+
+        <span class="n">active</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">active_mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">active_mask</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="c1"># Update p</span>
+        <span class="n">z_vec</span> <span class="o">=</span> <span class="n">preconditioner</span><span class="p">(</span><span class="n">r_vec</span><span class="p">,</span> <span class="n">active_mask</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">active</span><span class="p">:</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="n">r_vec</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">z_vec</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="o">/</span> <span class="n">rz_old</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+            <span class="n">p_vec</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+            <span class="n">p_vec</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">axpy</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">z_vec</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">printlvl</span><span class="p">:</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;   -----------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x_vec</span><span class="p">,</span> <span class="n">r_vec</span></div>
+
+
+
+<div class="viewcode-block" id="DIIS">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.DIIS.html#psi4.driver.p4util.DIIS">[docs]</a>
+<span class="k">class</span> <span class="nc">DIIS</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An object to assist in the DIIS extrpolation procedure.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    max_vec</span>
+<span class="sd">        The maximum number of error and state vectors to hold. These are pruned based off the removal policy.</span>
+<span class="sd">    removal_policy</span>
+<span class="sd">        {&quot;OLDEST&quot;, &quot;LARGEST&quot;}</span>
+<span class="sd">        How the state and error vectors are removed once at the maximum. OLDEST will remove the oldest vector while</span>
+<span class="sd">        largest will remove the residual with the largest RMS value.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_vec</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">removal_policy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;OLDEST&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_vec</span> <span class="o">=</span> <span class="n">max_vec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">removal_policy</span> <span class="o">=</span> <span class="n">removal_policy</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">removal_policy</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LARGEST&quot;</span><span class="p">,</span> <span class="s2">&quot;OLDEST&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;DIIS: removal_policy must either be oldest or largest.&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DIIS.add">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.DIIS.html#psi4.driver.p4util.DIIS.add">[docs]</a>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a DIIS state and error vector to the DIIS object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        state</span>
+<span class="sd">            The current state vector.</span>
+<span class="sd">        error</span>
+<span class="sd">            The current error vector.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="DIIS.extrapolate">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.DIIS.html#psi4.driver.p4util.DIIS.extrapolate">[docs]</a>
+    <span class="k">def</span> <span class="nf">extrapolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extrapolates next state vector from the current set of state and error vectors.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        out</span>
+<span class="sd">            A array in which to place the next state vector.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ret : Matrix</span>
+<span class="sd">            Returns the next state vector.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Limit size of DIIS vector</span>
+        <span class="n">diis_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">diis_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;DIIS: No previous vectors.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">diis_count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">diis_count</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_vec</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">removal_policy</span> <span class="o">==</span> <span class="s2">&quot;OLDEST&quot;</span><span class="p">:</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">rms</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">])</span>
+
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+            <span class="n">diis_count</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="c1"># Build error matrix B</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">diis_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">diis_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">B</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">B</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">B</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">num1</span><span class="p">,</span> <span class="n">e1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">):</span>
+            <span class="n">B</span><span class="p">[</span><span class="n">num1</span><span class="p">,</span> <span class="n">num1</span><span class="p">]</span> <span class="o">=</span> <span class="n">e1</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">num2</span><span class="p">,</span> <span class="n">e2</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">num2</span> <span class="o">&gt;=</span> <span class="n">num1</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">e1</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">e2</span><span class="p">)</span>
+                <span class="n">B</span><span class="p">[</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">]</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">num2</span><span class="p">,</span> <span class="n">num1</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="c1"># Build residual vector</span>
+        <span class="n">resid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">diis_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">resid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># Solve pulay equations</span>
+
+        <span class="c1"># Yea, yea this is unstable make it stable</span>
+        <span class="n">iszero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">B</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iszero</span><span class="p">:</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">diis_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">B</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">S</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">**=</span> <span class="o">-</span><span class="mf">0.5</span>
+            <span class="n">S</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># Then we gotta do a custom inverse</span>
+        <span class="n">B</span> <span class="o">*=</span> <span class="n">S</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">S</span>
+        <span class="n">invB</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+        <span class="n">invB</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.e-12</span><span class="p">)</span>
+
+        <span class="n">ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">invB</span><span class="p">,</span> <span class="n">resid</span><span class="p">)</span>
+        <span class="n">ci</span> <span class="o">*=</span> <span class="n">S</span>
+
+        <span class="c1"># combination of previous fock matrices</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="s2">&quot;DIIS result&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rowdim</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">coldim</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ci</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">axpy</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">num</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+</div>
+
+
+
+<span class="k">def</span> <span class="nf">_diag_print_heading</span><span class="p">(</span><span class="n">title_lines</span><span class="p">,</span> <span class="n">solver_name</span><span class="p">,</span> <span class="n">max_ss_size</span><span class="p">,</span> <span class="n">nroot</span><span class="p">,</span> <span class="n">r_convergence</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print a message to the output file when the solver has processed all options and is ready to begin&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># no printing</span>
+        <span class="k">return</span>
+    <span class="c1"># show title if not silent</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">77</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">title_lines</span><span class="p">]))</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  ==&gt; Options &lt;==</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Max number of iterations        = </span><span class="si">{</span><span class="n">maxiter</span><span class="si">:</span><span class="s2">&lt;5d</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Eigenvector tolerance           = </span><span class="si">{</span><span class="n">r_convergence</span><span class="si">:</span><span class="s2">.4e</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Max number of expansion vectors = </span><span class="si">{</span><span class="n">max_ss_size</span><span class="si">:</span><span class="s2">&lt;5d</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># show iteration info headings if not silent</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;  =&gt; Iterations &lt;=</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># default printing one line per iter max delta value and max residual norm</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">solver_name</span><span class="p">)</span><span class="si">}</span><span class="s2">           Max[D[value]]     Max[|R|]   # vectors</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># verbose printing, value, delta, and |R| for each root</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">solver_name</span><span class="p">)</span><span class="si">}</span><span class="s2">       value      D[value]      |R|   # vectors</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_diag_print_info</span><span class="p">(</span><span class="n">solver_name</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print a message to the output file at each iteration&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># no printing</span>
+        <span class="k">return</span>
+    <span class="k">elif</span> <span class="n">verbose</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># print iter  maxde max|R| conv/restart</span>
+        <span class="n">flags</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">]:</span>
+            <span class="n">flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Restart&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]:</span>
+            <span class="n">flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Converged&quot;</span><span class="p">)</span>
+
+        <span class="n">m_de</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;delta_val&#39;</span><span class="p">])</span>
+        <span class="n">m_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;res_norm&#39;</span><span class="p">])</span>
+        <span class="n">nvec</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;nvec&quot;</span><span class="p">]</span>
+        <span class="n">flgs</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">solver_name</span><span class="si">}</span><span class="s2"> iter </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">:   </span><span class="si">{</span><span class="n">m_de</span><span class="si">:</span><span class="s2">-11.5e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">m_r</span><span class="si">:</span><span class="s2">12.5e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">nvec</span><span class="si">:</span><span class="s2">&gt;6d</span><span class="si">}</span><span class="s2">      </span><span class="si">{</span><span class="n">flgs</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># print iter / ssdim folowed by de/|R| for each root</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">solver_name</span><span class="si">}</span><span class="s2"> iter </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;nvec&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">4d</span><span class="si">}</span><span class="s2"> guess vectors</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">de</span><span class="p">,</span> <span class="n">rn</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">],</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;delta_val&#39;</span><span class="p">],</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;res_norm&#39;</span><span class="p">])):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">solver_name</span><span class="p">)</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">s</span><span class="si">:}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">:</span><span class="s2">-11.5f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">de</span><span class="si">:</span><span class="s2">-11.5e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">rn</span><span class="si">:</span><span class="s2">12.5e</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;  Solver Converged! all roots</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">]:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;  Subspace limits exceeded restarting</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_diag_print_converged</span><span class="p">(</span><span class="n">solver_name</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print a message to the output file when the solver is converged.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># no printing</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># print values summary + number of iterations + # of &quot;big&quot; product evals</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;  Root #    eigenvalue</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">vi</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">:</span><span class="s2">^6</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="n">vi</span><span class="si">:</span><span class="s2">20.12f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">max_nvec</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">istat</span><span class="p">[</span><span class="s1">&#39;nvec&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">istat</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">solver_name</span><span class="si">}</span><span class="s2"> converged in </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> iterations</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Computed a total of </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;product_count&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> large products</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_print_array</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">verbose</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;print a subspace quantity (numpy array) to the output file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The name to print above the array</span>
+<span class="sd">    arr : :py:class:`np.ndarray`</span>
+<span class="sd">        The array to print</span>
+<span class="sd">    verbose : int</span>
+<span class="sd">        The amount of information to print. Only prints for verbose &gt; 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_gs_orth</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0e-8</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform Gram-Schmidt orthonormalization of a set V against a previously orthonormalized set U</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    engine : object</span>
+<span class="sd">       The engine passed to the solver, required to define vector algebraic operations needed</span>
+<span class="sd">    U : list of `vector`</span>
+<span class="sd">        A set of orthonormal vectors, len(U) = l; satisfies ||I^{lxl}-U^tU|| &lt; thresh</span>
+<span class="sd">    V : list of `vectors`</span>
+<span class="sd">        The vectors used to augment U</span>
+<span class="sd">    thresh</span>
+<span class="sd">       If the orthogonalized vector has a norm smaller than this value it is considered LD to the set</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    U_aug : list of `vector`</span>
+<span class="sd">       The orthonormal set of vectors U&#39; with span(U&#39;) = span(U) + span(V), len(U) &lt;= len(U_aug) &lt;= len(U) + len(V)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">vi</span> <span class="ow">in</span> <span class="n">V</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">U</span><span class="p">)):</span>
+            <span class="n">dij</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">vi</span><span class="p">,</span> <span class="n">U</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="n">Vi</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_axpy</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">dij</span><span class="p">,</span> <span class="n">U</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">vi</span><span class="p">)</span>
+        <span class="n">norm_vi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">vi</span><span class="p">,</span> <span class="n">vi</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">norm_vi</span> <span class="o">&gt;=</span> <span class="n">thresh</span><span class="p">:</span>
+            <span class="n">U</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">vector_scale</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">norm_vi</span><span class="p">,</span> <span class="n">vi</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">U</span>
+
+
+<span class="k">def</span> <span class="nf">_best_vectors</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">ss_vectors</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">basis_vectors</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the best approximation of the true eigenvectors as a linear combination of basis vectors:</span>
+
+<span class="sd">    ..math:: V_{k} = \Sum_{i} \tilde{V}_{i,k}X_{i}</span>
+
+<span class="sd">    Where :math:`\tilde{V}` is the matrix with columns that are eigenvectors of the subspace matrix. And</span>
+<span class="sd">    :math:`X_{i}` is a basis vector.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    engine : object</span>
+<span class="sd">       The engine passed to the solver, required to define vector algebraic operations needed</span>
+<span class="sd">    ss_vectors</span>
+<span class="sd">       Numpy array {l, k}.</span>
+<span class="sd">       The k eigenvectors of the subspace problem, l = dimension of the subspace basis, and k is the number of roots</span>
+<span class="sd">    basis_vectors</span>
+<span class="sd">       list of `vector` {l}.</span>
+<span class="sd">       The current basis vectors</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    new_vecs</span>
+<span class="sd">       list of `vector` {k}.</span>
+<span class="sd">       The approximations of the k true eigenvectors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">l</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">ss_vectors</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">new_vecs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">cv_i</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">new_vector</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+            <span class="n">cv_i</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_axpy</span><span class="p">(</span><span class="n">ss_vectors</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="n">basis_vectors</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">cv_i</span><span class="p">)</span>
+        <span class="n">new_vecs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv_i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_vecs</span>
+
+
+<div class="viewcode-block" id="SolverEngine">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.SolverEngine.html#psi4.driver.p4util.SolverEngine">[docs]</a>
+<span class="k">class</span> <span class="nc">SolverEngine</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract Base Class defining the API for a matrix-vector product object</span>
+<span class="sd">    required by solvers.</span>
+
+<span class="sd">    Engines implement the correct product functions for iterative solvers that</span>
+<span class="sd">    do not require the target matrix be stored directly.</span>
+<span class="sd">    Classes intended to be used as an `engine` for :func:`davidson_solver` or</span>
+<span class="sd">    :func:`hamiltonian_solver` should inherit from this base class to ensure</span>
+<span class="sd">    that the required methods are defined.</span>
+
+
+<span class="sd">    .. note:: The `vector` referred to here is intentionally vague, the solver</span>
+<span class="sd">       does not care what it is and only holds individual or sets of</span>
+<span class="sd">       them. In fact an individual `vector` could be split across two</span>
+<span class="sd">       elements in a list, such as for different spin.</span>
+<span class="sd">       Whatever data type is used and individual vector should be a</span>
+<span class="sd">       single element in a list such that len(list) returns the number</span>
+<span class="sd">       of vector-like objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SolverEngine.compute_products">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.SolverEngine.html#psi4.driver.p4util.SolverEngine.compute_products">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">compute_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute a Matrix * trial vector products</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : List[`vector`]</span>
+<span class="sd">            Trial vectors.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Expected by :func:`davidson_solver`</span>
+
+<span class="sd">        AX : List[`vector`]</span>
+<span class="sd">           The product :math:`A x X_{i}` for each `X_{i}` in `X`, in that</span>
+<span class="sd">           order. Where `A` is the hermitian matrix to be diagonalized.</span>
+<span class="sd">           `len(AX) == len(X)`</span>
+<span class="sd">        n : int</span>
+<span class="sd">           The number of products that were evaluated. If the object implements</span>
+<span class="sd">           product caching this may be less than len(X)</span>
+
+<span class="sd">        Expected by :func:`hamiltonian_solver`</span>
+
+<span class="sd">        H1X : List[`vector`]</span>
+<span class="sd">           The product :math:`H1 x X_{i}` for each `X_{i}` in `X`, in that</span>
+<span class="sd">           order. Where H1 is described in :func:`hamiltonian_solver`.</span>
+<span class="sd">           ``len(H1X) == len(X)``</span>
+<span class="sd">        H2X : List[`vector`]</span>
+<span class="sd">           The product :math:`H2 x X_{i}` for each `X_{i}` in `X`, in that</span>
+<span class="sd">           order. Where H2 is described in :func:`hamiltonian_solver`.</span>
+<span class="sd">           ``len(H2X) == len(X)``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SolverEngine.precondition">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.SolverEngine.html#psi4.driver.p4util.SolverEngine.precondition">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">precondition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R_k</span><span class="p">,</span> <span class="n">w_k</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Apply the preconditioner to a Residual vector</span>
+
+<span class="sd">        The preconditioner is usually defined as :math:`(w_k - D_{i})^-1` where</span>
+<span class="sd">        `D` is an approximation of the diagonal of the matrix that is being</span>
+<span class="sd">        diagonalized.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        R_k : single `vector`</span>
+<span class="sd">           The residual vector</span>
+<span class="sd">        w_k : float</span>
+<span class="sd">           The eigenvalue associated with this vector</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        new_X_k : single `vector`</span>
+<span class="sd">           The preconditioned residual vector, a correction vector that will be</span>
+<span class="sd">           used to augment the guess space</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SolverEngine.new_vector">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.SolverEngine.html#psi4.driver.p4util.SolverEngine.new_vector">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">new_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a new `vector` object.</span>
+
+<span class="sd">        The solver is oblivious to the data structure used for a `vector` this</span>
+<span class="sd">        method provides the engine with a means to create `vector` like</span>
+<span class="sd">        quantities.</span>
+
+<span class="sd">        The engine calls this method with no arguments. So any defined by the</span>
+<span class="sd">        engine for its own use should be optional</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X : singlet `vector`</span>
+<span class="sd">           This should be a new vector object with the correct dimensions,</span>
+<span class="sd">           assumed to be zeroed out</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SolverEngine.vector_dot">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.SolverEngine.html#psi4.driver.p4util.SolverEngine.vector_dot">[docs]</a>
+    <span class="k">def</span> <span class="nf">vector_dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute a dot product between two `vectors`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : single `vector`</span>
+<span class="sd">        Y : single `vector`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        a : float</span>
+<span class="sd">           The dot product  (X x Y)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+    <span class="c1"># cython doesn&#39;t like static+ decorators https://github.com/cython/cython/issues/1434#issuecomment-608975116</span>
+    <span class="n">vector_dot</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">abstractmethod</span><span class="p">(</span><span class="n">vector_dot</span><span class="p">))</span>
+
+<div class="viewcode-block" id="SolverEngine.vector_axpy">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.SolverEngine.html#psi4.driver.p4util.SolverEngine.vector_axpy">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">vector_axpy</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute scaled `vector` addition operation `a*X + Y`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        a</span>
+<span class="sd">          The scale factor applied to `X`</span>
+<span class="sd">        X : singlet `vector`</span>
+<span class="sd">          The `vector` which will be scaled and added to `Y`</span>
+<span class="sd">        Y : single `vector`</span>
+<span class="sd">          The `vector` which the result of `a*X` is added to</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Y : single `vector`</span>
+<span class="sd">          The solver assumes that Y is updated, and returned. So it is safe to</span>
+<span class="sd">          avoid a copy of Y if possible</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SolverEngine.vector_scale">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.SolverEngine.html#psi4.driver.p4util.SolverEngine.vector_scale">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">vector_scale</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scale a vector by some factor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        a</span>
+<span class="sd">           The scale facor</span>
+<span class="sd">        X : single `vector`</span>
+<span class="sd">           The vector that will be scaled</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X : single `vector`</span>
+<span class="sd">          The solver assumes that the passed vector is modifed. So it is save</span>
+<span class="sd">          to avoid a copy of X if possible.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SolverEngine.vector_copy">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.SolverEngine.html#psi4.driver.p4util.SolverEngine.vector_copy">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">vector_copy</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a copy of a `vector`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : single `vector`</span>
+<span class="sd">          The `vector` to copy</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X&#39; : single `vector`</span>
+<span class="sd">           A copy of `X` should be distinct object that can be modified</span>
+<span class="sd">           independently of the passed object, Has the same data when returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SolverEngine.residue">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.SolverEngine.html#psi4.driver.p4util.SolverEngine.residue">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">residue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">so_prop_ints</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute residue</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X</span>
+<span class="sd">          The single `vector` to use to compute the property.</span>
+<span class="sd">        so_prop_ints :</span>
+<span class="sd">          Property integrals in SO basis for the desired transition property.</span>
+<span class="sd">        prefactor</span>
+<span class="sd">          Optional float scaling factor.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        residue : Any</span>
+<span class="sd">          The transition property.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="davidson_solver">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.davidson_solver.html#psi4.driver.p4util.davidson_solver">[docs]</a>
+<span class="k">def</span> <span class="nf">davidson_solver</span><span class="p">(</span>
+    <span class="n">engine</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">SolverEngine</span><span class="p">],</span>
+    <span class="n">guess</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">nroot</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">r_convergence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0E-4</span><span class="p">,</span>
+    <span class="n">max_ss_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">nonneg_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves for the lowest few eigenvalues and eigenvectors of a large problem emulated through an engine.</span>
+
+<span class="sd">    If the large matrix `A` has dimension `{NxN}` and N is very large, and only</span>
+<span class="sd">    a small number of roots, `k` are desired this algorithm is preferable to</span>
+<span class="sd">    standard methods as uses on the order of `N * k` memory. One only needs to</span>
+<span class="sd">    have the ability to compute the product of a times a vector.</span>
+
+<span class="sd">    For non-hermitan `A` the basis of the algorithm breaks down. However in</span>
+<span class="sd">    practice, for strongly diagonally-dominant `A` such as the</span>
+<span class="sd">    similarity-transformed Hamiltonian in EOM-CC this algorithm is commonly still</span>
+<span class="sd">    used.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    engine</span>
+<span class="sd">       The engine drive all operations involving data structures that have at</span>
+<span class="sd">       least one &quot;large&quot; dimension. See :class:`SolverEngine` for requirements</span>
+<span class="sd">    guess</span>
+<span class="sd">       list {engine dependent}</span>
+<span class="sd">       At least `nroot` initial expansion vectors</span>
+<span class="sd">    nroot</span>
+<span class="sd">        Number of roots desired</span>
+<span class="sd">    r_convergence</span>
+<span class="sd">        Convergence tolerance for residual vectors</span>
+<span class="sd">    max_ss_size</span>
+<span class="sd">       The maximum number of trial vectors in the iterative subspace that will</span>
+<span class="sd">       be stored before a collapse is done.</span>
+<span class="sd">    maxiter</span>
+<span class="sd">        The maximum number of iterations</span>
+<span class="sd">    verbose</span>
+<span class="sd">        The amount of logging info to print (0 -&gt; none, 1 -&gt; some, &gt;1 -&gt; everything)</span>
+<span class="sd">    nonneg_only</span>
+<span class="sd">        Should eigenpairs with eigenvalue &lt; 0 be ignored?</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    best_values : numpy.ndarray</span>
+<span class="sd">       (nroots, ) The best approximation of the eigenvalues of A, computed on the last iteration of the solver</span>
+<span class="sd">    best_vectors: List[`vector`]</span>
+<span class="sd">       (nroots) The best approximation of the eigenvectors of A, computed on the last iteration of the solver</span>
+<span class="sd">    stats : List[Dict]</span>
+<span class="sd">       Statistics collected on each iteration</span>
+
+<span class="sd">       - count : int, iteration number</span>
+<span class="sd">       - res_norm : np.ndarray (nroots, ), the norm of residual vector for each roots</span>
+<span class="sd">       - val : np.ndarray (nroots, ), the eigenvalue corresponding to each root</span>
+<span class="sd">       - delta_val : np.ndarray (nroots, ), the change in eigenvalue from the last iteration to this ones</span>
+<span class="sd">       - collapse : bool, if a subspace collapse was performed</span>
+<span class="sd">       - product_count : int, the running total of product evaluations that was performed</span>
+<span class="sd">       - done : bool, if all roots were converged</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The solution vector is normalized to 1/2</span>
+
+<span class="sd">    The solver will return even when `maxiter` iterations are performed without convergence.</span>
+<span class="sd">    The caller **must check** ``stats[-1][&#39;done&#39;]`` for failure and handle each case accordingly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nk</span> <span class="o">=</span> <span class="n">nroot</span>
+
+    <span class="n">iter_info</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;res_norm&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nk</span><span class="p">)),</span>
+        <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nk</span><span class="p">)),</span>
+        <span class="s2">&quot;delta_val&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nk</span><span class="p">)),</span>
+
+        <span class="c1"># conv defaults to true, and will be flipped when a non-conv root is hit</span>
+        <span class="s2">&quot;done&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;nvec&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;collapse&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;product_count&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">print_name</span> <span class="o">=</span> <span class="s2">&quot;DavidsonSolver&quot;</span>
+    <span class="n">title_lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Generalized Davidson Solver&quot;</span><span class="p">,</span> <span class="s2">&quot;By Ruhee Dcunha&quot;</span><span class="p">]</span>
+
+    <span class="n">_diag_print_heading</span><span class="p">(</span><span class="n">title_lines</span><span class="p">,</span> <span class="n">print_name</span><span class="p">,</span> <span class="n">max_ss_size</span><span class="p">,</span> <span class="n">nroot</span><span class="p">,</span> <span class="n">r_convergence</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+    <span class="n">vecs</span> <span class="o">=</span> <span class="n">guess</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">best_eigvecs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">best_eigvals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">:</span>
+
+        <span class="c1"># increment iteration/ save old vals</span>
+        <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">old_vals</span> <span class="o">=</span> <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># reset flags</span>
+        <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># get subspace dimension</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+        <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;nvec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+
+        <span class="c1"># check if ss dimension has exceeded limits</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="n">max_ss_size</span><span class="p">:</span>
+            <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># compute A times trial vector products</span>
+        <span class="n">Ax</span><span class="p">,</span> <span class="n">nprod</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">compute_products</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+        <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;product_count&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">nprod</span>
+
+        <span class="c1"># Build Subspace matrix</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">G</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">vecs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Ax</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">vecs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Ax</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;SS transformed A&quot;</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># diagonalize subspace matrix</span>
+        <span class="n">lam</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;SS eigenvectors&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;SS eigenvalues&quot;</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">nonneg_only</span><span class="p">:</span>
+            <span class="c1"># remove zeros/negatives</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[:,</span> <span class="n">lam</span> <span class="o">&gt;</span> <span class="mf">1.0e-10</span><span class="p">]</span>
+            <span class="n">lam</span> <span class="o">=</span> <span class="n">lam</span><span class="p">[</span><span class="n">lam</span> <span class="o">&gt;</span> <span class="mf">1.0e-10</span><span class="p">]</span>
+
+        <span class="c1"># sort/truncate to nroot</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">lam</span><span class="p">)</span>
+        <span class="n">lam</span> <span class="o">=</span> <span class="n">lam</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
+
+        <span class="c1"># update best_solution</span>
+        <span class="n">best_eigvecs</span> <span class="o">=</span> <span class="n">_best_vectors</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[:,</span> <span class="p">:</span><span class="n">nk</span><span class="p">],</span> <span class="n">vecs</span><span class="p">)</span>
+        <span class="n">best_eigvals</span> <span class="o">=</span> <span class="n">lam</span><span class="p">[:</span><span class="n">nk</span><span class="p">]</span>
+
+        <span class="c1"># check convergence of each solution</span>
+        <span class="n">new_vecs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nk</span><span class="p">):</span>
+
+            <span class="c1"># residual vector</span>
+            <span class="n">Rk</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">new_vector</span><span class="p">()</span>
+            <span class="n">lam_k</span> <span class="o">=</span> <span class="n">lam</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+                <span class="n">Axi</span> <span class="o">=</span> <span class="n">Ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">Rk</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_axpy</span><span class="p">(</span><span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">Axi</span><span class="p">,</span> <span class="n">Rk</span><span class="p">)</span>
+
+            <span class="n">Rk</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_axpy</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">lam_k</span><span class="p">,</span> <span class="n">best_eigvecs</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">Rk</span><span class="p">)</span>
+
+            <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">lam_k</span>
+            <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;delta_val&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">old_vals</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">lam_k</span><span class="p">)</span>
+            <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;res_norm&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">engine</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">Rk</span><span class="p">,</span> <span class="n">Rk</span><span class="p">)))</span>
+
+            <span class="c1"># augment guess vector for non-converged roots</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">iter_info</span><span class="p">[</span><span class="s2">&quot;res_norm&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">r_convergence</span><span class="p">):</span>
+                <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">Qk</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">precondition</span><span class="p">(</span><span class="n">Rk</span><span class="p">,</span> <span class="n">lam_k</span><span class="p">)</span>
+                <span class="n">new_vecs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Qk</span><span class="p">)</span>
+
+        <span class="c1"># print iteration info to output</span>
+        <span class="n">_diag_print_info</span><span class="p">(</span><span class="n">print_name</span><span class="p">,</span> <span class="n">iter_info</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># save stats for this iteration</span>
+        <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iter_info</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]:</span>
+
+            <span class="c1"># finished</span>
+            <span class="n">_diag_print_converged</span><span class="p">(</span><span class="n">print_name</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">best_eigvals</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">elif</span> <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">]:</span>
+
+            <span class="c1"># restart needed</span>
+            <span class="n">vecs</span> <span class="o">=</span> <span class="n">best_eigvecs</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1"># Regular subspace update, orthonormalize preconditioned residuals and add to the trial set</span>
+            <span class="n">vecs</span> <span class="o">=</span> <span class="n">_gs_orth</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">vecs</span><span class="p">,</span> <span class="n">new_vecs</span><span class="p">)</span>
+
+    <span class="c1"># always return, the caller should check ret[&quot;stats&quot;][-1][&#39;done&#39;] == True for convergence</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;eigvals&quot;</span><span class="p">:</span> <span class="n">best_eigvals</span><span class="p">,</span> <span class="s2">&quot;eigvecs&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">best_eigvecs</span><span class="p">,</span> <span class="n">best_eigvecs</span><span class="p">)),</span> <span class="s2">&quot;stats&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="hamiltonian_solver">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.hamiltonian_solver.html#psi4.driver.p4util.hamiltonian_solver">[docs]</a>
+<span class="k">def</span> <span class="nf">hamiltonian_solver</span><span class="p">(</span>
+    <span class="n">engine</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">SolverEngine</span><span class="p">],</span>
+    <span class="n">guess</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">nroot</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">r_convergence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0E-4</span><span class="p">,</span>
+    <span class="n">max_ss_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Finds the smallest eigenvalues and associated right and left hand</span>
+<span class="sd">    eigenvectors of a large real Hamiltonian eigenvalue problem emulated</span>
+<span class="sd">    through an engine.</span>
+
+<span class="sd">    A Hamiltonian eigenvalue problem (EVP) has the following structure::</span>
+
+<span class="sd">        [A  B][X]  = [1   0](w)[X]</span>
+<span class="sd">        [B  A][Y]    [0  -1](w)[Y]</span>
+
+<span class="sd">    with A, B of some large dimension N, the problem is of dimension 2Nx2N.</span>
+
+<span class="sd">    The real, Hamiltonian EVP can be rewritten as the NxN, non-hermitian EVP:</span>
+<span class="sd">    :math:`(A+B)(A-B)(X+Y) = w^2(X+Y)`</span>
+
+<span class="sd">    With left-hand eigenvectors:</span>
+<span class="sd">    :math:`(X-Y)(A-B)(A+B) = w^2(X-Y)`</span>
+
+<span class="sd">    if :math:`(A-B)` is positive definite, we can transform the problem to arrive at the hermitian NxN EVP:</span>
+<span class="sd">    :math:`(A-B)^{1/2}(A+B)(A-B)^{1/2} = w^2 T`</span>
+
+<span class="sd">    Where :math:`T = (A-B)^{-1/2}(X+Y)`.</span>
+
+<span class="sd">    We use a Davidson like iteration where we transform :math:`(A+B)` (H1) and :math:`(A-B)`</span>
+<span class="sd">    (H2) in to the subspace defined by the trial vectors.</span>
+<span class="sd">    The subspace analog of the NxN hermitian EVP is diagonalized and left :math:`(X-Y)`</span>
+<span class="sd">    and right :math:`(X+Y)` eigenvectors of the NxN non-hermitian EVP are approximated.</span>
+<span class="sd">    Residual vectors are formed for both and the guess space is augmented with</span>
+<span class="sd">    two correction vectors per iteration. The advantages and properties of this</span>
+<span class="sd">    algorithm are described in the literature [stratmann:1998]_ .</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    engine</span>
+<span class="sd">       The engine drive all operations involving data structures that have at</span>
+<span class="sd">       least one &quot;large&quot; dimension. See :class:`SolverEngine` for requirements</span>
+<span class="sd">    guess</span>
+<span class="sd">       list {engine dependent}</span>
+<span class="sd">       At least `nroot` initial expansion vectors</span>
+<span class="sd">    nroot</span>
+<span class="sd">        Number of roots desired</span>
+<span class="sd">    r_convergence</span>
+<span class="sd">        Convergence tolerance for residual vectors</span>
+<span class="sd">    max_ss_size</span>
+<span class="sd">       The maximum number of trial vectors in the iterative subspace that will</span>
+<span class="sd">       be stored before a collapse is done.</span>
+<span class="sd">    maxiter</span>
+<span class="sd">        The maximum number of iterations</span>
+<span class="sd">    verbose</span>
+<span class="sd">        The amount of logging info to print (0 -&gt; none, 1 -&gt; some, 2 -&gt; all but matrices, &gt;2 -&gt; everything)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    best_values : numpy.ndarray</span>
+<span class="sd">        (nroots, ) The best approximation of the eigenvalues of `w`, computed on the last iteration of the solver</span>
+<span class="sd">    best_R: List[`vector`]</span>
+<span class="sd">        (nroots) The best approximation of the  right hand eigenvectors, :math:`X+Y`, computed on the last iteration of the solver.</span>
+<span class="sd">    best_L: List[`vector`]</span>
+<span class="sd">        (nroots) The best approximation of the left hand eigenvectors, :math:`X-Y`, computed on the last iteration of the solver.</span>
+<span class="sd">    stats : List[Dict]</span>
+<span class="sd">       Statistics collected on each iteration</span>
+
+<span class="sd">       - count : int, iteration number</span>
+<span class="sd">       - res_norm : np.ndarray (nroots, ), the norm of residual vector for each roots</span>
+<span class="sd">       - val : np.ndarray (nroots, ), the eigenvalue corresponding to each root</span>
+<span class="sd">       - delta_val : np.ndarray (nroots, ), the change in eigenvalue from the last iteration to this ones</span>
+<span class="sd">       - collapse : bool, if a subspace collapse was performed</span>
+<span class="sd">       - product_count : int, the running total of product evaluations that was performed</span>
+<span class="sd">       - done : bool, if all roots were converged</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The solution vector is normalized to 1/2</span>
+
+<span class="sd">    The solver will return even when `maxiter` iterations are performed without convergence.</span>
+<span class="sd">    The caller **must check** ``stats[-1][&#39;done&#39;]`` for failure and handle each case accordingly.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R. Eric Stratmann, G. E. Scuseria, and M. J. Frisch, &quot;An efficient</span>
+<span class="sd">    implementation of time-dependent density-functional theory for the</span>
+<span class="sd">    calculation of excitation energies of large molecules.&quot; J. Chem. Phys.,</span>
+<span class="sd">    109, 8218 (1998)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">nk</span> <span class="o">=</span> <span class="n">nroot</span>
+
+    <span class="n">iter_info</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;res_norm&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nk</span><span class="p">)),</span>
+        <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nk</span><span class="p">)),</span>
+        <span class="s2">&quot;delta_val&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nk</span><span class="p">)),</span>
+
+        <span class="c1"># conv defaults to true, and will be flipped when a non-conv root is hit</span>
+        <span class="s2">&quot;conv&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;nvec&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;product_count&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">print_name</span> <span class="o">=</span> <span class="s2">&quot;HamiltonianSolver&quot;</span>
+    <span class="n">title_lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Generalized Hamiltonian Solver&quot;</span><span class="p">,</span> <span class="s2">&quot;By Andrew M. James&quot;</span><span class="p">]</span>
+
+    <span class="n">_diag_print_heading</span><span class="p">(</span><span class="n">title_lines</span><span class="p">,</span> <span class="n">print_name</span><span class="p">,</span> <span class="n">max_ss_size</span><span class="p">,</span> <span class="n">nroot</span><span class="p">,</span> <span class="n">r_convergence</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+    <span class="n">vecs</span> <span class="o">=</span> <span class="n">guess</span>
+    <span class="n">best_L</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">best_R</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">best_vals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">:</span>
+
+        <span class="c1"># increment iteration/ save old vals</span>
+        <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">old_w</span> <span class="o">=</span> <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># reset flags</span>
+        <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># get subspace dimension</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+        <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;nvec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+
+        <span class="c1"># check if subspace dimension has exceeded limits</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="n">max_ss_size</span><span class="p">:</span>
+            <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># compute [A+B]*v (H1x) and [A-B]*v (H2x)</span>
+        <span class="n">H1x</span><span class="p">,</span> <span class="n">H2x</span><span class="p">,</span> <span class="n">nprod</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">compute_products</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+        <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;product_count&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">nprod</span>
+
+        <span class="c1"># form x*H1x (H1_ss) and x*H2x (H2_ss)</span>
+        <span class="n">H1_ss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
+        <span class="n">H2_ss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+                <span class="n">H1_ss</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">vecs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">H1x</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="n">H2_ss</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">vecs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">H2x</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;Subspace Transformed (A+B)&quot;</span><span class="p">,</span> <span class="n">H1_ss</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;Subspace Transformed (A-B)&quot;</span><span class="p">,</span> <span class="n">H2_ss</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># Diagonalize H2 in the subspace (eigen-decomposition to compute H2^(1/2))</span>
+        <span class="n">H2_ss_val</span><span class="p">,</span> <span class="n">H2_ss_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">H2_ss</span><span class="p">)</span>
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;eigenvalues H2_ss&quot;</span><span class="p">,</span> <span class="n">H2_ss_val</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;eigenvectors H2_ss&quot;</span><span class="p">,</span> <span class="n">H2_ss_vec</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># Check H2 is PD</span>
+        <span class="c1"># NOTE: If this triggers failure the SCF solution is not stable. A few ways to handle this</span>
+        <span class="c1"># 1. Use davidson solver where product function evaluates (H2 * (H1 * X))</span>
+        <span class="c1">#    - Poor convergence</span>
+        <span class="c1"># 2. Switch to CIS/TDA</span>
+        <span class="c1">#    - User would probably not expect this</span>
+        <span class="c1"># 3. Perform Stability update and restart with new reference</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">H2_ss_val</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;The H2 matrix is not Positive Definite. &quot;</span> <span class="s2">&quot;This means the reference state is not stable.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="c1"># Build H2^(1/2)</span>
+        <span class="n">H2_ss_half</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ik,k,jk-&gt;ij&quot;</span><span class="p">,</span> <span class="n">H2_ss_vec</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">H2_ss_val</span><span class="p">),</span> <span class="n">H2_ss_vec</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;SS Transformed (A-B)^(1/2)&quot;</span><span class="p">,</span> <span class="n">H2_ss_half</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># Build Hermitian SS product (H2)^(1/2)(H1)(H2)^(1/2)</span>
+        <span class="n">Hss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,jk,km-&gt;im&#39;</span><span class="p">,</span> <span class="n">H2_ss_half</span><span class="p">,</span> <span class="n">H1_ss</span><span class="p">,</span> <span class="n">H2_ss_half</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;(H2)^(1/2)(H1)(H2)^(1/2)&quot;</span><span class="p">,</span> <span class="n">Hss</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1">#diagonalize Hss -&gt; w^2, Tss</span>
+        <span class="n">w2</span><span class="p">,</span> <span class="n">Tss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">Hss</span><span class="p">)</span>
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;Eigenvalues (A-B)^(1/2)(A+B)(A-B)^(1/2)&quot;</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+        <span class="n">_print_array</span><span class="p">(</span><span class="s2">&quot;Eigvectors (A-B)^(1/2)(A+B)(A-B)^(1/2)&quot;</span><span class="p">,</span> <span class="n">Tss</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># pick positive roots</span>
+        <span class="n">Tss</span> <span class="o">=</span> <span class="n">Tss</span><span class="p">[:,</span> <span class="n">w2</span> <span class="o">&gt;</span> <span class="mf">1.0e-10</span><span class="p">]</span>
+        <span class="n">w2</span> <span class="o">=</span> <span class="n">w2</span><span class="p">[</span><span class="n">w2</span> <span class="o">&gt;</span> <span class="mf">1.0e-10</span><span class="p">]</span>
+
+        <span class="c1"># check for invalid eigvals</span>
+        <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="s1">&#39;raise&#39;</span><span class="p">):</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w2</span><span class="p">)</span>
+
+        <span class="c1"># sort roots</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="n">nk</span><span class="p">]</span>
+        <span class="n">Tss</span> <span class="o">=</span> <span class="n">Tss</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+        <span class="c1"># Extract Rss = H2^{1/2}Tss</span>
+        <span class="n">Rss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">H2_ss_half</span><span class="p">,</span> <span class="n">Tss</span><span class="p">)</span>
+
+        <span class="c1"># Extract Lss = (H1 R)/ w</span>
+        <span class="n">Lss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">H1_ss</span><span class="p">,</span> <span class="n">Rss</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">w</span><span class="p">))</span>
+
+        <span class="c1"># Biorthonormalize R/L solution vectors</span>
+        <span class="n">inners</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ix,ix-&gt;x&quot;</span><span class="p">,</span> <span class="n">Rss</span><span class="p">,</span> <span class="n">Lss</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Rss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;x,ix-&gt;ix&quot;</span><span class="p">,</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">inners</span><span class="p">),</span> <span class="n">Rss</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Lss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;x,ix-&gt;ix&quot;</span><span class="p">,</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">inners</span><span class="p">),</span> <span class="n">Lss</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Save best R/L vectors and eigenvalues</span>
+        <span class="n">best_R</span> <span class="o">=</span> <span class="n">_best_vectors</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">Rss</span><span class="p">[:,</span> <span class="p">:</span><span class="n">nk</span><span class="p">],</span> <span class="n">vecs</span><span class="p">)</span>
+        <span class="n">best_L</span> <span class="o">=</span> <span class="n">_best_vectors</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">Lss</span><span class="p">[:,</span> <span class="p">:</span><span class="n">nk</span><span class="p">],</span> <span class="n">vecs</span><span class="p">)</span>
+        <span class="n">best_vals</span> <span class="o">=</span> <span class="n">w</span><span class="p">[:</span><span class="n">nk</span><span class="p">]</span>
+
+        <span class="c1"># check convergence of each solution</span>
+        <span class="n">new_vecs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nk</span><span class="p">):</span>
+
+            <span class="c1"># residual vectors for right and left eigenvectors</span>
+            <span class="n">WR_k</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">new_vector</span><span class="p">()</span>
+            <span class="n">WL_k</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">new_vector</span><span class="p">()</span>
+            <span class="n">wk</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+                <span class="n">H1x_i</span> <span class="o">=</span> <span class="n">H1x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">H2x_i</span> <span class="o">=</span> <span class="n">H2x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">WL_k</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_axpy</span><span class="p">(</span><span class="n">Rss</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">H1x_i</span><span class="p">,</span> <span class="n">WL_k</span><span class="p">)</span>
+                <span class="n">WR_k</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_axpy</span><span class="p">(</span><span class="n">Lss</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">H2x_i</span><span class="p">,</span> <span class="n">WR_k</span><span class="p">)</span>
+
+            <span class="n">WL_k</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_axpy</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">wk</span><span class="p">,</span> <span class="n">best_L</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">WL_k</span><span class="p">)</span>
+            <span class="n">WR_k</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">vector_axpy</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">wk</span><span class="p">,</span> <span class="n">best_R</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">WR_k</span><span class="p">)</span>
+
+            <span class="n">norm_R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">WR_k</span><span class="p">,</span> <span class="n">WR_k</span><span class="p">))</span>
+            <span class="n">norm_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">vector_dot</span><span class="p">(</span><span class="n">WL_k</span><span class="p">,</span> <span class="n">WL_k</span><span class="p">))</span>
+
+            <span class="n">norm</span> <span class="o">=</span> <span class="n">norm_R</span> <span class="o">+</span> <span class="n">norm_L</span>
+
+            <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;res_norm&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span>
+            <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;delta_val&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">old_w</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+            <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+            <span class="c1"># augment the guess space for non-converged roots</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;res_norm&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">r_convergence</span><span class="p">):</span>
+                <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">new_vecs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">precondition</span><span class="p">(</span><span class="n">WR_k</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+                <span class="n">new_vecs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">precondition</span><span class="p">(</span><span class="n">WL_k</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+
+        <span class="c1"># print iteration info to output</span>
+        <span class="n">_diag_print_info</span><span class="p">(</span><span class="n">print_name</span><span class="p">,</span> <span class="n">iter_info</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># save stats for this iteration</span>
+        <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iter_info</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]:</span>
+
+            <span class="c1"># Finished</span>
+            <span class="n">_diag_print_converged</span><span class="p">(</span><span class="n">print_name</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">w</span><span class="p">[:</span><span class="n">nk</span><span class="p">],</span> <span class="n">rvec</span><span class="o">=</span><span class="n">best_R</span><span class="p">,</span> <span class="n">lvec</span><span class="o">=</span><span class="n">best_L</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+            <span class="k">break</span>
+
+        <span class="k">elif</span> <span class="n">iter_info</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">]:</span>
+
+            <span class="c1"># need to orthonormalize union of the Left/Right solutions on restart</span>
+            <span class="n">vecs</span> <span class="o">=</span> <span class="n">_gs_orth</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="p">[],</span> <span class="n">best_R</span> <span class="o">+</span> <span class="n">best_L</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1"># Regular subspace update, orthonormalize preconditioned residuals and add to the trial set</span>
+            <span class="n">vecs</span> <span class="o">=</span> <span class="n">_gs_orth</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">vecs</span><span class="p">,</span> <span class="n">new_vecs</span><span class="p">)</span>
+
+    <span class="c1"># always return, the caller should check ret[&quot;stats&quot;][-1][&#39;done&#39;] == True for convergence</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;eigvals&quot;</span><span class="p">:</span> <span class="n">best_vals</span><span class="p">,</span> <span class="s2">&quot;eigvecs&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">best_R</span><span class="p">,</span> <span class="n">best_L</span><span class="p">)),</span> <span class="s2">&quot;stats&quot;</span><span class="p">:</span> <span class="n">stats</span><span class="p">}</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="../../../../index.html">
+    <img class="logo" src="../../../../_static/psi4square.png" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel"
+                                       aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/></div>
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../../index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/solvers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/8a65ae0">1.8.2</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">psi4.driver.p4util.solvers</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2023, The Psi4 Project.
+      Last updated on Wednesday, 04 October 2023 01:04AM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
