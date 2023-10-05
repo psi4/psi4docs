@@ -1,0 +1,1547 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Basis Set Superposition Corrections</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/psi4.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    
+    
+     
+        <script src="_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
+    <link rel="shortcut icon" href="_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Geometry Optimization — optimize() and gradient()" href="opt.html" />
+    <link rel="prev" title="Property" href="prop.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="opt.html" title="Geometry Optimization — optimize() and gradient()"
+             accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="prop.html" title="Property"
+             accesskey="P"><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/6ce35a5">1.7</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="psithonfunc.html" accesskey="U">Psithon Functions: Invoking a Calculation</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">Basis Set Superposition Corrections</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="index-0"></span><section id="basis-set-superposition-corrections">
+<span id="sec-cp"></span><span id="index-1"></span><h1>Basis Set Superposition Corrections<a class="headerlink" href="#basis-set-superposition-corrections" title="Permalink to this heading">¶</a></h1>
+<p><em>Code author: Daniel G. A. Smith</em></p>
+<dl class="py function">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.nbody">
+<span class="sig-prename descclassname"><span class="pre">psi4.driver.driver_nbody.</span></span><span class="sig-name descname"><span class="pre">nbody</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_string</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">molecule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bsse_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_nbody</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_total_data</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#nbody"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.nbody" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the nbody interaction energy, gradient, or Hessian depending on input.
+This is a generalized universal function for computing interaction and total quantities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>return type of func</em> – The data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(<em>float</em>, <a class="reference internal" href="api/psi4.core.Wavefunction.html#psi4.core.Wavefunction" title="psi4.core.Wavefunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Wavefunction</span></code></a>) – data and wavefunction with energy/gradient/hessian set appropriately when <strong>return_wfn</strong> specified.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>molecule</strong> (<a class="reference internal" href="notes_py.html#op-py-molecule"><span class="std std-ref">molecule</span></a>) – <p><code class="docutils literal notranslate"><span class="pre">h2o</span></code> || etc.</p>
+<p>The target molecule, if not the last molecule defined.</p>
+</p></li>
+<li><p><strong>return_wfn</strong> (<a class="reference internal" href="notes_py.html#op-py-boolean"><span class="std std-ref">boolean</span></a>) – <p><code class="docutils literal notranslate"><span class="pre">'on'</span></code> || <span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">'off'</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span></p>
+<p>Indicate to additionally return the <a class="reference internal" href="api/psi4.core.Wavefunction.html#psi4.core.Wavefunction" title="psi4.core.Wavefunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Wavefunction</span></code></a>
+calculation result as the second element of a tuple.</p>
+</p></li>
+<li><p><strong>bsse_type</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">'cp'</span></code> || <code class="docutils literal notranslate"><span class="pre">['nocp',</span> <span class="pre">'vmfc']</span></code> || <span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">None</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span> || etc.</p>
+<p>Type of BSSE correction to compute: CP for counterpoise correction, NoCP
+for plain supramolecular interaction energy, or VMFC for Valiron-Mayer
+Function Counterpoise correction. If a list is provided, the first string in
+the list determines which interaction or total energies/gradients/Hessians are
+returned by this function. By default, many-body treatments are inactive.</p>
+</p></li>
+<li><p><strong>max_nbody</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">3</span></code> || etc.</p>
+<p>Maximum n-body to compute, cannot exceed the number of fragments in the molecule.</p>
+</p></li>
+<li><p><strong>return_total_data</strong> (<a class="reference internal" href="notes_py.html#op-py-boolean"><span class="std std-ref">boolean</span></a>) – <p><code class="docutils literal notranslate"><span class="pre">'on'</span></code> || <span class="math notranslate nohighlight">\(\Rightarrow\)</span> <code class="docutils literal notranslate"><span class="pre">'off'</span></code> <span class="math notranslate nohighlight">\(\Leftarrow\)</span></p>
+<p>If True returns the total data (energy/gradient/Hessian) of the system,
+otherwise returns interaction data. Default is <code class="docutils literal notranslate"><span class="pre">'off'</span></code> for energies,
+<code class="docutils literal notranslate"><span class="pre">'on'</span></code> for gradients and Hessians. Note that the calculation of total
+counterpoise corrected energies implies the calculation of the energies of
+monomers in the monomer basis, hence specifying <code class="docutils literal notranslate"><span class="pre">return_total_data</span> <span class="pre">=</span> <span class="pre">True</span></code>
+may carry out more computations than <code class="docutils literal notranslate"><span class="pre">return_total_data</span> <span class="pre">=</span> <span class="pre">False</span></code>.
+For gradients and Hessians, <code class="docutils literal notranslate"><span class="pre">return_total_data</span> <span class="pre">=</span> <span class="pre">False</span></code> is rarely useful.</p>
+</p></li>
+<li><p><strong>levels</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">{1:</span> <span class="pre">'ccsd(t)',</span> <span class="pre">2:</span> <span class="pre">'mp2',</span> <span class="pre">'supersystem':</span> <span class="pre">'scf'}</span></code> || <code class="docutils literal notranslate"><span class="pre">{1:</span> <span class="pre">2,</span> <span class="pre">2:</span> <span class="pre">'ccsd(t)',</span> <span class="pre">3:</span> <span class="pre">'mp2'}</span></code> || etc</p>
+<p>Dictionary of different levels of theory for different levels of expansion
+Note that method_string is not used in this case. <code class="docutils literal notranslate"><span class="pre">supersystem</span></code> computes
+all higher order n-body effects up to the number of fragments.</p>
+</p></li>
+<li><p><strong>embedding_charges</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – <p><code class="docutils literal notranslate"><span class="pre">{1:</span> <span class="pre">[-0.834,</span> <span class="pre">0.417,</span> <span class="pre">0.417],</span> <span class="pre">..}</span></code></p>
+<p>Dictionary of atom-centered point charges. keys: 1-based index of fragment, values: list of charges for each fragment.
+Add atom-centered point charges for fragments whose basis sets are not included in the computation.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The nbody function computes counterpoise-corrected (CP), non-CP (noCP), and Valiron-Mayer Function Counterpoise (VMFC) interaction energies for complexes composed of arbitrary numbers of monomers.</p>
+<p><strong>Examples :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Counterpoise corrected CCSD(T) energies for the Helium dimer</span>
+<span class="n">molecule</span> <span class="n">mol</span> <span class="p">{</span>
+  <span class="n">He</span>
+  <span class="o">--</span>
+  <span class="n">He</span> <span class="mi">1</span> <span class="mi">3</span>
+<span class="p">}</span>
+<span class="c1"># Calculate interaction energies only (skips monomers in monomer basis):</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;CCSD(T)&#39;</span><span class="p">,</span> <span class="n">bsse_type</span><span class="o">=</span><span class="s1">&#39;cp&#39;</span><span class="p">)</span>
+<span class="c1"># Calculate interaction and total energies, return interaction energies:</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;CCSD(T)&#39;</span><span class="p">,</span> <span class="n">bsse_type</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cp&#39;</span><span class="p">,</span><span class="s1">&#39;nocp&#39;</span><span class="p">])</span>
+<span class="c1"># Calculate and return counterpoise-corrected gradient</span>
+<span class="c1"># Useful for e.g. CP-corrected geometry optimization</span>
+<span class="n">gradient</span><span class="p">(</span><span class="s1">&#39;CCSD(T)&#39;</span><span class="p">,</span> <span class="n">bsse_type</span><span class="o">=</span><span class="s1">&#39;cp&#39;</span><span class="p">,</span> <span class="n">return_total_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="c1"># noCP, VMFC, and CP energy for a helium cluster, limited at 3 bodies</span>
+<span class="n">molecule</span> <span class="n">mol</span> <span class="p">{</span>
+  <span class="n">He</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+  <span class="o">--</span>
+  <span class="n">He</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">4</span>
+  <span class="o">--</span>
+  <span class="n">He</span> <span class="mi">0</span> <span class="mi">4</span> <span class="mi">0</span>
+  <span class="o">--</span>
+  <span class="n">He</span> <span class="mi">4</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">}</span>
+
+<span class="c1"># Returns the nocp energy as its first in the list</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;CCSD(T)&#39;</span><span class="p">,</span> <span class="n">bsse_type</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nocp&#39;</span><span class="p">,</span> <span class="s1">&#39;cp&#39;</span><span class="p">,</span> <span class="s1">&#39;vmfc&#39;</span><span class="p">],</span> <span class="n">max_nbody</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.BsseEnum">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">psi4.driver.driver_nbody.</span></span><span class="sig-name descname"><span class="pre">BsseEnum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#BsseEnum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.BsseEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Available basis-set superposition error (BSSE) treatments.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.BsseEnum.cp">
+<span class="sig-name descname"><span class="pre">cp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cp'</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.BsseEnum.cp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.BsseEnum.nocp">
+<span class="sig-name descname"><span class="pre">nocp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'nocp'</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.BsseEnum.nocp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.BsseEnum.vmfc">
+<span class="sig-name descname"><span class="pre">vmfc</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'vmfc'</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.BsseEnum.vmfc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">psi4.driver.driver_nbody.</span></span><span class="sig-name descname"><span class="pre">ManyBodyComputer</span></span><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer" title="Permalink to this definition">¶</a></dt>
+<dd><p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ManyBodyComputer&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Base class for \&quot;computers\&quot; that plan, run, and process QC tasks.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;molecule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Molecule&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The target molecule, if not the last molecule defined.&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;basis&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Basis&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;(auto)&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Method&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;(auto)&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;driver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The computation driver; i.e., energy, gradient, hessian.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;allOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/DriverEnum&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">         </span><span class="p">]</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;keywords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Keywords&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The computation keywords/options.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;bsse_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Requested BSSE treatments. First in list determines which interaction or total energy/gradient/Hessian returned.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;cp&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">],</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/BsseEnum&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;nfragments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Nfragments&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Number of distinct fragments comprising full molecular supersystem.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;max_nbody&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Max Nbody&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Maximum number of bodies to include in the many-body treatment. Possible: max_nbody &lt;= nfragments. Default: max_nbody = nfragments.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;nbodies_per_mc_level&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Nbodies Per Mc Level&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Distribution of active n-body levels among model chemistry levels. All bodies in range [1, self.max_nbody] must be present exactly once. Number of items in outer list is how many different modelchems. Each inner list specifies what n-bodies to be run at the corresponding modelchem (e.g., `[[1, 2]]` has max_nbody=2 and 1-body and 2-body contributions computed at the same level of theory; `[[1], [2]]` has max_nbody=2 and 1-body and 2-body contributions computed at different levels of theory. An entry &#39;supersystem&#39; means all higher order n-body effects up to the number of fragments. The n-body levels are effectively sorted in the outer list, and any &#39;supersystem&#39; element is at the end.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                  </span><span class="p">{</span><span class="w"></span>
+<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span><span class="w"></span>
+<span class="w">                  </span><span class="p">},</span><span class="w"></span>
+<span class="w">                  </span><span class="p">{</span><span class="w"></span>
+<span class="w">                     </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="s2">&quot;supersystem&quot;</span><span class="w"></span>
+<span class="w">                     </span><span class="p">],</span><span class="w"></span>
+<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">                  </span><span class="p">}</span><span class="w"></span>
+<span class="w">               </span><span class="p">]</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">         </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;embedding_charges&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Embedding Charges&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Atom-centered point charges to be used on molecule fragments whose basis sets are not included in the computation. Keys: 1-based index of fragment. Values: list of atom charges for that fragment.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">         </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;return_total_data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Return Total Data&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;When True, returns the total data (energy/gradient/Hessian) of the system, otherwise returns interaction data. Default is False for energies, True for gradients and Hessians. Note that the calculation of total counterpoise corrected energies implies the calculation of the energies of monomers in the monomer basis, hence specifying ``return_total_data = True`` may carry out more computations than ``return_total_data = False``.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;quiet&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Quiet&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Whether to print/log formatted n-body energy analysis. Presently used by multi to suppress output. Candidate for removal from class once in-class/out-of-class functions sorted.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;task_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Task List&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">               </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/AtomicComputer&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="p">},</span><span class="w"></span>
+<span class="w">               </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/CompositeComputer&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="p">},</span><span class="w"></span>
+<span class="w">               </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/FiniteDifferenceComputer&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">]</span><span class="w"></span>
+<span class="w">         </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="p">},</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">      </span><span class="s2">&quot;molecule&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="s2">&quot;driver&quot;</span><span class="w"></span>
+<span class="w">   </span><span class="p">],</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;definitions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;DriverEnum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DriverEnum&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allowed computation driver values.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;energy&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;gradient&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;hessian&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;properties&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">],</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;BsseEnum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BsseEnum&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Available basis-set superposition error (BSSE) treatments.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;nocp&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;cp&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;vmfc&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">],</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;AtomicComputer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AtomicComputer&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Computer for analytic single-geometry computations.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;molecule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Molecule&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The molecule to use in the computation.&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;basis&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Basis&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The quantum chemistry basis set to evaluate (e.g., 6-31g, cc-pVDZ, ...).&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Method&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The quantum chemistry method to evaluate (e.g., B3LYP, MP2, ...).&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;driver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The resulting type of computation: energy, gradient, hessian, properties.Note for finite difference that this should be the target driver, not the means driver.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;allOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                  </span><span class="p">{</span><span class="w"></span>
+<span class="w">                     </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/DriverEnum&quot;</span><span class="w"></span>
+<span class="w">                  </span><span class="p">}</span><span class="w"></span>
+<span class="w">               </span><span class="p">]</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;keywords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Keywords&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The keywords to use in the computation.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;computed&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Computed&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Whether quantum chemistry has been run on this task.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Result&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;:py:class:`~qcelemental.models.AtomicResult` return.&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;result_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Result Id&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The optional ID for the computation.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">         </span><span class="p">},</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;molecule&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;basis&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;method&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;driver&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">]</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;CompositeComputer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CompositeComputer&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Base class for \&quot;computers\&quot; that plan, run, and process QC tasks.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;molecule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Molecule&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;basis&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Basis&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;(auto)&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Method&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;(auto)&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;driver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/DriverEnum&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;keywords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Keywords&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Metadata&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;metameta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Metameta&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;verbose&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Verbose&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;cbsrec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Cbsrec&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;trove&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Trove&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;compute_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Compute List&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;task_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Task List&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/AtomicComputer&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;results_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Results List&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">         </span><span class="p">},</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;driver&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">]</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;BaseComputer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BaseComputer&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Base class for \&quot;computers\&quot; that plan, run, and process QC tasks.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;FiniteDifferenceComputer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FiniteDifferenceComputer&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Base class for \&quot;computers\&quot; that plan, run, and process QC tasks.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;molecule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Molecule&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;driver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/DriverEnum&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;metameta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Metameta&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;task_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Task List&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/BaseComputer&quot;</span><span class="w"></span>
+<span class="w">               </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;findifrec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Findifrec&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Method&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">         </span><span class="p">},</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;driver&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;method&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">]</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.basis" title="psi4.driver.driver_nbody.ManyBodyComputer.basis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">basis</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.bsse_type" title="psi4.driver.driver_nbody.ManyBodyComputer.bsse_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bsse_type</span> <span class="pre">(List[psi4.driver.driver_nbody.BsseEnum])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.driver" title="psi4.driver.driver_nbody.ManyBodyComputer.driver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">driver</span> <span class="pre">(qcelemental.models.common_models.DriverEnum)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.embedding_charges" title="psi4.driver.driver_nbody.ManyBodyComputer.embedding_charges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">embedding_charges</span> <span class="pre">(Dict[int,</span> <span class="pre">List[float]])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.keywords" title="psi4.driver.driver_nbody.ManyBodyComputer.keywords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keywords</span> <span class="pre">(Dict[str,</span> <span class="pre">Any])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.max_nbody" title="psi4.driver.driver_nbody.ManyBodyComputer.max_nbody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_nbody</span> <span class="pre">(int)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.method" title="psi4.driver.driver_nbody.ManyBodyComputer.method"><code class="xref py py-obj docutils literal notranslate"><span class="pre">method</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.molecule" title="psi4.driver.driver_nbody.ManyBodyComputer.molecule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">molecule</span> <span class="pre">(Any)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.nbodies_per_mc_level" title="psi4.driver.driver_nbody.ManyBodyComputer.nbodies_per_mc_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nbodies_per_mc_level</span> <span class="pre">(List[List[Union[int,</span> <span class="pre">Literal['supersystem']]]])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.nfragments" title="psi4.driver.driver_nbody.ManyBodyComputer.nfragments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nfragments</span> <span class="pre">(int)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.quiet" title="psi4.driver.driver_nbody.ManyBodyComputer.quiet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quiet</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.return_total_data" title="psi4.driver.driver_nbody.ManyBodyComputer.return_total_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">return_total_data</span> <span class="pre">(Optional[bool])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.task_list" title="psi4.driver.driver_nbody.ManyBodyComputer.task_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">task_list</span> <span class="pre">(Dict[str,</span> <span class="pre">Union[psi4.driver.task_base.AtomicComputer,</span> <span class="pre">psi4.driver.driver_cbs.CompositeComputer,</span> <span class="pre">psi4.driver.driver_findif.FiniteDifferenceComputer]])</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_bsse_type" title="psi4.driver.driver_nbody.ManyBodyComputer.set_bsse_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_bsse_type</span></code></a> » <a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.bsse_type" title="psi4.driver.driver_nbody.ManyBodyComputer.bsse_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bsse_type</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_embedding_charges" title="psi4.driver.driver_nbody.ManyBodyComputer.set_embedding_charges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_embedding_charges</span></code></a> » <a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.embedding_charges" title="psi4.driver.driver_nbody.ManyBodyComputer.embedding_charges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">embedding_charges</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_max_nbody" title="psi4.driver.driver_nbody.ManyBodyComputer.set_max_nbody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_max_nbody</span></code></a> » <a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.max_nbody" title="psi4.driver.driver_nbody.ManyBodyComputer.max_nbody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_nbody</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_molecule" title="psi4.driver.driver_nbody.ManyBodyComputer.set_molecule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_molecule</span></code></a> » <a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.molecule" title="psi4.driver.driver_nbody.ManyBodyComputer.molecule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">molecule</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_nfragments" title="psi4.driver.driver_nbody.ManyBodyComputer.set_nfragments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_nfragments</span></code></a> » <a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.nfragments" title="psi4.driver.driver_nbody.ManyBodyComputer.nfragments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nfragments</span></code></a></p></li>
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_return_total_data" title="psi4.driver.driver_nbody.ManyBodyComputer.set_return_total_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_return_total_data</span></code></a> » <a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.return_total_data" title="psi4.driver.driver_nbody.ManyBodyComputer.return_total_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">return_total_data</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.basis">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">basis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'(auto)'</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.basis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.bsse_type">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bsse_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#psi4.driver.driver_nbody.BsseEnum" title="psi4.driver.driver_nbody.BsseEnum"><span class="pre">BsseEnum</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;BsseEnum.cp:</span> <span class="pre">'cp'&gt;]</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.bsse_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requested BSSE treatments. First in list determines which interaction or total energy/gradient/Hessian returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_bsse_type" title="psi4.driver.driver_nbody.ManyBodyComputer.set_bsse_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_bsse_type</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.driver">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">driver</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="http://docs.qcarchive.molssi.org/projects/QCElemental/en/latest/api/qcelemental.models.DriverEnum.html#qcelemental.models.DriverEnum" title="(in QCElemental vv0.25.0+2.g292350f.dirty)"><span class="pre">DriverEnum</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.driver" title="Permalink to this definition">¶</a></dt>
+<dd><p>The computation driver; i.e., energy, gradient, hessian.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.embedding_charges">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">embedding_charges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Dict" title="(in Python v3.10)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.embedding_charges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Atom-centered point charges to be used on molecule fragments whose basis sets are not included in the computation. Keys: 1-based index of fragment. Values: list of atom charges for that fragment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_embedding_charges" title="psi4.driver.driver_nbody.ManyBodyComputer.set_embedding_charges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_embedding_charges</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.keywords">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">keywords</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Dict" title="(in Python v3.10)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.keywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>The computation keywords/options.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.max_nbody">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_nbody</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.max_nbody" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of bodies to include in the many-body treatment. Possible: max_nbody &lt;= nfragments. Default: max_nbody = nfragments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_max_nbody" title="psi4.driver.driver_nbody.ManyBodyComputer.set_max_nbody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_max_nbody</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.method">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'(auto)'</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.molecule">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">molecule</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.molecule" title="Permalink to this definition">¶</a></dt>
+<dd><p>The target molecule, if not the last molecule defined.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_molecule" title="psi4.driver.driver_nbody.ManyBodyComputer.set_molecule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_molecule</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.nbodies_per_mc_level">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nbodies_per_mc_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Literal" title="(in Python v3.10)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'supersystem'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.nbodies_per_mc_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distribution of active n-body levels among model chemistry levels. All bodies in range [1, self.max_nbody] must be present exactly once. Number of items in outer list is how many different modelchems. Each inner list specifies what n-bodies to be run at the corresponding modelchem (e.g., <cite>[[1, 2]]</cite> has max_nbody=2 and 1-body and 2-body contributions computed at the same level of theory; <cite>[[1], [2]]</cite> has max_nbody=2 and 1-body and 2-body contributions computed at different levels of theory. An entry ‘supersystem’ means all higher order n-body effects up to the number of fragments. The n-body levels are effectively sorted in the outer list, and any ‘supersystem’ element is at the end.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.nfragments">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nfragments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.nfragments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of distinct fragments comprising full molecular supersystem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_nfragments" title="psi4.driver.driver_nbody.ManyBodyComputer.set_nfragments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_nfragments</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.quiet">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quiet</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.quiet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to print/log formatted n-body energy analysis. Presently used by multi to suppress output. Candidate for removal from class once in-class/out-of-class functions sorted.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.return_total_data">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">return_total_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.return_total_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>When True, returns the total data (energy/gradient/Hessian) of the system, otherwise returns interaction data. Default is False for energies, True for gradients and Hessians. Note that the calculation of total counterpoise corrected energies implies the calculation of the energies of monomers in the monomer basis, hence specifying <code class="docutils literal notranslate"><span class="pre">return_total_data</span> <span class="pre">=</span> <span class="pre">True</span></code> may carry out more computations than <code class="docutils literal notranslate"><span class="pre">return_total_data</span> <span class="pre">=</span> <span class="pre">False</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_return_total_data" title="psi4.driver.driver_nbody.ManyBodyComputer.set_return_total_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_return_total_data</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.task_list">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">task_list</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Dict" title="(in Python v3.10)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer" title="psi4.driver.task_base.AtomicComputer"><span class="pre">AtomicComputer</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="cbs.html#psi4.driver.driver_cbs.CompositeComputer" title="psi4.driver.driver_cbs.CompositeComputer"><span class="pre">CompositeComputer</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer" title="psi4.driver.driver_findif.FiniteDifferenceComputer"><span class="pre">FiniteDifferenceComputer</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.task_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.build_tasks">
+<span class="sig-name descname"><span class="pre">build_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb_computer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mc_level_idx</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.build_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.build_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds to the task_list as many new unique tasks as necessary to treat a single model chemistry level at one or several n-body levels.
+New tasks are of type <em>mb_computer</em> with model chemistry level specified in <em>kwargs</em> and n-body levels accessed through <em>mc_level_idx</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mb_computer</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer" title="psi4.driver.task_base.AtomicComputer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtomicComputer</span></code></a>, <a class="reference internal" href="cbs.html#psi4.driver.driver_cbs.CompositeComputer" title="psi4.driver.driver_cbs.CompositeComputer"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeComputer</span></code></a>, <a class="reference internal" href="freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer" title="psi4.driver.driver_findif.FiniteDifferenceComputer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FiniteDifferenceComputer</span></code></a>]) – Class of task computers to instantiate and add to self.task_list. Usually <a class="reference internal" href="api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer" title="psi4.driver.AtomicComputer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtomicComputer</span></code></a> but may be other when wrappers are layered.</p></li>
+<li><p><strong>mc_level_idx</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Position in field self.nbodies_per_mc_level used to obtain <code class="docutils literal notranslate"><span class="pre">nbodies</span></code>, the list of n-body
+levels (e.g., <cite>[1]</cite> or <cite>[1, 2]</cite> or <cite>[“supersystem”]</cite>) to which the modelchem specified in <strong>kwargs</strong> applies.
+That is, <cite>nbodies = self.nbodies_per_mc_level[mc_level_idx]</cite>.
+Note the natural 1-indexing of <code class="docutils literal notranslate"><span class="pre">nbodies</span></code> _contents_, so <cite>[1]</cite> covers one-body contributions.
+The corresponding user label is the 1-indexed counterpart, <cite>mc_level_lbl = mc_level_idx + 1</cite>
+Formerly nlevel as in <cite>nbody = self.nbody_list[nbody_level=nlevel]</cite>.</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]) – Other arguments for initializing <strong>mb_computer</strong>. In particular, specifies model chemistry.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>count</strong> – Number of new tasks planned by this call.
+Formerly, didn’t include supersystem in count.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.compute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.compute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run quantum chemistry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>client</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><em>FractalClient</em><em>]</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.get_psi_results">
+<span class="sig-name descname"><span class="pre">get_psi_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_wfn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.get_psi_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.get_psi_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called by driver to assemble results into ManyBody-flavored QCSchema,
+then reshape and return them in the customary Psi4 driver interface: <code class="docutils literal notranslate"><span class="pre">(e/g/h,</span> <span class="pre">wfn)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>return_wfn</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – <p>Whether to additionally return the dummy <a class="reference internal" href="api/psi4.core.Wavefunction.html#psi4.core.Wavefunction" title="psi4.core.Wavefunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Wavefunction</span></code></a>
+calculation result as the second element of a tuple. Contents are:</p>
+<ul class="simple">
+<li><p>supersystem molecule</p></li>
+<li><p>dummy basis, def2-svp</p></li>
+<li><p>e/g/h member data</p></li>
+<li><p>QCVariables</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference internal" href="api/psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>, <a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference internal" href="api/psi4.core.Matrix.html#psi4.core.Matrix" title="psi4.core.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>], <a class="reference internal" href="api/psi4.core.Wavefunction.html#psi4.core.Wavefunction" title="psi4.core.Wavefunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Wavefunction</span></code></a>]]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>ret</em> – Energy, gradient, or Hessian according to self.driver.</p></li>
+<li><p><em>wfn</em> – Wavefunction described above when <em>return_wfn</em> specified.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.get_results">
+<span class="sig-name descname"><span class="pre">get_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.get_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.get_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return results as ManyBody-flavored QCSchema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="http://docs.qcarchive.molssi.org/projects/QCElemental/en/latest/api/qcelemental.models.AtomicResult.html#qcelemental.models.AtomicResult" title="(in QCElemental vv0.25.0+2.g292350f.dirty)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtomicResult</span></code></a></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>client</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><em>FractalClient</em><em>]</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.plan">
+<span class="sig-name descname"><span class="pre">plan</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.plan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.plan" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.prepare_results">
+<span class="sig-name descname"><span class="pre">prepare_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.prepare_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.prepare_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the results from all n-body component molecular systems and model chemistry levels into final quantities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>results</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.10/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer" title="psi4.driver.task_base.AtomicComputer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AtomicComputer</span></code></a>, <a class="reference internal" href="cbs.html#psi4.driver.driver_cbs.CompositeComputer" title="psi4.driver.driver_cbs.CompositeComputer"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeComputer</span></code></a>, <a class="reference internal" href="freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer" title="psi4.driver.driver_findif.FiniteDifferenceComputer"><code class="xref py py-class docutils literal notranslate"><span class="pre">FiniteDifferenceComputer</span></code></a>]]]) – A set of tasks to process instead of self.task_list. Used in multilevel processing to pass a subset of
+self.task_list filtered to only one modelchem level.</p></li>
+<li><p><strong>client</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">FractalClient</span></code>]) – QCFractal client if using QCArchive for distributed compute.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>When the ManyBodyComputer specifies a single model chemistry level (see self.nbodies_per_mc_level), the
+return is a dictionary, nbody_results, described in the table below. Many of the items are actually filled
+by successive calls to assemble_nbody_components(). When multiple model chemistry levels are specified, this
+function diverts its return to driver_nbody_multilevel.prepare_results() wherein each mc level calls this
+function again and collects separate nbody_results dictionaries and processes them into a final return that
+is a small subset of the table below.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>nbody_results</p>
+<dl class="simple">
+<dt>ptype_size = (1,)/(nat, 3)/(3 * nat, 3 * nat)</dt><dd><p>e/g/h := energy or gradient or Hessian
+rtd := return_total_data</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+<table class="docutils align-default" id="table-nbody-return">
+<thead>
+<tr class="row-odd"><th class="head"><p>item</p></th>
+<th class="head"><p>size</p></th>
+<th class="head"><p>present / zeroed</p></th>
+<th class="head"><p>contents / interpretation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ret_ptype</p></td>
+<td><p>ptype_size</p></td>
+<td><p>always</p></td>
+<td><dl class="simple">
+<dt>interaction data requested: IE or total (depending on return_total_data) e/g/h (depending on driver)</dt><dd><p>with cp/nocp/vmfc treatment (depending on 1st of bsse_type)</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td><p>ret_energy</p></td>
+<td><p>1</p></td>
+<td><p>always</p></td>
+<td><p>interaction energy: IE or total (depending on return_total_data) w/ cp/nocp/vmfc treat. (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-even"><td><p>ret_gradient</p></td>
+<td><p>(nat, 3)</p></td>
+<td><p>when driver is g/h</p></td>
+<td><p>interaction gradient: IE or total (depending on return_total_data) w/ cp/nocp/vmfc treat. (dep. on 1st of bsse_type</p></td>
+</tr>
+<tr class="row-odd"><td><p>ret_hessian</p></td>
+<td><p>(nat * 3, nat * 3)</p></td>
+<td><p>when driver is h</p></td>
+<td><p>interaction Hessian: IE or total (depending on return_total_data) w/ cp/nocp/vmfc treat. (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>nbody</p></td>
+<td><p>&gt;=1</p></td>
+<td><p>always</p></td>
+<td><p>energy n-body QCVariables to be set</p></td>
+</tr>
+<tr class="row-even"><td><p>  CP-CORRECTED TOTAL ENERGY THROUGH 1-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when cp in bsse_type</p></td>
+<td><p>MBE sum of subsystems of 1-body. summed are total energies with cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  CP-CORRECTED TOTAL ENERGY THROUGH 2-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when cp in bsse_type &amp; max_nbody&gt;=2</p></td>
+<td><p>MBE sum of subsystems of 2-body or fewer (cumulative); summed are total energies with cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  CP-CORRECTED TOTAL ENERGY THROUGH {nb}-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when cp in bsse_type</p></td>
+<td><p>MBE sum of subsystems of {max_nbody}-body or fewer (cumulative); summed are total energies w/ cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  CP-CORRECTED TOTAL ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when cp in bsse_type &amp; rtd=T</p></td>
+<td><p>best available total energy with cp treatment: CP-CORRECTED TOTAL ENERGY THROUGH {max_nbody}-BODY</p></td>
+</tr>
+<tr class="row-even"><td><p>  CP-CORRECTED INTERACTION ENERGY THROUGH 2-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when cp in bsse_type &amp; max_nbody&gt;=2</p></td>
+<td><p>2-body total data less 1-body total data for cumulative IE; inputs are total energies with cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  CP-CORRECTED INTERACTION ENERGY THROUGH {nb}-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when cp in bsse_type</p></td>
+<td><p>{max_nbody}-body total data less 1-body total data for cumulative IE; inputs are total energies with cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  CP-CORRECTED INTERACTION ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when cp in bsse_type</p></td>
+<td><p>best available interaction energy with cp treatment: CP-CORRECTED INTERACTION ENERGY THROUGH {max_nbody}-BODY</p></td>
+</tr>
+<tr class="row-odd"><td><p>  CP-CORRECTED 2-BODY CONTRIBUTION TO ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when cp in bsse_type &amp; max_nbody&gt;=2</p></td>
+<td><p>2-body total data less (2-1)-body total data for partial IE; inputs are total energies w/ cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  CP-CORRECTED {nb}-BODY CONTRIBUTION TO ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when cp in bsse_type</p></td>
+<td><p>{max_nbody}-body total data less ({max_nbody}-1)-body data for partial IE; inputs are total energies w/ cp treat.</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>  NOCP-CORRECTED TOTAL ENERGY THROUGH 1-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when nocp in bsse_type</p></td>
+<td><p>MBE sum of subsystems of 1-body. summed are total energies without cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  NOCP-CORRECTED TOTAL ENERGY THROUGH 2-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when nocp in bsse_type &amp; max_nbody&gt;=2</p></td>
+<td><p>MBE sum of subsystems of 2-body or fewer (cumulative); summed are total energies without cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  NOCP-CORRECTED TOTAL ENERGY THROUGH {nb}-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when nocp in bsse_type</p></td>
+<td><p>MBE sum of subsystems of {max_nbody}-body or fewer (cumulative); summed are total energies w/o cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  NOCP-CORRECTED TOTAL ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when nocp in bsse_type</p></td>
+<td><p>best available total energy without cp treatment: NOCP-CORRECTED TOTAL ENERGY THROUGH {max_nbody}-BODY</p></td>
+</tr>
+<tr class="row-even"><td><p>  NOCP-CORRECTED INTERACTION ENERGY THROUGH 2-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when nocp in bsse_type &amp; max_nbody&gt;=2</p></td>
+<td><p>2-body total data less 1-body total data for cumulative IE; inputs are total energies w/o cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  NOCP-CORRECTED INTERACTION ENERGY THROUGH {nb}-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when nocp in bsse_type</p></td>
+<td><p>{max_nbody}-body total data less 1-body total data for cumulative IE; inputs are total energies w/o cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  NOCP-CORRECTED INTERACTION ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when nocp in bsse_type</p></td>
+<td><p>best available interaction energy without cp treatment: NOCP-CORRECTED INTERACTION ENERGY THROUGH {max_nbody}-BODY</p></td>
+</tr>
+<tr class="row-odd"><td><p>  NOCP-CORRECTED 2-BODY CONTRIBUTION TO ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when nocp in bsse_type &amp; max_nbody&gt;=2</p></td>
+<td><p>2-body total data less (2-1)-body total data for partial IE; inputs are total energies w/o cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  NOCP-CORRECTED {nb}-BODY CONTRIBUTION TO ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when nocp in bsse_type</p></td>
+<td><p>{max_nbody}-body total data less ({max_nbody}-1)-body data for partial IE; inputs are total energies w/o cp treat.</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>  VMFC-CORRECTED TOTAL ENERGY THROUGH 1-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when vmfc in bsse_type</p></td>
+<td><p>MBE sum of subsystems of 1-body. summed are total energies with vmfc treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  VMFC-CORRECTED TOTAL ENERGY THROUGH 2-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when vmfc in bsse_type &amp; max_nbody&gt;=2</p></td>
+<td><p>MBE sum of subsystems of 2-body or fewer (cumulative); summed are total energies with vmfc treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  VMFC-CORRECTED TOTAL ENERGY THROUGH {nb}-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when vmfc in bsse_type</p></td>
+<td><p>MBE sum of subsystems of {max_nbody}-body or fewer (cumulative); summed are total energies w/ vmfc treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  VMFC-CORRECTED TOTAL ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when vmfc in bsse_type</p></td>
+<td><p>best available total energy with vmfc treatment: VMFC-CORRECTED TOTAL ENERGY THROUGH {max_nbody}-BODY</p></td>
+</tr>
+<tr class="row-even"><td><p>  VMFC-CORRECTED INTERACTION ENERGY THROUGH 2-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when vmfc in bsse_type &amp; max_nbody&gt;=2</p></td>
+<td><p>2-body total data less 1-body total data for cumulative IE; inputs are total energies w/ vmfc treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  VMFC-CORRECTED INTERACTION ENERGY THROUGH {nb}-BODY</p></td>
+<td><p>  1</p></td>
+<td><p>when vmfc in bsse_type</p></td>
+<td><p>{max_nbody}-body total data less 1-body total data for cumulative IE; inputs are total energies w/ vmfc treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  VMFC-CORRECTED INTERACTION ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when vmfc in bsse_type</p></td>
+<td><p>best available interaction energy with vmfc treatment: VMFC-CORRECTED INTERACTION ENERGY THROUGH {max_nbody}-BODY</p></td>
+</tr>
+<tr class="row-odd"><td><p>  VMFC-CORRECTED 2-BODY CONTRIBUTION TO ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when vmfc in bsse_type &amp; max_nbody&gt;=2</p></td>
+<td><p>2-body total data less (2-1)-body total data for partial IE; inputs are total energies w/ vmfc treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  VMFC-CORRECTED {nb}-BODY CONTRIBUTION TO ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>when vmfc in bsse_type</p></td>
+<td><p>{max_nbody}-body total data less ({max_nbody}-1)-body data for partial IE; inputs are total energies w/ vmfc treat.</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>energy_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>always</p></td>
+<td><p>total energies at each n-body level</p></td>
+</tr>
+<tr class="row-odd"><td><p>  1</p></td>
+<td><p>  1</p></td>
+<td><p>always; zeroed if cp &amp; rtd=F</p></td>
+<td><p>cumulative through 1-body total energies w/ cp/nocp/vmfc treatment (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-even"><td><p>  2</p></td>
+<td><p>  1</p></td>
+<td><p>max_nbody&gt;=2</p></td>
+<td><p>cumulative through 2-body total energies w/ cp/nocp/vmfc treatment (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-odd"><td><p>  {max_nbody}</p></td>
+<td><p>  1</p></td>
+<td><p>always</p></td>
+<td><p>cumulative through {max_nbody}-body total energies w/ cp/nocp/vmfc treatment (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-even"><td><p>gradient_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>when driver is g/h</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>  1</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h</p></td>
+<td><p>cumulative through 1-body total gradients with cp/nocp/vmfc treatment (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-even"><td><p>  2</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h &amp; max_nbody&gt;=2</p></td>
+<td><p>cumulative through 2-body total gradients with cp/nocp/vmfc treatment (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-odd"><td><p>  {max_nbody}</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h</p></td>
+<td><p>cumulative through {max_nbody}-body total gradients w/ cp/nocp/vmfc treatment (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-even"><td><p>hessian_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>when driver is h</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>  1</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h</p></td>
+<td><p>cumulative through 1-body total Hessians w/ cp/nocp/vmfc treatment (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-even"><td><p>  2</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h &amp; max_nbody&gt;=2</p></td>
+<td><p>cumulative through 2-body total Hessians w/ cp/nocp/vmfc treatment (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-odd"><td><p>  {max_nbody}</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h</p></td>
+<td><p>cumulative through {max_nbody}-body total Hessians w/ cp/nocp/vmfc treatment (dep. on 1st of bsse_type)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>cp_energy_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>always; zeroed if cp not in bsse_type</p></td>
+<td><p>total energies at each n-body level with cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  1cp</p></td>
+<td><p>  1</p></td>
+<td><p>always; zeroed if cp not in bsse_type or rtd=F</p></td>
+<td><p>cumulative through 1-body total energies with cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  2cp</p></td>
+<td><p>  1</p></td>
+<td><p>when max_nbody&gt;=2; zeroed if cp not in bsse_type</p></td>
+<td><p>cumulative through 2-body total energies with cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  {max_nbody}cp</p></td>
+<td><p>  1</p></td>
+<td><p>always; zeroed if cp not in bsse_type</p></td>
+<td><p>cumulative through {max_nbody}-body total energies with cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>cp_gradient_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>when driver is g/h; zeroed if cp not in bsse_type</p></td>
+<td><p>total gradients at each n-body level with cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  1cp</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h; zeroed if cp not in bsse_type or rtd=F</p></td>
+<td><p>cumulative through 1-body total gradients with cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  2cp</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h &amp; max_nbody&gt;=2; zeroed if cp not in bsse_type</p></td>
+<td><p>cumulative through 2-body total gradients with cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  {max_nbody}cp</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h; zeroed if cp not in bsse_type</p></td>
+<td><p>cumulative through {max_nbody}-body total gradients with cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>cp_hessian_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>when driver is h; zeroed if cp not in bsse_type</p></td>
+<td><p>total Hessians at each n-body level with cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  1cp</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h; zeroed if cp not in bsse_type or rtd=F</p></td>
+<td><p>cumulative through 1-body total Hessians with cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  2cp</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h &amp; max_nbody&gt;=2; zeroed if cp not in bsse_type</p></td>
+<td><p>cumulative through 2-body total Hessians with cp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  {max_nbody}cp</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h; zeroed if cp not in bsse_type</p></td>
+<td><p>cumulative through {max_nbody}-body total Hessians with cp treatment</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>nocp_energy_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>always; zeroed if nocp not in bsse_type</p></td>
+<td><p>total energies at each n-body level with nocp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  1nocp</p></td>
+<td><p>  1</p></td>
+<td><p>always; zeroed if nocp not in bsse_type</p></td>
+<td><p>cumulative through 1-body total energies with nocp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  2nocp</p></td>
+<td><p>  1</p></td>
+<td><p>when max_nbody&gt;=2; zeroed if nocp not in bsse_type</p></td>
+<td><p>cumulative through 2-body total energies with nocp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  {max_nbody}nocp</p></td>
+<td><p>  1</p></td>
+<td><p>always; zeroed if nocp not in bsse_type</p></td>
+<td><p>cumulative through {max_nbody}-body total energies with nocp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>nocp_gradient_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>when driver is g/h; zeroed if nocp not in bsse_type</p></td>
+<td><p>total gradients at each n-body level with nocp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  1nocp</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h; zeroed if nocp not in bsse_type</p></td>
+<td><p>cumulative through 1-body total gradients with nocp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  2nocp</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h &amp; max_nbody&gt;=2; zeroed if nocp not in bsse_type</p></td>
+<td><p>cumulative through 2-body total gradients with nocp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  {max_nbody}nocp</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h; zeroed if nocp not in bsse_type</p></td>
+<td><p>cumulative through {max_nbody}-body total gradients with nocp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>nocp_hessian_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>when driver is h; zeroed if nocp not in bsse_type</p></td>
+<td><p>total Hessians at each n-body level with nocp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  1nocp</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h; zeroed if nocp not in bsse_type</p></td>
+<td><p>cumulative through 1-body total Hessians with nocp treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  2nocp</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h &amp; max_nbody&gt;=2; zeroed if nocp not in bsse_type</p></td>
+<td><p>cumulative through 2-body total Hessians with nocp treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  {max_nbody}nocp</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h; zeroed if nocp not in bsse_type</p></td>
+<td><p>cumulative through {max_nbody}-body total Hessians with nocp treatment</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>vmfc_energy_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>always; zeroed if vmfc not in bsse_type</p></td>
+<td><p>total energies at each n-body level with vmfc treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  1vmfc</p></td>
+<td><p>  1</p></td>
+<td><p>always; zeroed if vmfc not in bsse_type</p></td>
+<td><p>cumulative through 1-body total energies with vmfc treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  2vmfc</p></td>
+<td><p>  1</p></td>
+<td><p>when max_nbody&gt;=2; zeroed if vmfc not in bsse_type</p></td>
+<td><p>cumulative through 2-body total energies with vmfc treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  {max_nbody}vmfc</p></td>
+<td><p>  1</p></td>
+<td><p>always; zeroed if vmfc not in bsse_type</p></td>
+<td><p>cumulative through {max_nbody}-body total energies with vmfc treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>vmfc_gradient_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>when driver is g/h; zeroed if vmfc not in bsse_type</p></td>
+<td><p>total gradients at each n-body level with vmfc treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  1vmfc</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h; zeroed if vmfc not in bsse_type</p></td>
+<td><p>cumulative through 1-body total gradients with vmfc treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  2vmfc</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h &amp; max_nbody&gt;=2; zeroed if vmfc not in bsse_type</p></td>
+<td><p>cumulative through 2-body total gradients with vmfc treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  {max_nbody}vmfc</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h; zeroed if vmfc not in bsse_type</p></td>
+<td><p>cumulative through {max_nbody}-body total gradients with vmfc treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>vmfc_hessian_body_dict</p></td>
+<td><p>max_nbody</p></td>
+<td><p>when driver is h; zeroed if vmfc not in bsse_type</p></td>
+<td><p>total Hessians at each n-body level with vmfc treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  1vmfc</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h; zeroed if vmfc not in bsse_type</p></td>
+<td><p>cumulative through 1-body total Hessians with vmfc treatment</p></td>
+</tr>
+<tr class="row-odd"><td><p>  2vmfc</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h &amp; max_nbody&gt;=2; zeroed if vmfc not in bsse_type</p></td>
+<td><p>cumulative through 2-body total Hessians with vmfc treatment</p></td>
+</tr>
+<tr class="row-even"><td><p>  {max_nbody}vmfc</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h; zeroed if vmfc not in bsse_type</p></td>
+<td><p>cumulative through {max_nbody}-body total Hessians with vmfc treatment</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>intermediates</p></td>
+<td><p>ntasks</p></td>
+<td><p>always</p></td>
+<td><p>all individual energies with nice labels</p></td>
+</tr>
+<tr class="row-odd"><td><p>  N-BODY (1, 2)&#64;(1, 2) TOTAL ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>always</p></td>
+<td><p>total energy for 1st modelchem, 1st &amp; 2nd fragments in basis of 1st &amp; 2nd fragments</p></td>
+</tr>
+<tr class="row-even"><td><p>  N-BODY (3)&#64;(2, 3) TOTAL ENERGY</p></td>
+<td><p>  1</p></td>
+<td><p>always</p></td>
+<td><p>total energy for 2nd modelchem, 3rd fragment in basis of 2nd and 3rd fragments</p></td>
+</tr>
+<tr class="row-odd"><td><p>  …</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>intermediates_energy</p></td>
+<td><p>ntasks</p></td>
+<td><p>always</p></td>
+<td><p>all individual energies</p></td>
+</tr>
+<tr class="row-even"><td><p>  1_((1, 2), (1, 2))</p></td>
+<td><p>  1</p></td>
+<td><p>always</p></td>
+<td><p>total energy for 1st modelchem, 1st &amp; 2nd fragments in basis of 1st &amp; 2nd fragments</p></td>
+</tr>
+<tr class="row-odd"><td><p>  2_((3,), (2, 3))</p></td>
+<td><p>  1</p></td>
+<td><p>always</p></td>
+<td><p>total energy for 2nd modelchem, 3rd fragment in basis of 2nd and 3rd fragments</p></td>
+</tr>
+<tr class="row-even"><td><p>  …</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>intermediates_gradient</p></td>
+<td><p>ntasks</p></td>
+<td><p>when driver is g/h</p></td>
+<td><p>all individual gradients</p></td>
+</tr>
+<tr class="row-odd"><td><p>  1_((1, 2), (1, 2))</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h</p></td>
+<td><p>total gradient for 1st modelchem, 1st &amp; 2nd fragments in basis of 1st &amp; 2nd fragments</p></td>
+</tr>
+<tr class="row-even"><td><p>  2_((3,), (2, 3))</p></td>
+<td><p>  (nat, 3)</p></td>
+<td><p>when driver is g/h</p></td>
+<td><p>total gradient for 2nd modelchem, 3rd fragment in basis of 2nd and 3rd fragments</p></td>
+</tr>
+<tr class="row-odd"><td><p>  …</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>intermediates_hessian</p></td>
+<td><p>ntasks</p></td>
+<td><p>when driver is h</p></td>
+<td><p>all individual Hessians</p></td>
+</tr>
+<tr class="row-even"><td><p>  1_((1, 2), (1, 2))</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h</p></td>
+<td><p>total Hessian for 1st modelchem, 1st &amp; 2nd fragments in basis of 1st &amp; 2nd fragments</p></td>
+</tr>
+<tr class="row-odd"><td><p>  2_((3,), (2, 3))</p></td>
+<td><p>  (nat*3, nat*3)</p></td>
+<td><p>when driver is h</p></td>
+<td><p>total Hessian for 2nd modelchem, 3rd fragment in basis of 2nd and 3rd fragments</p></td>
+</tr>
+<tr class="row-even"><td><p>  …</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method pydantic_validator">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.set_bsse_type">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_bsse_type</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.bsse_type" title="psi4.driver.driver_nbody.ManyBodyComputer.bsse_type"><em class="xref py py-obj"><span class="pre">bsse_type</span></em></a><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.set_bsse_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_bsse_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method pydantic_validator">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.set_embedding_charges">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_embedding_charges</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.embedding_charges" title="psi4.driver.driver_nbody.ManyBodyComputer.embedding_charges"><em class="xref py py-obj"><span class="pre">embedding_charges</span></em></a><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.set_embedding_charges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_embedding_charges" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method pydantic_validator">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.set_max_nbody">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_max_nbody</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.max_nbody" title="psi4.driver.driver_nbody.ManyBodyComputer.max_nbody"><em class="xref py py-obj"><span class="pre">max_nbody</span></em></a><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.set_max_nbody"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_max_nbody" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method pydantic_validator">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.set_molecule">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_molecule</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.molecule" title="psi4.driver.driver_nbody.ManyBodyComputer.molecule"><em class="xref py py-obj"><span class="pre">molecule</span></em></a><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.set_molecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_molecule" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method pydantic_validator">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.set_nfragments">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_nfragments</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.nfragments" title="psi4.driver.driver_nbody.ManyBodyComputer.nfragments"><em class="xref py py-obj"><span class="pre">nfragments</span></em></a><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.set_nfragments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_nfragments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method pydantic_validator">
+<dt class="sig sig-object py" id="psi4.driver.driver_nbody.ManyBodyComputer.set_return_total_data">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_return_total_data</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#psi4.driver.driver_nbody.ManyBodyComputer.return_total_data" title="psi4.driver.driver_nbody.ManyBodyComputer.return_total_data"><em class="xref py py-obj"><span class="pre">return_total_data</span></em></a><a class="reference internal" href="_modules/psi4/driver/driver_nbody.html#ManyBodyComputer.set_return_total_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.driver_nbody.ManyBodyComputer.set_return_total_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="index.html" title="index">
+          <img class="logo" src="_static/psi4square.png" alt="Logo"/>
+        </a></p><!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+<div id="searchbox" style="display: none" role="search">
+  <!--<h3>Quick search</h3>-->
+    <form class="search" action="search.html" method="get">
+      <!--<div><input type="text" name="q" placeholder="search docs" /></div>-->
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel" /></div>
+      <!--<div><input type="submit" value="Go" /></div>-->
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="index.html">table of contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Basis Set Superposition Corrections</a><ul>
+<li><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="opt.html" title="Geometry Optimization — optimize() and gradient()"
+             ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="prop.html" title="Property"
+             ><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/6ce35a5">1.7</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="psithonfunc.html" >Psithon Functions: Invoking a Calculation</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">Basis Set Superposition Corrections</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2007-2022, The Psi4 Project.
+      Last updated on Tuesday, 06 December 2022 10:44PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
