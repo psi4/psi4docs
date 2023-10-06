@@ -1,0 +1,458 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SolverEngine</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="../_static/documentation_options.js?v=9b322191"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    
+    
+     
+        <script src="../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.js"></script>
+    
+
+    <link rel="icon" href="../_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="External API Objects" href="../external_apis.html" />
+    <link rel="prev" title="OptionsState" href="psi4.driver.p4util.OptionsState.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../external_apis.html" title="External API Objects"
+             accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="psi4.driver.p4util.OptionsState.html" title="OptionsState"
+             accesskey="P"><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.driver.p4util.SolverEngine.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/81a2207">1.9a1.dev58</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../psi4api.html" accesskey="U"><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> API: Linking C++ and Python</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">SolverEngine</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="solverengine">
+<h1>SolverEngine<a class="headerlink" href="#solverengine" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="psi4.driver.p4util.SolverEngine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">psi4.driver.p4util.</span></span><span class="sig-name descname"><span class="pre">SolverEngine</span></span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#SolverEngine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.SolverEngine" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.10/library/abc.html#abc.ABC" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Abstract Base Class defining the API for a matrix-vector product object
+required by solvers.</p>
+<p>Engines implement the correct product functions for iterative solvers that
+do not require the target matrix be stored directly.
+Classes intended to be used as an <cite>engine</cite> for <a class="reference internal" href="psi4.driver.p4util.davidson_solver.html#psi4.driver.p4util.davidson_solver" title="psi4.driver.p4util.davidson_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">davidson_solver()</span></code></a> or
+<a class="reference internal" href="psi4.driver.p4util.hamiltonian_solver.html#psi4.driver.p4util.hamiltonian_solver" title="psi4.driver.p4util.hamiltonian_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">hamiltonian_solver()</span></code></a> should inherit from this base class to ensure
+that the required methods are defined.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <cite>vector</cite> referred to here is intentionally vague, the solver
+does not care what it is and only holds individual or sets of
+them. In fact an individual <cite>vector</cite> could be split across two
+elements in a list, such as for different spin.
+Whatever data type is used and individual vector should be a
+single element in a list such that len(list) returns the number
+of vector-like objects.</p>
+</div>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.compute_products" title="psi4.driver.p4util.SolverEngine.compute_products"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_products</span></code></a>(X)</p></td>
+<td><p>Compute a Matrix * trial vector products</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.new_vector" title="psi4.driver.p4util.SolverEngine.new_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_vector</span></code></a>()</p></td>
+<td><p>Return a new <cite>vector</cite> object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.precondition" title="psi4.driver.p4util.SolverEngine.precondition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">precondition</span></code></a>(R_k, w_k)</p></td>
+<td><p>Apply the preconditioner to a Residual vector</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.residue" title="psi4.driver.p4util.SolverEngine.residue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">residue</span></code></a>(X, so_prop_ints)</p></td>
+<td><p>Compute residue</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.vector_axpy" title="psi4.driver.p4util.SolverEngine.vector_axpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vector_axpy</span></code></a>(X, Y)</p></td>
+<td><p>Compute scaled <cite>vector</cite> addition operation <cite>a*X + Y</cite></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.vector_copy" title="psi4.driver.p4util.SolverEngine.vector_copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vector_copy</span></code></a>()</p></td>
+<td><p>Make a copy of a <cite>vector</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.vector_dot" title="psi4.driver.p4util.SolverEngine.vector_dot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vector_dot</span></code></a>(X, Y)</p></td>
+<td><p>Compute a dot product between two <cite>vectors</cite></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.vector_scale" title="psi4.driver.p4util.SolverEngine.vector_scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vector_scale</span></code></a>(X)</p></td>
+<td><p>Scale a vector by some factor</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.p4util.SolverEngine.compute_products">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#SolverEngine.compute_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.SolverEngine.compute_products" title="Link to this definition">¶</a></dt>
+<dd><p>Compute a Matrix * trial vector products</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (List[<cite>vector</cite>]) – Trial vectors.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Expected by <a class="reference internal" href="psi4.driver.p4util.davidson_solver.html#psi4.driver.p4util.davidson_solver" title="psi4.driver.p4util.davidson_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">davidson_solver()</span></code></a></p></li>
+<li><p><strong>AX</strong> (List[<cite>vector</cite>]) – The product <span class="math notranslate nohighlight">\(A x X_{i}\)</span> for each <cite>X_{i}</cite> in <cite>X</cite>, in that
+order. Where <cite>A</cite> is the hermitian matrix to be diagonalized.
+<cite>len(AX) == len(X)</cite></p></li>
+<li><p><strong>n</strong> (<em>int</em>) – The number of products that were evaluated. If the object implements
+product caching this may be less than len(X)</p></li>
+<li><p>Expected by <a class="reference internal" href="psi4.driver.p4util.hamiltonian_solver.html#psi4.driver.p4util.hamiltonian_solver" title="psi4.driver.p4util.hamiltonian_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">hamiltonian_solver()</span></code></a></p></li>
+<li><p><strong>H1X</strong> (List[<cite>vector</cite>]) – The product <span class="math notranslate nohighlight">\(H1 x X_{i}\)</span> for each <cite>X_{i}</cite> in <cite>X</cite>, in that
+order. Where H1 is described in <a class="reference internal" href="psi4.driver.p4util.hamiltonian_solver.html#psi4.driver.p4util.hamiltonian_solver" title="psi4.driver.p4util.hamiltonian_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">hamiltonian_solver()</span></code></a>.
+<code class="docutils literal notranslate"><span class="pre">len(H1X)</span> <span class="pre">==</span> <span class="pre">len(X)</span></code></p></li>
+<li><p><strong>H2X</strong> (List[<cite>vector</cite>]) – The product <span class="math notranslate nohighlight">\(H2 x X_{i}\)</span> for each <cite>X_{i}</cite> in <cite>X</cite>, in that
+order. Where H2 is described in <a class="reference internal" href="psi4.driver.p4util.hamiltonian_solver.html#psi4.driver.p4util.hamiltonian_solver" title="psi4.driver.p4util.hamiltonian_solver"><code class="xref py py-func docutils literal notranslate"><span class="pre">hamiltonian_solver()</span></code></a>.
+<code class="docutils literal notranslate"><span class="pre">len(H2X)</span> <span class="pre">==</span> <span class="pre">len(X)</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.p4util.SolverEngine.new_vector">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_vector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#SolverEngine.new_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.SolverEngine.new_vector" title="Link to this definition">¶</a></dt>
+<dd><p>Return a new <cite>vector</cite> object.</p>
+<p>The solver is oblivious to the data structure used for a <cite>vector</cite> this
+method provides the engine with a means to create <cite>vector</cite> like
+quantities.</p>
+<p>The engine calls this method with no arguments. So any defined by the
+engine for its own use should be optional</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> – This should be a new vector object with the correct dimensions,
+assumed to be zeroed out</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>singlet <cite>vector</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.p4util.SolverEngine.precondition">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">precondition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R_k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w_k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#SolverEngine.precondition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.SolverEngine.precondition" title="Link to this definition">¶</a></dt>
+<dd><p>Apply the preconditioner to a Residual vector</p>
+<p>The preconditioner is usually defined as <span class="math notranslate nohighlight">\((w_k - D_{i})^-1\)</span> where
+<cite>D</cite> is an approximation of the diagonal of the matrix that is being
+diagonalized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>R_k</strong> (single <cite>vector</cite>) – The residual vector</p></li>
+<li><p><strong>w_k</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The eigenvalue associated with this vector</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>new_X_k</strong> – The preconditioned residual vector, a correction vector that will be
+used to augment the guess space</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>single <cite>vector</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.p4util.SolverEngine.residue">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">residue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">so_prop_ints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#SolverEngine.residue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.SolverEngine.residue" title="Link to this definition">¶</a></dt>
+<dd><p>Compute residue</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – The single <cite>vector</cite> to use to compute the property.</p></li>
+<li><p><strong>so_prop_ints</strong> – Property integrals in SO basis for the desired transition property.</p></li>
+<li><p><strong>prefactor</strong> – Optional float scaling factor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>residue</strong> – The transition property.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.p4util.SolverEngine.vector_axpy">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vector_axpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#SolverEngine.vector_axpy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.SolverEngine.vector_axpy" title="Link to this definition">¶</a></dt>
+<dd><p>Compute scaled <cite>vector</cite> addition operation <cite>a*X + Y</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The scale factor applied to <cite>X</cite></p></li>
+<li><p><strong>X</strong> (singlet <cite>vector</cite>) – The <cite>vector</cite> which will be scaled and added to <cite>Y</cite></p></li>
+<li><p><strong>Y</strong> (single <cite>vector</cite>) – The <cite>vector</cite> which the result of <cite>a*X</cite> is added to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Y</strong> – The solver assumes that Y is updated, and returned. So it is safe to
+avoid a copy of Y if possible</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>single <cite>vector</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.p4util.SolverEngine.vector_copy">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vector_copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#SolverEngine.vector_copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.SolverEngine.vector_copy" title="Link to this definition">¶</a></dt>
+<dd><p>Make a copy of a <cite>vector</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (single <cite>vector</cite>) – The <cite>vector</cite> to copy</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>X’</strong> – A copy of <cite>X</cite> should be distinct object that can be modified
+independently of the passed object, Has the same data when returned.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>single <cite>vector</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.p4util.SolverEngine.vector_dot">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vector_dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#SolverEngine.vector_dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.SolverEngine.vector_dot" title="Link to this definition">¶</a></dt>
+<dd><p>Compute a dot product between two <cite>vectors</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (single <cite>vector</cite>) – </p></li>
+<li><p><strong>Y</strong> (single <cite>vector</cite>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>a</strong> – The dot product  (X x Y)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.driver.p4util.SolverEngine.vector_scale">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vector_scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/psi4/driver/p4util/solvers.html#SolverEngine.vector_scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#psi4.driver.p4util.SolverEngine.vector_scale" title="Link to this definition">¶</a></dt>
+<dd><p>Scale a vector by some factor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3.10/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The scale facor</p></li>
+<li><p><strong>X</strong> (single <cite>vector</cite>) – The vector that will be scaled</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>X</strong> – The solver assumes that the passed vector is modifed. So it is save
+to avoid a copy of X if possible.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>single <cite>vector</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="../index.html">
+    <img class="logo" src="../_static/psi4square.png" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel"
+                                       aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/></div>
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="../index.html">table of contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">SolverEngine</a><ul>
+<li><a class="reference internal" href="#psi4.driver.p4util.SolverEngine"><code class="docutils literal notranslate"><span class="pre">SolverEngine</span></code></a><ul>
+<li><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.compute_products"><code class="docutils literal notranslate"><span class="pre">SolverEngine.compute_products()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.new_vector"><code class="docutils literal notranslate"><span class="pre">SolverEngine.new_vector()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.precondition"><code class="docutils literal notranslate"><span class="pre">SolverEngine.precondition()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.residue"><code class="docutils literal notranslate"><span class="pre">SolverEngine.residue()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.vector_axpy"><code class="docutils literal notranslate"><span class="pre">SolverEngine.vector_axpy()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.vector_copy"><code class="docutils literal notranslate"><span class="pre">SolverEngine.vector_copy()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.vector_dot"><code class="docutils literal notranslate"><span class="pre">SolverEngine.vector_dot()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.driver.p4util.SolverEngine.vector_scale"><code class="docutils literal notranslate"><span class="pre">SolverEngine.vector_scale()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../external_apis.html" title="External API Objects"
+             ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="psi4.driver.p4util.OptionsState.html" title="OptionsState"
+             ><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.driver.p4util.SolverEngine.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/81a2207">1.9a1.dev58</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../psi4api.html" ><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> API: Linking C++ and Python</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">SolverEngine</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2023, The Psi4 Project.
+      Last updated on Friday, 06 October 2023 02:48AM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
