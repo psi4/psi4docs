@@ -1,0 +1,691 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="_static/documentation_options.js?v=10316f37"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    
+    
+     
+        <script src="_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
+    <link rel="icon" href="_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interface to DFTD3 by S. Grimme" href="dftd3.html" />
+    <link rel="prev" title="Interface to CPPE by M. Scheurer" href="cppe.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="dftd3.html" title="Interface to DFTD3 by S. Grimme"
+             accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="cppe.html" title="Interface to CPPE by M. Scheurer"
+             accesskey="P"><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/ddx.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/d7290c7">1.9a1.dev61</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="interfacing.html" accesskey="U">Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="interface-to-ddx-by-a-mikhalev-a-jha-m-nottoli-and-m-f-herbst">
+<span id="sec-ddx"></span><span id="index-0"></span><h1>Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst<a class="headerlink" href="#interface-to-ddx-by-a-mikhalev-a-jha-m-nottoli-and-m-f-herbst" title="Link to this heading">¶</a></h1>
+<p><em>Code author: Michael F. Herbst</em></p>
+<p><em>Section author: Michael F. Herbst</em></p>
+<p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__ddx.html#apdx-ddx"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__ddx.html#apdx-ddx-psivar"><span class="std std-ref">PSI Variables</span></a></p>
+<a class="reference external image-reference" href="https://github.com/ddsolvation/ddX"><img alt="https://img.shields.io/badge/home-ddx-informational.svg" src="https://img.shields.io/badge/home-ddx-informational.svg" /></a>
+<br><a class="reference external image-reference" href="https://ddsolvation.github.io/ddX/"><img alt="https://img.shields.io/badge/docs-latest-5077AB.svg" src="https://img.shields.io/badge/docs-latest-5077AB.svg" /></a>
+<p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> contains code to interface to the ddx FORTRAN library developed
+by A. Mikhalev <em>et. al.</em>. The library provides a linear-scaling implementation
+of standard continuum solvation models using a domain-decomposition ansatz
+<a class="reference internal" href="bibliography.html#cances-2013-054111" id="id1"><span>[Cances:2013:054111]</span></a> <a class="reference internal" href="bibliography.html#stamm-2016-054101" id="id2"><span>[Stamm:2016:054101]</span></a>.
+Currently the conductor-like screening model (COSMO) <a class="reference internal" href="bibliography.html#klamt-1993-799" id="id3"><span>[Klamt:1993:799]</span></a> <a class="reference internal" href="bibliography.html#lipparini-2014-184108" id="id4"><span>[Lipparini:2014:184108]</span></a>,
+the polarisable continuum model (PCM) <a class="reference internal" href="bibliography.html#tomasi-2005-2999" id="id5"><span>[Tomasi:2005:2999]</span></a> <a class="reference internal" href="bibliography.html#nottoli-2019-6061" id="id6"><span>[Nottoli:2019:6061]</span></a>
+and the linearized poisson-boltzmann model (LPB) <a class="reference internal" href="bibliography.html#lu-2008-973" id="id7"><span>[Lu:2008:973]</span></a> <a class="reference internal" href="bibliography.html#jha-2023-104105" id="id8"><span>[Jha:2023:104105]</span></a> are supported.
+No additional licence or configuration is required to use ddx with Psi4.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p><strong>Binary</strong></p>
+<ul>
+<li><a class="reference external image-reference" href="https://anaconda.org/conda-forge/pyddx"><img alt="https://anaconda.org/conda-forge/pyddx/badges/version.svg" src="https://anaconda.org/conda-forge/pyddx/badges/version.svg" /></a>
+</li>
+<li><a class="reference external image-reference" href="https://pypi.org/project/pyddx"><img alt="https://img.shields.io/pypi/v/pyddx" src="https://img.shields.io/pypi/v/pyddx" /></a>
+</li>
+<li><p>ddx is available for Linux and macOS in form of the <code class="docutils literal notranslate"><span class="pre">pyddx</span></code> package
+on conda-forge and on pypi.</p></li>
+<li><p>To install from conda run <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">pyddx</span> <span class="pre">-c</span> <span class="pre">conda-forge</span></code>.</p></li>
+<li><p>To remove a conda installation, <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">remove</span> <span class="pre">pyddx</span></code>.</p></li>
+</ul>
+<p><strong>Source</strong></p>
+<ul>
+<li><a class="reference external image-reference" href="https://github.com/ddsolvation/ddx"><img alt="https://img.shields.io/github/tag-date/ddsolvation/ddx.svg?maxAge=2592000" src="https://img.shields.io/github/tag-date/ddsolvation/ddx.svg?maxAge=2592000" /></a>
+</li>
+<li><p>If using <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> built from source and you want ddx installed as well,
+enable it as a feature with <strong class="makevar">ENABLE_ddx</strong>,
+and let the build system fetch and install it.</p></li>
+</ul>
+</section>
+<section id="using-dd-based-continum-solvation-models">
+<span id="sec-usingddx"></span><h2>Using dd-based continum solvation models<a class="headerlink" href="#using-dd-based-continum-solvation-models" title="Link to this heading">¶</a></h2>
+<p>In <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> two option to enable continuum solvation models
+are currently implemented using either the PCMSolver or ddx package.
+PCMSolver is based on a boundary-element discretisation <a class="reference internal" href="bibliography.html#cances-1998-309" id="id9"><span>[Cances:1998:309]</span></a>,
+while ddx is based on a domain decomposition approach
+<a class="reference internal" href="bibliography.html#cances-2013-054111" id="id10"><span>[Cances:2013:054111]</span></a> making it linear scaling.
+For more details about PCMSolver see the <a class="reference internal" href="pcmsolver.html#sec-pcmsolver"><span class="std std-ref">section on PCMsolver</span></a>.
+For a concise introduction to the
+<a class="reference external" href="https://ddsolvation.github.io/ddX/md_docs_theory.html">theory behind ddx</a>
+or further <a class="reference external" href="https://ddsolvation.github.io/ddX/label_references.html">literature references</a>
+see the ddx documentation.</p>
+<p>The usage of ddx-based solvation models is enabled
+by specifying <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX-GLOBALS"><span class="xref std std-term">DDX</span></a> <code class="docutils literal notranslate"><span class="pre">true</span></code> in your input file.
+The solvation model itself is selected using the <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_MODEL-DDX"><span class="xref std std-term">DDX_MODEL</span></a> parameter.
+Additionally the definition of the solvent and solute cavity is required
+and further parameters allow to influence details of discretisation,
+numerical integration and iterative solvers,
+see the next sections for details.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At present PCM can only be used for energy calculations with SCF
+wavefunctions in the PTE approximation <a class="reference internal" href="bibliography.html#cammi-2009-164104" id="id11"><span>[Cammi:2009:164104]</span></a>.
+All ERI algorithms (<code class="docutils literal notranslate"><span class="pre">PK</span></code>, <code class="docutils literal notranslate"><span class="pre">OUT_OF_CORE</span></code>, <code class="docutils literal notranslate"><span class="pre">DIRECT</span></code>, <code class="docutils literal notranslate"><span class="pre">DF</span></code>, <code class="docutils literal notranslate"><span class="pre">CD</span></code>) are supported.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>linear response calculations (static polarisabilities, TD-SCF) are supported for RHF/UHF if available.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Currently the ddx interface <strong>cannot</strong> exploit molecular point group symmetry.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Analytic gradients and Hessians are currently <strong>not available</strong>
+with dd-based solvation models.</p>
+</div>
+<p>A minimal input for a Hartree–Fock calculation with dd-based PCM would look like
+the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">psi4</span>
+<span class="n">nh3</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    N     -0.0000000001    -0.1040380466      0.0000000000</span>
+<span class="s2">    H     -0.9015844116     0.4818470201     -1.5615900098</span>
+<span class="s2">    H     -0.9015844116     0.4818470201      1.5615900098</span>
+<span class="s2">    H      1.8031688251     0.4818470204      0.0000000000</span>
+<span class="s2">    symmetry c1</span>
+<span class="s2">    no_reorient</span>
+<span class="s2">    no_com</span>
+<span class="s2">    units bohr</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">psi4</span><span class="o">.</span><span class="n">set_options</span><span class="p">({</span>
+    <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="s2">&quot;sto-3g&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;scf_type&quot;</span><span class="p">:</span> <span class="s2">&quot;pk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ddx&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s2">&quot;ddx_model&quot;</span><span class="p">:</span>     <span class="s2">&quot;pcm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ddx_solvent&quot;</span><span class="p">:</span>   <span class="s2">&quot;water&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ddx_radii_set&quot;</span><span class="p">:</span> <span class="s2">&quot;uff&quot;</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="n">scf_e</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="solvent-model-and-solvent-cavity-definition">
+<h2>Solvent model and solvent cavity definition<a class="headerlink" href="#solvent-model-and-solvent-cavity-definition" title="Link to this heading">¶</a></h2>
+<p>Beyond setting <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX-GLOBALS"><span class="xref std std-term">DDX</span></a> to <code class="docutils literal notranslate"><span class="pre">true</span></code> and selecting
+a solvent model using <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_MODEL-DDX"><span class="xref std std-term">DDX_MODEL</span></a>,
+the definition of the solvent is mandatory.
+Regularly one might want to influence the setup of the solvent
+cavity as well.</p>
+<p>The <strong>solvent</strong> can be defined either by directly providing a dielectric
+constant using <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLVENT_EPSILON-DDX"><span class="xref std std-term">DDX_SOLVENT_EPSILON</span></a> or by looking up the dielectric
+constant in from a solvent trivial name provided by <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLVENT-DDX"><span class="xref std std-term">DDX_SOLVENT</span></a>
+(e.g. <code class="docutils literal notranslate"><span class="pre">water</span></code>, <code class="docutils literal notranslate"><span class="pre">ethanol</span></code>, <code class="docutils literal notranslate"><span class="pre">cis-1,2-dimethylcyclohexane</span></code>).
+By convention solvent names are all lowercase and use dashes (<code class="docutils literal notranslate"><span class="pre">-</span></code>) to separate
+quantifiers like <code class="docutils literal notranslate"><span class="pre">o</span></code>, <code class="docutils literal notranslate"><span class="pre">n</span></code> etc.
+The full list understood by ddx can be obtained using</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyddx</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pyddx</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">solvent_epsilon</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>For when an LPB solvent model is selected (<a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_MODEL-DDX"><span class="xref std std-term">DDX_MODEL</span></a> is <code class="docutils literal notranslate"><span class="pre">LPB</span></code>)
+additionally the <strong>Debye-Hückel parameter</strong> <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLVENT_KAPPA-DDX"><span class="xref std std-term">DDX_SOLVENT_KAPPA</span></a> needs to be provided
+(in units of inverse Bohr or inverse Angström, depending on the unit used to define
+the molecular geometry). <code class="docutils literal notranslate"><span class="pre">pyddx</span></code> provides a handy utility function to compute
+the Debye-Hückel parameter. For example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyddx</span>
+<span class="kn">from</span> <span class="nn">qcelemental</span> <span class="kn">import</span> <span class="n">constants</span>
+
+<span class="n">list_of_ions</span> <span class="o">=</span> <span class="p">[(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)]</span>
+<span class="n">dielectric_constant</span> <span class="o">=</span> <span class="n">pyddx</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">solvent_epsilon</span><span class="p">[</span><span class="s2">&quot;water&quot;</span><span class="p">]</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="mf">298.15</span>  <span class="c1"># Kelvin</span>
+<span class="n">kappa_invbohr</span> <span class="o">=</span> <span class="n">pyddx</span><span class="o">.</span><span class="n">solvent_kappa</span><span class="p">(</span><span class="n">list_of_ions</span><span class="p">,</span> <span class="n">dielectric_constant</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span>
+<span class="n">kappa_invang</span> <span class="o">=</span> <span class="n">kappa_invbohr</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+</pre></div>
+</div>
+<p>computes the parameter (in inverse Angström) for a 0.1 mol/l solution of sodium
+chloride in water, thus a solution woith 0.1 mol/l of a <code class="docutils literal notranslate"><span class="pre">+1</span></code>-charged ion
+and 0.1 mol/l of a <code class="docutils literal notranslate"><span class="pre">-1</span></code>-charged ion.</p>
+<p>The <strong>cavity</strong> in ddx is defined as a union of spheres around each atom.
+Usually the spehere radii for each atom are determined using a standard
+set of tabulated radii per atomic species, determined by the <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII_SET-DDX"><span class="xref std std-term">DDX_RADII_SET</span></a> parameter.
+Currently <code class="docutils literal notranslate"><span class="pre">bondi</span></code> <a class="reference internal" href="bibliography.html#bondi-1964-441" id="id12"><span>[Bondi:1964:441]</span></a> and <code class="docutils literal notranslate"><span class="pre">uff</span></code> <a class="reference internal" href="bibliography.html#rappe-1992-114" id="id13"><span>[Rappe:1992:114]</span></a>
+are supported for <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII_SET-DDX"><span class="xref std std-term">DDX_RADII_SET</span></a> with <code class="docutils literal notranslate"><span class="pre">uff</span></code> selected by default.
+These radius values are conventionally scaled by an additional factor before use,
+conventionally 1.1 for <code class="docutils literal notranslate"><span class="pre">uff</span></code> and 1.2 for <code class="docutils literal notranslate"><span class="pre">bondi</span></code>. Customisation of the scaling
+is possible using the <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII_SCALING-DDX"><span class="xref std std-term">DDX_RADII_SCALING</span></a> parameter.
+A more fine-grained control over the sphere radii is available by explicitly providing
+a list of radii (one per atom, exactly in the order of the input geometry)
+using the <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII-DDX"><span class="xref std std-term">DDX_RADII</span></a> parameter. Note that the same unit as for the molecular
+input is expected for the radii.</p>
+<section id="ddx">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX-GLOBALS"><span class="xref std std-term">DDX</span></a><a class="headerlink" href="#ddx" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>DDX boolean for ddx module</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-model">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_MODEL-DDX"><span class="xref std std-term">DDX_MODEL</span></a><a class="headerlink" href="#ddx-model" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Switch available solvation models</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: PCM, COSMO, LPB</p></li>
+<li><p><strong>Default</strong>: PCM</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-radii">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII-DDX"><span class="xref std std-term">DDX_RADII</span></a><a class="headerlink" href="#ddx-radii" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Custom cavity radii. One per atom, uses the unit of the molecule.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: array</p></li>
+<li><p><strong>Default</strong>: No Default</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-radii-scaling">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII_SCALING-DDX"><span class="xref std std-term">DDX_RADII_SCALING</span></a><a class="headerlink" href="#ddx-radii-scaling" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Scaling factor for cavity spheres. Ignored if RADII is set. The default depends on the radii set chosen.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1.1</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-radii-set">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_RADII_SET-DDX"><span class="xref std std-term">DDX_RADII_SET</span></a><a class="headerlink" href="#ddx-radii-set" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Radius set for cavity spheres. Ignored if RADII is set.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: UFF, BONDI</p></li>
+<li><p><strong>Default</strong>: UFF</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-solvent-epsilon">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLVENT_EPSILON-DDX"><span class="xref std std-term">DDX_SOLVENT_EPSILON</span></a><a class="headerlink" href="#ddx-solvent-epsilon" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Dielectric constant of the solvent to use</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 0</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-solvent">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLVENT-DDX"><span class="xref std std-term">DDX_SOLVENT</span></a><a class="headerlink" href="#ddx-solvent" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Solvent to use. Not case sensitive. Ignored if SOLVENT_EPSILON is set.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Default</strong>: No Default</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-solvent-kappa">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLVENT_KAPPA-DDX"><span class="xref std std-term">DDX_SOLVENT_KAPPA</span></a><a class="headerlink" href="#ddx-solvent-kappa" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Debye-Hückel parameter of the solvent to use. Ignored if DDX_MODEL is not LPB; mandatory for LPB. Uses the unit of the molecule (i.e. either ang^{-1} or bohr^{-1}).</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 0</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="numerical-integration-and-discretisation-parameters">
+<h2>Numerical integration and discretisation parameters<a class="headerlink" href="#numerical-integration-and-discretisation-parameters" title="Link to this heading">¶</a></h2>
+<p>These parameters can be altered to balance the cost and accuracy
+of the implict description of the solvation.</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLUTE_RADIAL_POINTS-DDX"><span class="xref std std-term">DDX_SOLUTE_RADIAL_POINTS</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLUTE_SPHERICAL_POINTS-DDX"><span class="xref std std-term">DDX_SOLUTE_SPHERICAL_POINTS</span></a> influence
+the accuracy of the numerical grid used to obtain the representation
+of the electric potential / field of the solute density,
+since a standard DFT integration grid is used to obtain these quantities.
+In contrast to the integration of DFT quantities much lower accuracy
+is required, such that for this step considerably smaller grids are employed.
+If extremely high accuracy reference solutions are required, the DDX
+DFT integration parameters might need to be increased, but this is rarely needed.</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_LMAX-DDX"><span class="xref std std-term">DDX_LMAX</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_N_LEBEDEV-DDX"><span class="xref std std-term">DDX_N_LEBEDEV</span></a> determine the accuracy of the computations
+on the boundary of the spheres around each atom performed by DDX. <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_LMAX-DDX"><span class="xref std std-term">DDX_LMAX</span></a>
+determines the largest angular momentum of the spherical harmonics basis used
+to discretise quantities on the atomic spheres and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_N_LEBEDEV-DDX"><span class="xref std std-term">DDX_N_LEBEDEV</span></a> determines the
+number of points of the Lebedev angular grid used for integration on the spheres.
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_N_LEBEDEV-DDX"><span class="xref std std-term">DDX_N_LEBEDEV</span></a> should be chosen higher than <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLUTE_SPHERICAL_POINTS-DDX"><span class="xref std std-term">DDX_SOLUTE_SPHERICAL_POINTS</span></a>
+and the defaults are usually good.</p>
+<section id="ddx-solute-radial-points">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLUTE_RADIAL_POINTS-DDX"><span class="xref std std-term">DDX_SOLUTE_RADIAL_POINTS</span></a><a class="headerlink" href="#ddx-solute-radial-points" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Number of radial points used to compute the integrals for DDX calculations</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 35</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-solute-spherical-points">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLUTE_SPHERICAL_POINTS-DDX"><span class="xref std std-term">DDX_SOLUTE_SPHERICAL_POINTS</span></a><a class="headerlink" href="#ddx-solute-spherical-points" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Number of spherical points used to compute the solute electric potential/field integrals for DDX calculations (A <a class="reference internal" href="dft.html#table-lebedevorder"><span class="std std-ref">Lebedev Points</span></a> number)</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 110</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-lmax">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_LMAX-DDX"><span class="xref std std-term">DDX_LMAX</span></a><a class="headerlink" href="#ddx-lmax" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Maximal degree of modelling spherical harmonics</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 9</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-n-lebedev">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_N_LEBEDEV-DDX"><span class="xref std std-term">DDX_N_LEBEDEV</span></a><a class="headerlink" href="#ddx-n-lebedev" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Number of Lebedev grid points to use. (A <a class="reference internal" href="dft.html#table-lebedevorder"><span class="std std-ref">Lebedev Points</span></a> number)</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 302</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="iterative-solver-parameters">
+<h2>Iterative solver parameters<a class="headerlink" href="#iterative-solver-parameters" title="Link to this heading">¶</a></h2>
+<p>These parameters determine how the forward and adjoint linear systems
+of the solvation model are solved. Usually these parameters do not need
+to be changed. Occasionally <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLVATION_CONVERGENCE-DDX"><span class="xref std std-term">DDX_SOLVATION_CONVERGENCE</span></a> might need to be adapted,
+e.g. if only a very crude or a highly accurate SCF solution is targeted.</p>
+<section id="ddx-diis-max-vecs">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_DIIS_MAX_VECS-DDX"><span class="xref std std-term">DDX_DIIS_MAX_VECS</span></a><a class="headerlink" href="#ddx-diis-max-vecs" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Number of previous iterates to use in DIIS acceleration inside DDX</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 20</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-maxiter">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_MAXITER-DDX"><span class="xref std std-term">DDX_MAXITER</span></a><a class="headerlink" href="#ddx-maxiter" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Maximal number of iterations used inside DDX</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 100</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-solvation-convergence">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SOLVATION_CONVERGENCE-DDX"><span class="xref std std-term">DDX_SOLVATION_CONVERGENCE</span></a><a class="headerlink" href="#ddx-solvation-convergence" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Tolerance to which DDX linear systems are solved</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
+<li><p><strong>Default</strong>: 1e-8</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="further-keywords-for-ddx">
+<h2>Further keywords for ddx<a class="headerlink" href="#further-keywords-for-ddx" title="Link to this heading">¶</a></h2>
+<p>These parameter should rarely require changes.
+In particular <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_ETA-DDX"><span class="xref std std-term">DDX_ETA</span></a>, <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SHIFT-DDX"><span class="xref std std-term">DDX_SHIFT</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_LOGFILE-DDX"><span class="xref std std-term">DDX_LOGFILE</span></a>
+are expert parameters and should not be altered beyond debugging.</p>
+<section id="ddx-eta">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_ETA-DDX"><span class="xref std std-term">DDX_ETA</span></a><a class="headerlink" href="#ddx-eta" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Regularization parameter for characteristic function of sphere overlap. Advanced parameter, which usually does not need to be modified. Valid values are within the range [0, 1].</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 0.1</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-fmm-local-lmax">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_FMM_LOCAL_LMAX-DDX"><span class="xref std std-term">DDX_FMM_LOCAL_LMAX</span></a><a class="headerlink" href="#ddx-fmm-local-lmax" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Maximal degree of local spherical harmonics (near-field FMM interations).</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 6</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-fmm-multipole-lmax">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_FMM_MULTIPOLE_LMAX-DDX"><span class="xref std std-term">DDX_FMM_MULTIPOLE_LMAX</span></a><a class="headerlink" href="#ddx-fmm-multipole-lmax" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Maximal degree of multipole spherical harmonics (far-field FMM interactions). Using the same value as <a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_LMAX-DDX"><span class="xref std std-term">DDX_LMAX</span></a> is recommended and done by default.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 9</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-fmm">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_FMM-DDX"><span class="xref std std-term">DDX_FMM</span></a><a class="headerlink" href="#ddx-fmm" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Use the fast multipole method to accelerate the solver</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: true</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-incore">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_INCORE-DDX"><span class="xref std std-term">DDX_INCORE</span></a><a class="headerlink" href="#ddx-incore" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Use an in-core version, which uses more memory, but is generally faster</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-logfile">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_LOGFILE-DDX"><span class="xref std std-term">DDX_LOGFILE</span></a><a class="headerlink" href="#ddx-logfile" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Logfile to dump a full trace of the DDX solver history for debugging.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Default</strong>: No Default</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ddx-shift">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-DDX_SHIFT-DDX"><span class="xref std std-term">DDX_SHIFT</span></a><a class="headerlink" href="#ddx-shift" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Shift for characteristic function of sphere overlap. Advanced parameter, which usually does not need to be modified. Valid values are within the range [-1, 1] with -100 denoting an automatic selection of the best shift.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: -100.0</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="how-to-configure-ddx-for-building-psi4">
+<span id="cmake-ddx"></span><h2>How to configure ddx for building Psi4<a class="headerlink" href="#how-to-configure-ddx-for-building-psi4" title="Link to this heading">¶</a></h2>
+<p><strong>Role and Dependencies</strong></p>
+<ul class="simple">
+<li><p>Role — In <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, ddx is a library for providing fast continuum
+solvation models.</p></li>
+<li><p>Downstream Dependencies — <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> (<span class="math notranslate nohighlight">\(\Leftarrow\)</span> optional) ddx</p></li>
+<li><p>Upstream Dependencies — ddx <span class="math notranslate nohighlight">\(\Leftarrow\)</span> Fortran</p></li>
+</ul>
+<p><strong>CMake Variables</strong></p>
+<ul class="simple">
+<li><p><strong class="makevar">ENABLE_ddx</strong> — CMake variable toggling whether Psi4 automatically installs ddx</p></li>
+</ul>
+<p><strong>Examples</strong></p>
+<ol class="upperalpha simple">
+<li><p>Build and install ddx if needed</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DENABLE_ddx<span class="o">=</span>ON
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="upperalpha simple" start="2">
+<li><p>Build <em>without</em> ddx</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="index.html">
+    <img class="logo" src="_static/psi4square.png" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel"
+                                       aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/></div>
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="index.html">table of contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#using-dd-based-continum-solvation-models">Using dd-based continum solvation models</a></li>
+<li><a class="reference internal" href="#solvent-model-and-solvent-cavity-definition">Solvent model and solvent cavity definition</a><ul>
+<li><a class="reference internal" href="#ddx"><span class="xref std std-term">DDX</span></a></li>
+<li><a class="reference internal" href="#ddx-model"><span class="xref std std-term">DDX_MODEL</span></a></li>
+<li><a class="reference internal" href="#ddx-radii"><span class="xref std std-term">DDX_RADII</span></a></li>
+<li><a class="reference internal" href="#ddx-radii-scaling"><span class="xref std std-term">DDX_RADII_SCALING</span></a></li>
+<li><a class="reference internal" href="#ddx-radii-set"><span class="xref std std-term">DDX_RADII_SET</span></a></li>
+<li><a class="reference internal" href="#ddx-solvent-epsilon"><span class="xref std std-term">DDX_SOLVENT_EPSILON</span></a></li>
+<li><a class="reference internal" href="#ddx-solvent"><span class="xref std std-term">DDX_SOLVENT</span></a></li>
+<li><a class="reference internal" href="#ddx-solvent-kappa"><span class="xref std std-term">DDX_SOLVENT_KAPPA</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#numerical-integration-and-discretisation-parameters">Numerical integration and discretisation parameters</a><ul>
+<li><a class="reference internal" href="#ddx-solute-radial-points"><span class="xref std std-term">DDX_SOLUTE_RADIAL_POINTS</span></a></li>
+<li><a class="reference internal" href="#ddx-solute-spherical-points"><span class="xref std std-term">DDX_SOLUTE_SPHERICAL_POINTS</span></a></li>
+<li><a class="reference internal" href="#ddx-lmax"><span class="xref std std-term">DDX_LMAX</span></a></li>
+<li><a class="reference internal" href="#ddx-n-lebedev"><span class="xref std std-term">DDX_N_LEBEDEV</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iterative-solver-parameters">Iterative solver parameters</a><ul>
+<li><a class="reference internal" href="#ddx-diis-max-vecs"><span class="xref std std-term">DDX_DIIS_MAX_VECS</span></a></li>
+<li><a class="reference internal" href="#ddx-maxiter"><span class="xref std std-term">DDX_MAXITER</span></a></li>
+<li><a class="reference internal" href="#ddx-solvation-convergence"><span class="xref std std-term">DDX_SOLVATION_CONVERGENCE</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#further-keywords-for-ddx">Further keywords for ddx</a><ul>
+<li><a class="reference internal" href="#ddx-eta"><span class="xref std std-term">DDX_ETA</span></a></li>
+<li><a class="reference internal" href="#ddx-fmm-local-lmax"><span class="xref std std-term">DDX_FMM_LOCAL_LMAX</span></a></li>
+<li><a class="reference internal" href="#ddx-fmm-multipole-lmax"><span class="xref std std-term">DDX_FMM_MULTIPOLE_LMAX</span></a></li>
+<li><a class="reference internal" href="#ddx-fmm"><span class="xref std std-term">DDX_FMM</span></a></li>
+<li><a class="reference internal" href="#ddx-incore"><span class="xref std std-term">DDX_INCORE</span></a></li>
+<li><a class="reference internal" href="#ddx-logfile"><span class="xref std std-term">DDX_LOGFILE</span></a></li>
+<li><a class="reference internal" href="#ddx-shift"><span class="xref std std-term">DDX_SHIFT</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-to-configure-ddx-for-building-psi4">How to configure ddx for building Psi4</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="dftd3.html" title="Interface to DFTD3 by S. Grimme"
+             ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="cppe.html" title="Interface to CPPE by M. Scheurer"
+             ><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/ddx.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/d7290c7">1.9a1.dev61</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="interfacing.html" >Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">Interface to ddx by A. Mikhalev, A. Jha, M. Nottoli and M. F. Herbst</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2023, The Psi4 Project.
+      Last updated on Friday, 06 October 2023 05:59AM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
