@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=387855cc"></script>
+    <script src="../../../_static/documentation_options.js?v=b981b06b"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/3cbf5c8">1.9a1.dev56</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/dfe7fe8">1.9a1.dev62</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -415,10 +415,33 @@
     <span class="c1"># QCFractal `next` database stores return_result, properties, and extras[&quot;qcvars&quot;] merged</span>
     <span class="c1">#   together and with lowercase keys. `to_qcschema_result` partitions properties back out,</span>
     <span class="c1">#   but we need to restore qcvars keys, types, and dimensions.</span>
+    <span class="c1"># QCFractal v0.51 starts saving space by removing qcvars whose qcvar.lower().replace(&quot; &quot;, &quot;_&quot;)</span>
+    <span class="c1">#   are defined, so we also need to reconstruct these.</span>
+    <span class="n">shared_qcvars</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">pv</span><span class="p">,</span> <span class="n">dpv</span> <span class="ow">in</span> <span class="n">atres</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">dpv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">pv</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;return_&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">pv</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_moment&quot;</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">pv</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;scf_one_electron_energy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;scf_two_electron_energy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;scf_vv10_energy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;scf_xc_energy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;scf_dispersion_correction_energy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;mp2_same_spin_correlation_energy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;mp2_opposite_spin_correlation_energy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ccsd_same_spin_correlation_energy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ccsd_opposite_spin_correlation_energy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ccsd_prt_pr_correlation_energy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ccsd_prt_pr_total_energy&quot;</span><span class="p">,</span>
+        <span class="p">]:</span>
+            <span class="k">continue</span>
+        <span class="n">shared_qcvars</span><span class="p">[</span><span class="n">pv</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">dpv</span>
     <span class="n">qcvars</span> <span class="o">=</span> <span class="n">atres</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;extra_properties&quot;</span><span class="p">)</span>
     <span class="n">qcvars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;return_result&quot;</span><span class="p">)</span>
     <span class="n">qcvars</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">p4util</span><span class="o">.</span><span class="n">plump_qcvar</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">qcvars</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-    <span class="n">atres</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">&quot;qcvars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">qcvars</span>
+    <span class="n">atres</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">&quot;qcvars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">qcvars</span><span class="p">,</span> <span class="o">**</span><span class="n">shared_qcvars</span><span class="p">}</span>
 
     <span class="k">return</span> <span class="n">atres</span>
 
@@ -489,7 +512,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/3cbf5c8">1.9a1.dev56</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/dfe7fe8">1.9a1.dev62</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -503,7 +526,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Wednesday, 04 October 2023 11:42AM.
+      Last updated on Monday, 06 November 2023 10:10PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
     <!-- cloud_sptheme 1.4 -->
