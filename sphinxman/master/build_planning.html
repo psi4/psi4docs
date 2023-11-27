@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=76e7fbbd"></script>
+    <script src="_static/documentation_options.js?v=fa20970e"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/74a3fa4">1.9a1.dev70</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/20ef2df">1.9a1.dev71</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -263,6 +263,7 @@ practically everything (including Python, CMake, NumPy, BLAS/LAPACK,
 Libint, and even C++ compilers on Linux and Mac) can be
 satisfied through conda. The links below give examples of how to configure
 that software for <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> and any notes and warnings pertaining to it.</p>
+<p>See <a class="reference external" href="https://github.com/psi4/psi4/blob/master/codedeps.yaml">psi4/codedeps.yaml</a> for a structured listing and history of dependencies.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#cmake-cxx"><span class="std std-ref">C++ and C Compilers</span></a> (C++17 compliant)</p></li>
 <li><p><a class="reference internal" href="#cmake-lapack"><span class="std std-ref">Optimized BLAS and LAPACK libraries</span></a> (preferably NOT one supplied by a standard
@@ -488,7 +489,11 @@ density-fitted.</p>
 <p>CMake doesn’t provide a summary for this (unless you want to try the CMake
 GUI, which the developers have never looked at). However, the top half of
 the main CMakeLists.txt is a passable summary:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>project(psi4
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>                                              # 3.1: CMAKE_CXX_STANDARD, BUILD_ALWAYS
+
+set(CMAKE_BUILD_TYPE &quot;Release&quot; CACHE STRING &quot;Choose the type of build.&quot;)  # foil Ninja Debug on Windows
+
+project(psi4
         LANGUAGES C CXX)
 set(psi4_URL &quot;http://www.psicode.org/&quot;)
 set(psi4_EMAIL &quot;psi4aiqc+cmake@gmail.com&quot;)
@@ -551,7 +556,7 @@ message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GEN
 #    - CMAKE_PREFIX_PATH &quot;Set to list of root directories to look for externally built add-ons and dependencies
 #      (e.g., /path/to/install-libint;/path/to/install-gdma where exists /path/to/install-libint/lib/libderiv.a)&quot;
 #    - ${AddOn}_DIR &quot;Set to directory containing ${AddOn}Config.cmake file to facilitate detection of external build&quot;
-#    - CMAKE_DISABLE_FIND_PACKAGE_${AddON} &quot;Set to OFF to force internal build&quot;
+#    - CMAKE_DISABLE_FIND_PACKAGE_${AddON} &quot;Set to ON to force internal build&quot;
 #    - CMAKE_INSIST_FIND_PACKAGE_${AddON} &quot;Set to ON to force external detect&quot;
 
 #  &lt;&lt;&lt;  Detecting BLAS/LAPACK  &gt;&gt;&gt;
@@ -613,10 +618,6 @@ if(ENABLE_gdma OR ENABLE_dkh OR ENABLE_erd OR ENABLE_PCMSolver)
   if(psi4_SKIP_ENABLE_Fortran)
     message(STATUS &quot;NOT Enabling Fortran&quot;)
   else()
-    enable_language(Fortran)
-    set(Fortran_ENABLED ON)  # communicate required languages with psi4-core
-    message(STATUS &quot;Enabling Fortran&quot;)
-  endif()
 </pre></div>
 </div>
 <p>Note that external projects will have their own sets of build
@@ -1934,7 +1935,7 @@ can show where the executable is.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/74a3fa4">1.9a1.dev70</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/20ef2df">1.9a1.dev71</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1948,7 +1949,7 @@ can show where the executable is.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Thursday, 23 November 2023 08:31AM.
+      Last updated on Monday, 27 November 2023 08:48PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
     <!-- cloud_sptheme 1.4 -->

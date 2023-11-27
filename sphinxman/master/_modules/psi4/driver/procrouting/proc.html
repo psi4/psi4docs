@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=76e7fbbd"></script>
+    <script src="../../../../_static/documentation_options.js?v=fa20970e"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/74a3fa4">1.9a1.dev70</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/20ef2df">1.9a1.dev71</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -4668,16 +4668,21 @@
     <span class="n">dimer_wfn</span> <span class="o">=</span> <span class="n">scf_helper</span><span class="p">(</span><span class="s1">&#39;RHF&#39;</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">sapt_dimer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">timer_off</span><span class="p">(</span><span class="s2">&quot;SAPT: Dimer SCF&quot;</span><span class="p">)</span>
 
+    <span class="n">necp_ab</span> <span class="o">=</span> <span class="n">dimer_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()</span><span class="o">.</span><span class="n">n_ecp_core</span><span class="p">()</span>
+    <span class="n">share_df_ints</span> <span class="o">=</span> <span class="p">((</span><span class="n">sapt_basis</span> <span class="o">==</span> <span class="s1">&#39;dimer&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ri</span> <span class="o">==</span> <span class="s1">&#39;DF&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">necp_ab</span> <span class="ow">and</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sapt_basis</span> <span class="o">==</span> <span class="s1">&#39;dimer&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ri</span> <span class="o">==</span> <span class="s1">&#39;DF&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">share_df_ints</span><span class="p">:</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Turning off SAPT DF integrals sharing because of ECP: </span><span class="si">{</span><span class="n">necp_ab</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">do_delta_mp2</span><span class="p">:</span>
         <span class="n">select_mp2</span><span class="p">(</span><span class="s2">&quot;mp2&quot;</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">=</span><span class="n">dimer_wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">mp2_corl_interaction_e</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;MP2 CORRELATION ENERGY&#39;</span><span class="p">)</span>
 
     <span class="n">optstash2</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">sapt_basis</span> <span class="o">==</span> <span class="s1">&#39;dimer&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ri</span> <span class="o">==</span> <span class="s1">&#39;DF&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">share_df_ints</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;DF_INTS_IO&#39;</span><span class="p">,</span> <span class="s1">&#39;LOAD&#39;</span><span class="p">)</span>
 
     <span class="c1"># Compute Monomer A wavefunction</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">sapt_basis</span> <span class="o">==</span> <span class="s1">&#39;dimer&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ri</span> <span class="o">==</span> <span class="s1">&#39;DF&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">share_df_ints</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">IO</span><span class="o">.</span><span class="n">change_file_namespace</span><span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="s1">&#39;dimer&#39;</span><span class="p">,</span> <span class="s1">&#39;monomerA&#39;</span><span class="p">)</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">IO</span><span class="o">.</span><span class="n">set_default_namespace</span><span class="p">(</span><span class="s1">&#39;monomerA&#39;</span><span class="p">)</span>
@@ -4694,7 +4699,7 @@
         <span class="n">mp2_corl_interaction_e</span> <span class="o">-=</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;MP2 CORRELATION ENERGY&#39;</span><span class="p">)</span>
 
     <span class="c1"># Compute Monomer B wavefunction</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">sapt_basis</span> <span class="o">==</span> <span class="s1">&#39;dimer&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ri</span> <span class="o">==</span> <span class="s1">&#39;DF&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">share_df_ints</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">IO</span><span class="o">.</span><span class="n">change_file_namespace</span><span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="s1">&#39;monomerA&#39;</span><span class="p">,</span> <span class="s1">&#39;monomerB&#39;</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">IO</span><span class="o">.</span><span class="n">set_default_namespace</span><span class="p">(</span><span class="s1">&#39;monomerB&#39;</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -5720,7 +5725,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/74a3fa4">1.9a1.dev70</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/20ef2df">1.9a1.dev71</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5734,7 +5739,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Thursday, 23 November 2023 08:31AM.
+      Last updated on Monday, 27 November 2023 08:48PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
     <!-- cloud_sptheme 1.4 -->
