@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=699d7837"></script>
+    <script src="_static/documentation_options.js?v=bd12d02a"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/manage_release.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/846597a">1.9a1.dev73</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/bcdf520">1.9a1.dev75</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -125,7 +125,9 @@
 <section id="annual">
 <span id="faq-annualprocedure"></span><h2>Annual<a class="headerlink" href="#annual" title="Link to this heading">¶</a></h2>
 <ul class="simple">
+<li><p><a class="reference internal" href="#on-january-first">On January first</a></p></li>
 <li><p><a class="reference internal" href="#update-copyright-year">Update copyright year</a></p></li>
+<li><p><a class="reference internal" href="#update-counter-scripts">Update counter scripts</a></p></li>
 </ul>
 </section>
 <section id="pre-release-e-g-v1-3rc1">
@@ -136,45 +138,54 @@
 <li><p><a class="reference internal" href="#anticipate-next-release">Anticipate next release</a></p></li>
 <li><p><a class="reference internal" href="#build-conda-ecosystem-stack">Build Conda ecosystem stack</a></p></li>
 <li><p><a class="reference internal" href="#tag-pre-release">Tag (pre)release</a></p></li>
-<li><p><a class="reference internal" href="#build-conda-psi4-stack-at-specific-commit">Build Conda Psi4 stack at specific commit</a></p></li>
+<li><p><a class="reference internal" href="#build-extra-conda-packages-for-psi4-channel">Build extra Conda packages for Psi4 channel</a></p></li>
 <li><p><a class="reference internal" href="#build-psi4conda-set">Build Psi4conda set</a></p></li>
 <li><p><a class="reference internal" href="#generate-download-page-for-psicode-org">Generate download page for psicode.org</a></p></li>
-<li><p><a class="reference internal" href="#reset-psi4meta-for-nightly-operation">Reset psi4meta for nightly operation</a></p></li>
 </ul>
 </section>
 <section id="release-e-g-v1-3">
 <span id="faq-releaseprocedure"></span><h2>Release (e.g., <code class="docutils literal notranslate"><span class="pre">v1.3</span></code>)<a class="headerlink" href="#release-e-g-v1-3" title="Link to this heading">¶</a></h2>
 <ul class="simple">
+<li><p><a class="reference internal" href="#update-samples">Update samples</a> (if no prerelease)</p></li>
+<li><p><a class="reference internal" href="#collect-new-authors">Collect new authors</a> (if no prerelease)</p></li>
+<li><p><a class="reference internal" href="#anticipate-next-release">Anticipate next release</a> (if no prerelease)</p></li>
+<li><p><a class="reference internal" href="#build-conda-ecosystem-stack">Build Conda ecosystem stack</a> (if no prerelease)</p></li>
+<li><p><a class="reference internal" href="#run-long-tests">Run long tests</a></p></li>
 <li><p><a class="reference internal" href="#do-final-pass-before-release-tag">Do final pass before release tag</a></p></li>
 <li><p><a class="reference internal" href="#tag-pre-release">Tag (pre)release</a></p></li>
 <li><p><a class="reference internal" href="#initialize-release-branch">Initialize release branch</a></p></li>
-<li><p><a class="reference internal" href="#build-conda-psi4-stack-at-specific-commit">Build Conda Psi4 stack at specific commit</a></p></li>
-<li><p><a class="reference internal" href="#publish-to-main-conda-label">Publish to main conda label</a></p></li>
+<li><p><a class="reference internal" href="#build-extra-conda-packages-for-psi4-channel">Build extra Conda packages for Psi4 channel</a></p></li>
 <li><p><a class="reference internal" href="#build-psi4conda-set">Build Psi4conda set</a></p></li>
 <li><p><a class="reference internal" href="#generate-download-page-for-psicode-org">Generate download page for psicode.org</a></p></li>
 <li><p><a class="reference internal" href="#collect-documentation-snapshot">Collect documentation snapshot</a></p></li>
 <li><p><a class="reference internal" href="#publish-github-release">Publish GitHub release</a></p></li>
-<li><p><a class="reference internal" href="#publish-psicode-release">Publish psicode release</a></p></li>
+<li><p><a class="reference internal" href="#publish-psicode-org-release">Publish psicode.org release</a></p></li>
 <li><p><a class="reference internal" href="#finalize-release">Finalize release</a></p></li>
-<li><p><a class="reference internal" href="#reset-psi4meta-for-nightly-operation">Reset psi4meta for nightly operation</a></p></li>
 </ul>
 </section>
-<section id="post-release-e-g-v1-3-1">
-<span id="faq-postreleaseprocedure"></span><h2>Post-Release (e.g., <code class="docutils literal notranslate"><span class="pre">v1.3.1</span></code>)<a class="headerlink" href="#post-release-e-g-v1-3-1" title="Link to this heading">¶</a></h2>
+<section id="post-release-e-g-v1-8-2">
+<span id="faq-postreleaseprocedure"></span><h2>Post-Release (e.g., <code class="docutils literal notranslate"><span class="pre">v1.8.2</span></code>)<a class="headerlink" href="#post-release-e-g-v1-8-2" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="#assemble-postrelease-changes">Assemble postrelease changes</a></p></li>
 <li><p><a class="reference internal" href="#tweak-conda-for-postrelease">Tweak Conda for postrelease</a></p></li>
-<li><p><a class="reference internal" href="#do-final-pass-before-release-tag">Do final pass before release tag</a></p></li>
 <li><p><a class="reference internal" href="#tag-postrelease">Tag postrelease</a></p></li>
-<li><p><a class="reference internal" href="#build-conda-psi4-stack-at-specific-commit">Build Conda Psi4 stack at specific commit</a></p></li>
-<li><p><a class="reference internal" href="#publish-to-main-conda-label">Publish to main conda label</a></p></li>
 <li><p><a class="reference internal" href="#build-psi4conda-set">Build Psi4conda set</a></p></li>
+<li><p><a class="reference internal" href="#build-extra-conda-packages-for-psi4-channel">Build extra Conda packages for Psi4 channel</a></p></li>
 <li><p><a class="reference internal" href="#generate-download-page-for-psicode-org">Generate download page for psicode.org</a></p></li>
 <li><p><a class="reference internal" href="#collect-documentation-snapshot">Collect documentation snapshot</a></p></li>
 <li><p><a class="reference internal" href="#publish-github-postrelease">Publish GitHub postrelease</a></p></li>
-<li><p><a class="reference internal" href="#publish-psicode-release">Publish psicode release</a></p></li>
+<li><p><a class="reference internal" href="#publish-psicode-org-release">Publish psicode.org release</a></p></li>
 <li><p><a class="reference internal" href="#finalize-release">Finalize release</a></p></li>
-<li><p><a class="reference internal" href="#reset-psi4meta-for-nightly-operation">Reset psi4meta for nightly operation</a></p></li>
+</ul>
+</section>
+<section id="on-january-first">
+<h2>On January first<a class="headerlink" href="#on-january-first" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Screenshot <a class="reference external" href="https://anaconda.org/psi4/psi4">https://anaconda.org/psi4/psi4</a> .</p></li>
+<li><p>Screenshot <a class="reference external" href="https://anaconda.org/conda-forge/psi4">https://anaconda.org/conda-forge/psi4</a> .</p></li>
+<li><p>Add new year title and images to website
+<a class="reference external" href="https://github.com/psi4/psicode-hugo-website/edit/master/content/posts/downloads.md">https://github.com/psi4/psicode-hugo-website/edit/master/content/posts/downloads.md</a> .</p></li>
+<li><p>On the next day, check that the new year’s plot appears at <a class="reference external" href="https://psicode.netlify.app/posts/downloads/">https://psicode.netlify.app/posts/downloads/</a> .</p></li>
 </ul>
 </section>
 <section id="update-copyright-year">
@@ -197,6 +208,15 @@
 <li><p>Also, in content of <a class="reference external" href="https://github.com/psi4/psi4/blob/master/doc/sphinxman/source/conf.py.in#L130">psi4/doc/sphinxman/source/conf.py.in#L130</a></p></li>
 </ul>
 </section>
+<section id="update-counter-scripts">
+<h2>Update counter scripts<a class="headerlink" href="#update-counter-scripts" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Log onto vergil as cdsgroup.</p></li>
+<li><p>Add new years, Python versions, and Psi4 versions as needed.</p></li>
+<li><p>check vergil /home/cdsgroup/psi4meta/download-analysis/installer: vi downloads_updater.py any new patterns to add?</p></li>
+<li><p>check vergil if changing any download patterns</p></li>
+</ul>
+</section>
 <section id="update-samples">
 <h2>Update samples<a class="headerlink" href="#update-samples" title="Link to this heading">¶</a></h2>
 <ul class="simple">
@@ -208,11 +228,72 @@
 <section id="collect-new-authors">
 <h2>Collect new authors<a class="headerlink" href="#collect-new-authors" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Survey contributions to current Milestone. Add new contribs and PR lists to release notes GitHub issue</p></li>
-<li><p>Figure out any new “Additional Contributors” authors since last release</p></li>
-<li><p>Edit <code class="docutils literal notranslate"><span class="pre">psi4/header.py</span></code> accordingly, make PR</p></li>
-<li><p>Get permission of new authors and their particulars for <code class="docutils literal notranslate"><span class="pre">codemeta.json</span></code></p></li>
-<li><p>Invite any contributors with at least 3 PRs to join GitHub Organization</p></li>
+<li><p>Survey contributions to current Milestone. Add new contributors to the release notes GitHub issue.</p></li>
+<li><p>Figure out any new “Additional Contributors” authors since last release.</p></li>
+<li><p>Get permission of new authors and their particulars for <code class="docutils literal notranslate"><span class="pre">codemeta.json</span></code>.</p></li>
+<li><p>Edit <code class="docutils literal notranslate"><span class="pre">psi4/header.py</span></code> accordingly and make PR.</p></li>
+</ul>
+</section>
+<section id="run-long-tests">
+<h2>Run long tests<a class="headerlink" href="#run-long-tests" title="Link to this heading">¶</a></h2>
+<ul>
+<li><p>Run the full test suite with threading parallelism on. There’s one CC test that’s a known fail
+in parallel b/c it sets memory very low, iirc.</p>
+<ul>
+<li><p>CTest (CLI):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">+++</span> <span class="n">b</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">runtest</span><span class="o">.</span><span class="n">py</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">104</span><span class="p">,</span><span class="mi">7</span> <span class="o">+</span><span class="mi">104</span><span class="p">,</span><span class="mi">7</span> <span class="o">@@</span> <span class="k">def</span> <span class="nf">backtick</span><span class="p">(</span><span class="n">exelist</span><span class="p">):</span>
+
+ <span class="c1"># run psi4 and collect testing status from any compare_* in input file</span>
+ <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">infile</span><span class="p">):</span>
+<span class="o">-</span>    <span class="n">exelist</span> <span class="o">=</span> <span class="p">[</span><span class="n">psi</span><span class="p">,</span> <span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="n">psidatadir</span><span class="p">]</span>
+<span class="o">+</span>    <span class="n">exelist</span> <span class="o">=</span> <span class="p">[</span><span class="n">psi</span><span class="p">,</span> <span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;-l&#39;</span><span class="p">,</span> <span class="n">psidatadir</span><span class="p">,</span> <span class="s1">&#39;-n2&#39;</span><span class="p">]</span>
+     <span class="c1"># On Windows set Python interpreter explicitly as the shebang is ignored</span>
+     <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;win&#39;</span><span class="p">):</span>
+</pre></div>
+</div>
+</li>
+<li><p>Pytest (API):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">+++</span> <span class="n">b</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">pytests</span><span class="o">/</span><span class="n">conftest</span><span class="o">.</span><span class="n">py</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">22</span><span class="p">,</span><span class="mi">6</span> <span class="o">+</span><span class="mi">22</span><span class="p">,</span><span class="mi">7</span> <span class="o">@@</span> <span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+ <span class="k">def</span> <span class="nf">set_up_overall</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">tmp_path_factory</span><span class="p">):</span>
+     <span class="kn">import</span> <span class="nn">psi4</span>
+
+<span class="o">+</span>    <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_num_threads</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+     <span class="n">psi4</span><span class="o">.</span><span class="n">set_output_file</span><span class="p">(</span><span class="s2">&quot;pytest_output.dat&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">tmp_path_factory</span><span class="o">.</span><span class="n">getbasetemp</span><span class="p">())</span>
+     <span class="n">request</span><span class="o">.</span><span class="n">addfinalizer</span><span class="p">(</span><span class="n">tear_down</span><span class="p">)</span>
+
+<span class="o">+++</span> <span class="n">b</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">pytests</span><span class="o">/</span><span class="n">conftest</span><span class="o">.</span><span class="n">py</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">34</span><span class="p">,</span><span class="mi">6</span> <span class="o">+</span><span class="mi">34</span><span class="p">,</span><span class="mi">7</span> <span class="o">@@</span> <span class="k">def</span> <span class="nf">set_up</span><span class="p">():</span>
+     <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+     <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">clean_timers</span><span class="p">()</span>
+     <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">clean_options</span><span class="p">()</span>
+<span class="o">+</span>    <span class="n">psi4</span><span class="o">.</span><span class="n">set_num_threads</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+     <span class="n">psi4</span><span class="o">.</span><span class="n">set_output_file</span><span class="p">(</span><span class="s2">&quot;pytest_output.dat&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Pytest (CLI):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">+++</span> <span class="n">b</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">pytests</span><span class="o">/</span><span class="n">addons</span><span class="o">.</span><span class="n">py</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">223</span><span class="p">,</span><span class="mi">8</span> <span class="o">+</span><span class="mi">223</span><span class="p">,</span><span class="mi">8</span> <span class="o">@@</span> <span class="k">def</span> <span class="nf">ctest_runner</span><span class="p">(</span><span class="n">inputdatloc</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">extra_infiles</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">outfiles</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="n">No</span>
+     <span class="k">if</span> <span class="n">Path</span><span class="p">(</span><span class="n">psi4</span><span class="o">.</span><span class="n">executable</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.exe&quot;</span><span class="p">:</span>
+         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">psi4</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="n">inputdat</span><span class="p">]</span>
+     <span class="k">else</span><span class="p">:</span>
+<span class="o">-</span>        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="n">psi4</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="n">inputdat</span><span class="p">]</span>
+<span class="o">-</span>    <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">infiles_with_contents</span><span class="p">,</span> <span class="n">outfiles</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">scratch_messy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="o">+</span>        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="n">psi4</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="n">inputdat</span><span class="p">,</span> <span class="s2">&quot;-n2&quot;</span><span class="p">]</span>
+<span class="o">+</span>    <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">infiles_with_contents</span><span class="p">,</span> <span class="n">outfiles</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">scratch_messy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+     <span class="n">success</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;proc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+     <span class="k">assert</span> <span class="n">success</span><span class="p">,</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;stdout&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;stderr&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Run a full stdsuite tests to generate new capabilities tables for docs. Detailed instructions are
+in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/share/psi4/scripts/merge_stdsuite.py">psi4/psi4/share/psi4/scripts/merge_stdsuite.py</a> .</p></li>
 </ul>
 </section>
 <section id="anticipate-next-release">
@@ -224,47 +305,78 @@
 </section>
 <section id="build-conda-ecosystem-stack">
 <h2>Build Conda ecosystem stack<a class="headerlink" href="#build-conda-ecosystem-stack" title="Link to this heading">¶</a></h2>
-<p>By “ecosystem stack”, mean packages that are upstream, downstream, required, and optional for a fully featured Psi4 build and which we can’t get from “defaults” or “conda-forge” channels.</p>
 <ul class="simple">
-<li><p>Main directions are in [cbcy](<a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/conda-recipes/conda_build_config.yaml">https://github.com/psi4/psi4meta/blob/master/conda-recipes/conda_build_config.yaml</a>) and [poodle](<a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/psinet-nightly/kitandkapoodle.py">https://github.com/psi4/psi4meta/blob/master/psinet-nightly/kitandkapoodle.py</a>)</p></li>
-<li><p>A couple weeks before the first “rc” is planned, start going through L/LT in poodle, checking with upstream to see if new versions have been released. If good changes present, rebuild the packages, changing the version numbers in the respective recipes</p></li>
-<li><p>When L/LT all built and passed, edit the individual package version numbers in cbcy and increment to a new <code class="docutils literal notranslate"><span class="pre">ltrtver</span></code> with updated version numbers and/or build numbers (only if code changes)</p></li>
-<li><p>Build L/PSI4. If any trouble, edit psi4 code. Iterate until builds and passes. This stage is the only full ctest &amp; pytest on Psi4+upstream</p></li>
-<li><p>Build L/RT-MP. If any trouble, edit code in L/RT and rebuild those package(s). Iterate until builds and passes. This stage is the only full ctest &amp; pytest of Psi4+downstream</p></li>
-<li><p>Build L/DEV. If any trouble, edit psi4 build system, plugin system, or OpenMP setup. Iterate until builds and passes</p></li>
-<li><p>Build L/DOCS. If any trouble, edit the docs or the tests. Iterate until builds and passes</p></li>
-<li><p>Results of last should upload to psicode.org (docs) and codecov.io (coverage)</p></li>
-<li><p>Changes to targets’ “source” and “version” in individual recipes should be edited in psi4 <code class="docutils literal notranslate"><span class="pre">external/*/*/CMakeLists.txt</span></code> files</p></li>
-<li><p>Once everything’s working on Linux, repeat on Mac</p></li>
-<li><p>At this point, ready to fine-tune builds of “Psi4 stack”</p></li>
+<li><p>By “ecosystem stack”, we mean packages that are upstream, downstream, required, and optional for
+a fully featured Psi4 build and which we have some role in packaging.</p></li>
+<li><p>These packages (e.g., <code class="docutils literal notranslate"><span class="pre">libint</span></code>, <code class="docutils literal notranslate"><span class="pre">gdma</span></code>) should already be updated and built on conda-forge.
+Survey them to check version tick and other key PRs have been merged.</p></li>
+<li><p>Changes to targets’ “source” and “version” in individual recipes should be edited in psi4
+<code class="docutils literal notranslate"><span class="pre">external/*/*/CMakeLists.txt</span></code> files</p></li>
+<li><p>Edit any added or dropped dependencies in main <a class="reference external" href="https://github.com/psi4/psi4/blob/master/CMakeLists.txt">psi4/CMakeLists.txt</a> and docs
+<a class="reference external" href="https://github.com/psi4/psi4/blob/master/doc/sphinxman/source/build_planning.rst">psi4/doc/sphinxman/source/build_planning.rst</a> .</p></li>
 </ul>
 </section>
 <section id="assemble-postrelease-changes">
 <h2>Assemble postrelease changes<a class="headerlink" href="#assemble-postrelease-changes" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Collect PRs with “backport” label, and request other backport suggestions on upcoming RN issue</p></li>
-<li><p>Cherry-pick backport PRs and commits, apply other changes manually, not forgetting CI files</p></li>
-<li><p>Do the draft parts of <a class="reference internal" href="#publish-github-postrelease">Publish GitHub postrelease</a></p></li>
-<li><p>Test thoroughly locally, including psi4-rt (may have to step back for dependency versions or builds)</p></li>
-<li><p>Note that while can’t change maintenance branch’s history, can push to it directly on upstream</p></li>
-<li><p>If want to do trial conda builds, requires <code class="docutils literal notranslate"><span class="pre">source/git_tag:</span> <span class="pre">1.3.x</span></code> and fake <code class="docutils literal notranslate"><span class="pre">package/version:</span> <span class="pre">v1.3.1rc1</span></code></p></li>
+<li><p>Collect PRs with “backport” label, and request other backport suggestions through slack.</p></li>
+<li><p>Be on the maintenance branch (e.g., <code class="docutils literal notranslate"><span class="pre">1.8.x</span></code>). <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">upstream</span></code> or any other remotes you’re
+going to be cherry-picking from.</p></li>
+<li><p>Cherry-pick backport PRs and commits (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span> <span class="pre">sha</span></code>), apply other changes manually, not
+forgetting CI files or samples.</p></li>
+<li><p>Possibly apply other changes manually, including:</p>
+<ul>
+<li><p>CI file tweaks like LLVM version or dependency constraint.</p></li>
+<li><p>samples files from a docs build.</p></li>
+<li><p><a class="reference external" href="https://github.com/psi4/psi4/blob/master/doc/sphinxman/source/introduction.rst">psi4/doc/sphinxman/source/introduction.rst</a> for any compiler and Python minimum requirements to edit.</p></li>
+</ul>
+</li>
+<li><p>Tag it (<a class="reference internal" href="#tag-postrelease">Tag postrelease</a> for details). This is needed to compute a version on a maintenance
+branch to even run. Until the release is published on GH (final step of
+<a class="reference internal" href="#publish-github-postrelease">Publish GitHub postrelease</a>), it’s ok to revise a tag (force push to maintenance branch).</p>
+<ul>
+<li><p>Add or increment patch number in <code class="docutils literal notranslate"><span class="pre">psi4/metadata.py</span></code>; leave the “z”s. Commit file.</p></li>
+<li><p>Tag with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-a</span> <span class="pre">v1.8.2</span> <span class="pre">-m</span> <span class="pre">&quot;v1.8.2&quot;</span></code>, then push <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">--atomic</span> <span class="pre">upstream</span> <span class="pre">1.8.x</span> <span class="pre">v1.8.2</span></code>.</p></li>
+</ul>
+</li>
+<li><p>Test core <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> thoroughly locally (ecosystem will get tested by c-f) by running
+<code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">../tests/</span> <span class="pre">-n</span> <span class="pre">auto</span></code> (psithon and psiapi tests). Possibly you may have to step back for
+dependency versions from what master needs.</p></li>
+<li><p>Start <a class="reference internal" href="#tweak-conda-for-postrelease">Tweak Conda for postrelease</a> PR at conda-forge. This will thoroughly test the ecosystem.</p></li>
+<li><p>If more changes are needed, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-d</span> <span class="pre">v1.8.2</span></code> to delete the tag, then make more commits,
+retag, push, and repeat. Try to finalize the postrelease tag within a session or a day, so
+tentative tags don’t linger.</p></li>
+<li><p>Start the draft parts of <a class="reference internal" href="#publish-github-postrelease">Publish GitHub postrelease</a> from the backported PRs assembled here.</p></li>
 </ul>
 </section>
 <section id="tweak-conda-for-postrelease">
 <h2>Tweak Conda for postrelease<a class="headerlink" href="#tweak-conda-for-postrelease" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>In psi4-* recipes, find the best combination of master meta.yaml/build.sh and the v1N(x-1)-labeled ones</p>
+<li><p>Start a PR to <a class="reference external" href="https://github.com/conda-forge/psi4-feedstock">https://github.com/conda-forge/psi4-feedstock</a> . Always store the PR branch on your
+fork, never on the conda-forge feedstock (or your branch itself will get publically packaged).
+<a class="reference external" href="https://github.com/conda-forge/psi4-feedstock/pull/15">https://github.com/conda-forge/psi4-feedstock/pull/15</a> is an example.</p>
 <ul>
-<li><p>comment out any dependencies in master but not yet in postrelease</p></li>
-<li><p>add <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">dep_bld</span> <span class="pre">}}</span></code> entries if needed to step back build. make sure normal operation is <code class="docutils literal notranslate"><span class="pre">''</span></code></p></li>
+<li><p>Always: edit <code class="docutils literal notranslate"><span class="pre">version</span></code> and <code class="docutils literal notranslate"><span class="pre">commit</span></code> jinja variables.</p></li>
+<li><p>Possibly: edit <code class="docutils literal notranslate"><span class="pre">source/url</span></code> field for trial locations.</p></li>
+<li><p>Always: edit <code class="docutils literal notranslate"><span class="pre">sha256</span></code> jinja variable from e.g., <code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">-sL</span> <span class="pre">https://github.com/psi4/psi4/archive/v1.8.2.tar.gz</span> <span class="pre">|</span> <span class="pre">openssl</span> <span class="pre">sha256</span></code></p></li>
+<li><p>Always: edit <code class="docutils literal notranslate"><span class="pre">build/number</span></code>. Either reset to 0 if version increments or bump if version <em>doesn’t</em> increment.</p></li>
+<li><p>Possibly: uncomment <code class="docutils literal notranslate"><span class="pre">skip:</span> <span class="pre">true</span>&#160; <span class="pre">#</span> <span class="pre">[py</span> <span class="pre">!=</span> <span class="pre">310]</span></code> if you want to test one Python version on all
+architectures before the whole build matrix (currently 16 builds). After editing this (and
+opening the PR), you’ll have to issue a comment <code class="docutils literal notranslate"><span class="pre">&#64;conda-forge-admin,</span> <span class="pre">please</span> <span class="pre">rerender</span></code> for the
+matrix slimming to take effect.</p></li>
+<li><p>Possibly: remove any old patches that are now in the main codebase.</p></li>
+<li><p>Possibly: add in or remove any dependency or ecosystem packages.</p></li>
+<li><p>Possibly: for any relevant addition, make sure <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">CMAKE_INSIST_FIND_PACKAGE_&lt;project&gt;=ON</span></code> or
+<code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">ENABLE_&lt;project&gt;=ON</span></code> is set in <code class="docutils literal notranslate"><span class="pre">build.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">bld.bat</span></code>.</p></li>
+<li><p>Possibly: add or release version constraints or architecture constraints (e.g., <code class="docutils literal notranslate"><span class="pre">[not</span> <span class="pre">win]</span></code>) on packages.</p></li>
 </ul>
 </li>
-<li><p>In cbcy,</p>
-<ul>
-<li><p>create a postrelease new line and record anything not in continuous order with &lt;&gt; or blanking</p></li>
-<li><p>step back any dependencies versions or build numbers to ones compatible with the postrelease</p></li>
-</ul>
-</li>
+<li><p>Submit the PR and rerender (cmd above). Monitor the CI.</p></li>
+<li><p>When all CI lanes are passing <em>and</em> the tag is final on the maintenance branch, rerender (may be
+no-op) and merge the PR.</p></li>
+<li><p>After all the packages are built on main and show up at <a class="reference external" href="https://anaconda.org/conda-forge/psi4/files">https://anaconda.org/conda-forge/psi4/files</a>
+with a couple downloads, this means they’re been mirrored and are generally installable. Announce
+on slack general channel.</p></li>
 </ul>
 </section>
 <section id="do-final-pass-before-release-tag">
@@ -304,7 +416,7 @@
 
 <span class="c1"># goto GH:psi4/psi4 &gt; Settings &gt; Branches &gt; master &gt; Edit</span>
 <span class="c1">#      https://github.com/psi4/psi4/settings/branch_protection_rules/424295</span>
-<span class="c1"># uncheck &quot;Include administrators&quot; and Save changes</span>
+<span class="c1"># uncheck &quot;Do not allow bypassing the above settings&quot; for admins and Save changes</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">atomic</span> <span class="n">upstream</span> <span class="n">master</span> <span class="n">v1</span><span class="mf">.3</span><span class="n">rc2</span>
 
@@ -312,7 +424,7 @@
 <span class="c1">#       on-tag Windows conda package and docs, not tag+1.dev1 .</span>
 <span class="c1">#       the atomic flag below pushes commit and tag together so only one CI</span>
 <span class="c1">#       which is necessary for Windows conda package to compute the right version.</span>
-<span class="c1">#       After push, can temporarily re-engage &quot;Include administrators&quot; protections.</span>
+<span class="c1">#       After push, can temporarily re-engage admins &quot;Do not allow ...&quot; protections.</span>
 <span class="c1">#       also, grab the docs build from GHA artifacts</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">vi</span> <span class="n">psi4</span><span class="o">/</span><span class="n">metadata</span><span class="o">.</span><span class="n">py</span>
@@ -328,11 +440,11 @@
 
 <span class="c1"># goto GH:psi4/psi4 &gt; Settings &gt; Branches &gt; master &gt; Edit</span>
 <span class="c1">#      https://github.com/psi4/psi4/settings/branch_protection_rules/424295</span>
-<span class="c1"># uncheck &quot;Include administrators&quot; and Save changes</span>
+<span class="c1"># uncheck admins &quot;Do not allow ...&quot; and Save changes</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">git</span> <span class="n">push</span> <span class="n">upstream</span> <span class="n">master</span>
 
-<span class="c1"># re-engage &quot;Include administrators&quot; protections</span>
+<span class="c1"># re-engage admins &quot;Do not allow ...&quot; protections</span>
 </pre></div>
 </div>
 </li>
@@ -369,7 +481,7 @@
 
 <span class="c1"># free pushing to maintenance branches at present so GitHub interface steps not needed</span>
 
-<span class="c1"># see note at &quot;Tag postrelease&quot; for why atomic commit needed. Collect docs from GHA artifacts.</span>
+<span class="c1"># see note at &quot;Tag (pre)release&quot; for why atomic commit needed. Collect docs from GHA artifacts.</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">atomic</span> <span class="n">upstream</span> <span class="mf">1.3</span><span class="o">.</span><span class="n">x</span> <span class="n">v1</span><span class="mf">.3.1</span>
 </pre></div>
@@ -380,7 +492,7 @@
 <h2>Initialize release branch<a class="headerlink" href="#initialize-release-branch" title="Link to this heading">¶</a></h2>
 <ul>
 <li><p>follow tagging procedure</p></li>
-<li><p>before re-engaing the “include admin” button, push a branch at the tag commit (not the records commit)</p>
+<li><p>before re-engaging the admins “Do not allow …” button, push a branch at the tag commit (not the records commit)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">git</span> <span class="n">log</span> <span class="o">--</span><span class="n">online</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="mi">2</span>
 <span class="go">45315cb Records tag for v1.3</span>
 <span class="go">20e5c7e v1.3</span>
@@ -395,188 +507,246 @@
 <li><p>set up new branch as protected branch through GitHub psi4 org Settings. Should be already covered under 1.*.x rule.</p></li>
 </ul>
 </section>
-<section id="build-conda-psi4-stack-at-specific-commit">
-<h2>Build Conda Psi4 stack at specific commit<a class="headerlink" href="#build-conda-psi4-stack-at-specific-commit" title="Link to this heading">¶</a></h2>
-<p>By “Psi4 stack”, mean packages <code class="docutils literal notranslate"><span class="pre">psi4</span></code>, <code class="docutils literal notranslate"><span class="pre">psi4-rt</span></code>, <code class="docutils literal notranslate"><span class="pre">psi4-dev</span></code>.
-Package <code class="docutils literal notranslate"><span class="pre">psi4-docs</span></code> used to be in “Psi4 stack”, but it’s handled by GHA and netlify now, not Conda, so skip directions below.
-Other packages, the “ecosystem stack” (e.g., <code class="docutils literal notranslate"><span class="pre">libint</span></code>, <code class="docutils literal notranslate"><span class="pre">v2rdm_casscf</span></code>) should be already built.</p>
+<section id="build-extra-conda-packages-for-psi4-channel">
+<h2>Build extra Conda packages for Psi4 channel<a class="headerlink" href="#build-extra-conda-packages-for-psi4-channel" title="Link to this heading">¶</a></h2>
+<p>Once upon a time, “Psi4 stack”, meant packages <code class="docutils literal notranslate"><span class="pre">psi4</span></code>, <code class="docutils literal notranslate"><span class="pre">psi4-rt</span></code>, <code class="docutils literal notranslate"><span class="pre">psi4-dev</span></code>, and <code class="docutils literal notranslate"><span class="pre">psi4-docs</span></code>.
+Package <code class="docutils literal notranslate"><span class="pre">psi4-docs</span></code> used to be in “Psi4 stack”, but it’s handled by GHA and netlify now, not Conda.
+Package <code class="docutils literal notranslate"><span class="pre">psi4-rt</span></code> used to be in “Psi4 stack”, but a maximum ecosystem package isn’t provided now, only a customizable env spec.
+Package <code class="docutils literal notranslate"><span class="pre">psi4-dev</span></code> used to be in “Psi4 stack”, but now build environment and guidance is in-repo with <code class="docutils literal notranslate"><span class="pre">psi4-path-advisor.py</span></code>.
+Other packages in the “ecosystem stack” (e.g., <code class="docutils literal notranslate"><span class="pre">libint</span></code>, <code class="docutils literal notranslate"><span class="pre">gdma</span></code>) should already be updated and
+built on conda-forge. Survey them to check version tick PRs have been merged.</p>
+<p>Conda-forge overwhelmingly handles the <code class="docutils literal notranslate"><span class="pre">psi4</span></code> package itself, with a full architecture and Python
+version matrix. What remains are specialty or development builds for the psi4 channel.</p>
 <ul class="simple">
-<li><p>Check poodle for stray channels that may have crept in for dependencies (like c-f for ACS season). Copy over new dependencies if needed to psi4 channel</p></li>
-<li><p>Particularly before release (not prerelease), consider max pinnings on dependencies, particularly any fast-moving dependencies (e.g., qcel) and whether they need version space to grow compatibly and grow incompatibly.</p></li>
-<li><p>Nightly conda-builds work from <code class="docutils literal notranslate"><span class="pre">master</span></code> psi4. (Postrelease “practice” works from <code class="docutils literal notranslate"><span class="pre">1.N.x</span></code> psi4.)</p>
+<li><p>High AM and multiarch <code class="docutils literal notranslate"><span class="pre">psi4</span></code> builds for Linux</p>
 <ul>
-<li><p>Instead, switch <code class="docutils literal notranslate"><span class="pre">source/git_tag</span></code> from <code class="docutils literal notranslate"><span class="pre">master</span></code> to tag (e.g., <code class="docutils literal notranslate"><span class="pre">v1.3rc1</span></code>) in:</p>
+<li><p>Especially at tagged releases, update and reconcile c-f psi4/feedstock recipe with psinet
+psi4meta/conda-recipes/psi4-cf recipe. Differences include:</p>
 <ul>
-<li><p>psi4-multiout on Linux &amp; Mac, <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/conda-recipes/psi4-multiout/meta.yaml#L10">https://github.com/psi4/psi4meta/blob/master/conda-recipes/psi4-multiout/meta.yaml#L10</a></p></li>
-<li><p>psi4-docs on Linux, <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/conda-recipes/psi4-docs/meta.yaml#L10">https://github.com/psi4/psi4meta/blob/master/conda-recipes/psi4-docs/meta.yaml#L10</a> on L</p></li>
+<li><p>restricted to only even python versions</p></li>
+<li><p>c-f libint vs. psi4 libint2 packages (latter with high AM)</p></li>
+<li><p>smoke vs. full tests</p></li>
+<li><p>no git rev-parse lines</p></li>
+<li><p>load Intel compilers and specify them in compilers and flags CMake arguments</p></li>
 </ul>
 </li>
-<li><p>In cbcy, edit <code class="docutils literal notranslate"><span class="pre">psi4ver</span></code> to “v”-less tag</p></li>
 </ul>
 </li>
-<li><p>For releases and postreleases (not prereleases), in <code class="docutils literal notranslate"><span class="pre">conda_build_config.yaml</span></code>, edit <code class="docutils literal notranslate"><span class="pre">ltrtver</span></code> to a new non-dev label (probably a ditto) matching the release (e.g., “1.3”)</p></li>
-<li><p>Set <code class="docutils literal notranslate"><span class="pre">kitandkapoodle.py</span></code> to the normal <code class="docutils literal notranslate"><span class="pre">***</span></code> stack. Should be (<code class="docutils literal notranslate"><span class="pre">psi4</span></code>, <code class="docutils literal notranslate"><span class="pre">psi4-rt</span></code>, <code class="docutils literal notranslate"><span class="pre">psi4-dev</span></code>) * python_versions for Linux &amp; Mac. Also single <code class="docutils literal notranslate"><span class="pre">psi4-docs</span></code>     from Linux</p></li>
-<li><p>Run <code class="docutils literal notranslate"><span class="pre">kitandkapoodle.py</span></code> and allow stack to upload to anaconda.org to <code class="docutils literal notranslate"><span class="pre">psi4/label/dev</span></code>. Poodle emits with <code class="docutils literal notranslate"><span class="pre">--label</span> <span class="pre">dev</span></code> so will go to the subchannel. May need to delete packages to clear out space on anaconda.org</p></li>
-<li><p>Copy <code class="docutils literal notranslate"><span class="pre">meta.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">build.sh</span></code> of at least <code class="docutils literal notranslate"><span class="pre">psi4-multiout</span></code> and <code class="docutils literal notranslate"><span class="pre">psi4-rt</span></code> to e.g., v121-build.sh files for easy reference or rebuilding as dependencies in master change.</p></li>
-</ul>
-</section>
-<section id="publish-to-main-conda-label">
-<h2>Publish to main conda label<a class="headerlink" href="#publish-to-main-conda-label" title="Link to this heading">¶</a></h2>
-<ul class="simple">
-<li><p>Go through each active conda package off <a class="reference external" href="https://anaconda.org/psi4/repo">https://anaconda.org/psi4/repo</a></p>
-<ul>
-<li><p>Find the most recent build set (Linux/Mac, active py versions) that <code class="docutils literal notranslate"><span class="pre">psi4</span></code>/<code class="docutils literal notranslate"><span class="pre">psi4-rt</span></code>/<code class="docutils literal notranslate"><span class="pre">psi4-dev</span></code> is using</p></li>
-<li><p>_add_ (not replace) the <code class="docutils literal notranslate"><span class="pre">main</span></code> label.</p></li>
-</ul>
-</li>
-<li><p>This makes a <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">psi4</span> <span class="pre">-c</span> <span class="pre">psi4</span></code> get everything psi4 needs. For the moment <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">psi4</span> <span class="pre">-c</span> <span class="pre">psi4/label/dev</span></code> will get the same set, until package psi4-1.4a1.dev1 gets uploaded. May help to check versions and build versions against ltrtver in <code class="docutils literal notranslate"><span class="pre">conda_build_config.yaml</span></code>.</p></li>
-<li><p>This step is manual, so takes a while. (It gets checked when Psi4conda installers are built b/c that pulls from “main”, not “dev”)</p></li>
-</ul>
-</section>
-<section id="build-psi4conda-set-pre-spring-2021">
-<h2>Build Psi4conda set (pre-Spring 2021)<a class="headerlink" href="#build-psi4conda-set-pre-spring-2021" title="Link to this heading">¶</a></h2>
-<p>Installers are build using the project <code class="docutils literal notranslate"><span class="pre">constructor</span></code> and build binary bash scripts, one per OS per Python version. In analogy to Miniconda, they’re called Psi4Conda. They can be built anywhere (Mac can be built on Linux) and get served from vergil (cdsgroup webserver).</p>
-<ul>
-<li><p>Need a conda env with <code class="docutils literal notranslate"><span class="pre">constructor</span></code> and <code class="docutils literal notranslate"><span class="pre">cookiecutter</span></code>. This env presently accessed through <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">cookie</span></code>.</p></li>
-<li><p>Enter “constructor-cutter-unified” in the psi4meta repo. There’s a good README there, <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/conda-recipes/constructor-cutter-unified/README.md">https://github.com/psi4/psi4meta/blob/master/conda-recipes/constructor-cutter-unified/README.md</a></p></li>
-<li><p>Edit <code class="docutils literal notranslate"><span class="pre">cookiecutter/cookiecutter.json</span></code> for control</p>
-<ul class="simple">
-<li><p>Edit which python versions, if necessary</p></li>
-<li><p>Edit <code class="docutils literal notranslate"><span class="pre">release</span></code> field</p></li>
-<li><p>Edit <code class="docutils literal notranslate"><span class="pre">hash</span></code> field. This is the 7-char hash that’s on every psi4 conda pkg as part of version</p></li>
-<li><p>Edit <code class="docutils literal notranslate"><span class="pre">ltrtver</span></code> field. This matches the current setting in <code class="docutils literal notranslate"><span class="pre">conda_build_config.yaml</span></code></p></li>
-<li><p>For prereleases, <code class="docutils literal notranslate"><span class="pre">&quot;channel_tag&quot;:</span> <span class="pre">&quot;/label/dev&quot;</span></code>, while for (post)releases, it should be the empty string</p></li>
-<li><p>Leave this file set to a “rc” with Git, as that has more details</p></li>
-</ul>
-</li>
-<li><p>For (post)releases (not prereleases), copy cookiecutter.json to cookiecutter.json-vXXX</p></li>
-<li><p>Edit <code class="docutils literal notranslate"><span class="pre">cookiecutter/{{.../construct.yaml</span></code> for templating. This is rarely needed</p></li>
-<li><p>If it’s been a while or you need the space, clear out <code class="docutils literal notranslate"><span class="pre">~/.conda/constructor</span></code>, where the downloaded packages are cached</p></li>
-<li><p>Note that installers get written to <code class="docutils literal notranslate"><span class="pre">build/</span></code> and this gets regenerated each time. Clear out between runs.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run.py</span></code></p></li>
-<li><p>[Outdated] Watch out for <code class="docutils literal notranslate"><span class="pre">py_</span></code> in buildstring as this means a noarch package has been pulled. It must be eliminated. Constructors can’t handle “noarch” packages and will fail at runtime. If see a “noarch” package, must find the recipe and rebuild for all OS &amp; Python combinations. Then run constructor again.</p></li>
-<li><p>[Replacement] After adding a post_install to reposition the noarch packages, they are safe to include.</p></li>
-<li><p>If fetching times out, may have to run run.py several times. Clear out build/ in between. It’s the fetching that takes a long time, not constucting</p></li>
-<li><p>In the end, should have several installers</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="n">build</span><span class="o">/</span><span class="n">psi4conda</span><span class="o">-</span><span class="mf">1.3</span><span class="o">-</span><span class="n">py3</span><span class="o">.*/*</span><span class="mf">64.</span><span class="n">sh</span>
-<span class="go">-rwxr-xr-x. 516M Feb 28 20:30 build/psi4conda-1.3-py3.6-linux-64/psi4conda-1.3-py36-Linux-x86_64.sh</span>
-<span class="go">-rwxr-xr-x. 299M Feb 28 20:31 build/psi4conda-1.3-py3.6-osx-64/psi4conda-1.3-py36-MacOSX-x86_64.sh</span>
-<span class="go">-rwxr-xr-x. 518M Feb 28 20:30 build/psi4conda-1.3-py3.7-linux-64/psi4conda-1.3-py37-Linux-x86_64.sh</span>
-<span class="go">-rwxr-xr-x. 299M Feb 28 20:31 build/psi4conda-1.3-py3.7-osx-64/psi4conda-1.3-py37-MacOSX-x86_64.sh</span>
-</pre></div>
-</div>
-</li>
-<li><p>Upload installer files to vergil, <code class="docutils literal notranslate"><span class="pre">scp</span> <span class="pre">-r</span> <span class="pre">build/Psi4*/Psi4*sh</span> <span class="pre">root&#64;vergil.chemistry.gatech.edu:/var/www/html/psicode-download/</span></code></p></li>
-<li><p>Log in to vergil root and make WindowsWSL symlinks</p></li>
+<li><p>Prepare recipe, make sure <code class="docutils literal notranslate"><span class="pre">psi4-cf</span></code> is the only target uncommented in <code class="docutils literal notranslate"><span class="pre">kitandkapoodle.py</span></code>, set
+crontab, view in <code class="docutils literal notranslate"><span class="pre">kpd-anom.log</span></code>.</p></li>
+<li><p>Files will upload to <code class="docutils literal notranslate"><span class="pre">psi4/label/dev</span></code>. For releases and postreleases, on the anaconda.org site
+(logged in as psi4), <em>add</em>, not replace, <code class="docutils literal notranslate"><span class="pre">main</span></code> label, so accessible from <code class="docutils literal notranslate"><span class="pre">psi4/label/main</span></code>.</p></li>
 </ul>
 </section>
 <section id="build-psi4conda-set">
 <h2>Build Psi4conda set<a class="headerlink" href="#build-psi4conda-set" title="Link to this heading">¶</a></h2>
-<p>Installers are build using the project <code class="docutils literal notranslate"><span class="pre">constructor</span></code> and build binary bash or exe scripts, one per OS per Python version. In analogy to Miniconda, they’re called Psi4Conda. They are built through GHA on the psi4meta repo and get served from vergil (cdsgroup webserver).</p>
+<p>Installers are build using the project <code class="docutils literal notranslate"><span class="pre">constructor</span></code> to build binary bash or exe scripts, one per
+OS per Python version. For example, there’s 16 installers when OSes are linux-64, win-64, osx-64,
+osx-arm64 and pythons are 38, 39, 310, 311. In analogy to Miniconda, they’re called Psi4Conda. They
+are built through GHA on the <a class="reference external" href="https://github.com/psi4/psi4meta">https://github.com/psi4/psi4meta</a> repository and get served from vergil
+(the cdsgroup webserver).</p>
 <ul class="simple">
+<li><p>If the previous release hasn’t had a snapshot saved, copy <code class="docutils literal notranslate"><span class="pre">construct.yaml</span></code> into a version-labeled
+file and check it in.</p></li>
 <li><p>Edit recipe <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/installers/construct.yaml">https://github.com/psi4/psi4meta/blob/master/installers/construct.yaml</a></p>
 <ul>
-<li><p>Edit the top matter for Configuration. See snapshots in directory for examples.</p>
-<ul>
-<li><p>Edit <code class="docutils literal notranslate"><span class="pre">release</span></code> fields. (Windows is often <code class="docutils literal notranslate"><span class="pre">dev1</span></code> unless separate steps.)</p></li>
-<li><p>Edit <code class="docutils literal notranslate"><span class="pre">ltrtver</span></code> field. This matches the current setting in <code class="docutils literal notranslate"><span class="pre">conda_build_config.yaml</span></code></p></li>
-<li><p>For prereleases, <code class="docutils literal notranslate"><span class="pre">&quot;channel_tag&quot;:</span> <span class="pre">&quot;/label/dev&quot;</span></code>, while for (post)releases, it should be the empty string</p></li>
-</ul>
-</li>
+<li><p>Edit the top matter for Configuration, mainly the <code class="docutils literal notranslate"><span class="pre">release</span></code> field. See snapshots in directory for examples.</p></li>
 <li><p>Edit the packages and channels info if necessary. Probably long-term stable.</p></li>
 </ul>
 </li>
-<li><p>Edit the GHA control file <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/.github/workflows/Installers.yml">https://github.com/psi4/psi4meta/blob/master/.github/workflows/Installers.yml</a> matrix.cfg</p></li>
-<li><p>All conda packages must already have been built and in the right <code class="docutils literal notranslate"><span class="pre">channel_tag</span></code> channel.</p></li>
-<li><p>Commit <code class="docutils literal notranslate"><span class="pre">construct.yaml</span></code> to trigger installer builds.</p></li>
-<li><p>When all build successfully, hover over the artifacts, and note the consecutive numbers GH has assigned them. These artifacts only linger for a day.</p></li>
-<li><p>Log in to vergil root and move to <code class="docutils literal notranslate"><span class="pre">/var/www/html/psicode-download</span></code>.</p></li>
-<li><p>Use the pull_gha_installers script to download the installers from GH to vergil. First two arguments are first and last of the artifact numbers, and third argument is an auth token. <code class="docutils literal notranslate"><span class="pre">bash</span> <span class="pre">pull_gha_installers.sh</span> <span class="pre">47226565</span> <span class="pre">47226573</span> <span class="pre">715...4f3</span></code>.</p></li>
-<li><p>Make WindowsWSL and any other symlinks the script head matter advises.</p></li>
+<li><p>Edit the GHA control file <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/.github/workflows/Installers.yml">https://github.com/psi4/psi4meta/blob/master/.github/workflows/Installers.yml</a>
+<code class="docutils literal notranslate"><span class="pre">matrix.cfg</span></code> list if Python versions or target architectures have changed.</p></li>
+<li><p>All conda packages must already have been built and present in the right channels on
+<a class="reference external" href="https://anaconda.org/conda-forge/psi4/files">https://anaconda.org/conda-forge/psi4/files</a> .</p></li>
+<li><p>Commit <code class="docutils literal notranslate"><span class="pre">construct.yaml</span></code> to trigger installer builds. (Even workflow edits need a dummy commit to
+<code class="docutils literal notranslate"><span class="pre">construct.yaml</span></code> to retrigger.)</p></li>
+<li><p>When all build successfully, hover over the artifacts, and note the smallest and largest of the
+near-consecutive numbers GH has assigned them. These artifacts only linger for a day.</p></li>
+<li><p>Log in to vergil root and cd to <code class="docutils literal notranslate"><span class="pre">/var/www/html/psicode-download</span></code>.</p></li>
+<li><p>Use the pull_gha_installers.sh script to download the installers from GH to vergil. First two
+arguments are first and last of the artifact numbers, and third argument is an auth token.
+<code class="docutils literal notranslate"><span class="pre">bash</span> <span class="pre">pull_gha_installers.sh</span> <span class="pre">47226565</span> <span class="pre">47226573</span> <span class="pre">715...4f3</span></code>.</p></li>
+<li><p>Make WindowsWSL and any other symlinks the script frontmatter advises.</p></li>
+</ul>
+</section>
+<section id="build-docker-images">
+<h2>Build Docker images<a class="headerlink" href="#build-docker-images" title="Link to this heading">¶</a></h2>
+<p>Docker images are built through GHA on the <a class="reference external" href="https://github.com/psi4/psi4meta">https://github.com/psi4/psi4meta</a> repository from a Conda
+environment specification and get served from DockerHub, <a class="reference external" href="https://hub.docker.com/r/psi4/psi4/tags">https://hub.docker.com/r/psi4/psi4/tags</a> .</p>
+<ul class="simple">
+<li><p>Edit specification <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/docker/environment.yaml">https://github.com/psi4/psi4meta/blob/master/docker/environment.yaml</a></p>
+<ul>
+<li><p>Edit the packages and channels info if necessary. Probably long-term stable.</p></li>
+<li><p>Don’t edit the Python version, as that’s controlled by the GHA.</p></li>
+</ul>
+</li>
+<li><p>Edit the GHA control file <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/.github/workflows/Docker.yml">https://github.com/psi4/psi4meta/blob/master/.github/workflows/Docker.yml</a>
+<code class="docutils literal notranslate"><span class="pre">matrix.cfg</span></code> list for changed Python version and to label the tags with current Psi4 from c-f.</p></li>
+<li><p>Commit <code class="docutils literal notranslate"><span class="pre">environment.yaml</span></code> or <code class="docutils literal notranslate"><span class="pre">Docker.yml</span></code> to trigger GHA Docker builds.</p></li>
+<li><p>Check at DockerHub for new images.</p></li>
 </ul>
 </section>
 <section id="generate-download-page-for-psicode-org">
 <h2>Generate download page for psicode.org<a class="headerlink" href="#generate-download-page-for-psicode-org" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Be in repo psicode-hugo-website</p></li>
-<li><p>Copy and edit new file akin to <a class="reference external" href="https://github.com/psi4/psicode-hugo-website/blob/master/content/installs/v13rc2.md">https://github.com/psi4/psicode-hugo-website/blob/master/content/installs/v13rc2.md</a>. Note the edition string <code class="docutils literal notranslate"><span class="pre">v13rc2</span></code> in frontmatter for this and future filenames</p></li>
-<li><p>Copy and edit new file akin to <a class="reference external" href="https://github.com/psi4/psicode-hugo-website/blob/master/data/installs/v13rc2.yaml">https://github.com/psi4/psicode-hugo-website/blob/master/data/installs/v13rc2.yaml</a> for menu and notes content</p></li>
-<li><p>Enter <code class="docutils literal notranslate"><span class="pre">scripts/</span></code> dir and edit primarily <a class="reference external" href="https://github.com/psi4/psicode-hugo-website/blob/master/scripts/install-generator.py#L9">https://github.com/psi4/psicode-hugo-website/blob/master/scripts/install-generator.py#L9</a> but also any other arrays or messages that should change.</p></li>
-<li><p>Run the  <code class="docutils literal notranslate"><span class="pre">install-generator.py</span></code> in place. It will dump new files into <code class="docutils literal notranslate"><span class="pre">data/installs/</span></code> _subdirs_. Be sure to <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code> them.</p></li>
-<li><p>Installer page is now ready.</p></li>
-<li><p>Shift “latest” alias in frontmatter from whichever page is currently active to the new page. This makes sure “Downloads” on the navigation bar points to new page.</p></li>
-<li><p>Conscientiously, one should test</p>
+<li><p>Be in local clone of repository <a class="reference external" href="https://github.com/psi4/psicode-hugo-website">https://github.com/psi4/psicode-hugo-website</a> .</p></li>
+<li><p>Copy and edit a new file akin to <code class="docutils literal notranslate"><span class="pre">content/installs/v182.md</span></code>. Add it to the git index.</p>
 <ul>
-<li><p>installer downloads in Mac and Linux. And actually installing them and <code class="docutils literal notranslate"><span class="pre">psi4</span> <span class="pre">--test</span></code> them.</p></li>
-<li><p>that download button and <code class="docutils literal notranslate"><span class="pre">curl</span></code> downloading register on the download counters on vergil</p></li>
+<li><p>Note the edition string <code class="docutils literal notranslate"><span class="pre">v182</span></code> in frontmatter for this and future filenames.</p></li>
+<li><p>Don’t postdate the date string in frontmatter or it won’t render.</p></li>
+<li><p>Ultimately, make sure the <code class="docutils literal notranslate"><span class="pre">aliases:\n</span>&#160; <span class="pre">-</span> <span class="pre">/installs/latest/</span></code> lines are <em>added</em> to this new file
+and <em>removed</em> from the previous latest file, but this can wait until the installer page has been tested.</p></li>
 </ul>
 </li>
-<li><p>Commit the new files, PR, and deploy psicode site</p></li>
-<li><p>Petition on Slack for testers</p></li>
+<li><p>Copy and edit a new file akin to <code class="docutils literal notranslate"><span class="pre">data/installs/v182.yaml</span></code>. Add it to the git index.</p>
+<ul>
+<li><p>Glance through the menu and notes content to make sure they’re up-to-date. This file determines
+the structure of the install page.</p></li>
+<li><p>Add or remove python versions and architectures if necessary.</p></li>
+<li><p>Every couple years, update the default python version in <code class="docutils literal notranslate"><span class="pre">datakey:</span> <span class="pre">python</span></code>/<code class="docutils literal notranslate"><span class="pre">selected</span></code> <em>and</em>
+in <code class="docutils literal notranslate"><span class="pre">optsHandler</span></code> at the end.</p></li>
+<li><p>Always adjust the <code class="docutils literal notranslate"><span class="pre">datakey:</span> <span class="pre">branch</span></code>/<code class="docutils literal notranslate"><span class="pre">stable</span></code> block.</p></li>
+<li><p>For releases, adjust the <code class="docutils literal notranslate"><span class="pre">datakey:</span> <span class="pre">branch</span></code>/<code class="docutils literal notranslate"><span class="pre">previous</span></code> and <code class="docutils literal notranslate"><span class="pre">nightly</span></code> blocks.</p></li>
+</ul>
+</li>
+<li><p>Enter the <code class="docutils literal notranslate"><span class="pre">scripts/</span></code> directory. If the previous release hasn’t had a snapshot saved, copy
+<code class="docutils literal notranslate"><span class="pre">install-generator.py</span></code> into a version-labeled file, and add it to the git index.</p></li>
+<li><p>Edit <code class="docutils literal notranslate"><span class="pre">scripts/install-generator.py</span></code>.</p>
+<ul>
+<li><p>Primarily, edit <code class="docutils literal notranslate"><span class="pre">edition</span></code> at the top.</p></li>
+<li><p>Also, edit other arrays (stuff above <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">Outputs</span></code>) or messages (logic below <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">Outputs</span></code>)
+that should change.</p></li>
+</ul>
+</li>
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">install-generator.py</span></code> in place. It will dump two new files, e.g.,
+<code class="docutils literal notranslate"><span class="pre">data/installs/cmd/{edition}.json</span></code> and <code class="docutils literal notranslate"><span class="pre">data/installs/dlbtn/{edition}.json</span></code>. Add these to the
+index (no need to inspect them).</p></li>
+<li><p>The installer page is now ready for inspection. Run <code class="docutils literal notranslate"><span class="pre">hugo</span> <span class="pre">server</span> <span class="pre">--watch=false</span></code> and view in
+browser at <a class="reference external" href="http://localhost:1313/">http://localhost:1313/</a> . Click around the options to make sure the buttons and
+instructions all look right.</p></li>
+<li><p>Iterate on the <code class="docutils literal notranslate"><span class="pre">data/installs/{edition}.yaml</span></code> and the <code class="docutils literal notranslate"><span class="pre">install-generator.py</span></code> until correct.
+It’s fine to push to psicode.org to see it in place. But wait until it’s final (and all the
+packages and installers are ready) to shift “latest” alias in frontmatter from whichever page is
+currently active to the new page, <code class="docutils literal notranslate"><span class="pre">content/installs/{edition}.md</span></code>. This makes sure “Downloads”
+on the navigation bar points to the new page.</p></li>
+<li><p>Commit the new files, PR, and deploy psicode site.</p></li>
 </ul>
 </section>
 <section id="collect-documentation-snapshot">
 <h2>Collect documentation snapshot<a class="headerlink" href="#collect-documentation-snapshot" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Documentation is built automatically by GHA from the latest psi4 master commit. It gets pushed to the psi4/psi4docs repository and thence served by netlify to a site independent of psicode.org. The netlify psicode.org site has a redirect so that psicode.org/psi4manual/master presents the psi4docs netlify content.</p></li>
-<li><p>GHA controller is <a class="reference external" href="https://github.com/psi4/psi4/blob/master/.github/workflows/docs.yml">psi4/.github/workflows/docs.yml</a></p></li>
-<li><p>This setup works great for “latest” docs, but it won’t build a nice copy on the tag because the tag commit is pushed before the tag itself, so the version shows up “undefined”.</p></li>
-<li><p>So, anytime after “Tag (pre)release” is over, navigate on psi4 GH to the tag commit (not the record commit) and retrigger the docs GHA. Download the artifact (zipped docs dir) at the end to a local computer.</p></li>
-<li><p>In your hugo site clone, create a new directory under <code class="docutils literal notranslate"><span class="pre">static/psi4manual</span></code>. Copy the zipped docs there, unpack, rearrange so that <code class="docutils literal notranslate"><span class="pre">static/psi4manual/&lt;new-tag&gt;/index.html</span></code> is present. Check in.</p></li>
+<li><p>Documentation is built automatically by GHA from the latest psi4 master commit. It gets pushed to
+a special “master” folder on the <a class="reference external" href="https://github.com/psi4/psi4docs">https://github.com/psi4/psi4docs</a> repository. From there, it and
+other docs snapshots are built and served to <a class="reference external" href="https://psi4.github.io/psi4docs/master/">https://psi4.github.io/psi4docs/master/</a> (independent
+of psicode.org). The netlify psicode.org site has a redirect so that
+<a class="reference external" href="https://psicode.org/psi4manual/master/index.html">https://psicode.org/psi4manual/master/index.html</a> presents the psi4docs repo content.</p>
+<ul>
+<li><p>GHA sphinx-build controller is <a class="reference external" href="https://github.com/psi4/psi4/blob/master/.github/workflows/docs.yml">psi4/.github/workflows/docs.yml</a></p></li>
+<li><p>GHA gh-pages deploy controller is <a class="reference external" href="https://github.com/psi4/psi4docs/blob/master/.github/workflows/docs.yml">https://github.com/psi4/psi4docs/blob/master/.github/workflows/docs.yml</a></p></li>
+<li><p>Netlify psicode redirect controller is <a class="reference external" href="https://github.com/psi4/psicode-hugo-website/blob/master/netlify.toml#L10-L15">https://github.com/psi4/psicode-hugo-website/blob/master/netlify.toml#L10-L15</a></p></li>
+</ul>
+</li>
+<li><p>This setup works great for “latest” docs, but it won’t necessarily build a nice copy on the tag
+commit itself for release and postrelease snapshots. Get a snapshot <em>on the tag</em> by some means:</p>
+<ul>
+<li><p>For releases and postreleases, any commit to the maintenance branch will build docs and upload
+to the branch name in psi4docs. This should be pre-positioned by GHA, so check that docs with
+the right version are deployed and then no further action required (can skip ahead to README.md
+and netlify.toml steps).</p></li>
+<li><p>For releases, you can do the <code class="docutils literal notranslate"><span class="pre">atomic</span></code> push of the tag commit, wait for the docs build to
+complete, download the GHA artifact (zipped docs dir), then continue by pushing the record commit.</p></li>
+<li><p>For releases beyond the <code class="docutils literal notranslate"><span class="pre">atomic</span></code> push, navigate on psi4 GH to the tag commit (not the record
+commit) and retrigger the docs GHA, then download the GHA artifact (zipped docs dir).</p></li>
+<li><p>For postreleases, build the docs locally at the tag and collect the docs dir.</p></li>
+</ul>
+</li>
+<li><p>In your local clone of <a class="reference external" href="https://github.com/psi4/psi4docs">https://github.com/psi4/psi4docs</a>, find the appropriate folder and unpack
+your docs snapshot into it.</p>
+<ul>
+<li><p>For releases, you’ll need to make a new folder, e.g. <code class="docutils literal notranslate"><span class="pre">sphinxman/1.8.x</span></code>.</p></li>
+<li><p>For postreleases, you’ll overwrite the contents of the existing folder.</p></li>
+<li><p>Unpack and rearrange so that in the end, e.g., <code class="docutils literal notranslate"><span class="pre">sphinxman/1.8.x/index.html</span></code> is present.</p></li>
+</ul>
+</li>
+<li><p>Commit all your docs files and push to <code class="docutils literal notranslate"><span class="pre">master</span></code>.</p></li>
+<li><p>For releases, add a line to the top-level table <a class="reference external" href="https://github.com/psi4/psi4docs/edit/master/README.md">https://github.com/psi4/psi4docs/edit/master/README.md</a> .</p></li>
+<li><p>For releases, add a new redirects block to <a class="reference external" href="https://github.com/psi4/psicode-hugo-website/edit/master/netlify.toml">https://github.com/psi4/psicode-hugo-website/edit/master/netlify.toml</a> .</p></li>
+<li><p>Details:</p>
+<ul>
+<li><p>If you sequentially push the tag commit, push the tag, push the record commit, GHA will build the docs at v1.{Y+1}.dev1, not at v1.Y .</p></li>
+<li><p>If you sequentially push the tag commit, then push the tag, GHA will build the docs at the tag commit, but the version will show up as “undefined”.</p></li>
+<li><p>If you <code class="docutils literal notranslate"><span class="pre">atomic</span></code> push the tag commit and tag together and wait, GHA will build the docs at v1.Y, as desired.</p></li>
+</ul>
+</li>
 </ul>
 </section>
 <section id="publish-github-release">
 <h2>Publish GitHub release<a class="headerlink" href="#publish-github-release" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>On GitHub site “Draft a New Release” with newly minted tag</p></li>
+<li><p>With an anticipated or newly minted tag, go to <a class="reference external" href="https://github.com/psi4/psi4/releases/new">https://github.com/psi4/psi4/releases/new</a> (or
+“Draft a new release” button on GitHub site).</p></li>
+<li><p>Release title takes the form: <code class="docutils literal notranslate"><span class="pre">v1.8,</span> <span class="pre">2023-05-11</span></code></p></li>
 <li><p>Fill in frontmatter style and links from previous GitHub release</p></li>
-<li><p>Fill in RN from hopefully existing RN issue</p></li>
-<li><p>Fill in RN by going through the top posts from all PRs from this milestone</p></li>
-<li><p>“publish” release. This establishes release date for GitHub API</p></li>
+<li><p>Fill in RN from hopefully existing RN issue.</p></li>
+<li><p>Fill in RN by going through the frontmatter from all PRs from this milestone, particularly the
+“User API &amp; Changelog headlines” section.</p></li>
+<li><p>Save the draft release until tag is finalized.</p></li>
+<li><p>“publish” release. This establishes the release date for the GitHub API.</p></li>
 <li><p>Close the RN issue.</p></li>
 <li><p>Close the milestone (should be 100% complete).</p></li>
+<li><p>Open a milestone for the release that’s a year out.</p></li>
 </ul>
 </section>
 <section id="publish-github-postrelease">
 <h2>Publish GitHub postrelease<a class="headerlink" href="#publish-github-postrelease" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>On GitHub site “Draft a New Release” for anticipated or newly minted tag</p></li>
-<li><p>Fill in frontmatter style and links from previous GitHub release</p></li>
-<li><p>Fill in RN as cherry-pick to or edit on branch</p></li>
-<li><p>“publish” release. This establishes release date for GitHub API</p></li>
+<li><p>With an anticipated or newly minted tag, go to <a class="reference external" href="https://github.com/psi4/psi4/releases/new">https://github.com/psi4/psi4/releases/new</a> (or
+“Draft a new release” button on GitHub site).</p></li>
+<li><p>Release title takes the form: <code class="docutils literal notranslate"><span class="pre">v1.8.2,</span> <span class="pre">2023-10-03</span></code></p></li>
+<li><p>Fill in frontmatter style and links from previous GitHub release.</p></li>
+<li><p>Fill in RN bullets for changes cherry-picked or edited to the maintenance branch.</p></li>
+<li><p>Save the draft release until tag is finalized.</p></li>
+<li><p>“publish” release. This establishes the release date for the GitHub API.</p></li>
 </ul>
 </section>
-<section id="publish-psicode-release">
-<h2>Publish psicode release<a class="headerlink" href="#publish-psicode-release" title="Link to this heading">¶</a></h2>
+<section id="publish-psicode-org-release">
+<h2>Publish psicode.org release<a class="headerlink" href="#publish-psicode-org-release" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Copy a recent release page like <a class="reference external" href="https://github.com/psi4/psicode-hugo-website/blob/master/content/posts/v1p2.md">https://github.com/psi4/psicode-hugo-website/blob/master/content/posts/v1p2.md</a></p></li>
-<li><p>Edit its filename, title, date, image, and links</p></li>
-<li><p>Execute <a class="reference external" href="https://api.github.com/repos/psi4/psi4/releases/latest">https://api.github.com/repos/psi4/psi4/releases/latest</a> and note the <code class="docutils literal notranslate"><span class="pre">id</span></code> field value</p></li>
-<li><p>Use the <code class="docutils literal notranslate"><span class="pre">id</span></code> value in the shortcode call at the bottom by <code class="docutils literal notranslate"><span class="pre">ghRN</span></code></p></li>
+<li><p>Be in local clone of repository <a class="reference external" href="https://github.com/psi4/psicode-hugo-website">https://github.com/psi4/psicode-hugo-website</a> .</p></li>
+<li><p>Execute <a class="reference external" href="https://api.github.com/repos/psi4/psi4/releases/latest">https://api.github.com/repos/psi4/psi4/releases/latest</a> or
+<a class="reference external" href="https://api.github.com/repos/psi4/psi4/releases/tags/v1.8.2">https://api.github.com/repos/psi4/psi4/releases/tags/v1.8.2</a> (substituting tag) and note the <code class="docutils literal notranslate"><span class="pre">id</span></code>
+field value.</p></li>
+<li><p>Copy and edit a new file akin to <code class="docutils literal notranslate"><span class="pre">content/posts/v182.md</span></code>. Add it to the git index.</p>
+<ul>
+<li><p>e.g., <code class="docutils literal notranslate"><span class="pre">v1.8.2</span></code> is used for Title and Release Notes.</p></li>
+<li><p>e.g., <code class="docutils literal notranslate"><span class="pre">1.8.x</span></code> is used for Documentation and Source.</p></li>
+<li><p>e.g., <code class="docutils literal notranslate"><span class="pre">v182</span></code> (edition string) is used for Image and Installers.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">id</span></code> value in the shortcode call at the bottom near <code class="docutils literal notranslate"><span class="pre">ghRN</span></code>.</p></li>
+</ul>
+</li>
+<li><p>Add a new release page to the <code class="docutils literal notranslate"><span class="pre">psi4_release_fireworks.key</span></code> Keynote presentation. Run the slide
+transition and screenshot the fireworks. Open the PNG file in Preview and save as JPEG while
+downsampling to ~400kB. Place the file at e.g., <code class="docutils literal notranslate"><span class="pre">static/images/portfolio/fireworks_slide_v182.jpg</span></code>.
+Add it to the git index.</p></li>
+<li><p>Edit <code class="docutils literal notranslate"><span class="pre">data/portfolio.yml</span></code> to add a new block for the release (order matters).</p></li>
+<li><p>Include these changes in a PR. Check the generated preview if needed. Merge the PR yourself or ask
+for it to be merged.</p></li>
 </ul>
 </section>
 <section id="finalize-release">
 <h2>Finalize release<a class="headerlink" href="#finalize-release" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Make new PR with
-* edits to main <code class="docutils literal notranslate"><span class="pre">README.md</span></code> badges, python versions, etc.
-* edits to <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> <code class="docutils literal notranslate"><span class="pre">find_package(PythonLibsNew</span> <span class="pre">3.6</span> <span class="pre">REQUIRED)</span></code></p></li>
+* edits to main <code class="docutils literal notranslate"><span class="pre">README.md</span></code> badges, python versions, etc.</p></li>
 <li><p>Tweet about release</p></li>
 </ul>
 </section>
-<section id="reset-psi4meta-for-nightly-operation">
-<h2>Reset psi4meta for nightly operation<a class="headerlink" href="#reset-psi4meta-for-nightly-operation" title="Link to this heading">¶</a></h2>
-<p>On both Linux and Mac:</p>
+<section id="misc">
+<h2>Misc.<a class="headerlink" href="#misc" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>After (post)release (not prerelease), in <code class="docutils literal notranslate"><span class="pre">conda_build_config.yaml</span></code>, edit <code class="docutils literal notranslate"><span class="pre">ltrtver</span></code> to a new “release.dev” label</p></li>
-<li><p>After postrelease, unpin any dependencies in cbcy that needed older either ver or bld (e.g., v2rdm_casscf_bld)</p></li>
-<li><p>Edit <code class="docutils literal notranslate"><span class="pre">psi4ver</span></code> back to <code class="docutils literal notranslate"><span class="pre">''</span></code> in cbcy</p></li>
-<li><p>Edit <code class="docutils literal notranslate"><span class="pre">source/git_tag</span></code> back to <code class="docutils literal notranslate"><span class="pre">master</span></code> for psi4-multiout, psi4-docs</p></li>
-<li><p>Edit build string back to <code class="docutils literal notranslate"><span class="pre">0</span></code> if psi4-multiout needed multiple passes</p></li>
-<li><p>Edit kitandkapoodle.py back to <code class="docutils literal notranslate"><span class="pre">***</span></code> stack</p></li>
-<li><p>Check in all release, construct, recipe changes on Linux and Mac. Synchronize both to GitHub psi4meta</p></li>
-<li><p>Copy meta.yaml and build.sh files to vMmp-prefixed files for the record.</p></li>
-<li><p>Edit crontab back to 2am “norm”. Comment out “anom”</p></li>
+<li><p>Consider rebuilding the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> binder image.</p></li>
+<li><p>If you want to do trial conda builds from a maintenance branch w/o pushing the tag, requires
+<code class="docutils literal notranslate"><span class="pre">source/git_tag:</span> <span class="pre">1.3.x</span></code> and fake <code class="docutils literal notranslate"><span class="pre">package/version:</span> <span class="pre">v1.3.1rc1</span></code></p></li>
 </ul>
 </section>
 </section>
@@ -606,10 +776,13 @@ Other packages, the “ecosystem stack” (e.g., <code class="docutils literal n
 <li><a class="reference internal" href="#annual">Annual</a></li>
 <li><a class="reference internal" href="#pre-release-e-g-v1-3rc1">Pre-Release (e.g., <code class="docutils literal notranslate"><span class="pre">v1.3rc1</span></code>)</a></li>
 <li><a class="reference internal" href="#release-e-g-v1-3">Release (e.g., <code class="docutils literal notranslate"><span class="pre">v1.3</span></code>)</a></li>
-<li><a class="reference internal" href="#post-release-e-g-v1-3-1">Post-Release (e.g., <code class="docutils literal notranslate"><span class="pre">v1.3.1</span></code>)</a></li>
+<li><a class="reference internal" href="#post-release-e-g-v1-8-2">Post-Release (e.g., <code class="docutils literal notranslate"><span class="pre">v1.8.2</span></code>)</a></li>
+<li><a class="reference internal" href="#on-january-first">On January first</a></li>
 <li><a class="reference internal" href="#update-copyright-year">Update copyright year</a></li>
+<li><a class="reference internal" href="#update-counter-scripts">Update counter scripts</a></li>
 <li><a class="reference internal" href="#update-samples">Update samples</a></li>
 <li><a class="reference internal" href="#collect-new-authors">Collect new authors</a></li>
+<li><a class="reference internal" href="#run-long-tests">Run long tests</a></li>
 <li><a class="reference internal" href="#anticipate-next-release">Anticipate next release</a></li>
 <li><a class="reference internal" href="#build-conda-ecosystem-stack">Build Conda ecosystem stack</a></li>
 <li><a class="reference internal" href="#assemble-postrelease-changes">Assemble postrelease changes</a></li>
@@ -618,17 +791,16 @@ Other packages, the “ecosystem stack” (e.g., <code class="docutils literal n
 <li><a class="reference internal" href="#tag-pre-release">Tag (pre)release</a></li>
 <li><a class="reference internal" href="#tag-postrelease">Tag postrelease</a></li>
 <li><a class="reference internal" href="#initialize-release-branch">Initialize release branch</a></li>
-<li><a class="reference internal" href="#build-conda-psi4-stack-at-specific-commit">Build Conda Psi4 stack at specific commit</a></li>
-<li><a class="reference internal" href="#publish-to-main-conda-label">Publish to main conda label</a></li>
-<li><a class="reference internal" href="#build-psi4conda-set-pre-spring-2021">Build Psi4conda set (pre-Spring 2021)</a></li>
+<li><a class="reference internal" href="#build-extra-conda-packages-for-psi4-channel">Build extra Conda packages for Psi4 channel</a></li>
 <li><a class="reference internal" href="#build-psi4conda-set">Build Psi4conda set</a></li>
+<li><a class="reference internal" href="#build-docker-images">Build Docker images</a></li>
 <li><a class="reference internal" href="#generate-download-page-for-psicode-org">Generate download page for psicode.org</a></li>
 <li><a class="reference internal" href="#collect-documentation-snapshot">Collect documentation snapshot</a></li>
 <li><a class="reference internal" href="#publish-github-release">Publish GitHub release</a></li>
 <li><a class="reference internal" href="#publish-github-postrelease">Publish GitHub postrelease</a></li>
-<li><a class="reference internal" href="#publish-psicode-release">Publish psicode release</a></li>
+<li><a class="reference internal" href="#publish-psicode-org-release">Publish psicode.org release</a></li>
 <li><a class="reference internal" href="#finalize-release">Finalize release</a></li>
-<li><a class="reference internal" href="#reset-psi4meta-for-nightly-operation">Reset psi4meta for nightly operation</a></li>
+<li><a class="reference internal" href="#misc">Misc.</a></li>
 </ul>
 </li>
 </ul>
@@ -680,7 +852,7 @@ Other packages, the “ecosystem stack” (e.g., <code class="docutils literal n
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/manage_release.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/846597a">1.9a1.dev73</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/bcdf520">1.9a1.dev75</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -694,7 +866,7 @@ Other packages, the “ecosystem stack” (e.g., <code class="docutils literal n
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Wednesday, 29 November 2023 07:23AM.
+      Last updated on Friday, 01 December 2023 05:56PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
     <!-- cloud_sptheme 1.4 -->
