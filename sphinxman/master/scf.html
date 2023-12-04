@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=ea58f1e0"></script>
+    <script src="_static/documentation_options.js?v=d1f86b85"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fb6ca99">1.9a1.dev78</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/8e4ee09">1.9a1.dev80</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -744,7 +744,10 @@ introduce redundant ERI computations into the calculation. Therefore, composite 
 algorithms tend to perform better for larger systems, but worse for smaller systems. Arbitrary
 composite algorithms can be accessed by setting <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> to <code class="docutils literal notranslate"><span class="pre">J_alg+K_alg</span></code>,
 where <em>J_alg</em> and <em>K_alg</em> are the names of the separate Coulomb
-and Exchange construction algorithms to use, respectively.</p>
+and Exchange construction algorithms to use, respectively. Alternatively, if one is using
+DFT with non-hybrid functionals, a composite Coulomb construction algorithm can be
+specified solo by setting <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> to <code class="docutils literal notranslate"><span class="pre">J_alg</span></code>, without the need to set
+an associated <code class="docutils literal notranslate"><span class="pre">K_alg</span></code>.</p>
 <p>Specialized algorithms available to construct the Coulomb term within a composite framework
 are as follows:</p>
 <dl class="simple">
@@ -849,7 +852,8 @@ calculations. In principle, though, DF approaches can be utilized in an integral
 I/O bottlenecks that conventional DF methods will eventually run into. One such approach, outlined by Weigend in <a class="reference internal" href="bibliography.html#weigend-2002-4285" id="id23"><span>[Weigend:2002:4285]</span></a>,
 is available for use in Psi4 for the separate construction of the Coulomb contribution to the Fock matrix.  This implementation can be used alongside
 Psi4’s separate Exchange construction algorithms for composite Fock matrix construction by using the keyword DFDIRJ as the Coulomb construction
-algorithm when specifying <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> to use a composite algorithm combination (<code class="docutils literal notranslate"><span class="pre">DFDIRJ+K_alg</span></code>).</p>
+algorithm when specifying <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> to use a composite algorithm combination (<code class="docutils literal notranslate"><span class="pre">DFDIRJ+K_alg</span></code> in general,
+or <code class="docutils literal notranslate"><span class="pre">DFDIRJ</span></code> for DFT with non-hybrid functionals).</p>
 <p>DFDIRJ supports multiple capabilities to improve performance. Specifically, DFDIRJ allows for a combination of density-matrix based ERI
 screening (set <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCREENING-GLOBALS"><span class="xref std std-term">SCREENING</span></a> to <code class="docutils literal notranslate"><span class="pre">DENSITY</span></code>) and incremental Fock matrix construction (set <a class="reference internal" href="autodoc_glossary_options_c.html#term-INCFOCK-SCF"><span class="xref std std-term">INCFOCK</span></a> to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>). These two, when combined,
 enable more aggressive screening of ERI contributions to the Coulomb matrix and thus greatly improve performance.</p>
@@ -875,8 +879,9 @@ for the SCF to fully converge on the larger grid, useful for the study of wavefu
 properties such as gradients. The size of the initial grid is controlled by the keywords
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_RADIAL_POINTS_INITIAL-SCF"><span class="xref std std-term">COSX_RADIAL_POINTS_INITIAL</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_SPHERICAL_POINTS_INITIAL-SCF"><span class="xref std std-term">COSX_SPHERICAL_POINTS_INITIAL</span></a>.
 The final grid is controlled by <a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_RADIAL_POINTS_FINAL-SCF"><span class="xref std std-term">COSX_RADIAL_POINTS_FINAL</span></a> and
-<a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_SPHERICAL_POINTS_FINAL-SCF"><span class="xref std std-term">COSX_SPHERICAL_POINTS_FINAL</span></a>. The defaults for both grids aim to balance
-cost and accuracy.</p>
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_SPHERICAL_POINTS_FINAL-SCF"><span class="xref std std-term">COSX_SPHERICAL_POINTS_FINAL</span></a>. Currently, the default grids are very crude,
+allowing for high performance at the cost of accuracy. If high-accuracy calculations
+are desired with COSX, the grid sizes should be increased.</p>
 <p>Screening thresholds over integrals, densities, and basis extents are set
 with the <a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_INTS_TOLERANCE-SCF"><span class="xref std std-term">COSX_INTS_TOLERANCE</span></a>, <a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_DENSITY_TOLERANCE-SCF"><span class="xref std std-term">COSX_DENSITY_TOLERANCE</span></a>, and
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_BASIS_TOLERANCE-SCF"><span class="xref std std-term">COSX_BASIS_TOLERANCE</span></a> keywords, respectively. <a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_INTS_TOLERANCE-SCF"><span class="xref std std-term">COSX_INTS_TOLERANCE</span></a>
@@ -1394,7 +1399,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/fb6ca99">1.9a1.dev78</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/8e4ee09">1.9a1.dev80</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1408,7 +1413,7 @@ types.</p></li>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Sunday, 03 December 2023 11:35PM.
+      Last updated on Monday, 04 December 2023 07:18PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
     <!-- cloud_sptheme 1.4 -->
