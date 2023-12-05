@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=d1f86b85"></script>
+    <script src="_static/documentation_options.js?v=ce732c3b"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/gcp.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/8e4ee09">1.9a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6c81789">1.9a1.dev81</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -135,7 +135,9 @@
 </li>
 <li><p>There are two implementations of gCP; see <a class="reference internal" href="dftd3.html#table-empdispimpl"><span class="std std-ref">Empirical dispersion correction packages</span></a> . The newer
 “mctc” one is preferred, while the older “classic” one will work for the immediate future.
-<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> will automatically select whichever is available.</p></li>
+<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> will automatically select whichever is available.
+Starting with v1.9, only “mctc-gcp” is supported, though the now untested
+“classic” continues to work for many applications.</p></li>
 <li><p>gCP is available as a conda package for Linux and macOS and Windows.</p></li>
 <li><p>If using the Psi4conda installer, gCP has already been installed alongside.</p></li>
 <li><p>If using the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> conda package, the classic gcp conda package can
@@ -166,15 +168,19 @@ position in the path environment variables.</p>
 <section id="running-gcp">
 <h2>Running gCP<a class="headerlink" href="#running-gcp" title="Link to this heading">¶</a></h2>
 <p>At present there is a limited interface to gCP that is used
-only to implement the “HF-3c” <a class="reference internal" href="bibliography.html#sure-2013-1672" id="id1"><span>[Sure:2013:1672]</span></a> and “PBEh-3c”
-<a class="reference internal" href="bibliography.html#grimme-2015-054107" id="id2"><span>[Grimme:2015:054107]</span></a> methods (both energy and gradient). The interface
-can use classic or mctc-gcp executables interchangeably and will prefer the latter.
-A <a class="reference internal" href="dftd3.html#sec-dftd3"><span class="std std-ref">DFTD3</span></a> executable, classic or simple-dftd3,
-must also be available for these methods to
-run. Unlike every other method in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, if a basis set has not been
-set, these will default to their intended basis sets: MINIX for HF-3c
-and def2-mSVP for PBEh-3c. If a basis has previously been set, but you
-want to use the default basis, use the slash syntax to “empty” the basis
+only to implement the “HF-3c” <a class="reference internal" href="bibliography.html#sure-2013-1672" id="id1"><span>[Sure:2013:1672]</span></a>, “PBEh-3c”
+<a class="reference internal" href="bibliography.html#grimme-2015-054107" id="id2"><span>[Grimme:2015:054107]</span></a>, “B97-3c” <a class="reference internal" href="bibliography.html#brandenburg-2018-b973c" id="id3"><span>[Brandenburg:2018:b973c]</span></a>, “r2SCAN-3c” <a class="reference internal" href="bibliography.html#grimme-2021-064103" id="id4"><span>[Grimme:2021:064103]</span></a>,
+and “wB97X-3c” <a class="reference internal" href="bibliography.html#muller-2023-014103" id="id5"><span>[Muller:2023:014103]</span></a> methods (both energy and gradient).
+The interface can use classic or mctc-gcp executables but only the latter implements “B97-3c” and “r2SCAN-3c”.
+The newest wB97X-3c method doesn’t use a gcp correction (it does use ECPs down to first row elements)
+but is listed here for completeness of the “3c” family.
+A <a class="reference internal" href="dftd3.html#sec-dftd3"><span class="std std-ref">DFTD3</span></a> executable, classic or simple-dftd3, must also be available for
+the HF-3c, PBEh-3c, or B97-3c methods to run.
+A <a class="reference internal" href="dftd3.html#sec-dftd3"><span class="std std-ref">DFTD4</span></a> python module must also be available for
+the r2SCAN-3c or wB97X-3c methods to run.
+These method are defined with their own basis set and thus no basis set should be set by the user.
+<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> will select the intended basis sets: HF-3c/MINIX, PBEh-3c/def2-mSVP, B97-3c/def2-mTZVP, r2SCAN-3c/def2-mTZVPP, wB97X-3c/vDZP.
+If a basis has previously been set for another calculation, use the slash syntax to “empty” the basis
 option for the scope of the current calculation, <code class="docutils literal notranslate"><span class="pre">energy(&quot;hf3c/&quot;)</span></code>.</p>
 <p>A few practical examples:</p>
 <ul>
@@ -188,15 +194,9 @@ option for the scope of the current calculation, <code class="docutils literal n
 </pre></div>
 </div>
 </li>
-<li><p>HF-3c with non-standard basis</p>
+<li><p>r2SCAN-3c with default basis after basis set</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">basis</span> <span class="n">cc</span><span class="o">-</span><span class="n">pvdz</span>
-<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;hf3c&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</li>
-<li><p>PBEh-3c with default basis after basis set</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">basis</span> <span class="n">cc</span><span class="o">-</span><span class="n">pvdz</span>
-<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;pbeh3c/&#39;</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;r2scan3c/&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -336,7 +336,7 @@ efficient. Influences return values, see below.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/gcp.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/8e4ee09">1.9a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6c81789">1.9a1.dev81</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -350,7 +350,7 @@ efficient. Influences return values, see below.</p></li>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Monday, 04 December 2023 07:18PM.
+      Last updated on Tuesday, 05 December 2023 04:24AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
     <!-- cloud_sptheme 1.4 -->

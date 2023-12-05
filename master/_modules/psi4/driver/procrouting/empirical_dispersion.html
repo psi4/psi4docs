@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=d1f86b85"></script>
+    <script src="../../../../_static/documentation_options.js?v=ce732c3b"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/8e4ee09">1.9a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6c81789">1.9a1.dev81</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -195,7 +195,7 @@
         <span class="k">for</span> <span class="n">disp</span> <span class="ow">in</span> <span class="n">disps</span><span class="p">:</span>
             <span class="n">capable</span><span class="p">[</span><span class="n">disp</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eng</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">disp</span><span class="p">,</span> <span class="n">engines</span> <span class="ow">in</span> <span class="n">capable</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">capable_sorted_by_available</span><span class="p">[</span><span class="n">disp</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">engines</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="ow">not</span> <span class="n">programs_disp</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">x</span><span class="p">))</span>
+        <span class="n">capable_sorted_by_available</span><span class="p">[</span><span class="n">disp</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">engines</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">programs_disp</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">capable_sorted_by_available</span>
 
@@ -398,7 +398,7 @@
                     <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;PAIRWISE DISPERSION CORRECTION ANALYSIS&quot;</span><span class="p">,</span>
                                      <span class="n">jobrec</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s1">&#39;qcvars&#39;</span><span class="p">][</span><span class="s2">&quot;2-BODY PAIRWISE DISPERSION CORRECTION ANALYSIS&quot;</span><span class="p">])</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;hf3c&#39;</span><span class="p">,</span> <span class="s1">&#39;pbeh3c&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;hf3c&#39;</span><span class="p">,</span> <span class="s1">&#39;pbeh3c&#39;</span><span class="p">,</span> <span class="s1">&#39;r2scan3c&#39;</span><span class="p">,</span> <span class="s1">&#39;b973c&#39;</span><span class="p">]:</span>
                 <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span>
                     <span class="n">resi</span><span class="p">,</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">gcp_engine</span><span class="p">,</span>
@@ -467,7 +467,7 @@
                     <span class="k">if</span> <span class="s2">&quot;CURRENT&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
                         <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">qca</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">qca</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;hf3c&#39;</span><span class="p">,</span> <span class="s1">&#39;pbeh3c&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fctldash</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;hf3c&#39;</span><span class="p">,</span> <span class="s1">&#39;pbeh3c&#39;</span><span class="p">,</span> <span class="s1">&#39;r2scan3c&#39;</span><span class="p">,</span> <span class="s1">&#39;b973c&#39;</span><span class="p">]:</span>
                 <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span>
                     <span class="n">resi</span><span class="p">,</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">gcp_engine</span><span class="p">,</span>
@@ -593,7 +593,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/8e4ee09">1.9a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6c81789">1.9a1.dev81</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -607,7 +607,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Monday, 04 December 2023 07:18PM.
+      Last updated on Tuesday, 05 December 2023 04:24AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
     <!-- cloud_sptheme 1.4 -->
