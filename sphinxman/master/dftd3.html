@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=d1f86b85"></script>
+    <script src="_static/documentation_options.js?v=ce732c3b"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dftd3.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/8e4ee09">1.9a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6c81789">1.9a1.dev81</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -241,7 +241,8 @@
 </li>
 <li><p>There are two implementations of DFTD3; see <a class="reference internal" href="#table-empdispimpl"><span class="std std-ref">Empirical dispersion correction packages</span></a> . The newer
 “s-dftd3” one is preferred, while the older “classic” one will work for the immediate future.
-<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> will automatically select whichever is available.</p></li>
+<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> will automatically select whichever is available.
+Starting with v1.9, only “s-dftd3” is supported, though the “classic” continues to work for many applications.</p></li>
 <li><p>DFTD3 is available as a conda package for Linux and macOS and Windows.</p></li>
 <li><p>If using the Psi4conda installer, DFTD3 has already been installed alongside.</p></li>
 <li><p>If using the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> conda package, the classic dftd3 conda package can
@@ -333,7 +334,8 @@ With s-dftd3, parameters are also tabulated in the program source.</p>
 available only through the <code class="docutils literal notranslate"><span class="pre">DFTD3</span></code> or <code class="docutils literal notranslate"><span class="pre">DFTD4</span></code> programs. Once installed, the
 <code class="docutils literal notranslate"><span class="pre">dftd3</span></code>/<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> and <code class="docutils literal notranslate"><span class="pre">dftd4</span></code>/<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> interfaces are transparent, and all corrections are
 interfaced exactly alike.
-The -D3 interface can use classic or simple-dftd3 programs interchangeably and will prefer the latter.</p>
+The -D3 interface can use classic or simple-dftd3 programs interchangeably and will prefer the latter.
+Starting in v1.9, the classic program is no longer supported or tested, though it isn’t deliberately disabled.</p>
 <p>Despite different defaults in these programs when run independently,
 when run through <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> as EmpiricalDispersion engine, each should
 produce the same result. Moreover, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s own defaults and aliases
@@ -467,7 +469,7 @@ the <code class="docutils literal notranslate"><span class="pre">dftd3</span></c
 corrections. In <code class="docutils literal notranslate"><span class="pre">DFT-D3</span></code>, three-body dispersion is approximated with the
 Axilrod-Teller-Muto model:</p>
 <div class="math notranslate nohighlight">
-\[E_{disp}^{(3)}=-\frac{1}{6}\sum_{A\neqB\neqC}\frac{C_{9}^{ABC}(3\cos{\theta_a}\cos{\theta_b}\cos{\theta_c}+1)}{(r_{AB}r_{BC}r_{AC})^{3}}f_{damp}(\bar{r}_{ABC})\]</div>
+\[E_{disp}^{(3)}=-\frac{1}{6}\sum_{A\neq B\neq C}\frac{C_{9}^{ABC}(3\cos{\theta_a}\cos{\theta_b}\cos{\theta_c}+1)}{(r_{AB}r_{BC}r_{AC})^{3}}f_{damp}(\bar{r}_{ABC})\]</div>
 <p>where <span class="math notranslate nohighlight">\(\theta_a\)</span> is the angle at atom A corresponding to the triangle formed by atoms A, B, and C,
 and <span class="math notranslate nohighlight">\(\bar{r}_{ABC}\)</span> is the geometric mean of the corresponding atomic-pair distances.
 The dispersion coefficients are defined as</p>
@@ -952,7 +954,7 @@ classic gcp or mctc-gcp executables.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dftd3.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/8e4ee09">1.9a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6c81789">1.9a1.dev81</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -966,7 +968,7 @@ classic gcp or mctc-gcp executables.</p></li>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2023, The Psi4 Project.
-      Last updated on Monday, 04 December 2023 07:18PM.
+      Last updated on Tuesday, 05 December 2023 04:24AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
     <!-- cloud_sptheme 1.4 -->
