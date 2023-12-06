@@ -1,0 +1,444 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Interface to MRCC by M. Kállay</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="_static/documentation_options.js?v=4519143e"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    
+    
+     
+        <script src="_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
+    <link rel="icon" href="_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interface to PCMSolver by R. Di Remigio" href="pcmsolver.html" />
+    <link rel="prev" title="Interface to Molden — molden()" href="molden.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="pcmsolver.html" title="Interface to PCMSolver by R. Di Remigio"
+             accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="molden.html" title="Interface to Molden — molden()"
+             accesskey="P"><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/mrcc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/d99b642">1.9</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="interfacing.html" accesskey="U">Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">Interface to MRCC by M. Kállay</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="interface-to-mrcc-by-m-ka-acutellay">
+<span id="sec-mrcc"></span><span id="index-0"></span><h1>Interface to MRCC by M. Kállay<a class="headerlink" href="#interface-to-mrcc-by-m-ka-acutellay" title="Link to this heading">¶</a></h1>
+<p><em>Code author: Justin M. Turney and Andrew C. Simmonett</em></p>
+<p><em>Section author: Justin M. Turney</em></p>
+<p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__mrcc.html#apdx-mrcc"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__mrcc.html#apdx-mrcc-psivar"><span class="std std-ref">PSI Variables</span></a>, <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/mrcc">MRCC</a>, <a class="reference internal" href="autodoc_testsuite_mrcc.html#apdx-testsuitemrcc"><span class="std std-ref">Samples</span></a></p>
+<p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> contains code to interface to the MRCC program of M. Kállay
+and J. Gauss.  The license and source code of the MRCC program must be
+obtained from Mihály Kállay (<a class="reference external" href="https://www.mrcc.hu/">https://www.mrcc.hu/</a>).</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>Follow the instructions provided with the source to build the MRCC programs.
+To be used by <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, ensure that the program binary (<code class="docutils literal notranslate"><span class="pre">dmrcc</span></code>) can be
+found in your <span class="target" id="index-1"></span><a class="reference internal" href="external.html#envvar-PATH"><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PATH</span></code></a>. If <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is unable to execute the binary, an
+error will be reported.</p>
+</section>
+<section id="running-mrcc">
+<h2>Running MRCC<a class="headerlink" href="#running-mrcc" title="Link to this heading">¶</a></h2>
+<p>MRCC can be invoked in similar fashion as other theories provided in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>.
+To indicate MRCC as the target software, set <a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a><code class="docutils literal notranslate"><span class="pre">=MRCC</span></code>.
+This is a change as of October 2022; previously, one prefixed the method by “mr”
+to indicate MRCC (e.g., <code class="docutils literal notranslate"><span class="pre">energy('mrccsdt')</span></code>).
+For example, if you want to obtain the CCSDT energy for water with cc-pVDZ using
+MRCC simply provide the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="n">h2o</span> <span class="p">{</span>
+     <span class="n">O</span>
+     <span class="n">H</span> <span class="mi">1</span> <span class="mf">1.0</span>
+     <span class="n">H</span> <span class="mi">1</span> <span class="mf">1.0</span> <span class="mi">2</span> <span class="mf">104.5</span>
+<span class="p">}</span>
+<span class="nb">set</span> <span class="p">{</span>
+     <span class="n">basis</span> <span class="n">cc</span><span class="o">-</span><span class="n">pVDZ</span>
+     <span class="n">qc_module</span> <span class="n">mrcc</span>
+<span class="p">}</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;ccsdt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">'ccsdt'</span></code> in the call to <a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a> plus <code class="docutils literal notranslate"><span class="pre">qc_module=mrcc</span></code> instructs <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> to first
+perform an RHF calculation and then call MRCC to compute the CCSDT energy.
+Here the <code class="docutils literal notranslate"><span class="pre">qc_module=mrcc</span></code> is optional since <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> has no builtin module
+that can perform CCSDT. For a method like CCSD, no specification of <a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a>
+will default to the CCENERGY module, and specification with value <code class="docutils literal notranslate"><span class="pre">mrcc</span></code> is
+required to route the computation to the MRCC program.
+For a CCSDT(Q) energy, simply use <code class="docutils literal notranslate"><span class="pre">'ccsdt(q)'</span></code> in the call to
+<a class="reference internal" href="api/psi4.driver.energy.html#psi4.driver.energy" title="psi4.driver.energy"><code class="xref py py-func docutils literal notranslate"><span class="pre">energy()</span></code></a>. MRCC can be used to perform geometry optimization and
+frequency calculations for electronic ground states only.</p>
+<p>At this time, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is only able to automatically generate the proper
+input file for MRCC for the methods listed in table below.
+To utilize any method described in the table, you can call it directly
+For other methods, you will be required to
+use the MRCC keywords described in Appendix <a class="reference internal" href="autodir_options_c/module__mrcc.html#apdx-mrcc"><span class="std std-ref">MRCC</span></a>.
+Perturbative methods (<code class="docutils literal notranslate"><span class="pre">ccsd(t)</span></code>, <code class="docutils literal notranslate"><span class="pre">ccsdtqp(h)_l</span></code>, etc.)
+are available with <a class="reference internal" href="autodoc_glossary_options_c.html#term-REFERENCE-SCF"><span class="xref std std-term">REFERENCE</span></a> ROHF in versions of MRCC published
+at least after July 1, 2014.</p>
+<p>When using ROHF-CCSDT(Q), MRCC will compute and report two variants:
+CCSDT(Q)/A and CCSDT(Q)/B. <a class="reference internal" href="bibliography.html#kallay-2008-144101" id="id1"><span>[Kallay:2008:144101]</span></a> <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> will save both energies but will use
+the CCSDT(Q)/B as the CCSDT(Q) energy. CCSDT(Q)/B has been found to be
+more robust by Martin. <a class="reference internal" href="bibliography.html#martin-2014-785" id="id2"><span>[Martin:2014:785]</span></a></p>
+<blockquote id="table-energy-mrcc">
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-QC_MODULE-GLOBALS"><span class="xref std std-term">QC_MODULE</span></a>=MRCC</p></th>
+</tr>
+<tr class="row-even"><th class="head"><p>name</p></th>
+<th class="head"><p>calls method in Kallay’s MRCC program <a class="reference internal" href="#sec-mrcc"><span class="std std-ref">[manual]</span></a></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p>ccsd</p></td>
+<td><p>CC through doubles <a class="reference internal" href="capabilities.html#dd-ccsd"><span class="std std-ref">[details]</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>ccsdt</p></td>
+<td><p>CC through triples</p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdtq</p></td>
+<td><p>CC through quadruples</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsdtqp</p></td>
+<td><p>CC through quintuples</p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdtqph</p></td>
+<td><p>CC through sextuples</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsd(t)</p></td>
+<td><p>CC through doubles with perturbative triples <a class="reference internal" href="capabilities.html#dd-ccsd-prt-pr"><span class="std std-ref">[details]</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdt(q)</p></td>
+<td><p>CC through triples with perturbative quadruples</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsdtq(p)</p></td>
+<td><p>CC through quadruples with pertubative quintuples</p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdtqp(h)</p></td>
+<td><p>CC through quintuples with pertubative sextuples</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsd(t)_l</p></td>
+<td><p>CC through doubles with asymmetric perturbative triples <a class="reference internal" href="capabilities.html#dd-accsd-prt-pr"><span class="std std-ref">[details]</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdt(q)_l</p></td>
+<td><p>CC through triples with asymmetric perturbative quadruples</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsdtq(p)_l</p></td>
+<td><p>CC through quadruples with asymmetric perturbative quintuples</p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdtqp(h)_l</p></td>
+<td><p>CC through quintuples with asymmetric perturbative sextuples</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsdt-1a</p></td>
+<td><p>CC through doubles with iterative triples (cheapest terms)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdtq-1a</p></td>
+<td><p>CC through triples with iterative quadruples (cheapest terms)</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsdtqp-1a</p></td>
+<td><p>CC through quadruples with iterative quintuples (cheapest terms)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdtqph-1a</p></td>
+<td><p>CC through quintuples with iterative sextuples (cheapest terms)</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsdt-1b</p></td>
+<td><p>CC through doubles with iterative triples (cheaper terms)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdtq-1b</p></td>
+<td><p>CC through triples with iterative quadruples (cheaper terms)</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsdtqp-1b</p></td>
+<td><p>CC through quadruples with iterative quintuples (cheaper terms)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdtqph-1b</p></td>
+<td><p>CC through quintuples with iterative sextuples (cheaper terms)</p></td>
+</tr>
+<tr class="row-even"><td><p>cc2</p></td>
+<td><p>approximate CC through doubles <a class="reference internal" href="capabilities.html#dd-cc2"><span class="std std-ref">[details]</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>cc3</p></td>
+<td><p>approximate CC through triples <a class="reference internal" href="capabilities.html#dd-cc3"><span class="std std-ref">[details]</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>cc4</p></td>
+<td><p>approximate CC through quadruples</p></td>
+</tr>
+<tr class="row-odd"><td><p>cc5</p></td>
+<td><p>approximate CC through quintuples</p></td>
+</tr>
+<tr class="row-even"><td><p>cc6</p></td>
+<td><p>approximate CC through sextuples</p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdt-3</p></td>
+<td><p>CC through doubles with iterative triples (all but the most expensive terms)</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsdtq-3</p></td>
+<td><p>CC through triples with iterative quadruples (all but the most expensive terms)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ccsdtqp-3</p></td>
+<td><p>CC through quadruples with iterative quintuples (all but the most expensive terms)</p></td>
+</tr>
+<tr class="row-even"><td><p>ccsdtqph-3</p></td>
+<td><p>CC through quintuples with iterative sextuples (all but the most expensive terms)</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Frozen-core approximation is also supported in the MRCC interface.
+To optimize CH<sub>4</sub> with CCSDT freezing the 1<em>s</em> on carbon, run:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="n">H2O</span> <span class="p">{</span>
+    <span class="n">O</span>
+    <span class="n">H</span> <span class="mi">1</span> <span class="n">r</span>
+    <span class="n">H</span> <span class="mi">1</span> <span class="n">r</span> <span class="mi">2</span> <span class="mf">104.5</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="p">}</span>
+
+<span class="nb">set</span> <span class="p">{</span>
+    <span class="n">basis</span> <span class="n">cc</span><span class="o">-</span><span class="n">pVDZ</span>
+    <span class="n">freeze_core</span> <span class="n">true</span>
+<span class="p">}</span>
+
+<span class="n">optimize</span><span class="p">(</span><span class="s1">&#39;ccsdt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="interface-details">
+<h2>Interface Details<a class="headerlink" href="#interface-details" title="Link to this heading">¶</a></h2>
+<span id="table-mrcc-mrcc-method"></span><table class="docutils align-default" id="id3">
+<caption><span class="caption-text">MRCC methods</span><a class="headerlink" href="#id3" title="Link to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-MRCC_METHOD-MRCC"><span class="xref std std-term">MRCC_METHOD</span></a></p></th>
+<th class="head"><p>Method</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>CC</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>CC(n-1)[n]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>CC(n-1)(n)</p></td>
+<td><p>(CC(n-1)[n] energy is also calculated)</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>CC(n-1)(n)_L</p></td>
+<td><p>(CC(n-1)[n] and CC(n-1)(n) energies are also calculated)</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>CC(n)-1a</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>CC(n)-1b</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>CCn</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>CC(n)-3</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="index.html">
+    <img class="logo" src="_static/psi4square.png" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel"
+                                       aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/></div>
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="index.html">table of contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Interface to MRCC by M. Kállay</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#running-mrcc">Running MRCC</a></li>
+<li><a class="reference internal" href="#interface-details">Interface Details</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="pcmsolver.html" title="Interface to PCMSolver by R. Di Remigio"
+             ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="molden.html" title="Interface to Molden — molden()"
+             ><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/mrcc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/d99b642">1.9</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="interfacing.html" >Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">Interface to MRCC by M. Kállay</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2023, The Psi4 Project.
+      Last updated on Wednesday, 06 December 2023 08:59AM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
