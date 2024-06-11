@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=425dc3c1"></script>
+    <script src="_static/documentation_options.js?v=b354f9e6"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/0ee8acb">1.10a1.dev34</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/103e1d6">1.10a1.dev35</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -553,7 +553,7 @@ message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GEN
 #    - Python_INCLUDE_DIR &quot;Path to the python include files (e.g., /path/to/include/python3.7)&quot;
 #    - SPHINX_ROOT &quot;Root directory for Sphinx: &#39;bin/sphinx-build&#39; (or similar) should be in this dir.&quot;
 #
-#    For any ${AddOn} of: ambit, CheMPS2, dkh, ecpint, libefp, Einsums, erd, gau2grid, gdma, Libint2, PCMSolver, pybind11, pylibefp,
+#    For any ${AddOn} of: ambit, CheMPS2, dkh, ecpint, libefp, Einsums, gau2grid, gdma, Libint2, PCMSolver, pybind11, pylibefp,
 #                         qcelemental, qcengine, optking, simint, Libxc, IntegratorXX
 #    - CMAKE_PREFIX_PATH &quot;Set to list of root directories to look for externally built add-ons and dependencies
 #      (e.g., /path/to/install-libint;/path/to/install-gdma where exists /path/to/install-libint/lib/libderiv.a)&quot;
@@ -593,7 +593,6 @@ option(ENABLE_dkh &quot;Enables DKH integrals (requires Fortran)&quot; OFF)
 option(ENABLE_ecpint &quot;Enables libecpint for effective core potentials (ECP)&quot; OFF)
 option(ENABLE_libefp &quot;Enables LIBEFP and PylibEFP for fragments&quot; OFF)
 option(ENABLE_Einsums &quot;Enables the Einsums tensor library&quot; OFF)
-option(ENABLE_erd &quot;Enables use of ERD instead of Libint (requires Fortran)&quot; OFF)
 option(ENABLE_simint &quot;Enables use of SIMINT two-electron integral library&quot; OFF)
 option(ENABLE_gdma &quot;Enables Stone&#39;s GDMA multipole code (requires Fortran; can also be added at runtime)&quot; OFF)
 option(ENABLE_PCMSolver &quot;Enables PCMSolver library (requires Fortran)&quot; OFF)
@@ -604,7 +603,6 @@ option(ENABLE_cct3 &quot;Enables cct3 plugin (requires Fortran; can also be adde
 option(ENABLE_gpu_dfcc &quot;Enables GPU_DFCC plugin for gpu-accelerated df-cc (requires CUDA; can also be added at runtime)&quot; OFF)
 option(ENABLE_mdi &quot;Enables MolSSI driver interface&quot; OFF)
 option(ENABLE_BrianQC &quot;Enables the BrianQC GPU module (requires CUDA; requires separate installation and licensing of the BrianQC module)&quot; OFF)
-option(ENABLE_Libint1t &quot;Enables Libint1 in special _t variety&quot; OFF)
 # These options are relevant to pasture, expert only
 option(ENABLE_ccsort &quot;Enables ccsort plugin installed from psi4pasture&quot; OFF)
 option(ENABLE_transqt2 &quot;Enables transqt2 plugin installed from psi4pasture&quot; OFF)
@@ -616,10 +614,12 @@ if(ENABLE_ccsort OR ENABLE_transqt2)
   message(STATUS &quot;Enabling pasture plugins&quot;)
 endif()
 
-if(ENABLE_gdma OR ENABLE_dkh OR ENABLE_erd OR ENABLE_PCMSolver)
+if(ENABLE_gdma OR ENABLE_dkh OR ENABLE_PCMSolver)
   if(psi4_SKIP_ENABLE_Fortran)
     message(STATUS &quot;NOT Enabling Fortran&quot;)
   else()
+    enable_language(Fortran)
+    set(Fortran_ENABLED ON)  # communicate required languages with psi4-core
 </pre></div>
 </div>
 <p>Note that external projects will have their own sets of build
@@ -1196,7 +1196,7 @@ features but may be required for add-ons.</p></li>
 <li><p>Downstream Dependencies</p>
 <ul>
 <li><p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> (<span class="math notranslate nohighlight">\(\Leftarrow\)</span> optional) Fortran Compiler</p></li>
-<li><p>erd, dkh, gdma, PCMSolver <span class="math notranslate nohighlight">\(\Leftarrow\)</span> Fortran Compiler</p></li>
+<li><p>dkh, gdma, PCMSolver <span class="math notranslate nohighlight">\(\Leftarrow\)</span> Fortran Compiler</p></li>
 </ul>
 </li>
 </ul>
@@ -1689,7 +1689,6 @@ to run correctly); <code class="docutils literal notranslate"><span class="pre">
 <span class="n">test_addons</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_dftd3</span> <span class="n">PASSED</span>
 <span class="n">test_addons</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_libefp</span> <span class="n">PASSED</span>
 <span class="n">test_addons</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_pcmsolver</span> <span class="n">PASSED</span>
-<span class="n">test_addons</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_erd</span> <span class="n">PASSED</span>
 <span class="n">test_addons</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_simint</span> <span class="n">PASSED</span>
 <span class="n">test_addons</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_json</span> <span class="n">PASSED</span>
 <span class="n">test_addons</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_cfour</span> <span class="n">SKIPPED</span>
@@ -1936,7 +1935,7 @@ can show where the executable is.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/0ee8acb">1.10a1.dev34</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/103e1d6">1.10a1.dev35</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1950,7 +1949,7 @@ can show where the executable is.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Tuesday, 11 June 2024 06:35AM.
+      Last updated on Tuesday, 11 June 2024 03:43PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
