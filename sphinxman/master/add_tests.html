@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=f172fbef"></script>
+    <script src="_static/documentation_options.js?v=27ea5eea"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -79,7 +79,7 @@
   </head><body>
     <div class="relbar-top">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/add_tests.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/67a026b">1.10a1.dev39</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7245e70">1.10a1.dev40</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -140,10 +140,10 @@ and then likely falling upon <em>you</em> to fix.</p></li>
 <h2>CTest and pytest, PSIthon and PsiAPI<a class="headerlink" href="#ctest-and-pytest-psithon-and-psiapi" title="Link to this heading">¶</a></h2>
 <p>In designing a test, sometimes you want it to be a model input for the user in a single file or you don’t want a lot of <code class="docutils literal notranslate"><span class="pre">psi4.</span></code> or Python syntax cluttering the input.
 In this case, follow <a class="reference internal" href="#faq-add-psithon-tests"><span class="std std-ref">Adding PSIthon Test Cases</span></a> to prepare as PSIthon (<code class="docutils literal notranslate"><span class="pre">psi4</span> <span class="pre">input.dat</span></code>) for, roughly speaking, running through <strong class="program">ctest</strong>.
-The PSIthon/CTest test suite occupies the whole of <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests">psi4/tests</a> <em>except</em> <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests">psi4/tests/pytests</a>.</p>
+The PSIthon/CTest test suite occupies the whole of <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests">psi4/tests</a> <em>except</em> <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests">psi4/tests/pytests</a>.</p>
 <p>At other times you want the test to check several variations of a template job or you want to test error handling or you want to focus on PsiAPI rather than PSIthon or you want to control the compute conditions with environment variables.
 In this case, follow <a class="reference internal" href="#faq-add-psiapi-tests"><span class="std std-ref">Adding PsiAPI Test Cases</span></a> to prepare as PsiAPI (<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">psi4</span></code>) for, roughly speaking, running through <strong class="program">pytest</strong>.
-The PsiAPI/pytest test suite occupies <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests">psi4/tests/pytests</a>.</p>
+The PsiAPI/pytest test suite occupies <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests">psi4/tests/pytests</a>.</p>
 <p>The above description sounds as if there are two disjoint test suites, and you have to run both <code class="docutils literal notranslate"><span class="pre">ctest</span></code> and <code class="docutils literal notranslate"><span class="pre">pytest</span></code> to fully test <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>.
 This has indeed been the case until March 2022.
 The difficulty has been that (1) two test suites is unexpected so some developers don’t know to run both; and (2) there are important tests in the PSIthon suite that can’t be run on a <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> installation since CTest only works in a build directory.
@@ -172,9 +172,9 @@ or the default convergence for the calculation type (energy, gradient, <em>etc.<
 </section>
 <section id="adding-psithon-test-cases">
 <span id="faq-add-psithon-tests"></span><h2>Adding PSIthon Test Cases<a class="headerlink" href="#adding-psithon-test-cases" title="Link to this heading">¶</a></h2>
-<p>To create a new test case, first make a folder in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests">psi4/tests</a> or, for an addon, a subfolder under the addon folder.
+<p>To create a new test case, first make a folder in <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests">psi4/tests</a> or, for an addon, a subfolder under the addon folder.
 Use hyphens, not spaces or underscores, in the directory name.
-Add the directory name to the list of tests in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/CMakeLists.txt">psi4/tests/CMakeLists.txt</a> or, for an addon, <code class="docutils literal notranslate"><span class="pre">tests/&lt;addon&gt;/CMakeLists.txt</span></code>.
+Add the directory name to the list of tests in <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests/CMakeLists.txt">psi4/tests/CMakeLists.txt</a> or, for an addon, <code class="docutils literal notranslate"><span class="pre">tests/&lt;addon&gt;/CMakeLists.txt</span></code>.
 The test directory will need at least two files, <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">input.dat</span></code>.</p>
 <section id="cmakelists-txt">
 <h3><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code><a class="headerlink" href="#cmakelists-txt" title="Link to this heading">¶</a></h3>
@@ -228,7 +228,7 @@ Labels have been added as developers needed, so they are not systematic or thoro
 </div>
 <p>Of those small modifications, first, note the special comment at the top (starting with the <code class="docutils literal notranslate"><span class="pre">#!</span></code> comment marker). This should be descriptive since it is inlined into the manual (unless <code class="docutils literal notranslate"><span class="pre">!nosample</span></code> in the comment) as a sample input.</p>
 <p>Reference values are often assigned to variables for later use.
-The compare_values function (along with several relatives in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/p4util/testing.py">psi4/psi4/driver/p4util/testing.py</a> for comparing strings, matrices, etc.) checks that the computed values match these reference values to suitable precision. This function prints an error message and signals that the test failed to the make system, if the values don’t match. Any lines of the input associated with the validation process should be flagged with <code class="docutils literal notranslate"><span class="pre">#TEST</span></code> at the end of each line, so that they can be removed when copying from the tests to the samples directory.</p>
+The compare_values function (along with several relatives in <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/p4util/testing.py">psi4/psi4/driver/p4util/testing.py</a> for comparing strings, matrices, etc.) checks that the computed values match these reference values to suitable precision. This function prints an error message and signals that the test failed to the make system, if the values don’t match. Any lines of the input associated with the validation process should be flagged with <code class="docutils literal notranslate"><span class="pre">#TEST</span></code> at the end of each line, so that they can be removed when copying from the tests to the samples directory.</p>
 </section>
 <section id="output-ref">
 <h3><code class="docutils literal notranslate"><span class="pre">output.ref</span></code><a class="headerlink" href="#output-ref" title="Link to this heading">¶</a></h3>
@@ -239,7 +239,7 @@ While this isn’t used for any testing machinery, it can be handy for users or 
 <span id="faq-psithon-through-pytest"></span><h3><code class="docutils literal notranslate"><span class="pre">test_input.py</span></code><a class="headerlink" href="#test-input-py" title="Link to this heading">¶</a></h3>
 <p>Starting March 2022, one can also run tests designed as above for CTest through pytest.
 To bring the test to pytest’s notice, add a file to the directory named <code class="docutils literal notranslate"><span class="pre">test_input.py</span></code>.
-Below is an example for the <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/ci-property/test_input.py">psi4/tests/ci-property/test_input.py</a></p>
+Below is an example for the <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests/ci-property/test_input.py">psi4/tests/ci-property/test_input.py</a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">addons</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="nd">@ctest_labeler</span><span class="p">(</span><span class="s2">&quot;quick;ci;cas;properties;cart;noc1&quot;</span><span class="p">)</span>
@@ -254,7 +254,7 @@ That part of the function name and the name of the file, <code class="docutils l
 Most tests need only the simple form of the runner line <code class="docutils literal notranslate"><span class="pre">ctest_runner(__file__)</span></code>.
 This uses QCEngine machinery to execute <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">psi4</span> <span class="pre">input.dat</span></code>.
 If additional input files are needed from the test directory, their names can be added to the the second argument list as shown above.
-Those additional input files <em>do</em> need to be registered in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/CMakeLists.txt">psi4/psi4/CMakeLists.txt</a>.</p>
+Those additional input files <em>do</em> need to be registered in <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/psi4/CMakeLists.txt">psi4/psi4/CMakeLists.txt</a>.</p>
 <p>Finally, the label string passed to CTest is here handed to pytest, with a few changes:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">psi</span></code> added automatically, so exclude it when copying from CTest <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></p></li>
@@ -265,7 +265,7 @@ Those additional input files <em>do</em> need to be registered in <a class="refe
 <li><p><code class="docutils literal notranslate"><span class="pre">addon</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;name-of-addon&gt;</span></code> added automatically when <code class="docutils literal notranslate"><span class="pre">&#64;uusing(&quot;&lt;name-of-addon&gt;&quot;)</span></code> decorates the test or <code class="docutils literal notranslate"><span class="pre">marks=using(&quot;&lt;name-of-addon&gt;&quot;)</span></code> marks the test</p></li>
 </ul>
 <p>CTest “labels” are called “marks” in pytest.
-Any new marks should be added to <a class="reference external" href="https://github.com/psi4/psi4/blob/master/pytest.ini">psi4/pytest.ini</a>.</p>
+Any new marks should be added to <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/pytest.ini">psi4/pytest.ini</a>.</p>
 </section>
 <section id="running-for-debugging">
 <h3>Running for Debugging<a class="headerlink" href="#running-for-debugging" title="Link to this heading">¶</a></h3>
@@ -277,18 +277,18 @@ Any new marks should be added to <a class="reference external" href="https://git
 </section>
 <section id="adding-psiapi-test-cases">
 <span id="faq-add-psiapi-tests"></span><h2>Adding PsiAPI Test Cases<a class="headerlink" href="#adding-psiapi-test-cases" title="Link to this heading">¶</a></h2>
-<p>To create a new test case, either create a new file or add to an existing file under <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests">psi4/tests/pytests</a>.</p>
+<p>To create a new test case, either create a new file or add to an existing file under <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests">psi4/tests/pytests</a>.</p>
 <ul class="simple">
-<li><p>Test must be in the <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests/">psi4/tests/pytests/</a> directory.</p></li>
+<li><p>Test must be in the <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests/">psi4/tests/pytests/</a> directory.</p></li>
 <li><p>Test file name must start with <code class="docutils literal notranslate"><span class="pre">test_</span></code>. This is how pytest knows to collect it.</p></li>
 <li><p>A test file may contain many tests, each of which is an ordinary Python function with name starting <code class="docutils literal notranslate"><span class="pre">test_</span></code>. This is how pytest knows to collect it.</p></li>
 <li><p>No registration required to bring a test to pytest’s attention.</p></li>
-<li><p>No registration required to bring a test to CMake’s attention. If a test needs additional files, register them in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/CMakeLists.txt">psi4/psi4/CMakeLists.txt</a>.</p></li>
+<li><p>No registration required to bring a test to CMake’s attention. If a test needs additional files, register them in <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/psi4/CMakeLists.txt">psi4/psi4/CMakeLists.txt</a>.</p></li>
 </ul>
 <p>A few notes on test contents:</p>
 <ul class="simple">
 <li><p>Import testing functions from <code class="docutils literal notranslate"><span class="pre">utils</span></code> and use Python assert: <code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">compare_values(expected,</span> <span class="pre">computed,</span> <span class="pre">...)</span></code>.</p></li>
-<li><p>Don’t worry about cleaning up files or resetting options. A function in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests/conftest.py">psi4/tests/pytests/conftest.py</a> does this automatically between every test.</p></li>
+<li><p>Don’t worry about cleaning up files or resetting options. A function in <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests/conftest.py">psi4/tests/pytests/conftest.py</a> does this automatically between every test.</p></li>
 <li><p>Especially if using data or functions from outside a test, run a variety of tests at different <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">-n</span> <span class="pre">&lt;N&gt;</span></code> levels to mix up test ordering. If tests fail that pass when run alone, you’ve got a function of the same name changing state or some similar correctable phenomenon.</p></li>
 </ul>
 <p>A few notes on test labels:</p>
@@ -310,7 +310,7 @@ particularly those over a minute.</p></li>
 <section id="id1">
 <h3>Running for Debugging<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <p>There are many ways to run pytest, <a class="reference internal" href="build_planning.html#faq-pytest"><span class="std std-ref">How to test a Psi4 installation</span></a>, and three different copies of the test file
-(i.e., <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests/test_mp2.py">psi4/tests/pytests/test_mp2.py</a>, <code class="docutils literal notranslate"><span class="pre">&lt;objdir&gt;/stage/lib/PYMOD_INSTALL_LIBDIR/psi4/tests/test_mp2.py</span></code>,
+(i.e., <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests/test_mp2.py">psi4/tests/pytests/test_mp2.py</a>, <code class="docutils literal notranslate"><span class="pre">&lt;objdir&gt;/stage/lib/PYMOD_INSTALL_LIBDIR/psi4/tests/test_mp2.py</span></code>,
 <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX/lib/PYMOD_INSTALL_LIBDIR/psi4/tests/test_mp2.py</span></code>).
 But for developing a pytest test, you probably want to use the first so you can edit it in place rather than running <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span></code> after each change.</p>
 <ul class="simple">
@@ -325,7 +325,7 @@ execute the printout of <code class="docutils literal notranslate"><span class="
 <li><p>To see stdout output from an otherwise passing test, easiest to add <code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">0</span></code>
 at its end to trigger failure.</p></li>
 <li><p>If stdout printing is insufficient, and you really need to see <code class="docutils literal notranslate"><span class="pre">output.dat</span></code> or other files,
-comment out their deletion in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests/conftest.py">psi4/tests/pytests/conftest.py</a> and run the single test, deleting
+comment out their deletion in <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/tests/pytests/conftest.py">psi4/tests/pytests/conftest.py</a> and run the single test, deleting
 the file each time (since it appends).</p></li>
 </ul>
 </section>
@@ -769,7 +769,7 @@ See <a class="reference external" href="https://molssi.github.io/QCElemental/api
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <p class="logo"><a href="index.html">
     <img class="logo" src="_static/psi4square.png" alt="Logo"/>
@@ -856,7 +856,7 @@ See <a class="reference external" href="https://molssi.github.io/QCElemental/api
     </div>
     <div class="relbar-bottom">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -879,7 +879,7 @@ See <a class="reference external" href="https://molssi.github.io/QCElemental/api
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/add_tests.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/67a026b">1.10a1.dev39</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7245e70">1.10a1.dev40</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -892,8 +892,8 @@ See <a class="reference external" href="https://molssi.github.io/QCElemental/api
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Friday, 05 July 2024 08:35PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+      Last updated on Tuesday, 16 July 2024 01:09PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.4.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>
