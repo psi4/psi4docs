@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=f172fbef"></script>
+    <script src="_static/documentation_options.js?v=27ea5eea"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -79,7 +79,7 @@
   </head><body>
     <div class="relbar-top">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/proc_py.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/67a026b">1.10a1.dev39</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7245e70">1.10a1.dev40</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -125,9 +125,9 @@
 <section id="proc-py">
 <h2><code class="docutils literal notranslate"><span class="pre">proc.py</span></code><a class="headerlink" href="#proc-py" title="Link to this heading">¶</a></h2>
 <p>Methods that are computable by only one module should be added to the <code class="docutils literal notranslate"><span class="pre">procedures</span></code> dictionary in
-<a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/procrouting/proc_table.py">psi4/psi4/driver/procrouting/proc_table.py</a>
+<a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/procrouting/proc_table.py">psi4/psi4/driver/procrouting/proc_table.py</a>
 that associates method names with functions
-to run them located in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/procrouting/proc.py">psi4/psi4/driver/procrouting/proc.py</a>.</p>
+to run them located in <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/procrouting/proc.py">psi4/psi4/driver/procrouting/proc.py</a>.</p>
 <p>The function should start with a declaration, as below. <code class="docutils literal notranslate"><span class="pre">methodname</span></code> is
 never seen by users, so it’s good to be specific to method or module.
 The function must always take as arguments <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">**kwargs)</span></code>.</p>
@@ -254,7 +254,7 @@ shared among modules rather than (or in addition to) being used internally
 by the module). We’re sticking with <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> and
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-MP2_TYPE-GLOBALS"><span class="xref std std-term">MP2_TYPE</span></a> defaulting to <code class="docutils literal notranslate"><span class="pre">DF</span></code>, while most everything higher defaults
 to <code class="docutils literal notranslate"><span class="pre">CONV</span></code>. (Exceptions are MP2.5 and MP3 that default to <code class="docutils literal notranslate"><span class="pre">DF</span></code>.)
-In <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/procrouting/proc_table.py">psi4/psi4/driver/procrouting/proc_table.py</a>, a managed method calls a
+In <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/procrouting/proc_table.py">psi4/psi4/driver/procrouting/proc_table.py</a>, a managed method calls a
 “select” function rather than a “run” function.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">procedures</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="p">{</span>
@@ -263,7 +263,7 @@ In <a class="reference external" href="https://github.com/psi4/psi4/blob/master/
         <span class="s1">&#39;dct&#39;</span>           <span class="p">:</span> <span class="n">run_dct</span><span class="p">,</span>
 </pre></div>
 </div>
-<p>Then in <a class="reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/procrouting/proc.py">psi4/psi4/driver/procrouting/proc.py</a>, the select function runs through
+<p>Then in <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/psi4/driver/procrouting/proc.py">psi4/psi4/driver/procrouting/proc.py</a>, the select function runs through
 reference, type, and possibly freeze_core to specify the proc
 function to call for any able, non-default module (<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">mtd_type</span> <span class="pre">==</span>
 <span class="pre">'DETCI'</span></code> ) or able, default module (<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">mtd_typd</span> <span class="pre">==</span> <span class="pre">['',</span> <span class="pre">'FNOCC']</span></code> ).
@@ -350,7 +350,7 @@ available.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <p class="logo"><a href="index.html">
     <img class="logo" src="_static/psi4square.png" alt="Logo"/>
@@ -397,7 +397,7 @@ available.</p>
     </div>
     <div class="relbar-bottom">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -420,7 +420,7 @@ available.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/proc_py.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/67a026b">1.10a1.dev39</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7245e70">1.10a1.dev40</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -434,8 +434,8 @@ available.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Friday, 05 July 2024 08:35PM.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+      Last updated on Tuesday, 16 July 2024 01:09PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.4.
     </div>
     <!-- cloud_sptheme 1.4 -->
   </body>
