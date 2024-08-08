@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=37d5628d"></script>
+    <script src="../../../../_static/documentation_options.js?v=ffd2eaaa"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ba20dd4">1.10a1.dev47</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1813c0c">1.10a1.dev48</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -150,7 +150,6 @@
 <span class="sd"> - JK (constructor)</span>
 <span class="sd"> - VBase (grid)</span>
 <span class="sd"> - OEProp (avail prop)</span>
-<span class="sd"> - ERISieve (constructor)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -1657,43 +1656,6 @@
 <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">triplet</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_core_triplet</span><span class="p">)</span>
 
 
-<span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">_core_erisieve_build</span><span class="p">(</span>
-        <span class="n">orbital_basis</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="p">,</span>
-        <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">do_csam</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">ERISieve</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This function previously constructed a Psi4 ERISieve object from an input basis set, with an optional cutoff threshold for</span>
-<span class="sd">    ERI screening and an optional input to enable CSAM screening (over Schwarz screening).</span>
-
-<span class="sd">    However, as the ERISieve class was removed from Psi4 in v1.9, the function now throws with an UpgradeHelper</span>
-<span class="sd">    exception, and lets the user know to use TwoBodyAOInt instead.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    orbital_basis</span>
-<span class="sd">        Basis set to use in the ERISieve object.</span>
-<span class="sd">    cutoff</span>
-<span class="sd">        Integral cutoff threshold to use for Schwarz/CSAM screening. Defaults to 0.0, disabling screening entirely.</span>
-<span class="sd">    do_csam</span>
-<span class="sd">        Use CSAM screening? If True, CSAM screening is used; else, Schwarz screening is used. By default,</span>
-<span class="sd">        Schwarz screening is utilized.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ERISieve</span>
-<span class="sd">        Initialized ERISieve object.</span>
-
-<span class="sd">    Example</span>
-<span class="sd">    -------</span>
-<span class="sd">    &gt;&gt;&gt; sieve = psi4.core.ERISieve.build(bas, cutoff, csam)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="s2">&quot;ERISieve&quot;</span><span class="p">,</span> <span class="s2">&quot;TwoBodyAOInt&quot;</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="s2">&quot; The ERISieve class has been removed and replaced with the TwoBodyAOInt class. ERISieve.build(orbital_basis, cutoff, do_csam) can be replaced with the command sequence factory = psi4.core.IntegralFactory(basis); factory.eri(0).&quot;</span><span class="p">)</span>
-
-
-<span class="n">core</span><span class="o">.</span><span class="n">ERISieve</span><span class="o">.</span><span class="n">build</span> <span class="o">=</span> <span class="n">_core_erisieve_build</span>
 </pre></div>
 
             <div class="clearer"></div>
@@ -1754,7 +1716,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ba20dd4">1.10a1.dev47</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1813c0c">1.10a1.dev48</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1768,7 +1730,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Thursday, 08 August 2024 04:38PM.
+      Last updated on Thursday, 08 August 2024 07:26PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
