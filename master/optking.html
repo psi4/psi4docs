@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=ffd2eaaa"></script>
+    <script src="_static/documentation_options.js?v=c8742349"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/optking.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1813c0c">1.10a1.dev48</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/82ce595">1.10a1.dev49</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -175,7 +175,7 @@ See <cite>here &lt;DimerSection_&gt;</cite> for two examples of their use.</p>
 <div><p>Geometry optimization step type, either Newton-Raphson or Rational Function Optimization</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: string</p></li>
-<li><p><strong>Possible Values</strong>: RFO, P_RFO, NR, SD, LINESEARCH</p></li>
+<li><p><strong>Possible Values</strong>: RFO, RS_I_RFO, P_RFO, NR, SD, LINESEARCH</p></li>
 <li><p><strong>Default</strong>: RFO</p></li>
 </ul>
 </div></blockquote>
@@ -286,6 +286,9 @@ Schlegel <a class="reference internal" href="bibliography.html#schlegel-1987-aim
 </section>
 <section id="transition-states-and-reaction-paths">
 <span id="index-2"></span><h2>Transition States and Reaction Paths<a class="headerlink" href="#transition-states-and-reaction-paths" title="Link to this heading">¶</a></h2>
+<p>Optking currently has two transition state algorithms. The current default is the
+newer RS_I_RFO algorithm <a class="reference internal" href="bibliography.html#besalu-1998-265" id="id7"><span>[Besalu:1998:265]</span></a> . The old algorithm can be used by setting
+<cite>STEP_TYPE P_RFO</cite> for <cite>OPT_TYPE TS</cite></p>
 <ul>
 <li><p>Calculate a starting Hessian and optimize the “transition state” of
 linear water (note that without a reasonable starting geometry and
@@ -605,8 +608,8 @@ The fragments <cite>A</cite> and <cite>B</cite> have up to 3 reference atoms eac
 <a class="reference internal" href="#table-dimerfrag"><span class="std std-ref">Dimer coordinate table</span></a>.
 The interfragment coordinates are named and can be frozen according to their names as show in
 example below. For specifying reference points, use 1 based indexing.</p>
-<span id="table-dimerfrag"></span><table class="docutils align-default" id="id24">
-<caption><span class="caption-text">Dimer coordinates</span><a class="headerlink" href="#id24" title="Link to this table">¶</a></caption>
+<span id="table-dimerfrag"></span><table class="docutils align-default" id="id25">
+<caption><span class="caption-text">Dimer coordinates</span><a class="headerlink" href="#id25" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>name</p></th>
 <th class="head"><p>type</p></th>
@@ -767,8 +770,8 @@ with Table <a class="reference internal" href="#table-optkingconv"><span class="
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<span id="table-optkingconv"></span><table class="docutils align-default" id="id25">
-<caption><span class="caption-text">Summary of sets of geometry optimization criteria available in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></span><a class="headerlink" href="#id25" title="Link to this table">¶</a></caption>
+<span id="table-optkingconv"></span><table class="docutils align-default" id="id26">
+<caption><span class="caption-text">Summary of sets of geometry optimization criteria available in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></span><a class="headerlink" href="#id26" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-G_CONVERGENCE-OPTKING"><span class="xref std std-term">G_CONVERGENCE</span></a></p></th>
 <th class="head"><p>Max Energy</p></th>
@@ -779,70 +782,70 @@ with Table <a class="reference internal" href="#table-optkingconv"><span class="
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>NWCHEM_LOOSE <a class="footnote-reference brackets" href="#fd" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-even"><td><p>NWCHEM_LOOSE <a class="footnote-reference brackets" href="#fd" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
 <td></td>
 <td><p><span class="math notranslate nohighlight">\(4.5 \times 10^{-3}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(3.0 \times 10^{-3}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(5.4 \times 10^{-3}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(3.6 \times 10^{-3}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>GAU_LOOSE <a class="footnote-reference brackets" href="#ff" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-odd"><td><p>GAU_LOOSE <a class="footnote-reference brackets" href="#ff" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></td>
 <td></td>
 <td><p><span class="math notranslate nohighlight">\(2.5 \times 10^{-3}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.7 \times 10^{-3}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-2}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(6.7 \times 10^{-3}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>TURBOMOLE <a class="footnote-reference brackets" href="#fd" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-even"><td><p>TURBOMOLE <a class="footnote-reference brackets" href="#fd" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-6}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-3}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(5.0 \times 10^{-4}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-3}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(5.0 \times 10^{-4}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>GAU <a class="footnote-reference brackets" href="#fc" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#ff" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-odd"><td><p>GAU <a class="footnote-reference brackets" href="#fc" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#ff" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></td>
 <td></td>
 <td><p><span class="math notranslate nohighlight">\(4.5 \times 10^{-4}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(3.0 \times 10^{-4}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.8 \times 10^{-3}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.2 \times 10^{-3}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>CFOUR <a class="footnote-reference brackets" href="#fd" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-even"><td><p>CFOUR <a class="footnote-reference brackets" href="#fd" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p></td>
 <td></td>
 <td></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-4}\)</span></p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>QCHEM <a class="footnote-reference brackets" href="#fa" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#fe" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-odd"><td><p>QCHEM <a class="footnote-reference brackets" href="#fa" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#fe" id="id15" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-6}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(3.0 \times 10^{-4}\)</span></p></td>
 <td></td>
 <td><p><span class="math notranslate nohighlight">\(1.2 \times 10^{-3}\)</span></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>MOLPRO <a class="footnote-reference brackets" href="#fb" id="id15" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#fe" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-even"><td><p>MOLPRO <a class="footnote-reference brackets" href="#fb" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#fe" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-6}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(3.0 \times 10^{-4}\)</span></p></td>
 <td></td>
 <td><p><span class="math notranslate nohighlight">\(3.0 \times 10^{-4}\)</span></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>INTERFRAG_TIGHT <a class="footnote-reference brackets" href="#fg" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-odd"><td><p>INTERFRAG_TIGHT <a class="footnote-reference brackets" href="#fg" id="id18" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-6}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.5 \times 10^{-5}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-5}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(6.0 \times 10^{-4}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(4.0 \times 10^{-4}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>GAU_TIGHT <a class="footnote-reference brackets" href="#fc" id="id18" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#ff" id="id19" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-even"><td><p>GAU_TIGHT <a class="footnote-reference brackets" href="#fc" id="id19" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#ff" id="id20" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></td>
 <td></td>
 <td><p><span class="math notranslate nohighlight">\(1.5 \times 10^{-5}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-5}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(6.0 \times 10^{-5}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(4.0 \times 10^{-5}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>GAU_VERYTIGHT <a class="footnote-reference brackets" href="#ff" id="id20" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-odd"><td><p>GAU_VERYTIGHT <a class="footnote-reference brackets" href="#ff" id="id21" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></td>
 <td></td>
 <td><p><span class="math notranslate nohighlight">\(2.0 \times 10^{-6}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(1.0 \times 10^{-6}\)</span></p></td>
@@ -854,38 +857,38 @@ with Table <a class="reference internal" href="#table-optkingconv"><span class="
 <p class="rubric">Footnotes</p>
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="fa" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id13">1</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">1</a><span class="fn-bracket">]</span></span>
 <p>Default</p>
 </aside>
 <aside class="footnote brackets" id="fb" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">2</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">2</a><span class="fn-bracket">]</span></span>
 <p>Baker convergence criteria are the same.</p>
 </aside>
 <aside class="footnote brackets" id="fc" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id10">1</a>,<a role="doc-backlink" href="#id18">2</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id11">1</a>,<a role="doc-backlink" href="#id19">2</a>)</span>
 <p>Counterpart NWCHEM convergence criteria are the same.</p>
 </aside>
 <aside class="footnote brackets" id="fd" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id7">1</a>,<a role="doc-backlink" href="#id9">2</a>,<a role="doc-backlink" href="#id12">3</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id8">1</a>,<a role="doc-backlink" href="#id10">2</a>,<a role="doc-backlink" href="#id13">3</a>)</span>
 <p>Convergence achieved when all active criteria are fulfilled.</p>
 </aside>
 <aside class="footnote brackets" id="fe" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id14">1</a>,<a role="doc-backlink" href="#id16">2</a>,<a role="doc-backlink" href="#id21">3</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id15">1</a>,<a role="doc-backlink" href="#id17">2</a>,<a role="doc-backlink" href="#id22">3</a>)</span>
 <p>Convergence achieved when <strong>Max Force</strong> and one of <strong>Max Energy</strong> or <strong>Max Disp</strong> are fulfilled.</p>
 </aside>
 <aside class="footnote brackets" id="ff" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id8">1</a>,<a role="doc-backlink" href="#id11">2</a>,<a role="doc-backlink" href="#id19">3</a>,<a role="doc-backlink" href="#id20">4</a>,<a role="doc-backlink" href="#id22">5</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id9">1</a>,<a role="doc-backlink" href="#id12">2</a>,<a role="doc-backlink" href="#id20">3</a>,<a role="doc-backlink" href="#id21">4</a>,<a role="doc-backlink" href="#id23">5</a>)</span>
 <p>Normal convergence achieved when all four criteria (<strong>Max Force</strong>, <strong>RMS Force</strong>,
 <strong>Max Disp</strong>, and <strong>RMS Disp</strong>) are fulfilled. To help with flat
 potential surfaces, alternate convergence achieved when 100<span class="math notranslate nohighlight">\(\times\)</span><em>rms force</em> is less
 than <strong>RMS Force</strong> criterion.</p>
 </aside>
 <aside class="footnote brackets" id="fg" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">7</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">7</a><span class="fn-bracket">]</span></span>
 <p>Compensates for difficulties in converging geometry optmizations of supermolecular complexes
 tightly, where large <em>rms disp</em> and <em>max disp</em> may result from flat potential surfaces even when
 <em>max force</em> and/or <em>rms force</em> are small.</p>
@@ -893,13 +896,13 @@ tightly, where large <em>rms disp</em> and <em>max disp</em> may result from fla
 </aside>
 <p>For ultimate control, specifying a value for any of the five monitored options activates that
 criterium and overwrites/appends it to the criteria set by <a class="reference internal" href="autodoc_glossary_options_c.html#term-G_CONVERGENCE-OPTKING"><span class="xref std std-term">G_CONVERGENCE</span></a>.
-Note that this revokes the special convergence arrangements detailed in notes <a class="footnote-reference brackets" href="#fe" id="id21" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> and <a class="footnote-reference brackets" href="#ff" id="id22" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>
+Note that this revokes the special convergence arrangements detailed in notes <a class="footnote-reference brackets" href="#fe" id="id22" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> and <a class="footnote-reference brackets" href="#ff" id="id23" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>
 and instead requires all active criteria to be fulfilled to
 achieve convergence. To avoid this revokation, turn on keyword <a class="reference internal" href="autodoc_glossary_options_c.html#term-FLEXIBLE_G_CONVERGENCE-OPTKING"><span class="xref std std-term">FLEXIBLE_G_CONVERGENCE</span></a>.</p>
 </section>
 <section id="interface-to-geometric">
 <span id="index-4"></span><h2>Interface to GeomeTRIC<a class="headerlink" href="#interface-to-geometric" title="Link to this heading">¶</a></h2>
-<p>The GeomeTRIC optimizer developed by Wang and Song <a class="reference internal" href="bibliography.html#wang-2016-214108" id="id23"><span>[Wang:2016:214108]</span></a> may be used in place of
+<p>The GeomeTRIC optimizer developed by Wang and Song <a class="reference internal" href="bibliography.html#wang-2016-214108" id="id24"><span>[Wang:2016:214108]</span></a> may be used in place of
 Psi4’s native Optking optimizer. GeomeTRIC uses a translation-rotation-internal coordinate (TRIC)
 system that works well for optimizing geometries of systems containing noncovalent interactions.</p>
 <p>Use of the GeomeTRIC optimizer is specified with the <code class="docutils literal notranslate"><span class="pre">engine</span></code> argument to
@@ -1120,7 +1123,7 @@ the optimization is needed. Please see <cite>&lt;output_name&gt;.log</cite></p><
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/optking.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1813c0c">1.10a1.dev48</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/82ce595">1.10a1.dev49</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1134,7 +1137,7 @@ the optimization is needed. Please see <cite>&lt;output_name&gt;.log</cite></p><
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Thursday, 08 August 2024 07:26PM.
+      Last updated on Thursday, 15 August 2024 09:16AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
