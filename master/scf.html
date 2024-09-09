@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=44caddb6"></script>
+    <script src="_static/documentation_options.js?v=3583bb1d"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/45660d8">1.10a1.dev53</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7bfb86a">1.10a1.dev54</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -763,8 +763,7 @@ ERI computational cost. See the <a class="reference internal" href="#sec-scfddfj
 are as follows:</p>
 <dl class="simple">
 <dt>COSX</dt><dd><p>An algorithm based on the semi-numerical “chain of spheres exchange” (COSX)
-approach described in <a class="reference internal" href="bibliography.html#neese-2009-98" id="id18"><span>[Neese:2009:98]</span></a>. The coulomb term is computed with a
-direct density-fitting algorithm. The COSX algorithm uses no I/O, scales
+approach described in <a class="reference internal" href="bibliography.html#neese-2009-98" id="id18"><span>[Neese:2009:98]</span></a>. The COSX algorithm uses no I/O, scales
 well with system size, and requires minimal memory, making it ideal for
 large systems and multi-core CPUs. See <a class="reference internal" href="#sec-scfcosx"><span class="std std-ref">COSX Exchange</span></a> for more information.</p>
 </dd>
@@ -775,6 +774,14 @@ low memory usage, and effective parallelization. Additionally, the
 LINK implementation scales well with system size
 while simultaneously providing a formally-exact computation of the
 Exchange term. See <a class="reference internal" href="#sec-scflink"><span class="std std-ref">Linear Exchange</span></a> for more information.</p>
+</dd>
+<dt>SNLINK</dt><dd><p>An algorithm based on the “seminumerical Linear Exchange” (sn-LinK)
+approach described in <a class="reference internal" href="bibliography.html#laqua-2020-1456" id="id20"><span>[Laqua:2020:1456]</span></a>, SNLINK is only available if <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
+is compiled with the GauXC library, described in <a class="reference internal" href="bibliography.html#williams-young-2023-234104" id="id21"><span>[Williams-Young:2023:234104]</span></a>.
+Algorithmically, SNLINK is very similar to COSX, differing primarily in screening of
+the analytic 3-center integrals. In terms of implementation, SNLINK is more efficient,
+owing to more highly-optimized integral contraction kernels; and supports execution
+on Graphics Processing Units (GPUs). See <a class="reference internal" href="#sec-scfsnlink"><span class="std std-ref">Seminumerical Linear Exchange</span></a> for more information.</p>
 </dd>
 </dl>
 <p>In some cases the above algorithms have multiple implementations that return
@@ -819,10 +826,10 @@ to <code class="docutils literal notranslate"><span class="pre">SCHWARZ</span></
 <div class="math notranslate nohighlight">
 \[(PQ|RS) &lt;= \sqrt{(PQ|PQ)(RS|RS)}\]</div>
 <dl class="simple">
-<dt>CSAM</dt><dd><p>An extension of the Schwarz estimate that also screens over the long range 1/r operator, described in <a class="reference internal" href="bibliography.html#thompson-2017-144101" id="id20"><span>[Thompson:2017:144101]</span></a>.</p>
+<dt>CSAM</dt><dd><p>An extension of the Schwarz estimate that also screens over the long range 1/r operator, described in <a class="reference internal" href="bibliography.html#thompson-2017-144101" id="id22"><span>[Thompson:2017:144101]</span></a>.</p>
 </dd>
 <dt>DENSITY</dt><dd><p>An extension of the Schwarz estimate that also screens over elements of the density matrix.
-For the RHF case, described in <a class="reference internal" href="bibliography.html#haser-1989-104" id="id21"><span>[Haser:1989:104]</span></a></p>
+For the RHF case, described in <a class="reference internal" href="bibliography.html#haser-1989-104" id="id23"><span>[Haser:1989:104]</span></a></p>
 </dd>
 </dl>
 <div class="math notranslate nohighlight">
@@ -830,7 +837,7 @@ For the RHF case, described in <a class="reference internal" href="bibliography.
 <div class="math notranslate nohighlight">
 \[DCON(PQ, RS) = max(4D_{PQ}, 4D_{RS}, D_{PR}, D_{PS}, D_{QR}, D_{QS})\]</div>
 <p>When using density-matrix based integral screening, it is useful to build the J and K matrices
-incrementally, also described in <a class="reference internal" href="bibliography.html#haser-1989-104" id="id22"><span>[Haser:1989:104]</span></a>, using the difference in the density matrix between iterations, rather than the
+incrementally, also described in <a class="reference internal" href="bibliography.html#haser-1989-104" id="id24"><span>[Haser:1989:104]</span></a>, using the difference in the density matrix between iterations, rather than the
 full density matrix. To turn on this option, set <a class="reference internal" href="autodoc_glossary_options_c.html#term-INCFOCK-SCF"><span class="xref std std-term">INCFOCK</span></a> to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
 <p>We have added the automatic capability to use the extremely fast DF
 code for intermediate convergence of the orbitals, for <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a>
@@ -849,7 +856,7 @@ By reducing the dimensionality of the ERI tensor, application of the RI (often r
 SCF calculations. The reduction in ERI tensor rank also makes DF an appealing option for conventional SCF calculations, where the ERIs are stored
 in core or on disk. However, even when using DF, I/O becomes a significant bottleneck for systems of a sufficient size when performing conventional SCF
 calculations. In principle, though, DF approaches can be utilized in an integral-direct context, gaining the benefits of DF methods without suffering the
-I/O bottlenecks that conventional DF methods will eventually run into. One such approach, outlined by Weigend in <a class="reference internal" href="bibliography.html#weigend-2002-4285" id="id23"><span>[Weigend:2002:4285]</span></a>,
+I/O bottlenecks that conventional DF methods will eventually run into. One such approach, outlined by Weigend in <a class="reference internal" href="bibliography.html#weigend-2002-4285" id="id25"><span>[Weigend:2002:4285]</span></a>,
 is available for use in Psi4 for the separate construction of the Coulomb contribution to the Fock matrix.  This implementation can be used alongside
 Psi4’s separate Exchange construction algorithms for composite Fock matrix construction by using the keyword DFDIRJ as the Coulomb construction
 algorithm when specifying <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> to use a composite algorithm combination (<code class="docutils literal notranslate"><span class="pre">DFDIRJ+K_alg</span></code> in general,
@@ -860,7 +867,7 @@ enable more aggressive screening of ERI contributions to the Coulomb matrix and 
 </section>
 <section id="cosx-exchange">
 <span id="sec-scfcosx"></span><h2>COSX Exchange<a class="headerlink" href="#cosx-exchange" title="Link to this heading">¶</a></h2>
-<p>The semi-numerical COSX algorithm described in <a class="reference internal" href="bibliography.html#neese-2009-98" id="id24"><span>[Neese:2009:98]</span></a> evaluates
+<p>The semi-numerical COSX algorithm described in <a class="reference internal" href="bibliography.html#neese-2009-98" id="id26"><span>[Neese:2009:98]</span></a> evaluates
 two-electron ERIs analytically over one electron coordinate and numerically
 over the other electron coordinate, and belongs to the family of pseudospectral
 methods originally suggested by Friesner. In COSX, numerical integration is performed on standard
@@ -897,13 +904,13 @@ by constructing the Fock matrix from differences in the density matrix, which
 are more amenable to screening. This option is disabled by default because of
 potential SCF convergence issues, particularly when using diffuse basis functions.
 The <a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_OVERLAP_FITTING-SCF"><span class="xref std std-term">COSX_OVERLAP_FITTING</span></a> keyword (defaults to <code class="docutils literal notranslate"><span class="pre">true</span></code>) reduces numerical
-integration errors using the method described in <a class="reference internal" href="bibliography.html#izsak-2011-144105" id="id25"><span>[Izsak:2011:144105]</span></a> and is
+integration errors using the method described in <a class="reference internal" href="bibliography.html#izsak-2011-144105" id="id27"><span>[Izsak:2011:144105]</span></a> and is
 always recommended.</p>
 </section>
 <section id="linear-exchange">
 <span id="sec-scflink"></span><h2>Linear Exchange<a class="headerlink" href="#linear-exchange" title="Link to this heading">¶</a></h2>
 <p>Large SCF calculations can benefit from specialized screening procedures that further reduce the scaling of the ERI contribution to the Fock matrix.
-LinK, the linear-scaling exchange method described in <a class="reference internal" href="bibliography.html#ochsenfeld-1998-1663" id="id26"><span>[Ochsenfeld:1998:1663]</span></a>, is available in Psi4 in conjunction with composite algorithms that build J (<a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> set to <code class="docutils literal notranslate"><span class="pre">J_alg+LINK</span></code>).
+LinK, the linear-scaling exchange method described in <a class="reference internal" href="bibliography.html#ochsenfeld-1998-1663" id="id28"><span>[Ochsenfeld:1998:1663]</span></a>, is available in Psi4 in conjunction with composite algorithms that build J (<a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> set to <code class="docutils literal notranslate"><span class="pre">J_alg+LINK</span></code>).
 LinK achieves linear-scaling by exploiting shell pair sparsity in the density matrix and overlap sparsity between shell pairs. Specifically, LinK exploits the fact that the Exchange term
 requires only a linear-scaling number of significant elements through reformulating the
 shell quartet screening process to scale linearly with system size.
@@ -912,6 +919,46 @@ LinK is especially powerful when combined with density-matrix based ERI screenin
 <p>To control the LinK algorithm, here are the list of options provided.</p>
 <blockquote>
 <div><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-LINK_INTS_TOLERANCE-SCF"><span class="xref std std-term">LINK_INTS_TOLERANCE</span></a>: The integral screening tolerance used for sparsity-prep in the LinK algorithm. Defaults to the <a class="reference internal" href="autodoc_glossary_options_c.html#term-INTS_TOLERANCE-SCF"><span class="xref std std-term">INTS_TOLERANCE</span></a> option.</p>
+</div></blockquote>
+</section>
+<section id="seminumerical-linear-exchange">
+<span id="sec-scfsnlink"></span><h2>Seminumerical Linear Exchange<a class="headerlink" href="#seminumerical-linear-exchange" title="Link to this heading">¶</a></h2>
+<p>Similar to the COSX algorithm provided by <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, the seminumerical Linear Exchange (sn-LinK) algorithm, devised
+by Ochsenfeld in <a class="reference internal" href="bibliography.html#laqua-2020-1456" id="id29"><span>[Laqua:2020:1456]</span></a>, improves efficiency of the K construction process by
+decomposing computation of the ERI tensor into a series of contractions involving grid-computed basis
+function components and analytic 3-center integrals. As a “semi-numerical” Exchange construction method,
+sn-LinK is also comparable to the pseudospectral method of Friesner.</p>
+<p>sn-LinK and COSX have a number of significant differences in implementation details in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, however.
+First and foremost, the COSX implementation is contained within <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> itself, and is thus always available
+for execution. On the other hand, the sn-LinK implementation in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is tied to the GauXC standalone
+library discussed in <a class="reference internal" href="bibliography.html#williams-young-2023-234104" id="id30"><span>[Williams-Young:2023:234104]</span></a>; thus, the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>-GauXC interface must be built
+for sn-LinK to be used. Second, the GauXC sn-LinK interface is more
+efficient than the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> COSX code on multiple levels. For CPU execution, GauXC’s sn-LinK uses highly-optimized
+kernels for the contraction of the analytic integrals, whereas <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>’s COSX uses a less-optimized, more
+general contraction kernel. Additionally, GauXC’s sn-LinK code supports execution on GPUs, allowing for
+GPU-enabled construction of the Exchange matrix, while <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>’s COSX does not. In general,
+sn-LinK will provide better runtime performance for hitting a desired accuracy
+threshold compared to <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>’s COSX. Third, some low-level implementation details differ between the two.
+For example, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>’s COSX uses a dual-grid scheme similar to that originally proposed by Neese,
+converging the SCF on a small grid, then running a number of SCF iterations,
+equal to the value set by the <a class="reference internal" href="autodoc_glossary_options_c.html#term-COSX_MAXITER_FINAL-SCF"><span class="xref std std-term">COSX_MAXITER_FINAL</span></a>, on a larger grid.
+In contrast, sn-LinK only uses a single-grid scheme, simply converging the SCF on one grid.
+As another example, while the COSX grid defaults are selected to emphasize speed over accuracy,
+the defaults for sn-LinK are selected to achieve higher accuracy (~0.1 kcal/mol error for interaction/conformer energies).</p>
+<p>To control compilation and linking of the optional GauXC dependency required for the sn-LinK algorithm,
+here are the list of compile-time options provided.</p>
+<ul class="simple">
+<li><p><strong class="makevar">ENABLE_gauxc</strong>: Compile Psi4 with support for GauXC.</p></li>
+<li><p><strong class="makevar">gauxc_DIR</strong>: Location of the external GauXC install to compile Psi4 with, if using an external GauXC instance.</p></li>
+<li><p><strong class="makevar">gauxc_ENABLE_GPU</strong>: Enable GPU support for the Psi4-GauXC interface class. When building GauXC internally within Psi4, this keyword controls whether to enable GPU support on the internally-built GauXC instance. When using an external GauXC build, this keyword must align with the GPU capabilities of the external GauXC install.</p></li>
+</ul>
+<p>To control the sn-LinK algorithm, here are the list of options provided.</p>
+<blockquote>
+<div><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SNLINK_RADIAL_POINTS-SCF"><span class="xref std std-term">SNLINK_RADIAL_POINTS</span></a>: Number of radial points to use for the sn-LinK grid. Defaults to 70.</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SNLINK_SPHERICAL_POINTS-SCF"><span class="xref std std-term">SNLINK_SPHERICAL_POINTS</span></a>: Number of spherical points to use for the sn-LinK grid. Defaults to 302.</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SNLINK_RADIAL_SCHEME-SCF"><span class="xref std std-term">SNLINK_RADIAL_SCHEME</span></a>: Radial quadrature scheme to use for the sn-LinK grid. Defaults to <code class="docutils literal notranslate"><span class="pre">MURA</span></code>. Note that, although different from the more common Psi4 radial quadrature scheme of <code class="docutils literal notranslate"><span class="pre">TREUTLER</span></code>, the default of <code class="docutils literal notranslate"><span class="pre">MURA</span></code> matches the default radial quadrature scheme used by GauXC.</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SNLINK_INTS_TOLERANCE-SCF"><span class="xref std std-term">SNLINK_INTS_TOLERANCE</span></a>: The integral screening tolerance used in the sn-LinK algorithm. Defaults to the <a class="reference internal" href="autodoc_glossary_options_c.html#term-INTS_TOLERANCE-SCF"><span class="xref std std-term">INTS_TOLERANCE</span></a> option.</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SNLINK_USE_GPU-SCF"><span class="xref std std-term">SNLINK_USE_GPU</span></a>: Select whether to execute the sn-LinK algorithm on GPU or not. Setting this option to <code class="docutils literal notranslate"><span class="pre">true</span></code> will fail unless the Psi4-GauXC interface is compiled with GPU support.</p>
 </div></blockquote>
 </section>
 <section id="second-order-convergence">
@@ -996,8 +1043,8 @@ Only the lowest eigenvalues of the electronic Hessian are computed, and Hessian-
 products are computed instead of the full Hessian. This algorithm is thus
 much more efficient than the Direct Inversion, but at present, it is only available for UHF <span class="math notranslate nohighlight">\(\rightarrow\)</span> UHF stability
 analysis. The capabilities of both algorithms are summarized below:</p>
-<span id="table-stab-methods"></span><table class="docutils align-default" id="id37">
-<caption><span class="caption-text">Stability analysis methods available in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></span><a class="headerlink" href="#id37" title="Link to this table">¶</a></caption>
+<span id="table-stab-methods"></span><table class="docutils align-default" id="id41">
+<caption><span class="caption-text">Stability analysis methods available in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></span><a class="headerlink" href="#id41" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Algorithm</p></th>
 <th class="head"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-REFERENCE-SCF"><span class="xref std std-term">REFERENCE</span></a></p></th>
@@ -1139,8 +1186,8 @@ external field, see <a class="extlink-srcsample reference external" href="https:
 </section>
 <section id="convergence-and-algorithm-defaults">
 <span id="sec-scfdefault"></span><h2>Convergence and Algorithm Defaults<a class="headerlink" href="#convergence-and-algorithm-defaults" title="Link to this heading">¶</a></h2>
-<span id="table-conv-scf"></span><table class="docutils align-default" id="id38">
-<caption><span class="caption-text">SCF algorithm and convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f1" id="id27" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></span><a class="headerlink" href="#id38" title="Link to this table">¶</a></caption>
+<span id="table-conv-scf"></span><table class="docutils align-default" id="id42">
+<caption><span class="caption-text">SCF algorithm and convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f1" id="id31" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></span><a class="headerlink" href="#id42" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p><em>Ab Initio</em> Method</p></th>
 <th class="head"><p>Calculation Type</p></th>
@@ -1160,7 +1207,7 @@ external field, see <a class="extlink-srcsample reference external" href="https:
 <td><p>8</p></td>
 <td><p>8</p></td>
 </tr>
-<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id28" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id32" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
 <td><p>8</p></td>
 <td><p>8</p></td>
 </tr>
@@ -1168,29 +1215,29 @@ external field, see <a class="extlink-srcsample reference external" href="https:
 <td><p>energy</p></td>
 <td><p>8</p></td>
 <td><p>8</p></td>
-<td rowspan="4"><p>PK <a class="footnote-reference brackets" href="#f3" id="id29" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></td>
+<td rowspan="4"><p>PK <a class="footnote-reference brackets" href="#f3" id="id33" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p>optimization</p></td>
 <td><p>10</p></td>
 <td><p>10</p></td>
 </tr>
-<tr class="row-odd"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id30" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-odd"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id34" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
 <td><p>10</p></td>
 <td><p>10</p></td>
 </tr>
-<tr class="row-even"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id31" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-even"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id35" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
 <td><p>10</p></td>
 <td><p>10</p></td>
 </tr>
 </tbody>
 </table>
-<span id="table-conv-corl"></span><table class="docutils align-default" id="id39">
-<caption><span class="caption-text">Post-SCF convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f4" id="id32" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></span><a class="headerlink" href="#id39" title="Link to this table">¶</a></caption>
+<span id="table-conv-corl"></span><table class="docutils align-default" id="id43">
+<caption><span class="caption-text">Post-SCF convergence criteria defaults by calculation type <a class="footnote-reference brackets" href="#f4" id="id36" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></span><a class="headerlink" href="#id43" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p><em>Ab Initio</em> Method</p></th>
 <th class="head"><p>Calculation Type</p></th>
-<th class="head"><p>E_CONVERGENCE <a class="footnote-reference brackets" href="#f5" id="id33" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></th>
-<th class="head"><p>R_CONVERGENCE <a class="footnote-reference brackets" href="#f6" id="id34" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></th>
+<th class="head"><p>E_CONVERGENCE <a class="footnote-reference brackets" href="#f5" id="id37" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a></p></th>
+<th class="head"><p>R_CONVERGENCE <a class="footnote-reference brackets" href="#f6" id="id38" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p></th>
 </tr>
 </thead>
 <tbody>
@@ -1203,11 +1250,11 @@ external field, see <a class="extlink-srcsample reference external" href="https:
 <td><p>8</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id35" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-even"><td><p>frequency <a class="footnote-reference brackets" href="#f7" id="id39" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
 <td><p>8</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id36" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
+<tr class="row-odd"><td><p>CC property <a class="footnote-reference brackets" href="#f2" id="id40" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p></td>
 <td><p>8</p></td>
 <td></td>
 </tr>
@@ -1216,7 +1263,7 @@ external field, see <a class="extlink-srcsample reference external" href="https:
 <p class="rubric">Footnotes</p>
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="f1" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id27">1</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id31">1</a><span class="fn-bracket">]</span></span>
 <p>Note that this table applies only the SCF module,
 not to the final convergence criteria for post-HF methods or to methods
 that use an alternate starting point, like MCSCF. SAPT computations, too,
@@ -1224,26 +1271,26 @@ set tighter values.</p>
 </aside>
 <aside class="footnote brackets" id="f2" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id31">1</a>,<a role="doc-backlink" href="#id36">2</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id35">1</a>,<a role="doc-backlink" href="#id40">2</a>)</span>
 <p>This applies to properties computed through the <a class="reference internal" href="api/psi4.driver.properties.html#psi4.driver.properties" title="psi4.driver.properties"><code class="xref py py-func docutils literal notranslate"><span class="pre">properties()</span></code></a> function.</p>
 </aside>
 <aside class="footnote brackets" id="f3" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id29">3</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id33">3</a><span class="fn-bracket">]</span></span>
 <p>Post-HF methods that do not rely upon the usual 4-index AO integrals use a
 density-fitted SCF reference. That is, for DF-MP2 and SAPT, the default <a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> is DF.</p>
 </aside>
 <aside class="footnote brackets" id="f4" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id32">4</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id36">4</a><span class="fn-bracket">]</span></span>
 <p>Note that this table applies to the final convergence criteria for
 all the post-SCF modules that define a <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-CCENERGY"><span class="xref std std-term">E_CONVERGENCE</span></a> keyword.</p>
 </aside>
 <aside class="footnote brackets" id="f5" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id33">5</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id37">5</a><span class="fn-bracket">]</span></span>
 <p>The E_CONVERGENCE keyword is implemented for most post-SCF modules.
 See a list beginning at <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-CCENERGY"><span class="xref std std-term">E_CONVERGENCE</span></a>.</p>
 </aside>
 <aside class="footnote brackets" id="f6" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id34">6</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id38">6</a><span class="fn-bracket">]</span></span>
 <p>The R_CONVERGENCE keyword places a convergence check on an internal
 residual error measure and is implemented for several post-SCF
 modules (see list beginning at <a class="reference internal" href="autodoc_glossary_options_c.html#term-R_CONVERGENCE-CCENERGY"><span class="xref std std-term">R_CONVERGENCE</span></a>). It is defined
@@ -1252,7 +1299,7 @@ by each module individually.</p>
 </aside>
 <aside class="footnote brackets" id="f7" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id28">1</a>,<a role="doc-backlink" href="#id30">2</a>,<a role="doc-backlink" href="#id35">3</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id32">1</a>,<a role="doc-backlink" href="#id34">2</a>,<a role="doc-backlink" href="#id39">3</a>)</span>
 <p>For frequency computations by finite difference of energies,
 convergence criteria are tightened further still to 10 for
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-SCF"><span class="xref std std-term">E_CONVERGENCE</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a> for SCF of HF or DFT, 11
@@ -1342,6 +1389,7 @@ types.</p></li>
 <li><a class="reference internal" href="#integral-direct-density-fitted-coulomb-construction">Integral-Direct Density-Fitted Coulomb Construction</a></li>
 <li><a class="reference internal" href="#cosx-exchange">COSX Exchange</a></li>
 <li><a class="reference internal" href="#linear-exchange">Linear Exchange</a></li>
+<li><a class="reference internal" href="#seminumerical-linear-exchange">Seminumerical Linear Exchange</a></li>
 <li><a class="reference internal" href="#second-order-convergence">Second-order Convergence</a></li>
 <li><a class="reference internal" href="#stability-analysis">Stability Analysis</a></li>
 <li><a class="reference internal" href="#effective-core-potentials-ecps">Effective core potentials (ECPs)</a></li>
@@ -1399,7 +1447,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/45660d8">1.10a1.dev53</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/7bfb86a">1.10a1.dev54</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1413,7 +1461,7 @@ types.</p></li>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Thursday, 05 September 2024 04:11AM.
+      Last updated on Monday, 09 September 2024 08:09PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

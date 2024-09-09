@@ -298,7 +298,7 @@ Keywords by Alpha
       :ref:`apdx:GLOBALS` |w---w| What algorithm to use for the SCF computation. See Table :ref:`SCF Convergence & Algorithm <table:conv_scf>` for default algorithm for different calculation types.
 
       * **Type**: string
-      * **Possible Values**: DIRECT, DF, MEM\_DF, DISK\_DF, PK, OUT\_OF\_CORE, CD, GTFOCK, DFDIRJ, DFDIRJ+COSX, DFDIRJ+LINK
+      * **Possible Values**: DIRECT, DF, MEM\_DF, DISK\_DF, PK, OUT\_OF\_CORE, CD, GTFOCK, DFDIRJ, DFDIRJ+COSX, DFDIRJ+LINK, DFDIRJ+SNLINK
       * **Default**: PK
 
    SCREENING (GLOBALS)
@@ -2232,7 +2232,7 @@ Keywords by Alpha
       :ref:`apdx:CPHF` |w---w| SCF Type
 
       * **Type**: string
-      * **Possible Values**: DIRECT, DF, PK, OUT\_OF\_CORE, PS, INDEPENDENT, GTFOCK, DFDIRJ+LINK, DFDIRJ+COSX
+      * **Possible Values**: DIRECT, DF, PK, OUT\_OF\_CORE, PS, INDEPENDENT, GTFOCK, DFDIRJ+SNLINK, DFDIRJ+LINK, DFDIRJ+COSX
       * **Default**: DIRECT
 
    SOLVER_CONVERGENCE (CPHF)
@@ -6052,6 +6052,37 @@ Keywords by Alpha
       * **Type**: integer
       * **Default**: 50
 
+   SNLINK_INTS_TOLERANCE (SCF)
+      :ref:`apdx:SCF` |w---w| Screening criteria for integrals and intermediates in snLinK
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1.0e-11
+
+   SNLINK_RADIAL_POINTS (SCF)
+      :ref:`apdx:SCF` |w---w| Number of radial points in snLinK grid.
+
+      * **Type**: integer
+      * **Default**: 70
+
+   SNLINK_RADIAL_SCHEME (SCF)
+      :ref:`apdx:SCF` |w---w| Radial Scheme for snLinK grid. MURA is default here as it matches the GauXC default option
+
+      * **Type**: string
+      * **Possible Values**: MURA, TREUTLER, EM
+      * **Default**: MURA
+
+   SNLINK_SPHERICAL_POINTS (SCF)
+      :ref:`apdx:SCF` |w---w| Number of spherical points in snLinK grid.
+
+      * **Type**: integer
+      * **Default**: 302
+
+   SNLINK_USE_GPU (SCF)
+      :ref:`apdx:SCF` |w---w| Use GPU for GauXC?
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
    SAD_D_CONVERGENCE (SCF)
       :ref:`apdx:SCF` |w---w| Convergence criterion for SCF density in the SAD guess, analogous to |scf__d_convergence|.
 
@@ -7389,6 +7420,84 @@ Keywords by Alpha
 
       * **Type**: string
       * **Default**: ROBUST
+
+   SNLINK_BASIS_TOLERANCE (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Screening criteria for basis function values on snLinK grids 
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1.0e-10
+
+   SNLINK_DENSITY_TOLERANCE (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Screening criteria for shell-pair densities in snLinK 
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1.0e-10
+
+   SNLINK_FORCE_CARTESIAN (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Force snLinK to use cartesian coordinates 
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   SNLINK_GPU_MEM (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Proportion (in %) of available GPU memory to allocate to snLinK. 
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: 90
+
+   SNLINK_GRID_BATCH_SIZE (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Maximum number of grid points per grid block for GauXC  
+
+      * **Type**: integer
+      * **Default**: 2048
+
+   SNLINK_INTEGRATOR_KERNEL (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Integrator execution kernel for snLinK  GauXC also has SHELLBATCHED, but it is incompatible with Psi4 due to not being yet implemented with sn-LinK.
+
+      * **Type**: string
+      * **Possible Values**: DEFAULT, INCORE
+      * **Default**: DEFAULT
+
+   SNLINK_LOAD_BALANCER_KERNEL (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Load Balancer kernel for snLinK 
+
+      * **Type**: string
+      * **Possible Values**: DEFAULT, REPLICATED, REPLICATED-PETITE, REPLICATED-FILLIN
+      * **Default**: DEFAULT
+
+   SNLINK_LWD_KERNEL (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Integrator local work driver kernel for snLinK  GauXC also has SCHEME1-CUTLASS, but it is disabled in Psi4 for now due to compile-time issues and requiring very modern CUDA CCs (>=80)
+
+      * **Type**: string
+      * **Possible Values**: DEFAULT, REFERENCE, SCHEME1, SCHEME1-MAGMA
+      * **Default**: DEFAULT
+
+   SNLINK_MOL_WEIGHTS_KERNEL (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Molecular Weights kernel for snLinK 
+
+      * **Type**: string
+      * **Possible Values**: DEFAULT
+      * **Default**: DEFAULT
+
+   SNLINK_PRUNING_SCHEME (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Pruning scheme for snLinK grids 
+
+      * **Type**: string
+      * **Possible Values**: ROBUST, TREUTLER, NONE
+      * **Default**: ROBUST
+
+   SNLINK_REDUCTION_KERNEL (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Integrator reduction kernel for snLinK  GauXC also has NCCL, but it is incompatible with Psi4 due to requiring MPI.
+
+      * **Type**: string
+      * **Possible Values**: DEFAULT, BASICMPI
+      * **Default**: DEFAULT
+
+   SNLINK_USE_DEBUG_GRID (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Overwrite sn-LinK grid options with debug grid matching GauXC's Ultrafine grid spec 
+
+      * **Type**: integer
+      * **Default**: false
 
    DF_BASIS_SAD (SCF)
       :ref:`apdx:SCF` **(Expert)** |w---w| Density fitting basis used in SAD 
