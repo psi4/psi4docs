@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=64a9e845"></script>
+    <script src="_static/documentation_options.js?v=1cab8269"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_debug_profile.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/bbe7a9d">1.10a1.dev56</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ab7aaca">1.10a1.dev57</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -123,7 +123,26 @@
 <span id="sec-prog-debug-and-profile"></span><h1>Debugging and Profiling<a class="headerlink" href="#debugging-and-profiling" title="Link to this heading">¶</a></h1>
 <section id="debugging">
 <h2>Debugging<a class="headerlink" href="#debugging" title="Link to this heading">¶</a></h2>
-<p>Instructions on running Psi4 with a debugger.</p>
+<dl class="simple">
+<dt>The preferred method for debugging C++ code in Psi4 is with gdb. To run Psi4 in this way, you must specify the Python executable as the program. Arguments are provided using the <code class="docutils literal notranslate"><span class="pre">--args</span></code> flag. Here’s an example.::</dt><dd><p>$~&gt; gdb –args /usr/bin/python3 /path/to/psi4 input.dat</p>
+</dd>
+</dl>
+<p>In order to debug properly, Psi4 needs to be built with the <code class="docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code> variable set to either <code class="docutils literal notranslate"><span class="pre">Debug</span></code> or <code class="docutils literal notranslate"><span class="pre">RelWithDebInfo</span></code>. These will output debugging symbols that will allow gdb to print line numbers and
+inline function names.:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>cmake<span class="w"> </span><span class="o">[</span>your<span class="w"> </span>options<span class="w"> </span>here<span class="o">]</span><span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Debug
+&gt;<span class="w"> </span>cmake<span class="w"> </span><span class="o">[</span>your<span class="w"> </span>options<span class="w"> </span>here<span class="o">]</span><span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>RelWithDebInfo
+</pre></div>
+</div>
+<p>Certain symbols may not be output even with this flag set. In general, any template function used should be visible, and anything with the <code class="docutils literal notranslate"><span class="pre">PSI_API</span></code> modifier will be visible. Other variables, functions, and classes will
+likely be hidden from the user. To make these symbols visible, you must modify a few variables. For an example, see <a class="reference external" href="https://github.com/psi4/psi4/compare/master...TiborGY:psi4:toc_dbg">TiborGY’s debug branch</a>.</p>
+<p>Also see <a class="reference internal" href="build_planning.html#faq-gdblldb"><span class="std std-ref">more debugger directions</span></a>
+and a <a class="reference external" href="https://github.com/psi4/PsiCon2020/blob/master/PsiCon2017/Turney-C%2B%2B.pdf">[presentation]</a> .
+If building using <code class="docutils literal notranslate"><span class="pre">psi4-path-advisor</span> <span class="pre">cmake</span></code>, one should run it straight, not within <code class="docutils literal notranslate"><span class="pre">eval</span> <span class="pre">$(...)</span></code>, note the usage command it outputs, then edit the cache file it has produced to change <code class="docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code> to <code class="docutils literal notranslate"><span class="pre">Debug</span></code> and <code class="docutils literal notranslate"><span class="pre">CMAKE_CXX_FLAGS</span></code> to <code class="docutils literal notranslate"><span class="pre">-O0</span></code>, then execute the noted <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">...</span> <span class="pre">-C</span> <span class="pre">cache</span></code> command to configure.</p>
+<section id="vscode">
+<h3>VSCode<a class="headerlink" href="#vscode" title="Link to this heading">¶</a></h3>
+<p>When using gdb wath VSCode, you should set the <code class="docutils literal notranslate"><span class="pre">program</span></code> entry to the Python executable, just as before. Arguments can then be placed in the <code class="docutils literal notranslate"><span class="pre">args</span></code> entry. If you are debugging a C++ plugin or backend code,
+the launch type should be <code class="docutils literal notranslate"><span class="pre">cppdbg</span></code>.</p>
+</section>
 </section>
 <section id="profiling">
 <h2>Profiling<a class="headerlink" href="#profiling" title="Link to this heading">¶</a></h2>
@@ -155,7 +174,10 @@ parallel blocks.</p>
     <h3><a href="index.html">table of contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">Debugging and Profiling</a><ul>
-<li><a class="reference internal" href="#debugging">Debugging</a></li>
+<li><a class="reference internal" href="#debugging">Debugging</a><ul>
+<li><a class="reference internal" href="#vscode">VSCode</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#profiling">Profiling</a></li>
 </ul>
 </li>
@@ -208,7 +230,7 @@ parallel blocks.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_debug_profile.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/bbe7a9d">1.10a1.dev56</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ab7aaca">1.10a1.dev57</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -221,7 +243,7 @@ parallel blocks.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Friday, 27 September 2024 07:58PM.
+      Last updated on Saturday, 28 September 2024 07:21PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
