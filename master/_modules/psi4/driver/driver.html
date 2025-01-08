@@ -38,7 +38,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>psi4.driver.driver</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=0fcd75a3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=88a353b9" />
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=57dca472"></script>
+    <script src="../../../_static/documentation_options.js?v=849d6b58"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -144,31 +144,31 @@
 <span class="sd">frequency calculations.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>  <span class="c1"># for typing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>  <span class="c1"># for typing</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">driver_cbs</span><span class="p">,</span> <span class="n">driver_findif</span><span class="p">,</span> <span class="n">driver_nbody</span><span class="p">,</span> <span class="n">driver_util</span><span class="p">,</span> <span class="n">p4util</span><span class="p">,</span> <span class="n">qcdb</span><span class="p">,</span> <span class="n">task_planner</span>
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">constants</span><span class="p">,</span> <span class="n">nppp</span><span class="p">,</span> <span class="n">nppp10</span><span class="p">,</span> <span class="n">pp</span>
-<span class="kn">from</span> <span class="nn">.mdi_engine</span> <span class="kn">import</span> <span class="n">mdi_run</span>
-<span class="kn">from</span> <span class="nn">.p4util.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.procrouting</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.task_base</span> <span class="kn">import</span> <span class="n">AtomicComputer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">driver_cbs</span><span class="p">,</span> <span class="n">driver_findif</span><span class="p">,</span> <span class="n">driver_nbody</span><span class="p">,</span> <span class="n">driver_util</span><span class="p">,</span> <span class="n">p4util</span><span class="p">,</span> <span class="n">qcdb</span><span class="p">,</span> <span class="n">task_planner</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">constants</span><span class="p">,</span> <span class="n">nppp</span><span class="p">,</span> <span class="n">nppp10</span><span class="p">,</span> <span class="n">pp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.mdi_engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">mdi_run</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.p4util.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.procrouting</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.task_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicComputer</span>
 
 <span class="c1"># never import wrappers or aliases into this file</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_energy_is_invariant</span><span class="p">(</span><span class="n">gradient_rms</span><span class="p">,</span> <span class="n">stationary_criterion</span><span class="o">=</span><span class="mf">1.e-2</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_energy_is_invariant</span><span class="p">(</span><span class="n">gradient_rms</span><span class="p">,</span> <span class="n">stationary_criterion</span><span class="o">=</span><span class="mf">1.e-2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Polls options and probes `gradient` to return whether current method</span>
 <span class="sd">    and system expected to be invariant to translations and rotations of</span>
 <span class="sd">    the coordinate system.</span>
@@ -186,7 +186,7 @@
     <span class="k">return</span> <span class="n">translations_projection_sound</span><span class="p">,</span> <span class="n">rotations_projection_sound</span>
 
 
-<span class="k">def</span> <span class="nf">_filter_renamed_methods</span><span class="p">(</span><span class="n">compute</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_filter_renamed_methods</span><span class="p">(</span><span class="n">compute</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Raises UpgradeHelper when a method has been renamed.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;dcft&quot;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="n">compute</span> <span class="o">+</span> <span class="s2">&quot;(&#39;dcft&#39;)&quot;</span><span class="p">,</span> <span class="n">compute</span> <span class="o">+</span> <span class="s2">&quot;(&#39;dct&#39;)&quot;</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span>
@@ -195,7 +195,7 @@
 
 <div class="viewcode-block" id="energy">
 <a class="viewcode-back" href="../../../energy.html#psi4.driver.energy">[docs]</a>
-<span class="k">def</span> <span class="nf">energy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">energy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function to compute the single-point electronic energy.</span>
 
 <span class="sd">    :returns: *float* |w--w| Total electronic energy in Hartrees. SAPT &amp; EFP return interaction energy.</span>
@@ -665,7 +665,7 @@
 
 <div class="viewcode-block" id="gradient">
 <a class="viewcode-back" href="../../../opt.html#psi4.driver.gradient">[docs]</a>
-<span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function complementary to :py:func:`~psi4.driver.optimize()`. Carries out one gradient pass,</span>
 <span class="sd">    deciding analytic or finite difference.</span>
 
@@ -771,7 +771,7 @@
 
 <div class="viewcode-block" id="properties">
 <a class="viewcode-back" href="../../../prop.html#psi4.driver.properties">[docs]</a>
-<span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">properties</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function to compute various properties.</span>
 
 <span class="sd">    :aliases: prop()</span>
@@ -923,20 +923,20 @@
 
 <div class="viewcode-block" id="optimize_geometric">
 <a class="viewcode-back" href="../../../api/psi4.driver.optimize_geometric.html#psi4.driver.optimize_geometric">[docs]</a>
-<span class="k">def</span> <span class="nf">optimize_geometric</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">optimize_geometric</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
-    <span class="kn">import</span> <span class="nn">qcelemental</span> <span class="k">as</span> <span class="nn">qcel</span>
-    <span class="kn">from</span> <span class="nn">qcelemental.util</span> <span class="kn">import</span> <span class="n">which_import</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">qcelemental</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcel</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">which_import</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">which_import</span><span class="p">(</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span> <span class="n">return_bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s1">&#39;Python module geometric not found. Solve by installing it: `conda install -c conda-forge geometric` or `pip install geometric`&#39;</span><span class="p">)</span>
-    <span class="kn">import</span> <span class="nn">geometric</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">geometric</span>
 
-    <span class="k">class</span> <span class="nc">Psi4NativeEngine</span><span class="p">(</span><span class="n">geometric</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">Engine</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Psi4NativeEngine</span><span class="p">(</span><span class="n">geometric</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">Engine</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Internally run an energy and gradient calculation for geometric </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p4_name</span><span class="p">,</span> <span class="n">p4_mol</span><span class="p">,</span> <span class="n">p4_return_wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">p4_kwargs</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p4_name</span><span class="p">,</span> <span class="n">p4_mol</span><span class="p">,</span> <span class="n">p4_return_wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">p4_kwargs</span><span class="p">):</span>
     
             <span class="bp">self</span><span class="o">.</span><span class="n">p4_name</span> <span class="o">=</span> <span class="n">p4_name</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">p4_mol</span> <span class="o">=</span> <span class="n">p4_mol</span>
@@ -951,7 +951,7 @@
                                  
             <span class="nb">super</span><span class="p">(</span><span class="n">Psi4NativeEngine</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span>
     
-        <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">read_data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">read_data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">p4_mol</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">p4_mol</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p4_return_wfn</span><span class="p">:</span>
@@ -1112,7 +1112,7 @@
 
 <div class="viewcode-block" id="optimize">
 <a class="viewcode-back" href="../../../opt.html#psi4.driver.optimize">[docs]</a>
-<span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function to perform a geometry optimization.</span>
 
 <span class="sd">    :aliases: opt()</span>
@@ -1280,7 +1280,7 @@
     <span class="k">elif</span> <span class="n">engine</span> <span class="o">!=</span> <span class="s1">&#39;optking&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimizer </span><span class="si">{</span><span class="n">engine</span><span class="si">}</span><span class="s2"> is not supported.&quot;</span><span class="p">)</span>
 
-    <span class="kn">import</span> <span class="nn">optking</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">optking</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="n">driver_util</span><span class="o">.</span><span class="n">upgrade_interventions</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;__call__&#39;</span><span class="p">):</span>
@@ -1486,7 +1486,7 @@
 
 <div class="viewcode-block" id="hessian">
 <a class="viewcode-back" href="../../../freq.html#psi4.driver.hessian">[docs]</a>
-<span class="k">def</span> <span class="nf">hessian</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hessian</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function complementary to :py:func:`~psi4.driver.frequency`. Computes force</span>
 <span class="sd">    constants, deciding analytic, finite difference of gradients, or</span>
 <span class="sd">    finite difference of energies.</span>
@@ -1631,7 +1631,7 @@
 
 <div class="viewcode-block" id="frequency">
 <a class="viewcode-back" href="../../../freq.html#psi4.driver.frequency">[docs]</a>
-<span class="k">def</span> <span class="nf">frequency</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">frequency</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function to compute harmonic vibrational frequencies.</span>
 
 <span class="sd">    :aliases: frequencies(), freq()</span>
@@ -1752,7 +1752,7 @@
 
 <div class="viewcode-block" id="vibanal_wfn">
 <a class="viewcode-back" href="../../../api/psi4.driver.vibanal_wfn.html#psi4.driver.vibanal_wfn">[docs]</a>
-<span class="k">def</span> <span class="nf">vibanal_wfn</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">vibanal_wfn</span><span class="p">(</span>
     <span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span>
     <span class="n">hess</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">irrep</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1885,7 +1885,7 @@
 
 <div class="viewcode-block" id="gdma">
 <a class="viewcode-back" href="../../../gdma.html#psi4.driver.gdma">[docs]</a>
-<span class="k">def</span> <span class="nf">gdma</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">datafile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gdma</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">datafile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to use wavefunction information in *wfn* and, if specified,</span>
 <span class="sd">    additional commands in *filename* to run GDMA analysis with A. J. Stone&#39;s program.</span>
 
@@ -1943,13 +1943,13 @@
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Finish</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># from outside the Psi4 ecosystem</span>
-    <span class="kn">from</span> <span class="nn">qcelemental.util</span> <span class="kn">import</span> <span class="n">which_import</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">which_import</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">which_import</span><span class="p">(</span><span class="s2">&quot;gdma&quot;</span><span class="p">,</span> <span class="n">return_bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s1">&#39;Python module gdma not found. Solve by installing it: `conda install -c conda-forge gdma` or recompile with `-DENABLE_gdma`&#39;</span><span class="p">)</span>
-    <span class="kn">import</span> <span class="nn">gdma</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">gdma</span>
 
     <span class="n">min_version</span> <span class="o">=</span> <span class="s2">&quot;2.3.3&quot;</span>
-    <span class="kn">from</span> <span class="nn">qcelemental.util</span> <span class="kn">import</span> <span class="n">parse_version</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_version</span>
     <span class="k">if</span> <span class="n">parse_version</span><span class="p">(</span><span class="n">gdma</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">parse_version</span><span class="p">(</span><span class="n">min_version</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GDMA version </span><span class="si">{</span><span class="n">min_version</span><span class="si">}</span><span class="s2"> is required at least. Version </span><span class="si">{</span><span class="n">gdma</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2"> was found.&quot;</span><span class="p">)</span>
 
@@ -1999,7 +1999,7 @@
 
 <div class="viewcode-block" id="fchk">
 <a class="viewcode-back" href="../../../fchk.html#psi4.driver.fchk">[docs]</a>
-<span class="k">def</span> <span class="nf">fchk</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fchk</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to write wavefunction information in *wfn* to *filename* in</span>
 <span class="sd">    Gaussian FCHK format.</span>
 
@@ -2130,7 +2130,7 @@
 
 <div class="viewcode-block" id="molden">
 <a class="viewcode-back" href="../../../molden.html#psi4.driver.molden">[docs]</a>
-<span class="k">def</span> <span class="nf">molden</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">density_a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">density_b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dovirtual</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">molden</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">density_a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">density_b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dovirtual</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to write wavefunction information in *wfn* to *filename* in</span>
 <span class="sd">    molden format. Will write natural orbitals from *density* (MO basis) if supplied.</span>
 <span class="sd">    Warning! Most post-SCF Wavefunctions do not build the density as this is often</span>
@@ -2244,7 +2244,7 @@
 
 <div class="viewcode-block" id="tdscf">
 <a class="viewcode-back" href="../../../api/psi4.driver.tdscf.html#psi4.driver.tdscf">[docs]</a>
-<span class="k">def</span> <span class="nf">tdscf</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">tdscf</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">proc</span><span class="o">.</span><span class="n">run_tdscf_excitations</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
@@ -2314,7 +2314,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2327,8 +2327,8 @@
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Friday, 13 December 2024 01:31AM.
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Wednesday, 08 January 2025 01:53PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

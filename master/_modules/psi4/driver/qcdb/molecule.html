@@ -38,7 +38,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>psi4.driver.qcdb.molecule</title>
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=0fcd75a3" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=88a353b9" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=57dca472"></script>
+    <script src="../../../../_static/documentation_options.js?v=849d6b58"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/qcdb/molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -139,27 +139,27 @@
 <span class="c1"># @END LICENSE</span>
 <span class="c1">#</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">hashlib</span>
-<span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">import</span> <span class="nn">qcelemental</span> <span class="k">as</span> <span class="nn">qcel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qcelemental</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcel</span>
 
-<span class="kn">import</span> <span class="nn">psi4</span>
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">constants</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">parse_dertype</span>
-<span class="kn">from</span> <span class="nn">.libmintsmolecule</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.testing</span> <span class="kn">import</span> <span class="n">compare_values</span><span class="p">,</span> <span class="n">compare_integers</span><span class="p">,</span> <span class="n">compare_molrecs</span>
-<span class="kn">from</span> <span class="nn">.bfs</span> <span class="kn">import</span> <span class="n">BFS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">psi4</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">constants</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_dertype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.libmintsmolecule</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.testing</span><span class="w"> </span><span class="kn">import</span> <span class="n">compare_values</span><span class="p">,</span> <span class="n">compare_integers</span><span class="p">,</span> <span class="n">compare_molrecs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.bfs</span><span class="w"> </span><span class="kn">import</span> <span class="n">BFS</span>
 
 <span class="n">qcdbmol</span> <span class="o">=</span> <span class="s2">&quot;psi4.driver.qcdb.molecule.Molecule&quot;</span>
 
 <div class="viewcode-block" id="Molecule">
 <a class="viewcode-back" href="../../../../external_apis.html#psi4.core.Molecule">[docs]</a>
-<span class="k">class</span> <span class="nc">Molecule</span><span class="p">(</span><span class="n">LibmintsMolecule</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Molecule</span><span class="p">(</span><span class="n">LibmintsMolecule</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to store the elements, coordinates, fragmentation pattern,</span>
 <span class="sd">    charge, multiplicity of a molecule. Largely replicates psi4&#39;s libmints</span>
 <span class="sd">    Molecule class, developed by Justin M. Turney and Andy M. Simmonett</span>
@@ -170,7 +170,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">molinit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">geom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -264,13 +264,13 @@
         <span class="c1"># The comment line</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tagline</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;  ==&gt; qcdb Molecule </span><span class="si">%s</span><span class="s2"> &lt;==</span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
         <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;   =&gt; </span><span class="si">%s</span><span class="s2"> &lt;=</span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tagline</span><span class="p">)</span>
         <span class="n">text</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_psi4_string_from_molecule</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">text</span>
 
-    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to overload setting attributes to allow geometry</span>
 <span class="sd">        variable assigment as if member data.</span>
 
@@ -280,7 +280,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Molecule</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to overload accessing attribute contents to allow</span>
 <span class="sd">        retrival of geometry variable values as if member data.</span>
 
@@ -291,7 +291,7 @@
             <span class="k">raise</span> <span class="ne">AttributeError</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">init_with_xyz</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">xyzfilename</span><span class="p">,</span> <span class="n">no_com</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">no_reorient</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">contentsNotFilename</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_with_xyz</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">xyzfilename</span><span class="p">,</span> <span class="n">no_com</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">no_reorient</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">contentsNotFilename</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Pull information from an XYZ file. No fragment info detected.</span>
 <span class="sd">        Bohr/Angstrom pulled from first line if available.  Charge,</span>
 <span class="sd">        multiplicity, tagline pulled from second line if available.  Body</span>
@@ -308,7 +308,7 @@
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;qcdb.Molecule.init_with_xyz. Replace with: qcdb.Molecule.from_string(..., dtype=&#39;xyz+&#39;)&quot;&quot;&quot;</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">init_with_mol2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">xyzfilename</span><span class="p">,</span> <span class="n">no_com</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">no_reorient</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">contentsNotFilename</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_with_mol2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">xyzfilename</span><span class="p">,</span> <span class="n">no_com</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">no_reorient</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">contentsNotFilename</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Pull information from a MOl2 file. No fragment info detected.</span>
 <span class="sd">        Bohr/Angstrom pulled from first line if available.  Charge,</span>
 <span class="sd">        multiplicity, tagline pulled from second line if available.  Body</span>
@@ -418,7 +418,7 @@
         <span class="n">instance</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">instance</span>
 
-    <span class="k">def</span> <span class="nf">save_string_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_ghosts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_natom</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_string_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_ghosts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_natom</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save a string for a XYZ-style file.</span>
 
 <span class="sd">        &gt;&gt;&gt; H2OH2O.save_string_xyz()</span>
@@ -452,7 +452,7 @@
                     <span class="n">x</span> <span class="o">*</span> <span class="n">factor</span><span class="p">,</span> <span class="n">y</span> <span class="o">*</span> <span class="n">factor</span><span class="p">,</span> <span class="n">z</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">text</span>
 
-    <span class="k">def</span> <span class="nf">save_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">save_ghosts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_natom</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">save_ghosts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_natom</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save an XYZ file.</span>
 
 <span class="sd">        &gt;&gt;&gt; H2OH2O.save_xyz(&#39;h2o.xyz&#39;)</span>
@@ -462,7 +462,7 @@
         <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_string_xyz</span><span class="p">(</span><span class="n">save_ghosts</span><span class="p">,</span> <span class="n">save_natom</span><span class="p">))</span>
         <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">format_molecule_for_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npobj</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_molecule_for_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npobj</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a NumPy array of the non-dummy atoms of the geometry</span>
 <span class="sd">        in Cartesian coordinates in Angstroms with element encoded as</span>
 <span class="sd">        atomic number. If *npobj* is False, returns representation of</span>
@@ -481,7 +481,7 @@
         <span class="n">nparr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">geo</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nparr</span> <span class="k">if</span> <span class="n">npobj</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array_repr</span><span class="p">(</span><span class="n">nparr</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">format_molecule_for_psi4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_molecule_for_psi4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns string of molecule definition block.&quot;&quot;&quot;</span>
         <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;molecule mol {</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_psi4_string_from_molecule</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
@@ -489,7 +489,7 @@
         <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;}</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="n">text</span>
 
-    <span class="k">def</span> <span class="nf">format_molecule_for_qchem_old</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mixedbas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_molecule_for_qchem_old</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mixedbas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns geometry section of input file formatted for Q-Chem.</span>
 <span class="sd">        For ghost atoms, prints **Gh** as elemental symbol, with expectation</span>
 <span class="sd">        that element identity will be established in mixed basis section.</span>
@@ -525,7 +525,7 @@
 
         <span class="k">return</span> <span class="n">text</span><span class="p">,</span> <span class="n">options</span>
 
-    <span class="k">def</span> <span class="nf">format_molecule_for_psi4_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_molecule_for_psi4_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;not much examined</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -569,7 +569,7 @@
         <span class="n">wtext</span> <span class="o">+=</span> <span class="s1">&#39;}</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="n">wtext</span>
 
-    <span class="k">def</span> <span class="nf">format_molecule_for_molpro</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_molecule_for_molpro</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -598,7 +598,7 @@
             <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;dummy,&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dummy</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="n">text</span>
 
-    <span class="k">def</span> <span class="nf">format_molecule_for_cfour</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_molecule_for_cfour</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to print Molecule in a form readable by Cfour.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -642,7 +642,7 @@
 
         <span class="k">return</span> <span class="n">text</span><span class="p">,</span> <span class="n">options</span>
 
-    <span class="k">def</span> <span class="nf">format_basis_for_cfour</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">puream</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_basis_for_cfour</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">puream</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to print the BASIS=SPECIAL block for Cfour according</span>
 <span class="sd">        to the active atoms in Molecule. Special short basis names</span>
 <span class="sd">        are used by Psi4 libmints GENBAS-writer in accordance with</span>
@@ -672,7 +672,7 @@
 
         <span class="k">return</span> <span class="n">text</span><span class="p">,</span> <span class="n">options</span>
 
-    <span class="k">def</span> <span class="nf">format_molecule_for_orca</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_molecule_for_orca</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Format the molecule into an orca xyz format</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -705,7 +705,7 @@
 
         <span class="k">return</span> <span class="n">text</span><span class="p">,</span> <span class="n">options</span>
 
-    <span class="k">def</span> <span class="nf">format_molecule_for_qchem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mixedbas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_molecule_for_qchem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mixedbas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns geometry section of input file formatted for Q-Chem.</span>
 <span class="sd">        For ghost atoms, prints **Gh** as elemental symbol, with expectation</span>
 <span class="sd">        that element identity will be established in mixed basis section.</span>
@@ -772,7 +772,7 @@
 
         <span class="k">return</span> <span class="n">text</span><span class="p">,</span> <span class="n">options</span>
 
-    <span class="k">def</span> <span class="nf">format_molecule_for_cfour_old</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_molecule_for_cfour_old</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to print Molecule in a form readable by Cfour. This</span>
 <span class="sd">        version works as long as zmat is composed entirely of variables,</span>
 <span class="sd">        not internal values, while cartesian is all internal values,</span>
@@ -841,7 +841,7 @@
 
         <span class="k">return</span> <span class="n">text</span><span class="p">,</span> <span class="n">options</span>
 
-    <span class="k">def</span> <span class="nf">format_molecule_for_nwchem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_molecule_for_nwchem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -860,7 +860,7 @@
     <span class="c1">#    if symm   print M2OUT &quot;nosym\nnoorient\n&quot;;</span>
     <span class="c1">#    print DIOUT &quot;angstrom\ngeometry={\n&quot;;</span>
 
-    <span class="k">def</span> <span class="nf">inertia_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">masswt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="n">ZERO</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inertia_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">masswt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="n">ZERO</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute inertia tensor.</span>
 
 <span class="sd">        &gt;&gt;&gt; print H2OH2O.inertia_tensor()</span>
@@ -869,7 +869,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inertia_tensor_partial</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">natom</span><span class="p">()),</span> <span class="n">masswt</span><span class="p">,</span> <span class="n">zero</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">inertia_tensor_partial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">masswt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="n">ZERO</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inertia_tensor_partial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">masswt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="n">ZERO</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute inertia tensor based on atoms in *part*.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -910,15 +910,15 @@
                     <span class="n">tensor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">return</span> <span class="n">tensor</span>
 
-    <span class="k">def</span> <span class="nf">inertial_system_partial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">masswt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="n">ZERO</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inertial_system_partial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">masswt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="n">ZERO</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Solve inertial system based on atoms in *part*&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">diagonalize3x3symmat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inertia_tensor_partial</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="n">masswt</span><span class="p">,</span> <span class="n">zero</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">inertial_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">masswt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="n">ZERO</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inertial_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">masswt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="n">ZERO</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Solve inertial system&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">diagonalize3x3symmat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inertia_tensor</span><span class="p">(</span><span class="n">masswt</span><span class="p">,</span> <span class="n">zero</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">print_ring_planes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity1</span><span class="p">,</span> <span class="n">entity2</span><span class="p">,</span> <span class="n">entity3</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">entity4</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_ring_planes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity1</span><span class="p">,</span> <span class="n">entity2</span><span class="p">,</span> <span class="n">entity3</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">entity4</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;(reals only, 1-indexed)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1032,7 +1032,7 @@
 <span class="c1">#        text += &quot;\n\n&quot;</span>
 <span class="c1">#        return text</span>
 
-    <span class="k">def</span> <span class="nf">rotor_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">FULL_PG_TOL</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rotor_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">FULL_PG_TOL</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the rotor type.</span>
 
 <span class="sd">        &gt;&gt;&gt; H2OH2O.rotor_type()</span>
@@ -1079,7 +1079,7 @@
             <span class="n">rotor_type</span> <span class="o">=</span> <span class="s1">&#39;RT_ASYMMETRIC_TOP&#39;</span>  <span class="c1"># IA &lt;  IB &lt;  IC       A  &gt; B &gt;  C</span>
         <span class="k">return</span> <span class="n">rotor_type</span>
 
-    <span class="k">def</span> <span class="nf">center_of_charge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">center_of_charge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Computes center of charge of molecule (does not translate molecule).</span>
 
 <span class="sd">        &gt;&gt;&gt; H2OH2O.center_of_charge()</span>
@@ -1097,14 +1097,14 @@
         <span class="n">ret</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">total_c</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span>
 
-    <span class="k">def</span> <span class="nf">move_to_coc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_to_coc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Moves molecule to center of charge</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">coc</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">center_of_charge</span><span class="p">(),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">coc</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">rotational_symmetry_number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rotational_symmetry_number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of unique orientations of the rigid molecule that only interchange identical atoms.</span>
 
 <span class="sd">        Notes</span>
@@ -1135,7 +1135,7 @@
 
         <span class="k">return</span> <span class="n">sigma</span>
 
-    <span class="k">def</span> <span class="nf">axis_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">axis_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Molecule vs. laboratory frame representation (e.g., IR or IIIL).</span>
 
 <span class="sd">        Parameters</span>
@@ -1177,7 +1177,7 @@
 
 <div class="viewcode-block" id="Molecule.to_arrays">
 <a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_arrays">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ghost_as_dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ghost_as_dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Exports coordinate info into NumPy arrays.</span>
 
 <span class="sd">        Parameters</span>
@@ -1240,7 +1240,7 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="n">molstr</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_string</span><span class="p">(</span><span class="n">molstr</span><span class="p">,</span>
                     <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">fix_com</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1271,7 +1271,7 @@
             <span class="k">return</span> <span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;qm&#39;</span><span class="p">])</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_arrays</span><span class="p">(</span><span class="n">geom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_arrays</span><span class="p">(</span><span class="n">geom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">elea</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">elez</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">elem</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1356,7 +1356,7 @@
 
 <div class="viewcode-block" id="Molecule.to_string">
 <a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_string">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">atom_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ghost_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span> <span class="n">prec</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">atom_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ghost_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span> <span class="n">prec</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Format a string representation of QM molecule.&quot;&quot;&quot;</span>
 
         <span class="n">molrec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">np_out</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1377,7 +1377,7 @@
 
 <div class="viewcode-block" id="Molecule.run_dftd3">
 <a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_dftd3">[docs]</a>
-    <span class="k">def</span> <span class="nf">run_dftd3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashlvl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashparam</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_dftd3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashlvl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashparam</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute dispersion correction via Grimme&#39;s DFTD3 program.</span>
 
 <span class="sd">        Parameters</span>
@@ -1413,7 +1413,7 @@
 <span class="sd">            When `dertype=None`, both energy [Eh] and (nat, 3) gradient [Eh/a0].</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">qcengine</span> <span class="k">as</span> <span class="nn">qcng</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">qcengine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcng</span>
 
         <span class="k">if</span> <span class="n">dertype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">derint</span><span class="p">,</span> <span class="n">derdriver</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;gradient&#39;</span>
@@ -1446,7 +1446,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Molecule</span><span class="p">):</span>
             <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">qca</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
@@ -1463,7 +1463,7 @@
 
 <div class="viewcode-block" id="Molecule.run_dftd4">
 <a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_dftd4">[docs]</a>
-    <span class="k">def</span> <span class="nf">run_dftd4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashlvl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashparam</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_dftd4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashlvl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashparam</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute dispersion correction via Grimme&#39;s DFTD4 program.</span>
 
 <span class="sd">        Parameters</span>
@@ -1505,7 +1505,7 @@
 <span class="sd">        :py:func:`run_dftd3` behavior of `dashparam` extending or overriding `func`.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">qcengine</span> <span class="k">as</span> <span class="nn">qcng</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">qcengine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcng</span>
 
         <span class="k">if</span> <span class="n">dertype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">derint</span><span class="p">,</span> <span class="n">derdriver</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;gradient&#39;</span>
@@ -1539,7 +1539,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Molecule</span><span class="p">):</span>
             <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">qca</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qca</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
@@ -1556,7 +1556,7 @@
 
 <div class="viewcode-block" id="Molecule.run_gcp">
 <a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_gcp">[docs]</a>
-    <span class="k">def</span> <span class="nf">run_gcp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_gcp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute geometrical BSSE correction via Grimme&#39;s GCP program.</span>
 
 <span class="sd">        Function to call Grimme&#39;s GCP program</span>
@@ -1593,7 +1593,7 @@
 <span class="sd">            When `dertype=None`, both energy [Eh] and (nat, 3) gradient [Eh/a0].</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">qcengine</span> <span class="k">as</span> <span class="nn">qcng</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">qcengine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcng</span>
 
         <span class="k">if</span> <span class="n">dertype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">derint</span><span class="p">,</span> <span class="n">derdriver</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;gradient&#39;</span>
@@ -1626,7 +1626,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Molecule</span><span class="p">):</span>
             <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
             <span class="k">for</span> <span class="n">variable_name</span><span class="p">,</span> <span class="n">qcv</span> <span class="ow">in</span> <span class="n">jobrec</span><span class="p">[</span><span class="s1">&#39;extras&#39;</span><span class="p">][</span><span class="s1">&#39;qcvars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qcv</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
@@ -1642,7 +1642,7 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_schema</span><span class="p">(</span><span class="n">molschema</span><span class="p">,</span> <span class="n">return_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_schema</span><span class="p">(</span><span class="n">molschema</span><span class="p">,</span> <span class="n">return_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct Molecule from non-Psi4 schema.</span>
 
 <span class="sd">        Light wrapper around :py:func:`~qcdb.Molecule.from_arrays`.</span>
@@ -1674,7 +1674,7 @@
 
 <div class="viewcode-block" id="Molecule.to_schema">
 <a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_schema">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;Bohr&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;Bohr&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serializes instance into dictionary according to schema `dtype`.&quot;&quot;&quot;</span>
 
         <span class="n">molrec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">np_out</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1684,7 +1684,7 @@
 
 <div class="viewcode-block" id="Molecule.to_dict">
 <a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.to_dict">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_c1</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_units</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">np_out</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_c1</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_units</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">np_out</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serializes instance into Molecule dictionary.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
@@ -1802,13 +1802,13 @@
 
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">molrec</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">molrec</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
         <span class="n">mol</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">_internal_from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="o">=</span><span class="n">molrec</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mol</span>
 
-    <span class="k">def</span> <span class="nf">_internal_from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">molrec</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_internal_from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">molrec</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructs instance from fully validated and defaulted dictionary `molrec`.&quot;&quot;&quot;</span>
 
         <span class="c1"># Compromises for qcdb.Molecule</span>
@@ -1886,7 +1886,7 @@
 
 <div class="viewcode-block" id="Molecule.BFS">
 <a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.BFS">[docs]</a>
-    <span class="k">def</span> <span class="nf">BFS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">BFS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">seed_atoms</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">bond_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.20</span><span class="p">,</span>
             <span class="n">return_arrays</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1970,7 +1970,7 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Molecule</span><span class="p">):</span>
                 <span class="n">ret_mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">)</span> <span class="k">for</span> <span class="n">molrec</span> <span class="ow">in</span> <span class="n">molrecs</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
                 <span class="n">ret_mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">)</span> <span class="k">for</span> <span class="n">molrec</span> <span class="ow">in</span> <span class="n">molrecs</span><span class="p">]</span>
             <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ret_mols</span><span class="p">)</span>
 
@@ -1993,7 +1993,7 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Molecule</span><span class="p">):</span>
                 <span class="n">ret_mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
                 <span class="n">ret_mol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">)</span>
 
             <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ret_mol</span><span class="p">)</span>
@@ -2004,7 +2004,7 @@
 
 <div class="viewcode-block" id="Molecule.B787">
 <a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.B787">[docs]</a>
-    <span class="k">def</span> <span class="nf">B787</span><span class="p">(</span><span class="n">concern_mol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">qcdbmol</span><span class="p">,</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">],</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">B787</span><span class="p">(</span><span class="n">concern_mol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">qcdbmol</span><span class="p">,</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">],</span>
              <span class="n">ref_mol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">qcdbmol</span><span class="p">,</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">],</span>
              <span class="n">do_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
              <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
@@ -2094,7 +2094,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">concern_mol</span><span class="p">,</span> <span class="n">Molecule</span><span class="p">):</span>
             <span class="n">amol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">adict</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
             <span class="n">amol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">adict</span><span class="p">)</span>
 
         <span class="n">compare_values</span><span class="p">(</span>
@@ -2121,7 +2121,7 @@
 
 <div class="viewcode-block" id="Molecule.scramble">
 <a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.scramble">[docs]</a>
-    <span class="k">def</span> <span class="nf">scramble</span><span class="p">(</span><span class="n">ref_mol</span><span class="p">:</span> <span class="s2">&quot;Molecule&quot;</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scramble</span><span class="p">(</span><span class="n">ref_mol</span><span class="p">:</span> <span class="s2">&quot;Molecule&quot;</span><span class="p">,</span>
                  <span class="n">do_shift</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                  <span class="n">do_rotate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                  <span class="n">do_resort</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -2217,7 +2217,7 @@
             <span class="n">compare_integers</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">do_mirror</span><span class="p">,</span> <span class="s1">&#39;mirror allowed&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">set_fragment_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frl</span><span class="p">,</span> <span class="n">frt</span><span class="p">,</span> <span class="n">frc</span><span class="p">,</span> <span class="n">frm</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_fragment_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frl</span><span class="p">,</span> <span class="n">frt</span><span class="p">,</span> <span class="n">frc</span><span class="p">,</span> <span class="n">frm</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set fragment member data through public method analogous to psi4.core.Molecule&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">frl</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">frt</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">frc</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">frm</span><span class="p">)):</span>
@@ -2231,7 +2231,7 @@
 
 
 <span class="c1"># Attach methods to qcdb.Molecule class</span>
-<span class="kn">from</span> <span class="nn">.parker</span> <span class="kn">import</span> <span class="n">xyz2mol</span> <span class="k">as</span> <span class="n">_parker_xyz2mol_yo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.parker</span><span class="w"> </span><span class="kn">import</span> <span class="n">xyz2mol</span> <span class="k">as</span> <span class="n">_parker_xyz2mol_yo</span>
 <span class="n">Molecule</span><span class="o">.</span><span class="n">format_molecule_for_mol</span> <span class="o">=</span> <span class="n">_parker_xyz2mol_yo</span>
 </pre></div>
 
@@ -2293,7 +2293,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/qcdb/molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2306,8 +2306,8 @@
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Friday, 13 December 2024 01:31AM.
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Wednesday, 08 January 2025 01:53PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

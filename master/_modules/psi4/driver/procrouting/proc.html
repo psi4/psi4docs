@@ -38,7 +38,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>psi4.driver.procrouting.proc</title>
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=0fcd75a3" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=88a353b9" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=57dca472"></script>
+    <script src="../../../../_static/documentation_options.js?v=849d6b58"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -144,24 +144,24 @@
 <span class="sd">response(), and frequency() function. *name* can be assumed lowercase by here.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">qcelemental.util</span> <span class="kn">import</span> <span class="n">parse_version</span><span class="p">,</span> <span class="n">which</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_version</span><span class="p">,</span> <span class="n">which</span>
 
-<span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span><span class="p">,</span> <span class="n">extras</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span><span class="p">,</span> <span class="n">extras</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">p4util</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">psifiles</span> <span class="k">as</span> <span class="n">psif</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">qcdb</span>
-<span class="kn">from</span> <span class="nn">..constants</span> <span class="kn">import</span> <span class="n">constants</span>
-<span class="kn">from</span> <span class="nn">..p4util.exceptions</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">p4util</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">psifiles</span> <span class="k">as</span> <span class="n">psif</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">qcdb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">constants</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..p4util.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ManagedMethodError</span><span class="p">,</span>
     <span class="n">PastureRequiredError</span><span class="p">,</span>
     <span class="n">UpgradeHelper</span><span class="p">,</span>
@@ -170,10 +170,10 @@
 <span class="p">)</span>
 
 <span class="c1">#from psi4.driver.molutil import *</span>
-<span class="kn">from</span> <span class="nn">..qcdb.basislist</span> <span class="kn">import</span> <span class="n">corresponding_basis</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">dft</span><span class="p">,</span> <span class="n">empirical_dispersion</span><span class="p">,</span> <span class="n">mcscf</span><span class="p">,</span> <span class="n">proc_util</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">solvent</span>
-<span class="kn">from</span> <span class="nn">.proc_data</span> <span class="kn">import</span> <span class="n">method_algorithm_type</span>
-<span class="kn">from</span> <span class="nn">.roa</span> <span class="kn">import</span> <span class="n">run_roa</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..qcdb.basislist</span><span class="w"> </span><span class="kn">import</span> <span class="n">corresponding_basis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">dft</span><span class="p">,</span> <span class="n">empirical_dispersion</span><span class="p">,</span> <span class="n">mcscf</span><span class="p">,</span> <span class="n">proc_util</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">solvent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.proc_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">method_algorithm_type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.roa</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_roa</span>
 
 <span class="c1"># never import driver, wrappers, or aliases into this file</span>
 
@@ -184,7 +184,7 @@
 <span class="c1"># * consult http://psicode.org/psi4manual/master/proc_py.html  --or--  &lt;psi4-repo&gt;/doc/sphinxman/source/proc_py.rst</span>
 
 
-<span class="k">def</span> <span class="nf">select_scf_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_scf_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an SCF gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -209,7 +209,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_mp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_mp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a MP2 energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -280,7 +280,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_mp2_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_mp2_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a MP2 gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -319,7 +319,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_mp2_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_mp2_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a MP2 property call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -349,7 +349,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_omp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_omp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OMP2 energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -379,7 +379,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_omp2_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_omp2_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OMP2 gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -406,7 +406,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_omp2_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_omp2_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OMP2 property call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -430,7 +430,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_omp2p5_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_omp2p5_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OMP2.5 property call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -454,7 +454,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_omp3_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_omp3_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OMP3 property call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -478,7 +478,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_olccd_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_olccd_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OLCCD property call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -502,7 +502,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_mp3</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_mp3</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a MP3 energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -555,7 +555,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_mp3_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_mp3_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a MP3 gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -592,7 +592,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_omp3</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_omp3</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OMP3 energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -622,7 +622,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_omp3_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_omp3_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OMP3 gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -649,7 +649,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_mp2p5</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_mp2p5</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a MP2.5 energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -679,7 +679,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_mp2p5_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_mp2p5_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a MP2.5 gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -708,7 +708,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_omp2p5</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_omp2p5</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OMP2.5 energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -738,7 +738,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_omp2p5_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_omp2p5_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OMP2.5 gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -765,7 +765,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_lccd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_lccd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a LCCD energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -807,7 +807,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_lccd_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_lccd_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a LCCD gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -836,7 +836,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_olccd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_olccd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OLCCD energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -866,7 +866,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_olccd_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_olccd_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for an OLCCD gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -893,7 +893,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_fnoccsd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_fnoccsd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a FNO-CCSD energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -923,7 +923,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_ccsd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_ccsd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CCSD energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -942,7 +942,7 @@
             <span class="k">elif</span> <span class="n">module</span> <span class="o">==</span> <span class="s1">&#39;MRCC&#39;</span> <span class="ow">and</span> <span class="n">which</span><span class="p">(</span><span class="s2">&quot;dmrcc&quot;</span><span class="p">,</span> <span class="n">return_bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
                 <span class="n">func</span> <span class="o">=</span> <span class="n">run_mrcc</span>
             <span class="k">elif</span> <span class="n">module</span> <span class="o">==</span> <span class="s1">&#39;CCT3&#39;</span> <span class="ow">and</span> <span class="n">extras</span><span class="o">.</span><span class="n">addons</span><span class="p">(</span><span class="s2">&quot;cct3&quot;</span><span class="p">):</span>
-                <span class="kn">import</span> <span class="nn">cct3</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">cct3</span>
                 <span class="n">func</span> <span class="o">=</span> <span class="n">cct3</span><span class="o">.</span><span class="n">run_cct3</span>
             <span class="k">elif</span> <span class="n">module</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;CCENERGY&#39;</span><span class="p">]:</span>
                 <span class="n">func</span> <span class="o">=</span> <span class="n">run_ccenergy</span>
@@ -968,7 +968,7 @@
     <span class="k">elif</span> <span class="n">reference</span> <span class="o">==</span> <span class="s1">&#39;ROHF&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">mtd_type</span> <span class="o">==</span> <span class="s1">&#39;CONV&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">module</span> <span class="o">==</span> <span class="s1">&#39;CCT3&#39;</span> <span class="ow">and</span> <span class="n">extras</span><span class="o">.</span><span class="n">addons</span><span class="p">(</span><span class="s2">&quot;cct3&quot;</span><span class="p">):</span>
-                <span class="kn">import</span> <span class="nn">cct3</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">cct3</span>
                 <span class="n">func</span> <span class="o">=</span> <span class="n">cct3</span><span class="o">.</span><span class="n">run_cct3</span>
             <span class="k">elif</span> <span class="n">module</span> <span class="o">==</span> <span class="s1">&#39;MRCC&#39;</span> <span class="ow">and</span> <span class="n">which</span><span class="p">(</span><span class="s2">&quot;dmrcc&quot;</span><span class="p">,</span> <span class="n">return_bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
                 <span class="n">func</span> <span class="o">=</span> <span class="n">run_mrcc</span>
@@ -984,7 +984,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_ccsd_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_ccsd_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CCSD gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1022,7 +1022,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_fnoccsd_t_</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_fnoccsd_t_</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a FNO-CCSD(T) energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1052,7 +1052,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_ccsd_t_</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_ccsd_t_</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CCSD(T) energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1105,7 +1105,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_ccsd_t__gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_ccsd_t__gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CCSD(T) gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1139,7 +1139,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_ccsd_at_</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_ccsd_at_</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a a-CCSD(T) energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1191,7 +1191,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_cisd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_cisd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CISD energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1221,7 +1221,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_mp4</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_mp4</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a MP4 energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1256,7 +1256,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_remp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_remp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a REMP2 energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1286,7 +1286,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_ccd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_ccd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CCD energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1317,7 +1317,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_ccd_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_ccd_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CCD gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1345,7 +1345,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_cc2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_cc2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CC2 energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1391,7 +1391,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_cc2_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_cc2_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CC2 gradient call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1423,7 +1423,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_cc3</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_cc3</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CC3 energy call</span>
 <span class="sd">    and directing to specified or best-performance default modules.</span>
 
@@ -1460,7 +1460,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select_mrcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_mrcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function selecting the algorithm for a CC* energy call</span>
 <span class="sd">    and directing to specified MRCC module.</span>
 
@@ -1499,7 +1499,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">build_functional_and_disp</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">restricted</span><span class="p">,</span> <span class="n">save_pairwise_disp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_functional_and_disp</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">restricted</span><span class="p">,</span> <span class="n">save_pairwise_disp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">has_option_changed</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;DFT_DISPERSION_PARAMETERS&quot;</span><span class="p">):</span>
         <span class="n">modified_disp_params</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;DFT_DISPERSION_PARAMETERS&quot;</span><span class="p">)</span>
@@ -1538,7 +1538,7 @@
 
 <div class="viewcode-block" id="scf_wavefunction_factory">
 <a class="viewcode-back" href="../../../../api/psi4.driver.scf_wavefunction_factory.html#psi4.driver.scf_wavefunction_factory">[docs]</a>
-<span class="k">def</span> <span class="nf">scf_wavefunction_factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">scf_wavefunction_factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds the correct (R/U/RO/CU HF/KS) wavefunction from the</span>
 <span class="sd">    provided information, sets relevant auxiliary basis sets on it,</span>
 <span class="sd">    and prepares any empirical dispersion.</span>
@@ -1621,7 +1621,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_set_external_potentials_to_wavefunction</span><span class="p">(</span><span class="n">external_potential</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">]],</span> <span class="n">wfn</span><span class="p">:</span> <span class="s2">&quot;core.Wavefunction&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_set_external_potentials_to_wavefunction</span><span class="p">(</span><span class="n">external_potential</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">]],</span> <span class="n">wfn</span><span class="p">:</span> <span class="s2">&quot;core.Wavefunction&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize :py:class:`psi4.core.ExternalPotential` object(s) from charges and locations and set on **wfn**.</span>
 
 <span class="sd">    Parameters</span>
@@ -1632,9 +1632,9 @@
 <span class="sd">        Or, dictionary where keys are FI-SAPT fragments A, B, or C and values are as above.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">psi4.driver.qmmm</span> <span class="kn">import</span> <span class="n">QMMMbohr</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">psi4.driver.qmmm</span><span class="w"> </span><span class="kn">import</span> <span class="n">QMMMbohr</span>
 
-    <span class="k">def</span> <span class="nf">validate_qxyz</span><span class="p">(</span><span class="n">qxyz</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_qxyz</span><span class="p">(</span><span class="n">qxyz</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">qxyz</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">qxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">qxyz</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
@@ -1675,7 +1675,7 @@
 
 <div class="viewcode-block" id="scf_helper">
 <a class="viewcode-back" href="../../../../api/psi4.driver.scf_helper.html#psi4.driver.scf_helper">[docs]</a>
-<span class="k">def</span> <span class="nf">scf_helper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">post_scf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">scf_helper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">post_scf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function serving as helper to SCF, choosing whether to cast</span>
 <span class="sd">    up or just run SCF with a standard guess. This preserves</span>
 <span class="sd">    previous SCF options set by other procedures (e.g., SAPT</span>
@@ -2096,7 +2096,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">run_dct</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dct</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a density cumulant theory calculation.</span>
 
@@ -2135,7 +2135,7 @@
     <span class="k">return</span> <span class="n">dct_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dct_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dct_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    DCT gradient calculation.</span>
 
@@ -2160,7 +2160,7 @@
     <span class="k">return</span> <span class="n">dct_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dct_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dct_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Function encoding sequence of PSI module calls for</span>
 <span class="sd">    DCT property calculation.</span>
 
@@ -2188,7 +2188,7 @@
     <span class="k">return</span> <span class="n">dct_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dfocc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dfocc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a density-fitted or Cholesky-decomposed</span>
 <span class="sd">    (non-)orbital-optimized MPN or CC computation.</span>
@@ -2206,7 +2206,7 @@
         <span class="p">[</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;CHOLESKY&#39;</span><span class="p">],</span>
         <span class="p">[</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;CC_LAMBDA&#39;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">set_cholesky_from</span><span class="p">(</span><span class="n">corl_type</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_cholesky_from</span><span class="p">(</span><span class="n">corl_type</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">corl_type</span> <span class="o">==</span> <span class="s1">&#39;DF&#39;</span><span class="p">:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;DFOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;CHOLESKY&#39;</span><span class="p">,</span> <span class="s1">&#39;FALSE&#39;</span><span class="p">)</span>
             <span class="n">proc_util</span><span class="o">.</span><span class="n">check_disk_df</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">optstash</span><span class="p">)</span>
@@ -2300,7 +2300,7 @@
     <span class="k">return</span> <span class="n">dfocc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dfocc_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dfocc_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a density-fitted (non-)orbital-optimized MPN or CC computation.</span>
 
@@ -2402,7 +2402,7 @@
     <span class="k">return</span> <span class="n">dfocc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dfocc_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dfocc_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a density-fitted (non-)orbital-optimized MPN or CC computation.</span>
 
@@ -2471,7 +2471,7 @@
     <span class="k">return</span> <span class="n">dfocc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_qchf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_qchf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    an quadratically-convergent SCF computation.</span>
 
@@ -2522,7 +2522,7 @@
     <span class="k">return</span> <span class="n">dfocc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_occ</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_occ</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a conventional integral (O)MPN computation</span>
 
@@ -2605,7 +2605,7 @@
     <span class="k">return</span> <span class="n">occ_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_occ_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_occ_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a conventional integral (O)MPN computation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2681,7 +2681,7 @@
     <span class="k">return</span> <span class="n">occ_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_scf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_scf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a self-consistent-field theory (HF &amp; DFT) calculation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2789,7 +2789,7 @@
     <span class="k">return</span> <span class="n">scf_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_scf_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_scf_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a SCF gradient calculation.</span>
 
@@ -2831,7 +2831,7 @@
     <span class="k">return</span> <span class="n">ref_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_scf_hessian</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_scf_hessian</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    an SCF hessian calculation.</span>
 
@@ -2869,7 +2869,7 @@
     <span class="k">return</span> <span class="n">ref_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_mcscf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_mcscf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a multiconfigurational self-consistent-field calculation.</span>
 
@@ -2884,7 +2884,7 @@
     <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">mcscf</span><span class="p">(</span><span class="n">new_wfn</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">run_dfmp2_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dfmp2_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a DFMP2 gradient calculation.</span>
 
@@ -2933,7 +2933,7 @@
     <span class="k">return</span> <span class="n">dfmp2_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dfmp2d_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dfmp2d_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Encode MP2-D method.&quot;&quot;&quot;</span>
 
     <span class="n">dfmp2_wfn</span> <span class="o">=</span> <span class="n">run_dfmp2_gradient</span><span class="p">(</span><span class="s1">&#39;mp2&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -2956,7 +2956,7 @@
     <span class="k">return</span> <span class="n">dfmp2_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_ccenergy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_ccenergy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a CCSD, CC2, and CC3 calculation.</span>
 
@@ -3031,7 +3031,7 @@
         <span class="n">core</span><span class="o">.</span><span class="n">cctransort</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">psi4.driver.pasture</span> <span class="kn">import</span> <span class="n">addins</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">psi4.driver.pasture</span><span class="w"> </span><span class="kn">import</span> <span class="n">addins</span>
             <span class="n">addins</span><span class="o">.</span><span class="n">ccsort_transqt2</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PastureRequiredError</span><span class="p">(</span><span class="s2">&quot;RUN_CCTRANSORT&quot;</span><span class="p">)</span>
@@ -3051,7 +3051,7 @@
     <span class="k">return</span> <span class="n">ccwfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_ccenergy_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_ccenergy_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a CCSD and CCSD(T) gradient calculation.</span>
 
@@ -3096,7 +3096,7 @@
     <span class="k">return</span> <span class="n">ccwfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_bccd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_bccd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a Brueckner CCD calculation.</span>
 
@@ -3145,7 +3145,7 @@
         <span class="n">sort_func</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">cctransort</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">psi4.driver.pasture</span> <span class="kn">import</span> <span class="n">addins</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">psi4.driver.pasture</span><span class="w"> </span><span class="kn">import</span> <span class="n">addins</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;TRANSQT2&#39;</span><span class="p">,</span> <span class="s1">&#39;DELETE_TEI&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">)</span>
             <span class="n">sort_func</span> <span class="o">=</span> <span class="n">addins</span><span class="o">.</span><span class="n">ccsort_transqt2</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -3223,7 +3223,7 @@
     <span class="k">return</span> <span class="n">ref_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_tdscf_excitations</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_tdscf_excitations</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
     <span class="n">states</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span><span class="s2">&quot;TDSCF_STATES&quot;</span><span class="p">)</span>
 
@@ -3261,7 +3261,7 @@
     <span class="k">return</span> <span class="n">wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_tdscf_energy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_tdscf_energy</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
     <span class="c1"># Get a wfn in case we aren&#39;t given one</span>
     <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ref_wfn&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -3275,7 +3275,7 @@
     <span class="k">return</span> <span class="n">run_tdscf_excitations</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">run_scf_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_scf_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    SCF calculations. This is a simple alias to :py:func:`~proc.run_scf`</span>
 <span class="sd">    since SCF properties all handled through oeprop.</span>
@@ -3353,7 +3353,7 @@
     <span class="k">return</span> <span class="n">scf_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_cc_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_cc_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    all CC property calculations.</span>
 
@@ -3551,7 +3551,7 @@
     <span class="k">return</span> <span class="n">ccwfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dfmp2_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dfmp2_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a DFMP2 property calculation.</span>
 
@@ -3619,7 +3619,7 @@
     <span class="k">return</span> <span class="n">dfmp2_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">_clean_detci</span><span class="p">(</span><span class="n">keep</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_clean_detci</span><span class="p">(</span><span class="n">keep</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="n">psioh</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">IOManager</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span>
     <span class="n">psio</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">IO</span><span class="o">.</span><span class="n">shared_object</span><span class="p">()</span>
     <span class="n">cifl</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;DETCI&quot;</span><span class="p">,</span> <span class="s2">&quot;CI_FILE_START&quot;</span><span class="p">)</span>
@@ -3628,7 +3628,7 @@
             <span class="n">psio</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fl</span><span class="p">,</span> <span class="n">keep</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">run_detci_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_detci_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a configuration interaction calculation, namely FCI,</span>
 <span class="sd">    CIn, MPn, and ZAPTn, computing properties.</span>
@@ -3714,7 +3714,7 @@
     <span class="k">return</span> <span class="n">ciwfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_eom_cc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_eom_cc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    an EOM-CC calculation, namely EOM-CC2, EOM-CCSD, and EOM-CC3.</span>
 
@@ -3761,7 +3761,7 @@
     <span class="c1"># TODO ask if all these cc modules not actually changing wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_eom_cc_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_eom_cc_gradient</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    an EOM-CCSD gradient calculation.</span>
 
@@ -3805,7 +3805,7 @@
     <span class="k">return</span> <span class="n">ref_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_adcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_adcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare and run an ADC calculation in adcc, interpret the result and return</span>
 <span class="sd">    as a wavefunction.</span>
 
@@ -3815,8 +3815,8 @@
     <span class="c1">#      interface_cfour.py, ...</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">adcc</span>
-        <span class="kn">from</span> <span class="nn">adcc.exceptions</span> <span class="kn">import</span> <span class="n">InvalidReference</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">adcc</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">adcc.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvalidReference</span>
     <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;adcc extras qc_module not available. Try installing &quot;</span>
             <span class="s2">&quot;via &#39;pip install adcc&#39; or &#39;conda install -c conda-forge adcc&#39;.&quot;</span><span class="p">)</span>
@@ -3910,8 +3910,8 @@
     <span class="n">adcc</span><span class="o">.</span><span class="n">set_n_threads</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">())</span>
 
     <span class="c1"># Hack to direct the stream-like interface adcc expects to the string interface of Psi4 core</span>
-    <span class="k">class</span> <span class="nc">CoreStream</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">CoreStream</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">adcc</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="n">colour</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -4002,7 +4002,7 @@
     <span class="k">return</span> <span class="n">adc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_adcc_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_adcc_property</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run a ADC excited-states property calculation in adcc</span>
 <span class="sd">    and return the resulting properties.</span>
 
@@ -4036,7 +4036,7 @@
 
     <span class="c1"># Formats and indention</span>
     <span class="n">ind</span> <span class="o">=</span> <span class="s2">&quot;    &quot;</span>
-    <span class="k">def</span> <span class="nf">format_vector</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_vector</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">:</span><span class="s2">&lt;40s</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">12.6g</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span>
 
@@ -4169,7 +4169,7 @@
     <span class="k">return</span> <span class="n">adc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_detci</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_detci</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a configuration interaction calculation, namely FCI,</span>
 <span class="sd">    CIn, MPn, and ZAPTn.</span>
@@ -4293,7 +4293,7 @@
     <span class="k">return</span> <span class="n">ciwfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dfmp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dfmp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a density-fitted MP2 calculation.</span>
 
@@ -4345,7 +4345,7 @@
     <span class="k">return</span> <span class="n">dfmp2_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dfep2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dfep2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a density-fitted MP2 calculation.</span>
 
@@ -4456,7 +4456,7 @@
     <span class="k">return</span> <span class="n">dfep2_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dlpnomp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dlpnomp2</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a DLPNO-MP2 calculation.</span>
 
@@ -4517,7 +4517,7 @@
     <span class="k">return</span> <span class="n">dlpnomp2_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dmrgscf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dmrgscf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    an DMRG calculation.</span>
 
@@ -4547,7 +4547,7 @@
     <span class="k">return</span> <span class="n">dmrg_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_dmrgci</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dmrgci</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    an DMRG calculation.</span>
 
@@ -4576,7 +4576,7 @@
     <span class="k">return</span> <span class="n">dmrg_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_psimrcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_psimrcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for a PSIMRCC computation</span>
 <span class="sd">     using a reference from the MCSCF module</span>
 
@@ -4591,7 +4591,7 @@
     <span class="k">return</span> <span class="n">psimrcc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_psimrcc_scf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_psimrcc_scf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for a PSIMRCC computation</span>
 <span class="sd">     using a reference from the SCF module</span>
 
@@ -4613,7 +4613,7 @@
     <span class="k">return</span> <span class="n">psimrcc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_sapt</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_sapt</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a SAPT calculation of any level.</span>
 
@@ -4778,7 +4778,7 @@
     <span class="n">e_sapt</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">sapt</span><span class="p">(</span><span class="n">dimer_wfn</span><span class="p">,</span> <span class="n">monomerA_wfn</span><span class="p">,</span> <span class="n">monomerB_wfn</span><span class="p">)</span>
     <span class="n">dimer_wfn</span><span class="o">.</span><span class="n">set_module</span><span class="p">(</span><span class="s2">&quot;sapt&quot;</span><span class="p">)</span>
 
-    <span class="kn">from</span> <span class="nn">psi4.driver.qcdb.psivardefs</span> <span class="kn">import</span> <span class="n">sapt_psivars</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">psi4.driver.qcdb.psivardefs</span><span class="w"> </span><span class="kn">import</span> <span class="n">sapt_psivars</span>
     <span class="n">p4util</span><span class="o">.</span><span class="n">expand_psivars</span><span class="p">(</span><span class="n">sapt_psivars</span><span class="p">())</span>
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
 
@@ -4809,7 +4809,7 @@
     <span class="k">return</span> <span class="n">dimer_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_sapt_ct</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_sapt_ct</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a charge-transfer SAPT calcuation of any level.</span>
 
@@ -4960,7 +4960,7 @@
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">dimer_wfn</span>
 
-<span class="k">def</span> <span class="nf">run_fisapt</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_fisapt</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    an F/ISAPT0 computation</span>
 
@@ -5022,7 +5022,7 @@
         <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;FISAPT&quot;</span><span class="p">,</span> <span class="s2">&quot;FISAPT_DO_FSAPT_DISP&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
     <span class="n">fisapt_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">FISAPT</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">.sapt</span> <span class="kn">import</span> <span class="n">fisapt_proc</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.sapt</span><span class="w"> </span><span class="kn">import</span> <span class="n">fisapt_proc</span>
     <span class="n">fisapt_wfn</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">(</span><span class="n">external_potentials</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;external_potentials&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
 
     <span class="c1"># Compute -D dispersion</span>
@@ -5032,12 +5032,12 @@
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">ref_wfn</span>
 
-<span class="k">def</span> <span class="nf">run_mrcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_mrcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that prepares environment and input files</span>
 <span class="sd">    for a calculation calling Kallay&#39;s MRCC code.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">.proc_data</span> <span class="kn">import</span> <span class="n">mrcc_methods</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.proc_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">mrcc_methods</span>
 
     <span class="c1"># level is a dictionary of settings to be passed to core.mrcc</span>
     <span class="k">try</span><span class="p">:</span>
@@ -5204,7 +5204,7 @@
     <span class="k">return</span> <span class="n">ref_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_fnodfcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_fnodfcc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a [FNO-](DF|CD)-CCSD[(T)] computation.</span>
 
@@ -5225,7 +5225,7 @@
         <span class="p">[</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;DF_BASIS_SCF&#39;</span><span class="p">],</span>
         <span class="p">[</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;DF_INTS_IO&#39;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">set_cholesky_from</span><span class="p">(</span><span class="n">type_val</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_cholesky_from</span><span class="p">(</span><span class="n">type_val</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">type_val</span> <span class="o">==</span> <span class="s1">&#39;CD&#39;</span><span class="p">:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s1">&#39;FNOCC&#39;</span><span class="p">,</span> <span class="s1">&#39;DF_BASIS_CC&#39;</span><span class="p">,</span> <span class="s1">&#39;CHOLESKY&#39;</span><span class="p">)</span>
             <span class="c1"># Alter default algorithm</span>
@@ -5306,7 +5306,7 @@
     <span class="k">return</span> <span class="n">fnocc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_fnocc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_fnocc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a QCISD(T), CCSD(T), MP2.5, MP3, and MP4 computation.</span>
 
@@ -5416,7 +5416,7 @@
     <span class="k">return</span> <span class="n">fnocc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_cepa</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_cepa</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    a cepa-like calculation.</span>
 
@@ -5514,7 +5514,7 @@
     <span class="k">return</span> <span class="n">fnocc_wfn</span>
 
 
-<span class="k">def</span> <span class="nf">run_detcas</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_detcas</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
 <span class="sd">    determinant-based multireference wavefuncations,</span>
 <span class="sd">    namely CASSCF and RASSCF.</span>
@@ -5620,7 +5620,7 @@
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">ciwfn</span>
 
-<span class="k">def</span> <span class="nf">run_efp</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_efp</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of module calls for a pure EFP</span>
 <span class="sd">    computation (ignore any QM atoms).</span>
 
@@ -5729,7 +5729,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5742,8 +5742,8 @@
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Friday, 13 December 2024 01:31AM.
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Wednesday, 08 January 2025 01:53PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
