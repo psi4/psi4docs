@@ -38,7 +38,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>qcdb.vib</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=0fcd75a3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=88a353b9" />
     <link rel="stylesheet" type="text/css" href="../../_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../_static/documentation_options.js?v=57dca472"></script>
+    <script src="../../_static/documentation_options.js?v=849d6b58"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/qcdb/vib.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -139,19 +139,19 @@
 <span class="c1"># @END LICENSE</span>
 <span class="c1">#</span>
 
-<span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">qcelemental</span> <span class="kn">import</span> <span class="n">Datum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental</span><span class="w"> </span><span class="kn">import</span> <span class="n">Datum</span>
 
-<span class="kn">import</span> <span class="nn">psi4</span>  <span class="c1"># for typing</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">psi4</span>  <span class="c1"># for typing</span>
 
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">constants</span>
-<span class="kn">from</span> <span class="nn">.libmintsmolecule</span> <span class="kn">import</span> <span class="n">compute_atom_map</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">constants</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.libmintsmolecule</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_atom_map</span>
 
 <span class="n">LINEAR_A_TOL</span> <span class="o">=</span> <span class="mf">1.0E-2</span>  <span class="c1"># tolerance (roughly max dev) for TR space</span>
 
@@ -160,7 +160,7 @@
 
 <div class="viewcode-block" id="compare_vibinfos">
 <a class="viewcode-back" href="../../add_tests.html#qcdb.compare_vibinfos">[docs]</a>
-<span class="k">def</span> <span class="nf">compare_vibinfos</span><span class="p">(</span><span class="n">expected</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="n">computed</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">forgive</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">required</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">toldict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compare_vibinfos</span><span class="p">(</span><span class="n">expected</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="n">computed</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">forgive</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">required</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">toldict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns True if two dictionaries of vibration Datum objects are equivalent within a tolerance.</span>
 
 <span class="sd">    Parameters</span>
@@ -190,7 +190,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">formatter</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;float&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{: 0.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">})</span>
 
-    <span class="k">def</span> <span class="nf">_success</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_success</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to print a &#39;*label*...PASSED&#39; line to screen.</span>
 <span class="sd">        Used by :py:func:`util.compare_values` family when functions pass.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -198,7 +198,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">print_stuff</span><span class="p">(</span><span class="n">asp</span><span class="p">,</span> <span class="n">same</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_stuff</span><span class="p">(</span><span class="n">asp</span><span class="p">,</span> <span class="n">same</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">asp</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">same</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">same</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">):</span>
@@ -262,7 +262,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">hessian_symmetrize</span><span class="p">(</span><span class="n">hess</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">mol</span><span class="p">:</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hessian_symmetrize</span><span class="p">(</span><span class="n">hess</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">mol</span><span class="p">:</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply Abelian symmetry of `mol` to Hessian `hess`.</span>
 
 <span class="sd">    Parameters</span>
@@ -312,7 +312,7 @@
     <span class="k">return</span> <span class="n">m_tot</span>
 
 
-<span class="k">def</span> <span class="nf">print_molden_vibs</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="n">atom_symbol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">geom</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span> <span class="n">standalone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_molden_vibs</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="n">atom_symbol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">geom</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span> <span class="n">standalone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Format vibrational analysis for Molden.</span>
 
 <span class="sd">    Parameters</span>
@@ -372,7 +372,7 @@
     <span class="k">return</span> <span class="n">text</span>
 
 
-<span class="k">def</span> <span class="nf">_check_rank_degen_modes</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">difftol</span><span class="p">,</span> <span class="n">svdtol</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_rank_degen_modes</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">difftol</span><span class="p">,</span> <span class="n">svdtol</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">dfreq</span><span class="p">,</span> <span class="n">didx</span><span class="p">,</span> <span class="n">dinv</span><span class="p">,</span> <span class="n">dcts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">normco_ok</span> <span class="o">=</span> <span class="kc">True</span>
@@ -400,7 +400,7 @@
 
     <span class="k">return</span> <span class="n">normco_ok</span>
 
-<span class="k">def</span> <span class="nf">_check_degen_modes</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_degen_modes</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Use `freq` to identify degenerate columns of eigenvectors `arr` and</span>
 <span class="sd">    sort into std order for comparison. Returns eigenvectors back sorted.</span>
 
@@ -434,7 +434,7 @@
     <span class="k">return</span> <span class="n">arr2</span>
 
 
-<span class="k">def</span> <span class="nf">_phase_cols_to_max_element</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1.e-2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_phase_cols_to_max_element</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1.e-2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns copy of 2D `arr` scaled such that, within cols, max(fabs)</span>
 <span class="sd">    element is positive. If max(fabs) is pos/neg pair, scales so first</span>
 <span class="sd">    element (within `tol`) is positive.</span>
@@ -468,7 +468,7 @@
     <span class="k">return</span> <span class="n">arr2</span>
 
 
-<span class="k">def</span> <span class="nf">harmonic_analysis</span><span class="p">(</span><span class="n">hess</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">geom</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">mass</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">basisset</span><span class="p">:</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="p">,</span> <span class="n">irrep_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">dipder</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">project_trans</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">project_rot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">harmonic_analysis</span><span class="p">(</span><span class="n">hess</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">geom</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">mass</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">basisset</span><span class="p">:</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="p">,</span> <span class="n">irrep_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">dipder</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">project_trans</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">project_rot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract frequencies, normal modes and other properties from electronic Hessian. Like so much other Psi4 goodness, originally by @andysim</span>
 
 <span class="sd">    Parameters</span>
@@ -548,13 +548,13 @@
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Dimension mismatch among mass (</span><span class="si">{</span><span class="n">mass</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">), geometry (</span><span class="si">{</span><span class="n">geom</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">), and Hessian (</span><span class="si">{</span><span class="n">hess</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;&quot;&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">mat_symm_info</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">lbl</span><span class="o">=</span><span class="s1">&#39;array&#39;</span><span class="p">,</span> <span class="n">stol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mat_symm_info</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">lbl</span><span class="o">=</span><span class="s1">&#39;array&#39;</span><span class="p">,</span> <span class="n">stol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">symm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span>
         <span class="n">herm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span>
         <span class="n">ivrt</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">stol</span><span class="p">)</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;&quot;  </span><span class="si">{:32}</span><span class="s2"> Symmetric? </span><span class="si">{}</span><span class="s2">   Hermitian? </span><span class="si">{}</span><span class="s2">   Lin Dep Dim? </span><span class="si">{:2}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lbl</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">symm</span><span class="p">,</span> <span class="n">herm</span><span class="p">,</span> <span class="n">ivrt</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">vec_in_space</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1.0e-4</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">vec_in_space</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1.0e-4</span><span class="p">):</span>
         <span class="n">merged</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">space</span><span class="p">,</span> <span class="n">vec</span><span class="p">))</span>
         <span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">merged</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">)</span>
@@ -753,11 +753,11 @@
     <span class="k">return</span> <span class="n">vibinfo</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_br</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_br</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="n">string</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span>
 
 
-<span class="k">def</span> <span class="nf">_format_omega</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">decimals</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_format_omega</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">decimals</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return complex frequencies in `omega` into strings showing only real or imag (&quot;i&quot;-labeled)</span>
 <span class="sd">    to `decimals` precision.</span>
 
@@ -771,7 +771,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">print_vibs</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="n">atom_lbl</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">normco</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shortlong</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">groupby</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">prec</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ncprec</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_vibs</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="n">atom_lbl</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">normco</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shortlong</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">groupby</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">prec</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ncprec</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Pretty printer for vibrational analysis.</span>
 
 <span class="sd">    Parameters</span>
@@ -803,7 +803,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">grouper</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">grouper</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="s2">&quot;Collect data into fixed-length chunks or blocks&quot;</span>
         <span class="c1"># grouper(&#39;ABCDEFG&#39;, 3, &#39;x&#39;) --&gt; ABC DEF Gxx&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)]</span> <span class="o">*</span> <span class="n">n</span>
@@ -988,7 +988,7 @@
     <span class="k">return</span> <span class="n">text</span>
 
 
-<span class="k">def</span> <span class="nf">thermo</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">molecular_mass</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">E0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rot_const</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">rotor_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">thermo</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">molecular_mass</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">E0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rot_const</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">rotor_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform thermochemical analysis from vibrational output.</span>
 
 <span class="sd">    Parameters</span>
@@ -1215,7 +1215,7 @@
     <span class="k">return</span> <span class="n">therminfo</span><span class="p">,</span> <span class="n">text</span>
 
 
-<span class="k">def</span> <span class="nf">filter_nonvib</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="n">remove</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_nonvib</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">],</span> <span class="n">remove</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Datum</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;From a dictionary of vibration Datum, remove normal coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -1254,7 +1254,7 @@
     <span class="k">return</span> <span class="n">work</span>
 
 
-<span class="k">def</span> <span class="nf">filter_omega_to_real</span><span class="p">(</span><span class="n">omega</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_omega_to_real</span><span class="p">(</span><span class="n">omega</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns ndarray (float) of `omega` (complex) where imaginary entries are converted to negative reals.&quot;&quot;&quot;</span>
     <span class="n">freqs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">fr</span> <span class="ow">in</span> <span class="n">omega</span><span class="p">:</span>
@@ -1265,7 +1265,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_TR_space</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">geom</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;TR&#39;</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_TR_space</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">geom</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;TR&#39;</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Form the idealized translation and rotation dof from geometry `geom` and masses `m`.</span>
 <span class="sd">    Remove any linear dependencies and return an array of shape (3, 3) for atoms, (5, 3 * nat) for linear `geom`,</span>
 <span class="sd">    or (6, 3 * nat) otherwise. To handle noisy linear geometries, pass `tol` on the order of max deviation.</span>
@@ -1338,7 +1338,7 @@
 
     <span class="n">TRspace</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">TRspace</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">orth</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">orth</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">):</span>
         <span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
@@ -1419,7 +1419,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/qcdb/vib.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1432,8 +1432,8 @@
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Friday, 13 December 2024 01:31AM.
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Wednesday, 08 January 2025 01:53PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

@@ -38,7 +38,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>psi4.driver.driver_findif</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=0fcd75a3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=88a353b9" />
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=57dca472"></script>
+    <script src="../../../_static/documentation_options.js?v=849d6b58"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_findif.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -250,29 +250,29 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
 
-<span class="kn">from</span> <span class="nn">qcelemental.models</span> <span class="kn">import</span> <span class="n">AtomicResult</span><span class="p">,</span> <span class="n">DriverEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicResult</span><span class="p">,</span> <span class="n">DriverEnum</span>
 
-<span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">p4util</span><span class="p">,</span> <span class="n">qcdb</span>
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">constants</span><span class="p">,</span> <span class="n">nppp10</span><span class="p">,</span> <span class="n">pp</span>
-<span class="kn">from</span> <span class="nn">.p4util.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
-<span class="kn">from</span> <span class="nn">.task_base</span> <span class="kn">import</span> <span class="n">AtomicComputer</span><span class="p">,</span> <span class="n">BaseComputer</span><span class="p">,</span> <span class="n">EnergyGradientHessianWfnReturn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">p4util</span><span class="p">,</span> <span class="n">qcdb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">constants</span><span class="p">,</span> <span class="n">nppp10</span><span class="p">,</span> <span class="n">pp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.p4util.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.task_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicComputer</span><span class="p">,</span> <span class="n">BaseComputer</span><span class="p">,</span> <span class="n">EnergyGradientHessianWfnReturn</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">qcportal</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">qcportal</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -282,7 +282,7 @@
 <span class="c1"># h is the index of an irrep.</span>
 
 
-<span class="k">def</span> <span class="nf">_displace_cart</span><span class="p">(</span><span class="n">mass</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">geom</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">salc_list</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">CdSalcList</span><span class="p">,</span> <span class="n">i_m</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">],</span> <span class="n">step_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_displace_cart</span><span class="p">(</span><span class="n">mass</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">geom</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">salc_list</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">CdSalcList</span><span class="p">,</span> <span class="n">i_m</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">],</span> <span class="n">step_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Displace a geometry along the specified displacement SALCs.</span>
 
 <span class="sd">    Parameters</span>
@@ -325,7 +325,7 @@
     <span class="k">return</span> <span class="n">disp_geom</span><span class="p">,</span> <span class="n">label</span>
 
 
-<span class="k">def</span> <span class="nf">_initialize_findif</span><span class="p">(</span><span class="n">mol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcdb.Molecule&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">],</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_initialize_findif</span><span class="p">(</span><span class="n">mol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcdb.Molecule&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">],</span>
                        <span class="n">freq_irrep_only</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                        <span class="n">stencil_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -504,7 +504,7 @@
     <span class="k">return</span> <span class="n">data</span>
 
 
-<span class="k">def</span> <span class="nf">_geom_generator</span><span class="p">(</span><span class="n">mol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcdb.Molecule&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">],</span> <span class="n">freq_irrep_only</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">t_project</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">r_project</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">stencil_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">step_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_geom_generator</span><span class="p">(</span><span class="n">mol</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcdb.Molecule&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">],</span> <span class="n">freq_irrep_only</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">t_project</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">r_project</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">stencil_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">step_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate geometries for the specified molecule and derivative levels.</span>
 <span class="sd">    You probably want to instead use one of the convenience functions:</span>
@@ -613,7 +613,7 @@
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;FINDIF: Mode </span><span class="si">{}</span><span class="s2"> not recognized.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">init_string</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_string</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;  Using finite-differences of </span><span class="si">{</span><span class="n">print_msg</span><span class="si">}</span><span class="s2">.</span>
 <span class="s2">    Generating geometries for use with </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;stencil_size&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">-point formula.</span>
 <span class="s2">    Displacement size will be </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;step_size&quot;</span><span class="p">]</span><span class="si">:</span><span class="s2">6.2e</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
@@ -644,7 +644,7 @@
         <span class="s2">&quot;reference&quot;</span><span class="p">:</span> <span class="p">{}</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">append_geoms</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">append_geoms</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Given a list of indices and a list of steps to displace each, append the corresponding geometry to the list.&quot;&quot;&quot;</span>
 
         <span class="c1"># Next, to make this salc/magnitude composite.</span>
@@ -714,7 +714,7 @@
 <span class="n">hessian_from_energies_geometries</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;Generate geometries for a Hessian by finite difference of energies.&quot;</span> <span class="o">+</span> <span class="n">_der_from_lesser_docstring</span>
 
 
-<span class="k">def</span> <span class="nf">assemble_gradient_from_energies</span><span class="p">(</span><span class="n">findifrec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">assemble_gradient_from_energies</span><span class="p">(</span><span class="n">findifrec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the gradient by finite difference of energies.</span>
 
 <span class="sd">    Parameters</span>
@@ -731,7 +731,7 @@
     <span class="c1"># This *must* be a Psi molecule at present - CdSalcList generation panics otherwise</span>
     <span class="n">mol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_schema</span><span class="p">(</span><span class="n">findifrec</span><span class="p">[</span><span class="s2">&quot;molecule&quot;</span><span class="p">],</span> <span class="n">nonphysical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">init_string</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_string</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;  Computing gradient from energies.</span>
 <span class="s2">    Using </span><span class="si">{</span><span class="n">findifrec</span><span class="p">[</span><span class="s2">&quot;stencil_size&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">-point formula.</span>
 <span class="s2">    Energy without displacement: </span><span class="si">{</span><span class="n">findifrec</span><span class="p">[</span><span class="s2">&quot;reference&quot;</span><span class="p">][</span><span class="s2">&quot;energy&quot;</span><span class="p">]</span><span class="si">:</span><span class="s2">15.10f</span><span class="si">}</span>
@@ -790,7 +790,7 @@
     <span class="k">return</span> <span class="n">g_cart</span>
 
 
-<span class="k">def</span> <span class="nf">_process_hessian_symmetry_block</span><span class="p">(</span><span class="n">H_block</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">B_block</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">massweighter</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">irrep</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">print_lvl</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_process_hessian_symmetry_block</span><span class="p">(</span><span class="n">H_block</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">B_block</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">massweighter</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">irrep</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">print_lvl</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform post-construction processing for a symmetry block of the Hessian.</span>
 <span class="sd">       Statements need to be printed, and the Hessian must be made orthogonal.</span>
 
@@ -839,7 +839,7 @@
     <span class="k">return</span> <span class="n">H_block</span>
 
 
-<span class="k">def</span> <span class="nf">_process_hessian</span><span class="p">(</span><span class="n">H_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">B_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">massweighter</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">print_lvl</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_process_hessian</span><span class="p">(</span><span class="n">H_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">B_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">massweighter</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">print_lvl</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform post-construction processing for the Hessian.</span>
 <span class="sd">       Statements need to be printed, and the Hessian must be transformed.</span>
 
@@ -898,7 +898,7 @@
     <span class="k">return</span> <span class="n">Hx</span>
 
 
-<span class="k">def</span> <span class="nf">assemble_dipder_from_dipoles</span><span class="p">(</span><span class="n">findifrec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">freq_irrep_only</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">assemble_dipder_from_dipoles</span><span class="p">(</span><span class="n">findifrec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">freq_irrep_only</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the dipole derivatives by finite difference of dipoles.</span>
 
 <span class="sd">    Parameters</span>
@@ -925,7 +925,7 @@
 
     <span class="n">displacements</span> <span class="o">=</span> <span class="n">findifrec</span><span class="p">[</span><span class="s2">&quot;displacements&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">init_string</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_string</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">_initialize_findif</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">freq_irrep_only</span><span class="p">,</span> <span class="s2">&quot;2_1&quot;</span><span class="p">,</span> <span class="n">findifrec</span><span class="p">[</span><span class="s1">&#39;stencil_size&#39;</span><span class="p">],</span> <span class="n">findifrec</span><span class="p">[</span><span class="s1">&#39;step&#39;</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">],</span>
@@ -979,7 +979,7 @@
     <span class="k">return</span> <span class="n">dipder_cart</span>
 
 
-<span class="k">def</span> <span class="nf">assemble_hessian_from_gradients</span><span class="p">(</span><span class="n">findifrec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">freq_irrep_only</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">assemble_hessian_from_gradients</span><span class="p">(</span><span class="n">findifrec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">freq_irrep_only</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the Hessian by finite difference of gradients.</span>
 
 <span class="sd">    Parameters</span>
@@ -1001,7 +1001,7 @@
 
     <span class="n">displacements</span> <span class="o">=</span> <span class="n">findifrec</span><span class="p">[</span><span class="s2">&quot;displacements&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">init_string</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_string</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;  Computing second-derivative from gradients using projected, </span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="s2">&quot;  symmetry-adapted, cartesian coordinates.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
                 <span class="s2">&quot;  </span><span class="si">{:d}</span><span class="s2"> gradients passed in, including the reference geometry.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">displacements</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
@@ -1079,7 +1079,7 @@
         <span class="n">sym_op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">symm_operation</span><span class="p">(</span><span class="n">group_op</span><span class="p">)</span><span class="o">.</span><span class="n">matrix</span><span class="p">())</span>
         <span class="n">gradients</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">def</span> <span class="nf">recursive_gradients</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">recursive_gradients</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Populate gradients, with step -n, -n+1, ... -1, 1, ... n. Positive displacements are computed.&quot;&quot;&quot;</span>
 
             <span class="n">grad_raw</span> <span class="o">=</span> <span class="n">displacements</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="o">-</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">][</span><span class="s2">&quot;gradient&quot;</span><span class="p">]</span>
@@ -1153,7 +1153,7 @@
     <span class="k">return</span> <span class="n">_process_hessian</span><span class="p">(</span><span class="n">H_pi</span><span class="p">,</span> <span class="n">B_pi</span><span class="p">,</span> <span class="n">massweighter</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;print_lvl&quot;</span><span class="p">])</span>
 
 
-<span class="k">def</span> <span class="nf">assemble_hessian_from_energies</span><span class="p">(</span><span class="n">findifrec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">freq_irrep_only</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">assemble_hessian_from_energies</span><span class="p">(</span><span class="n">findifrec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">freq_irrep_only</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the Hessian by finite difference of energies.</span>
 
 <span class="sd">    Parameters</span>
@@ -1175,7 +1175,7 @@
     <span class="n">displacements</span> <span class="o">=</span> <span class="n">findifrec</span><span class="p">[</span><span class="s2">&quot;displacements&quot;</span><span class="p">]</span>
     <span class="n">ref_energy</span> <span class="o">=</span> <span class="n">findifrec</span><span class="p">[</span><span class="s2">&quot;reference&quot;</span><span class="p">][</span><span class="s2">&quot;energy&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">init_string</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_string</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="n">max_label_len</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">displacements</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
         <span class="n">out_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">disp_data</span> <span class="ow">in</span> <span class="n">displacements</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1258,7 +1258,7 @@
 
 <div class="viewcode-block" id="FiniteDifferenceComputer">
 <a class="viewcode-back" href="../../../freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer">[docs]</a>
-<span class="k">class</span> <span class="nc">FiniteDifferenceComputer</span><span class="p">(</span><span class="n">BaseComputer</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FiniteDifferenceComputer</span><span class="p">(</span><span class="n">BaseComputer</span><span class="p">):</span>
 
     <span class="n">molecule</span><span class="p">:</span> <span class="n">Any</span>
     <span class="n">driver</span><span class="p">:</span> <span class="n">DriverEnum</span>
@@ -1271,7 +1271,7 @@
 <div class="viewcode-block" id="FiniteDifferenceComputer.set_driver">
 <a class="viewcode-back" href="../../../freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer.set_driver">[docs]</a>
     <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;driver&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">set_driver</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">driver</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_driver</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">driver</span><span class="p">):</span>
         <span class="n">egh</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="s1">&#39;gradient&#39;</span><span class="p">,</span> <span class="s1">&#39;hessian&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">driver</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">egh</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;Wrapper is unhappy to be calling function (</span><span class="si">{</span><span class="n">driver</span><span class="si">}</span><span class="s2">) not among </span><span class="si">{</span><span class="n">egh</span><span class="si">}</span><span class="s2">.&quot;&quot;&quot;</span><span class="p">)</span>
@@ -1282,14 +1282,14 @@
 <div class="viewcode-block" id="FiniteDifferenceComputer.set_molecule">
 <a class="viewcode-back" href="../../../freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer.set_molecule">[docs]</a>
     <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">set_molecule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mol</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_molecule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mol</span><span class="p">):</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">fix_com</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">fix_orientation</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mol</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize FiniteDifference class.</span>
 
 <span class="sd">        data keywords include</span>
@@ -1418,21 +1418,21 @@
 
 <div class="viewcode-block" id="FiniteDifferenceComputer.build_tasks">
 <a class="viewcode-back" href="../../../freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer.build_tasks">[docs]</a>
-    <span class="k">def</span> <span class="nf">build_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># permanently a dummy function</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="FiniteDifferenceComputer.plan">
 <a class="viewcode-back" href="../../../freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer.plan">[docs]</a>
-    <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># uncalled function</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">plan</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span></div>
 
 
 <div class="viewcode-block" id="FiniteDifferenceComputer.compute">
 <a class="viewcode-back" href="../../../freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer.compute">[docs]</a>
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run each job in task list.&quot;&quot;&quot;</span>
         <span class="n">instructions</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; FiniteDifference Computations&quot;</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">instructions</span><span class="p">)</span>
@@ -1443,7 +1443,7 @@
                 <span class="n">t</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_prepare_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">results_list</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
         <span class="c1"># load AtomicComputer results into findifrec[reference]</span>
@@ -1532,7 +1532,7 @@
 
 <div class="viewcode-block" id="FiniteDifferenceComputer.get_results">
 <a class="viewcode-back" href="../../../freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer.get_results">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return results as FiniteDifference-flavored QCSchema.&quot;&quot;&quot;</span>
 
         <span class="n">instructions</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; FiniteDifference Results&quot;</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -1600,7 +1600,7 @@
 
 <div class="viewcode-block" id="FiniteDifferenceComputer.get_psi_results">
 <a class="viewcode-back" href="../../../freq.html#psi4.driver.driver_findif.FiniteDifferenceComputer.get_psi_results">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_psi_results</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_psi_results</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
@@ -1644,7 +1644,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_findif_schema_to_wfn</span><span class="p">(</span><span class="n">findif_model</span><span class="p">:</span> <span class="n">AtomicResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_findif_schema_to_wfn</span><span class="p">(</span><span class="n">findif_model</span><span class="p">:</span> <span class="n">AtomicResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to produce Wavefunction and Psi4 files from a FiniteDifference-flavored AtomicResult.&quot;&quot;&quot;</span>
 
     <span class="c1"># new skeleton wavefunction w/mol, highest-SCF basis (just to choose one), &amp; not energy</span>
@@ -1664,14 +1664,14 @@
     <span class="k">return</span> <span class="n">wfn</span>
 
 
-<span class="k">def</span> <span class="nf">hessian_write</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hessian_write</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;FINDIF&#39;</span><span class="p">,</span> <span class="s1">&#39;HESSIAN_WRITE&#39;</span><span class="p">):</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;.hess&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
             <span class="n">qcdb</span><span class="o">.</span><span class="n">hessparse</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">hessian</span><span class="p">()),</span> <span class="n">handle</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;psi4&#39;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">gradient_write</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gradient_write</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;FINDIF&#39;</span><span class="p">,</span> <span class="s1">&#39;GRADIENT_WRITE&#39;</span><span class="p">):</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;.grad&quot;</span>
         <span class="n">qcdb</span><span class="o">.</span><span class="n">gradparse</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">gradient</span><span class="p">()),</span>
@@ -1681,7 +1681,7 @@
                                  <span class="n">energy</span><span class="o">=</span><span class="n">wfn</span><span class="o">.</span><span class="n">energy</span><span class="p">())</span>
 
 
-<span class="k">def</span> <span class="nf">_rms</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_rms</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute root-mean-square of array, be it Psi4 or NumPy array.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">arr</span><span class="p">)))</span>
@@ -1747,7 +1747,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_findif.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1760,8 +1760,8 @@
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Friday, 13 December 2024 01:31AM.
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Wednesday, 08 January 2025 01:53PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

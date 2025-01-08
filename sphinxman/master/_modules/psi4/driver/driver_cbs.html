@@ -38,7 +38,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>psi4.driver.driver_cbs</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=0fcd75a3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=88a353b9" />
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=57dca472"></script>
+    <script src="../../../_static/documentation_options.js?v=849d6b58"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -255,38 +255,38 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
 
-<span class="kn">from</span> <span class="nn">qcelemental.models</span> <span class="kn">import</span> <span class="n">AtomicResult</span><span class="p">,</span> <span class="n">DriverEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicResult</span><span class="p">,</span> <span class="n">DriverEnum</span>
 
-<span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">driver_util</span><span class="p">,</span> <span class="n">p4util</span><span class="p">,</span> <span class="n">qcdb</span>
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">pp</span>
-<span class="kn">from</span> <span class="nn">.driver_cbs_helper</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># lgtm[py/unused-import]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">driver_util</span><span class="p">,</span> <span class="n">p4util</span><span class="p">,</span> <span class="n">qcdb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">pp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.driver_cbs_helper</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1"># lgtm[py/unused-import]</span>
     <span class="n">composite_procedures</span><span class="p">,</span>
     <span class="n">register_composite_function</span><span class="p">,</span>
     <span class="n">register_xtpl_function</span><span class="p">,</span>
     <span class="n">xtpl_procedures</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.driver_util</span> <span class="kn">import</span> <span class="n">UpgradeHelper</span>
-<span class="kn">from</span> <span class="nn">.p4util.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
-<span class="kn">from</span> <span class="nn">.procrouting.interface_cfour</span> <span class="kn">import</span> <span class="n">cfour_psivar_list</span>
-<span class="kn">from</span> <span class="nn">.task_base</span> <span class="kn">import</span> <span class="n">AtomicComputer</span><span class="p">,</span> <span class="n">BaseComputer</span><span class="p">,</span> <span class="n">EnergyGradientHessianWfnReturn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.driver_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">UpgradeHelper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.p4util.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.procrouting.interface_cfour</span><span class="w"> </span><span class="kn">import</span> <span class="n">cfour_psivar_list</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.task_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicComputer</span><span class="p">,</span> <span class="n">BaseComputer</span><span class="p">,</span> <span class="n">EnergyGradientHessianWfnReturn</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">qcportal</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">qcportal</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -307,31 +307,31 @@
 
 <span class="c1"># remove in 1.8</span>
 <span class="c1"># these get input files to the point where they raise an UpgradeHelper</span>
-<span class="k">def</span> <span class="nf">xtpl_highest_1</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">xtpl_highest_1</span><span class="p">():</span>
     <span class="k">pass</span>
 
 
-<span class="k">def</span> <span class="nf">scf_xtpl_helgaker_2</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">scf_xtpl_helgaker_2</span><span class="p">():</span>
     <span class="k">pass</span>
 
 
-<span class="k">def</span> <span class="nf">scf_xtpl_truhlar_2</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">scf_xtpl_truhlar_2</span><span class="p">():</span>
     <span class="k">pass</span>
 
 
-<span class="k">def</span> <span class="nf">scf_xtpl_karton_2</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">scf_xtpl_karton_2</span><span class="p">():</span>
     <span class="k">pass</span>
 
 
-<span class="k">def</span> <span class="nf">scf_xtpl_helgaker_3</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">scf_xtpl_helgaker_3</span><span class="p">():</span>
     <span class="k">pass</span>
 
 
-<span class="k">def</span> <span class="nf">corl_xtpl_helgaker_2</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">corl_xtpl_helgaker_2</span><span class="p">():</span>
     <span class="k">pass</span>
 
 
-<span class="k">def</span> <span class="nf">_expand_bracketed_basis</span><span class="p">(</span><span class="n">basisstring</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">molecule</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcdb.Molecule&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_expand_bracketed_basis</span><span class="p">(</span><span class="n">basisstring</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">molecule</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcdb.Molecule&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to transform and validate basis series specification for cbs().</span>
 
 <span class="sd">    Parameters</span>
@@ -418,7 +418,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">BSET</span><span class="p">,</span> <span class="n">ZSET</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_contract_bracketed_basis</span><span class="p">(</span><span class="n">basisarray</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_contract_bracketed_basis</span><span class="p">(</span><span class="n">basisarray</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to re-form a bracketed basis set string from a sequential series</span>
 <span class="sd">    of basis sets. Essentially the inverse of _expand_bracketed_basis(). Used to</span>
 <span class="sd">    print a nicely formatted basis set string in the results table.</span>
@@ -447,7 +447,7 @@
         <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">pre</span><span class="p">,</span> <span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">ZSET</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span> <span class="n">post</span><span class="p">])</span>
 
 
-<span class="k">def</span> <span class="nf">return_energy_components</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">return_energy_components</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Define some quantum chemical knowledge, namely what methods are subsumed in others.&quot;&quot;&quot;</span>
 
     <span class="c1"># yapf: disable</span>
@@ -643,7 +643,7 @@
 
 <div class="viewcode-block" id="_get_default_xtpl">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver._get_default_xtpl">[docs]</a>
-<span class="k">def</span> <span class="nf">_get_default_xtpl</span><span class="p">(</span><span class="n">nbasis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">xtpl_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_default_xtpl</span><span class="p">(</span><span class="n">nbasis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">xtpl_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A helper function to determine default extrapolation type.</span>
 
 <span class="sd">    Parameters</span>
@@ -680,7 +680,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_validate_cbs_inputs</span><span class="p">(</span><span class="n">cbs_metadata</span><span class="p">:</span> <span class="n">CBSMetadata</span><span class="p">,</span> <span class="n">molecule</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcdb.Molecule&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">CBSMetadata</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_cbs_inputs</span><span class="p">(</span><span class="n">cbs_metadata</span><span class="p">:</span> <span class="n">CBSMetadata</span><span class="p">,</span> <span class="n">molecule</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcdb.Molecule&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">CBSMetadata</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A helper function which validates the ``cbs_metadata`` format,</span>
 <span class="sd">    expands basis sets, and provides sensible defaults for optional arguments.</span>
 
@@ -752,7 +752,7 @@
     <span class="k">return</span> <span class="n">metadata</span>
 
 
-<span class="k">def</span> <span class="nf">_process_cbs_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CBSMetadata</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_process_cbs_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CBSMetadata</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A helper function which translates supplied kwargs into the</span>
 <span class="sd">    ``cbs_metadata`` format and passes it for validation.</span>
 
@@ -817,7 +817,7 @@
 
 <div class="viewcode-block" id="cbs">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver.cbs">[docs]</a>
-<span class="k">def</span> <span class="nf">cbs</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cbs</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function to define a multistage energy method from combinations of</span>
 <span class="sd">    basis set extrapolations and delta corrections and condense the</span>
 <span class="sd">    components into a minimum number of calculations.</span>
@@ -1176,7 +1176,7 @@
 <span class="c1">#    psioh.set_specific_retention(psif.PSIF_SCF_MOS, False)</span>
 
 
-<span class="k">def</span> <span class="nf">_expand_scheme_orders</span><span class="p">(</span><span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">basisname</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">basiszeta</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">wfnname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_expand_scheme_orders</span><span class="p">(</span><span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">basisname</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">basiszeta</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">wfnname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that the length of *basiszeta* array matches the implied degree of</span>
 <span class="sd">    extrapolation in *scheme* name. Return a dictionary of same length as</span>
 <span class="sd">    basiszeta, with *basisname* and *basiszeta* distributed therein.</span>
@@ -1202,7 +1202,7 @@
     <span class="k">return</span> <span class="n">NEED</span>
 
 
-<span class="k">def</span> <span class="nf">_contract_scheme_orders</span><span class="p">(</span><span class="n">needdict</span><span class="p">,</span> <span class="n">datakey</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;f_energy&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_contract_scheme_orders</span><span class="p">(</span><span class="n">needdict</span><span class="p">,</span> <span class="n">datakey</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;f_energy&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepared named arguments for extrapolation functions by</span>
 <span class="sd">    extracting zetas and values (which one determined by *datakey*) out</span>
 <span class="sd">    of *needdict* and returning a dictionary whose keys are constructed</span>
@@ -1222,7 +1222,7 @@
     <span class="k">return</span> <span class="n">largs</span>
 
 
-<span class="k">def</span> <span class="nf">_parse_cbs_gufunc_string</span><span class="p">(</span><span class="n">method_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_cbs_gufunc_string</span><span class="p">(</span><span class="n">method_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A helper function that parses a ``&quot;method/basis&quot;`` input string</span>
 <span class="sd">    into separate method and basis components. Also handles delta corrections.</span>
 
@@ -1267,7 +1267,7 @@
     <span class="k">return</span> <span class="n">method_list</span><span class="p">,</span> <span class="n">basis_list</span>
 
 
-<span class="k">def</span> <span class="nf">cbs_text_parser</span><span class="p">(</span><span class="n">total_method_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cbs_text_parser</span><span class="p">(</span><span class="n">total_method_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A text based parser of the CBS method string. Provided to handle &quot;method/basis&quot;</span>
 <span class="sd">    specification of the requested calculations. Also handles &quot;simple&quot; (i.e.</span>
@@ -1362,7 +1362,7 @@
     <span class="k">return</span> <span class="n">cbs_kwargs</span>
 
 
-<span class="k">def</span> <span class="nf">_build_cbs_compute</span><span class="p">(</span><span class="n">metameta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">CBSMetadata</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_cbs_compute</span><span class="p">(</span><span class="n">metameta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">CBSMetadata</span><span class="p">):</span>
     <span class="n">label</span> <span class="o">=</span> <span class="n">metameta</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
     <span class="n">ptype</span> <span class="o">=</span> <span class="n">metameta</span><span class="p">[</span><span class="s1">&#39;ptype&#39;</span><span class="p">]</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="n">metameta</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]</span>
@@ -1472,7 +1472,7 @@
     <span class="k">return</span> <span class="n">GRAND_NEED</span><span class="p">,</span> <span class="n">JOBS</span><span class="p">,</span> <span class="n">TROVE</span>
 
 
-<span class="k">def</span> <span class="nf">_assemble_cbs_components</span><span class="p">(</span><span class="n">metameta</span><span class="p">,</span> <span class="n">TROVE</span><span class="p">,</span> <span class="n">GRAND_NEED</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_assemble_cbs_components</span><span class="p">(</span><span class="n">metameta</span><span class="p">,</span> <span class="n">TROVE</span><span class="p">,</span> <span class="n">GRAND_NEED</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Absorb job E/G/H results from `TROVE` into `GRAND_NEED`. Process</span>
 <span class="sd">    those into stage E/G/H in `GRAND_NEED`, returning the latter.</span>
 <span class="sd">    Accumulate into final E/G/H quantities, returning them in dict.</span>
@@ -1567,7 +1567,7 @@
     <span class="k">return</span> <span class="n">cbs_results</span><span class="p">,</span> <span class="n">GRAND_NEED</span>
 
 
-<span class="k">def</span> <span class="nf">_summary_table</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">TROVE</span><span class="p">,</span> <span class="n">GRAND_NEED</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_summary_table</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">TROVE</span><span class="p">,</span> <span class="n">GRAND_NEED</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Build string of results table&quot;&quot;&quot;</span>
 
     <span class="n">delimit</span> <span class="o">=</span> <span class="s1">&#39;  &#39;</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">105</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -1632,7 +1632,7 @@
 
 <div class="viewcode-block" id="CompositeComputer">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer">[docs]</a>
-<span class="k">class</span> <span class="nc">CompositeComputer</span><span class="p">(</span><span class="n">BaseComputer</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CompositeComputer</span><span class="p">(</span><span class="n">BaseComputer</span><span class="p">):</span>
 
     <span class="n">molecule</span><span class="p">:</span> <span class="n">Any</span>
     <span class="n">basis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;(auto)&quot;</span>
@@ -1662,14 +1662,14 @@
 <div class="viewcode-block" id="CompositeComputer.set_molecule">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.set_molecule">[docs]</a>
     <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">set_molecule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mol</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_molecule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mol</span><span class="p">):</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">fix_com</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">fix_orientation</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mol</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">kwargs_lower</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_process_cbs_kwargs</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">BaseComputer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">)</span>
@@ -1721,21 +1721,21 @@
 
 <div class="viewcode-block" id="CompositeComputer.build_tasks">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.build_tasks">[docs]</a>
-    <span class="k">def</span> <span class="nf">build_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># permanently a dummy function</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="CompositeComputer.plan">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.plan">[docs]</a>
-    <span class="k">def</span> <span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># uncalled function</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">plan</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="CompositeComputer.compute">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.compute">[docs]</a>
-    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metameta</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
         <span class="n">instructions</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; CBS Computations</span><span class="si">{</span><span class="s1">&#39;:&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">,</span>
                                             <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -1747,7 +1747,7 @@
                 <span class="n">t</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_prepare_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">results_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="p">]</span>
 
         <span class="n">modules</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">provenance</span><span class="p">,</span> <span class="s2">&quot;module&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">results_list</span><span class="p">]</span>
@@ -1816,7 +1816,7 @@
 
 <div class="viewcode-block" id="CompositeComputer.get_results">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.get_results">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return results as Composite-flavored QCSchema.&quot;&quot;&quot;</span>
 
         <span class="n">assembled_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
@@ -1893,7 +1893,7 @@
 
 <div class="viewcode-block" id="CompositeComputer.get_psi_results">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.get_psi_results">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_psi_results</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_psi_results</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.FractalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
@@ -1937,7 +1937,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_cbs_schema_to_wfn</span><span class="p">(</span><span class="n">cbs_model</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_cbs_schema_to_wfn</span><span class="p">(</span><span class="n">cbs_model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to produce Wavefunction from a Composite-flavored AtomicResult.&quot;&quot;&quot;</span>
 
     <span class="n">mol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_schema</span><span class="p">(</span><span class="n">cbs_model</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
@@ -2012,7 +2012,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2025,8 +2025,8 @@
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Friday, 13 December 2024 01:31AM.
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Wednesday, 08 January 2025 01:53PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

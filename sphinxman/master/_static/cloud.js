@@ -220,6 +220,7 @@
         }
 
         $(".html-toggle.section > h2, .html-toggle.section > h3, .html-toggle.section > h4, .html-toggle.section > h5, .html-toggle.section > h6").each(init);
+        $("section.html-toggle > h2, section.html-toggle > h3, section.html-toggle > h4, section.html-toggle > h5, section.html-toggle > h6").each(init);
     });
 
     /*==========================================================================

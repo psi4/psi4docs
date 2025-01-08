@@ -38,7 +38,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>psi4.driver.p4util.fcidump</title>
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=0fcd75a3" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=88a353b9" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=57dca472"></script>
+    <script src="../../../../_static/documentation_options.js?v=849d6b58"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/fcidump.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -147,21 +147,21 @@
     <span class="s2">&quot;fcidump_from_file&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">psi4</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">psifiles</span> <span class="k">as</span> <span class="n">psif</span>
-<span class="kn">from</span> <span class="nn">..procrouting.proc_util</span> <span class="kn">import</span> <span class="n">check_iwl_file_from_scf_type</span>
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">TestComparisonError</span><span class="p">,</span> <span class="n">ValidationError</span>
-<span class="kn">from</span> <span class="nn">.testing</span> <span class="kn">import</span> <span class="n">compare_integers</span><span class="p">,</span> <span class="n">compare_recursive</span><span class="p">,</span> <span class="n">compare_values</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">psifiles</span> <span class="k">as</span> <span class="n">psif</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..procrouting.proc_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_iwl_file_from_scf_type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestComparisonError</span><span class="p">,</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.testing</span><span class="w"> </span><span class="kn">import</span> <span class="n">compare_integers</span><span class="p">,</span> <span class="n">compare_recursive</span><span class="p">,</span> <span class="n">compare_values</span>
 
 
 <div class="viewcode-block" id="fcidump">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.fcidump.html#psi4.fcidump">[docs]</a>
-<span class="k">def</span> <span class="nf">fcidump</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;INTDUMP&#39;</span><span class="p">,</span> <span class="n">oe_ints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fcidump</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;INTDUMP&#39;</span><span class="p">,</span> <span class="n">oe_ints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Save integrals to file in FCIDUMP format as defined in Comp. Phys. Commun. 54 75 (1989),</span>
 <span class="sd">    https://doi.org/10.1016/0010-4655(89)90033-7 .</span>
 <span class="sd">    Additional one-electron integrals, including orbital energies, can also be saved.</span>
@@ -335,7 +335,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">write_eigenvalues</span><span class="p">(</span><span class="n">eigs</span><span class="p">,</span> <span class="n">mo_idx</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_eigenvalues</span><span class="p">(</span><span class="n">eigs</span><span class="p">,</span> <span class="n">mo_idx</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare multi-line string with one-particle eigenvalues to be written to the FCIDUMP file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eigs_dump</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -347,7 +347,7 @@
     <span class="k">return</span> <span class="n">eigs_dump</span>
 
 
-<span class="k">def</span> <span class="nf">_irrep_map</span><span class="p">(</span><span class="n">wfn</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_irrep_map</span><span class="p">(</span><span class="n">wfn</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns an array of irrep indices that maps from Psi4&#39;s ordering convention to the standard FCIDUMP convention.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">symm</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">point_group</span><span class="p">()</span><span class="o">.</span><span class="n">symbol</span><span class="p">()</span>
@@ -367,7 +367,7 @@
 
 <div class="viewcode-block" id="fcidump_from_file">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.fcidump_from_file.html#psi4.fcidump_from_file">[docs]</a>
-<span class="k">def</span> <span class="nf">fcidump_from_file</span><span class="p">(</span><span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fcidump_from_file</span><span class="p">(</span><span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to read in a FCIDUMP file.</span>
 
 <span class="sd">    :returns: a dictionary with FCIDUMP header and integrals</span>
@@ -461,7 +461,7 @@
 
 <div class="viewcode-block" id="compare_fcidumps">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.compare_fcidumps.html#psi4.compare_fcidumps">[docs]</a>
-<span class="k">def</span> <span class="nf">compare_fcidumps</span><span class="p">(</span><span class="n">expected</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">computed</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compare_fcidumps</span><span class="p">(</span><span class="n">expected</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">computed</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Comparison function for FCIDUMP files.</span>
 <span class="sd">    Compares the first six below, then computes energies from MO integrals and compares the last four.</span>
 
@@ -510,7 +510,7 @@
 
 <div class="viewcode-block" id="energies_from_fcidump">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.energies_from_fcidump.html#psi4.energies_from_fcidump">[docs]</a>
-<span class="k">def</span> <span class="nf">energies_from_fcidump</span><span class="p">(</span><span class="n">intdump</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">energies_from_fcidump</span><span class="p">(</span><span class="n">intdump</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;From integrals dictionary generated from :py:func:`fcidump_from_file`,</span>
 <span class="sd">    compute energies.</span>
 
@@ -544,7 +544,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_scf_energy</span><span class="p">(</span><span class="n">Hcore</span><span class="p">,</span> <span class="n">ERI</span><span class="p">,</span> <span class="n">occ_sl</span><span class="p">,</span> <span class="n">unrestricted</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_scf_energy</span><span class="p">(</span><span class="n">Hcore</span><span class="p">,</span> <span class="n">ERI</span><span class="p">,</span> <span class="n">occ_sl</span><span class="p">,</span> <span class="n">unrestricted</span><span class="p">):</span>
     <span class="n">scf_1el_e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ii-&gt;&#39;</span><span class="p">,</span> <span class="n">Hcore</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">occ_sl</span><span class="p">,</span> <span class="n">occ_sl</span><span class="p">)])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">unrestricted</span><span class="p">:</span>
         <span class="n">scf_1el_e</span> <span class="o">*=</span> <span class="mi">2</span>
@@ -558,7 +558,7 @@
     <span class="k">return</span> <span class="n">scf_1el_e</span><span class="p">,</span> <span class="n">scf_2el_e</span>
 
 
-<span class="k">def</span> <span class="nf">_mp2_energy</span><span class="p">(</span><span class="n">ERI</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">unrestricted</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_mp2_energy</span><span class="p">(</span><span class="n">ERI</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">unrestricted</span><span class="p">):</span>
     <span class="c1"># Occupied and virtual slices</span>
     <span class="n">occ_sl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">vir_sl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">epsilon</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -632,7 +632,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/fcidump.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a25e716">1.10a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/9fa19f9">1.10a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -645,8 +645,8 @@
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2007-2024, The Psi4 Project.
-      Last updated on Friday, 13 December 2024 01:31AM.
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Wednesday, 08 January 2025 01:53PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
