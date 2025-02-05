@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=12306456"></script>
+    <script src="../../../_static/documentation_options.js?v=24d765c6"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/molutil.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/b0a4576">1.10a1.dev67</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/96bfb21">1.10a1.dev68</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -209,10 +209,20 @@
         <span class="n">missing_enabled_return_qm</span><span class="o">=</span><span class="n">missing_enabled_return_qm</span><span class="p">,</span>
         <span class="n">missing_enabled_return_efp</span><span class="o">=</span><span class="n">missing_enabled_return_efp</span><span class="p">,</span>
         <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+    <span class="n">qmol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;qm&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="s2">&quot;geom&quot;</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">]:</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">][</span><span class="s2">&quot;geom&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">][</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Angstrom&quot;</span><span class="p">:</span>
+            <span class="c1"># beware if qcel and psi4 choose different sets of constants</span>
+            <span class="n">geom</span> <span class="o">=</span> <span class="n">geom</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+        <span class="n">qmol</span><span class="o">.</span><span class="n">_initial_cartesian</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">return_dict</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;qm&#39;</span><span class="p">]),</span> <span class="n">molrec</span>
+        <span class="k">return</span> <span class="n">qmol</span><span class="p">,</span> <span class="n">molrec</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;qm&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">qmol</span>
 
 
 <span class="nd">@classmethod</span>
@@ -292,8 +302,13 @@
         <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
 
     <span class="n">qmol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">)</span>
-    <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;geom&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-    <span class="n">qmol</span><span class="o">.</span><span class="n">_initial_cartesian</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;geom&quot;</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">:</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;geom&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Angstrom&quot;</span><span class="p">:</span>
+            <span class="c1"># beware if qcel and psi4 choose different sets of constants</span>
+            <span class="n">geom</span> <span class="o">=</span> <span class="n">geom</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
+        <span class="n">qmol</span><span class="o">.</span><span class="n">_initial_cartesian</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">return_dict</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">qmol</span><span class="p">,</span> <span class="n">molrec</span>
@@ -330,6 +345,8 @@
 
     <span class="n">qmol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">)</span>
     <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;geom&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="c1"># presently molschema are formats required to be in Bohr Cartesian</span>
+    <span class="c1">#   if the format expands, convert _initial_cartesian to Bohr and conditionalize setting the prop</span>
     <span class="n">qmol</span><span class="o">.</span><span class="n">_initial_cartesian</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">return_dict</span><span class="p">:</span>
@@ -391,6 +408,11 @@
 
     <span class="n">molecule</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;qm&#39;</span><span class="p">])</span>
     <span class="k">if</span> <span class="s2">&quot;geom&quot;</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">]:</span>
+        <span class="c1"># for fully-specified w/frame (dtype=&quot;psi4&quot; passed in &quot;geom&quot;, not Zmat or</span>
+        <span class="c1">#   vars for dtype=&quot;psi4+&quot; passed in &quot;geom_unsettled&quot;), save frame in</span>
+        <span class="c1">#   Bohr in `_initial_cartesian` for resetting through `Molecule.set_geometry`</span>
+        <span class="c1">#   if nocom/noreorient/c1 needs to be set retroactively in driver for</span>
+        <span class="c1">#   alignment with other data (e.g., point charges, polarizable embedding).</span>
         <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">][</span><span class="s2">&quot;geom&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">][</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Angstrom&quot;</span><span class="p">:</span>
             <span class="c1"># beware if qcel and psi4 choose different sets of constants</span>
@@ -491,7 +513,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/molutil.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/b0a4576">1.10a1.dev67</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/96bfb21">1.10a1.dev68</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -505,7 +527,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Tuesday, 28 January 2025 06:08PM.
+      Last updated on Wednesday, 05 February 2025 07:28PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
