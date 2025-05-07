@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=370c2cb0"></script>
+    <script src="../../../_static/documentation_options.js?v=b48ab837"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4365043">1.10a1.dev75</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2b9265a">1.10a1.dev76</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -150,6 +150,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -188,9 +189,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_filter_renamed_methods</span><span class="p">(</span><span class="n">compute</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Raises UpgradeHelper when a method has been renamed.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;dcft&quot;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="n">compute</span> <span class="o">+</span> <span class="s2">&quot;(&#39;dcft&#39;)&quot;</span><span class="p">,</span> <span class="n">compute</span> <span class="o">+</span> <span class="s2">&quot;(&#39;dct&#39;)&quot;</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span>
-                            <span class="s2">&quot; All instances of &#39;dcft&#39; should be replaced with &#39;dct&#39;.&quot;</span><span class="p">)</span>
+    <span class="k">pass</span>
 
 
 <div class="viewcode-block" id="energy">
@@ -2195,51 +2194,23 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;.molden&quot;</span>
+    <span class="k">if</span> <span class="n">density_b</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">density_a</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;psi4.molden can&#39;t receive a beta but not an alpha spindensity.&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">dovirtual</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">dovirt</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;MOLDEN_WITH_VIRTUAL&quot;</span><span class="p">))</span>
-
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">density_a</span><span class="p">:</span>
+        <span class="n">wfn</span><span class="o">.</span><span class="n">write_molden</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dovirtual</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">dovirt</span> <span class="o">=</span> <span class="n">dovirtual</span>
-
-    <span class="k">if</span> <span class="n">density_a</span><span class="p">:</span>
-        <span class="n">nmopi</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">nmopi</span><span class="p">()</span>
-        <span class="n">nsopi</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">nsopi</span><span class="p">()</span>
-
-        <span class="n">NO_Ra</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="s2">&quot;NO Alpha Rotation Matrix&quot;</span><span class="p">,</span> <span class="n">nmopi</span><span class="p">,</span> <span class="n">nmopi</span><span class="p">)</span>
-        <span class="n">NO_occa</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Vector</span><span class="p">(</span><span class="n">nmopi</span><span class="p">)</span>
-        <span class="n">density_a</span><span class="o">.</span><span class="n">diagonalize</span><span class="p">(</span><span class="n">NO_Ra</span><span class="p">,</span> <span class="n">NO_occa</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">DiagonalizeOrder</span><span class="o">.</span><span class="n">Descending</span><span class="p">)</span>
-        <span class="n">NO_Ca</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="s2">&quot;Ca Natural Orbitals&quot;</span><span class="p">,</span> <span class="n">nsopi</span><span class="p">,</span> <span class="n">nmopi</span><span class="p">)</span>
-        <span class="n">NO_Ca</span><span class="o">.</span><span class="n">gemm</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">wfn</span><span class="o">.</span><span class="n">Ca</span><span class="p">(),</span> <span class="n">NO_Ra</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-
+        <span class="n">wfn_</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">(),</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">))</span>
+        <span class="n">wfn_</span><span class="o">.</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">wfn</span><span class="p">)</span>
+        <span class="n">wfn_</span><span class="o">.</span><span class="n">Da</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">density_a</span><span class="p">)</span>
+        <span class="n">wfn_</span><span class="o">.</span><span class="n">Da</span><span class="p">()</span><span class="o">.</span><span class="n">back_transform</span><span class="p">(</span><span class="n">wfn_</span><span class="o">.</span><span class="n">Ca</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">density_b</span><span class="p">:</span>
-            <span class="n">NO_Rb</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="s2">&quot;NO Beta Rotation Matrix&quot;</span><span class="p">,</span> <span class="n">nmopi</span><span class="p">,</span> <span class="n">nmopi</span><span class="p">)</span>
-            <span class="n">NO_occb</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Vector</span><span class="p">(</span><span class="n">nmopi</span><span class="p">)</span>
-            <span class="n">density_b</span><span class="o">.</span><span class="n">diagonalize</span><span class="p">(</span><span class="n">NO_Rb</span><span class="p">,</span> <span class="n">NO_occb</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">DiagonalizeOrder</span><span class="o">.</span><span class="n">Descending</span><span class="p">)</span>
-            <span class="n">NO_Cb</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="s2">&quot;Cb Natural Orbitals&quot;</span><span class="p">,</span> <span class="n">nsopi</span><span class="p">,</span> <span class="n">nmopi</span><span class="p">)</span>
-            <span class="n">NO_Cb</span><span class="o">.</span><span class="n">gemm</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">wfn</span><span class="o">.</span><span class="n">Cb</span><span class="p">(),</span> <span class="n">NO_Rb</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-
+            <span class="n">wfn_</span><span class="o">.</span><span class="n">Db</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">density_b</span><span class="p">)</span>
+            <span class="n">wfn_</span><span class="o">.</span><span class="n">Db</span><span class="p">()</span><span class="o">.</span><span class="n">back_transform</span><span class="p">(</span><span class="n">wfn_</span><span class="o">.</span><span class="n">Cb</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">NO_occb</span> <span class="o">=</span> <span class="n">NO_occa</span>
-            <span class="n">NO_Cb</span> <span class="o">=</span> <span class="n">NO_Ca</span>
+            <span class="n">wfn_</span><span class="o">.</span><span class="n">Db</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">wfn_</span><span class="o">.</span><span class="n">Da</span><span class="p">())</span>
+        <span class="n">wfn_</span><span class="o">.</span><span class="n">write_molden</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dovirtual</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
 
-        <span class="n">mw</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MoldenWriter</span><span class="p">(</span><span class="n">wfn</span><span class="p">)</span>
-        <span class="n">mw</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">NO_Ca</span><span class="p">,</span> <span class="n">NO_Cb</span><span class="p">,</span> <span class="n">NO_occa</span><span class="p">,</span> <span class="n">NO_occb</span><span class="p">,</span> <span class="n">NO_occa</span><span class="p">,</span> <span class="n">NO_occb</span><span class="p">,</span> <span class="n">dovirt</span><span class="p">)</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">occa</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">occupation_a</span><span class="p">()</span>
-            <span class="n">occb</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">occupation_b</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">!Molden warning: This wavefunction does not have occupation numbers.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                           <span class="s2">&quot;Writing zero&#39;s for occupation numbers</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">occa</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Vector</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">nmopi</span><span class="p">())</span>
-            <span class="n">occb</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Vector</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">nmopi</span><span class="p">())</span>
-
-        <span class="n">mw</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">MoldenWriter</span><span class="p">(</span><span class="n">wfn</span><span class="p">)</span>
-        <span class="n">mw</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">wfn</span><span class="o">.</span><span class="n">Ca</span><span class="p">(),</span> <span class="n">wfn</span><span class="o">.</span><span class="n">Cb</span><span class="p">(),</span> <span class="n">wfn</span><span class="o">.</span><span class="n">epsilon_a</span><span class="p">(),</span> <span class="n">wfn</span><span class="o">.</span><span class="n">epsilon_b</span><span class="p">(),</span> <span class="n">occa</span><span class="p">,</span> <span class="n">occb</span><span class="p">,</span> <span class="n">dovirt</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="tdscf">
@@ -2314,7 +2285,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4365043">1.10a1.dev75</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/2b9265a">1.10a1.dev76</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2328,7 +2299,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Monday, 05 May 2025 05:00PM.
+      Last updated on Wednesday, 07 May 2025 07:52PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
