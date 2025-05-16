@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=d28aaa1b"></script>
+    <script src="../../../../_static/documentation_options.js?v=5eb528ae"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/0040d95">1.10a1.dev79</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/a7ea829">1.10a1.dev80</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -4986,7 +4986,7 @@
 <span class="sd">    an F/ISAPT0 computation</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">optstash</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">([</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">])</span>
+    <span class="n">optstash</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">([</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="s1">&#39;SAVE_JK&#39;</span><span class="p">])</span>
 
     <span class="c1"># Alter default algorithm</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">):</span>
@@ -5018,7 +5018,9 @@
 
     <span class="k">if</span> <span class="n">ref_wfn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">core</span><span class="o">.</span><span class="n">timer_on</span><span class="p">(</span><span class="s2">&quot;FISAPT: Dimer SCF&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;SAVE_JK&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">scf_helper</span><span class="p">(</span><span class="s1">&#39;RHF&#39;</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">sapt_dimer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">jk_obj</span> <span class="o">=</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">jk</span><span class="p">()</span>
         <span class="n">core</span><span class="o">.</span><span class="n">timer_off</span><span class="p">(</span><span class="s2">&quot;FISAPT: Dimer SCF&quot;</span><span class="p">)</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;  Constructing Basis Sets for FISAPT...</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -5044,7 +5046,7 @@
 
     <span class="n">fisapt_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">FISAPT</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.sapt</span><span class="w"> </span><span class="kn">import</span> <span class="n">fisapt_proc</span>
-    <span class="n">fisapt_wfn</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">(</span><span class="n">external_potentials</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;external_potentials&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+    <span class="n">fisapt_wfn</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">(</span><span class="n">jk_obj</span><span class="p">,</span> <span class="n">external_potentials</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;external_potentials&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
 
     <span class="c1"># Compute -D dispersion</span>
     <span class="k">if</span> <span class="s2">&quot;-d&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
@@ -5750,7 +5752,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/0040d95">1.10a1.dev79</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/a7ea829">1.10a1.dev80</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5764,7 +5766,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Friday, 16 May 2025 01:17AM.
+      Last updated on Friday, 16 May 2025 02:10AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
