@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=5eb528ae"></script>
+    <script src="../../../../_static/documentation_options.js?v=0ba4d216"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a7ea829">1.10a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/228c142">1.10a1.dev81</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -158,6 +158,7 @@
     <span class="s2">&quot;plump_qcvar&quot;</span><span class="p">,</span>
     <span class="s2">&quot;set_options&quot;</span><span class="p">,</span>
     <span class="s2">&quot;set_module_options&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;validate_external_potential&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -866,6 +867,151 @@
     <span class="s1">&#39;DIPOLE&#39;</span><span class="p">,</span> <span class="s1">&#39;QUADRUPOLE&#39;</span><span class="p">,</span> <span class="s1">&#39;MULLIKEN_CHARGES&#39;</span><span class="p">,</span> <span class="s1">&#39;LOWDIN_CHARGES&#39;</span><span class="p">,</span> <span class="s1">&#39;WIBERG_LOWDIN_INDICES&#39;</span><span class="p">,</span> <span class="s1">&#39;MAYER_INDICES&#39;</span><span class="p">,</span>
     <span class="s1">&#39;MBIS_CHARGES&#39;</span><span class="p">,</span><span class="s1">&#39;MBIS_VOLUME_RATIOS&#39;</span><span class="p">,</span> <span class="s1">&#39;MO_EXTENTS&#39;</span><span class="p">,</span> <span class="s1">&#39;GRID_FIELD&#39;</span><span class="p">,</span> <span class="s1">&#39;GRID_ESP&#39;</span><span class="p">,</span> <span class="s1">&#39;ESP_AT_NUCLEI&#39;</span><span class="p">,</span> <span class="s1">&#39;NO_OCCUPATIONS&#39;</span>
 <span class="p">]</span>
+
+
+<span class="c1">## External Potential helpers</span>
+
+<div class="viewcode-block" id="validate_external_potential">
+<a class="viewcode-back" href="../../../../scf.html#psi4.driver.validate_external_potential">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_external_potential</span><span class="p">(</span><span class="n">external_potential</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate and normalize the format of **external_potential** in preparation for class construction.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    external_potential</span>
+<span class="sd">        Specification for :py:class:`psi4.core.ExternalPotential`. Can be composed of point charges</span>
+<span class="sd">        (Q x y z), diffuse charges (Gaussian s-orbitals at a center; Q x y z width), or (Nao, Nao)</span>
+<span class="sd">        potential matrix. If only one of the three specified, it is assumed to be point charges for</span>
+<span class="sd">        backwards compatibility. Include diffuse charges as a dictionary with key &quot;diffuse&quot; or as the</span>
+<span class="sd">        second item in a list (if no point charges, use placeholder None as first item). Include a</span>
+<span class="sd">        matrix as a dictionary with key &quot;matrix&quot; or as the third item in a list. External potential</span>
+<span class="sd">        will apply to the whole molecule unless behind another dictionary key (&quot;A&quot;, &quot;B&quot;, or &quot;C&quot;) to</span>
+<span class="sd">        apply to portions of the molecule (monomer, monomer, linker) for FI-SAPT. Most sensible</span>
+<span class="sd">        formats are accepted: list-of-lists, NumPy array, and :py:class:`psi4.core.Matrix`. The</span>
+<span class="sd">        points or diffuse array should be a list-like structure where each row corresponds to a charge.</span>
+<span class="sd">        Lines can be composed of ``q, [x, y, z]`` or ``q, x, y, z`` (for points) or ``q, [x, w, z] w``</span>
+<span class="sd">        of ``q, x, y, z, w`` (for diffuse). Locations are in [a0].</span>
+<span class="sd">        See test_extern.py for many examples.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        After some bounds, dimension, and shape checks, a normalized nested dict is returned with</span>
+<span class="sd">        outer keys of fragment labels, inner keys among {&quot;points&quot;, &quot;diffuse&quot;, &quot;matrix&quot;}, and inner</span>
+<span class="sd">        keys Python lists.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # [1] point charges on whole molecule (all equivalent)</span>
+<span class="sd">    &gt;&gt;&gt; validate_external_potential([[0.5,0,0,1], [-0.5,0,0,-1]])</span>
+<span class="sd">    &gt;&gt;&gt; validate_external_potential({&quot;points&quot;: np.array([[0.5,0,0,1], [-0.5,0,0,-1]])})</span>
+<span class="sd">    &gt;&gt;&gt; validate_external_potential({&quot;C&quot;: {&quot;points&quot;: psi4.core.Matrix.from_array(np.array([[0.5,0,0,1], [-0.5,0,0,-1]]))}})</span>
+
+<span class="sd">    &gt;&gt;&gt; # [2] point charges on monoB and linker for FI-SAPT</span>
+<span class="sd">    &gt;&gt;&gt; validate_external_potential({&quot;b&quot;: [0.01,2,2,2], &quot;c&quot;: [[0.5,0,0,1], [-0.5,0,0,-1]]})</span>
+<span class="sd">    &gt;&gt;&gt; validate_external_potential({&quot;B&quot;: {&quot;points&quot;: np.array([0.01,2,2,2])}, &quot;C&quot;: {&quot;points&quot;: np.array([[0.5,0,0,1], [-0.5,0,0,-1]])}})</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_charge_list</span><span class="p">(</span><span class="n">lqxyz</span><span class="p">,</span> <span class="n">diffuse</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># check charge has form Q x y z, Q [x y z], Q x y z w, or Q [x y z] w</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">validate_single_charge</span><span class="p">(</span><span class="n">chg</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">nchg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chg</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">diffuse</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nchg</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">chg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">diffuse</span> <span class="ow">and</span> <span class="n">nchg</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">chg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="ow">not</span> <span class="n">diffuse</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nchg</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">chg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">diffuse</span> <span class="ow">and</span> <span class="n">nchg</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">chg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">chg</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">flattened</span> <span class="o">=</span> <span class="p">[</span><span class="n">validate_single_charge</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">lqxyz</span><span class="p">]</span>
+
+        <span class="c1"># reject if a charge line has wrong format or if spec is nested too deep or too shallow (can</span>
+        <span class="c1">#   happen due to flexible input format and backwards compatibility with points-only).</span>
+        <span class="k">for</span> <span class="n">itm</span> <span class="ow">in</span> <span class="n">flattened</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">itm</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">flattened</span><span class="p">)</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">flattened</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_potential_array</span><span class="p">(</span><span class="n">mat</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
+            <span class="n">npmat</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">np</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">npmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">npmat</span> <span class="o">=</span> <span class="n">mat</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">npmat</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">npmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">npmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">npmat</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="n">frag_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">)</span>
+    <span class="n">mode_keys_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;points&quot;</span><span class="p">,</span> <span class="s2">&quot;diffuse&quot;</span><span class="p">,</span> <span class="s2">&quot;matrix&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">external_potential</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="p">({</span><span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">external_potential</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span> <span class="o">&lt;=</span> <span class="n">frag_keys</span><span class="p">):</span>
+        <span class="n">ep_outer_structure</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">external_potential</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># assign &quot;C&quot; to mean whole molecule in the non-SAPT case</span>
+        <span class="n">ep_outer_structure</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="n">external_potential</span><span class="p">}</span>
+
+    <span class="c1"># expand input structure: may be single points list or types list or types dict or fragments dict (for SAPT)</span>
+    <span class="n">ep_building</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">frag</span><span class="p">,</span> <span class="n">frag_ep</span> <span class="ow">in</span> <span class="n">ep_outer_structure</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frag_ep</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">frag_ep</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="nb">set</span><span class="p">(</span><span class="n">mode_keys_list</span><span class="p">):</span>
+                <span class="n">ep_building</span><span class="p">[</span><span class="n">frag</span><span class="p">]</span> <span class="o">=</span> <span class="n">frag_ep</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;external_potential: primary or sec keys should be among </span><span class="si">{</span><span class="n">mode_keys_list</span><span class="si">}</span><span class="s2">, not </span><span class="si">{</span><span class="n">frag_ep</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">. Full input: </span><span class="si">{</span><span class="n">external_potential</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frag_ep</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">w</span> <span class="o">:=</span> <span class="n">validate_charge_list</span><span class="p">(</span><span class="n">frag_ep</span><span class="p">)):</span>
+                <span class="n">ep_building</span><span class="p">[</span><span class="n">frag</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">mode_keys_list</span><span class="p">,</span> <span class="p">[</span><span class="n">w</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ep_building</span><span class="p">[</span><span class="n">frag</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">mode_keys_list</span><span class="p">,</span> <span class="n">frag_ep</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frag_ep</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="n">ep_building</span><span class="p">[</span><span class="n">frag</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">mode_keys_list</span><span class="p">,</span> <span class="p">[</span><span class="n">frag_ep</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;external_potential: ought to be dict, list, or np.ndarray, not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">frag_ep</span><span class="p">)</span><span class="si">}</span><span class="s2">. Full input: </span><span class="si">{</span><span class="n">external_potential</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># validate each type of spec in each a/b/c fragment</span>
+    <span class="n">ep_validated</span> <span class="o">=</span> <span class="p">{</span><span class="n">abc</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">abc</span> <span class="ow">in</span> <span class="n">ep_building</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">abc</span><span class="p">,</span> <span class="n">frag_ep</span> <span class="ow">in</span> <span class="n">ep_building</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">points</span> <span class="o">:=</span> <span class="n">frag_ep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;points&quot;</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">vpoints</span> <span class="o">:=</span> <span class="n">validate_charge_list</span><span class="p">(</span><span class="n">points</span><span class="p">)):</span>
+                <span class="n">ep_validated</span><span class="p">[</span><span class="n">abc</span><span class="p">][</span><span class="s2">&quot;points&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vpoints</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;external_potential: bad points (should be 2D, (npts, 4), and np.ndarray or list: </span><span class="si">{</span><span class="n">points</span><span class="si">}</span><span class="se">\n</span><span class="s2">Full input: </span><span class="si">{</span><span class="n">external_potential</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">diffuse</span> <span class="o">:=</span> <span class="n">frag_ep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;diffuse&quot;</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">vdiffuse</span> <span class="o">:=</span> <span class="n">validate_charge_list</span><span class="p">(</span><span class="n">diffuse</span><span class="p">,</span> <span class="n">diffuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+                <span class="n">ep_validated</span><span class="p">[</span><span class="n">abc</span><span class="p">][</span><span class="s2">&quot;diffuse&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vdiffuse</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;external_potential: bad diffuse (should be 2D, (npts, 5), and np.ndarray or list: </span><span class="si">{</span><span class="n">diffuse</span><span class="si">}</span><span class="se">\n</span><span class="s2">Full input: </span><span class="si">{</span><span class="n">external_potential</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">matrix</span> <span class="o">:=</span> <span class="n">frag_ep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;matrix&quot;</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">vmatrix</span> <span class="o">:=</span> <span class="n">validate_potential_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">)):</span>
+                <span class="n">ep_validated</span><span class="p">[</span><span class="n">abc</span><span class="p">][</span><span class="s2">&quot;matrix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vmatrix</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;external_potential: bad matrix (should be 2D, square, and psi4.core.Matrix, np.ndarray or list): </span><span class="si">{</span><span class="n">matrix</span><span class="si">}</span><span class="se">\n</span><span class="s2">Full input: </span><span class="si">{</span><span class="n">external_potential</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ep_validated</span></div>
+
+
 
 <span class="c1">## Option helpers</span>
 
@@ -1716,7 +1862,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/python_helpers.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a7ea829">1.10a1.dev80</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/228c142">1.10a1.dev81</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1730,7 +1876,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Friday, 16 May 2025 02:10AM.
+      Last updated on Tuesday, 20 May 2025 09:30PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
