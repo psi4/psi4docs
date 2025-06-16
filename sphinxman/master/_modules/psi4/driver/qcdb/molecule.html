@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=ef879f89"></script>
+    <script src="../../../../_static/documentation_options.js?v=dec03c18"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/qcdb/molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ef74630">1.10a1.dev84</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/45385bb">1.10a1.dev86</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1413,12 +1413,63 @@
 <span class="sd">            When `dertype=None`, both energy [Eh] and (nat, 3) gradient [Eh/a0].</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Using `Molecule.run_dftd3` instead of `Molecule.run_sdftd3` is obsolete as of 1.10. Note that parameters do not translate directly -- see docstring. Also aliases are not available for dashlvl. The new run_sdftd3 is analogous to run_dftd4. Alternately, you could access these routines by running `qcengine.compute(atomicinput, &#39;s-dftd3&#39;)` directly.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Molecule.run_sdftd3">
+<a class="viewcode-back" href="../../../../api/psi4.core.Molecule.html#psi4.core.Molecule.run_sdftd3">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_sdftd3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashlvl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dashparam</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dertype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute dispersion correction via Grimme&#39;s new simple-dftd3 program, not the classic DFTD3 executable.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        func</span>
+<span class="sd">            Name of functional (func only, func &amp; disp, or disp only) for</span>
+<span class="sd">            which to compute dispersion (e.g., blyp, BLYP-D2, blyp-d3bj,</span>
+<span class="sd">            blyp-d3(bj), hf+d). Unlike run_dftd3 and like run_dftd4,</span>
+<span class="sd">            ``func`` overwrites any parameter initialized via</span>
+<span class="sd">            `dashparam`.</span>
+<span class="sd">        dashlvl</span>
+<span class="sd">            Name of dispersion correction to be applied (e.g., d3zero,</span>
+<span class="sd">            D3(bj)). Must be key in `dashcoeff` or &quot;alias&quot; or</span>
+<span class="sd">            &quot;formal&quot; to run.</span>
+<span class="sd">        dashparam</span>
+<span class="sd">            Values for the same keys as `dashcoeff[dashlvl][&#39;default&#39;]`</span>
+<span class="sd">            used to provide custom values. Unlike run_dftd3 and like run_dftd4,</span>
+<span class="sd">            will not have effect if `func` given. Must provide all parameters.</span>
+<span class="sd">            Extra parameters will error.</span>
+<span class="sd">        dertype</span>
+<span class="sd">            Maximum derivative level at which to run DFTD3. For large</span>
+<span class="sd">            molecules, energy-only calculations can be significantly more</span>
+<span class="sd">            efficient. Influences return values, see below.</span>
+<span class="sd">        verbose</span>
+<span class="sd">            Amount of printing.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        energy : float</span>
+<span class="sd">            When `dertype=0`, energy [Eh].</span>
+<span class="sd">        gradient : ~numpy.ndarray</span>
+<span class="sd">            When `dertype=1`, (nat, 3) gradient [Eh/a0].</span>
+<span class="sd">        (energy, gradient) : tuple of float and ~numpy.ndarray</span>
+<span class="sd">            When `dertype=None`, both energy [Eh] and (nat, 3) gradient [Eh/a0].</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This function wraps the QCEngine s-dftd3 harness which wraps the internal DFTD3 Python API.</span>
+<span class="sd">        As such, the upstream convention of `func` trumping `dashparam` holds, rather than the deprecated</span>
+<span class="sd">        :py:func:`~qcdb.Molecule.run_dftd3` behavior of `dashparam` extending or overriding `func`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">qcengine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcng</span>
 
         <span class="k">if</span> <span class="n">dertype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">derint</span><span class="p">,</span> <span class="n">derdriver</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;gradient&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">derint</span><span class="p">,</span> <span class="n">derdriver</span> <span class="o">=</span> <span class="n">parse_dertype</span><span class="p">(</span><span class="n">dertype</span><span class="p">,</span> <span class="n">max_derivative</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">((</span><span class="n">func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;-d&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">func</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;-d2&quot;</span><span class="p">)))</span> <span class="ow">or</span>
+            <span class="p">(</span><span class="n">dashlvl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dashlvl</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;d2&quot;</span><span class="p">])):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;run_dftd3: no longer computes D2, only D3&quot;</span><span class="p">)</span>
 
         <span class="n">resinp</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;molecule&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
@@ -1429,13 +1480,14 @@
             <span class="p">},</span>
             <span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="n">verbose</span><span class="p">,</span>
+                <span class="s2">&quot;apply_qcengine_aliases&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="n">dashlvl</span><span class="p">:</span>
             <span class="n">resinp</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">][</span><span class="s1">&#39;level_hint&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dashlvl</span>
         <span class="k">if</span> <span class="n">dashparam</span><span class="p">:</span>
             <span class="n">resinp</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">][</span><span class="s1">&#39;params_tweaks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dashparam</span>
-        <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">resinp</span><span class="p">,</span> <span class="s1">&#39;dftd3&#39;</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">jobrec</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">resinp</span><span class="p">,</span> <span class="s1">&#39;s-dftd3&#39;</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">jobrec</span> <span class="o">=</span> <span class="n">jobrec</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
 
         <span class="c1"># hack as not checking type GRAD</span>
@@ -1502,7 +1554,7 @@
 <span class="sd">        -----</span>
 <span class="sd">        This function wraps the QCEngine dftd4 harness which wraps the internal DFTD4 Python API.</span>
 <span class="sd">        As such, the upstream convention of `func` trumping `dashparam` holds, rather than the</span>
-<span class="sd">        :py:func:`run_dftd3` behavior of `dashparam` extending or overriding `func`.</span>
+<span class="sd">        :py:func:`~qcdb.Molecule.run_dftd3` behavior of `dashparam` extending or overriding `func`.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">qcengine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcng</span>
@@ -2295,7 +2347,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/qcdb/molecule.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ef74630">1.10a1.dev84</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/45385bb">1.10a1.dev86</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2309,7 +2361,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Monday, 02 June 2025 05:25PM.
+      Last updated on Monday, 16 June 2025 11:04PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
