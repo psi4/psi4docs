@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=ef879f89"></script>
+    <script src="_static/documentation_options.js?v=dec03c18"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/manage_release.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ef74630">1.10a1.dev84</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/45385bb">1.10a1.dev86</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -196,7 +196,7 @@
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">-rl</span> <span class="pre">&quot;(c)</span> <span class="pre">2007-2017&quot;</span> <span class="pre">*</span> <span class="pre">|</span> <span class="pre">xargs</span> <span class="pre">sed</span> <span class="pre">-i</span> <span class="pre">''</span> <span class="pre">&quot;s/(c)</span> <span class="pre">2007-2017/(c)</span> <span class="pre">2007-2018/g&quot;</span></code></p></li>
 <li><p>On Linux, drop the <code class="docutils literal notranslate"><span class="pre">''</span></code> in above command</p></li>
-<li><p>Need to do <code class="docutils literal notranslate"><span class="pre">psi4/</span></code> and <code class="docutils literal notranslate"><span class="pre">docs/</span></code> dirs</p></li>
+<li><p>Need to do mostly <code class="docutils literal notranslate"><span class="pre">psi4/</span></code> and <code class="docutils literal notranslate"><span class="pre">docs/</span></code> dirs, but top-level is fine</p></li>
 </ul>
 </li>
 <li><p>Also, license in these files</p>
@@ -551,7 +551,7 @@ file and check it in.</p></li>
 <li><p>Edit recipe <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/installers/construct.yaml">https://github.com/psi4/psi4meta/blob/master/installers/construct.yaml</a></p>
 <ul>
 <li><p>Edit the top matter for Configuration, mainly the <code class="docutils literal notranslate"><span class="pre">release</span></code> field. See snapshots in directory for examples.</p></li>
-<li><p>Edit the packages and channels info if necessary. Probably long-term stable.</p></li>
+<li><p>Edit the packages and channels info if necessary. Probably long-term stable. sed-like tweaks can go in workflows/Installers.yml</p></li>
 </ul>
 </li>
 <li><p>Edit the GHA control file <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/.github/workflows/Installers.yml">https://github.com/psi4/psi4meta/blob/master/.github/workflows/Installers.yml</a>
@@ -560,13 +560,12 @@ file and check it in.</p></li>
 <a class="reference external" href="https://anaconda.org/conda-forge/psi4/files">https://anaconda.org/conda-forge/psi4/files</a> .</p></li>
 <li><p>Commit <code class="docutils literal notranslate"><span class="pre">construct.yaml</span></code> to trigger installer builds. (Even workflow edits need a dummy commit to
 <code class="docutils literal notranslate"><span class="pre">construct.yaml</span></code> to retrigger.)</p></li>
-<li><p>When all build successfully, hover over the artifacts, and note the smallest and largest of the
-near-consecutive numbers GH has assigned them. These artifacts only linger for a day.</p></li>
-<li><p>Log in to vergil root and cd to <code class="docutils literal notranslate"><span class="pre">/var/www/html/psicode-download</span></code>.</p></li>
-<li><p>Use the pull_gha_installers.sh script to download the installers from GH to vergil. First two
-arguments are first and last of the artifact numbers, and third argument is an auth token.
-<code class="docutils literal notranslate"><span class="pre">bash</span> <span class="pre">pull_gha_installers.sh</span> <span class="pre">47226565</span> <span class="pre">47226573</span> <span class="pre">715...4f3</span></code>.</p></li>
-<li><p>Make WindowsWSL and any other symlinks the script frontmatter advises.</p></li>
+<li><p>When all build successfully, look at the “Filter artifact IDs” GHA step, and copy the <code class="docutils literal notranslate"><span class="pre">bash</span>
+<span class="pre">pull_gha_installers...</span></code> line. These artifacts only linger for a day.</p></li>
+<li><p>Log in to COS vergil root and cd to <code class="docutils literal notranslate"><span class="pre">/projects/vergil/sherrill_website/cdsg/static/psicode-download</span></code>.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">pull_gha_installers_2025.sh</span></code> script to download the installers from GH to COS vergil. First
+argument is an auth token and remaining args are artifact numbers.
+<code class="docutils literal notranslate"><span class="pre">bash</span> <span class="pre">pull_gha_installers_2025.sh</span> <span class="pre">715...4f3</span> <span class="pre">3280468170</span> <span class="pre">3280468226</span> <span class="pre">3280468291</span> <span class="pre">3280468500</span></code>.</p></li>
 </ul>
 </section>
 <section id="build-docker-images">
@@ -852,7 +851,7 @@ for it to be merged.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/manage_release.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ef74630">1.10a1.dev84</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/45385bb">1.10a1.dev86</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -866,7 +865,7 @@ for it to be merged.</p></li>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Monday, 02 June 2025 05:25PM.
+      Last updated on Monday, 16 June 2025 11:04PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

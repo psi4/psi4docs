@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=ef879f89"></script>
+    <script src="../../../../_static/documentation_options.js?v=dec03c18"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ef74630">1.10a1.dev84</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/45385bb">1.10a1.dev86</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -149,7 +149,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">p4util</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..p4util.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..p4util.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">UpgradeHelper</span>
 
 <span class="n">_engine_can_do</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">([</span>
     <span class="c1"># engine order establishes default for each disp</span>
@@ -162,6 +162,15 @@
     <span class="p">(</span><span class="s2">&quot;mctc-gcp&quot;</span><span class="p">,</span> <span class="p">[</span>                                                                                                                          <span class="s2">&quot;3c&quot;</span><span class="p">,</span>                       <span class="p">]),</span>
     <span class="p">(</span><span class="s2">&quot;gcp&quot;</span><span class="p">,</span>      <span class="p">[</span>                                                                                                                          <span class="s2">&quot;3c&quot;</span><span class="p">,</span>                       <span class="p">]),</span>
 <span class="p">])</span> <span class="c1"># yapf: disable</span>
+<span class="n">_install_dftd3python</span> <span class="o">=</span> <span class="s2">&quot; Allow the default dispersion engine to run by removing &#39;engine=&#39; and installing `conda install dftd3-python -c conda-forge`.&quot;</span>
+<span class="n">_obsolete_engines</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="s2">&quot;dftd3&quot;</span><span class="p">,</span> <span class="s2">&quot;d2&quot;</span><span class="p">):</span> <span class="p">(</span><span class="s2">&quot;engine=&#39;dftd3&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;engine=&#39;libdisp&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;1.10&quot;</span><span class="p">,</span> <span class="s2">&quot; Allow the default (internal) dispersion engine to run by removing &#39;engine=&#39;.&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;dftd3&quot;</span><span class="p">,</span> <span class="s2">&quot;d3zero2b&quot;</span><span class="p">):</span> <span class="p">(</span><span class="s2">&quot;engine=&#39;dftd3&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;engine=&#39;s-dftd3&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;1.10&quot;</span><span class="p">,</span> <span class="n">_install_dftd3python</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;dftd3&quot;</span><span class="p">,</span> <span class="s2">&quot;d3bj2b&quot;</span><span class="p">):</span> <span class="p">(</span><span class="s2">&quot;engine=&#39;dftd3&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;engine=&#39;s-dftd3&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;1.10&quot;</span><span class="p">,</span> <span class="n">_install_dftd3python</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;dftd3&quot;</span><span class="p">,</span> <span class="s2">&quot;d3mzero2b&quot;</span><span class="p">):</span> <span class="p">(</span><span class="s2">&quot;engine=&#39;dftd3&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;engine=&#39;s-dftd3&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;1.10&quot;</span><span class="p">,</span> <span class="n">_install_dftd3python</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;dftd3&quot;</span><span class="p">,</span> <span class="s2">&quot;d3mbj2b&quot;</span><span class="p">):</span> <span class="p">(</span><span class="s2">&quot;engine=&#39;dftd3&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;engine=&#39;s-dftd3&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;1.10&quot;</span><span class="p">,</span> <span class="n">_install_dftd3python</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;gcp&quot;</span><span class="p">,</span> <span class="s2">&quot;3c&quot;</span><span class="p">):</span> <span class="p">(</span><span class="s2">&quot;engine=&#39;gcp&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;engine=&#39;mctc-gcp&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;1.10&quot;</span><span class="p">,</span> <span class="s2">&quot; Allow the default dispersion engine to run by removing &#39;engine=&#39; and installing `conda install gcp-correction -c conda-forge`.&quot;</span><span class="p">),</span>
+<span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_capable_engines_for_disp</span><span class="p">()</span><span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
@@ -269,11 +278,14 @@
 <span class="sd">    engine</span>
 <span class="sd">        Override which code computes dispersion. See above for allowed</span>
 <span class="sd">        values. Formerly (pre Nov 2022) only relevant for -D2, which can be computed by</span>
-<span class="sd">        libdisp or dftd3. Now (post Nov 2022) also relevant for -D3 variants,</span>
+<span class="sd">        libdisp or dftd3. Later (post Nov 2022, pre Jun 2025) also relevant for -D3 variants,</span>
 <span class="sd">        which can be computed by dftd3 executable or simple-dftd3 Python module.</span>
+<span class="sd">        Now (post Jun 2025) irrelevant as each dispersion level only available from one code;</span>
+<span class="sd">        `dftd3` is no-op.</span>
 <span class="sd">    gcp_engine</span>
-<span class="sd">        Override which code computes the gcp correction. Now can use</span>
-<span class="sd">        classic gcp or mctc-gcp executables.</span>
+<span class="sd">        Override which code computes the gcp correction. Relevant between</span>
+<span class="sd">        Nov 2022 and Jun 2025 when could use either the classic gcp or mctc-gcp executables.</span>
+<span class="sd">        Now (post Jun 2025), `gcp` is no-op.</span>
 <span class="sd">    save_pairwise_disp</span>
 <span class="sd">        Whether to request atomic pairwise analysis.</span>
 
@@ -304,17 +316,22 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This little engine (</span><span class="si">{</span><span class="n">engine</span><span class="si">}</span><span class="s2">) can&#39;t (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">:=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="p">))</span> <span class="ow">in</span> <span class="n">_obsolete_engines</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="o">*</span><span class="n">_obsolete_engines</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;libdisp&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">disp</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Dispersion</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dashlevel</span><span class="p">,</span> <span class="o">**</span><span class="n">resolved</span><span class="p">[</span><span class="s1">&#39;dashparams&#39;</span><span class="p">])</span>
 
+        <span class="n">gcp_dashlevel</span> <span class="o">=</span> <span class="s2">&quot;3c&quot;</span>
         <span class="k">if</span> <span class="n">gcp_engine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">gcp_engine</span> <span class="o">=</span> <span class="n">capable_engines_for_disp</span><span class="p">[</span><span class="s2">&quot;3c&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gcp_engine</span> <span class="o">=</span> <span class="n">capable_engines_for_disp</span><span class="p">[</span><span class="n">gcp_dashlevel</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;3c&quot;</span> <span class="ow">in</span> <span class="n">_engine_can_do</span><span class="p">[</span><span class="n">gcp_engine</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">gcp_dashlevel</span> <span class="ow">in</span> <span class="n">_engine_can_do</span><span class="p">[</span><span class="n">gcp_engine</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">gcp_engine</span> <span class="o">=</span> <span class="n">gcp_engine</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This little engine (</span><span class="si">{</span><span class="n">engine</span><span class="si">}</span><span class="s2">) can&#39;t (3c)&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This little engine (</span><span class="si">{</span><span class="n">engine</span><span class="si">}</span><span class="s2">) can&#39;t (</span><span class="si">{</span><span class="n">gcp_dashlevel</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">:=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gcp_engine</span><span class="p">,</span> <span class="n">gcp_dashlevel</span><span class="p">))</span> <span class="ow">in</span> <span class="n">_obsolete_engines</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">UpgradeHelper</span><span class="p">(</span><span class="o">*</span><span class="n">_obsolete_engines</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
 
 <div class="viewcode-block" id="EmpiricalDispersion.print_out">
 <a class="viewcode-back" href="../../../../api/psi4.driver.EmpiricalDispersion.html#psi4.driver.EmpiricalDispersion.print_out">[docs]</a>
@@ -593,7 +610,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/empirical_dispersion.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ef74630">1.10a1.dev84</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/45385bb">1.10a1.dev86</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -607,7 +624,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Monday, 02 June 2025 05:25PM.
+      Last updated on Monday, 16 June 2025 11:04PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
