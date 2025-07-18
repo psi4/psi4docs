@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=3e3b9665"></script>
+    <script src="_static/documentation_options.js?v=67c6d983"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/sapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/04a252a">1.10a1.dev88</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ff5de7c">1.10a1.dev89</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -733,7 +733,7 @@ SAPT(DFT) can still be applied to medium-sized or large systems. The
 SAPT(DFT) module was employed successfully in computations of systems
 with up to 2000 basis functions, and the code should be scalable to
 3000 basis functions. Like higher-order SAPT, SAPT(DFT) requires
-sufficient memory to hold <span class="math notranslate nohighlight">\(2ovN_aux\)</span> doubles.</p>
+sufficient memory to hold <span class="math notranslate nohighlight">\(2ovN_{\rm aux}\)</span> doubles.</p>
 <p>SAPT(DFT) requires a few special treatments to obtain accurate
 result. The DFT functionals used in SAPT(DFT) need to be asymptotically
 corrected with Gradient Regulated Asymptotic Correction scheme (GRAC),
@@ -742,20 +742,21 @@ in order to recover the correct long-range asymptotic behavior
 requires manual input of GRAC shift parameter for each monomer through
 keywords <a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_SHIFT_A-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_SHIFT_A</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_SHIFT_B-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_SHIFT_B</span></a>,
 which should be equal to the difference of the actual ionization
-potential and the corresponding Kohn-Sham HOMO energy. The dispersion
-term needs to be computed with orbital response for good accuracy,
-and it is recommended to enable <a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_DO_HYBRID-SAPT"><span class="xref std std-term">SAPT_DFT_DO_HYBRID</span></a> (set to
+potential and the corresponding Kohn-Sham HOMO energy. However,
+<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> can automatically compute a GRAC shift for monomers A and B
+if <a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_COMPUTE-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_COMPUTE</span></a> is set to <code class="docutils literal notranslate"><span class="pre">SINGLE</span></code> or <code class="docutils literal notranslate"><span class="pre">ITERATIVE</span></code>.</p>
+<p>The dispersion term needs to be computed with orbital response for good
+accuracy, and it is recommended to enable <a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_DO_HYBRID-SAPT"><span class="xref std std-term">SAPT_DFT_DO_HYBRID</span></a> (set to
 <code class="docutils literal notranslate"><span class="pre">True</span></code> by default). The coupled exchange-dispersion energy is usually
-estimated by scaling from the uncoupled value either by a fitted fixed
-value (suggested initially by <a class="reference internal" href="bibliography.html#hesselmann-2014-094107" id="id14"><span>[Hesselmann:2014:094107]</span></a> for a local Hartree–Fock (LHF) formulation and then revised
-by <a class="reference internal" href="bibliography.html#xie-2022-024801" id="id15"><span>[Xie:2022:024801]</span></a> for non-LHF) or
-by the ratio of
-coupled and uncoupled dispersion energy (suggested by <a class="reference internal" href="bibliography.html#podeszwa-2006-400" id="id16"><span>[Podeszwa:2006:400]</span></a> ).
-This can be controlled by keyword <a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_EXCH_DISP_SCALE_SCHEME-SAPT"><span class="xref std std-term">SAPT_DFT_EXCH_DISP_SCALE_SCHEME</span></a>,
-with <code class="docutils literal notranslate"><span class="pre">FIXED</span></code> using the Hesselmann/Xie approach (<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s default prior
-to Nov 2022), <code class="docutils literal notranslate"><span class="pre">DISP</span></code> using the Podeszwa approach (<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s default after Nov 2022),
-or <code class="docutils literal notranslate"><span class="pre">NONE</span></code> for not scaling and using the uncoupled exchange-dispersion
-energy directly.</p>
+estimated by scaling from the uncoupled value either by a fitted fixed value
+(suggested initially by <a class="reference internal" href="bibliography.html#hesselmann-2014-094107" id="id14"><span>[Hesselmann:2014:094107]</span></a> for a local Hartree–Fock
+(LHF) formulation and then revised by <a class="reference internal" href="bibliography.html#xie-2022-024801" id="id15"><span>[Xie:2022:024801]</span></a> for non-LHF) or by the
+ratio of coupled and uncoupled dispersion energy (suggested by
+<a class="reference internal" href="bibliography.html#podeszwa-2006-400" id="id16"><span>[Podeszwa:2006:400]</span></a> ). This can be controlled by keyword
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_EXCH_DISP_SCALE_SCHEME-SAPT"><span class="xref std std-term">SAPT_DFT_EXCH_DISP_SCALE_SCHEME</span></a>, with <code class="docutils literal notranslate"><span class="pre">FIXED</span></code> using the
+Hesselmann/Xie approach (<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s default prior to Nov 2022), <code class="docutils literal notranslate"><span class="pre">DISP</span></code> using
+the Podeszwa approach (<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s default after Nov 2022), or <code class="docutils literal notranslate"><span class="pre">NONE</span></code> for not
+scaling and using the uncoupled exchange-dispersion energy directly.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Since Nov 2022, the defaults of options <a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_EXCH_DISP_SCALE_SCHEME-SAPT"><span class="xref std std-term">SAPT_DFT_EXCH_DISP_SCALE_SCHEME</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_EXCH_DISP_FIXED_SCALE-SAPT"><span class="xref std std-term">SAPT_DFT_EXCH_DISP_FIXED_SCALE</span></a>
@@ -768,7 +769,7 @@ exchange-dispersion energy from the latest version.</p>
 <section id="sapt-dft-grac-shift-a">
 <h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_SHIFT_A-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_SHIFT_A</span></a><a class="headerlink" href="#sapt-dft-grac-shift-a" title="Link to this heading">¶</a></h4>
 <blockquote>
-<div><p>Monomer A GRAC shift in Hartree</p>
+<div><p>Monomer A GRAC shift in Hartree. To automatically compute prior to SAPT(DFT), do NOT set this option but set <a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_COMPUTE-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_COMPUTE</span></a> to “SINGLE” or “ITERATIVE” as described below.</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: double</p></li>
 <li><p><strong>Default</strong>: 0.0</p></li>
@@ -778,7 +779,7 @@ exchange-dispersion energy from the latest version.</p>
 <section id="sapt-dft-grac-shift-b">
 <h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_SHIFT_B-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_SHIFT_B</span></a><a class="headerlink" href="#sapt-dft-grac-shift-b" title="Link to this heading">¶</a></h4>
 <blockquote>
-<div><p>Monomer B GRAC shift in Hartree</p>
+<div><p>Monomer B GRAC shift in Hartree. To automatically compute prior to SAPT(DFT), do NOT set this option but set <a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_COMPUTE-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_COMPUTE</span></a> to “SINGLE” or “ITERATIVE” as described below.</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: double</p></li>
 <li><p><strong>Default</strong>: 0.0</p></li>
@@ -803,6 +804,17 @@ exchange-dispersion energy from the latest version.</p>
 <li><p><strong>Type</strong>: string</p></li>
 <li><p><strong>Possible Values</strong>: NONE, FIXED, DISP</p></li>
 <li><p><strong>Default</strong>: FIXED</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="sapt-dft-grac-compute">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_COMPUTE-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_COMPUTE</span></a><a class="headerlink" href="#sapt-dft-grac-compute" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>SAPT_DFT_GRAC_COMPUTE will enable automatically computing GRAC shifts prior to running SAPT(DFT). Note that the user must not specify a value for SAPT_DFT_GRAC_SHIFT_A or SAPT_DFT_GRAC_SHIFT_B to trigger this GRAC computation. “SINGLE” will try only once to converge the cation for computing a GRAC shift. “ITERATIVE” will adjust local Psi4 options (“LEVEL_SHIFT”, “LEVEL_SHIFT_CUTOFF”) to attempt to converge the neutral/cation calculations. “ITERATIVE” will try 3 times to converge the cation before failing the SAPT(DFT) computation.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: NONE, SINGLE, ITERATIVE</p></li>
+<li><p><strong>Default</strong>: NONE</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -1508,6 +1520,7 @@ for functional group analyses.</p>
 <li><a class="reference internal" href="#sapt-dft-grac-shift-b"><span class="xref std std-term">SAPT_DFT_GRAC_SHIFT_B</span></a></li>
 <li><a class="reference internal" href="#sapt-dft-do-dhf"><span class="xref std std-term">SAPT_DFT_DO_DHF</span></a></li>
 <li><a class="reference internal" href="#sapt-dft-exch-disp-scale-scheme"><span class="xref std std-term">SAPT_DFT_EXCH_DISP_SCALE_SCHEME</span></a></li>
+<li><a class="reference internal" href="#sapt-dft-grac-compute"><span class="xref std std-term">SAPT_DFT_GRAC_COMPUTE</span></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#advanced-keywords-for-sapt-dft">Advanced Keywords for SAPT(DFT)</a><ul>
@@ -1615,7 +1628,7 @@ for functional group analyses.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/sapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/04a252a">1.10a1.dev88</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ff5de7c">1.10a1.dev89</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1629,7 +1642,7 @@ for functional group analyses.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Friday, 18 July 2025 03:29AM.
+      Last updated on Friday, 18 July 2025 05:55PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

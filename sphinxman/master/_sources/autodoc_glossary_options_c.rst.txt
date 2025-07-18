@@ -5501,14 +5501,27 @@ Keywords by Alpha
       * **Possible Values**: NONE, FIXED, DISP
       * **Default**: FIXED
 
+   SAPT_DFT_GRAC_BASIS (SAPT)
+      :ref:`apdx:SAPT` |w---w| To ensure that the GRAC shift is computed with a sufficiently large basis set, the user can specify a larger basis set for the GRAC calculation, which can be different from the basis set used for the SAPT(DFT) calculation.
+
+      * **Type**: string
+      * **Default**: AUTO
+
+   SAPT_DFT_GRAC_COMPUTE (SAPT)
+      :ref:`apdx:SAPT` |w---w| SAPT_DFT_GRAC_COMPUTE will enable automatically computing GRAC shifts prior to running SAPT(DFT). Note that the user must not specify a value for SAPT_DFT_GRAC_SHIFT_A or SAPT_DFT_GRAC_SHIFT_B to trigger this GRAC computation. "SINGLE" will try only once to converge the cation for computing a GRAC shift. "ITERATIVE" will adjust local Psi4 options ("LEVEL_SHIFT", "LEVEL_SHIFT_CUTOFF") to attempt to converge the neutral/cation calculations. "ITERATIVE" will try 3 times to converge the cation before failing the SAPT(DFT) computation.
+
+      * **Type**: string
+      * **Possible Values**: NONE, SINGLE, ITERATIVE
+      * **Default**: NONE
+
    SAPT_DFT_GRAC_SHIFT_A (SAPT)
-      :ref:`apdx:SAPT` |w---w| Monomer A GRAC shift in Hartree
+      :ref:`apdx:SAPT` |w---w| Monomer A GRAC shift in Hartree. To automatically compute prior to SAPT(DFT), do NOT set this option but set |sapt__sapt_dft_grac_compute| to "SINGLE" or "ITERATIVE" as described below.
 
       * **Type**: double
       * **Default**: 0.0
 
    SAPT_DFT_GRAC_SHIFT_B (SAPT)
-      :ref:`apdx:SAPT` |w---w| Monomer B GRAC shift in Hartree
+      :ref:`apdx:SAPT` |w---w| Monomer B GRAC shift in Hartree. To automatically compute prior to SAPT(DFT), do NOT set this option but set |sapt__sapt_dft_grac_compute| to "SINGLE" or "ITERATIVE" as described below.
 
       * **Type**: double
       * **Default**: 0.0
@@ -7271,13 +7284,6 @@ Keywords by Alpha
 
       * **Type**: string
       * **Default**: PBE0
-
-   SAPT_DFT_GRAC_DETERMINATION (SAPT)
-      :ref:`apdx:SAPT` **(Expert)** |w---w| How is the GRAC correction determined? 
-
-      * **Type**: string
-      * **Possible Values**: INPUT
-      * **Default**: INPUT
 
    SAPT_DFT_MP2_DISP_ALG (SAPT)
       :ref:`apdx:SAPT` **(Expert)** |w---w| Which MP2 Exch-Disp module to use? 
