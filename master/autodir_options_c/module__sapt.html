@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../_static/documentation_options.js?v=3e3b9665"></script>
+    <script src="../_static/documentation_options.js?v=67c6d983"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/autodir_options_c/module__sapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/04a252a">1.10a1.dev88</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ff5de7c">1.10a1.dev89</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -408,10 +408,31 @@
 </ul>
 </div></blockquote>
 </section>
+<section id="sapt-dft-grac-basis">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_BASIS-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_BASIS</span></a><a class="headerlink" href="#sapt-dft-grac-basis" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>To ensure that the GRAC shift is computed with a sufficiently large basis set, the user can specify a larger basis set for the GRAC calculation, which can be different from the basis set used for the SAPT(DFT) calculation.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Default</strong>: AUTO</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="sapt-dft-grac-compute">
+<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_COMPUTE-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_COMPUTE</span></a><a class="headerlink" href="#sapt-dft-grac-compute" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>SAPT_DFT_GRAC_COMPUTE will enable automatically computing GRAC shifts prior to running SAPT(DFT). Note that the user must not specify a value for SAPT_DFT_GRAC_SHIFT_A or SAPT_DFT_GRAC_SHIFT_B to trigger this GRAC computation. “SINGLE” will try only once to converge the cation for computing a GRAC shift. “ITERATIVE” will adjust local Psi4 options (“LEVEL_SHIFT”, “LEVEL_SHIFT_CUTOFF”) to attempt to converge the neutral/cation calculations. “ITERATIVE” will try 3 times to converge the cation before failing the SAPT(DFT) computation.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: NONE, SINGLE, ITERATIVE</p></li>
+<li><p><strong>Default</strong>: NONE</p></li>
+</ul>
+</div></blockquote>
+</section>
 <section id="sapt-dft-grac-shift-a">
 <h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_SHIFT_A-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_SHIFT_A</span></a><a class="headerlink" href="#sapt-dft-grac-shift-a" title="Link to this heading">¶</a></h3>
 <blockquote>
-<div><p>Monomer A GRAC shift in Hartree</p>
+<div><p>Monomer A GRAC shift in Hartree. To automatically compute prior to SAPT(DFT), do NOT set this option but set <a class="reference internal" href="../autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_COMPUTE-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_COMPUTE</span></a> to “SINGLE” or “ITERATIVE” as described below.</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: double</p></li>
 <li><p><strong>Default</strong>: 0.0</p></li>
@@ -421,7 +442,7 @@
 <section id="sapt-dft-grac-shift-b">
 <h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_SHIFT_B-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_SHIFT_B</span></a><a class="headerlink" href="#sapt-dft-grac-shift-b" title="Link to this heading">¶</a></h3>
 <blockquote>
-<div><p>Monomer B GRAC shift in Hartree</p>
+<div><p>Monomer B GRAC shift in Hartree. To automatically compute prior to SAPT(DFT), do NOT set this option but set <a class="reference internal" href="../autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_COMPUTE-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_COMPUTE</span></a> to “SINGLE” or “ITERATIVE” as described below.</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: double</p></li>
 <li><p><strong>Default</strong>: 0.0</p></li>
@@ -574,17 +595,6 @@
 </ul>
 </div></blockquote>
 </section>
-<section id="sapt-dft-grac-determination">
-<h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-SAPT_DFT_GRAC_DETERMINATION-SAPT"><span class="xref std std-term">SAPT_DFT_GRAC_DETERMINATION</span></a><a class="headerlink" href="#sapt-dft-grac-determination" title="Link to this heading">¶</a></h3>
-<blockquote>
-<div><p>How is the GRAC correction determined?</p>
-<ul class="simple">
-<li><p><strong>Type</strong>: string</p></li>
-<li><p><strong>Possible Values</strong>: INPUT</p></li>
-<li><p><strong>Default</strong>: INPUT</p></li>
-</ul>
-</div></blockquote>
-</section>
 <section id="sapt-dft-mp2-disp-alg">
 <h3><a class="reference internal" href="../autodoc_glossary_options_c.html#term-SAPT_DFT_MP2_DISP_ALG-SAPT"><span class="xref std std-term">SAPT_DFT_MP2_DISP_ALG</span></a><a class="headerlink" href="#sapt-dft-mp2-disp-alg" title="Link to this heading">¶</a></h3>
 <blockquote>
@@ -692,6 +702,8 @@
 <li><a class="reference internal" href="#sapt-dft">SAPT(DFT)</a><ul>
 <li><a class="reference internal" href="#sapt-dft-do-dhf"><span class="xref std std-term">SAPT_DFT_DO_DHF</span></a></li>
 <li><a class="reference internal" href="#sapt-dft-exch-disp-scale-scheme"><span class="xref std std-term">SAPT_DFT_EXCH_DISP_SCALE_SCHEME</span></a></li>
+<li><a class="reference internal" href="#sapt-dft-grac-basis"><span class="xref std std-term">SAPT_DFT_GRAC_BASIS</span></a></li>
+<li><a class="reference internal" href="#sapt-dft-grac-compute"><span class="xref std std-term">SAPT_DFT_GRAC_COMPUTE</span></a></li>
 <li><a class="reference internal" href="#sapt-dft-grac-shift-a"><span class="xref std std-term">SAPT_DFT_GRAC_SHIFT_A</span></a></li>
 <li><a class="reference internal" href="#sapt-dft-grac-shift-b"><span class="xref std std-term">SAPT_DFT_GRAC_SHIFT_B</span></a></li>
 </ul>
@@ -714,7 +726,6 @@
 <li><a class="reference internal" href="#sapt-dft-do-hybrid"><span class="xref std std-term">SAPT_DFT_DO_HYBRID</span></a></li>
 <li><a class="reference internal" href="#sapt-dft-exch-disp-fixed-scale"><span class="xref std std-term">SAPT_DFT_EXCH_DISP_FIXED_SCALE</span></a></li>
 <li><a class="reference internal" href="#sapt-dft-functional"><span class="xref std std-term">SAPT_DFT_FUNCTIONAL</span></a></li>
-<li><a class="reference internal" href="#sapt-dft-grac-determination"><span class="xref std std-term">SAPT_DFT_GRAC_DETERMINATION</span></a></li>
 <li><a class="reference internal" href="#sapt-dft-mp2-disp-alg"><span class="xref std std-term">SAPT_DFT_MP2_DISP_ALG</span></a></li>
 <li><a class="reference internal" href="#sapt-fdds-disp-leg-lambda"><span class="xref std std-term">SAPT_FDDS_DISP_LEG_LAMBDA</span></a></li>
 <li><a class="reference internal" href="#sapt-fdds-disp-num-points"><span class="xref std std-term">SAPT_FDDS_DISP_NUM_POINTS</span></a></li>
@@ -773,7 +784,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/autodir_options_c/module__sapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/04a252a">1.10a1.dev88</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ff5de7c">1.10a1.dev89</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -788,7 +799,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Friday, 18 July 2025 03:29AM.
+      Last updated on Friday, 18 July 2025 05:55PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
