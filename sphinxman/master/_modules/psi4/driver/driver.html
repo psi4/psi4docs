@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=2ca3a244"></script>
+    <script src="../../../_static/documentation_options.js?v=2a820227"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1d9cb17">1.10a1.dev90</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1529a1a">1.10a1.dev92</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -935,11 +935,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Internally run an energy and gradient calculation for geometric </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p4_name</span><span class="p">,</span> <span class="n">p4_mol</span><span class="p">,</span> <span class="n">p4_return_wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">p4_kwargs</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p4_name</span><span class="p">,</span> <span class="n">p4_mol</span><span class="p">,</span> <span class="o">**</span><span class="n">p4_kwargs</span><span class="p">):</span>
     
             <span class="bp">self</span><span class="o">.</span><span class="n">p4_name</span> <span class="o">=</span> <span class="n">p4_name</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">p4_mol</span> <span class="o">=</span> <span class="n">p4_mol</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">p4_return_wfn</span> <span class="o">=</span> <span class="n">p4_return_wfn</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">p4_kwargs</span> <span class="o">=</span> <span class="n">p4_kwargs</span>
     
             <span class="n">molecule</span> <span class="o">=</span> <span class="n">geometric</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">Molecule</span><span class="p">()</span>
@@ -953,11 +952,9 @@
         <span class="k">def</span><span class="w"> </span><span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">read_data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">p4_mol</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">p4_mol</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p4_return_wfn</span><span class="p">:</span>
-                <span class="n">g</span><span class="p">,</span> <span class="n">wfn</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p4_name</span><span class="p">,</span> <span class="n">return_wfn</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p4_mol</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">p4_kwargs</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">p4_wfn</span> <span class="o">=</span> <span class="n">wfn</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">g</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p4_name</span><span class="p">,</span> <span class="n">return_wfn</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p4_mol</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">p4_kwargs</span><span class="p">)</span>
+            <span class="c1"># always collect wfn - can discard it later</span>
+            <span class="n">g</span><span class="p">,</span> <span class="n">wfn</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p4_name</span><span class="p">,</span> <span class="n">return_wfn</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p4_mol</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">p4_kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p4_wfn</span> <span class="o">=</span> <span class="n">wfn</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">,</span> <span class="s1">&#39;gradient&#39;</span><span class="p">:</span> <span class="n">g</span><span class="o">.</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">()}</span>
 
@@ -996,7 +993,7 @@
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Psi4 convergence criteria </span><span class="si">{</span><span class="n">optimizer_keywords</span><span class="p">[</span><span class="s1">&#39;convergence_set&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2"> not recognized by GeomeTRIC, switching to GAU_TIGHT          ~&quot;</span><span class="p">)</span>
             <span class="n">optimizer_keywords</span><span class="p">[</span><span class="s1">&#39;convergence_set&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;GAU_TIGHT&#39;</span>
 
-    <span class="n">engine</span> <span class="o">=</span> <span class="n">Psi4NativeEngine</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="n">return_wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">Psi4NativeEngine</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">M</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">M</span>
     
     <span class="c1"># Handle constraints</span>
@@ -1060,7 +1057,11 @@
             <span class="k">break</span>
         <span class="k">elif</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">geometric</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">OPT_STATE</span><span class="o">.</span><span class="n">FAILED</span><span class="p">:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  Optimization failed to converge!                                                              ~</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">break</span>
+            <span class="n">opt_geometry</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">optimizer</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+            <span class="n">molecule</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">opt_geometry</span><span class="p">)</span>
+            <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="n">OptimizationConvergenceError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;geometry optimization&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">Iteration</span><span class="p">,</span> <span class="n">engine</span><span class="o">.</span><span class="n">p4_wfn</span><span class="p">)</span>
         <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
         <span class="n">optimizer</span><span class="o">.</span><span class="n">calcEnergyForce</span><span class="p">()</span>
         <span class="n">optimizer</span><span class="o">.</span><span class="n">evaluateStep</span><span class="p">()</span>
@@ -2285,7 +2286,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/1d9cb17">1.10a1.dev90</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1529a1a">1.10a1.dev92</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2299,7 +2300,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Saturday, 19 July 2025 03:18PM.
+      Last updated on Tuesday, 22 July 2025 05:00PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
