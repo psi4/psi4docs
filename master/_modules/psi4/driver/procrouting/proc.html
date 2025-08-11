@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=3fac3465"></script>
+    <script src="../../../../_static/documentation_options.js?v=03543248"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/49b7f64">1.10a1.dev94</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d089223">1.10a1.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1568,7 +1568,13 @@
     <span class="n">df_needed</span> <span class="o">|=</span> <span class="s2">&quot;DFDIRJ&quot;</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;SCF_TYPE&quot;</span><span class="p">)</span>
     <span class="n">df_needed</span> <span class="o">|=</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;SCF_TYPE&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;DIRECT&quot;</span> <span class="ow">and</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;DF_SCF_GUESS&quot;</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">df_needed</span><span class="p">:</span>
-        <span class="n">aux_basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">(),</span> <span class="s2">&quot;DF_BASIS_SCF&quot;</span><span class="p">,</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dfbs</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;_force_df_basis_scf&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)):</span>
+            <span class="n">key</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">fitrole</span> <span class="o">=</span> <span class="n">dfbs</span>
+            <span class="n">aux_basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">(),</span> <span class="n">key</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">fitrole</span><span class="p">,</span>
+                                        <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">),</span>
+                                        <span class="n">puream</span><span class="o">=</span><span class="n">wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()</span><span class="o">.</span><span class="n">has_puream</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">aux_basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">(),</span> <span class="s2">&quot;DF_BASIS_SCF&quot;</span><span class="p">,</span>
                                         <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;DF_BASIS_SCF&quot;</span><span class="p">),</span>
                                         <span class="s2">&quot;JKFIT&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">),</span>
                                         <span class="n">puream</span><span class="o">=</span><span class="n">wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()</span><span class="o">.</span><span class="n">has_puream</span><span class="p">())</span>
@@ -4316,7 +4322,13 @@
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;ROHF&quot;</span><span class="p">:</span>
         <span class="n">ref_wfn</span><span class="o">.</span><span class="n">semicanonicalize</span><span class="p">()</span>
 
-    <span class="n">aux_basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">ref_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">(),</span> <span class="s2">&quot;DF_BASIS_MP2&quot;</span><span class="p">,</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">dfbs</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;_force_df_basis_mp2&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)):</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">fitrole</span> <span class="o">=</span> <span class="n">dfbs</span>
+        <span class="n">aux_basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">ref_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">(),</span> <span class="n">key</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">fitrole</span><span class="p">,</span>
+                                        <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">),</span>
+                                        <span class="n">puream</span><span class="o">=</span><span class="n">ref_wfn</span><span class="o">.</span><span class="n">basisset</span><span class="p">()</span><span class="o">.</span><span class="n">has_puream</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">aux_basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">ref_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">(),</span> <span class="s2">&quot;DF_BASIS_MP2&quot;</span><span class="p">,</span>
                                     <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;DFMP2&quot;</span><span class="p">,</span> <span class="s2">&quot;DF_BASIS_MP2&quot;</span><span class="p">),</span>
                                     <span class="s2">&quot;RIFIT&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">))</span>
     <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_basisset</span><span class="p">(</span><span class="s2">&quot;DF_BASIS_MP2&quot;</span><span class="p">,</span> <span class="n">aux_basis</span><span class="p">)</span>
@@ -4511,6 +4523,105 @@
     <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
     <span class="n">core</span><span class="o">.</span><span class="n">tstop</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">dlpnomp2_wfn</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_mp2f12</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls</span>
+<span class="sd">    for a MP2-F12/3C(FIX) calculation.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">optstash</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">(</span>
+        <span class="p">[</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;MP2_TYPE&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;F12&quot;</span><span class="p">,</span> <span class="s2">&quot;CABS_BASIS&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;DF_BASIS_SCF&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;DFMP2&quot;</span><span class="p">,</span> <span class="s2">&quot;DF_BASIS_MP2&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;DF_BASIS_F12&#39;</span><span class="p">])</span>
+
+
+    <span class="c1"># Alter default SCF algorithm and enforce DF+DF or CONV+CONV</span>
+    <span class="n">df_f12</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;F12&quot;</span><span class="p">,</span> <span class="s2">&quot;MP2_TYPE&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;DF&quot;</span>
+    <span class="k">if</span> <span class="n">df_f12</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF&#39;</span><span class="p">)</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;    SCF Algorithm Type (re)set to DF.</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;DF&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;DF-MP2-F12 energies need DF-SCF reference.&#39;</span><span class="p">)</span>
+
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;_force_df_basis_scf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;DF_BASIS_F12&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;F12&quot;</span><span class="p">,</span> <span class="s2">&quot;DF_BASIS_F12&quot;</span><span class="p">),</span> <span class="s2">&quot;RIFIT&quot;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;PK&#39;</span><span class="p">)</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;    SCF Algorithm Type (re)set to PK.</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;DF&quot;</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;CD&quot;</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;MP2-F12 energies need CONV SCF reference.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Ensure RHF reference</span>
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;RHF&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MP2-F12 is not available for </span><span class="si">{</span><span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> references.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Bypass the scf call if a reference wavefunction is given</span>
+    <span class="c1"># * note that consistency of f12dfbs not checked if ref passed in</span>
+    <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ref_wfn&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ref_wfn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">scf_helper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">use_c1</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># C1 certified</span>
+    <span class="k">if</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  MP2-F12 does not make use of molecular symmetry: &quot;&quot;&quot;</span>
+<span class="w">                              </span><span class="sd">&quot;&quot;&quot;reference wavefunction must be C1.\n&quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Default MP2_TYPE to CONV if F12_TYPE is CONV</span>
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;F12&quot;</span><span class="p">,</span> <span class="s2">&quot;MP2_TYPE&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;CONV&quot;</span><span class="p">:</span>
+        <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">run_occ</span><span class="p">(</span><span class="s2">&quot;mp2&quot;</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">=</span><span class="n">ref_wfn</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">run_dfmp2</span><span class="p">(</span><span class="s2">&quot;dfmp2&quot;</span><span class="p">,</span> <span class="n">ref_wfn</span><span class="o">=</span><span class="n">ref_wfn</span><span class="p">,</span> <span class="n">_force_df_basis_mp2</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;_force_df_basis_scf&quot;</span><span class="p">])</span>
+
+    <span class="c1"># clean results from globals, keep on wfn</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_force_df_basis_scf&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">clean_variables</span><span class="p">()</span>
+
+    <span class="n">core</span><span class="o">.</span><span class="n">tstart</span><span class="p">()</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="s1">&#39;MP2-F12&#39;</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Default CABS to OPTRI basis sets if available</span>
+    <span class="n">OBS</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s2">&quot;BASIS&quot;</span><span class="p">)</span>
+    <span class="n">CABS</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;F12&quot;</span><span class="p">,</span> <span class="s2">&quot;CABS_BASIS&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">CABS</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="s2">&quot;CC-PV&quot;</span> <span class="ow">in</span> <span class="n">OBS</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;AUG&quot;</span> <span class="ow">in</span> <span class="n">OBS</span> <span class="ow">or</span> <span class="s2">&quot;F12&quot;</span> <span class="ow">in</span> <span class="n">OBS</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;F12&quot;</span><span class="p">,</span> <span class="s2">&quot;CABS_BASIS&quot;</span><span class="p">,</span> <span class="n">OBS</span> <span class="o">+</span> <span class="s2">&quot;-OPTRI&quot;</span><span class="p">)</span>
+        <span class="n">CABS</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;F12&quot;</span><span class="p">,</span> <span class="s2">&quot;CABS_BASIS&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">CABS</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  No CABS_BASIS given!&quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create CABS</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BASIS&quot;</span><span class="p">,</span> <span class="s2">&quot;CABS_BASIS&quot;</span><span class="p">]</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="p">[</span><span class="n">OBS</span><span class="p">,</span> <span class="n">CABS</span><span class="p">]</span>
+    <span class="n">roles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ORBITAL&quot;</span><span class="p">,</span> <span class="s2">&quot;F12&quot;</span><span class="p">]</span>
+    <span class="n">others</span> <span class="o">=</span> <span class="p">[</span><span class="n">OBS</span><span class="p">,</span> <span class="n">OBS</span><span class="p">]</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span>
+    <span class="n">combined</span> <span class="o">=</span> <span class="n">qcdb</span><span class="o">.</span><span class="n">libmintsbasisset</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">pyconstruct_combined</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;psi4&quot;</span><span class="p">),</span> <span class="n">keys</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">roles</span><span class="p">,</span> <span class="n">others</span><span class="p">)</span>
+    <span class="n">cabs</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">construct_from_pydict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">combined</span><span class="p">,</span> <span class="n">combined</span><span class="p">[</span><span class="s2">&quot;puream&quot;</span><span class="p">])</span>
+    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_basisset</span><span class="p">(</span><span class="s2">&quot;CABS&quot;</span><span class="p">,</span> <span class="n">cabs</span><span class="p">)</span>
+
+    <span class="c1"># Compute Energy</span>
+    <span class="n">mp2f12_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">f12</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
+    <span class="n">mp2f12_wfn</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">()</span>
+
+    <span class="n">mp2f12_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">,</span> <span class="n">mp2f12_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;MP2-F12 TOTAL ENERGY&#39;</span><span class="p">))</span>
+    <span class="n">mp2f12_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT REFERENCE ENERGY&#39;</span><span class="p">,</span> <span class="n">mp2f12_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;HF-CABS TOTAL ENERGY&#39;</span><span class="p">))</span>
+    <span class="n">mp2f12_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT CORRELATION ENERGY&#39;</span><span class="p">,</span> <span class="n">mp2f12_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;MP2-F12 CORRELATION ENERGY&#39;</span><span class="p">))</span>
+    <span class="n">mp2f12_wfn</span><span class="o">.</span><span class="n">set_module</span><span class="p">(</span><span class="s2">&quot;f12&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Shove variables into global space</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mp2f12_wfn</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">tstop</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">mp2f12_wfn</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">run_dmrgscf</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -5732,7 +5843,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/49b7f64">1.10a1.dev94</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d089223">1.10a1.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5746,7 +5857,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Wednesday, 23 July 2025 07:35PM.
+      Last updated on Monday, 11 August 2025 08:25PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

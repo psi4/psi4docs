@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=3fac3465"></script>
+    <script src="_static/documentation_options.js?v=03543248"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/sapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/49b7f64">1.10a1.dev94</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d089223">1.10a1.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1419,42 +1419,49 @@ exchange-induction corrections are also calculated, exactly for
 <span id="sec-saptd"></span><h3>SAPT0-D<a class="headerlink" href="#sapt0-d" title="Link to this heading">¶</a></h3>
 <p>In SAPT0, the computation of <span class="math notranslate nohighlight">\(E_{disp}^{(20)} + E_{exch-disp}^{(20)}\)</span> represents
 the computational bottleneck. One can avoid this bottleneck by replacing these
-dispersion terms with the empirical D3 corrections developed by Grimme.</p>
+dispersion terms with the empirical D3 and D4 corrections developed by Grimme.</p>
 <p><a class="reference internal" href="dftd3.html#sec-dftd3"><span class="std std-ref">Grimme’s dispersion corrections are discussed here.</span></a></p>
-<p>The corresponding method, termed SAPT0-D, thus relies on empirically fit parameters
-specific to SAPT0/jun-cc-pVDZ. While SAPT0-D can be used with any of the -D
-variants using default parameters optimized for Hartee–Fock interaction energies,
-we recommend using the refit parameters with Becke-Johnson damping, as described in
-<a class="reference internal" href="bibliography.html#schriber-2021-234107" id="id37"><span>[Schriber:2021:234107]</span></a>. Again, use of SAPT0-D with a basis set other than
-jun-cc-pVDZ is not tested and not guaranteed to give meaningful results without
-refitting the dispersion parameters.
-A simple water dimer computation using SAPT0-D may look like:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">molecule</span> <span class="n">water_dimer</span> <span class="p">{</span>
-         <span class="mi">0</span> <span class="mi">1</span>
-         <span class="n">O</span>  <span class="o">-</span><span class="mf">1.551007</span>  <span class="o">-</span><span class="mf">0.114520</span>   <span class="mf">0.000000</span>
-         <span class="n">H</span>  <span class="o">-</span><span class="mf">1.934259</span>   <span class="mf">0.762503</span>   <span class="mf">0.000000</span>
-         <span class="n">H</span>  <span class="o">-</span><span class="mf">0.599677</span>   <span class="mf">0.040712</span>   <span class="mf">0.000000</span>
-         <span class="o">--</span>
-         <span class="mi">0</span> <span class="mi">1</span>
-         <span class="n">O</span>   <span class="mf">1.350625</span>   <span class="mf">0.111469</span>   <span class="mf">0.000000</span>
-         <span class="n">H</span>   <span class="mf">1.680398</span>  <span class="o">-</span><span class="mf">0.373741</span>  <span class="o">-</span><span class="mf">0.758561</span>
-         <span class="n">H</span>   <span class="mf">1.680398</span>  <span class="o">-</span><span class="mf">0.373741</span>   <span class="mf">0.758561</span>
+<p>The corresponding method, termed SAPT0-D, thus relies on empirically fit
+parameters specific to SAPT0-D3/jun-cc-pVDZ or SAPT0-D4/aug-cc-pVDZ. While
+SAPT0-D can be used with any of the -D variants using default parameters
+optimized for Hartee–Fock interaction energies, we recommend using the refit
+parameters with Becke-Johnson damping, as described in <a class="reference internal" href="bibliography.html#schriber-2021-234107" id="id37"><span>[Schriber:2021:234107]</span></a>
+or <a class="reference internal" href="bibliography.html#wallace-2024-114115" id="id38"><span>[Wallace:2024:114115]</span></a>. While SAPT0-D3 and SAPT0-D4 do have minor damping
+function parameter adjustments with respect to basis set, the parameters are
+quite transferable at least between cc-pVDZ to aug-cc-pVTZ (see Fig S1 and S2
+from <a class="reference internal" href="bibliography.html#wallace-2024-114115" id="id39"><span>[Wallace:2024:114115]</span></a> for more information). However, recommended usage
+is with the following levels of theory: SAPT0-D3/jun-cc-pVDZ,
+SAPT0-D3/aug-cc-pVDZ, and SAPT0-D4/aug-cc-pVDZ. A simple water dimer
+computation using SAPT0-D may look like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="n">water_dimer</span> <span class="p">{</span>
+     <span class="mi">0</span> <span class="mi">1</span>
+     <span class="n">O</span>  <span class="o">-</span><span class="mf">1.551007</span>  <span class="o">-</span><span class="mf">0.114520</span>   <span class="mf">0.000000</span>
+     <span class="n">H</span>  <span class="o">-</span><span class="mf">1.934259</span>   <span class="mf">0.762503</span>   <span class="mf">0.000000</span>
+     <span class="n">H</span>  <span class="o">-</span><span class="mf">0.599677</span>   <span class="mf">0.040712</span>   <span class="mf">0.000000</span>
+     <span class="o">--</span>
+     <span class="mi">0</span> <span class="mi">1</span>
+     <span class="n">O</span>   <span class="mf">1.350625</span>   <span class="mf">0.111469</span>   <span class="mf">0.000000</span>
+     <span class="n">H</span>   <span class="mf">1.680398</span>  <span class="o">-</span><span class="mf">0.373741</span>  <span class="o">-</span><span class="mf">0.758561</span>
+     <span class="n">H</span>   <span class="mf">1.680398</span>  <span class="o">-</span><span class="mf">0.373741</span>   <span class="mf">0.758561</span>
 
-         <span class="n">units</span> <span class="n">angstrom</span>
-         <span class="n">no_reorient</span>
-         <span class="n">symmetry</span> <span class="n">c1</span>
-    <span class="p">}</span>
+     <span class="n">units</span> <span class="n">angstrom</span>
+     <span class="n">no_reorient</span>
+     <span class="n">symmetry</span> <span class="n">c1</span>
+<span class="p">}</span>
 
-    <span class="nb">set</span> <span class="n">basis</span> <span class="n">jun</span><span class="o">-</span><span class="n">cc</span><span class="o">-</span><span class="n">pvdz</span>
+<span class="nb">set</span> <span class="n">basis</span> <span class="n">jun</span><span class="o">-</span><span class="n">cc</span><span class="o">-</span><span class="n">pvdz</span>
 
-    <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;sapt0-d3mbj&#39;</span><span class="p">)</span> <span class="c1"># runs the recommended dispersion correction</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;sapt0-d3mbj&#39;</span><span class="p">)</span> <span class="c1"># runs the recommended -D3 dispersion correction</span>
 <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;sapt0-d3&#39;</span><span class="p">)</span> <span class="c1"># tests an alternative damping scheme/parameterization</span>
+
+<span class="nb">set</span> <span class="n">basis</span> <span class="n">aug</span><span class="o">-</span><span class="n">cc</span><span class="o">-</span><span class="n">pvdz</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;sapt0-d4bjeeqtwo&#39;</span><span class="p">)</span> <span class="c1"># runs the recommended -D4 dispersion correction</span>
 </pre></div>
 </div>
 <p>Given the naturally pairwise-atomic nature of these empirical dispersion corrections,
 integration with existing FSAPT functionality is also available simply by calling
-<code class="docutils literal notranslate"><span class="pre">energy(&quot;fsapt0-d3mbj&quot;)</span></code>. See <a class="reference internal" href="fisapt.html#sec-fisapt"><span class="std std-ref">FSAPT</span></a> documentation for more details on using FSAPT
-for functional group analyses.</p>
+<code class="docutils literal notranslate"><span class="pre">energy(&quot;fsapt0-d3mbj&quot;)</span></code> or <code class="docutils literal notranslate"><span class="pre">energy(&quot;fsapt0-d4bj2b&quot;)</span></code> (alias to <code class="docutils literal notranslate"><span class="pre">energy(&quot;fsapt0-d4bjeeqtwo&quot;)</span></code>). See <a class="reference internal" href="fisapt.html#sec-fisapt"><span class="std std-ref">FSAPT</span></a> documentation for more details on using FSAPT for functional
+group analyses.</p>
 </section>
 </section>
 </section>
@@ -1628,7 +1635,7 @@ for functional group analyses.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/sapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/49b7f64">1.10a1.dev94</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d089223">1.10a1.dev96</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1642,7 +1649,7 @@ for functional group analyses.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Wednesday, 23 July 2025 07:35PM.
+      Last updated on Monday, 11 August 2025 08:25PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
