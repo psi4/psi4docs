@@ -279,7 +279,7 @@ Keywords by Alpha
       :ref:`apdx:GLOBALS` |w---w| When several modules can compute the same methods and the default routing is not suitable, this targets a module. ``CCENERGY`` covers CCHBAR, etc. ``OCC`` covers OCC and DFOCC.
 
       * **Type**: string
-      * **Possible Values**: CCENERGY, DETCI, DFMP2, FNOCC, OCC, CCT3, BUILTIN, MRCC
+      * **Possible Values**: CCENERGY, DETCI, DFMP2, FNOCC, OCC, CCT3, BUILTIN, MRCC, F12
       * **Default**: No Default
 
    RESTRICTED_DOCC (GLOBALS)
@@ -3615,6 +3615,51 @@ Keywords by Alpha
 
       * **Type**: integer
       * **Default**: 1
+
+   CABS_BASIS (F12)
+      :ref:`apdx:F12` |w---w| Choose a basis for Complementary Auxiliary Basis Set
+
+      * **Type**: string
+      * **Default**: No Default
+
+   CABS_SINGLES (F12)
+      :ref:`apdx:F12` |w---w| Whether to compute the CABS Singles Correction
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: true
+
+   DF_BASIS_F12 (F12)
+      :ref:`apdx:F12` |w---w| Choose a density-fitting basis for integrals. For |f12__mp2_type| =DF, this is applied to non-F12 SCF and MP2 parts, too, regardless of |scf__df_basis_scf| or |dfmp2__df_basis_mp2| .
+
+      * **Type**: string
+      * **Possible Values**: :ref:`basis string <apdx:basisElement>`
+      * **Default**: No Default
+
+   F12_BETA (F12)
+      :ref:`apdx:F12` |w---w| Set contracted Gaussian-type geminal beta value
+
+      * **Type**: double
+      * **Default**: 1.0
+
+   F12_READ_INTS (F12)
+      :ref:`apdx:F12` |w---w| Whether to read-in stored integrals from previous computation
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   F12_SUBTYPE (F12)
+      :ref:`apdx:F12` |w---w| For certain |globals__mp2_type| algorithms that have internal sub-algorithms depending on available memory or other hardware constraints, select a sub-algorithm Presently, ``MP2_TYPE=DF`` and ``MP2_TYPE=CONV``	 can have ``INCORE`` and ``DISK`` selected. In future, ``AUTO`` will be added.
+
+      * **Type**: string
+      * **Possible Values**: INCORE, DISK
+      * **Default**: INCORE
+
+   MP2_TYPE (F12)
+      :ref:`apdx:F12` |w---w| Algorithm to use for MP2-F12 computation, conventional or density-fitted.
+
+      * **Type**: string
+      * **Possible Values**: DF, CONV
+      * **Default**: DF
 
    DISP_SIZE (FINDIF)
       :ref:`apdx:FINDIF` |w---w| Displacement size in au for finite-differences.
@@ -7329,7 +7374,7 @@ Keywords by Alpha
       * **Default**: 500
 
    SCF_SUBTYPE (SCF)
-      :ref:`apdx:SCF` **(Expert)** |w---w| For certain |globals__scf_type| algorithms that have internal sub-algorithms depending on available memory or other hardware constraints, allow the best sub-algorithm for the molecule and conditions (``AUTO`` ; usual mode) or forcibly select a sub-algorithm (usually only for debugging or profiling). Presently, ``SCF_SUBTYPE=DF``, ``SCF_SUBTYPE=MEM_DF``, and ``SCF_SUBTYPE=DISK_DF`` 	 can have ``INCORE`` and ``OUT_OF_CORE`` selected; and ``SCF_TYPE=PK`` can have ``INCORE``,	 ``OUT_OF_CORE``, ``YOSHIMINE_OUT_OF_CORE``, and ``REORDER_OUT_OF_CORE`` selected. 
+      :ref:`apdx:SCF` **(Expert)** |w---w| For certain |globals__scf_type| algorithms that have internal sub-algorithms depending on available memory or other hardware constraints, allow the best sub-algorithm for the molecule and conditions (``AUTO`` ; usual mode) or forcibly select a sub-algorithm (usually only for debugging or profiling). Presently, ``SCF_TYPE=DF``, ``SCF_TYPE=MEM_DF``, and ``SCF_TYPE=DISK_DF``	 can have ``INCORE`` and ``OUT_OF_CORE`` selected; and ``SCF_TYPE=PK`` can have ``INCORE``,	 ``OUT_OF_CORE``, ``YOSHIMINE_OUT_OF_CORE``, and ``REORDER_OUT_OF_CORE`` selected. 
 
       * **Type**: string
       * **Possible Values**: AUTO, INCORE, OUT\_OF\_CORE, YOSHIMINE\_OUT\_OF\_CORE, REORDER\_OUT\_OF\_CORE
