@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=03543248"></script>
+    <script src="../../../_static/documentation_options.js?v=825af38d"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_planner.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/d089223">1.10a1.dev96</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/caf3ec9">1.10a1.dev97</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -224,8 +224,8 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    driver</span>
-<span class="sd">        The resulting type of computation: e/g/h. Note for finite difference</span>
-<span class="sd">        that this should be the target driver, not the means driver.</span>
+<span class="sd">        The resulting type of computation: e/g/h. Note that for finite difference</span>
+<span class="sd">        this should be the target driver, not the means driver.</span>
 <span class="sd">    method</span>
 <span class="sd">        A string representation of the method such as &quot;HF&quot; or &quot;B3LYP&quot;. Special</span>
 <span class="sd">        cases are: &quot;cbs&quot;.</span>
@@ -267,55 +267,26 @@
     <span class="n">current_findif_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">kw</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">pertinent_findif_kwargs</span> <span class="k">if</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">}</span>
     <span class="c1"># explicit: &#39;findif_mode&#39;</span>
 
+    <span class="n">pertinent_manybody_kwargs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;bsse_type&quot;</span><span class="p">,</span> <span class="s2">&quot;return_total_data&quot;</span><span class="p">,</span> <span class="s2">&quot;max_nbody&quot;</span><span class="p">,</span> <span class="s2">&quot;supersystem_ie_only&quot;</span><span class="p">,</span> <span class="s2">&quot;embedding_charges&quot;</span><span class="p">,</span> <span class="p">]</span> 
+    <span class="n">current_manybody_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">kw</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">pertinent_manybody_kwargs</span> <span class="k">if</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">}</span>
+    <span class="c1"># explicit: &quot;levels&quot;</span>
+
     <span class="c1"># Build a packet</span>
     <span class="n">packet</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;molecule&quot;</span><span class="p">:</span> <span class="n">molecule</span><span class="p">,</span> <span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="n">driver</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span> <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="n">basis</span><span class="p">,</span> <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="n">keywords</span><span class="p">}</span>
 
     <span class="c1"># First check for BSSE type</span>
-    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bsse_type&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">current_manybody_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bsse_type&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">levels</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;levels&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">dertype</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;dertype&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-        <span class="n">plan</span> <span class="o">=</span> <span class="n">ManyBodyComputer</span><span class="p">(</span><span class="o">**</span><span class="n">packet</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">plan</span> <span class="o">=</span> <span class="n">ManyBodyComputer</span><span class="o">.</span><span class="n">from_psi4_task_planner</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="o">**</span><span class="n">packet</span><span class="p">,</span> <span class="o">**</span><span class="n">current_manybody_kwargs</span><span class="p">)</span>  <span class="c1"># **kwargs)</span>
         <span class="n">original_molecule</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;molecule&quot;</span><span class="p">)</span>
 
         <span class="c1"># Add tasks for every nbody level requested</span>
-        <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">levels</span> <span class="o">=</span> <span class="p">{</span><span class="n">plan</span><span class="o">.</span><span class="n">max_nbody</span><span class="p">:</span> <span class="n">method</span><span class="p">}</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># rearrange bodies in order with supersystem last lest body count fail in organization loop below</span>
-            <span class="n">levels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">levels</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="mi">1000</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;supersystem&quot;</span> <span class="k">else</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-
-            <span class="c1"># We define cp as being a correction to only interaction energies</span>
-            <span class="c1"># If only doing cp, we need to ignore any user-specified 1st (monomer) level</span>
-            <span class="k">if</span> <span class="s1">&#39;cp&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bsse_type&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;nocp&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bsse_type&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span> 
-                <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">levels</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="n">removed_level</span> <span class="o">=</span> <span class="n">levels</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;NOTE: User specified exclusively &#39;cp&#39; correction, but provided level 1 details&quot;</span><span class="p">)</span> 
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NOTE: Removing level </span><span class="si">{</span><span class="n">removed_level</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;NOTE: For total energies, add &#39;nocp&#39; to bsse_list&quot;</span><span class="p">)</span>
-
-
-        <span class="c1"># Organize nbody calculations into modelchem levels</span>
-        <span class="c1"># * expand keys of `levels` into full lists of nbodies covered. save to plan, resetting max_nbody accordingly</span>
-        <span class="c1"># * below, process values of `levels`, which are modelchem strings, into kwargs specs</span>
-        <span class="n">nbodies_per_mc_level</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">prev_body</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">nb</span> <span class="ow">in</span> <span class="n">levels</span><span class="p">:</span>
-            <span class="n">nbodies</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="n">nb</span> <span class="o">==</span> <span class="s2">&quot;supersystem&quot;</span><span class="p">:</span>
-                <span class="n">nbodies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">nb</span> <span class="o">!=</span> <span class="p">(</span><span class="n">prev_body</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">prev_body</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nb</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-                    <span class="n">nbodies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">nbodies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
-            <span class="n">nbodies_per_mc_level</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nbodies</span><span class="p">)</span>
-            <span class="n">prev_body</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="n">plan</span><span class="o">.</span><span class="n">max_nbody</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">nb</span> <span class="k">for</span> <span class="n">nb</span> <span class="ow">in</span> <span class="n">levels</span> <span class="k">if</span> <span class="n">nb</span> <span class="o">!=</span> <span class="s2">&quot;supersystem&quot;</span><span class="p">)</span>
-        <span class="n">plan</span><span class="o">.</span><span class="n">nbodies_per_mc_level</span> <span class="o">=</span> <span class="n">nbodies_per_mc_level</span>
-
-        <span class="k">for</span> <span class="n">mc_level_idx</span><span class="p">,</span> <span class="n">mtd</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">levels</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
-            <span class="n">method</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">cbsmeta</span> <span class="o">=</span> <span class="n">expand_cbs_methods</span><span class="p">(</span><span class="n">mtd</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">driver</span><span class="p">,</span> <span class="n">cbsmeta</span><span class="o">=</span><span class="n">cbsmeta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">mc_level_idx</span><span class="p">,</span> <span class="n">mtd</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plan</span><span class="o">.</span><span class="n">levels</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="n">mtdkey</span> <span class="o">=</span> <span class="n">plan</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">specification</span><span class="p">[</span><span class="n">mtd</span><span class="p">]</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">method</span>
+            <span class="n">mtdin</span> <span class="o">=</span> <span class="n">mtdkey</span> <span class="k">if</span> <span class="n">mtd</span> <span class="o">==</span> <span class="s2">&quot;(auto)&quot;</span> <span class="k">else</span> <span class="n">mtd</span>
+            <span class="n">method</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">cbsmeta</span> <span class="o">=</span> <span class="n">expand_cbs_methods</span><span class="p">(</span><span class="n">mtdin</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">driver</span><span class="p">,</span> <span class="n">cbsmeta</span><span class="o">=</span><span class="n">cbsmeta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># NEW mtd-&gt;mtdkey</span>
             <span class="n">packet</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span> <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="n">basis</span><span class="p">})</span>
 
             <span class="c1"># Tell the task builder which level to add a task list for</span>
@@ -323,23 +294,23 @@
             <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;cbs&quot;</span><span class="p">:</span>
                 <span class="c1"># This CompositeComputer is discarded after being used for dermode.</span>
                 <span class="n">simplekwargs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-                <span class="n">simplekwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dertype&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="n">simplecbsmeta</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">cbsmeta</span><span class="p">)</span>
                 <span class="n">simplecbsmeta</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="n">dummyplan</span> <span class="o">=</span> <span class="n">CompositeComputer</span><span class="p">(</span><span class="o">**</span><span class="n">packet</span><span class="p">,</span> <span class="o">**</span><span class="n">simplecbsmeta</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">original_molecule</span><span class="p">,</span> <span class="o">**</span><span class="n">simplekwargs</span><span class="p">)</span>
 
                 <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">sr</span><span class="o">.</span><span class="n">method</span> <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">dummyplan</span><span class="o">.</span><span class="n">task_list</span><span class="p">]</span>
                 <span class="c1"># TODO: pass more info, so fn can use for managed_methods -- ref, qc_module, fc/ae, conv/df</span>
-                <span class="n">dermode</span> <span class="o">=</span> <span class="n">negotiate_derivative_type</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="n">methods</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dertype&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">dermode</span> <span class="o">=</span> <span class="n">negotiate_derivative_type</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="n">methods</span><span class="p">,</span> <span class="n">dertype</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">dermode</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">dermode</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># analytic</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;PLANNING MB(CBS):  {mc_level_idx=} {packet=} {cbsmeta=} kw=</span><span class="si">{kwargs}</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="n">plan</span><span class="o">.</span><span class="n">build_tasks</span><span class="p">(</span><span class="n">CompositeComputer</span><span class="p">,</span> <span class="o">**</span><span class="n">packet</span><span class="p">,</span> <span class="n">mc_level_idx</span><span class="o">=</span><span class="n">mc_level_idx</span><span class="p">,</span> <span class="o">**</span><span class="n">cbsmeta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;PLANNING MB(CBS):  {mc_level_idx=} {packet=} {cbsmeta=} {dertype=} kw=</span><span class="si">{kwargs}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">plan</span><span class="o">.</span><span class="n">build_tasks</span><span class="p">(</span><span class="n">CompositeComputer</span><span class="p">,</span> <span class="o">**</span><span class="n">packet</span><span class="p">,</span> <span class="n">mc_level_idx</span><span class="o">=</span><span class="n">mc_level_idx</span><span class="p">,</span> <span class="o">**</span><span class="n">cbsmeta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># TODO dertype expected in kwargs?</span>
 
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s2">&quot;PLANNING MB(FD(CBS):  </span><span class="si">{</span><span class="n">mc_level_idx</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">packet</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">cbsmeta</span><span class="si">=}</span><span class="s2"> findif_kw=</span><span class="si">{</span><span class="n">current_findif_kwargs</span><span class="si">}</span><span class="s2"> kw=</span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="p">)</span>
+                    <span class="c1"># untested</span>
                     <span class="n">plan</span><span class="o">.</span><span class="n">build_tasks</span><span class="p">(</span><span class="n">FiniteDifferenceComputer</span><span class="p">,</span>
                                      <span class="o">**</span><span class="n">packet</span><span class="p">,</span>
                                      <span class="n">mc_level_idx</span><span class="o">=</span><span class="n">mc_level_idx</span><span class="p">,</span>
@@ -348,12 +319,14 @@
                                      <span class="o">**</span><span class="n">cbsmeta</span><span class="p">,</span>
                                      <span class="o">**</span><span class="n">current_findif_kwargs</span><span class="p">,</span>
                                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                                     <span class="c1"># TODO dertype expected in kwargs?</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">dermode</span> <span class="o">=</span> <span class="n">negotiate_derivative_type</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dertype&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">dermode</span> <span class="o">=</span> <span class="n">negotiate_derivative_type</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">dertype</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">dermode</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">dermode</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># analytic</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PLANNING MB:  </span><span class="si">{</span><span class="n">mc_level_idx</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">packet</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PLANNING MB:  </span><span class="si">{</span><span class="n">mc_level_idx</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">packet</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">kwargs</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">plan</span><span class="o">.</span><span class="n">build_tasks</span><span class="p">(</span><span class="n">AtomicComputer</span><span class="p">,</span> <span class="o">**</span><span class="n">packet</span><span class="p">,</span> <span class="n">mc_level_idx</span><span class="o">=</span><span class="n">mc_level_idx</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                                     <span class="c1"># TODO dertype expected in kwargs?</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s2">&quot;PLANNING MB(FD):  </span><span class="si">{</span><span class="n">mc_level_idx</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">packet</span><span class="si">=}</span><span class="s2"> findif_kw=</span><span class="si">{</span><span class="n">current_findif_kwargs</span><span class="si">}</span><span class="s2"> kw=</span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -364,6 +337,7 @@
                                      <span class="n">findif_mode</span><span class="o">=</span><span class="n">dermode</span><span class="p">,</span>
                                      <span class="o">**</span><span class="n">current_findif_kwargs</span><span class="p">,</span>
                                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                                     <span class="c1"># TODO dertype expected in kwargs?</span>
 
         <span class="k">return</span> <span class="n">plan</span>
 
@@ -471,7 +445,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_planner.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/d089223">1.10a1.dev96</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/caf3ec9">1.10a1.dev97</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -485,7 +459,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Monday, 11 August 2025 08:25PM.
+      Last updated on Tuesday, 12 August 2025 08:09AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
