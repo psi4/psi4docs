@@ -233,6 +233,13 @@ Keywords by Alpha
       * **Type**: integer
       * **Default**: 0
 
+   ORBITAL_OPTIMIZER_PACKAGE (GLOBALS)
+      :ref:`apdx:GLOBALS` |w---w| Orbital optimizer package to use for SCF.
+
+      * **Type**: string
+      * **Possible Values**: INTERNAL
+      * **Default**: INTERNAL
+
    PCM (GLOBALS)
       :ref:`apdx:GLOBALS` |w---w| PCM boolean for pcmsolver module
 
@@ -1019,7 +1026,7 @@ Keywords by Alpha
       * **Default**: NONE
 
    MAXITER (CCLAMBDA)
-      :ref:`apdx:CCLAMBDA` |w---w| Maximum number of iterations
+      :ref:`apdx:CCLAMBDA` |w---w| Maximum number of iterations. For |globals__orbital_optimizer_package| = `OOO`, sets maximum iterations.
 
       * **Type**: integer
       * **Default**: 50
@@ -5740,7 +5747,7 @@ Keywords by Alpha
       * **Default**: true
 
    DIIS_MAX_VECS (SCF)
-      :ref:`apdx:SCF` |w---w| Maximum number of error vectors stored for DIIS extrapolation
+      :ref:`apdx:SCF` |w---w| Maximum number of error vectors stored for DIIS extrapolation. For |globals__orbital_optimizer_package| = `OOO`, sets maximum_history_length.
 
       * **Type**: integer
       * **Default**: 10
@@ -5841,6 +5848,24 @@ Keywords by Alpha
       * **Type**: array
       * **Default**: No Default
 
+   OOO_DIIS_RESTART_FACTOR (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__orbital_optimizer_package| = `OOO`, the DIIS restart criterion (Chupin et al, 2021)
+
+      * **Type**: double
+      * **Default**: 1.0e-4
+
+   OOO_OPTIMAL_DAMPING_THRESHOLD (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__orbital_optimizer_package| = `OOO`, use optimal damping when max error bigger than this.
+
+      * **Type**: double
+      * **Default**: 1.0
+
+   OOO_PRINT (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__orbital_optimizer_package| = `OOO`, verbosity of printing to screen. 0 prints nothing. 1 prints one line per iter (note that RHF rms(density) printed differs by half from convergence criterion. 5 is common and adds occupancy printing. 12 is max.
+
+      * **Type**: integer
+      * **Default**: 0
+
    SCF_INITIAL_ACCELERATOR (SCF)
       :ref:`apdx:SCF` |w---w| Use a method to accelerate initial SCF convergence? Use ``NONE`` for DIIS alone (if enabled) and ``EDIIS`` or ``ADIIS`` to have both the chosen accelerator and DIIS (if enabled). For restricted-open references, ``EDIIS`` and ``ADIIS`` have no effect.
 
@@ -5849,13 +5874,13 @@ Keywords by Alpha
       * **Default**: ADIIS
 
    SCF_INITIAL_FINISH_DIIS_TRANSITION (SCF)
-      :ref:`apdx:SCF` |w---w| SCF error at which to complete the linear interpolation between DIIS steps and steps of the initial SCF accelerator Value taken from Garza and Scuseria, DOI: 10.1063/1.4740249
+      :ref:`apdx:SCF` |w---w| SCF error at which to complete the linear interpolation between DIIS steps and steps of the initial SCF accelerator Value taken from Garza and Scuseria, DOI: 10.1063/1.4740249 For |globals__orbital_optimizer_package| = `OOO`, sets diis_threshold.
 
       * **Type**: double
       * **Default**: 1.0e-4
 
    SCF_INITIAL_START_DIIS_TRANSITION (SCF)
-      :ref:`apdx:SCF` |w---w| SCF error at which to start the linear interpolation between DIIS steps and steps of the initial SCF accelerator. Value taken from Garza and Scuseria, DOI: 10.1063/1.4740249
+      :ref:`apdx:SCF` |w---w| SCF error at which to start the linear interpolation between DIIS steps and steps of the initial SCF accelerator. Value taken from Garza and Scuseria, DOI: 10.1063/1.4740249 For |globals__orbital_optimizer_package| = `OOO`, sets diis_epsilon.
 
       * **Type**: double
       * **Default**: 1.0e-1
@@ -7574,6 +7599,13 @@ Keywords by Alpha
 
       * **Type**: integer
       * **Default**: 50
+
+   SAD_ORBITAL_OPTIMIZER_PACKAGE (SCF)
+      :ref:`apdx:SCF` **(Expert)** |w---w| Orbital optimizer package to use for SAD guess. 
+
+      * **Type**: string
+      * **Possible Values**: INTERNAL
+      * **Default**: INTERNAL
 
    SAD_PRINT (SCF)
       :ref:`apdx:SCF` **(Expert)** |w---w| The amount of SAD information to print to the output 
