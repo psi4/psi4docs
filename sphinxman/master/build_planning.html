@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=825af38d"></script>
+    <script src="_static/documentation_options.js?v=94d5d510"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/caf3ec9">1.10a1.dev97</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d50ba83">1.10a1.dev98</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -290,7 +290,7 @@ build system will automatically download and build.</p>
 <li><p>QCElemental — <a class="reference external" href="https://molssi.github.io/QCElemental/">[what is QCElemental?]</a></p></li>
 <li><p>QCEngine — <a class="reference external" href="https://molssi.github.io/QCEngine/">[what is QCEngine?]</a> (March 2019; added by v1.4)</p></li>
 <li><p>optking — <a class="reference external" href="https://optking.readthedocs.io/en/latest/">[what is optking]</a> (runtime dependency, required at build-time)</p></li>
-<li><p>QCManyBody — <a class="reference external" href="https://molssi.github.io/QCManyBody/">[what is QCManyBody?]</a> (June 2025; added by v1.10; runtime dependency, required at build-time)</p></li>
+<li><p>QCManyBody — <a class="reference external" href="https://molssi.github.io/QCManyBody/">[what is QCManyBody?]</a> (August 2025; added by v1.10; runtime dependency, required at build-time)</p></li>
 </ul>
 <p>Additionally, there are runtime-only dependencies:</p>
 <ul class="simple">
@@ -363,6 +363,7 @@ are available pre-built from conda.</p>
 </ul>
 </li>
 <li><p><a class="reference internal" href="simint.html#cmake-simint"><span class="std std-ref">simint</span></a> — <a class="reference internal" href="simint.html#sec-simint"><span class="std std-ref">[what is simint?]</span></a> <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/external/upstream/simint/CMakeLists.txt#L2">[simint min version]</a></p></li>
+<li><p><a class="reference internal" href="ooo.html#cmake-ooo"><span class="std std-ref">OpenOrbitalOptimizer</span></a> — <cite>[what is OpenOrbitalOptimizer?] &lt;sec:ooo&gt;</cite> (August 2025; added by v1.10)</p></li>
 </ul>
 <p>Additionally, there are runtime-loaded capabilities:</p>
 <ul class="simple">
@@ -561,8 +562,9 @@ message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GEN
 #    - Python_INCLUDE_DIR &quot;Path to the python include files (e.g., /path/to/include/python3.7)&quot;
 #    - SPHINX_ROOT &quot;Root directory for Sphinx: &#39;bin/sphinx-build&#39; (or similar) should be in this dir.&quot;
 #
-#    For any ${AddOn} of: ambit, CheMPS2, dkh, ecpint, libefp, Einsums, gau2grid, gdma, Libint2, PCMSolver, pybind11, pylibefp,
-#                         qcelemental, qcengine, optking, simint, Libxc, IntegratorXX, gauxc, qcmanybody
+#    For any ${AddOn} of: ambit, CheMPS2, dkh, ecpint, libefp, Einsums, gau2grid, gauxc, gdma,
+#                         IntegratorXX, Libint2, OpenOrbitalOptimizer, optking, PCMSolver, pybind11,
+#                         pylibefp, qcelemental, qcengine, simint, Libxc, qcmanybody
 #    - CMAKE_PREFIX_PATH &quot;Set to list of root directories to look for externally built add-ons and dependencies
 #      (e.g., /path/to/install-libint;/path/to/install-gdma where exists /path/to/install-libint/lib/libderiv.a)&quot;
 #    - ${AddOn}_DIR &quot;Set to directory containing ${AddOn}Config.cmake file to facilitate detection of external build&quot;
@@ -605,6 +607,7 @@ option(ENABLE_simint &quot;Enables use of SIMINT two-electron integral library&q
 option(ENABLE_gauxc &quot;Enables use of GauXC density functional library&quot; OFF)
 option(ENABLE_gdma &quot;Enables Stone&#39;s GDMA multipole code (requires Fortran; can also be added at runtime)&quot; OFF)
 option(ENABLE_IntegratorXX &quot;Enables use of IntegratorXX density functional grids library&quot; OFF)
+option(ENABLE_OpenOrbitalOptimizer &quot;Enables the OpenOrbitalOptimizer library (requires Armadillo)&quot; OFF)
 option(ENABLE_PCMSolver &quot;Enables PCMSolver library (requires Fortran)&quot; OFF)
 option(ENABLE_snsmp2 &quot;Enables SNSMP2 plugin (can also be added at runtime)&quot; OFF)
 option(ENABLE_v2rdm_casscf &quot;Enables V2RDM_CASSCF plugin (requires Fortran; can also be added at runtime)&quot; OFF)
@@ -619,8 +622,6 @@ option(ENABLE_transqt2 &quot;Enables transqt2 plugin installed from psi4pasture&
 option(psi4_SKIP_ENABLE_Fortran &quot;Suppress enabling Fortran language even when Fortran addons enabled. Use when only linking pre-built, not compiling addon code.&quot; OFF)
 
 # Append modules added to pasture as needed
-if(ENABLE_ccsort OR ENABLE_transqt2)
-  set(ENABLE_pasture ON)
 </pre></div>
 </div>
 <p>Note that external projects will have their own sets of build
@@ -1936,7 +1937,7 @@ can show where the executable is.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/caf3ec9">1.10a1.dev97</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/d50ba83">1.10a1.dev98</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1950,7 +1951,7 @@ can show where the executable is.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Tuesday, 12 August 2025 08:09AM.
+      Last updated on Monday, 18 August 2025 07:58AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
