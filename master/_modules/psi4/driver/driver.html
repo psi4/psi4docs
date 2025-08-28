@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=94d5d510"></script>
+    <script src="../../../_static/documentation_options.js?v=11191e75"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/d50ba83">1.10a1.dev98</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6a874e5">1.10a1.dev99</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -148,6 +148,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -1123,7 +1124,10 @@
 
 <span class="sd">    :returns: (*float*, :py:class:`~psi4.core.Wavefunction`) |w--w| energy and wavefunction when **return_wfn** specified.</span>
 
-<span class="sd">    :raises: :py:class:`psi4.driver.OptimizationConvergenceError` if :term:`GEOM_MAXITER &lt;GEOM_MAXITER (OPTKING)&gt;` exceeded without reaching geometry convergence.</span>
+<span class="sd">    :raises: :py:class:`psi4.driver.OptimizationConvergenceError`</span>
+
+<span class="sd">        if :py:attr`GEOM_MAXITER &lt;optking.v1.optparams.OptParams.geom_maxiter&gt;`</span>
+<span class="sd">        exceeded without reaching geometry convergence.</span>
 
 <span class="sd">    :PSI variables:</span>
 
@@ -1341,7 +1345,8 @@
         <span class="n">opt_object</span> <span class="o">=</span> <span class="n">optking</span><span class="o">.</span><span class="n">opt_helper</span><span class="o">.</span><span class="n">CustomHelper</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">optimizer_params</span><span class="p">)</span>
 
     <span class="n">initial_sym</span> <span class="o">=</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span>
-    <span class="k">while</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;GEOM_MAXITER&#39;</span><span class="p">):</span>
+    <span class="c1"># Use optking&#39;s value so that validation can change value (e.g. IRC_POINTS sets max_iter based on number of points)</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">opt_object</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">geom_maxiter</span><span class="p">:</span>
         <span class="n">current_sym</span> <span class="o">=</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">initial_sym</span> <span class="o">!=</span> <span class="n">current_sym</span><span class="p">:</span>
 
@@ -1376,11 +1381,10 @@
         <span class="n">opt_object</span><span class="o">.</span><span class="n">gX</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">np</span>
 
         <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;OPTIMIZATION ITERATIONS&#39;</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;CART_HESS_READ&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">opt_object</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">cart_hess_read</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">opt_object</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">hessian_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">molecule</span><span class="o">.</span><span class="n">name</span><span class="p">())</span><span class="si">}</span><span class="s2">.hess&quot;</span>
-                <span class="c1"># compute Hessian as requested; frequency wipes out gradient so stash it</span>
-        <span class="k">elif</span> <span class="s1">&#39;hessian&#39;</span> <span class="ow">in</span> <span class="n">opt_calcs</span><span class="p">:</span>
+        <span class="c1"># Used to handle cart_hess_read explicitly. Optking now looks for hessians in hessian_file</span>
+        <span class="c1"># Hessian can be priovided as AtomicOutput in a .json or cfour style in a .hess file</span>
+        <span class="c1"># If empty Optking will try to fall back to psi4&#39;s writer_prefix on its own.</span>
+        <span class="k">if</span> <span class="s1">&#39;hessian&#39;</span> <span class="ow">in</span> <span class="n">opt_calcs</span><span class="p">:</span>
             <span class="c1"># compute hessian as requested.</span>
 
             <span class="c1"># procedures proctable analytic hessians</span>
@@ -1418,7 +1422,7 @@
         <span class="n">molecule</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">opt_object</span><span class="o">.</span><span class="n">molsys</span><span class="o">.</span><span class="n">geom</span><span class="p">))</span>
         <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
 
-        <span class="n">opt_status</span> <span class="o">=</span> <span class="n">opt_object</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>  <span class="c1"># Query optking for convergence, failure or continuing opt.</span>
+        <span class="n">opt_status</span> <span class="o">=</span> <span class="n">opt_object</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="n">psi4</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Query optking for convergence, failure or continuing opt.</span>
         <span class="k">if</span> <span class="n">opt_status</span> <span class="o">==</span> <span class="s1">&#39;CONVERGED&#39;</span><span class="p">:</span>
 
             <span class="c1"># Last geom is normally last in history. For IRC last geom is last in IRC trajectory</span>
@@ -1470,10 +1474,12 @@
             <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
 
             <span class="n">opt_data</span> <span class="o">=</span> <span class="n">opt_object</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;WRITE_OPT_HISTORY&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;OPTKING&#39;</span><span class="p">,</span> <span class="s1">&#39;SAVE_OPTIMIZATION&#39;</span><span class="p">):</span>
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">molecule</span><span class="o">.</span><span class="n">name</span><span class="p">())</span><span class="si">}</span><span class="s2">.opt.json&quot;</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                     <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">opt_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
+            <span class="c1"># Try to shutdown nicely</span>
+            <span class="n">opt_object</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">OptimizationConvergenceError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;geometry optimization&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wfn</span><span class="p">)</span>
 
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">    Structure for next step:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -2288,7 +2294,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/d50ba83">1.10a1.dev98</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6a874e5">1.10a1.dev99</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2302,7 +2308,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Monday, 18 August 2025 07:58AM.
+      Last updated on Thursday, 28 August 2025 10:19PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
