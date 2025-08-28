@@ -1548,7 +1548,7 @@ Keywords by Alpha
       * **Default**: OFF
 
    CFOUR_EVAL_HESS (CFOUR)
-      :ref:`apdx:CFOUR` |w---w| Tells the program, in the course of a geometry optimization, to calculate the Hessian explicitly every N cycles. 0 means never calculated explicitly. **Psi4 Interface:** Geometry optimizations run through PSI (except in sandwich mode) use PSI's optimizer and so this keyword has no effect. Use :ref:`optking <apdx:optking>` keywords instead, particularly |optking__full_hess_every|.
+      :ref:`apdx:CFOUR` |w---w| Tells the program, in the course of a geometry optimization, to calculate the Hessian explicitly every N cycles. 0 means never calculated explicitly. **Psi4 Interface:** Geometry optimizations run through PSI (except in sandwich mode) use PSI's optimizer and so this keyword has no effect. Use :ref:`optking <apdx:optking>` keywords instead, particularly :py:attr:`~optking.v1.optparams.OptParams.full_hess_every`.
 
       * **Type**: integer
       * **Default**: 0
@@ -1681,19 +1681,19 @@ Keywords by Alpha
       * **Default**: No Default
 
    CFOUR_GEO_CONV (CFOUR)
-      :ref:`apdx:CFOUR` |w---w| Specifies the convergence criterion for geometry optimization. The optimization terminates when the RMS gradient is below :math:`10^{-N}` Hartree/bohr, where :math:`N` is the specified value. **Psi4 Interface:** Geometry optimizations run through PSI (except in sandwich mode) use PSI's optimizer and so this keyword has no effect. Use :ref:`optking <apdx:optking>` keywords instead, particularly |optking__g_convergence| =CFOUR, which should be equivalent except for different internal coordinate definitions.
+      :ref:`apdx:CFOUR` |w---w| Specifies the convergence criterion for geometry optimization. The optimization terminates when the RMS gradient is below :math:`10^{-N}` Hartree/bohr, where :math:`N` is the specified value. **Psi4 Interface:** Geometry optimizations run through PSI (except in sandwich mode) use PSI's optimizer and so this keyword has no effect. Use :ref:`optking <apdx:optking>` keywords instead, particularly :py:attr:`~optking.v1.optparams.OptParams.g_convergence` =CFOUR, which should be equivalent except for different internal coordinate definitions.
 
       * **Type**: integer
       * **Default**: 5
 
    CFOUR_GEO_MAXCYC (CFOUR)
-      :ref:`apdx:CFOUR` |w---w| Specifies the maximum allowed number of geometry optimization cycles. **Psi4 Interface:** Geometry optimizations run through PSI (except in sandwich mode) use PSI's optimizer and so this keyword has no effect. Use :ref:`optking <apdx:optking>` keywords instead, particularly |optking__geom_maxiter|.
+      :ref:`apdx:CFOUR` |w---w| Specifies the maximum allowed number of geometry optimization cycles. **Psi4 Interface:** Geometry optimizations run through PSI (except in sandwich mode) use PSI's optimizer and so this keyword has no effect. Use :ref:`optking <apdx:optking>` keywords instead, particularly :py:attr:`~optking.v1.optparams.OptParams.geom_maxiter`.
 
       * **Type**: integer
       * **Default**: 50
 
    CFOUR_GEO_MAXSTEP (CFOUR)
-      :ref:`apdx:CFOUR` |w---w| Specifies largest step (in millibohr) which is allowed in geometry optimizations. **Psi4 Interface:** Geometry optimizations run through PSI (except in sandwich mode) use PSI's optimizer and so this keyword has no effect. Use :ref:`optking <apdx:optking>` keywords instead, particularly |optking__intrafrag_step_limit|.
+      :ref:`apdx:CFOUR` |w---w| Specifies largest step (in millibohr) which is allowed in geometry optimizations. **Psi4 Interface:** Geometry optimizations run through PSI (except in sandwich mode) use PSI's optimizer and so this keyword has no effect. Use :ref:`optking <apdx:optking>` keywords instead, particularly :py:attr:`intrafrag_step_limit <optking.v1.optparams.OptParams.intrafrag_trust>`.
 
       * **Type**: integer
       * **Default**: 300
@@ -1810,7 +1810,7 @@ Keywords by Alpha
       * **Default**: INTEGERWORDS
 
    CFOUR_METHOD (CFOUR)
-      :ref:`apdx:CFOUR` |w---w| Specifies the geometry optimization strategy. Four values are permitted: NR (=0) -- Straightforward Newton-Raphson search for minimum; RFA (=1) -- Rational Function Approximation search for minimum (this method can be used to find minima when the initial structure is in a region where the Hessian index is nonzero); TS (=2) Cerjan-Miller eigenvector following search for a transition state (can be started in a region where the Hessian index is not equal to unity); MANR (=3) -- Morse-adjusted Newton-Raphson search for minimum (very efficient minimization scheme, particularly if the Hessian is available); 4 is currently unavailable; SINGLE_POINT (=5) is a single point calculation. **Psi4 Interface:** Geometry optimizations run through PSI (except in sandwich mode) use PSI's optimizer and so this keyword has no effect. Use :ref:`optking <apdx:optking>` keywords instead, particularly |optking__opt_type| and |optking__step_type|.
+      :ref:`apdx:CFOUR` |w---w| Specifies the geometry optimization strategy. Four values are permitted: NR (=0) -- Straightforward Newton-Raphson search for minimum; RFA (=1) -- Rational Function Approximation search for minimum (this method can be used to find minima when the initial structure is in a region where the Hessian index is nonzero); TS (=2) Cerjan-Miller eigenvector following search for a transition state (can be started in a region where the Hessian index is not equal to unity); MANR (=3) -- Morse-adjusted Newton-Raphson search for minimum (very efficient minimization scheme, particularly if the Hessian is available); 4 is currently unavailable; SINGLE_POINT (=5) is a single point calculation. **Psi4 Interface:** Geometry optimizations run through PSI (except in sandwich mode) use PSI's optimizer and so this keyword has no effect. Use :ref:`optking <apdx:optking>` keywords instead, particularly :py:attr:`~optking.v1.optparams.OptParams.opt_type` and :py:attr:`~optking.v1.optparams.OptParams.step_type`.
 
       * **Type**: string
       * **Possible Values**: NR, RFA, TS, MANR, SINGLE\_POINT
@@ -4566,429 +4566,395 @@ Keywords by Alpha
       * **Possible Values**: OMP2, OMP3, OCEPA, OMP2.5, REMP, OREMP
       * **Default**: OMP2
 
+   ACCEPT_SYMMETRY_BREAKING (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.accept_symmetry_breaking`
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   ADD_AUXILIARY_BONDS (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.add_auxiliary_bonds`
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: true
+
+   AUXILIARY_BOND_FACTOR (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.auxiliary_bond_factor`
+
+      * **Type**: double
+      * **Default**: 2.5
+
+   BT_DX_CONV (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.bt_dx_conv`
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1e-7
+
+   BT_DX_RMS_CHANGE_CONV (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.bt_dx_rms_change_conv`
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1e-12
+
+   BT_MAX_ITER (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.bt_max_iter`
+
+      * **Type**: double
+      * **Default**: 25
+
    CARTESIAN_SYM_TOLERANCE (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Tolerance for symmetrizing cartesian geometry between steps
 
       * **Type**: :ref:`conv double <op_c_conv>`
       * **Default**: 1e-7
 
+   CART_HESS_READ (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.full_hess_every`
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   CONJUGATE_GRADIENT_TYPE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.conjugate_gradient_type`
+
+      * **Type**: string
+      * **Default**: No Default
+
    CONSECUTIVE_BACKSTEPS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Set number of consecutive backward steps allowed in optimization
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`consecutive_backsteps <optking.v1.optparams.OptParams.consecutive_backsteps_allowed>`
 
       * **Type**: integer
       * **Default**: 0
 
+   COVALENT_CONNECT (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.covalent_connect`
+
+      * **Type**: double
+      * **Default**: 1.3
+
    CUSTOM_COORDS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| A string formatted as a dicitonary containing a set of coordinates. Coordinates can be appended to Optking's coordinate set or used on their own - expected optking 0.3.1.
+      :ref:`apdx:OPTKING` |w---w| Expected in an upcoming release.
 
       * **Type**: string
       * **Default**: No Default
 
    DYNAMIC_LEVEL (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Starting level for dynamic optimization (0=nondynamic, higher=>more conservative)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.dynamic_level`
 
       * **Type**: integer
       * **Default**: 0
 
+   DYNAMIC_LEVEL_MAX (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`dynamic_level_max <optking.v1.optparams.OptParams.dynamic_lvl_max>`
+
+      * **Type**: integer
+      * **Default**: 6
+
    ENSURE_BT_CONVERGENCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Reduce step size as necessary to ensure back-transformation of internal coordinate step to cartesian coordinates.
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ensure_bt_convergence`
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
 
    EXT_FORCE_BEND (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify formula for external forces for angles between atoms
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ext_force_bend`
 
       * **Type**: string
       * **Default**: No Default
 
    EXT_FORCE_CARTESIAN (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Symmetry formula for external forces for cartesian coordinates on atoms .
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ext_force_cartesian`
 
       * **Type**: string
       * **Default**: No Default
 
    EXT_FORCE_DIHEDRAL (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify formula for external forces for dihedral angles between atoms
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ext_force_dihedral`
 
       * **Type**: string
       * **Default**: No Default
 
    EXT_FORCE_DISTANCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify formula for external forces for the distance between atoms
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ext_force_distance`
 
       * **Type**: string
       * **Default**: No Default
 
    EXT_FORCE_OOFP (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify formula for external forces for out-of-plane angles between atoms
-
-      * **Type**: string
-      * **Default**: No Default
-
-   FREEZE_ALL_DIHEDRALS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Freeze ALL dihedral angles
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
-
-   FROZEN_BEND (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify angles between atoms to be frozen (unchanged)
-
-      * **Type**: string
-      * **Default**: No Default
-
-   FROZEN_CARTESIAN (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify atom and X, XY, XYZ, ... to be frozen (unchanged)
-
-      * **Type**: string
-      * **Default**: No Default
-
-   FROZEN_DIHEDRAL (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify dihedral angles between atoms to be frozen (unchanged)
-
-      * **Type**: string
-      * **Default**: No Default
-
-   FROZEN_DISTANCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify distances between atoms to be frozen (unchanged)
-
-      * **Type**: string
-      * **Default**: No Default
-
-   FROZEN_OOFP (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify out-of-plane angles between atoms to be frozen (unchanged)
-
-      * **Type**: string
-      * **Default**: No Default
-
-   GEOM_MAXITER (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Maximum number of geometry optimization steps
-
-      * **Type**: integer
-      * **Default**: 50
-
-   H_UPDATE_DEN_TOL (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Denominator check for hessian update.
-
-      * **Type**: :ref:`conv double <op_c_conv>`
-      * **Default**: 1e-7
-
-   INTERFRAG_STEP_LIMIT (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Maximum step size in bohr or radian along an interfragment coordinate
-
-      * **Type**: double
-      * **Default**: 0.5
-
-   INTRAFRAG_STEP_LIMIT (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Initial maximum step size in bohr or radian along an internal coordinate
-
-      * **Type**: double
-      * **Default**: 0.5
-
-   INTRAFRAG_STEP_LIMIT_MAX (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Upper bound for dynamic trust radius [au]
-
-      * **Type**: double
-      * **Default**: 1.0
-
-   INTRAFRAG_STEP_LIMIT_MIN (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Lower bound for dynamic trust radius [au]
-
-      * **Type**: double
-      * **Default**: 0.001
-
-   IRC_DIRECTION (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| IRC mapping direction
-
-      * **Type**: string
-      * **Possible Values**: FORWARD, BACKWARD
-      * **Default**: FORWARD
-
-   IRC_POINTS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Maximum number of IRC points to collect before stopping.
-
-      * **Type**: integer
-      * **Default**: 20
-
-   IRC_STEP_SIZE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| IRC step size in bohr(amu)\ :math:`^{1/2}`.
-
-      * **Type**: double
-      * **Default**: 0.2
-
-   OPT_COORDINATES (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Geometry optimization coordinates to use. REDUNDANT and INTERNAL are synonyms and the default. CARTESIAN uses only cartesian coordinates. BOTH uses both redundant and cartesian coordinates. CUSTOM is not fully implemented yet - expected optking 0.3.1
-
-      * **Type**: string
-      * **Possible Values**: REDUNDANT, INTERNAL, CARTESIAN, BOTH, CUSTOM
-      * **Default**: INTERNAL
-
-   OPT_TYPE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specifies minimum search, transition-state search, or IRC following
-
-      * **Type**: string
-      * **Possible Values**: MIN, TS, IRC
-      * **Default**: MIN
-
-   PRINT_OPT_PARAMS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Print all optking parameters.
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
-
-   RANGED_BEND (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify range for angles between atoms to be constrained to (eq. value specified) analogous to the previous FIXED_BEND
-
-      * **Type**: string
-      * **Default**: No Default
-
-   RANGED_DIHEDRAL (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify range for the dihedral angles between atoms to be constrained to (eq. value specified) analogous to the previous FIXED_DIHEDRAL
-
-      * **Type**: string
-      * **Default**: No Default
-
-   RANGED_DISTANCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify range for distances between atoms to be constrained to (eq. value specified) analogous to the previous FIXED_DISTANCE
-
-      * **Type**: string
-      * **Default**: No Default
-
-   RANGED_OOFP (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify range for the out-of-plane angles between atoms to be constrained to (eq. value specified) analogous to the old FIXED_<COORD> keyword
-
-      * **Type**: string
-      * **Default**: No Default
-
-   RFO_FOLLOW_ROOT (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do follow the initial RFO vector after the first step?
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
-
-   RFO_NORMALIZATION_MAX (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Eigenvectors of RFO matrix whose final column is smaller than this are ignored.
-
-      * **Type**: double
-      * **Default**: 100
-
-   RFO_ROOT (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Root for RFO to follow, 0 being lowest (for a minimum)
-
-      * **Type**: integer
-      * **Default**: 0
-
-   RSRFO_ALPHA_MAX (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Absolute maximum value of RS-RFO.
-
-      * **Type**: double
-      * **Default**: 1e8
-
-   STEP_TYPE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Geometry optimization step type, either Newton-Raphson or Rational Function Optimization
-
-      * **Type**: string
-      * **Possible Values**: RFO, RS\_I\_RFO, P\_RFO, NR, SD, LINESEARCH
-      * **Default**: RFO
-
-   UNFREEZE_DIHEDRALS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Unfreeze a subset of dihedrals - meant for use with freeze_all_dihedrals
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ext_force_oofp`
 
       * **Type**: string
       * **Default**: No Default
 
    FLEXIBLE_G_CONVERGENCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Even if a user-defined threshold is set, allow for normal, flexible convergence criteria
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ensure_bt_convergence`
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
-
-   G_CONVERGENCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Set of optimization criteria. Specification of any MAX_*_G_CONVERGENCE or RMS_*_G_CONVERGENCE options will append to overwrite the criteria set here unless |optking__flexible_g_convergence| is also on. See Table :ref:`Geometry Convergence <table:optkingconv>` for details.
-
-      * **Type**: string
-      * **Possible Values**: QCHEM, MOLPRO, GAU, GAU\_LOOSE, GAU\_TIGHT, INTERFRAG\_TIGHT, GAU\_VERYTIGHT, TURBOMOLE, CFOUR, NWCHEM\_LOOSE
-      * **Default**: QCHEM
-
-   MAX_DISP_G_CONVERGENCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Convergence criterion for geometry optmization: maximum displacement (internal coordinates, atomic units).
-
-      * **Type**: :ref:`conv double <op_c_conv>`
-      * **Default**: 1.2e-3
-
-   MAX_ENERGY_G_CONVERGENCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Convergence criterion for geometry optmization: maximum energy change.
-
-      * **Type**: :ref:`conv double <op_c_conv>`
-      * **Default**: 1.0e-6
-
-   MAX_FORCE_G_CONVERGENCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Convergence criterion for geometry optmization: maximum force (internal coordinates, atomic units).
-
-      * **Type**: :ref:`conv double <op_c_conv>`
-      * **Default**: 3.0e-4
-
-   RMS_DISP_G_CONVERGENCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Convergence criterion for geometry optmization: rms displacement (internal coordinates, atomic units).
-
-      * **Type**: :ref:`conv double <op_c_conv>`
-      * **Default**: 1.2e-3
-
-   RMS_FORCE_G_CONVERGENCE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Convergence criterion for geometry optmization: rms force (internal coordinates, atomic units).
-
-      * **Type**: :ref:`conv double <op_c_conv>`
-      * **Default**: 3.0e-4
-
-   CART_HESS_READ (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do read Cartesian Hessian? Only for experts - use |optking__full_hess_every| instead.
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
-
-   FULL_HESS_EVERY (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Frequency with which to compute the full Hessian in the course of a geometry optimization. 0 means to compute the initial Hessian only, 1 means recompute every step, and N means recompute every N steps. The default (-1) is to never compute the full Hessian.
-
-      * **Type**: integer
-      * **Default**: -1
-
-   HESS_UPDATE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Hessian update scheme
-
-      * **Type**: string
-      * **Possible Values**: NONE, BFGS, MS, POWELL, BOFILL
-      * **Default**: BFGS
-
-   HESS_UPDATE_LIMIT (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do limit the magnitude of changes caused by the Hessian update?
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: true
-
-   HESS_UPDATE_LIMIT_MAX (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| If |optking__hess_update_limit| is true, changes to the Hessian from the update are limited to the larger of |optking__hess_update_limit_scale| * (the previous value) and HESS_UPDATE_LIMIT_MAX [au].
-
-      * **Type**: double
-      * **Default**: 1.00
-
-   HESS_UPDATE_LIMIT_SCALE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| If |optking__hess_update_limit| is true, changes to the Hessian from the update are limited to the larger of HESS_UPDATE_LIMIT_SCALE * (the previous value) and |optking__hess_update_limit_max| [au].
-
-      * **Type**: double
-      * **Default**: 0.50
-
-   HESS_UPDATE_USE_LAST (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Number of previous steps to use in Hessian update, 0 uses all
-
-      * **Type**: integer
-      * **Default**: 4
-
-   INTRAFRAG_HESS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Model Hessian to guess intrafragment force constants
-
-      * **Type**: string
-      * **Possible Values**: FISCHER, SCHLEGEL, SIMPLE, LINDH, LINDH\_SIMPLE
-      * **Default**: SCHLEGEL
-
-   ADD_AUXILIARY_BONDS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do add bond coordinates at nearby atoms for non-bonded systems?
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: true
-
-   AUXILIARY_BOND_FACTOR (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| This factor times standard covalent distance is used to add extra stretch coordinates.
-
-      * **Type**: double
-      * **Default**: 2.5
-
-   COVALENT_CONNECT (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| When determining connectivity, a bond is assigned if interatomic distance is less than (this number) * sum of covalent radii.
-
-      * **Type**: double
-      * **Default**: 1.3
 
    FRAG_MODE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| For multi-fragment molecules, treat as single bonded molecule or via interfragment coordinates. A primary difference is that in ``MULTI`` mode, the interfragment coordinates are not redundant.
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.frag_mode`
 
       * **Type**: string
-      * **Possible Values**: SINGLE, MULTI
       * **Default**: SINGLE
 
    FRAG_REF_ATOMS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Specify atoms to use for reference points in interfragment coordinates
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.frag_ref_atoms`
 
       * **Type**: array
       * **Default**: No Default
 
-   FREEZE_INTERFRAG (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do freeze all interfragment modes?
+   FREEZE_ALL_DIHEDRALS (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.freeze_all_dihedrals`
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
 
    FREEZE_INTRAFRAG (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do freeze all fragments rigid?
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.freeze_intrafrag`
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
 
+   FROZEN_BEND (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.frozen_bend`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   FROZEN_CARTESIAN (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.frozen_cartesian`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   FROZEN_DIHEDRAL (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.frozen_dihedral`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   FROZEN_DISTANCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.frozen_distance`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   FROZEN_OOFP (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.frozen_oofp`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   FULL_HESS_EVERY (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.full_hess_every`
+
+      * **Type**: integer
+      * **Default**: -1
+
+   GEOM_MAXITER (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.geom_maxiter`
+
+      * **Type**: integer
+      * **Default**: 50
+
+   G_CONVERGENCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.g_convergence`
+
+      * **Type**: string
+      * **Default**: QCHEM
+
+   HESSIAN_FILE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.hessian_file`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   HESS_UPDATE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.hess_update`
+
+      * **Type**: string
+      * **Default**: BFGS
+
+   HESS_UPDATE_LIMIT (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.hess_update_limit`
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: true
+
+   HESS_UPDATE_LIMIT_MAX (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.hess_update_limit_max`
+
+      * **Type**: double
+      * **Default**: 1.00
+
+   HESS_UPDATE_LIMIT_SCALE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.hess_update_limit_scale`
+
+      * **Type**: double
+      * **Default**: 0.50
+
+   HESS_UPDATE_USE_LAST (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.hess_update_use_last`
+
+      * **Type**: integer
+      * **Default**: 4
+
    H_BOND_CONNECT (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| For now, this is a general maximum distance for the definition of H-bonds
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.h_bond_connect`
 
       * **Type**: double
       * **Default**: 4.3
 
    H_GUESS_EVERY (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Re-estimate the Hessian at every step, i.e., ignore the currently stored Hessian.
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.h_guess_every`
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
-
-   INTCOS_GENERATE_EXIT (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do only generate the internal coordinates and then stop?
-
-      * **Type**: :ref:`boolean <op_c_boolean>`
-      * **Default**: false
-
-   INTERFRAGMENT_CONNECT (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| When connecting disparate fragments when frag_mode = SIMPLE, a "bond" is assigned if interatomic distance is less than (this number) * sum of covalent radii. The value is then increased until all the fragments are connected (directly or indirectly).
-
-      * **Type**: double
-      * **Default**: 1.8
 
    INTERFRAG_COLLINEAR_TOL (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Tolerance for whether to reject a set of generated reference atoms due to collinearity
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.interfrag_collinear_tol`
 
       * **Type**: :ref:`conv double <op_c_conv>`
       * **Default**: 0.01
 
    INTERFRAG_COORDS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Dictionary to define a dimer. Contains "Natoms per frag", "A Frag", "A Ref Atoms", "B Frag", and "B Ref Atoms"
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.interfrag_coords`
 
       * **Type**: string
       * **Default**: No Default
 
    INTERFRAG_DIST_INV (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Use 1/R for the interfragment stretching coordinate instead of R
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.interfrag_dist_inv`
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
 
    INTERFRAG_HESS (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Model Hessian to guess interfragment force constants
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.interfrag_hess`
 
       * **Type**: string
-      * **Possible Values**: DEFAULT, FISCHER\_LIKE
       * **Default**: DEFAULT
 
    INTERFRAG_MODE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| When interfragment coordinates are present, use as reference points either principal axes or fixed linear combinations of atoms.
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.interfrag_mode`
 
       * **Type**: string
-      * **Possible Values**: FIXED, PRINCIPAL\_AXES
       * **Default**: FIXED
+
+   INTERFRAG_STEP_LIMIT (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`interfrag_step_limit <optking.v1.optparams.OptParams.interfrag_trust>`
+
+      * **Type**: double
+      * **Default**: 0.5
+
+   INTERFRAG_STEP_LIMIT_MAX (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`interfrag_step_limit_max <optking.v1.optparams.OptParams.interfrag_trust_max>`
+
+      * **Type**: double
+      * **Default**: 1.0
+
+   INTERFRAG_STEP_LIMIT_MIN (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`interfrag_step_limit_min <optking.v1.optparams.OptParams.interfrag_trust_min>`
+
+      * **Type**: double
+      * **Default**: 0.001
+
+   INTRAFRAG_STEP_LIMIT (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`intrafrag_step_limit <optking.v1.optparams.OptParams.intrafrag_trust>`
+
+      * **Type**: double
+      * **Default**: 0.5
+
+   INTRAFRAG_STEP_LIMIT_MAX (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`intrafrag_step_limit_max <optking.v1.optparams.OptParams.intrafrag_trust_min>`
+
+      * **Type**: double
+      * **Default**: 1.0
+
+   INTRAFRAG_STEP_LIMIT_MIN (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`intrafrag_step_limit_min <optking.v1.optparams.OptParams.intrafrag_trust_min>`
+
+      * **Type**: double
+      * **Default**: 0.001
+
+   IRC_CONVERGENCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.irc_convergence`
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: -0.7
+
+   IRC_DIRECTION (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.irc_direction`
+
+      * **Type**: string
+      * **Default**: FORWARD
+
+   IRC_MODE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.irc_mode`
+
+      * **Type**: string
+      * **Default**: NORMAL
+
+   IRC_POINTS (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.irc_points`
+
+      * **Type**: integer
+      * **Default**: 20
+
+   IRC_STEP_SIZE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.irc_step_size`
+
+      * **Type**: double
+      * **Default**: 0.2
+
+   LINEAR_ALGEBRA_TOL (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| Threshold to ignore small values when inverting matrices
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1e-10
+
+   LINEAR_BEND_THRESHOLD (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.linear_bend_threshold`
+
+      * **Type**: double
+      * **Default**: 3.05
+
+   LINESEARCH (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.linesearch`
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   LINESEARCH_STEP (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.linesearch_step`
+
+      * **Type**: double
+      * **Default**: 0.2
+
+   MAX_DISP_G_CONVERGENCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.conv_max_disp`
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1.2e-3
+
+   MAX_ENERGY_G_CONVERGENCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.conv_max_DE`
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1.0e-6
+
+   MAX_FORCE_G_CONVERGENCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.conv_max_force`
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 3.0e-4
+
+   OPT_COORDINATES (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.opt_coordinates`
+
+      * **Type**: string
+      * **Default**: INTERNAL
 
    OPT_RESTART (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Restart the optimization from optking's written history
@@ -4996,11 +4962,83 @@ Keywords by Alpha
       * **Type**: double
       * **Default**: 0
 
+   OPT_TYPE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.opt_type`
+
+      * **Type**: string
+      * **Default**: MIN
+
    PRINT_TRAJECTORY_XYZ_FILE (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Should an xyz trajectory file be kept (useful for visualization)?
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.print_trajectory_xyz_file`
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
+
+   RANGED_BEND (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ranged_bend`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   RANGED_CARTESIAN (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ranged_cartesian`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   RANGED_DIHEDRAL (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ranged_dihedral`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   RANGED_DISTANCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ranged_distance`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   RANGED_OOFP (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.ranged_oofp`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   RFO_FOLLOW_ROOT (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.rfo_follow_root`
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   RFO_NORMALIZATION_MAX (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.rfo_normalization_max`
+
+      * **Type**: double
+      * **Default**: 100
+
+   RFO_ROOT (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.rfo_root`
+
+      * **Type**: integer
+      * **Default**: 0
+
+   RMS_DISP_G_CONVERGENCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`rms_disp_g_convergence <optking.v1.optparams.OptParams.conv_rms_disp>`
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1.2e-3
+
+   RMS_FORCE_G_CONVERGENCE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`rms_force_g_convergence <optking.v1.optparams.OptParams.conv_rms_force>`
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 3.0e-4
+
+   RSRFO_ALPHA_MAX (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.rsrfo_alpha_max`
+
+      * **Type**: double
+      * **Default**: 1e8
 
    SAVE_OPTIMIZATION (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Save OptKing's internal classes for possible restart upon error
@@ -5008,17 +5046,59 @@ Keywords by Alpha
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
 
+   SD_HESSIAN (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.sd_hessian`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   SIMPLE_STEP_SCALING (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.simple_step_scaling`
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   STEEPEST_DESCENT_TYPE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.steepest_descent_type`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   STEP_TYPE (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.step_type`
+
+      * **Type**: string
+      * **Default**: RFO
+
    TEST_B (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do test B matrix?
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.test_B`
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
 
    TEST_DERIVATIVE_B (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Do test derivative B matrix?
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.test_derivative_B`
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
+
+   UNFREEZE_DIHEDRALS (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.unfreeze_dihedrals`
+
+      * **Type**: string
+      * **Default**: No Default
+
+   V3D_TORS_ANGLE_LIM (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.v3d_tors_angle_lim`
+
+      * **Type**: double
+      * **Default**: 0.017
+
+   V3D_TORS_COS_TOL (OPTKING)
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.v3d_tors_cos_tol`
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1e-10
 
    WRITE_OPT_HISTORY (OPTKING)
       :ref:`apdx:OPTKING` |w---w| Write the full history to disk. Produces a non validated OptimizationResult.
@@ -5033,7 +5113,7 @@ Keywords by Alpha
       * **Default**: false
 
    WRITE_TRAJECTORY (OPTKING)
-      :ref:`apdx:OPTKING` |w---w| Write Optimization Trajectory
+      :ref:`apdx:OPTKING` |w---w| :py:attr:`~optking.v1.optparams.OptParams.write_trajectory`
 
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
