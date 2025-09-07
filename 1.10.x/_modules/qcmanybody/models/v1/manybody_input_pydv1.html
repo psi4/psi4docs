@@ -1,0 +1,559 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>qcmanybody.models.v1.manybody_input_pydv1</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=88a353b9" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="../../../../_static/documentation_options.js?v=03a09e7b"></script>
+    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    
+    
+     
+        <script src="../../../../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../../../../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../../../../_static/cloud.js"></script>
+    
+
+    <link rel="icon" href="../../../../_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../../index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/qcmanybody/models/v1/manybody_input_pydv1.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/f2492db">1.10</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">qcmanybody.models.v1.manybody_input_pydv1</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for qcmanybody.models.v1.manybody_input_pydv1</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">IntEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">create_model</span><span class="p">,</span> <span class="n">validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">DriverEnum</span><span class="p">,</span> <span class="n">ProtoModel</span><span class="p">,</span> <span class="n">Provenance</span>
+
+<span class="c1"># from .basemodels import ExtendedConfigDict, ProtoModel</span>
+<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+    <span class="c1"># keeping longstanding imports for compatibility with pre-next qcelemental</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.common_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.molecule</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicResultProperties</span><span class="p">,</span> <span class="n">AtomicResultProtocols</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Array</span>
+
+
+<span class="c1"># ====  Misplaced &amp; Next Models  ================================================</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AtomicSpecification</span><span class="p">(</span><span class="n">ProtoModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Specification for a single point QC calculation&quot;&quot;&quot;</span>
+
+    <span class="n">keywords</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">({},</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The program specific keywords to be used.&quot;</span><span class="p">)</span>
+    <span class="n">program</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The program for which the Specification is intended.&quot;</span><span class="p">)</span>
+
+    <span class="n">schema_name</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;qcschema_atomicspecification&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;qcschema_atomicspecification&quot;</span>
+    <span class="n">schema_version</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The version number of ``schema_name`` to which this model conforms.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">driver</span><span class="p">:</span> <span class="n">DriverEnum</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">DriverEnum</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">Model</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">Model</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="n">protocols</span><span class="p">:</span> <span class="n">AtomicResultProtocols</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">AtomicResultProtocols</span><span class="p">(),</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">AtomicResultProtocols</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">extras</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="p">{},</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Additional information to bundle with the computation. Use for schema development and scratch space.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ResultBase</span><span class="p">(</span><span class="n">ProtoModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all result classes&quot;&quot;&quot;</span>
+
+    <span class="c1"># input_data: InputBase = Field(..., description=InputBase.__doc__)</span>
+    <span class="n">input_data</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;A boolean indicator that the operation succeeded or failed. Allows programmatic assessment of &quot;</span>
+        <span class="s2">&quot;all results regardless of if they failed or succeeded by checking `result.success`.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">stdout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The primary logging output of the program, whether natively standard output or a file. Presence vs. absence (or null-ness?) configurable by protocol.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">stderr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The standard error of the program execution.&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SuccessfulResultBase</span><span class="p">(</span><span class="n">ResultBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base object for any successful result&quot;&quot;&quot;</span>
+
+    <span class="n">success</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Always `True` for a successful result&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># ====  Protocols  ==============================================================</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ComponentResultsProtocolEnum</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Which component results to preserve in a many body result; usually AtomicResults.&quot;&quot;&quot;</span>
+
+    <span class="nb">all</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
+    <span class="c1"># max_nbody = &quot;max_nbody&quot;</span>
+    <span class="n">none</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ManyBodyProtocols</span><span class="p">(</span><span class="n">ProtoModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Protocols regarding the manipulation of a ManyBody output data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">component_results</span><span class="p">:</span> <span class="n">ComponentResultsProtocolEnum</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">ComponentResultsProtocolEnum</span><span class="o">.</span><span class="n">none</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">ComponentResultsProtocolEnum</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
+        <span class="n">force_skip_defaults</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_v</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">target_version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">/</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcmanybody.models.v1.ManyBodyProtocols&quot;</span><span class="p">,</span> <span class="s2">&quot;qcmanybody.models.v2.ManyBodyProtocols&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to instance of particular QCSchema version.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.v1.basemodels</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_convertible_version</span>
+
+        <span class="kn">import</span><span class="w"> </span><span class="nn">qcmanybody</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcmb</span>
+
+        <span class="k">if</span> <span class="n">check_convertible_version</span><span class="p">(</span><span class="n">target_version</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;ManyBodyProtocols&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;self&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="n">dself</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">target_version</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># serialization is compact, so use model to assure value</span>
+            <span class="n">dself</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;component_results&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">dself</span><span class="p">[</span><span class="s2">&quot;cluster_results&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_results</span><span class="o">.</span><span class="n">value</span>
+
+            <span class="n">self_vN</span> <span class="o">=</span> <span class="n">qcmb</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">ManyBodyProtocols</span><span class="p">(</span><span class="o">**</span><span class="n">dself</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="n">target_version</span>
+
+        <span class="k">return</span> <span class="n">self_vN</span>
+
+
+<span class="c1"># ====  Inputs  =================================================================</span>
+
+
+<div class="viewcode-block" id="BsseEnum">
+<a class="viewcode-back" href="../../../../nbody.html#psi4.driver.driver_nbody.BsseEnum">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BsseEnum</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Available basis-set superposition error (BSSE) treatments.&quot;&quot;&quot;</span>
+
+    <span class="n">nocp</span> <span class="o">=</span> <span class="s2">&quot;nocp&quot;</span>  <span class="c1"># plain supramolecular interaction energy</span>
+    <span class="n">cp</span> <span class="o">=</span> <span class="s2">&quot;cp&quot;</span>  <span class="c1"># Boys-Bernardi counterpoise correction; site-site functional counterpoise (SSFC)</span>
+    <span class="n">vmfc</span> <span class="o">=</span> <span class="s2">&quot;vmfc&quot;</span>  <span class="c1"># Valiron-Mayer function counterpoise</span>
+    <span class="n">ssfc</span> <span class="o">=</span> <span class="s2">&quot;cp&quot;</span>
+    <span class="n">mbe</span> <span class="o">=</span> <span class="s2">&quot;nocp&quot;</span>
+    <span class="n">none</span> <span class="o">=</span> <span class="s2">&quot;nocp&quot;</span>
+
+<div class="viewcode-block" id="BsseEnum.formal">
+<a class="viewcode-back" href="../../../../nbody.html#psi4.driver.driver_nbody.BsseEnum.formal">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">formal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;nocp&quot;</span><span class="p">:</span> <span class="s2">&quot;Non-Counterpoise Corrected&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cp&quot;</span><span class="p">:</span> <span class="s2">&quot;Counterpoise Corrected&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vmfc&quot;</span><span class="p">:</span> <span class="s2">&quot;Valiron-Mayer Function Counterpoise&quot;</span><span class="p">,</span>
+        <span class="p">}[</span><span class="bp">self</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="BsseEnum.abbr">
+<a class="viewcode-back" href="../../../../nbody.html#psi4.driver.driver_nbody.BsseEnum.abbr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">abbr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;nocp&quot;</span><span class="p">:</span> <span class="s2">&quot;NoCP&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cp&quot;</span><span class="p">:</span> <span class="s2">&quot;CP&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vmfc&quot;</span><span class="p">:</span> <span class="s2">&quot;VMFC&quot;</span><span class="p">,</span>
+        <span class="p">}[</span><span class="bp">self</span><span class="p">]</span></div>
+</div>
+
+
+
+<span class="n">FragBasIndex</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ManyBodyKeywords</span><span class="p">(</span><span class="n">ProtoModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The many-body-specific keywords for user control.&quot;&quot;&quot;</span>
+
+    <span class="n">schema_name</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;qcschema_manybodykeywords&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;qcschema_manybodykeywords&quot;</span>
+    <span class="n">schema_version</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The version number of ``schema_name`` to which this model conforms.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">bsse_type</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BsseEnum</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">BsseEnum</span><span class="o">.</span><span class="n">cp</span><span class="p">],</span>
+        <span class="c1"># definitive description</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Requested BSSE treatments. First in list determines which interaction or total &quot;</span>
+        <span class="s2">&quot;energy/gradient/Hessian returned.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">embedding_charges</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Atom-centered point charges to be used on molecule fragments whose basis sets are not included in &quot;</span>
+        <span class="s2">&quot;the computation. Keys: 1-based index of fragment. Values: list of atom charges for that fragment. &quot;</span>
+        <span class="s2">&quot;At present, QCManyBody will only accept non-None values of this keyword if environment variable &quot;</span>
+        <span class="s2">&quot;QCMANYBODY_EMBEDDING_CHARGES is set.&quot;</span><span class="p">,</span>
+        <span class="c1"># TODO embedding charges should sum to fragment charge, right? enforce?</span>
+        <span class="c1"># TODO embedding charges irrelevant to CP (basis sets always present)?</span>
+        <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;nfr&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;varies: nat in ifr&gt;&quot;</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">return_total_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">validate_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="c1"># definitive description</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;When True, returns the total data (energy/gradient/Hessian) of the system, otherwise returns &quot;</span>
+        <span class="s2">&quot;interaction data. Default is False for energies, True for gradients and Hessians. Note that the calculation &quot;</span>
+        <span class="s2">&quot;of counterpoise corrected total energies implies the calculation of the energies of monomers in the monomer &quot;</span>
+        <span class="s2">&quot;basis, hence specifying ``return_total_data = True`` may carry out more computations than &quot;</span>
+        <span class="s2">&quot;``return_total_data = False``. For gradients and Hessians, ``return_total_data = False`` is rarely useful.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">levels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;supersystem&quot;</span><span class="p">]],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="c1"># definitive description. appended in Computer</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dictionary of different levels of theory for different levels of expansion. Note that the primary &quot;</span>
+        <span class="s2">&quot;method_string is not used when this keyword is given. ``supersystem`` computes all higher order n-body &quot;</span>
+        <span class="s2">&quot;effects up to the number of fragments; this higher-order correction uses the nocp basis, regardless of &quot;</span>
+        <span class="s2">&quot;bsse_type. A method fills in for any lower unlisted nbody levels. Note that if &quot;</span>
+        <span class="s2">&quot;both this and max_nbody are provided, they must be consistent. Examples: &quot;</span>
+        <span class="s2">&quot;SUPERSYSTEM definition suspect&quot;</span>
+        <span class="s2">&quot;* {1: &#39;ccsd(t)&#39;, 2: &#39;mp2&#39;, &#39;supersystem&#39;: &#39;scf&#39;} &quot;</span>
+        <span class="s2">&quot;* {2: &#39;ccsd(t)/cc-pvdz&#39;, 3: &#39;mp2&#39;} &quot;</span>
+        <span class="s2">&quot;* Now invalid: {1: 2, 2: &#39;ccsd(t)/cc-pvdz&#39;, 3: &#39;mp2&#39;} &quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">max_nbody</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">validate_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="c1"># definitive description</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Maximum number of bodies to include in the many-body treatment. Possible: max_nbody &lt;= nfragments. &quot;</span>
+        <span class="s2">&quot;Default: max_nbody = nfragments.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">supersystem_ie_only</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">False</span><span class="p">,</span>
+        <span class="n">validate_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="c1"># definitive description</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Target the supersystem total/interaction energy (IE) data over the many-body expansion (MBE) &quot;</span>
+        <span class="s2">&quot;analysis, thereby omitting intermediate-body calculations. When False (default), compute each n-body level &quot;</span>
+        <span class="s2">&quot;in the MBE up through ``max_nbody``. When True (only allowed for ``max_nbody = nfragments`` ), only compute &quot;</span>
+        <span class="s2">&quot;enough for the overall interaction/total energy: max_nbody-body and 1-body. When True, properties &quot;</span>
+        <span class="s2">&quot;``INTERACTION </span><span class="si">{driver}</span><span class="s2"> THROUGH </span><span class="si">{max_nbody}</span><span class="s2">-BODY`` will always be available; &quot;</span>
+        <span class="s2">&quot;``TOTAL </span><span class="si">{driver}</span><span class="s2"> THROUGH </span><span class="si">{max_nbody}</span><span class="s2">-BODY`` will be available depending on ``return_total_data`` ; and &quot;</span>
+        <span class="s2">&quot;``</span><span class="si">{max_nbody}</span><span class="s2">-BODY CONTRIBUTION TO </span><span class="si">{driver}</span><span class="s2">`` won&#39;t be available (except for dimers). This keyword produces &quot;</span>
+        <span class="s2">&quot;no savings for a two-fragment molecule. But for the interaction energy of a three-fragment molecule, for &quot;</span>
+        <span class="s2">&quot;example, 2-body subsystems can be skipped with ``supersystem_ie_only=True``. Do not use with ``vmfc`` in &quot;</span>
+        <span class="s2">&quot;``bsse_type`` as it cannot produce savings.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;bsse_type&quot;</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_bsse_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BsseEnum</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span>
+        <span class="c1"># emulate ordered set</span>
+        <span class="c1"># * bt.lower() as return (w/i `list(dict.fromkeys([bt.lower() ...`)</span>
+        <span class="c1">#   works until aliases added to BsseEnum</span>
+        <span class="c1"># * BsseEnum[bt].value as return works for good vals, but passing bad</span>
+        <span class="c1">#   vals through as bt lets pydantic raise a clearer error message</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span>
+                <span class="p">[(</span><span class="n">BsseEnum</span><span class="p">[</span><span class="n">bt</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">bt</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">BsseEnum</span><span class="o">.</span><span class="n">__members__</span> <span class="k">else</span> <span class="n">bt</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">bt</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ManyBodySpecification</span><span class="p">(</span><span class="n">ProtoModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Combining the what (ManyBodyKeywords) with the how (AtomicSpecification).&quot;&quot;&quot;</span>
+
+    <span class="n">schema_name</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;qcschema_manybodyspecification&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;qcschema_manybodyspecification&quot;</span>
+    <span class="n">schema_version</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The version number of ``schema_name`` to which this model conforms.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># provenance: Provenance = Field(Provenance(**provenance_stamp(__name__)), description=Provenance.__doc__)</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="n">ManyBodyKeywords</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">ManyBodyKeywords</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="c1"># program: str = Field(..., description=&quot;The program for which the Specification is intended.&quot;)  # TODO is qcmanybody</span>
+    <span class="n">protocols</span><span class="p">:</span> <span class="n">ManyBodyProtocols</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ManyBodyProtocols</span><span class="p">(),</span> <span class="n">description</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">ManyBodyProtocols</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">))</span>
+    <span class="n">driver</span><span class="p">:</span> <span class="n">DriverEnum</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The computation driver; i.e., energy, gradient, hessian.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># specification: Union[AtomicSpecification, Dict[str, AtomicSpecification]] = Field(</span>
+    <span class="n">specification</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AtomicSpecification</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;??? TODO expand to cbs, fd&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">extras</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="p">{},</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Additional information to bundle with the computation. Use for schema development and scratch space.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;specification&quot;</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_specification</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AtomicSpecification</span><span class="p">]:</span>
+        <span class="c1"># print(f&quot;hit atomicspecification validator with {type(v)=} {v}&quot;, end=&quot;&quot;)</span>
+        <span class="c1"># v could be model instance or dict</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">AtomicSpecification</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;(auto)&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span>
+        <span class="c1"># print(f&quot; ... setting v={v}&quot;)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_v</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">target_version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">/</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcmanybody.models.v1.ManyBodySpecification&quot;</span><span class="p">,</span> <span class="s2">&quot;qcmanybody.models.v2.ManyBodySpecification&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to instance of particular QCSchema version.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.v1.basemodels</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_convertible_version</span>
+
+        <span class="kn">import</span><span class="w"> </span><span class="nn">qcmanybody</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcmb</span>
+
+        <span class="k">if</span> <span class="n">check_convertible_version</span><span class="p">(</span><span class="n">target_version</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;ManyBodySpecification&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;self&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="n">dself</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">target_version</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">dself</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_name&quot;</span><span class="p">)</span>
+            <span class="n">dself</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_version&quot;</span><span class="p">)</span>
+
+            <span class="n">dself</span><span class="p">[</span><span class="s2">&quot;keywords&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_name&quot;</span><span class="p">)</span>
+            <span class="n">dself</span><span class="p">[</span><span class="s2">&quot;keywords&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_version&quot;</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dself</span><span class="p">[</span><span class="s2">&quot;specification&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_name&quot;</span><span class="p">)</span>
+                <span class="n">dself</span><span class="p">[</span><span class="s2">&quot;specification&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_version&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">dself</span><span class="p">[</span><span class="s2">&quot;specification&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                    <span class="n">spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_name&quot;</span><span class="p">)</span>
+                    <span class="n">spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_version&quot;</span><span class="p">)</span>
+
+            <span class="n">self_vN</span> <span class="o">=</span> <span class="n">qcmb</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">ManyBodySpecification</span><span class="p">(</span><span class="o">**</span><span class="n">dself</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="n">target_version</span>
+
+        <span class="k">return</span> <span class="n">self_vN</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ManyBodyInput</span><span class="p">(</span><span class="n">ProtoModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Combining the what and how (ManyBodySpecification) with the who (Molecule).&quot;&quot;&quot;</span>
+
+    <span class="n">schema_name</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;qcschema_manybodyinput&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;qcschema_manybodyinput&quot;</span>
+    <span class="n">schema_version</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The version number of ``schema_name`` to which this model conforms.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># provenance: Provenance = Field(Provenance(**provenance_stamp(__name__)), description=Provenance.__doc__)</span>
+    <span class="n">specification</span><span class="p">:</span> <span class="n">ManyBodySpecification</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;???&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">molecule</span><span class="p">:</span> <span class="n">Molecule</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Target molecule for many-body expansion (MBE) or interaction energy (IE) analysis.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">extras</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="p">{},</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Additional information to bundle with the computation. Use for schema development and scratch space.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_v</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">target_version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">/</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcmanybody.models.v1.ManyBodyInput&quot;</span><span class="p">,</span> <span class="s2">&quot;qcmanybody.models.v2.ManyBodyInput&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to instance of particular QCSchema version.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.v1.basemodels</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_convertible_version</span>
+
+        <span class="kn">import</span><span class="w"> </span><span class="nn">qcmanybody</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcmb</span>
+
+        <span class="k">if</span> <span class="n">check_convertible_version</span><span class="p">(</span><span class="n">target_version</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;ManyBodyInput&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;self&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="n">dself</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">target_version</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">dself</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_name&quot;</span><span class="p">)</span>  <span class="c1"># changed in v2</span>
+            <span class="n">dself</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_version&quot;</span><span class="p">)</span>  <span class="c1"># changed in v2</span>
+
+            <span class="c1"># remove harmless empty extras field that v2 won&#39;t accept. if populated, pydantic will catch it.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dself</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;extras&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="n">dself</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;extras&quot;</span><span class="p">)</span>
+
+            <span class="n">dself</span><span class="p">[</span><span class="s2">&quot;molecule&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">convert_v</span><span class="p">(</span><span class="n">target_version</span><span class="p">)</span>
+            <span class="n">dself</span><span class="p">[</span><span class="s2">&quot;specification&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">convert_v</span><span class="p">(</span><span class="n">target_version</span><span class="p">)</span>
+
+            <span class="n">self_vN</span> <span class="o">=</span> <span class="n">qcmb</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">ManyBodyInput</span><span class="p">(</span><span class="o">**</span><span class="n">dself</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="n">target_version</span>
+
+        <span class="k">return</span> <span class="n">self_vN</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="../../../../index.html">
+    <img class="logo" src="../../../../_static/psi4square.png" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel"
+                                       aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/></div>
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../../index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/qcmanybody/models/v1/manybody_input_pydv1.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/f2492db">1.10</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">qcmanybody.models.v1.manybody_input_pydv1</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Sunday, 07 September 2025 02:48AM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

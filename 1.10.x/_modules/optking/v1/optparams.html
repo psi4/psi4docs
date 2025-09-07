@@ -1,0 +1,1484 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>optking.v1.optparams</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=88a353b9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="../../../_static/documentation_options.js?v=03a09e7b"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/tabs.js?v=3030b3cb"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    
+    
+     
+        <script src="../../../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../../../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../../../_static/cloud.js"></script>
+    
+
+    <link rel="icon" href="../../../_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/optking/v1/optparams.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/f2492db">1.10</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">optking.v1.optparams</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for optking.v1.optparams</h1><div class="highlight"><pre>
+<span></span><span class="c1"># OptParams is a class to store all of the optimization parameters.</span>
+<span class="c1"># The init function will receive a User Option Dictionary (uod) which can</span>
+<span class="c1"># override default values.</span>
+<span class="c1"># P = parameters (&#39;self&#39;)</span>
+<span class="c1"># Option keys in the input dictionary are interpreted case-insensitively.</span>
+<span class="c1"># The enumerated string types are translated to all upper-case within the parameter object.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">packaging</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic.v1</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
+    <span class="n">root_validator</span><span class="p">,</span>
+    <span class="n">validator</span><span class="p">,</span>
+    <span class="n">PrivateAttr</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">optking.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optking</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_name</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">log_name</span><span class="si">}{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">CART_STR</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(?:xyz|xy|yz|x|y|z)&quot;</span>
+
+<span class="c1"># \W? allow parenthesis, comma, bracket etc...</span>
+<span class="c1"># \d+ one or more integers 1, 10, etc...</span>
+<span class="c1"># \W? allow parenthesis, comma, bracket etc...</span>
+<span class="c1"># \s+ one or more whitespace</span>
+<span class="c1"># \d+ one or more integers</span>
+<span class="c1"># \W* allow parenthesis, comma, bracket, etc... (Final non word can repeat &quot;),&quot;)</span>
+<span class="c1"># \s* zero or more than one whitespace to allow closing</span>
+<span class="c1"># matches `(1, 10) ` or `1 10 ` and similar</span>
+
+<span class="n">ATOM_2</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\W?\s*\d+\W?\s+\d+\s*\W*\s*&quot;</span>
+<span class="n">ATOM_3</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\W?\s*\d+\W?\s+\d+\W?\s+\d+\s*\W*s*&quot;</span>
+<span class="n">ATOM_4</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\W?\s*\d+\W?\s+\d+\W?\s+\d+\W?\s+\d+\s*\W*\s*&quot;</span>
+<span class="n">RANGE</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\W?-?\d+\.\d+\W?\s+-?\d+\.\d+\s*\W*\s*&quot;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">InterfragCoords</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that the string input to create interfragment coords is mostly correct</span>
+<span class="sd">    (keys and types correct)&quot;&quot;&quot;</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">()</span>
+    <span class="n">natoms_per_frag</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alias</span><span class="o">=</span><span class="s2">&quot;NATOMS PER FRAG&quot;</span><span class="p">)</span>
+    <span class="n">a_frag</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;A FRAG&quot;</span><span class="p">)</span>
+    <span class="n">a_ref_atoms</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alias</span><span class="o">=</span><span class="s2">&quot;A REF ATOMS&quot;</span><span class="p">)</span>
+    <span class="n">a_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;FRAGMENT A&quot;</span><span class="p">)</span>
+    <span class="n">a_weights</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;A WEIGHTS&quot;</span><span class="p">)</span>
+    <span class="n">b_frag</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;B FRAG&quot;</span><span class="p">)</span>
+    <span class="n">b_ref_atoms</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alias</span><span class="o">=</span><span class="s2">&quot;B REF ATOMS&quot;</span><span class="p">)</span>
+    <span class="n">b_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;FRAGMENT B&quot;</span><span class="p">)</span>
+    <span class="n">b_weights</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;B WEIGHTS&quot;</span><span class="p">)</span>
+    <span class="n">frozen</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;FROZEN&quot;</span><span class="p">)</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_upper</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="n">by_alias</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dict_obj</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Provides consistent v1/v2 interface from optking &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">dict_obj</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="OptParams">
+<a class="viewcode-back" href="../../../optking.html#optking.v1.optparams.OptParams">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OptParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
+        <span class="n">alias_generator</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">field_name</span><span class="p">:</span> <span class="n">field_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">anystr_upper</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># validate_assignment=True,</span>
+        <span class="c1"># extra=&quot;forbid&quot;,</span>
+        <span class="c1">#  regexes need to use IGNORECASE flag since inputs won&#39;t be standardized until after</span>
+        <span class="c1"># validation</span>
+
+    <span class="c1"># SUBSECTION Optimization Algorithm</span>
+    <span class="c1"># NOTE Internal (in some cases legacy documentation) goes above fields as a commend.</span>
+    <span class="c1"># User documentation goes below as a string</span>
+
+    <span class="c1"># Maximum number of geometry optimization steps</span>
+    <span class="n">geom_maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The maximum number of geometry optimization steps allowed - Technically this is</span>
+<span class="sd">    the maximum number of gradients that Optking is allowed to calculate.&quot;&quot;&quot;</span>
+
+    <span class="c1"># If user sets one, assume this.</span>
+    <span class="n">alg_geom_maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+    <span class="c1"># Print level.  1 = normal</span>
+    <span class="n">print_lvl</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;PRINT&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An integer between 1 (least printing) and 5 (most printing). This has been largely, but not</span>
+<span class="sd">    entirely, replaced by using the logging modules ``DEBUG`` and ``INFO`` levels.</span>
+<span class="sd">    Consider changing the logging handler in ``loggingconfig.py`` or if using Psi4 change the</span>
+<span class="sd">    logging level from the command line. ``psi4 --loglevel=10...``&quot;&quot;&quot;</span>
+
+    <span class="c1"># Print all optimization parameters.</span>
+    <span class="c1"># printxopt_params: bool = False</span>
+    <span class="c1"># output_type: str = Field(regex=r&quot;^(?i^(?:))FILE|STDOUT|NULL$)$&quot;, default=&quot;FILE&quot;)</span>
+
+    <span class="c1"># Specifies minimum search, transition-state search, or IRC following</span>
+    <span class="n">opt_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:MIN|TS|IRC)$&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;MIN&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One of ``[&quot;MIN&quot;, &quot;TS&quot;, or &quot;IRC&quot;]``. ``OPT_TYPE`` will be changed if ``OPT_TYPE``</span>
+<span class="sd">    is not provided, but ``STEP_TYPE`` is provided, and the two are inconsistent. If both are</span>
+<span class="sd">    provided but are inconsistent, an error will be raised.</span>
+
+<span class="sd">    +------------------------------------------------------------------+</span>
+<span class="sd">    | Allowed ``opt_type`` and ``step_type`` values                    |</span>
+<span class="sd">    +==============+===================================================+</span>
+<span class="sd">    | ``opt_type`` | compatible ``step_type``                          |</span>
+<span class="sd">    +--------------+--------------+----+----+------------+-------------+</span>
+<span class="sd">    | MIN          | **RFO**      | NR | SD | LINESEARCH | Conjugate   |</span>
+<span class="sd">    +--------------+--------------+----+----+------------+-------------+</span>
+<span class="sd">    | TS           | **RS_I_RFO** | P_RFO                              |</span>
+<span class="sd">    +--------------+--------------+------------------------------------+</span>
+<span class="sd">    | IRC          | N/A                                               |</span>
+<span class="sd">    +--------------+---------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Geometry optimization step type, e.g., Newton-Raphson or Rational Function Optimization</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:RFO|RS_I_RFO|P_RFO|NR|SD|LINESEARCH|CONJUGATE)$&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;RFO&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One of ``[&quot;RFO&quot;, &quot;RS_I_RFO&quot;, &quot;P_RFO&quot;, &quot;NR&quot;, &quot;SD&quot;, &quot;LINESEARCH&quot;, &quot;CONJUGATE&quot;]``. If ``OPT_TYPE``</span>
+<span class="sd">    is ``TS`` and ``STEP_TYPE`` is not specified then ``STEP_TYPE`` will be set to ``RS_I_RFO``.&quot;&quot;&quot;</span>
+
+    <span class="c1"># What program to use for evaluating gradients and energies</span>
+    <span class="n">program</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;psi4&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;What program to use for running gradient and energy calculations through ``qcengine``.&quot;&quot;&quot;</span>
+
+    <span class="c1"># variation of steepest descent step size</span>
+    <span class="n">steepest_descent_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:OVERLAP|BARZILAI_BORWEIN)$&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;OVERLAP&quot;</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One of ``[&quot;OVERLAP&quot;, &quot;BARZILAI_BORWEIN&quot;]``. Change how the ``SD`` step is calculated (scaled)&quot;&quot;&quot;</span>
+
+    <span class="c1"># Conjugate gradient step types. See Wikipedia on Nonlinear_conjugate_gradient</span>
+    <span class="c1"># &quot;POLAK&quot; for Polak-Ribiere. Polak, E.; Ribière, G. (1969).</span>
+    <span class="c1"># Revue Française d&#39;Automatique, Informatique, Recherche Opérationnelle. 3 (1): 35–43.</span>
+    <span class="c1"># &quot;FLETCHER&quot; for Fletcher-Reeves.  Fletcher, R.; Reeves, C. M. (1964).</span>
+    <span class="n">conjugate_gradient_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:FLETCHER|DESCENT|POLAK)$&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;FLETCHER&quot;</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One of ``[&quot;POLAK&quot;, &quot;FLETCHER&quot;, &quot;DESCENT&quot;]``. Changes how the step direction is calculated.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Geometry optimization coordinates to use.</span>
+    <span class="c1"># REDUNDANT and INTERNAL are synonyms and the default.</span>
+    <span class="c1"># DELOCALIZED are the coordinates of Baker.</span>
+    <span class="c1"># NATURAL are the coordinates of Pulay.</span>
+    <span class="c1"># CARTESIAN uses only Cartesian coordinates.</span>
+    <span class="c1"># BOTH uses both redundant and Cartesian coordinates.</span>
+    <span class="n">opt_coordinates</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:REDUNDANT|INTERNAL|DELOCALIZED|NATURAL|CARTESIAN|BOTH)$&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;INTERNAL&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One of ``[&quot;REDUNDANT&quot;, &quot;INTERNAL&quot;, &quot;CARTESIAN&quot;, &quot;BOTH&quot;]``. ``&quot;INTERNAL&quot;`` is just a synonym for</span>
+<span class="sd">    ``&quot;REDUNDANT&quot;``. ``&quot;BOTH&quot;`` utilizes a full set of redundant internal coordinates and cartesian</span>
+<span class="sd">    :math:`(3N - 6+) + (3N) = (6N - 6+)` coordinates.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Do follow the initial RFO vector after the first step?</span>
+    <span class="n">rfo_follow_root</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether or not to optimize along the previously chosen mode of the augmented hessian matrix&quot;&quot;&quot;</span>
+
+    <span class="c1"># Root for RFO to follow, 0 being lowest (typical for a minimum)</span>
+    <span class="n">rfo_root</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;root for ``RFO`` or ``RS_I_RFO`` to follow. Changing rfo_root for a ``TS`` may lead to a</span>
+<span class="sd">    higher-order stationary point.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Whether to accept geometry steps that lower the molecular point group. DEFAULT=False</span>
+    <span class="n">accept_symmetry_breaking</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to accept steps that lower the molecular point group. Within optking this check is</span>
+<span class="sd">    not rigorous and if the only reasonable step is symmetry breaking it will be taken. This keyword</span>
+<span class="sd">    affects optking&#39;s symmetrization not Psi4&#39;s&quot;&quot;&quot;</span>
+
+    <span class="c1"># TODO This needs a validator to check the allowed values as well as set dynamic_lvl_max depending</span>
+    <span class="c1"># upon dynamic_lvl</span>
+    <span class="c1"># Starting level for dynamic optimization (0=nondynamic, higher=&gt;more conservative)</span>
+    <span class="c1"># `dynamic_lvl=0 prevents changes to algorithm`</span>
+    <span class="n">dynamic_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;DYNAMIC_LVL&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An integer between 0 and 6. Larger values reflect less aggressive optimization techniques</span>
+<span class="sd">    If ``dynamic_lvl`` is not set, ``Optking`` will not change the ``dynamic_lvl``. The</span>
+<span class="sd">    ``dynamic_lvl`` must be &gt; 0 for alternative approaches to be tried.</span>
+<span class="sd">    A backstep will be triggered (if allowed) by :math:`\\Delta E &gt; 0` in a minimization.</span>
+<span class="sd">    A step is considered &quot;bad&quot; if :math:`\\Delta E &gt; 0` when no more backsteps are allowed **and**</span>
+<span class="sd">    iterations :math:`&gt; 5`, **or** there are badly defined internal coordinates or derivatives.</span>
+<span class="sd">    Default = 0</span>
+
+<span class="sd">    +-----------+------+-------+------------+--------------+-------------------------------+</span>
+<span class="sd">    | dynamic   | step | coord | trust      | backsteps    | criteria to change dynamic_lvl|</span>
+<span class="sd">    +===========+======+=======+============+==============+================+==============+</span>
+<span class="sd">    |           |      |       |            |              | decrease       |  increase    |</span>
+<span class="sd">    +-----------+------+-------+------------+--------------+----------------+--------------+</span>
+<span class="sd">    |   0       | RFO  | RI    | dynamic    | no           |     none       | none         |</span>
+<span class="sd">    +-----------+------+-------+------------+--------------+----------------+--------------+</span>
+<span class="sd">    |   1       | RFO  | RI    | dynamic(d) | no           |     1 bad step | none         |</span>
+<span class="sd">    +-----------+------+-------+------------+--------------+----------------+--------------+</span>
+<span class="sd">    |   2       | RFO  | RI    | smaller    | yes (1)      |     1 bad step | none         |</span>
+<span class="sd">    +-----------+------+-------+------------+--------------+----------------+--------------+</span>
+<span class="sd">    |   3       | RFO  | BOTH  | small      | yes (1)      |     1 bad step | none         |</span>
+<span class="sd">    +-----------+------+-------+------------+--------------+----------------+--------------+</span>
+<span class="sd">    |   4       | RFO  | XYZ   | large      | yes (1)      |     1 bad step | none         |</span>
+<span class="sd">    +-----------+------+-------+------------+--------------+----------------+--------------+</span>
+<span class="sd">    |   5       | RFO  | XYZ   | small      | yes (1)      |     1 bad step | none         |</span>
+<span class="sd">    +-----------+------+-------+------------+--------------+----------------+--------------+</span>
+<span class="sd">    |   6       | SD   | XYZ   | large      | yes (1)      |     1 bad step | none         |</span>
+<span class="sd">    +-----------+------+-------+------------+--------------+----------------+--------------+</span>
+<span class="sd">    |   7       | SD   | XYZ   | small      | yes (1)      |     1 bad step | none         |</span>
+<span class="sd">    +-----------+------+-------+------------+--------------+----------------+--------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dynamic_lvl_max</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;How large ``dynamic_lvl`` is allowed to grow. If ``dynamic_lvl`` :math:`&gt; 0`, ``dynamic_lvl_max``</span>
+<span class="sd">    will default to 6&quot;&quot;&quot;</span>
+
+    <span class="c1"># IRC step size in bohr(amu)^{1/2}$.</span>
+    <span class="n">irc_step_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Specifies the distance between each converged point along the IRC reaction path in</span>
+<span class="sd">    :math:`bohr amu^{1/2}`&quot;&quot;&quot;</span>
+
+    <span class="c1"># IRC mapping direction</span>
+    <span class="n">irc_direction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:FORWARD|BACKWARD)$&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;FORWARD&quot;</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One of ``[&quot;FORWARD&quot;, &quot;BACKWARD&quot;]``. Whether to step in the forward (+) direction along</span>
+<span class="sd">    the transition state mode (smallest mode of hessian) or backward (-)&quot;&quot;&quot;</span>
+
+    <span class="c1"># Decide when to stop IRC calculations</span>
+    <span class="n">irc_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Maximum number of converged points along the IRC path to map out before quitting.</span>
+<span class="sd">    For dissociation reactions, where the reaction path may not terminate in</span>
+<span class="sd">    a minimum, this is needed to cap the number of step&#39;s Optking is allowed to take&quot;&quot;&quot;</span>
+
+    <span class="n">irc_convergence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">lt</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">gt</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Main criteria for declaring convergence for an IRC. The overlap between the unit forces</span>
+<span class="sd">    at two points of the IRC is compared to this value to assess whether a minimum has been stepped</span>
+<span class="sd">    over. If :math:`overlap &lt; irc_convergence`, declare convergence. If an IRC terminates too early,</span>
+<span class="sd">    this may be symptomatic of a highly curved reaction-path, decrease try</span>
+<span class="sd">    ``irc_converence = -0.9``&quot;&quot;&quot;</span>
+
+    <span class="n">irc_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:NORMAL|CONFIRM)$&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;NORMAL&quot;</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Experimental - One of [&#39;NORMAL&#39;, &#39;CONFIRM&#39;]. &#39;CONFIRM&#39; is meant to be used for dissociation</span>
+<span class="sd">    reactions. The IRC is terminated once the molecule&#39;s connectivity has changed. Convergence</span>
+<span class="sd">    is declared once the original ``covalent_connect`` must be increased by more than 0.4 au.&quot;&quot;&quot;</span>
+
+    <span class="c1"># ------------- SUBSECTION ----------------</span>
+    <span class="c1"># trust radius - need to write custom validator to check for sane combination</span>
+    <span class="c1"># of values: One for intrafrag_trust, intrafrag_trust_min, and intrafrag_trust_max,</span>
+    <span class="c1"># Another for interfrag_trust, interfrag_trust_min, interfrag_trust_max</span>
+
+    <span class="c1"># Initial maximum step size in bohr or radian along an internal coordinate</span>
+    <span class="n">intrafrag_trust</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;INTRAFRAG_STEP_LIMIT&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initial maximum step size in bohr or radian in internal coordinates for trust region</span>
+<span class="sd">    methods (``RFO`` and ``RS_I_RFO``). This value will be updated throughout optimization.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Lower bound for dynamic trust radius [a/u]</span>
+    <span class="n">intrafrag_trust_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;INTRAFRAG_STEP_LIMIT_MIN&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lower bound for dynamic trust radius [au]&quot;&quot;&quot;</span>
+
+    <span class="c1"># Upper bound for dynamic trust radius [au]</span>
+    <span class="n">intrafrag_trust_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;INTRAFRAG_STEP_LIMIT_MAX&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upper bound for dynamic trust radius [au]&quot;&quot;&quot;</span>
+
+    <span class="c1"># Initial maximum step size in bohr or radian along an interfragment coordinate</span>
+    <span class="n">interfrag_trust</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;INTERFRAG_STEP_LIMIT&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initial maximum step size in bohr or radian along an interfragment coordinate&quot;&quot;&quot;</span>
+
+    <span class="c1"># Lower bound for dynamic trust radius [a/u] for interfragment coordinates</span>
+    <span class="n">interfrag_trust_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;INTERFRAG_STEP_LIMIT_MIN&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lower bound for dynamic trust radius [au] for interfragment coordinates&quot;&quot;&quot;</span>
+
+    <span class="c1"># Upper bound for dynamic trust radius [au] for interfragment coordinates</span>
+    <span class="n">interfrag_trust_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;INTERFRAG_STEP_LIMIT_MAX&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upper bound for dynamic trust radius [au] for interfragment coordinates&quot;&quot;&quot;</span>
+
+    <span class="c1"># Reduce step size as necessary to ensure convergence of back-transformation of</span>
+    <span class="c1"># internal coordinate step to Cartesian coordinates.</span>
+    <span class="n">ensure_bt_convergence</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reduces step size as necessary to ensure convergence of back-transformation of</span>
+<span class="sd">    internal coordinate step to Cartesian coordinates&quot;&quot;&quot;</span>
+
+    <span class="c1"># Do simple, linear scaling of internal coordinates to step limit (not RS-RFO)</span>
+    <span class="n">simple_step_scaling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Do simple, linear scaling of internal coordinates to limit step instead of restricted-step</span>
+<span class="sd">	(dynamic trust radius) approaches like ``RS_RFO`` or ``RS_I_RFO``&quot;&quot;&quot;</span>
+
+    <span class="c1"># Set number of consecutive backward steps allowed in optimization</span>
+    <span class="n">consecutive_backsteps_allowed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;CONSECUTIVE_BACKSTEPS&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the number of consecutive backward steps allowed in an optimization. This option can be</span>
+<span class="sd">    updated by ``Optking`` if ``dynamic_lvl`` is &gt; 0. Not recommended for general use.&quot;&quot;&quot;</span>
+
+    <span class="n">_working_consecutive_backsteps</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Eigenvectors of RFO matrix whose final column is smaller than this are ignored.</span>
+    <span class="n">rfo_normalization_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Eigenvectors of RFO matrix with elements greater than this are ignored as candidates for</span>
+<span class="sd">	the step direction.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Absolute maximum value of step scaling parameter in RS-RFO.</span>
+    <span class="n">rsrfo_alpha_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e8</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Absolute maximum value of step scaling parameter in ``RFO`` and ``RS_I_RFO``.&quot;&quot;&quot;</span>
+
+    <span class="c1"># New in python version</span>
+    <span class="n">print_trajectory_xyz_file</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deprecated use ``write_trajectory`` instead.</span>
+<span class="sd">    Create an xyz file with geometries for each step of the Optimization. If ``opt_type`` is</span>
+<span class="sd">    ``IRC``, only the converged IRC points will be included and the file will be named</span>
+<span class="sd">    irc_traj.&lt;pid&gt;.json. Otherwise the file will contain all points and be named</span>
+<span class="sd">    ``opt_traj.&lt;pid&gt;.json``&quot;&quot;&quot;</span>
+
+    <span class="n">write_trajectory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an xyz file with geometries for each step of the Optimization. If ``opt_type`` is</span>
+<span class="sd">    ``IRC``, only the converged IRC points will be included and the file will be named</span>
+<span class="sd">    irc_traj.&lt;pid&gt;.json. Otherwise the file will contain all points and be named</span>
+<span class="sd">    ``opt_traj.&lt;pid&gt;.json``&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify distances between atoms to be frozen (unchanged)</span>
+    <span class="n">frozen_distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_2</span><span class="si">}</span><span class="s2">)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices to specify that the distances between the</span>
+<span class="sd">    atoms should be frozen (unchanged).</span>
+<span class="sd">    ``OptParams({&quot;frozen_distance&quot;: &quot;1 2 3 4&quot;})`` Freezes ``Stre(1, 2)`` and ``Stre(3, 4)``&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify angles between atoms to be frozen (unchanged)</span>
+    <span class="n">frozen_bend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_3</span><span class="si">}</span><span class="s2">)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices to specify that the distances between the</span>
+<span class="sd">    atoms should be frozen (unchanged).</span>
+<span class="sd">    ``OptParams({&quot;frozen_bend&quot;: &quot;1 2 3 2 3 4&quot;})`` Freezes ``Bend(1 2 3)`` and ``Bend(2 3 4)``&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify dihedral angles between atoms to be frozen (unchanged)</span>
+    <span class="n">frozen_dihedral</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_4</span><span class="si">}</span><span class="s2">)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; A string of white-space separated atomic indices to specify that the corresponding dihedral</span>
+<span class="sd">    angle should be frozen (unchanged).</span>
+<span class="sd">    ``OptParams({&quot;frozen_tors&quot;: &quot;1 2 3 4 2 3 4 5&quot;})`` Freezes ``Tors(1, 2, 3, 4)`` and ``Tors(2, 3, 4, 5)``&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify out-of-plane angles between atoms to be frozen (unchanged)</span>
+    <span class="n">frozen_oofp</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_4</span><span class="si">}</span><span class="s2">)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices to specify that the corresponding</span>
+<span class="sd">    out-of-plane angle should be frozen.</span>
+<span class="sd">    atoms should be frozen (unchanged).</span>
+<span class="sd">    ``OptParams({&quot;frozen_oofp&quot;: &quot;1 2 3 4&quot;})`` Freezes ``OOFP(1, 2, 3, 4)``&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify atom and X, XY, XYZ, ... to be frozen (unchanged)</span>
+    <span class="n">frozen_cartesian</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;(?i)^\s*(?:\W?\d\s</span><span class="si">{</span><span class="n">CART_STR</span><span class="si">}</span><span class="s2">\W*\s*)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices and Cartesian labels to specify that the</span>
+<span class="sd">    Cartesian coordinates for a given atom should be frozen (unchanged).</span>
+<span class="sd">    ``OptParams({&quot;frozen_cartesian&quot;: &quot;1 XYZ 2 XY 2 Z&quot;})`` Freezes ``CART(1, X)``,</span>
+<span class="sd">    ``CART(1, Y)``, ``CART(1, Z)``, ``CART(2, X)``, etc...&quot;&quot;&quot;</span>
+
+    <span class="c1"># constrain ALL torsions to be frozen.</span>
+    <span class="n">freeze_all_dihedrals</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A shortcut to request that all dihedrals should be frozen.&quot;&quot;&quot;</span>
+
+    <span class="c1"># For use only with ``freeze_all_dihedrals`` unfreeze a small subset of dihedrals</span>
+    <span class="n">unfreeze_dihedrals</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_4</span><span class="si">}</span><span class="s2">)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices to specify that the corresponding dihedral</span>
+<span class="sd">    angle should be **unfrozen**. This keyword is meant to be used in conjunction with</span>
+<span class="sd">    ``FREEZE_ALL_DIHEDRALS``&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify distance between atoms to be ranged</span>
+    <span class="n">ranged_distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_2</span><span class="si">}{</span><span class="n">RANGE</span><span class="si">}</span><span class="s2">)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices and bounds for the distance between two</span>
+<span class="sd">    atoms.</span>
+<span class="sd">    ``OptParams({&quot;ranged_distance&quot;: 1 2 2.3 2.4})`` Forces :math:`2.3 &lt;`  ``Stre(1, 2)``</span>
+<span class="sd">    :math:`&lt; 2.4` &quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify angles between atoms to be ranged</span>
+    <span class="n">ranged_bend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_3</span><span class="si">}{</span><span class="n">RANGE</span><span class="si">}</span><span class="s2">)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices and bounds for the angle between three</span>
+<span class="sd">    atoms.</span>
+<span class="sd">    ``OptParams({1 2 3 100 110})`` Forces :math:`100^{\\circ} &lt;` ``Bend(1, 2, 3)``</span>
+<span class="sd">    :math:`&lt; 110^{\\circ}`&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify dihedral angles between atoms to be ranged</span>
+    <span class="n">ranged_dihedral</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_4</span><span class="si">}{</span><span class="n">RANGE</span><span class="si">}</span><span class="s2">)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices and bounds for the torsion angle of four</span>
+<span class="sd">    atoms. The order of specification determines whether the dihedral is a proper or improper</span>
+<span class="sd">    torsion/dihedral.</span>
+<span class="sd">    ``OptParams({&quot;ranged_dihedral&quot;: &quot;1 2 3 4 100 110&quot;})`` Forces</span>
+<span class="sd">    :math:`100^{\\circ} &lt;` ``Tors(1, 2, 3, 4)`` :math:`&lt; 110^{\\circ}`&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify out-of-plane angles between atoms to be ranged</span>
+    <span class="n">ranged_oofp</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_4</span><span class="si">}{</span><span class="n">RANGE</span><span class="si">}</span><span class="s2">)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices and bounds for the out of plane angle</span>
+<span class="sd">    defined by four atoms where the second atom is the central atom.</span>
+<span class="sd">    ``OptParams({&quot;ranged_oofp&quot;: &quot;1 2 3 4 100 110&quot;})`` Forces</span>
+<span class="sd">    :math:`100^{\\circ} &lt;` ``Oofp(1, 2, 3, 4)`` :math:`&lt; 110^{\\circ}`&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify atom and X, XY, XYZ, ... to be ranged</span>
+    <span class="n">ranged_cartesian</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;(?i)^\s*(?:\W?\d+\s+</span><span class="si">{</span><span class="n">CART_STR</span><span class="si">}</span><span class="s2">\W*\s*</span><span class="si">{</span><span class="n">RANGE</span><span class="si">}</span><span class="s2">)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices, Cartesian labels, and bounds for the</span>
+<span class="sd">    Cartesian coordinates of a given atom. ``OptParams({&quot;ranged_cart&quot;: &quot;1 XYZ 2.0 2.1&quot;})`` Forces</span>
+<span class="sd">    :math:`2.0 &lt;` ``Cart(1, X), Cart(1, Y), Cart(1, Z)`` :math:`&lt; 2.1` (Angstroms)&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify distances for which extra force will be added</span>
+    <span class="n">ext_force_distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;&quot;&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_2</span><span class="si">}</span><span class="s2">\s*[&#39;&quot;].*[&#39;&quot;]\W?)*$&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated, atomic indices (2) followed by a single variable equation</span>
+<span class="sd">    surrounded in either a single or double quotation mark.</span>
+<span class="sd">    Example: ``&quot;1 2 &#39;Sin(x)&#39;&quot;`` or ``&#39;1 2 &quot;Sin(x)&quot;&#39;`` evaluates the force along the coordinate</span>
+<span class="sd">    as a 1-dimensional sinusoidal function where x is the &quot;value&quot; (distance [bohr]) of the</span>
+<span class="sd">    coordinate (stretch).&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify angles for which extra force will be added</span>
+    <span class="n">ext_force_bend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;&quot;&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_3</span><span class="si">}</span><span class="s2">\s*[&#39;\&quot;].*[&#39;\&quot;]\W?)*$&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices (3) followed by a single variable equation</span>
+<span class="sd">    surrounded in either a single or double quotation mark.</span>
+<span class="sd">    Example: ``&quot;1 2 3 &#39;Sin(x)&#39;&quot;`` evaluates the force along the coordinate as a 1-D</span>
+<span class="sd">    sinusoidal function where x is the &quot;value&quot; (angle [radians]) of the coordinate (bend)&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify dihedral angles for which extra force will be added</span>
+    <span class="n">ext_force_dihedral</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_4</span><span class="si">}</span><span class="s2">\s*[&#39;</span><span class="se">\&quot;</span><span class="s2">].*[&#39;</span><span class="se">\&quot;</span><span class="s2">]\W?)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices (4) followed by a single variable equation</span>
+<span class="sd">    surrounded in either a single or double quotation mark.</span>
+<span class="sd">    Example: ``&quot;1 2 3 4 &#39;Sin(x)&#39;&quot;`` evaluates the force along the coordinate as a 1-D</span>
+<span class="sd">    sinusoidal function where x is the &quot;value&quot; (angle [radians]) of the coordinate (torsion)&quot;&quot;&quot;</span>
+    
+    <span class="c1"># Specify out-of-plane angles for which extra force will be added</span>
+    <span class="n">ext_force_oofp</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;^\s*(?:</span><span class="si">{</span><span class="n">ATOM_4</span><span class="si">}</span><span class="s2">\s+[&#39;</span><span class="se">\&quot;</span><span class="s2">].*[&#39;</span><span class="se">\&quot;</span><span class="s2">]\W?)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of white-space separated atomic indices (4) followed by a single variable equation</span>
+<span class="sd">    surrounded in either a single or double quotation mark.</span>
+<span class="sd">    Example: ``&quot;1 2 3 4 &#39;Sin(x)&#39;&quot;`` evaluates the force along the coordinate as a 1-D</span>
+<span class="sd">    sinusoidal function where x is the &quot;value&quot; (angle [radians]) of the coordinate (oofp)&quot;&quot;&quot;</span>
+
+    <span class="c1"># Specify Cartesian coordinates for which extra force will be added</span>
+    <span class="n">ext_force_cartesian</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;(?i)^\s*(?:\W?\d+\s+</span><span class="si">{</span><span class="n">CART_STR</span><span class="si">}</span><span class="s2">\W*\s+[&#39;</span><span class="se">\&quot;</span><span class="s2">].*[&#39;</span><span class="se">\&quot;</span><span class="s2">]\W*)*$&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of whitecaps separated atomic indices (1) and Cartesian labels, followed by a</span>
+<span class="sd">    single variable equation surrounded in either a single or double quotation mark.</span>
+<span class="sd">    Example: ``&quot;1 X &#39;Sin(x)&#39;&quot;`` evaluates the force along the coordinate as 1 1-D sinusoidal</span>
+<span class="sd">    function where x is the &quot;value&quot; (angle [bohr]) of the coordinate (bohr)&quot;&quot;&quot;</span>
+
+    <span class="c1"># Should an xyz trajectory file be kept (useful for visualization)?</span>
+    <span class="c1"># P.print_trajectory_xyz = uod.get(&#39;PRINT_TRAJECTORY_XYZ&#39;, False)</span>
+    <span class="c1"># Symmetry tolerance for testing whether a mode is symmetric.</span>
+    <span class="c1"># P.symm_tol(&quot;SYMM_TOL&quot;, 0.05)</span>
+    <span class="c1">#</span>
+    <span class="c1"># SUBSECTION Convergence Control.</span>
+
+    <span class="n">g_convergence</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:QCHEM|MOLPRO|GAU|GAU_LOOSE|GAU_TIGHT|GAU_VERYTIGHT|TURBOMOLE|CFOUR|NWCHEM_LOOSE|INTERFRAG_TIGHT)$&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;QCHEM&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A set of optimization criteria covering the change in energy, magnitude of the forces and</span>
+<span class="sd">    the step_size. One of ``[&quot;QCHEM&quot;, &quot;MOLPRO&quot;, &quot;GAU&quot;, &quot;GAU_LOOSE&quot;, &quot;GAU_TIGHT&quot;, &quot;GAU_VERYTIGHT&quot;,</span>
+<span class="sd">    &quot;TURBOMOLE&quot;, &quot;CFOUR&quot;, &quot;NWCHEM_LOOSE&quot;, &quot;INTERFRAG_TIGHT&quot;]``. Specification of any</span>
+<span class="sd">    ``MAX_*_G_CONVERGENCE`` or ``RMS_*_G_CONVERGENCE`` options will overwrite the criteria set here.</span>
+<span class="sd">    If ``flexible_g_convergence`` is also on then the specified keyword will be appended.</span>
+<span class="sd">    See Table :ref:`Geometry Convergence &lt;table:optkingconv&gt;` for details.&quot;&quot;&quot;</span>
+
+    <span class="c1"># _conv_rms_force = -1</span>
+    <span class="c1"># _conv_rms_disp = -1</span>
+    <span class="c1"># _conv_max_DE = -1</span>
+    <span class="c1"># _conv_max_force = -1</span>
+    <span class="c1"># _conv_max_disp = -1</span>
+    <span class="n">conv_max_force</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">3.0e-4</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;MAX_FORCE_G_CONVERGENCE&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convergence criterion for geometry optimization: maximum force (internal coordinates, au)&quot;&quot;&quot;</span>
+
+    <span class="n">conv_rms_force</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">3.0e-4</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;RMS_FORCE_G_CONVERGENCE&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convergence criterion for geometry optimization: maximum force (internal coordinates, au)&quot;&quot;&quot;</span>
+
+    <span class="n">conv_max_DE</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">1.0e-6</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;MAX_ENERGY_G_CONVERGENCE&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convergence criterion for geometry optimization: maximum energy change&quot;&quot;&quot;</span>
+
+    <span class="n">conv_max_disp</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">1.2e-3</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;MAX_DISP_G_CONVERGENCE&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convergence criterion for geometry optimization: maximum displacement (internal coordinates, au)&quot;&quot;&quot;</span>
+
+    <span class="n">conv_rms_disp</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">1.2e-3</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;RMS_DISP_G_CONVERGENCE&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convergence criterion for geometry optimization: rms displacement (internal coordinates, au)&quot;&quot;&quot;</span>
+    <span class="c1"># Even if a user-defined threshold is set, allow for normal, flexible convergence criteria</span>
+
+    <span class="n">flexible_g_convergence</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normally, any specified ``*_G_CONVERGENCE`` keyword like ``MAX_FORCE_G_CONVERGENCE`` will be</span>
+<span class="sd">    obeyed exclusively. If active, ``FLEXIBLE_G_CONVERGENCE`` appends to ``G_CONVERGENCE`` with the</span>
+<span class="sd">    value from ``*_G_CONVERGENCE`` instead of overriding.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># SUBSECTION Hessian Update</span>
+    <span class="c1"># Hessian update scheme</span>
+    <span class="n">hess_update</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:NONE|BFGS|MS|POWELL|BOFILL)$&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;BFGS&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;one of: ``[NONE, &quot;BFGS&quot;, &quot;MS&quot;, &quot;POWELL&quot;, &quot;BOFILL&quot;]``</span>
+<span class="sd">    Update scheme for the hessian. Default depends on ``OPT_TYPE``&quot;&quot;&quot;</span>
+
+    <span class="c1"># Number of previous steps to use in Hessian update, 0 uses all</span>
+    <span class="n">hess_update_use_last</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of previous steps to use in Hessian update, 0 uses all steps.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Do limit the magnitude of changes caused by the Hessian update?</span>
+    <span class="n">hess_update_limit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Do limit the magnitude of changes caused by the Hessian update?</span>
+<span class="sd">    If ``hess_update_limit`` is True, changes to the Hessian from the update are limited</span>
+<span class="sd">    to the larger of ``hess_update_limit_scale`` * (current value) and</span>
+<span class="sd">    ``hess_update_limit_max`` [au].  By default, a Hessian value cannot be changed by more</span>
+<span class="sd">    than 50% and 1 au.&quot;&quot;&quot;</span>
+
+    <span class="c1"># If |hess_update_limit| is True, changes to the Hessian from the update are limited</span>
+    <span class="c1"># to the larger of |hess_update_limit_scale| * (current value) and</span>
+    <span class="c1"># |hess_update_limit_max| [au].  By default, a Hessian value cannot be changed by more</span>
+    <span class="c1"># than 50% and 1 au.</span>
+    <span class="n">hess_update_limit_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.00</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Absolute upper limit for how much any given Hessian value can be changed when updating&quot;&quot;&quot;</span>
+
+    <span class="n">hess_update_limit_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.50</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Relative upper limit for how much any given Hessian value can be changed when updating&quot;&quot;&quot;</span>
+
+    <span class="n">hess_update_den_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Denominator check for hessian update.&quot;&quot;&quot;</span>
+
+    <span class="n">hess_update_dq_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hessian update is avoided if any internal coordinate has changed by more than this in</span>
+<span class="sd">    radians/au&quot;&quot;&quot;</span>
+
+    <span class="c1"># SUBSECTION Using external Hessians</span>
+    <span class="c1"># Do read Cartesian Hessian?  Only for experts - use</span>
+    <span class="c1"># |Optking__full_hess_every| instead.</span>
+    <span class="n">cart_hess_read</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Do read Cartesian Hessian? Recommended to use ``full_hess_every`` instead.</span>
+<span class="sd">    cfour format or ``.json`` file (`AtomicResult &lt;https://molssi.github.io/QCElemental/&gt;`__)</span>
+<span class="sd">    allowed. The filetype is determined by the presence of a ``.json`` extension. The cfour hessian</span>
+<span class="sd">    format specifies that the first line contains the number of atoms. Each subsequent line</span>
+<span class="sd">    contains three hessian values provided in</span>
+<span class="sd">    `row-major order &lt;https://en.wikipedia.org/wiki/Row-_and_column-major_order&gt;`__.&quot;&quot;&quot;</span>
+    
+    <span class="c1"># accompanies cart_hess_read. The default is not validated</span>
+    <span class="c1"># Need two options here because str_to_upper cannot be turned of for individual members of the Model</span>
+    <span class="c1"># _hessian_file avoids str_to_upper. Captitalization does not seem to be an issue for V1.</span>
+    <span class="n">hessian_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">validate_default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Accompanies ``CART_HESS_READ``. path to file where hessian has been saved.</span>
+<span class="sd">    WARNING: As of Psi4 v1.10~nightly psi4.optimize() overrides this variable. If you have written</span>
+<span class="sd">    a hessian to disk, copy the file to</span>
+<span class="sd">    ``psi4.core.write_file_prefix(psi4.core.get_active_molecule().name())`` or use</span>
+<span class="sd">    ``optking.optimize_psi4()``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># _hessian_file: pathlib.Path = pathlib.Path(&quot;&quot;)</span>
+
+    <span class="c1"># Frequency with which to compute the full Hessian in the course</span>
+    <span class="c1"># of a geometry optimization. 0 means to compute the initial Hessian only,</span>
+    <span class="c1"># 1 means recompute every step, and N means recompute every N steps. The</span>
+    <span class="c1"># default (-1) is to never compute the full Hessian.</span>
+    <span class="n">full_hess_every</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Frequency with which to compute the full Hessian in the course</span>
+<span class="sd">    of a geometry optimization. 0 means to compute the initial Hessian only,</span>
+<span class="sd">    1 means recompute every step, and N means recompute every N steps. -1 indicates that the</span>
+<span class="sd">    full hessian should never be computed.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Model Hessian to guess intrafragment force constants</span>
+    <span class="n">intrafrag_hess</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:SCHLEGEL|FISCHER|SIMPLE|LINDH|LINDH_SIMPLE)$&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;SCHLEGEL&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model Hessian to guess intrafragment force constants. One of ``[&quot;SCHLEGEL&quot;, &quot;FISCHER&quot;,</span>
+<span class="sd">    &quot;SIMPLE&quot;, &quot;LINDH&quot;, &quot;LINDH_SIMPLE&quot;]``&quot;&quot;&quot;</span>
+
+    <span class="c1"># Re-estimate the Hessian at every step, i.e., ignore the currently stored Hessian.</span>
+    <span class="n">h_guess_every</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Re-estimate the Hessian at every step, i.e., ignore the currently stored Hessian. This is NOT</span>
+<span class="sd">    recommended&quot;&quot;&quot;</span>
+    <span class="n">_working_steps_since_last_H</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># SUBSECTION Back-transformation to Cartesian Coordinates Control</span>
+    <span class="n">bt_max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Maximum number of iterations allowed to converge back-transformation&quot;&quot;&quot;</span>
+
+    <span class="n">bt_dx_conv</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0e-7</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Threshold for the change in any given Cartesian coordinate during iterative</span>
+<span class="sd">    back-transformation.&quot;&quot;&quot;</span>
+
+    <span class="n">bt_dx_rms_change_conv</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0e-12</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Threshold for RMS change in Cartesian coordinates during iterative back-transformation.&quot;&quot;&quot;</span>
+
+    <span class="c1"># The following should be used whenever redundancies in the coordinates</span>
+    <span class="c1"># are removed, in particular when forces and Hessian are projected and</span>
+    <span class="c1"># in back-transformation from delta(q) to delta(x).</span>
+    <span class="n">bt_pinv_rcond</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0e-6</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Threshold to remove redundancies from generalized inverse. Corresponds to the ``rcond`` from</span>
+<span class="sd">    `numpy &lt;https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html&gt;`__.</span>
+<span class="sd">    The following should be used whenever redundancies in the coordinates</span>
+<span class="sd">    are removed, in particular when forces and Hessian are projected and</span>
+<span class="sd">    in back-transformation from delta(q) to delta(x).&quot;&quot;&quot;</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># For multi-fragment molecules, treat as single bonded molecule or via interfragment</span>
+    <span class="c1"># coordinates. A primary difference is that in ```MULTI``` mode, the interfragment</span>
+    <span class="c1"># coordinates are not redundant.</span>
+    <span class="n">frag_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:SINGLE|MULTI)$&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;SINGLE&quot;</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;For multi-fragment molecules, treat as single bonded molecule or via interfragment</span>
+<span class="sd">    coordinates. A primary difference is that in ``MULTI`` mode, the interfragment</span>
+<span class="sd">    coordinates are not redundant.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Which atoms define the reference points for interfragment coordinates?</span>
+    <span class="n">frag_ref_atoms</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Which atoms define the reference points for interfragment coordinates?</span>
+<span class="sd">    Example for a simple diatomic dimer like :math:`Ne_2` ``[[[1]], [[2]]]``. Please see the section</span>
+<span class="sd">    on multi-fragment optimizations for more information. :ref:`Multi-Fragment Optimizations&lt;DimerFrag&gt;` &quot;&quot;&quot;</span>
+
+    <span class="c1"># Do freeze all fragments rigid?</span>
+    <span class="n">freeze_intrafrag</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to freeze all intrafragment coordinates (rigid molecules). Only optimize the</span>
+<span class="sd">    interfragment coordinates.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Do freeze all interfragment modes?</span>
+    <span class="c1"># P.inter_frag = uod.get(&#39;FREEZE_INTERFRAG&#39;, False)</span>
+    <span class="c1"># When interfragment coordinates are present, use as reference points either</span>
+    <span class="c1"># principal axes or fixed linear combinations of atoms.</span>
+    <span class="n">interfrag_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:FIXED|PRINCIPAL_AXES)$&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;FIXED&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One of ``[&#39;FIXED&#39;, &#39;PRINCIPAL_AXES&#39;]``. Use either principal axes or fixed linear combinations</span>
+<span class="sd">    of atoms as reference points for generating the interfragment coordinates.&quot;&quot;&quot;</span>
+
+    <span class="n">add_auxiliary_bonds</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add bond coordinates for atoms separated by less than :math:`2.5 \\times` their covalent</span>
+<span class="sd">    radii&quot;&quot;&quot;</span>
+
+    <span class="n">auxiliary_bond_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This factor times the standard covalent distance is used to add extra stretch coordinates.&quot;&quot;&quot;</span>
+
+    <span class="n">interfrag_dist_inv</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Do use 1/R for the interfragment stretching coordinate instead of R?&quot;&quot;&quot;</span>
+
+    <span class="n">interfrag_collinear_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Used for determining which atoms in a system are too collinear to be chosen as default</span>
+<span class="sd">    reference atoms. We avoid collinearity. Greater is more restrictive.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Let the user submit a dictionary (or array of dictionaries) for</span>
+    <span class="c1"># the interfrag coordinates. Validation occurs below</span>
+    <span class="n">interfrag_coords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Let the user submit a dictionary (or array of dictionaries) for</span>
+<span class="sd">    the interfrag coordinates. The input may also be given as a string, but the string input must be</span>
+<span class="sd">    &quot;loadable&quot; as a python dictionary. See input examples</span>
+<span class="sd">    :ref:`Multi-Fragment Optimzations &lt;DimerFrag&gt;`.&quot;&quot;&quot;</span>
+
+    <span class="n">interfrag_hess</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?i)^(?:DEFAULT|FISCHER_LIKE)$&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;DEFAULT&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model Hessian to guess interfragment force constants. One of ``[&quot;DEFAULT&quot;, &quot;FISCHER_LIKE&quot;]``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">covalent_connect</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.3</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;When determining connectivity, a bond is assigned if the interatomic distance</span>
+<span class="sd">    is less than ``COVANLENT_CONNECT`` :math:` \\times ` the sum of covalent radii.</span>
+<span class="sd">    When connecting disparate fragments and ``FRAG_MODE`` is SINGLE, a &quot;bond&quot;</span>
+<span class="sd">    is assigned if interatomic distance is less than (``COVALENT_CONNECT``) :math:`\\times` sum of</span>
+<span class="sd">    covalent radii. The value is then increased until all the fragments are connected directly</span>
+<span class="sd">    or indirectly.&quot;&quot;&quot;</span>
+
+    <span class="c1"># interfragment_connect: float = Field(gt=0.0, default=1.8)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;When connecting disparate fragments and ``FRAG_MODE`` is ``SINGLE``, a &quot;bond&quot;</span>
+<span class="sd">    is assigned if interatomic distance is less than (``INTERFRAGMENT_CONNECT``) :math:`\\times` the</span>
+<span class="sd">    sum of covalent radii. The value is then increased until all the fragments are connected</span>
+<span class="sd">    directly or indirectly.&quot;&quot;&quot;</span>
+
+    <span class="n">h_bond_connect</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">4.3</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;General, maximum distance for the definition of H-bonds.&quot;&quot;&quot;</span>
+
+    <span class="n">include_oofp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add out-of-plane angles (usually not needed)&quot;&quot;&quot;</span>
+
+    <span class="c1">#</span>
+    <span class="c1">#</span>
+    <span class="c1"># SUBSECTION Misc.</span>
+    <span class="c1"># Do save and print the geometry from the last projected step at the end</span>
+    <span class="c1"># of a geometry optimization? Otherwise (and by default), save and print</span>
+    <span class="c1"># the previous geometry at which was computed the gradient that satisfied</span>
+    <span class="c1"># the convergence criteria.</span>
+    <span class="c1"># P.final_geom_write = uod.get(&#39;FINAL_GEOM_WRITE&#39;, False)</span>
+
+    <span class="n">test_B</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Do test B matrix?&quot;&quot;&quot;</span>
+    <span class="n">test_derivative_B</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Do test derivative B matrix?&quot;&quot;&quot;</span>
+
+    <span class="c1"># Only generate the internal coordinates and then stop (boolean) UNUSED</span>
+    <span class="c1"># generate_intcos_exit: bool = False</span>
+    <span class="c1"># Keep internal coordinate definition file.</span>
+    <span class="c1"># keep_intcos: bool = False UNUSED</span>
+    <span class="n">linesearch_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.100</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initial stepsize  when performing a 1-D linesearch&quot;&quot;&quot;</span>
+
+    <span class="n">linesearch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="c1"># Guess at Hessian in steepest-descent direction.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;performs linesearch on top of current ``STEP_TYPE``.&quot;&quot;&quot;</span>
+
+    <span class="n">sd_hessian</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Guess at Hessian in steepest-descent direction (acts as a stepsize control).&quot;&quot;&quot;</span>
+
+    <span class="c1"># # -- Items below are unlikely to need modified</span>
+
+    <span class="c1"># Boundary to guess if a torsion or out-of-plane angle has passed through 180</span>
+    <span class="c1"># during a step.</span>
+    <span class="n">fix_val_near_pi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.57</span>
+
+    <span class="c1"># Torsional angles will not be computed if the contained bond angles are within</span>
+    <span class="c1"># this many radians of zero or 180. (&lt; ~1 and &gt; ~179 degrees)</span>
+    <span class="c1"># only used in v3d.py</span>
+    <span class="n">v3d_tors_angle_lim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.017</span>
+
+    <span class="c1"># cos(torsional angle) must be this close to -1/+1 for angle to count as 0/pi</span>
+    <span class="c1"># only used in v3d.py</span>
+    <span class="n">v3d_tors_cos_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span>
+
+    <span class="c1"># if bend exceeds this value, then also create linear bend complement</span>
+    <span class="n">linear_bend_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.05</span>  <span class="c1"># about 175 degrees</span>
+
+    <span class="c1"># If bend is smaller than this value, then never fix its associated vectors</span>
+    <span class="c1"># this allows iterative steps through and near zero degrees.</span>
+    <span class="n">small_bend_fix_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.35</span>
+
+    <span class="c1"># Threshold for which entries in diagonalized redundant matrix are kept and</span>
+    <span class="c1"># inverted while computing a generalized inverse of a matrix</span>
+    <span class="n">redundant_eval_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0e-10</span>  <span class="c1"># to be deprecated.</span>
+
+    <span class="c1"># threshold for which eigenvalues, eigenvector values, and other floating point</span>
+    <span class="c1"># values are considered to be zero. Silences numeric noise that can cause issues</span>
+    <span class="c1"># with matrix inversion. Replaces redundant_eval_tol</span>
+    <span class="n">linear_algebra_tol</span> <span class="o">=</span> <span class="mf">1e-10</span>
+
+    <span class="c1"># --- SET INTERNAL OPTIMIZATION PARAMETERS ---</span>
+    <span class="n">_i_max_force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_i_rms_force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_i_max_DE</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_i_max_disp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_i_rms_disp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_i_untampered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="OptParams.to_dict">
+<a class="viewcode-back" href="../../../optking.html#optking.v1.optparams.OptParams.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Specialized form of __dict__. Makes sure to include convergence keys that are hidden &quot;&quot;&quot;</span>
+        <span class="n">save</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="n">by_alias</span><span class="p">)</span>
+        <span class="c1"># This was used in the v2 option. Prevents anyone from setting the vars explicity</span>
+        <span class="c1"># But during serialization, need to know what these are.</span>
+        <span class="c1"># include = {</span>
+        <span class="c1">#     &quot;_i_max_force&quot;: self._i_max_force,</span>
+        <span class="c1">#     &quot;_i_rms_force&quot;: self._i_rms_force,</span>
+        <span class="c1">#     &quot;_i_max_DE&quot;: self._i_max_DE,</span>
+        <span class="c1">#     &quot;_i_max_disp&quot;: self._i_max_disp,</span>
+        <span class="c1">#     &quot;_i_rms_disp&quot;: self._i_rms_disp,</span>
+        <span class="c1">#     &quot;_i_untampered&quot;: self._i_untampered# or key in include:</span>
+        <span class="c1"># }</span>
+        <span class="c1"># for key in include:</span>
+            <span class="c1"># save.update(include)</span>
+        <span class="k">return</span> <span class="n">save</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\t\t</span><span class="s2"> -- Optimization Parameters --</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s2">&quot;_i_&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">[:</span><span class="mi">3</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="si">%-30s</span><span class="s2"> = </span><span class="si">%15s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_raw_input</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stash user input before any user input checking or transformations are performed (for</span>
+<span class="sd">        instance str_to_upper)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        model_set_fields is only set after validation so it can&#39;t be used to determine</span>
+<span class="sd">        what option B should be set to if option A is set by the user.</span>
+
+<span class="sd">        By running this before</span>
+<span class="sd">        validation we can cache all the user inputs and then compare against later. Need to be</span>
+<span class="sd">        careful that any of validation is before after</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">upper_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_raw_input</span> <span class="o">=</span> <span class="n">upper_data</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_special_defaults</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># create a special dict to hold keywords that were changed by validation</span>
+        <span class="k">return</span> <span class="n">upper_data</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_algorithm</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure that if the user has selected both an opt_type and step_type that they are</span>
+<span class="sd">        compatible. If the user has selected `opt_type=TS` OR a ``step_type`` consistent with ``TS``</span>
+<span class="sd">        then change the other keyword to have the appropriate keyword&quot;&quot;&quot;</span>
+
+        <span class="n">min_step_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;RFO&quot;</span><span class="p">,</span> <span class="s2">&quot;NR&quot;</span><span class="p">,</span> <span class="s2">&quot;SD&quot;</span><span class="p">,</span> <span class="s2">&quot;CONJUGATE&quot;</span><span class="p">,</span> <span class="s2">&quot;LINESEARCH&quot;</span><span class="p">]</span>
+        <span class="n">ts_step_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;RS_I_RFO&quot;</span><span class="p">,</span> <span class="s2">&quot;P_RFO&quot;</span><span class="p">]</span>
+        <span class="n">set_vars</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_raw_input</span>
+
+        <span class="k">if</span> <span class="s2">&quot;OPT_TYPE&quot;</span> <span class="ow">in</span> <span class="n">set_vars</span> <span class="ow">and</span> <span class="s2">&quot;STEP_TYPE&quot;</span> <span class="ow">in</span> <span class="n">set_vars</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;opt_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;TS&quot;</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;step_type&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">min_step_types</span>
+            <span class="k">elif</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;opt_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;MIN&quot;</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;step_type&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ts_step_types</span>
+        <span class="k">elif</span> <span class="s2">&quot;OPT_TYPE&quot;</span> <span class="ow">in</span> <span class="n">set_vars</span> <span class="ow">and</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;opt_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;TS&quot;</span><span class="p">:</span>
+            <span class="c1"># User has selected TS. Change algorithm to RS_I_RFO</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;step_type&quot;</span><span class="p">:</span> <span class="s2">&quot;RS_I_RFO&quot;</span><span class="p">})</span>
+        <span class="k">elif</span> <span class="s2">&quot;STEP_TYPE&quot;</span> <span class="ow">in</span> <span class="n">set_vars</span> <span class="ow">and</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;step_type&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ts_step_types</span><span class="p">:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;opt_type&quot;</span><span class="p">:</span> <span class="s2">&quot;TS&quot;</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">fields</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_convergence</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set active variables depending upon the PRESET that has been provided and whether any</span>
+<span class="sd">        specific values were individually specified by the user.&quot;&quot;&quot;</span>
+
+        <span class="c1"># stash so that __setattr__ doesn&#39;t affect which variables have been changed</span>
+        <span class="c1"># Start by setting each individual convergence option from preset</span>
+        <span class="n">set_vars</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_raw_input</span>
+
+        <span class="n">conv_spec</span> <span class="o">=</span> <span class="n">CONVERGENCE_PRESETS</span><span class="p">[</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;g_convergence&quot;</span><span class="p">]]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">conv_spec</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">val</span><span class="p">})</span>
+            <span class="c1"># cls.__setattr__(key, val)</span>
+
+        <span class="c1"># Table to easily correlate the user / psi4 name, internal keyword name,</span>
+        <span class="c1"># and internal active flag for keyword</span>
+        <span class="n">keywords</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;MAX_FORCE_G_CONVERGENCE&quot;</span><span class="p">,</span> <span class="s2">&quot;conv_max_force&quot;</span><span class="p">,</span> <span class="s2">&quot;_i_max_force&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;RMS_FORCE_G_CONVERGENCE&quot;</span><span class="p">,</span> <span class="s2">&quot;conv_rms_force&quot;</span><span class="p">,</span> <span class="s2">&quot;_i_rms_force&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;MAX_ENERGY_G_CONVERGENCE&quot;</span><span class="p">,</span> <span class="s2">&quot;conv_max_DE&quot;</span><span class="p">,</span> <span class="s2">&quot;_i_max_DE&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;MAX_DISP_G_CONVERGENCE&quot;</span><span class="p">,</span> <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">,</span> <span class="s2">&quot;_i_max_disp&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;RMS_DISP_G_CONVERGENCE&quot;</span><span class="p">,</span> <span class="s2">&quot;conv_rms_disp&quot;</span><span class="p">,</span> <span class="s2">&quot;_i_rms_disp&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+
+        <span class="n">keys_present</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span> <span class="k">if</span> <span class="n">keyword_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">set_vars</span> <span class="k">else</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">keyword_set</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">]</span>
+
+        <span class="c1"># Skip if no tampering occured. The following code sets active to False for any values the</span>
+        <span class="c1"># user didn&#39;t explicitly specify. </span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">keys_present</span><span class="p">):</span>
+            <span class="c1"># Summary: If ANY convergence options were specified by the user</span>
+            <span class="c1"># (without flexible convergence being on), turn untampered on and set all options to inactive</span>
+            <span class="k">for</span> <span class="n">keyword_set</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">keyword_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">set_vars</span><span class="p">:</span>
+                    <span class="c1"># Keyword was specified by the user. Set value and active flag</span>
+                    <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">keyword_set</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">set_vars</span><span class="p">[</span><span class="n">keyword_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]]})</span>
+                    <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">keyword_set</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="kc">True</span><span class="p">})</span>
+                    <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span> <span class="c1"># Tampering has occured!!!!</span>
+                    <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;flexible_g_convergence&quot;</span><span class="p">]:</span>
+                        <span class="c1"># use flexible conv criteria don&#39;t leave criteria preset active except for mods</span>
+                        <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Keyword was not specified by user. Deactivate all other keywords if running in normal mode</span>
+                    <span class="c1"># if in flexible mode, leave other criteria active</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;flexible_g_convergence&quot;</span><span class="p">]:</span>
+                        <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">keyword_set</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="kc">False</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">fields</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_iter</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;opt_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;IRC&quot;</span> <span class="ow">and</span> <span class="s2">&quot;GEOM_MAXITER&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_raw_input</span><span class="p">:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;geom_maxiter&quot;</span><span class="p">:</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;irc_points&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">15</span><span class="p">})</span>
+        <span class="k">elif</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;geom_maxiter&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;alg_geom_maxiter&quot;</span><span class="p">]:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;alg_geom_maxiter&quot;</span><span class="p">:</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;geom_maxiter&quot;</span><span class="p">]})</span>
+        <span class="k">return</span> <span class="n">fields</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_trustregion</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+        <span class="c1"># Initial Hessian guess for Cartesian&#39;s with coordinates BOTH is stupid, so don&#39;t scale</span>
+        <span class="c1">#   step size down too much.  Steepest descent has no good hessian either.</span>
+        <span class="n">set_vars</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_raw_input</span>
+
+        <span class="k">if</span> <span class="s2">&quot;INTRAFRAG_TRUST_MIN&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_vars</span><span class="p">:</span>
+            <span class="n">intra_trust</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;intrafrag_trust&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;opt_coordinates&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;BOTH&quot;</span><span class="p">:</span>
+                <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;intrafrag_trust_min&quot;</span><span class="p">:</span> <span class="n">intra_trust</span><span class="p">})</span>
+            <span class="k">elif</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;step_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;SD&quot;</span><span class="p">:</span>  <span class="c1"># steepest descent, use constant stepsize</span>
+                <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;intrafrag_trust_min&quot;</span><span class="p">:</span> <span class="n">intra_trust</span><span class="p">})</span>
+            <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;ext_force_distance&quot;</span><span class="p">],</span>
+                    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;ext_force_bend&quot;</span><span class="p">],</span>
+                    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;ext_force_dihedral&quot;</span><span class="p">],</span>
+                    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;ext_force_oofp&quot;</span><span class="p">],</span>
+                    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;ext_force_cartesian&quot;</span><span class="p">],</span>
+                <span class="p">]</span>
+            <span class="p">):</span>
+                <span class="c1"># with external forces, the check for trust radius will be inapt</span>
+                <span class="c1"># so don&#39;t let minimum step get shrunk too much.</span>
+                <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;intrafrag_trust_min&quot;</span><span class="p">:</span> <span class="n">intra_trust</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">})</span>
+
+        <span class="c1"># breakpoint()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;opt_type&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;IRC&quot;</span><span class="p">,</span> <span class="s2">&quot;TS&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;step_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;RS_I_RFO&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;INTRAFRAG_STEP_LIMIT&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_vars</span><span class="p">:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;intrafrag_trust&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">})</span>  <span class="c1"># start with smaller intrafrag_trust</span>
+
+        <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;intrafrag_trust_max&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;intrafrag_trust&quot;</span><span class="p">]:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;intrafrag_trust&quot;</span><span class="p">:</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;intrafrag_trust_max&quot;</span><span class="p">]})</span>
+        <span class="k">return</span> <span class="n">fields</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_hessian</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+
+        <span class="n">set_vars</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_raw_input</span>
+        <span class="n">opt_type</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;opt_type&quot;</span><span class="p">]</span>  <span class="c1"># fetch once</span>
+
+        <span class="c1"># Original Lindh specification was to redo at every step.</span>
+        <span class="k">if</span> <span class="s2">&quot;H_GUESS_EVERY&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_vars</span> <span class="ow">and</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;intrafrag_hess&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;LINDH&quot;</span><span class="p">:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;h_guess_every&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+
+        <span class="c1"># Default for cartesians: use Lindh force field for initial guess, then BFGS.</span>
+        <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;opt_coordinates&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;INTRAFRAG_HESS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_vars</span><span class="p">:</span>
+                <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;intrafrag_hess&quot;</span><span class="p">:</span> <span class="s2">&quot;LINDH&quot;</span><span class="p">})</span>
+                <span class="k">if</span> <span class="s2">&quot;H_GUESS_EVERY&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_vars</span><span class="p">:</span>
+                    <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;h_guess_every&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+
+        <span class="c1"># Set Bofill as default for TS optimizations.</span>
+        <span class="k">if</span> <span class="n">opt_type</span> <span class="o">==</span> <span class="s2">&quot;TS&quot;</span> <span class="ow">or</span> <span class="n">opt_type</span> <span class="o">==</span> <span class="s2">&quot;IRC&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;HESS_UPDATE&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_vars</span><span class="p">:</span>
+                <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;hess_update&quot;</span><span class="p">:</span> <span class="s2">&quot;BOFILL&quot;</span><span class="p">})</span>
+
+        <span class="c1"># Make trajectory file printing the default for IRC.</span>
+        <span class="k">if</span> <span class="n">opt_type</span> <span class="o">==</span> <span class="s2">&quot;IRC&quot;</span> <span class="ow">and</span> <span class="s2">&quot;WRITE_TRAJECTORY&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_vars</span><span class="p">:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;write_trajectory&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+
+        <span class="c1"># Read cartesian Hessian by default for IRC.</span>
+        <span class="c1"># Changed to turn cart_hess_read on only if a file path was provided.</span>
+        <span class="c1"># otherwise full_hess_every will handle providing hessian</span>
+        <span class="k">if</span> <span class="n">opt_type</span> <span class="o">==</span> <span class="s2">&quot;IRC&quot;</span> <span class="ow">and</span> <span class="s2">&quot;CART_HESS_READ&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_vars</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;hessian_file&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+                <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;cart_hess_read&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;cart_hess_read&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;hessian_file&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">psi4</span>
+            <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;CART_HESS_READ was turned on but ``HESSIAN_FILE`` was left empty.&quot;</span>
+                    <span class="s2">&quot;Attempting to read from ``psi4.writer_file_prefix`` has failed. Please&quot;</span>
+                    <span class="s2">&quot;explicitly provide a file or ensure that psi4 is importable&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">e</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">get_active_molecule</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;hessian_file&quot;</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">.hess&quot;</span><span class="p">)}</span>
+            <span class="p">)</span>
+
+        <span class="c1"># inactive option</span>
+        <span class="c1"># if fields.get(&quot;generate_intcos_exit&quot;):</span>
+        <span class="c1">#     fields.get(&quot;keep_intcos&quot;) = True</span>
+
+        <span class="c1"># For IRC, we WILL need a Hessian.  Compute it if not provided.</span>
+        <span class="c1"># Set full_hess_every to 0 if -1</span>
+        <span class="k">if</span> <span class="n">opt_type</span> <span class="o">==</span> <span class="s2">&quot;IRC&quot;</span> <span class="ow">and</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;full_hess_every&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;full_hess_every&quot;</span><span class="p">:</span>  <span class="mi">0</span><span class="p">})</span>
+            <span class="c1"># fields.get(&quot;cart_hess_read&quot;) = True  # not sure about this one - test</span>
+
+        <span class="c1"># if steepest-descent, then make much larger default</span>
+        <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;step_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;SD&quot;</span> <span class="ow">and</span> <span class="s2">&quot;CONSECUTIVE_BACKSTEPS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_vars</span><span class="p">:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;consecutive_backsteps_allowed&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+
+        <span class="c1"># For RFO step, eigenvectors of augmented Hessian are divided by the last</span>
+        <span class="c1"># element unless it is smaller than this value {double}.  Can be used to</span>
+        <span class="c1"># eliminate asymmetric steps not otherwise detected (e.g. in degenerate</span>
+        <span class="c1"># point groups). For multi-fragment modes, we presume that smaller</span>
+        <span class="c1"># Delta-E&#39;s are possible, and this threshold should be made larger.</span>
+        <span class="c1"># if P.fragment_mode == &#39;MULTI&#39; and &#39;RFO_NORMALIZATION_MAX&#39; not in uod:</span>
+        <span class="c1">#     P.rfo_normalization_max = 1.0e5</span>
+        <span class="c1"># If arbitrary user forces, don&#39;t shrink step_size if Delta(E) is poor.</span>
+        <span class="k">return</span> <span class="n">fields</span>
+
+    <span class="c1"># @root_validator()</span>
+    <span class="c1"># def validate_hessian_file(cls, fields):</span>
+    <span class="c1">#     # Stash value of hessian_file in _hessian_file for internal use</span>
+    <span class="c1">#     # mode before required so that we stash before str_to_upper is called</span>
+
+    <span class="c1">#     set_vars = cls._raw_input</span>
+    <span class="c1">#     hess_file = set_vars.get(&quot;hessian_file&quot;)</span>
+    <span class="c1">#     breakpoint()</span>
+    <span class="c1">#     if hess_file:</span>
+    <span class="c1">#         fields.update({&quot;hessian_file&quot;: pathlib.Path(hess_file)})</span>
+    <span class="c1">#     return fields</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_trajectory</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;print_trajectory_xyz_file&quot;</span><span class="p">]:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;`print_trajectory_xyz_file` is deprecated. Please use `write_trajectory`&quot;</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;write_trajectory&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;print_trajectory_xyz_file&quot;</span><span class="p">]:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;write_trajectory&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;print_trajectory_xyz_file&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">fields</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_frag</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># Finish multi-fragment option setup by forcing frag_mode: MULTI if DimerCoords are provided</span>
+
+        <span class="nb">input</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;interfrag_coords&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">input</span><span class="p">:</span>
+            <span class="c1"># if interfrag_coords is not empty. Consider whether it is just [{}]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># empty dict in list</span>
+                    <span class="k">return</span> <span class="n">fields</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;frag_mode&quot;</span><span class="p">:</span> <span class="s2">&quot;MULTI&quot;</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">fields</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;interfrag_coords&quot;</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_interfrag_coords</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make sure required fields and types are sensible for interfrag_coords dict.&quot;&quot;&quot;</span>
+
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">if</span> <span class="n">tmp</span><span class="p">:</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">to_uppercase_key_str</span><span class="p">(</span><span class="n">tmp</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;Convert dict to string object with uppercase keys&quot;&quot;&quot;</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">item</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tmp</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+            <span class="c1"># convert to (presumably) dict or list[dict]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+            <span class="c1"># ensure that keys are uppercase and standardize to list of dict</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_uppercase_key_str</span><span class="p">(</span><span class="n">tmp</span><span class="p">)]</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_uppercase_key_str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tmp</span><span class="p">]</span>
+
+            <span class="c1"># Validate string as matching InterfragCoords Spec</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tmp</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">item</span> <span class="o">!=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="n">InterfragCoords</span><span class="o">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                    <span class="c1"># assert InterfragCoords.model_validate_json(item)</span>
+
+            <span class="c1"># Now that everything is validated. Convert to dict for storage</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tmp</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">tmp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[{}]</span>
+
+    <span class="nd">@root_validator</span><span class="p">()</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_case</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">fields</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">fields</span>
+
+<div class="viewcode-block" id="OptParams.from_internal_dict">
+<a class="viewcode-back" href="../../../optking.html#optking.v1.optparams.OptParams.from_internal_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_internal_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assumes that params does not use the input key and syntax, but uses the internal names and</span>
+<span class="sd">        internal syntax. Meant to be used for recreating options# o dict</span>
+<span class="sd">        It&#39;s probably preferable to dump by alias and then recreate instead of using this&quot;&quot;&quot;</span>
+
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>  <span class="c1"># basic default options</span>
+        <span class="n">opt_dict</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="vm">__dict__</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">opt_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">option</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">option</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">option</span> <span class="o">=</span> <span class="n">option</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+            <span class="n">options</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">option</span>
+
+        <span class="k">return</span> <span class="n">options</span></div>
+
+
+    <span class="c1"># for specialists</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<div class="viewcode-block" id="OptParams.conv_criteria">
+<a class="viewcode-back" href="../../../optking.html#optking.v1.optparams.OptParams.conv_criteria">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">conv_criteria</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the currently active values for each convergence criteria. Not the original</span>
+<span class="sd">        user input / presets&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;conv_max_force&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_max_force</span><span class="p">,</span>
+            <span class="s2">&quot;conv_rms_force&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_rms_force</span><span class="p">,</span>
+            <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_max_disp</span><span class="p">,</span>
+            <span class="s2">&quot;conv_rms_disp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_rms_disp</span><span class="p">,</span>
+            <span class="s2">&quot;conv_max_DE&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_max_DE</span><span class="p">,</span>
+            <span class="s2">&quot;i_max_force&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_i_max_force</span><span class="p">,</span>
+            <span class="s2">&quot;i_rms_force&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_i_rms_force</span><span class="p">,</span>
+            <span class="s2">&quot;i_max_disp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_i_max_disp</span><span class="p">,</span>
+            <span class="s2">&quot;i_rms_disp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_i_rms_disp</span><span class="p">,</span>
+            <span class="s2">&quot;i_max_DE&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_i_max_DE</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="OptParams.update_dynamic_level_params">
+<a class="viewcode-back" href="../../../optking.html#optking.v1.optparams.OptParams.update_dynamic_level_params">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_dynamic_level_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">run_level</span><span class="p">):</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>  <span class="c1"># TODO?</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        *dynamic  step   coord   trust      backsteps         criteria</span>
+<span class="sd">        * run_level                                           for downmove    for upmove</span>
+<span class="sd">        *  0      RFO    RI      dynamic         no           none            none</span>
+<span class="sd">        *  1      RFO    RI      dynamic(d)      no           1 bad step</span>
+<span class="sd">        *  2      RFO    RI      smaller         yes (1)      1 bad step</span>
+<span class="sd">        *  3      RFO    BOTH    small           yes (1)      1 bad step</span>
+<span class="sd">        *  4      RFO    XYZ     large           yes (1)      1 bad step</span>
+<span class="sd">        *  5      RFO    XYZ     small           yes (1)      1 bad step</span>
+<span class="sd">        *  6      SD     XYZ     large           yes (1)      1 bad step</span>
+<span class="sd">        *  7      SD     XYZ     small           yes (1)      1 bad step</span>
+<span class="sd">        *  8  abort</span>
+<span class="sd">        *  BackStep:</span>
+<span class="sd">        *   DE &gt; 0 in minimization</span>
+<span class="sd">        *  BadStep:</span>
+<span class="sd">        *   DE &gt; 0 and backsteps exceeded and iterations &gt; 5  ** OR **</span>
+<span class="sd">        *   badly defined internal coordinate or derivative</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">run_level</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">run_level</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt_coordinates</span> <span class="o">=</span> <span class="s2">&quot;REDUNDANT&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">consecutiveBackstepsAllowed</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">step_type</span> <span class="o">=</span> <span class="s2">&quot;RFO&quot;</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Going to run_level 1: Red. Int., RFO, no backsteps, default, dynamic trust. ~&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">run_level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt_coordinates</span> <span class="o">=</span> <span class="s2">&quot;REDUNDANT&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">consecutiveBackstepsAllowed</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">step_type</span> <span class="o">=</span> <span class="s2">&quot;RFO&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust</span> <span class="o">=</span> <span class="mf">0.2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust_min</span> <span class="o">=</span> <span class="mf">0.2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust_max</span> <span class="o">=</span> <span class="mf">0.2</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Going to run_level 2: Red. Int., RFO, 2 backstep, smaller trust. ~&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">run_level</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt_coordinates</span> <span class="o">=</span> <span class="s2">&quot;BOTH&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">consecutiveBackstepsAllowed</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">step_type</span> <span class="o">=</span> <span class="s2">&quot;RFO&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust_min</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust_max</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Going to run_level 3: Red. Int. + XYZ, RFO, 2 backstep, smaller trust. ~&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">run_level</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt_coordinates</span> <span class="o">=</span> <span class="s2">&quot;CARTESIAN&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">consecutiveBackstepsAllowed</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">step_type</span> <span class="o">=</span> <span class="s2">&quot;RFO&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_hess</span> <span class="o">=</span> <span class="s2">&quot;LINDH&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust</span> <span class="o">=</span> <span class="mf">0.2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust_min</span> <span class="o">=</span> <span class="mf">0.2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust_max</span> <span class="o">=</span> <span class="mf">0.2</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Going to run_level 4: XYZ, RFO, 2 backstep, smaller trust. ~&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">run_level</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt_coordinates</span> <span class="o">=</span> <span class="s2">&quot;CARTESIAN&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">consecutiveBackstepsAllowed</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">step_type</span> <span class="o">=</span> <span class="s2">&quot;SD&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sd_hessian</span> <span class="o">=</span> <span class="mf">0.3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust</span> <span class="o">=</span> <span class="mf">0.3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust_min</span> <span class="o">=</span> <span class="mf">0.3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust_max</span> <span class="o">=</span> <span class="mf">0.3</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Going to run_level 5: XYZ, SD, 2 backstep, average trust. ~&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">run_level</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt_coordinates</span> <span class="o">=</span> <span class="s2">&quot;CARTESIAN&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">consecutiveBackstepsAllowed</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">step_type</span> <span class="o">=</span> <span class="s2">&quot;SD&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sd_hessian</span> <span class="o">=</span> <span class="mf">0.6</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust_min</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intrafrag_trust_max</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Moving to run_level 6: XYZ, SD, 2 backstep, smaller trust. ~&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">OptError</span><span class="p">(</span><span class="s2">&quot;Unknown value of run_level&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">CONVERGENCE_PRESETS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;QCHEM&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_force&quot;</span><span class="p">:</span> <span class="mf">3.0e-4</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_DE&quot;</span><span class="p">:</span> <span class="mf">1.0e-6</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_DE&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">:</span> <span class="mf">1.2e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;MOLPRO&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_force&quot;</span><span class="p">:</span> <span class="mf">3.0e-4</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_DE&quot;</span><span class="p">:</span> <span class="mf">1.0e-6</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_DE&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">:</span> <span class="mf">3.0e-4</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;GAU&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_force&quot;</span><span class="p">:</span> <span class="mf">4.5e-4</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_force&quot;</span><span class="p">:</span> <span class="mf">3.0e-4</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">:</span> <span class="mf">1.8e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_disp&quot;</span><span class="p">:</span> <span class="mf">1.2e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;GAU_TIGHT&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_force&quot;</span><span class="p">:</span> <span class="mf">1.5e-5</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_force&quot;</span><span class="p">:</span> <span class="mf">1.0e-5</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">:</span> <span class="mf">6.0e-5</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_disp&quot;</span><span class="p">:</span> <span class="mf">4.0e-5</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;GAU_VERYTIGHT&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_force&quot;</span><span class="p">:</span> <span class="mf">2.0e-6</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_force&quot;</span><span class="p">:</span> <span class="mf">1.0e-6</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">:</span> <span class="mf">6.0e-6</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_disp&quot;</span><span class="p">:</span> <span class="mf">4.0e-6</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;GAU_LOOSE&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_force&quot;</span><span class="p">:</span> <span class="mf">2.5e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_force&quot;</span><span class="p">:</span> <span class="mf">1.7e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">:</span> <span class="mf">1.0e-2</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_disp&quot;</span><span class="p">:</span> <span class="mf">6.7e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;TURBOMOLE&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_force&quot;</span><span class="p">:</span> <span class="mf">1.0e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_force&quot;</span><span class="p">:</span> <span class="mf">5.0e-4</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_DE&quot;</span><span class="p">:</span> <span class="mf">1.0e-6</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_DE&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">:</span> <span class="mf">1.0e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_disp&quot;</span><span class="p">:</span> <span class="mf">5.0e-4</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;CFOUR&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_force&quot;</span><span class="p">:</span> <span class="mf">1.0e-4</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;NWCHEM_LOOSE&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;_i_untampered&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_force&quot;</span><span class="p">:</span> <span class="mf">4.5e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_force&quot;</span><span class="p">:</span> <span class="mf">3.0e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">:</span> <span class="mf">5.4e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_disp&quot;</span><span class="p">:</span> <span class="mf">3.6e-3</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;INTERFRAG_TIGHT&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;conv_max_DE&quot;</span><span class="p">:</span> <span class="mf">1.0e-5</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_DE&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_force&quot;</span><span class="p">:</span> <span class="mf">1.5e-5</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_force&quot;</span><span class="p">:</span> <span class="mf">1.0e-5</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_force&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_max_disp&quot;</span><span class="p">:</span> <span class="mf">6.0e-4</span><span class="p">,</span>
+        <span class="s2">&quot;_i_max_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;conv_rms_disp&quot;</span><span class="p">:</span> <span class="mf">4.0e-4</span><span class="p">,</span>
+        <span class="s2">&quot;_i_rms_disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">FLOATR</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(:?\d+\.\d+)&quot;</span>
+<span class="n">INT</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(:?\d)&quot;</span>
+<span class="n">SEP</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(:?\d+\.\d+)&quot;</span>
+<span class="n">SEP2</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\d+\.\d+&quot;</span>
+<span class="n">SEP3</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\d+\.\d+&quot;</span>
+<span class="n">FLOATR</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\d+\.\d+&quot;</span>
+<span class="n">CART_STR</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(?:xyz|xy|yz|x|y|z)&quot;</span>
+<span class="n">LABEL</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(?i)(?:[SRABTDO]|STRE|STRETCH|BOND|BEND|ANGLE|TORS|TORSION|DIHEDRAL)&quot;</span>
+
+<span class="c1"># Create a module level, default, options object</span>
+<span class="n">Params</span> <span class="o">=</span> <span class="n">OptParams</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="../../../index.html">
+    <img class="logo" src="../../../_static/psi4square.png" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel"
+                                       aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/></div>
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/optking/v1/optparams.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/f2492db">1.10</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">optking.v1.optparams</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Sunday, 07 September 2025 02:48AM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

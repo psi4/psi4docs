@@ -1,0 +1,452 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>psi4.driver.p4util.fchk</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=88a353b9" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="../../../../_static/documentation_options.js?v=03a09e7b"></script>
+    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    
+    
+     
+        <script src="../../../../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../../../../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../../../../_static/cloud.js"></script>
+    
+
+    <link rel="icon" href="../../../../_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../../index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/fchk.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/f2492db">1.10</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">psi4.driver.p4util.fchk</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for psi4.driver.p4util.fchk</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># @BEGIN LICENSE</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4: an open-source quantum chemistry software package</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2007-2025 The Psi4 Developers.</span>
+<span class="c1">#</span>
+<span class="c1"># The copyrights for code used from other parties are included in</span>
+<span class="c1"># the corresponding files.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of Psi4.</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4 is free software; you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Lesser General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, version 3.</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4 is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU Lesser General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU Lesser General Public License along</span>
+<span class="c1"># with Psi4; if not, write to the Free Software Foundation, Inc.,</span>
+<span class="c1"># 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span>
+<span class="c1">#</span>
+<span class="c1"># @END LICENSE</span>
+<span class="c1">#</span>
+<span class="sd">&quot;&quot;&quot;Module with utility functions for FCHK files.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..p4util.testing</span><span class="w"> </span><span class="kn">import</span> <span class="n">compare_arrays</span><span class="p">,</span> <span class="n">compare_integers</span><span class="p">,</span> <span class="n">compare_strings</span><span class="p">,</span> <span class="n">compare_values</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;compare_fchkfiles&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;compare_moldenfiles&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_consume_fchk_section</span><span class="p">(</span><span class="n">input_list</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;compare a float or integer matrix section&quot;&quot;&quot;</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">input_list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">input_list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="s2">&quot;R&quot;</span> <span class="ow">in</span> <span class="n">kind</span><span class="p">:</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span>
+        <span class="n">format_counter</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="k">elif</span> <span class="s2">&quot;I&quot;</span> <span class="ow">in</span> <span class="n">kind</span><span class="p">:</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span>
+        <span class="n">format_counter</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;Unknow field type in FCHK reader</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">extra</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">format_counter</span> <span class="k">else</span> <span class="n">n</span> <span class="o">%</span> <span class="n">format_counter</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">format_counter</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">format_counter</span><span class="p">)</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">lines</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">extra</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">lines</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">j</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">extra</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">lines</span><span class="p">])</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">field</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_fchkfile_to_string</span><span class="p">(</span><span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Load FCHK file into a string&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+        <span class="n">fchk_string</span> <span class="o">=</span> <span class="n">handle</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">fchk_string</span>
+
+
+<div class="viewcode-block" id="compare_fchkfiles">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.compare_fchkfiles.html#psi4.compare_fchkfiles">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compare_fchkfiles</span><span class="p">(</span><span class="n">expected</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">computed</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">atol_exponent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Comparison function for output data in FCHK (formatted checkpoint) file</span>
+<span class="sd">    format. Compares many fields including number of electrons, highest angular</span>
+<span class="sd">    momentum, basis set exponents, densities, final gradient.</span>
+
+<span class="sd">    Note only Psi4-style signature (``(expected, computed, atol_exponent, label)``) available.</span>
+
+<span class="sd">    An older format description can be found here</span>
+<span class="sd">    http://wild.life.nctu.edu.tw/~jsyu/compchem/g09/g09ur/f_formchk.htm</span>
+<span class="sd">    It lists more fields (logical, character) that are not included in this</span>
+<span class="sd">    test function. They should be covered by the string comparison.</span>
+<span class="sd">    This function is only meant to work with PSI4&#39;s FCHK files.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    expected</span>
+<span class="sd">        Path to reference FCHK file against which `computed` is compared.</span>
+<span class="sd">    computed</span>
+<span class="sd">        Path to input FCHK file to compare against `expected`.</span>
+<span class="sd">    atol_exponent</span>
+<span class="sd">        Absolute tolerance for high accuracy fields -- 1.e-8 or 1.e-9 is suitable.</span>
+<span class="sd">        Values less than one are taken literally; one or greater taken as decimal digits for comparison.</span>
+<span class="sd">        So `1` means `atol=0.1` and `2` means `atol=0.01` but `0.04` means `atol=0.04`</span>
+<span class="sd">        Note that the largest expressable processed atol will be `~0.99`.</span>
+<span class="sd">    label</span>
+<span class="sd">        Label for passed and error messages.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fchk_ref</span> <span class="o">=</span> <span class="n">_fchkfile_to_string</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="n">fchk_calc</span> <span class="o">=</span> <span class="n">_fchkfile_to_string</span><span class="p">(</span><span class="n">computed</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+
+    <span class="n">high_accuracy</span> <span class="o">=</span> <span class="n">atol_exponent</span>
+    <span class="n">low_accuracy</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># Those listed below need super high scf convergence (d_conv 1e-12) and might</span>
+    <span class="c1"># show machine dependence. They will be tested with low_accuracy.</span>
+    <span class="n">sensitive</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Current cartesian coordinates&#39;</span><span class="p">,</span> <span class="s1">&#39;MO coefficients&#39;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fchk_ref</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fchk_calc</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;The two FCHK files to compare have a different file length! </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fchk_calc</span><span class="p">)</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_length</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="n">max_length</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">fchk_calc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;N=&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">offset</span><span class="p">,</span> <span class="n">calc</span> <span class="o">=</span> <span class="n">_consume_fchk_section</span><span class="p">(</span><span class="n">fchk_calc</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">ref</span> <span class="o">=</span> <span class="n">_consume_fchk_section</span><span class="p">(</span><span class="n">fchk_ref</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">line</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sensitive</span><span class="p">):</span>
+                <span class="n">test</span> <span class="o">=</span> <span class="n">compare_arrays</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">calc</span><span class="p">,</span> <span class="n">low_accuracy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot; matrix section: </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">test</span> <span class="o">=</span> <span class="n">compare_arrays</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">calc</span><span class="p">,</span> <span class="n">high_accuracy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot; matrix section: </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="n">offset</span>
+        <span class="k">elif</span> <span class="s2">&quot; R &quot;</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="s2">&quot;N=&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">calc</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">fchk_ref</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_values</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">calc</span><span class="p">,</span> <span class="n">high_accuracy</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot; float value: </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="s2">&quot; I &quot;</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="s2">&quot;N=&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">calc</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">fchk_ref</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_integers</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">calc</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot; int value: </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_strings</span><span class="p">(</span><span class="n">fchk_ref</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">line</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;FCK text line </span><span class="si">{</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">tests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">compare_integers</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="nb">all</span><span class="p">(</span><span class="n">tests</span><span class="p">),</span> <span class="n">label</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="compare_moldenfiles">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.compare_moldenfiles.html#psi4.compare_moldenfiles">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compare_moldenfiles</span><span class="p">(</span>
+    <span class="n">expected</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">computed</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">atol_exponent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.e-7</span><span class="p">,</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Compare Molden&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Comparison function for output data in Molden file format.</span>
+<span class="sd">    Compares many fields including geometry, basis set, occupations, symmetries, energies.</span>
+
+<span class="sd">    Note only Psi4-style signature (``(expected, computed, atol_exponent, label)``) available.</span>
+
+<span class="sd">    A format description is found https://www3.cmbi.umcn.nl/molden/molden_format.html</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    expected</span>
+<span class="sd">        Path to reference Molden file against which `computed` is compared.</span>
+<span class="sd">    computed</span>
+<span class="sd">        Path to input Molden file to compare against `expected`.</span>
+<span class="sd">    atol_exponent</span>
+<span class="sd">        Absolute tolerance for high accuracy fields -- 1.e-8 or 1.e-9 is suitable.</span>
+<span class="sd">        Values less than one are taken literally; one or greater taken as decimal digits for comparison.</span>
+<span class="sd">        So `1` means `atol=0.1` and `2` means `atol=0.01` but `0.04` means `atol=0.04`</span>
+<span class="sd">        Note that the largest expressable processed atol will be `~0.99`.</span>
+<span class="sd">    label</span>
+<span class="sd">        Label for passed and error messages.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">moldenfile_to_string</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fn</span><span class="p">:</span>
+            <span class="n">molden_string</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">molden_string</span>
+
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">moldenfile_to_string</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="n">calc</span> <span class="o">=</span> <span class="n">moldenfile_to_string</span><span class="p">(</span><span class="n">computed</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">calc</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;These two molden files have different lengths...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">high_accuracy</span> <span class="o">=</span> <span class="n">atol_exponent</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">max_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">calc</span><span class="p">)</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">section</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">geom_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*(\w*)\s+(\d+)\s+(\d+)\s+(-?\d+.\d+)\s+(-?\d+.\d+)\s+(-?\d+.\d+)\s*$&#39;</span><span class="p">)</span>
+    <span class="n">basis_header_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*([s,p,d,f,g])\s*(\d*)\s*(\d*.\d*)\s*$&#39;</span><span class="p">)</span>
+    <span class="n">s1_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*(\d+.?\d*)\s+(\d+.?\d*)$&#39;</span><span class="p">)</span>
+    <span class="n">s2_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*(\d+)\s+(-?\d+.\d+[e,E][\+,-]\d+)\s*$&#39;</span><span class="p">)</span>
+    <span class="n">sym_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*Sym\s*=\s*(\w*)\s*$&#39;</span><span class="p">)</span>
+    <span class="n">energy_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*Ene\s*=\s*(-?\d*.?\d*[e,E]?\+?-?\d*)\s*$&#39;</span><span class="p">)</span>
+    <span class="n">spin_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*Spin\s*=\s*(\w*)\s*$&#39;</span><span class="p">)</span>
+    <span class="n">occ_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*Occup\s*=\s*(-?\d*.\d*[e,E]?-?\+?\d*)\s*$&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_len</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">calc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">geom_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">,</span> <span class="n">c4</span><span class="p">,</span> <span class="n">c5</span><span class="p">,</span> <span class="n">c6</span> <span class="o">=</span> <span class="n">geom_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">r3</span><span class="p">,</span> <span class="n">r4</span><span class="p">,</span> <span class="n">r5</span><span class="p">,</span> <span class="n">r6</span> <span class="o">=</span> <span class="n">geom_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_strings</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">c1</span><span class="p">)</span> <span class="ow">and</span> <span class="n">compare_integers</span><span class="p">(</span><span class="n">r2</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span> <span class="ow">and</span> <span class="n">compare_integers</span><span class="p">(</span><span class="n">r3</span><span class="p">,</span> <span class="n">c3</span><span class="p">)</span> <span class="ow">and</span> <span class="n">compare_values</span><span class="p">(</span><span class="n">r4</span><span class="p">,</span> <span class="n">c4</span><span class="p">,</span> <span class="n">high_accuracy</span><span class="p">)</span> <span class="ow">and</span> <span class="n">compare_values</span><span class="p">(</span><span class="n">r5</span><span class="p">,</span> <span class="n">c5</span><span class="p">,</span> <span class="n">high_accuracy</span><span class="p">)</span> <span class="ow">and</span> <span class="n">compare_values</span><span class="p">(</span><span class="n">r6</span><span class="p">,</span> <span class="n">c6</span><span class="p">,</span> <span class="n">high_accuracy</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">basis_header_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">c3</span> <span class="o">=</span> <span class="n">basis_header_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">r3</span> <span class="o">=</span> <span class="n">basis_header_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_strings</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span><span class="n">c1</span><span class="p">)</span> <span class="ow">and</span> <span class="n">compare_integers</span><span class="p">(</span><span class="n">r2</span><span class="p">,</span><span class="n">c2</span><span class="p">)</span> <span class="ow">and</span> <span class="n">compare_values</span><span class="p">(</span><span class="n">r3</span><span class="p">,</span><span class="n">c3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">s1_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span> <span class="o">=</span> <span class="n">s1_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">s1_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_values</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">high_accuracy</span><span class="p">)</span> <span class="ow">and</span> <span class="n">compare_values</span><span class="p">(</span><span class="n">r2</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">high_accuracy</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">sym_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">sym_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">sym_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_strings</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;text line: </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">energy_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">energy_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">energy_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_values</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">high_accuracy</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;float value: </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">spin_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">spin_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">spin_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_strings</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;text line: </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">occ_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">occ_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">occ_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_values</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">high_accuracy</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;float value: </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">s2_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span> <span class="o">=</span> <span class="n">s2_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">s2_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_integers</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int value: </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">compare_values</span><span class="p">(</span><span class="n">r2</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">high_accuracy</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;float value: </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">test</span> <span class="o">=</span> <span class="n">compare_strings</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">ref</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="n">tests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">compare_integers</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="nb">all</span><span class="p">(</span><span class="n">tests</span><span class="p">),</span> <span class="n">label</span><span class="p">)</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="../../../../index.html">
+    <img class="logo" src="../../../../_static/psi4square.png" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel"
+                                       aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/></div>
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../../index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/fchk.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/f2492db">1.10</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">psi4.driver.p4util.fchk</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Sunday, 07 September 2025 02:48AM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
