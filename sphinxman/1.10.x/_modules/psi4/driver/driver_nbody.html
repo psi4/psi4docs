@@ -1,0 +1,901 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>psi4.driver.driver_nbody</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=88a353b9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="../../../_static/documentation_options.js?v=03a09e7b"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/tabs.js?v=3030b3cb"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    
+    
+     
+        <script src="../../../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../../../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../../../_static/cloud.js"></script>
+    
+
+    <link rel="icon" href="../../../_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/f2492db">1.10</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">psi4.driver.driver_nbody</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for psi4.driver.driver_nbody</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># @BEGIN LICENSE</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4: an open-source quantum chemistry software package</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2007-2025 The Psi4 Developers.</span>
+<span class="c1">#</span>
+<span class="c1"># The copyrights for code used from other parties are included in</span>
+<span class="c1"># the corresponding files.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of Psi4.</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4 is free software; you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Lesser General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, version 3.</span>
+<span class="c1">#</span>
+<span class="c1"># Psi4 is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU Lesser General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU Lesser General Public License along</span>
+<span class="c1"># with Psi4; if not, write to the Free Software Foundation, Inc.,</span>
+<span class="c1"># 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.</span>
+<span class="c1">#</span>
+<span class="c1"># @END LICENSE</span>
+<span class="c1">#</span>
+<span class="sd">&quot;&quot;&quot;Plan, run, and assemble QC tasks to obtain many-body expansion and basis-set superposition error treatments.</span>
+
+<span class="sd">=============</span>
+<span class="sd">ManyBody Flow</span>
+<span class="sd">=============</span>
+<span class="sd">Bullet points are major actions</span>
+<span class="sd">Lines of dashes denote function calls</span>
+<span class="sd">e/d/dd=dg/g/h := energy, dipole, dipole derivative = dipole gradient, gradient, Hessian</span>
+<span class="sd">`mc_(frag, bas)` := a modelchem index, mc; indices of real fragments, frag; set(bas - frag) are indices of ghost fragments. see &quot;intermediates_energy&quot; in big table below for example.</span>
+<span class="sd">note that there&#39;s a lot of natural 1-indexing (1, 2, 3) rather than 0-indexing (0, 1, 2) in manybody. e.g., 2-body energy, Molecule.extract_subsets(1, (1, 2))</span>
+<span class="sd">note that a &quot;level&quot; can be n-body level (how many real molecular fragments) or a modelchem level (`mc_`; e.g., CC on 1-bodies, MP2 on 2-bodies; &quot;multilevel&quot;)</span>
+
+<span class="sd">---------------------------</span>
+<span class="sd">ManyBodyComputer.__init__()</span>
+<span class="sd">---------------------------</span>
+<span class="sd">* not an explicit function but pydantic handles some defaults and validation</span>
+<span class="sd">* fields molecule, nfragments, bsse_type, return_total_data, and initial max_nbody set</span>
+<span class="sd">* BaseComputer.__init__()</span>
+
+<span class="sd">task_planner.py::task_planner()</span>
+<span class="sd">-------------------------------</span>
+<span class="sd">* computer gets modified from task_planner outside this file!</span>
+<span class="sd">* modelchem (method and basis) treatment levels for each n-body level determined from user levels kwarg. fields nbodies_per_mc_level set and max_nbody reset</span>
+<span class="sd">* for each modelchem treatment level, call build_tasks() below via one of four routes, depending on simple MB or layered MB(FD), MB(CBS), or MB(FD(CBS))</span>
+
+<span class="sd">    ------------------------------</span>
+<span class="sd">    ManyBodyComputer.build_tasks()</span>
+<span class="sd">    ------------------------------</span>
+<span class="sd">    * if supersystem requested as a modelchem level, request (frag, bas) indices for full nbody range of nocp treatment from build_nbody_compute_list()</span>
+<span class="sd">    * otherwise, request (frag, bas) indices for specified nbody range covering specified bsse treatments from build_nbody_compute_list()</span>
+
+<span class="sd">        build_nbody_compute_list()</span>
+<span class="sd">        --------------------------</span>
+<span class="sd">        * initializes dicts for each of nocp, cp, vmfc (2 for this one) with keys requested n-body levels and values empty sets</span>
+<span class="sd">        * use combinatorics formulas to fill each key with (frag, bas) indices (what fragments are active and what fragments have basis functions)</span>
+<span class="sd">          needed to compute the requested bsse treatments at the requested n-body levels.</span>
+<span class="sd">        * merge by n-body level the sets of indices for each bsse treatment into an &quot;all&quot; dict. return this and all the per-bsse dicts.</span>
+
+<span class="sd">    * merge (from different bsse_types) all the requested indices, prepend a modelchem treatment index to form `mc_(frag, bas)`</span>
+<span class="sd">    * construct a molecule appropriately real/ghosted from active-fragment info in (frag, bas)</span>
+<span class="sd">    * if embedding_charges active, prepare external_potentials array for atoms not in bas fragments</span>
+<span class="sd">    * for any new `mc_(frag, bas)` index, append a new computer to self.task_list</span>
+
+<span class="sd">--------------------------</span>
+<span class="sd">ManyBodyComputer.compute()</span>
+<span class="sd">--------------------------</span>
+<span class="sd">* compute() for each job in self.task_list</span>
+
+<span class="sd">----------------------------------</span>
+<span class="sd">ManyBodyComputer.get_psi_results()</span>
+<span class="sd">----------------------------------</span>
+
+<span class="sd">    Computer.get_results()</span>
+<span class="sd">    ----------------------</span>
+<span class="sd">    * call get_results() for each job in task list</span>
+<span class="sd">    * assemble all the computed energies, all the computed gradients, and all the computed hessians</span>
+<span class="sd">    * call qcmb&#39;s core interface analyze() to sum assembled component results into MBE results</span>
+<span class="sd">    * call qcmb&#39;s high-lvl interface get_results() to transform MBE results into QCSchema model</span>
+<span class="sd">    * return MBE QCSchema model</span>
+
+<span class="sd">* collect ManyBodyResult schema from self.get_results() (prior to v1.10, this was a ManyBody-flavored AtomicResult</span>
+<span class="sd">* collect text summary table from schema. Print and logs formatted energy output separately for cp, nocp, vmfc</span>
+<span class="sd">* build wfn from nbody mol and basis (always def2-svp)</span>
+<span class="sd">* collect MBE properties from schema, translate them to qcvars, and push to P::e and wfn</span>
+<span class="sd">* collect subsystem components properties, and write them to qcvars</span>
+<span class="sd">* convert result to psi4.core.Matrix (non-energy) and set g/h on wfn</span>
+<span class="sd">* return e/g/h and wfn</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;BsseEnum&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ManyBodyComputer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nbody&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pprint</span>
+<span class="c1"># v2: from typing import TYPE_CHECKING, Any, ClassVar, Dict, Tuple, Union, Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">p4util</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">constants</span><span class="p">,</span> <span class="n">pp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.driver_cbs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompositeComputer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.driver_findif</span><span class="w"> </span><span class="kn">import</span> <span class="n">FiniteDifferenceComputer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.p4util.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.task_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicComputer</span><span class="p">,</span> <span class="n">EnergyGradientHessianWfnReturn</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">validator</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody.models.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicSpecification</span><span class="p">,</span> <span class="n">ManyBodyInput</span><span class="p">,</span> <span class="n">ManyBodyResult</span><span class="p">,</span> <span class="n">BsseEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody</span><span class="w"> </span><span class="kn">import</span> <span class="n">ManyBodyCore</span><span class="p">,</span> <span class="n">ManyBodyComputer</span> <span class="k">as</span> <span class="n">ManyBodyComputerQCNG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">delabeler</span><span class="p">,</span> <span class="n">labeler</span><span class="p">,</span> <span class="n">translate_qcvariables</span><span class="p">,</span> <span class="n">modelchem_labels</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">qcportal</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">FragBasIndex</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
+
+<span class="n">SubTaskComputers</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AtomicComputer</span><span class="p">,</span> <span class="n">CompositeComputer</span><span class="p">,</span> <span class="n">FiniteDifferenceComputer</span><span class="p">]</span>
+
+
+<span class="c1"># nbody function is here for the docstring</span>
+<div class="viewcode-block" id="nbody">
+<a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.nbody">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nbody</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the nbody interaction energy, gradient, or Hessian depending on input.</span>
+<span class="sd">    This is a generalized universal function for computing interaction and total quantities.</span>
+
+<span class="sd">    :returns: *return type of func* |w--w| The data.</span>
+
+<span class="sd">    :returns: (*float*, :py:class:`~psi4.core.Wavefunction`) |w--w| data and wavefunction with energy/gradient/hessian set appropriately when **return_wfn** specified.</span>
+
+<span class="sd">    :type molecule: :ref:`molecule &lt;op_py_molecule&gt;`</span>
+<span class="sd">    :param molecule: ``h2o`` || etc.</span>
+
+<span class="sd">        The target molecule, if not the last molecule defined.</span>
+
+<span class="sd">    :type return_wfn: :ref:`boolean &lt;op_py_boolean&gt;`</span>
+<span class="sd">    :param return_wfn: ``&#39;on&#39;`` || |dl| ``&#39;off&#39;`` |dr|</span>
+
+<span class="sd">        Indicate to additionally return the :py:class:`~psi4.core.Wavefunction`</span>
+<span class="sd">        calculation result as the second element of a tuple.</span>
+
+<span class="sd">    :type bsse_type: str or list</span>
+<span class="sd">    :param bsse_type: ``&#39;cp&#39;`` || ``[&#39;nocp&#39;, &#39;vmfc&#39;]`` || |dl| ``None`` |dr| || etc.</span>
+
+<span class="sd">        Type of BSSE correction to compute: CP for counterpoise correction, NoCP</span>
+<span class="sd">        for plain supramolecular interaction energy, or VMFC for Valiron-Mayer</span>
+<span class="sd">        Function Counterpoise correction. If a list is provided, the first string in</span>
+<span class="sd">        the list determines which interaction or total energies/gradients/Hessians are</span>
+<span class="sd">        returned by this function. By default, many-body treatments are inactive.</span>
+
+<span class="sd">    :type max_nbody: int</span>
+<span class="sd">    :param max_nbody: ``3`` || etc.</span>
+
+<span class="sd">        Maximum n-body to compute, cannot exceed the number of fragments in the molecule.</span>
+
+<span class="sd">    :type return_total_data: :ref:`boolean &lt;op_py_boolean&gt;`</span>
+<span class="sd">    :param return_total_data: ``&#39;on&#39;`` || |dl| ``&#39;off&#39;`` |dr|</span>
+
+<span class="sd">        If True returns the total data (energy/gradient/Hessian) of the system,</span>
+<span class="sd">        otherwise returns interaction data. Default is ``&#39;off&#39;`` for energies,</span>
+<span class="sd">        ``&#39;on&#39;`` for gradients and Hessians. Note that the calculation of total</span>
+<span class="sd">        counterpoise corrected energies implies the calculation of the energies of</span>
+<span class="sd">        monomers in the monomer basis, hence specifying ``return_total_data = True``</span>
+<span class="sd">        may carry out more computations than ``return_total_data = False``.</span>
+<span class="sd">        For gradients and Hessians, ``return_total_data = False`` is rarely useful.</span>
+
+<span class="sd">    :type supersystem_ie_only: :ref:`boolean &lt;op_py_boolean&gt;`</span>
+<span class="sd">    :param supersystem_ie_only: ``&#39;on&#39;`` || |dl| ``&#39;off&#39;`` |dr|</span>
+
+<span class="sd">        Target the supersystem total/interaction energy (IE) data over the many-body expansion (MBE)</span>
+<span class="sd">        analysis, thereby omitting intermediate-body calculations. When False (default), compute each n-body level</span>
+<span class="sd">        in the MBE up through ``max_nbody``. When True (only allowed for ``max_nbody = nfragments`` ), only compute</span>
+<span class="sd">        enough for the overall interaction/total energy: max_nbody-body and 1-body. When True, properties</span>
+<span class="sd">        ``INTERACTION {driver} THROUGH {max_nbody}-BODY`` will always be available;</span>
+<span class="sd">        ``TOTAL {driver} THROUGH {max_nbody}-BODY`` will be available depending on ``return_total_data`` ; and</span>
+<span class="sd">        ``{max_nbody}-BODY CONTRIBUTION TO {driver}`` won&#39;t be available (except for dimers). This keyword produces</span>
+<span class="sd">        no savings for a two-fragment molecule. But for the interaction energy of a three-fragment molecule, for</span>
+<span class="sd">        example, 2-body subsystems can be skipped with ``supersystem_ie_only=True``. Do not use with ``vmfc`` in</span>
+<span class="sd">        ``bsse_type`` as it cannot produce savings.</span>
+
+<span class="sd">    :type levels: dict</span>
+<span class="sd">    :param levels: ``{1: &#39;ccsd(t)&#39;, 2: &#39;mp2&#39;, &#39;supersystem&#39;: &#39;scf&#39;}`` || ``{1: 2, 2: &#39;ccsd(t)&#39;, 3: &#39;mp2&#39;}`` || etc</span>
+
+<span class="sd">        Dictionary of different levels of theory for different levels of expansion</span>
+<span class="sd">        Note that method_string is not used in this case. ``supersystem`` computes</span>
+<span class="sd">        all higher order n-body effects up to the number of fragments.</span>
+
+<span class="sd">    :type embedding_charges: dict</span>
+<span class="sd">    :param embedding_charges: ``{1: [-0.834, 0.417, 0.417], ..}``</span>
+
+<span class="sd">        Dictionary of atom-centered point charges. keys: 1-based index of fragment, values: list of charges for each fragment.</span>
+<span class="sd">        Add atom-centered point charges for fragments whose basis sets are not included in the computation.</span>
+<span class="sd">        Starting in v1.10, set :envvar:`QCMANYBODY_EMBEDDING_CHARGES` =1 to access this functionality.</span>
+
+<span class="sd">    Potential QCVariables set are:</span>
+
+<span class="sd">        ptype_size = (1,)/(nat, 3)/(3 * nat, 3 * nat)</span>
+<span class="sd">        e/g/h := energy or gradient or Hessian</span>
+<span class="sd">        rtd := return_total_data</span>
+
+<span class="sd">        .. |em| unicode:: U+02003 .. em space</span>
+
+<span class="sd">        .. _`table:nbody_return`:</span>
+
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        | item                                                          | size                 | present / zeroed                                                   | contents / interpretation                                                                                          |</span>
+<span class="sd">        +===============================================================+======================+====================================================================+====================================================================================================================+</span>
+<span class="sd">        | ret_ptype                                                     | ptype_size           | always                                                             | interaction data requested: IE or total (depending on return_total_data) e/g/h (depending on driver)               |</span>
+<span class="sd">        |                                                               |                      |                                                                    |   with cp/nocp/vmfc treatment (depending on 1st of bsse_type)                                                      |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        | ret_energy                                                    | 1                    | always                                                             | interaction energy: IE or total (depending on return_total_data) w/ cp/nocp/vmfc treat. (dep. on 1st of bsse_type) |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        | ret_gradient                                                  | (nat, 3)             | when driver is g/h                                                 | interaction gradient: IE or total (depending on return_total_data) w/ cp/nocp/vmfc treat. (dep. on 1st of bsse_type|</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        | ret_hessian                                                   | (nat * 3, nat * 3)   | when driver is h                                                   | interaction Hessian: IE or total (depending on return_total_data) w/ cp/nocp/vmfc treat. (dep. on 1st of bsse_type)|</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |                                                               |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        | nbody                                                         | &gt;=1                  | always                                                             | energy n-body QCVariables to be set                                                                                |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL ENERGY THROUGH 1-BODY               |  |em| 1              | when cp in bsse_type                                               | MBE sum of subsystems of 1-body. summed are total energies with cp treatment                                       |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL ENERGY THROUGH 2-BODY               |  |em| 1              | when cp in bsse_type &amp; max_nbody&gt;=2                                | MBE sum of subsystems of 2-body or fewer (cumulative); summed are total energies with cp treatment                 |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL ENERGY THROUGH {nb}-BODY            |  |em| 1              | when cp in bsse_type                                               | MBE sum of subsystems of {max_nbody}-body or fewer (cumulative); summed are total energies w/ cp treatment         |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL ENERGY                              |  |em| 1              | when cp in bsse_type &amp; rtd=T                                       | best available total energy with cp treatment: CP-CORRECTED TOTAL ENERGY THROUGH {max_nbody}-BODY                  |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED INTERACTION ENERGY THROUGH 2-BODY         |  |em| 1              | when cp in bsse_type &amp; max_nbody&gt;=2                                | 2-body total data less 1-body total data for cumulative IE; inputs are total energies with cp treatment            |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED INTERACTION ENERGY THROUGH {nb}-BODY      |  |em| 1              | when cp in bsse_type                                               | {max_nbody}-body total data less 1-body total data for cumulative IE; inputs are total energies with cp treatment  |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED INTERACTION ENERGY                        |  |em| 1              | when cp in bsse_type                                               | best available interaction energy with cp treatment: CP-CORRECTED INTERACTION ENERGY THROUGH {max_nbody}-BODY      |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED 2-BODY CONTRIBUTION TO ENERGY             |  |em| 1              | when cp in bsse_type &amp; max_nbody&gt;=2                                | 2-body total data less (2-1)-body total data for partial IE; inputs are total energies w/ cp treatment             |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED {nb}-BODY CONTRIBUTION TO ENERGY          |  |em| 1              | when cp in bsse_type                                               | {max_nbody}-body total data less ({max_nbody}-1)-body data for partial IE; inputs are total energies w/ cp treat.  |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |                                                               |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL ENERGY THROUGH 1-BODY             |  |em| 1              | when nocp in bsse_type                                             | MBE sum of subsystems of 1-body. summed are total energies without cp treatment                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL ENERGY THROUGH 2-BODY             |  |em| 1              | when nocp in bsse_type &amp; max_nbody&gt;=2                              | MBE sum of subsystems of 2-body or fewer (cumulative); summed are total energies without cp treatment              |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL ENERGY THROUGH {nb}-BODY          |  |em| 1              | when nocp in bsse_type                                             | MBE sum of subsystems of {max_nbody}-body or fewer (cumulative); summed are total energies w/o cp treatment        |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL ENERGY                            |  |em| 1              | when nocp in bsse_type                                             | best available total energy without cp treatment: NOCP-CORRECTED TOTAL ENERGY THROUGH {max_nbody}-BODY             |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED INTERACTION ENERGY THROUGH 2-BODY       |  |em| 1              | when nocp in bsse_type &amp; max_nbody&gt;=2                              | 2-body total data less 1-body total data for cumulative IE; inputs are total energies w/o cp treatment             |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED INTERACTION ENERGY THROUGH {nb}-BODY    |  |em| 1              | when nocp in bsse_type                                             | {max_nbody}-body total data less 1-body total data for cumulative IE; inputs are total energies w/o cp treatment   |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED INTERACTION ENERGY                      |  |em| 1              | when nocp in bsse_type                                             | best available interaction energy without cp treatment: NOCP-CORRECTED INTERACTION ENERGY THROUGH {max_nbody}-BODY |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED 2-BODY CONTRIBUTION TO ENERGY           |  |em| 1              | when nocp in bsse_type &amp; max_nbody&gt;=2                              | 2-body total data less (2-1)-body total data for partial IE; inputs are total energies w/o cp treatment            |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED {nb}-BODY CONTRIBUTION TO ENERGY        |  |em| 1              | when nocp in bsse_type                                             | {max_nbody}-body total data less ({max_nbody}-1)-body data for partial IE; inputs are total energies w/o cp treat. |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |                                                               |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL ENERGY THROUGH 1-BODY             |  |em| 1              | when vmfc in bsse_type                                             | MBE sum of subsystems of 1-body. summed are total energies with vmfc treatment                                     |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL ENERGY THROUGH 2-BODY             |  |em| 1              | when vmfc in bsse_type &amp; max_nbody&gt;=2                              | MBE sum of subsystems of 2-body or fewer (cumulative); summed are total energies with vmfc treatment               |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL ENERGY THROUGH {nb}-BODY          |  |em| 1              | when vmfc in bsse_type                                             | MBE sum of subsystems of {max_nbody}-body or fewer (cumulative); summed are total energies w/ vmfc treatment       |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL ENERGY                            |  |em| 1              | when vmfc in bsse_type                                             | best available total energy with vmfc treatment: VMFC-CORRECTED TOTAL ENERGY THROUGH {max_nbody}-BODY              |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED INTERACTION ENERGY THROUGH 2-BODY       |  |em| 1              | when vmfc in bsse_type &amp; max_nbody&gt;=2                              | 2-body total data less 1-body total data for cumulative IE; inputs are total energies w/ vmfc treatment            |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED INTERACTION ENERGY THROUGH {nb}-BODY    |  |em| 1              | when vmfc in bsse_type                                             | {max_nbody}-body total data less 1-body total data for cumulative IE; inputs are total energies w/ vmfc treatment  |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED INTERACTION ENERGY                      |  |em| 1              | when vmfc in bsse_type                                             | best available interaction energy with vmfc treatment: VMFC-CORRECTED INTERACTION ENERGY THROUGH {max_nbody}-BODY  |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED 2-BODY CONTRIBUTION TO ENERGY           |  |em| 1              | when vmfc in bsse_type &amp; max_nbody&gt;=2                              | 2-body total data less (2-1)-body total data for partial IE; inputs are total energies w/ vmfc treatment           |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED {nb}-BODY CONTRIBUTION TO ENERGY        |  |em| 1              | when vmfc in bsse_type                                             | {max_nbody}-body total data less ({max_nbody}-1)-body data for partial IE; inputs are total energies w/ vmfc treat.|</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |                                                               |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL ENERGY THROUGH 1-BODY               |  |em| 1              | always; zeroed if cp not in bsse_type or rtd=F                     | cumulative through 1-body total energies with cp treatment                                                         |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL ENERGY THROUGH  2-BODY              |  |em| 1              | when max_nbody&gt;=2; zeroed if cp not in bsse_type                   | cumulative through 2-body total energies with cp treatment                                                         |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL ENERGY THROUGH {max_nbody}-BODY     |  |em| 1              | always; zeroed if cp not in bsse_type                              | cumulative through {max_nbody}-body total energies with cp treatment                                               |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL GRADIENT THROUGH 1-BODY             |  |em| (nat, 3)       | when driver is g/h; zeroed if cp not in bsse_type or rtd=F         | cumulative through 1-body total gradients with cp treatment                                                        |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL GRADIENT THROUGH 2-BODY             |  |em| (nat, 3)       | when driver is g/h &amp; max_nbody&gt;=2; zeroed if cp not in bsse_type   | cumulative through 2-body total gradients with cp treatment                                                        |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL GRADIENT THROUGH {max_nbody}-BODY   |  |em| (nat, 3)       | when driver is g/h; zeroed if cp not in bsse_type                  | cumulative through {max_nbody}-body total gradients with cp treatment                                              |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL HESSIAN THROUGH 1-BODY              |  |em| (nat*3, nat*3) | when driver is h; zeroed if cp not in bsse_type or rtd=F           | cumulative through 1-body total Hessians with cp treatment                                                         |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL HESSIAN THROUGH 2-BODY              |  |em| (nat*3, nat*3) | when driver is h &amp; max_nbody&gt;=2; zeroed if cp not in bsse_type     | cumulative through 2-body total Hessians with cp treatment                                                         |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| CP-CORRECTED TOTAL HESSIAN THROUGH {max_nbody}-BODY    |  |em| (nat*3, nat*3) | when driver is h; zeroed if cp not in bsse_type                    | cumulative through {max_nbody}-body total Hessians with cp treatment                                               |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |                                                               |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL ENERGY THROUGH 1-BODY             |  |em| 1              | always; zeroed if nocp not in bsse_type                            | cumulative through 1-body total energies with nocp treatment                                                       |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL ENERGY THROUGH  2-BODY            |  |em| 1              | when max_nbody&gt;=2; zeroed if nocp not in bsse_type                 | cumulative through 2-body total energies with nocp treatment                                                       |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL ENERGY THROUGH {max_nbody}-BODY   |  |em| 1              | always; zeroed if nocp not in bsse_type                            | cumulative through {max_nbody}-body total energies with nocp treatment                                             |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL GRADIENT THROUGH 1-BODY           |  |em| (nat, 3)       | when driver is g/h; zeroed if nocp not in bsse_type                | cumulative through 1-body total gradients with nocp treatment                                                      |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL GRADIENT THROUGH 2-BODY           |  |em| (nat, 3)       | when driver is g/h &amp; max_nbody&gt;=2; zeroed if nocp not in bsse_type | cumulative through 2-body total gradients with nocp treatment                                                      |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL GRADIENT THROUGH {max_nbody}-BODY |  |em| (nat, 3)       | when driver is g/h; zeroed if nocp not in bsse_type                | cumulative through {max_nbody}-body total gradients with nocp treatment                                            |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL HESSIAN THROUGH 1-BODY            |  |em| (nat*3, nat*3) | when driver is h; zeroed if nocp not in bsse_type                  | cumulative through 1-body total Hessians with nocp treatment                                                       |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL HESSIAN THROUGH 2-BODY            |  |em| (nat*3, nat*3) | when driver is h &amp; max_nbody&gt;=2; zeroed if nocp not in bsse_type   | cumulative through 2-body total Hessians with nocp treatment                                                       |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| NOCP-CORRECTED TOTAL HESSIAN THROUGH {max_nbody}-BODY  |  |em| (nat*3, nat*3) | when driver is h; zeroed if nocp not in bsse_type                  | cumulative through {max_nbody}-body total Hessians with nocp treatment                                             |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |                                                               |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL ENERGY THROUGH 1-BODY             |  |em| 1              | always; zeroed if vmfc not in bsse_type                            | cumulative through 1-body total energies with vmfc treatment                                                       |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL ENERGY THROUGH  2-BODY            |  |em| 1              | when max_nbody&gt;=2; zeroed if vmfc not in bsse_type                 | cumulative through 2-body total energies with vmfc treatment                                                       |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL ENERGY THROUGH {max_nbody}-BODY   |  |em| 1              | always; zeroed if vmfc not in bsse_type                            | cumulative through {max_nbody}-body total energies with vmfc treatment                                             |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL GRADIENT THROUGH 1-BODY           |  |em| (nat, 3)       | when driver is g/h; zeroed if vmfc not in bsse_type                | cumulative through 1-body total gradients with vmfc treatment                                                      |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL GRADIENT THROUGH 2-BODY           |  |em| (nat, 3)       | when driver is g/h &amp; max_nbody&gt;=2; zeroed if vmfc not in bsse_type | cumulative through 2-body total gradients with vmfc treatment                                                      |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL GRADIENT THROUGH {max_nbody}-BODY |  |em| (nat, 3)       | when driver is g/h; zeroed if vmfc not in bsse_type                | cumulative through {max_nbody}-body total gradients with vmfc treatment                                            |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL HESSIAN THROUGH 1-BODY            |  |em| (nat*3, nat*3) | when driver is h; zeroed if vmfc not in bsse_type                  | cumulative through 1-body total Hessians with vmfc treatment                                                       |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL HESSIAN THROUGH 2-BODY            |  |em| (nat*3, nat*3) | when driver is h &amp; max_nbody&gt;=2; zeroed if vmfc not in bsse_type   | cumulative through 2-body total Hessians with vmfc treatment                                                       |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| VMFC-CORRECTED TOTAL HESSIAN THROUGH {max_nbody}-BODY  |  |em| (nat*3, nat*3) | when driver is h; zeroed if vmfc not in bsse_type                  | cumulative through {max_nbody}-body total Hessians with vmfc treatment                                             |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |                                                               |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        | intermediates_energy                                          | ntasks               | always                                                             | all individual energies                                                                                            |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| N-BODY (1, 2)@(1, 2) TOTAL ENERGY                      |  |em| 1              | always                                                             | total energy for only modelchem, 1st &amp; 2nd fragments in basis of 1st &amp; 2nd fragments                               |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| N-BODY §A_(1, 2)@(1, 2) TOTAL ENERGY                   |  |em| 1              | always                                                             | total energy for 1st modelchem (in multilevel), 1st &amp; 2nd fragments in basis of 1st &amp; 2nd fragments                |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| N-BODY §B_(3)@(2, 3) TOTAL ENERGY                      |  |em| 1              | always                                                             | total energy for 2nd modelchem (in multilevel), 3rd fragment in basis of 2nd and 3rd fragments                     |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| ...                                                    |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |                                                               |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        | intermediates_gradient                                        | ntasks               | when driver is g/h                                                 | all individual gradients                                                                                           |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| N-BODY (1, 2)@(1, 2) TOTAL GRADIENT                    |  |em| (nat, 3)       | when driver is g/h                                                 | total gradient for only modelchem, 1st &amp; 2nd fragments in basis of 1st &amp; 2nd fragments                             |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| N-BODY §A_(1, 2)@(1, 2) TOTAL GRADIENT                 |  |em| (nat, 3)       | when driver is g/h                                                 | total gradient for 1st modelchem (in multilevel), 1st &amp; 2nd fragments in basis of 1st &amp; 2nd fragments              |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| N-BODY §B_(3)@(2, 3) TOTAL GRADIENT                    |  |em| (nat, 3)       | when driver is g/h                                                 | total gradient for 2nd modelchem (in multilevel), 3rd fragment in basis of 2nd and 3rd fragments                   |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| ...                                                    |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |                                                               |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        | intermediates_hessian                                         | ntasks               | when driver is h                                                   | all individual Hessians                                                                                            |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| N-BODY (1, 2)@(1, 2) TOTAL HESSIAN                     |  |em| (nat*3, nat*3) | when driver is h                                                   | total Hessian for only modelchem, 1st &amp; 2nd fragments in basis of 1st &amp; 2nd fragments                              |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| N-BODY §A_(1, 2)@(1, 2) TOTAL HESSIAN                  |  |em| (nat*3, nat*3) | when driver is h                                                   | total Hessian for 1st modelchem (in multilevel), 1st &amp; 2nd fragments in basis of 1st &amp; 2nd fragments               |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| N-BODY §B_(3)@(2, 3) TOTAL HESSIAN                     |  |em| (nat*3, nat*3) | when driver is h                                                   | total Hessian for 2nd modelchem (in multilevel), 3rd fragment in basis of 2nd and 3rd fragments                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |   |em| ...                                                    |                      |                                                                    |                                                                                                                    |</span>
+<span class="sd">        +---------------------------------------------------------------+----------------------+--------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1"># TODO questions to check:</span>
+<span class="c1"># * can work with supersystem and embedding_charges?</span>
+<span class="c1"># * can levels work with same method, different basis?</span>
+
+
+<div class="viewcode-block" id="ManyBodyComputer">
+<a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ManyBodyComputer</span><span class="p">(</span><span class="n">ManyBodyComputerQCNG</span><span class="p">):</span>
+
+    <span class="c1"># v2, probably: @field_validator(&quot;molecule&quot;, mode=&quot;before&quot;)</span>
+<div class="viewcode-block" id="ManyBodyComputer.set_molecule">
+<a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.set_molecule">[docs]</a>
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;molecule&quot;</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_molecule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Molecule</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">v</span></div>
+
+
+<div class="viewcode-block" id="ManyBodyComputer.from_psi4_task_planner">
+<a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.from_psi4_task_planner">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_psi4_task_planner</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">driver</span><span class="p">,</span> <span class="n">keywords</span><span class="p">,</span> <span class="o">**</span><span class="n">mbkwargs</span><span class="p">):</span>
+
+        <span class="n">atomic_spec</span> <span class="o">=</span> <span class="n">AtomicSpecification</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span> <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="n">basis</span><span class="p">},</span>
+            <span class="n">program</span><span class="o">=</span><span class="s2">&quot;psi4&quot;</span><span class="p">,</span>
+            <span class="n">driver</span><span class="o">=</span><span class="n">driver</span><span class="p">,</span>
+            <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mbkwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;levels&quot;</span><span class="p">):</span>
+            <span class="n">specification</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">atomic_spec</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mbkwargs</span><span class="p">[</span><span class="s2">&quot;levels&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">specification</span> <span class="o">=</span> <span class="n">atomic_spec</span>  <span class="c1"># will turn into {&quot;(auto)&quot;: atomic_spec}</span>
+
+        <span class="n">input_model</span> <span class="o">=</span> <span class="n">ManyBodyInput</span><span class="p">(</span>
+            <span class="n">specification</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;specification&quot;</span><span class="p">:</span> <span class="n">specification</span><span class="p">,</span>
+                <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="n">mbkwargs</span><span class="p">,</span>
+                <span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="n">driver</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">molecule</span><span class="o">=</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="n">computer_model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">molecule</span><span class="o">=</span><span class="n">input_model</span><span class="o">.</span><span class="n">molecule</span><span class="p">,</span>
+            <span class="n">driver</span><span class="o">=</span><span class="n">input_model</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span>
+            <span class="c1"># v2: **input_model.specification.keywords.model_dump(exclude_unset=True),</span>
+            <span class="o">**</span><span class="n">input_model</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">keywords</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="n">input_data</span><span class="o">=</span><span class="n">input_model</span><span class="p">,</span>  <span class="c1"># storage, to reconstitute ManyBodyResult</span>
+        <span class="p">)</span>
+        <span class="n">nb_per_mc</span> <span class="o">=</span> <span class="n">computer_model</span><span class="o">.</span><span class="n">nbodies_per_mc_level</span>
+
+        <span class="c1"># print(&quot;\n&lt;&lt;&lt;  (ZZZ 1) Psi4 harness ManyBodyComputer.from_psi4_task_planner  &gt;&gt;&gt;&quot;)</span>
+        <span class="c1"># v2: pprint.pprint(computer_model.model_dump(), width=200)</span>
+        <span class="c1"># pprint.pprint(computer_model.dict(), width=200)</span>
+        <span class="c1"># print(f&quot;nbodies_per_mc_level={nb_per_mc}&quot;)</span>
+
+        <span class="n">comp_levels</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">mc_level_idx</span><span class="p">,</span> <span class="n">mtd</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">computer_model</span><span class="o">.</span><span class="n">levels</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="k">for</span> <span class="n">lvl1</span> <span class="ow">in</span> <span class="n">nb_per_mc</span><span class="p">[</span><span class="n">mc_level_idx</span><span class="p">]:</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;supersystem&quot;</span> <span class="k">if</span> <span class="n">lvl1</span> <span class="o">==</span> <span class="s2">&quot;supersystem&quot;</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">lvl1</span><span class="p">)</span>
+                <span class="n">comp_levels</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">mtd</span>
+
+        <span class="n">specifications</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">mtd</span><span class="p">,</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">computer_model</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+            <span class="n">specifications</span><span class="p">[</span><span class="n">mtd</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">specifications</span><span class="p">[</span><span class="n">mtd</span><span class="p">][</span><span class="s2">&quot;program&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;program&quot;</span><span class="p">)</span>
+            <span class="n">specifications</span><span class="p">[</span><span class="n">mtd</span><span class="p">][</span><span class="s2">&quot;specification&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec</span>
+            <span class="n">specifications</span><span class="p">[</span><span class="n">mtd</span><span class="p">][</span><span class="s2">&quot;specification&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;schema_name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">specifications</span><span class="p">[</span><span class="n">mtd</span><span class="p">][</span><span class="s2">&quot;specification&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;protocols&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">computer_model</span><span class="o">.</span><span class="n">qcmb_core</span> <span class="o">=</span> <span class="n">ManyBodyCore</span><span class="p">(</span>
+            <span class="n">computer_model</span><span class="o">.</span><span class="n">molecule</span><span class="p">,</span>
+            <span class="n">computer_model</span><span class="o">.</span><span class="n">bsse_type</span><span class="p">,</span>
+            <span class="n">comp_levels</span><span class="p">,</span>
+            <span class="n">return_total_data</span><span class="o">=</span><span class="n">computer_model</span><span class="o">.</span><span class="n">return_total_data</span><span class="p">,</span>
+            <span class="n">supersystem_ie_only</span><span class="o">=</span><span class="n">computer_model</span><span class="o">.</span><span class="n">supersystem_ie_only</span><span class="p">,</span>
+            <span class="n">embedding_charges</span><span class="o">=</span><span class="n">computer_model</span><span class="o">.</span><span class="n">embedding_charges</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">info</span><span class="p">,</span> <span class="n">dcount</span> <span class="o">=</span> <span class="n">computer_model</span><span class="o">.</span><span class="n">qcmb_core</span><span class="o">.</span><span class="n">format_calc_plan</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ManyBody Setup: N-Body Levels </span><span class="si">{</span><span class="n">computer_model</span><span class="o">.</span><span class="n">max_nbody</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">computer_model</span></div>
+
+
+<div class="viewcode-block" id="ManyBodyComputer.build_tasks">
+<a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.build_tasks">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_tasks</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">mb_computer</span><span class="p">:</span> <span class="n">AtomicComputer</span><span class="p">,</span>  <span class="c1"># SubTaskComputers,</span>
+        <span class="n">mc_level_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds to the task_list as many new unique tasks as necessary to treat a single model chemistry level at one</span>
+<span class="sd">        or several n-body levels. New tasks are of type *mb_computer* with model chemistry level specified in *kwargs*</span>
+<span class="sd">        and n-body levels accessed through *mc_level_idx*.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mb_computer</span>
+<span class="sd">            Class of task computers to instantiate and add to self.task_list. Usually :class:`~psi4.driver.AtomicComputer` but may be other when wrappers are layered.</span>
+<span class="sd">        mc_level_idx</span>
+<span class="sd">            Position in field self.nbodies_per_mc_level used to obtain ``nbodies``, the list of n-body</span>
+<span class="sd">            levels (e.g., `[1]` or `[1, 2]` or `[&quot;supersystem&quot;]`) to which the modelchem specified in **kwargs** applies.</span>
+<span class="sd">            That is, `nbodies = self.nbodies_per_mc_level[mc_level_idx]`.</span>
+<span class="sd">            Note the natural 1-indexing of ``nbodies`` _contents_, so `[1]` covers one-body contributions.</span>
+<span class="sd">            The corresponding user label is the 1-indexed counterpart, `mc_level_lbl = mc_level_idx + 1`</span>
+<span class="sd">            Formerly nlevel as in `nbody = self.nbody_list[nbody_level=nlevel]`. (edit)</span>
+<span class="sd">        kwargs</span>
+<span class="sd">            Other arguments for initializing **mb_computer**. In particular, specifies model chemistry. (edit)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        count : int</span>
+<span class="sd">            Number of new tasks planned by this call including any supersystem.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO method not coming from levels right</span>
+
+        <span class="c1"># Get the n-body orders for this level. e.g., [1] or [2, 3] or [&quot;supersystem&quot;]</span>
+        <span class="n">nbodies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbodies_per_mc_level</span><span class="p">[</span><span class="n">mc_level_idx</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">spec_key</span><span class="p">,</span> <span class="n">nb_lst</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qcmb_core</span><span class="o">.</span><span class="n">nbodies_per_mc_level</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">nb_lst</span> <span class="o">==</span> <span class="n">nbodies</span><span class="p">:</span>
+                <span class="n">filter_key</span> <span class="o">=</span> <span class="n">spec_key</span>
+
+        <span class="k">for</span> <span class="n">kwg</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;dft_functional&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">kwg</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">][</span><span class="s1">&#39;function_kwargs&#39;</span><span class="p">][</span><span class="n">kwg</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">kwg</span><span class="p">)</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TEMPLATE </span><span class="si">{</span><span class="n">template</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">chem</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">imol</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qcmb_core</span><span class="o">.</span><span class="n">iterate_molecules</span><span class="p">():</span>
+            <span class="n">mckey</span><span class="p">,</span> <span class="n">frag</span><span class="p">,</span> <span class="n">bas</span> <span class="o">=</span> <span class="n">delabeler</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mckey</span> <span class="o">!=</span> <span class="n">filter_key</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># TODO probably haven&#39;t filtered by body</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;molecule&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_schema</span><span class="p">(</span><span class="n">imol</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span> <span class="c1">#nonphysical=True</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_charges</span><span class="p">:</span>
+                <span class="n">charges</span> <span class="o">=</span> <span class="n">imol</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;embedding_charges&quot;</span><span class="p">)</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">][</span><span class="s1">&#39;function_kwargs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;external_potentials&#39;</span><span class="p">:</span> <span class="n">charges</span><span class="p">})</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">mb_computer</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="ManyBodyComputer.compute">
+<a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.compute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.client.PortalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run quantum chemistry.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        client</span>
+<span class="sd">            QCFractal client if using QCArchive for distributed compute.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ManyBody Computations &quot;</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">p4util</span><span class="o">.</span><span class="n">hold_options_state</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ManyBodyComputer.get_results">
+<a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.get_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_results</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.client.PortalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ManyBodyResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process the QC results from all n-body component molecular systems</span>
+<span class="sd">        and model chemistry levels into final quantities and form QCSchema model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        client</span>
+<span class="sd">            QCFractal client if using QCArchive for distributed compute.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        mbres</span>
+<span class="sd">            All MBE results collected into a QCSchema model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">component_results</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">component_properties</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="s2">&quot;gradient&quot;</span><span class="p">,</span> <span class="s2">&quot;hessian&quot;</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">component_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">component_properties</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="k">for</span> <span class="n">egh</span> <span class="ow">in</span> <span class="n">props</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;return_</span><span class="si">{</span><span class="n">egh</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">component_properties</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="n">egh</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="n">findif_number</span> <span class="o">=</span> <span class="p">{</span><span class="n">label</span><span class="p">:</span> <span class="n">res</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">&quot;qcvars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;FINDIF NUMBER&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">component_results</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="c1"># print(&quot;\n&lt;&lt;&lt;  (RRR 2) Psi4 ManyBodyComputer.get_results component_properties  &gt;&gt;&gt;&quot;)</span>
+        <span class="c1"># pprint.pprint(component_properties, width=200)</span>
+
+        <span class="n">analyze_back</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qcmb_core</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">component_properties</span><span class="p">)</span>
+        <span class="n">analyze_back</span><span class="p">[</span><span class="s2">&quot;nbody_number&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">component_properties</span><span class="p">)</span>
+
+        <span class="n">nbody_model</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">external_results</span><span class="o">=</span><span class="n">analyze_back</span><span class="p">,</span> <span class="n">component_results</span><span class="o">=</span><span class="n">component_results</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">nbody_model</span></div>
+
+
+<div class="viewcode-block" id="ManyBodyComputer.get_psi_results">
+<a class="viewcode-back" href="../../../nbody.html#psi4.driver.driver_nbody.ManyBodyComputer.get_psi_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_psi_results</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.client.PortalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">return_wfn</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyGradientHessianWfnReturn</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called by driver to assemble results into ManyBody-flavored QCSchema,</span>
+<span class="sd">        then reshape and return them in the customary Psi4 driver interface: ``(e/g/h, wfn)``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        return_wfn</span>
+<span class="sd">            Whether to additionally return the dummy :py:class:`~psi4.core.Wavefunction`</span>
+<span class="sd">            calculation result as the second element of a tuple. Contents are:</span>
+
+<span class="sd">            - supersystem molecule</span>
+<span class="sd">            - dummy basis, def2-svp</span>
+<span class="sd">            - e/g/h member data</span>
+<span class="sd">            - QCVariables</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ret</span>
+<span class="sd">            Energy, gradient, or Hessian according to self.driver.</span>
+<span class="sd">        wfn</span>
+<span class="sd">            Wavefunction described above when *return_wfn* specified.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nbody_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+
+        <span class="c1"># print(&quot;\n&lt;&lt;&lt;  (RRR 4) Psi4 ManyBodyComputer.get_psi_results nbody_model  &gt;&gt;&gt;&quot;)</span>
+        <span class="c1"># pprint.pprint(nbody_model.dict(), width=200)</span>
+
+        <span class="n">info</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ManyBody Results &quot;</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">nbody_model</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">QCManyBody:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">nbody_model</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+
+        <span class="c1"># v2: nbody_model.model_dump()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">ManyBodyResult QCSchema:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">pp</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">nbody_model</span><span class="o">.</span><span class="n">dict</span><span class="p">()))</span>
+
+        <span class="n">qmol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_schema</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>  <span class="c1"># nonphy</span>
+        <span class="n">wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">qmol</span><span class="p">,</span> <span class="s2">&quot;def2-svp&quot;</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">qcvars</span> <span class="o">=</span> <span class="n">translate_qcvariables</span><span class="p">(</span><span class="n">nbody_model</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">qcv</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">qcvars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="p">[</span><span class="n">core</span><span class="p">,</span> <span class="n">wfn</span><span class="p">]:</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">qcv</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+        <span class="n">mc_labels</span> <span class="o">=</span> <span class="n">modelchem_labels</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qcmb_core</span><span class="o">.</span><span class="n">nbodies_per_mc_level</span><span class="p">)</span>
+        <span class="n">full_to_ordinal_mc_lbl</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mc_labels</span><span class="o">.</span><span class="n">values</span><span class="p">()}</span>
+
+        <span class="k">for</span> <span class="n">qcmb_label</span><span class="p">,</span> <span class="n">dval</span> <span class="ow">in</span> <span class="n">nbody_model</span><span class="o">.</span><span class="n">component_properties</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">mckey</span><span class="p">,</span> <span class="n">frag</span><span class="p">,</span> <span class="n">bas</span> <span class="o">=</span> <span class="n">delabeler</span><span class="p">(</span><span class="n">qcmb_label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">full_to_ordinal_mc_lbl</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">mc_lbl</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mc_lbl</span> <span class="o">=</span> <span class="n">full_to_ordinal_mc_lbl</span><span class="p">[</span><span class="n">mckey</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1"># avoid §§</span>
+            <span class="n">viz_label</span> <span class="o">=</span> <span class="n">labeler</span><span class="p">(</span><span class="n">mc_lbl</span><span class="p">,</span> <span class="n">frag</span><span class="p">,</span> <span class="n">bas</span><span class="p">,</span> <span class="n">opaque</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="n">available_properties</span> <span class="o">=</span> <span class="n">dval</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="p">[</span><span class="n">core</span><span class="p">,</span> <span class="n">wfn</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;return_energy&quot;</span> <span class="ow">in</span> <span class="n">available_properties</span><span class="p">:</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N-BODY </span><span class="si">{</span><span class="n">viz_label</span><span class="si">}</span><span class="s2"> TOTAL ENERGY&quot;</span><span class="p">,</span> <span class="n">dval</span><span class="o">.</span><span class="n">return_energy</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;return_gradient&quot;</span> <span class="ow">in</span> <span class="n">available_properties</span><span class="p">:</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N-BODY </span><span class="si">{</span><span class="n">viz_label</span><span class="si">}</span><span class="s2"> TOTAL GRADIENT&quot;</span><span class="p">,</span> <span class="n">dval</span><span class="o">.</span><span class="n">return_gradient</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;return_hessian&quot;</span> <span class="ow">in</span> <span class="n">available_properties</span><span class="p">:</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N-BODY </span><span class="si">{</span><span class="n">viz_label</span><span class="si">}</span><span class="s2"> TOTAL HESSIAN&quot;</span><span class="p">,</span> <span class="n">dval</span><span class="o">.</span><span class="n">return_hessian</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">==</span> <span class="s2">&quot;energy&quot;</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">nbody_model</span><span class="o">.</span><span class="n">return_result</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">==</span> <span class="s2">&quot;gradient&quot;</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">nbody_model</span><span class="o">.</span><span class="n">return_result</span><span class="p">)</span>
+            <span class="n">wfn</span><span class="o">.</span><span class="n">set_gradient</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">==</span> <span class="s2">&quot;hessian&quot;</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">nbody_model</span><span class="o">.</span><span class="n">return_result</span><span class="p">)</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">nbody_model</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">return_gradient</span><span class="p">)</span>
+            <span class="n">wfn</span><span class="o">.</span><span class="n">set_hessian</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+            <span class="n">wfn</span><span class="o">.</span><span class="n">set_gradient</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_wfn</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">wfn</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ret</span></div>
+</div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="../../../index.html">
+    <img class="logo" src="../../../_static/psi4square.png" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel"
+                                       aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/></div>
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../../../index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/f2492db">1.10</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="../../../index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">psi4.driver.driver_nbody</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Sunday, 07 September 2025 02:48AM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
