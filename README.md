@@ -6,6 +6,7 @@ built Sphinx html documentation for Psi4
 | html source | built site | how |
 | ---- | ---- | ---- |
 | [sphinxman/master/index.html](sphinxman/master/index.html) | https://psi4.github.io/psi4docs/master | pushed by psi4/psi4 GHA upon commit to master |
+| [sphinxman/1.9.x/index.html](sphinxman/1.10.x/index.html) | https://psi4.github.io/psi4docs/1.10.x | hand-copy snapshot dir upon release |
 | [sphinxman/1.9.x/index.html](sphinxman/1.9.x/index.html) | https://psi4.github.io/psi4docs/1.9.x | hand-copy snapshot dir upon release |
 | [sphinxman/1.8.x/index.html](sphinxman/1.8.x/index.html) | https://psi4.github.io/psi4docs/1.8.x | hand-copy snapshot dir upon release |
 | [sphinxman/1.7.x/index.html](sphinxman/1.7.x/index.html) | https://psi4.github.io/psi4docs/1.7.x | hand-copy snapshot dir upon release |
