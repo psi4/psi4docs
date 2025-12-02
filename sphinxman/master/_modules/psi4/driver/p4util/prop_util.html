@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=776f0c93"></script>
+    <script src="../../../../_static/documentation_options.js?v=7075bd35"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/prop_util.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4ffe047">1.11a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6bbc99a">1.11a1.dev3</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -142,6 +142,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">psi4</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">optproc</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;free_atom_volumes&#39;</span><span class="p">]</span>
@@ -173,20 +174,26 @@
     <span class="k">if</span> <span class="n">natom</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span> 
     
-
-    <span class="c1"># the level of theory</span>
+    <span class="c1"># We need to know the level of theory of the system to compute the free atoms</span>
+    <span class="c1"># This isn&#39;t stored or might have been preloaded so we search the psi4 variables for</span>
+    <span class="c1"># the best match</span>
     <span class="n">current_en</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">scalar_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">)</span>
-    <span class="n">total_energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">wfn</span><span class="o">.</span><span class="n">scalar_variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">current_en</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-12</span><span class="p">]</span>
-    <span class="n">theory</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">total_energies</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s1">&#39;TOTAL ENERGY&#39;</span> <span class="ow">in</span> <span class="n">var</span><span class="p">:</span>
-            <span class="n">var</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;SCF&#39;</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">elif</span> <span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;DFT&#39;</span><span class="p">:</span>
-                <span class="n">theory</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">functional</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">theory</span> <span class="o">=</span> <span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">total_keys</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">wfn</span><span class="o">.</span><span class="n">scalar_variables</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span>
+        <span class="p">(</span><span class="s1">&#39;TOTAL ENERGY&#39;</span> <span class="ow">in</span> <span class="n">k</span> <span class="ow">and</span> <span class="s1">&#39;SCF&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">total_energy_diffs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span>
+        <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">scalar_variable</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">current_en</span><span class="p">),</span> <span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">total_keys</span><span class="p">],</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">total_energy_diffs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">total_energy_diffs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e-8</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+            <span class="s2">&quot;No valid &#39;method TOTAL ENERGY&#39; found in wavefunction scalar variables. Needed for MBIS free atoms.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">theory</span> <span class="o">=</span> <span class="n">total_energy_diffs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">theory</span> <span class="o">==</span> <span class="s1">&#39;DFT&#39;</span><span class="p">:</span>
+        <span class="n">theory</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">functional</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="c1"># list of reference number of unpaired electrons.</span>
     <span class="c1"># Note that this is not the same as the</span>
@@ -311,7 +318,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/prop_util.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4ffe047">1.11a1.dev2</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6bbc99a">1.11a1.dev3</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -325,7 +332,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Friday, 07 November 2025 03:53PM.
+      Last updated on Tuesday, 02 December 2025 07:30AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
