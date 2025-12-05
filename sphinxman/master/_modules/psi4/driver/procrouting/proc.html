@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=f6c614a2"></script>
+    <script src="../../../../_static/documentation_options.js?v=1e34a7bd"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/658dd3e">1.11a1.dev4</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/02ac50c">1.11a1.dev5</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -4471,9 +4471,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">optstash</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">(</span>
         <span class="p">[</span><span class="s1">&#39;DF_BASIS_MP2&#39;</span><span class="p">],</span>
-        <span class="p">[</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">])</span>
+        <span class="p">[</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;DLPNO_ALGORITHM&quot;</span><span class="p">])</span>
 
-    <span class="c1"># Alter default algorithm</span>
+    <span class="c1"># Alter default algorithm (if not set by user)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">):</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF&#39;</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;    SCF Algorithm Type (re)set to DF.</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
@@ -4486,6 +4487,16 @@
     <span class="c1"># Bypass the scf call if a reference wavefunction is given</span>
     <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ref_wfn&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ref_wfn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">molecule</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_active_molecule</span><span class="p">())</span>
+        <span class="c1"># We need to force SCF to run in c1 for DLPNO methods</span>
+        <span class="c1"># TODO: Investigate why local DF domains are not properly assigned</span>
+        <span class="c1"># when the preceding SCF is NOT run in c1</span>
+        <span class="k">if</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">  A requested method does not make use of molecular symmetry: &quot;&quot;&quot;</span>
+<span class="w">                           </span><span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n\n&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="n">molecule</span><span class="o">.</span><span class="n">reset_point_group</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">)</span>
+            <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
+
         <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">scf_helper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">use_c1</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># C1 certified</span>
     <span class="k">elif</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  DLPNO-MP2 does not make use of molecular symmetry: &quot;&quot;&quot;</span>
@@ -4504,6 +4515,8 @@
                                     <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;DF_BASIS_MP2&quot;</span><span class="p">),</span>
                                     <span class="s2">&quot;RIFIT&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">))</span>
     <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_basisset</span><span class="p">(</span><span class="s2">&quot;DF_BASIS_MP2&quot;</span><span class="p">,</span> <span class="n">aux_basis</span><span class="p">)</span>
+
+    <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;DLPNO_ALGORITHM&quot;</span><span class="p">,</span> <span class="s2">&quot;MP2&quot;</span><span class="p">)</span>
 
     <span class="n">dlpnomp2_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">dlpno</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
     <span class="n">dlpnomp2_wfn</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">()</span>
@@ -4524,6 +4537,136 @@
     <span class="n">core</span><span class="o">.</span><span class="n">tstop</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">dlpnomp2_wfn</span>
 
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dlpnoccsd</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
+<span class="sd">    a DLPNO-CCSD calculation.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">optstash</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s1">&#39;DF_BASIS_CC&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;DLPNO_ALGORITHM&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Alter default algorithm (if not set by user)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF&#39;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;    SCF Algorithm Type (re)set to DF.</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Bypass the scf call if a reference wavefunction is given</span>
+    <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ref_wfn&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ref_wfn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">molecule</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_active_molecule</span><span class="p">())</span>
+        <span class="c1"># We need to force SCF to run in c1 for DLPNO methods</span>
+        <span class="c1"># TODO: Investigate why local DF domains are not properly assigned</span>
+        <span class="c1"># when the preceding SCF is NOT run in c1</span>
+        <span class="k">if</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">  A requested method does not make use of molecular symmetry: &quot;&quot;&quot;</span>
+<span class="w">                           </span><span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n\n&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="n">molecule</span><span class="o">.</span><span class="n">reset_point_group</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">)</span>
+            <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
+
+        <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">scf_helper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">use_c1</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># C1 certified</span>
+    <span class="k">elif</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  DLPNO-CCSD does not make use of molecular symmetry: &quot;&quot;&quot;</span>
+<span class="w">                              </span><span class="sd">&quot;&quot;&quot;reference wavefunction must be C1.\n&quot;&quot;&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;RHF&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;DLPNO-CCSD is not available for </span><span class="si">%s</span><span class="s2"> references.&quot;</span><span class="p">,</span>
+                              <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;REFERENCE&#39;</span><span class="p">))</span>
+    
+    <span class="n">core</span><span class="o">.</span><span class="n">tstart</span><span class="p">()</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="s1">&#39;DLPNO-CCSD&#39;</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">aux_basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">ref_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">(),</span> <span class="s2">&quot;DF_BASIS_CC&quot;</span><span class="p">,</span>
+                                    <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;DF_BASIS_CC&quot;</span><span class="p">),</span>
+                                    <span class="s2">&quot;RIFIT&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">))</span>
+    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_basisset</span><span class="p">(</span><span class="s2">&quot;DF_BASIS_CC&quot;</span><span class="p">,</span> <span class="n">aux_basis</span><span class="p">)</span>
+
+    <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;DLPNO_ALGORITHM&quot;</span><span class="p">,</span> <span class="s2">&quot;CCSD&quot;</span><span class="p">)</span>
+
+    <span class="n">dlpnoccsd_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">dlpno</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
+    <span class="n">dlpnoccsd_wfn</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">()</span>
+
+    <span class="n">dlpnoccsd_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">,</span> <span class="n">dlpnoccsd_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;CCSD TOTAL ENERGY&#39;</span><span class="p">))</span>
+    <span class="n">dlpnoccsd_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT CORRELATION ENERGY&#39;</span><span class="p">,</span> <span class="n">dlpnoccsd_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;CCSD CORRELATION ENERGY&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Shove variables into global space</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dlpnoccsd_wfn</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">tstop</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">dlpnoccsd_wfn</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_dlpnoccsd_t</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls for</span>
+<span class="sd">    a DLPNO-CCSD(T0)/(T) calculation.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">optstash</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s1">&#39;DF_BASIS_CC&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;DLPNO_ALGORITHM&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;T0_APPROXIMATION&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Alter default algorithm (if not set by user)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">core</span><span class="o">.</span><span class="n">has_global_option_changed</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="s1">&#39;SCF_TYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF&#39;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;    SCF Algorithm Type (re)set to DF.</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Bypass the scf call if a reference wavefunction is given</span>
+    <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ref_wfn&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ref_wfn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">molecule</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_active_molecule</span><span class="p">())</span>
+        <span class="c1"># We need to force SCF to run in c1 for DLPNO methods</span>
+        <span class="c1"># TODO: Investigate why local DF domains are not properly assigned</span>
+        <span class="c1"># when the preceding SCF is NOT run in c1</span>
+        <span class="k">if</span> <span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">  A requested method does not make use of molecular symmetry: &quot;&quot;&quot;</span>
+<span class="w">                           </span><span class="sd">&quot;&quot;&quot;further calculations in C1 point group.\n\n&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="n">molecule</span><span class="o">.</span><span class="n">reset_point_group</span><span class="p">(</span><span class="s2">&quot;c1&quot;</span><span class="p">)</span>
+            <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
+            
+        <span class="n">ref_wfn</span> <span class="o">=</span> <span class="n">scf_helper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">use_c1</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># C1 certified</span>
+    <span class="k">elif</span> <span class="n">ref_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;c1&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;  DLPNO-CCSD(T) does not make use of molecular symmetry: &quot;&quot;&quot;</span>
+<span class="w">                              </span><span class="sd">&quot;&quot;&quot;reference wavefunction must be C1.\n&quot;&quot;&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;REFERENCE&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;RHF&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;DLPNO-CCSD(T) is not available for </span><span class="si">%s</span><span class="s2"> references.&quot;</span><span class="p">,</span>
+                              <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;REFERENCE&#39;</span><span class="p">))</span>
+    
+    <span class="n">core</span><span class="o">.</span><span class="n">tstart</span><span class="p">()</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">p4util</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="s1">&#39;DLPNO-CCSD(T)&#39;</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">aux_basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">ref_wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">(),</span> <span class="s2">&quot;DF_BASIS_CC&quot;</span><span class="p">,</span>
+                                    <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;DF_BASIS_CC&quot;</span><span class="p">),</span>
+                                    <span class="s2">&quot;RIFIT&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">get_global_option</span><span class="p">(</span><span class="s1">&#39;BASIS&#39;</span><span class="p">))</span>
+    <span class="n">ref_wfn</span><span class="o">.</span><span class="n">set_basisset</span><span class="p">(</span><span class="s2">&quot;DF_BASIS_CC&quot;</span><span class="p">,</span> <span class="n">aux_basis</span><span class="p">)</span>
+
+    <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;DLPNO_ALGORITHM&quot;</span><span class="p">,</span> <span class="s2">&quot;CCSD(T)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;dlpno-ccsd(t0)&quot;</span><span class="p">:</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;T0_APPROXIMATION&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;DLPNO&quot;</span><span class="p">,</span> <span class="s2">&quot;T0_APPROXIMATION&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">dlpnoccsd_t_wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">dlpno</span><span class="p">(</span><span class="n">ref_wfn</span><span class="p">)</span>
+    <span class="n">dlpnoccsd_t_wfn</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">()</span>
+
+    <span class="n">dlpnoccsd_t_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">,</span> <span class="n">dlpnoccsd_t_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;CCSD(T) TOTAL ENERGY&#39;</span><span class="p">))</span>
+    <span class="n">dlpnoccsd_t_wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT CORRELATION ENERGY&#39;</span><span class="p">,</span> <span class="n">dlpnoccsd_t_wfn</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;CCSD(T) CORRELATION ENERGY&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Shove variables into global space</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dlpnoccsd_t_wfn</span><span class="o">.</span><span class="n">variables</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="n">optstash</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">tstop</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">dlpnoccsd_t_wfn</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">run_mp2f12</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Function encoding sequence of PSI module calls</span>
@@ -5843,7 +5986,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/procrouting/proc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/658dd3e">1.11a1.dev4</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/02ac50c">1.11a1.dev5</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5857,7 +6000,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Thursday, 04 December 2025 01:34PM.
+      Last updated on Friday, 05 December 2025 06:41AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

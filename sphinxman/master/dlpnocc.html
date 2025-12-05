@@ -1,0 +1,458 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>DLPNO-CCSD(T): Domain-Based Local Pair Natural Orbital CCSD(T)</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=88a353b9" />
+    <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="_static/documentation_options.js?v=1e34a7bd"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    
+    
+     
+        <script src="_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
+    <link rel="icon" href="_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="OCC: Orbital-Optimized Coupled-Cluster and Møller–Plesset Perturbation Theories" href="occ.html" />
+    <link rel="prev" title="FNOCC: Frozen natural orbitals for CCSD(T), QCISD(T), CEPA, and MP4" href="fnocc.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="occ.html" title="OCC: Orbital-Optimized Coupled-Cluster and Møller–Plesset Perturbation Theories"
+             accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="fnocc.html" title="FNOCC: Frozen natural orbitals for CCSD(T), QCISD(T), CEPA, and MP4"
+             accesskey="P"><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dlpnocc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/02ac50c">1.11a1.dev5</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="methods.html" accesskey="U">Theoretical Methods: SCF to FCI</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">DLPNO-CCSD(T): Domain-Based Local Pair Natural Orbital CCSD(T)</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="dlpno-ccsd-t-domain-based-local-pair-natural-orbital-ccsd-t">
+<span id="sec-dlpnocc"></span><span id="index-0"></span><h1>DLPNO-CCSD(T): Domain-Based Local Pair Natural Orbital CCSD(T)<a class="headerlink" href="#dlpno-ccsd-t-domain-based-local-pair-natural-orbital-ccsd-t" title="Link to this heading">¶</a></h1>
+<p><em>Code author: Andy Jiang</em></p>
+<p><em>Section author: Andy Jiang</em></p>
+<p><em>Module:</em> <a class="reference internal" href="autodir_options_c/module__dlpno.html#apdx-dlpno"><span class="std std-ref">Keywords</span></a>, <a class="reference internal" href="autodir_psivariables/module__dlpno.html#apdx-dlpno-psivar"><span class="std std-ref">PSI Variables</span></a>, <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/dlpno">DLPNOCCSD(T)</a></p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>The CCSD(T) method is considered the “gold standard” method of quantum chemistry,
+often yielding chemically accurate (&lt; 1 kcal/mol) results relative to experiment or
+full configuration interaction (FCI) computations. Unfortunately, the high
+<span class="math notranslate nohighlight">\(\mathcal{O}(N^{7})\)</span> scaling of the canonical gold-standard CCSD(T) method
+limits its applicability for larger molecules.</p>
+<p>The domain-based local pair natural orbital (DLPNO)-CCSD(T) approach of Neese and coworkers
+<a class="reference internal" href="bibliography.html#riplinger-2013-034106" id="id1"><span>[Riplinger:2013:034106]</span></a> <a class="reference internal" href="bibliography.html#riplinger-2013-134101" id="id2"><span>[Riplinger:2013:134101]</span></a> <a class="reference internal" href="bibliography.html#riplinger-2016-024109" id="id3"><span>[Riplinger:2016:024109]</span></a>
+<a class="reference internal" href="bibliography.html#guo-2018-011101" id="id4"><span>[Guo:2018:011101]</span></a> uses localized orbitals to exploit molecular sparsity for a linear-scaling approximation
+to canonical CCSD(T). These errors are controllable through user set parameters. Computations on large molecules,
+such as crambin (636 atoms) <a class="reference internal" href="bibliography.html#riplinger-2013-134101" id="id5"><span>[Riplinger:2013:134101]</span></a> and insulin <a class="reference internal" href="bibliography.html#jiang-2024-082502" id="id6"><span>[Jiang:2024:082502]</span></a> have been performed
+with this algorithm. This algorithm was originally implemented in the ORCA software package, but it
+is now available in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>!</p>
+<p>For a more comprehensive overview on local correlation and the DLPNO-CCSD(T) algorithm, the reader is referred
+to the <a class="reference internal" href="dlpnomp2.html#sec-dlpnomp2"><span class="std std-ref">DLPNO-MP2</span></a> documentation, and the published work of Jiang et al. describing the
+implementation of DLPNO-CCSD(T) in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> <a class="reference internal" href="bibliography.html#jiang-2024-082502" id="id7"><span>[Jiang:2024:082502]</span></a>.</p>
+<p>An example input file for a DLPNO-CCSD computation is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">memory</span> <span class="mi">2</span> <span class="n">GB</span>
+
+<span class="n">molecule</span> <span class="n">h2o</span> <span class="p">{</span>
+<span class="mi">0</span> <span class="mi">1</span>
+<span class="n">O</span>
+<span class="n">H</span> <span class="mi">1</span> <span class="mf">1.0</span>
+<span class="n">H</span> <span class="mi">1</span> <span class="mf">1.0</span> <span class="mi">2</span> <span class="mf">104.5</span>
+<span class="n">symmetry</span> <span class="n">c1</span>
+<span class="p">}</span>
+
+<span class="nb">set</span> <span class="n">basis</span> <span class="n">cc</span><span class="o">-</span><span class="n">pvdz</span>
+<span class="nb">set</span> <span class="n">scf_type</span> <span class="n">df</span>
+<span class="nb">set</span> <span class="n">freeze_core</span> <span class="kc">True</span>
+<span class="nb">set</span> <span class="n">pno_convergence</span> <span class="n">tight</span>
+
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;dlpno-ccsd&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An example input file for a DLPNO-CCSD(T) computation is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">memory</span> <span class="mi">2</span> <span class="n">GB</span>
+
+<span class="n">molecule</span> <span class="n">h2o</span> <span class="p">{</span>
+<span class="mi">0</span> <span class="mi">1</span>
+<span class="n">O</span>
+<span class="n">H</span> <span class="mi">1</span> <span class="mf">1.0</span>
+<span class="n">H</span> <span class="mi">1</span> <span class="mf">1.0</span> <span class="mi">2</span> <span class="mf">104.5</span>
+<span class="n">symmetry</span> <span class="n">c1</span>
+<span class="p">}</span>
+
+<span class="nb">set</span> <span class="n">basis</span> <span class="n">cc</span><span class="o">-</span><span class="n">pvdz</span>
+<span class="nb">set</span> <span class="n">scf_type</span> <span class="n">df</span>
+<span class="nb">set</span> <span class="n">freeze_core</span> <span class="kc">True</span>
+<span class="nb">set</span> <span class="n">pno_convergence</span> <span class="n">tight</span>
+
+<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;dlpno-ccsd(t)&#39;</span><span class="p">)</span> <span class="c1"># dlpno-ccsd(t0) for the semicanonical (T0) computation</span>
+</pre></div>
+</div>
+</section>
+<section id="pno-convergence-settings">
+<h2>PNO Convergence Settings<a class="headerlink" href="#pno-convergence-settings" title="Link to this heading">¶</a></h2>
+<p>Here we present a table of the PNO convergence settings, paramaters, and recommended use cases. Most of these parameters and
+settings are similar to what is found in ORCA, with two added parameters (<a class="reference internal" href="autodoc_glossary_options_c.html#term-T_CUT_TRACE-DLPNO"><span class="xref std std-term">T_CUT_TRACE</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-T_CUT_ENERGY-DLPNO"><span class="xref std std-term">T_CUT_ENERGY</span></a>) to
+increase the robustness of the PNO space. These added parameters truncate by percent recovery of the total occupation number,
+as well as the percentage energy recovery of the PNOs compared to the non-truncated basis.</p>
+<span id="table-pno-convergence"></span><table class="docutils align-default" id="id16">
+<caption><span class="caption-text">PNO convergence levels given in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span></span><a class="headerlink" href="#id16" title="Link to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-PNO_CONVERGENCE-DLPNO"><span class="xref std std-term">PNO_CONVERGENCE</span></a></p></th>
+<th class="head"><p>T_CUT_PNO</p></th>
+<th class="head"><p>T_CUT_TRACE</p></th>
+<th class="head"><p>T_CUT_ENERGY</p></th>
+<th class="head"><p>T_CUT_DO</p></th>
+<th class="head"><p>T_CUT_MKN</p></th>
+<th class="head"><p>T_CUT_PAIRS</p></th>
+<th class="head"><p>Recommended Applications</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Loose</p></td>
+<td><p>1.0e-6</p></td>
+<td><p>0.9</p></td>
+<td><p>0.9</p></td>
+<td><p>2e-2</p></td>
+<td><p>1e-3</p></td>
+<td><p>1e-3</p></td>
+<td><p>High-throughput screening</p></td>
+</tr>
+<tr class="row-odd"><td><p>Normal</p></td>
+<td><p>3.33e-7</p></td>
+<td><p>0.99</p></td>
+<td><p>0.99</p></td>
+<td><p>1e-2</p></td>
+<td><p>1e-3</p></td>
+<td><p>1e-4</p></td>
+<td><p>Thermochemistry</p></td>
+</tr>
+<tr class="row-even"><td><p>Tight</p></td>
+<td><p>1.0e-7</p></td>
+<td><p>0.999</p></td>
+<td><p>0.997</p></td>
+<td><p>5e-3</p></td>
+<td><p>1e-3</p></td>
+<td><p>1e-5</p></td>
+<td><p>Non-covalent Interactions</p></td>
+</tr>
+<tr class="row-odd"><td><p>Very_Tight</p></td>
+<td><p>1.0e-8</p></td>
+<td><p>0.999</p></td>
+<td><p>0.997</p></td>
+<td><p>5e-3</p></td>
+<td><p>1e-4</p></td>
+<td><p>1e-6</p></td>
+<td><p>Benchmarking, Focal Point</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="practical-advice">
+<h2>Practical Advice<a class="headerlink" href="#practical-advice" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>DLPNO-CCSD/(T) is almost always faster than the corresponding canonical CCSD/(T) computation,
+and computations involving DLPNO-CCSD/(T) are encouraged to be performed on large molecules
+as a more accurate alternative to DFT.</p></li>
+<li><p>For most computations, <a class="reference internal" href="autodoc_glossary_options_c.html#term-PNO_CONVERGENCE-DLPNO"><span class="xref std std-term">PNO_CONVERGENCE</span></a> <code class="docutils literal notranslate"><span class="pre">TIGHT</span></code> is recommended, especially
+those involving non-covalent interactions. For larger systems where <code class="docutils literal notranslate"><span class="pre">TIGHT</span></code> is too expensive,
+<code class="docutils literal notranslate"><span class="pre">NORMAL</span></code> for <a class="reference internal" href="autodoc_glossary_options_c.html#term-PNO_CONVERGENCE-DLPNO"><span class="xref std std-term">PNO_CONVERGENCE</span></a> while setting <a class="reference internal" href="autodoc_glossary_options_c.html#term-T_CUT_PAIRS-DLPNO"><span class="xref std std-term">T_CUT_PAIRS</span></a> to <code class="docutils literal notranslate"><span class="pre">1.0e-5</span></code> is recommended.
+This has been shown to yield errors on the order of kJ/mol for non-covalent interactions <a class="reference internal" href="bibliography.html#jiang-2024-082502" id="id8"><span>[Jiang:2024:082502]</span></a>.</p></li>
+<li><p>Based on user allocated memory, disk/core storage for various integrals and tensors
+for DLPNO-CCSD/(T) are automatically determined. There is no need to toggle with the disk/core
+options for the average user.</p></li>
+<li><p>In DLPNO methods, it is recommended to freeze core orbitals (by setting <a class="reference internal" href="autodoc_glossary_options_c.html#term-FREEZE_CORE-GLOBALS"><span class="xref std std-term">FREEZE_CORE</span></a>
+to <code class="docutils literal notranslate"><span class="pre">True</span></code>), since core excitations are known to be more sensitive to PNO truncations than
+valence truncations. If a non-frozen core computation is requested, all PNOs corresponding to core-core
+or core-virtual pairs have cutoffs scaled by <code class="docutils literal notranslate"><span class="pre">T_CUT_PNO_CORE_SCALE</span></code> (default <code class="docutils literal notranslate"><span class="pre">1.0e-2</span></code>).</p></li>
+<li><p>Note that DLPNO does not yet have molecular point group symmetry implemented and will run in C1 symmetry.</p></li>
+<li><p>At this time, DLPNO-CCSD/(T) is only available for closed-shell RHF computations.</p></li>
+</ul>
+</section>
+<section id="computation-size-limits">
+<h2>Computation Size Limits<a class="headerlink" href="#computation-size-limits" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Since DLPNO-CCSD(T) is linear-scaling, with access to sufficient computing resources, a DLPNO-CCSD(T) computation
+can be possible with any system. In fact, for larger systems, Hartree-Fock becomes the bottleneck (not the coupled-cluster)!
+Below, we tabulate the roughly projected limits (number of atoms) of DLPNO-CCSD(T) across different access to hardware. All these limits
+are with a standard polarized double zeta basis set. For larger basis sets, divide by 3 for an increase in cardinality,
+2 for full set of diffuse functions, and 1.5 for partial diffuse functions (e.g. if the size limit is 100
+for cc-pVDZ, expect 30 for cc-pVTZ, 50 for aug-cc-pVDZ, and 70 for jun-cc-pVDZ). Estimates for larger amounts of RAM should be
+taken with a grain of salt, as the computation may be theoretically possible with DLPNO-CCSD, but may be hindered by the cost of
+the preceeding Hartree-Fock computation (in time or memory). New approaches to make Hartree-Fock more efficient in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> are
+currently under investigation.</p></li>
+</ul>
+<span id="table-size-limits"></span><table class="docutils align-default" id="id17">
+<caption><span class="caption-text">Expected size limits (number of atoms) of DLPNO-CCSD(T) computation</span><a class="headerlink" href="#id17" title="Link to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Hardware</p></th>
+<th class="head"><p>RAM</p></th>
+<th class="head"><p>Normal</p></th>
+<th class="head"><p>Tight</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Home Desktop</p></td>
+<td><p>32 GB</p></td>
+<td><p>90-100</p></td>
+<td><p>80-90</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lab Workstation</p></td>
+<td><p>64 GB</p></td>
+<td><p>120-150</p></td>
+<td><p>100-120</p></td>
+</tr>
+<tr class="row-even"><td><p>Lab Workstation</p></td>
+<td><p>192 GB</p></td>
+<td><p>300-400</p></td>
+<td><p>200-300</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lab Cluster</p></td>
+<td><p>512 GB</p></td>
+<td><p>700+</p></td>
+<td><p>400+</p></td>
+</tr>
+<tr class="row-even"><td><p>Lab/HPC Cluster</p></td>
+<td><p>1 TB</p></td>
+<td><p>1000+</p></td>
+<td><p>700+</p></td>
+</tr>
+<tr class="row-odd"><td><p>HPC Cluster</p></td>
+<td><p>3 TB</p></td>
+<td><p>1500+</p></td>
+<td><p>1000+</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="key-differences-with-dlpno-ccsd-t-in-orca">
+<h2>Key Differences with DLPNO-CCSD(T) in ORCA<a class="headerlink" href="#key-differences-with-dlpno-ccsd-t-in-orca" title="Link to this heading">¶</a></h2>
+<p>While the DLPNO-CCSD(T) formulation in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is heavily inspired by the original method
+proposed by Neese and coworkers in ORCA <a class="reference internal" href="bibliography.html#riplinger-2013-034106" id="id9"><span>[Riplinger:2013:034106]</span></a> <a class="reference internal" href="bibliography.html#riplinger-2013-134101" id="id10"><span>[Riplinger:2013:134101]</span></a> <a class="reference internal" href="bibliography.html#riplinger-2016-024109" id="id11"><span>[Riplinger:2016:024109]</span></a>
+<a class="reference internal" href="bibliography.html#guo-2018-011101" id="id12"><span>[Guo:2018:011101]</span></a>, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> employs different algorithms for certain parts of the procedure.
+Both represent linear-scaling CCSD(T) algorithms solved in the the local pair natural orbital basis, with convergence
+to canonical CCSD(T) results as the local tolerances are tightened. However, the manner in which the PNO spaces are truncated as
+well as how the CCSD equations are solved are different. Notable differences in implementation between the two algorithms are
+highlighted below:</p>
+<ul class="simple">
+<li><p>The most notable difference is that the DLPNO-CCSD equations in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> utilize T1-dressed Hamiltonian and Fock matrix elements,
+which significantly simplifies the number of working equations as well as the number of mathematical operations involved in solving
+the CCSD residual equations. Because of the reduced number of intermediates that are required, we find that the DLPNO-CCSD code in
+<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> potentially uses less RAM than the ORCA formulation for a given <a class="reference internal" href="autodoc_glossary_options_c.html#term-PNO_CONVERGENCE-DLPNO"><span class="xref std std-term">PNO_CONVERGENCE</span></a>.
+The runtimes are expected to be similar.</p></li>
+<li><p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> often recovers slightly more CCSD correlation energy than ORCA due to additional PNO cutoffs <a class="reference internal" href="autodoc_glossary_options_c.html#term-T_CUT_TRACE-DLPNO"><span class="xref std std-term">T_CUT_TRACE</span></a>
+and <a class="reference internal" href="autodoc_glossary_options_c.html#term-T_CUT_ENERGY-DLPNO"><span class="xref std std-term">T_CUT_ENERGY</span></a> used in addition to the normal <a class="reference internal" href="autodoc_glossary_options_c.html#term-T_CUT_PNO-DLPNO"><span class="xref std std-term">T_CUT_PNO</span></a>. These result in larger and more robust PNO spaces at a given
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-PNO_CONVERGENCE-DLPNO"><span class="xref std std-term">PNO_CONVERGENCE</span></a> in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>. The difference is typically small in terms of absolute energies (on the order of <code class="docutils literal notranslate"><span class="pre">1.0e-3</span></code> to <code class="docutils literal notranslate"><span class="pre">1.0e-4</span></code> Hartrees),
+with agreement on the order of 99.95% or better. Due to the different T1 formulation, it is not possible to exactly match ORCA and <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>
+DLPNO-CCSD energies by adjusting keywords.</p></li>
+<li><p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> also couples MP2 weak pair amplitudes to CCSD strong pair amplitudes in solving the CCSD residual equations. In our
+formulation, this does not add significantly more time and memory since the most expensive algorithmic steps result from self-coupling
+terms, such as the particle-particle ladder (<span class="math notranslate nohighlight">\(R_{ij}^{ab} \mathrel{+}= B^{Q}_{ac} t_{ij}^{cd} B^{Q}_{bd}\)</span>). This is likely an
+additional source of the increased recovery of correlation energy in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> compared to ORCA.</p></li>
+<li><p>The more robust PNO space combined with strong pair/weak pair couplings often give <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> a slight edge in terms of relative energies
+compared to canonical CCSD(T) at a given <a class="reference internal" href="autodoc_glossary_options_c.html#term-PNO_CONVERGENCE-DLPNO"><span class="xref std std-term">PNO_CONVERGENCE</span></a>, with comparable runtimes. This is showcased by the comparing conformation
+energies on large water clusters (16-17 waters), as shown in <a class="reference internal" href="bibliography.html#jiang-2024-082502" id="id13"><span>[Jiang:2024:082502]</span></a>.</p></li>
+<li><p>Another difference with ORCA is the use of Full LMP2 prescreening across all PNO convergence levels, as opposed to only TightPNO in ORCA.
+For a more direct comparison, one can set <code class="docutils literal notranslate"><span class="pre">UseFullLMP2Guess</span> <span class="pre">true</span></code> in the corresponding DLPNO-CCSD(T) input file in ORCA. For the triples
+computation, ORCA defaults to the semicanonical (T0) approach given in <a class="reference internal" href="bibliography.html#riplinger-2013-134101" id="id14"><span>[Riplinger:2013:134101]</span></a> when specifying <code class="docutils literal notranslate"><span class="pre">DLPNO-CCSD(T)</span></code> in the
+input file, while our code defaults to the iterative (T) computation given in <a class="reference internal" href="bibliography.html#guo-2018-011101" id="id15"><span>[Guo:2018:011101]</span></a> with an <code class="docutils literal notranslate"><span class="pre">energy('dlpno-ccsd(t)')</span></code> call.
+To perform the iterative (T) computation in ORCA, one needs to specify <code class="docutils literal notranslate"><span class="pre">DLPNO-CCSD(T1)</span></code>. In our code, the semicanonical (T0)
+implementation of triples can be requested through <code class="docutils literal notranslate"><span class="pre">energy('dlpno-ccsd(t0)')</span></code>.</p></li>
+<li><p>In benchmarking studies, users are encouraged to use both ORCA and <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>’s implementation. The main advantage of the code in ORCA
+is the capability to run across different nodes through MPI, while our code is designed for an optimal performance on a single node
+through OpenMP. Both codes should converge to similar answers for relative energies with larger basis sets and tighter cutoffs, especially
+when extrapolated to the complete basis set (CBS) limit.</p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="index.html">
+    <img class="logo" src="_static/psi4square.png" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel"
+                                       aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/></div>
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="index.html">table of contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">DLPNO-CCSD(T): Domain-Based Local Pair Natural Orbital CCSD(T)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#pno-convergence-settings">PNO Convergence Settings</a></li>
+<li><a class="reference internal" href="#practical-advice">Practical Advice</a></li>
+<li><a class="reference internal" href="#computation-size-limits">Computation Size Limits</a></li>
+<li><a class="reference internal" href="#key-differences-with-dlpno-ccsd-t-in-orca">Key Differences with DLPNO-CCSD(T) in ORCA</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="occ.html" title="OCC: Orbital-Optimized Coupled-Cluster and Møller–Plesset Perturbation Theories"
+             ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="fnocc.html" title="FNOCC: Frozen natural orbitals for CCSD(T), QCISD(T), CEPA, and MP4"
+             ><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dlpnocc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/02ac50c">1.11a1.dev5</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="methods.html" >Theoretical Methods: SCF to FCI</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">DLPNO-CCSD(T): Domain-Based Local Pair Natural Orbital CCSD(T)</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2025, The Psi4 Project.
+      Last updated on Friday, 05 December 2025 06:41AM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
