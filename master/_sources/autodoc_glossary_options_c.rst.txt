@@ -327,6 +327,18 @@ Keywords by Alpha
       * **Type**: string
       * **Default**: No Default
 
+   ZORA_RADIAL_POINTS (GLOBALS)
+      :ref:`apdx:GLOBALS` |w---w| Number of radial points for the ZORA effective potential grid. The ZORA calculation is relatively fast, and only happens once, so don't cheap out on the radial points!
+
+      * **Type**: integer
+      * **Default**: 140
+
+   ZORA_SPHERICAL_POINTS (GLOBALS)
+      :ref:`apdx:GLOBALS` |w---w| Number of spherical points for the ZORA effective potential grid
+
+      * **Type**: integer
+      * **Default**: 2030
+
    CUTOFF_AMPS_PRINT (ADC)
       :ref:`apdx:ADC` |w---w| Tolerance for extracted or printed amplitudes. This option is only available for the adcc backend.
 
@@ -6653,7 +6665,7 @@ Keywords by Alpha
       :ref:`apdx:GLOBALS` **(Expert)** |w---w| Relativistic Hamiltonian type 
 
       * **Type**: string
-      * **Possible Values**: NO, X2C
+      * **Possible Values**: NO, X2C, ZORA
       * **Default**: NO
 
    WFN (GLOBALS)
@@ -6661,6 +6673,25 @@ Keywords by Alpha
 
       * **Type**: string
       * **Default**: SCF
+
+   ZORA_BASIS_TOLERANCE (GLOBALS)
+      :ref:`apdx:GLOBALS` **(Expert)** |w---w| Basis tolerance for the ZORA effective potential grid 
+
+      * **Type**: :ref:`conv double <op_c_conv>`
+      * **Default**: 1e-12
+
+   ZORA_NR_DEBUG (GLOBALS)
+      :ref:`apdx:GLOBALS` **(Expert)** |w---w| Compute the non-relativistic kinetic energy with the ZORA code. Useful when comparing analytic and grid-based methods. 
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   ZORA_PRUNING_SCHEME (GLOBALS)
+      :ref:`apdx:GLOBALS` **(Expert)** |w---w| Pruning scheme for the ZORA effective potential grid. ``P_slater`` is the best option if you must prune, but ``none`` is recommended. ``Robust`` and ``Treutler`` are not recommended for the ZORA grid as they cut too many points near the nuclear cusp. 
+
+      * **Type**: string
+      * **Possible Values**: NONE, P\_SLATER, ROBUST, LOG\_SLATER, TREUTLER
+      * **Default**: NONE
 
    OPDM_ONLY (CCDENSITY)
       :ref:`apdx:CCDENSITY` **(Expert)** |w---w| For internal use only! Compute the one-particle density matrix, but not the two-particle density matrix. 
