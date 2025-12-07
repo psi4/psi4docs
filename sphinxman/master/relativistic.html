@@ -38,7 +38,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Scalar relativistic Hamiltonians</title>
+    <title>Scalar Relativistic Hamiltonians</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=88a353b9" />
     <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=1e34a7bd"></script>
+    <script src="_static/documentation_options.js?v=e63b35e5"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,14 +102,14 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/relativistic.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/02ac50c">1.11a1.dev5</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6053f9a">1.11a1.dev6</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
         </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
 
           <li class="nav-item nav-item-1"><a href="methods.html" accesskey="U">Theoretical Methods: SCF to FCI</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
-        <li class="nav-item nav-item-this"><a href="">Scalar relativistic Hamiltonians</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Scalar Relativistic Hamiltonians</a></li> 
       </ul>
     </div>
     </div>
@@ -121,10 +121,171 @@
           <div class="body" role="main">
             
   <section id="scalar-relativistic-hamiltonians">
-<span id="sec-relativistic"></span><span id="index-0"></span><h1>Scalar relativistic Hamiltonians<a class="headerlink" href="#scalar-relativistic-hamiltonians" title="Link to this heading">¶</a></h1>
+<span id="sec-relativistic"></span><span id="index-0"></span><h1>Scalar Relativistic Hamiltonians<a class="headerlink" href="#scalar-relativistic-hamiltonians" title="Link to this heading">¶</a></h1>
+<section id="zeroth-order-regular-approximation-zora">
+<span id="sec-zora"></span><h2>Zeroth-order regular approximation (ZORA)<a class="headerlink" href="#zeroth-order-regular-approximation-zora" title="Link to this heading">¶</a></h2>
+<p><em>Code author: Nathan Gillispie and Daniel R. Nascimento</em></p>
+<p><em>Section author: Nathan Gillispie and Daniel R. Nascimento</em></p>
+<p><em>Source</em>: <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/libmints/zora.cc">zora.cc</a> <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/psi4/src/psi4/libmints/zora.h">zora.h</a></p>
+<p>ZORA is a perturbative approximation of the full relativistic Hamiltonian for
+DFT and wavefunction-based methods. It is commonly used to provide a more
+accurate total energy in DFT calculations.</p>
+<p>When ZORA is used in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, it creates a scalar relativistic kinetic
+energy integral to be used in the SCF procedure. It has been tested
+for HF and DFT references with the driver methods <code class="docutils literal notranslate"><span class="pre">energy</span></code> and <code class="docutils literal notranslate"><span class="pre">optimize</span></code>.
+Our implementation employs a grid-based scheme, therefore analytic energy
+gradients are not supported.</p>
+<p>Equations and implementation details are based on a paper by Pak, Dada and
+Nascimento <a class="reference internal" href="bibliography.html#pak-2025-094110" id="id1"><span>[Pak:2025:094110]</span></a>.</p>
+<section id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h3>
+<p>To use the ZORA Hamiltonian with default grid settings, use option
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-RELATIVISTIC-GLOBALS"><span class="xref std std-term">RELATIVISTIC</span></a> with <code class="docutils literal notranslate"><span class="pre">ZORA</span></code>. To change the number of grid points, use
+the <a class="reference internal" href="autodoc_glossary_options_c.html#term-ZORA_RADIAL_POINTS-GLOBALS"><span class="xref std std-term">ZORA_RADIAL_POINTS</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-ZORA_SPHERICAL_POINTS-GLOBALS"><span class="xref std std-term">ZORA_SPHERICAL_POINTS</span></a> options.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="p">{</span>
+    <span class="n">reference</span> <span class="n">rhf</span>
+    <span class="n">scf_type</span> <span class="n">pk</span>
+    <span class="n">relativistic</span> <span class="n">zora</span>
+    <span class="n">zora_radial_points</span> <span class="mi">160</span>
+    <span class="n">zora_spherical_points</span> <span class="mi">1202</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The number of spherical points must be a Lebedev number.
+See <a class="reference internal" href="dft.html#sec-grid-selection"><span class="std std-ref">Grid Selection</span></a> for a list of all options.</p>
+</div>
+<p>It may be useful to compute the non-relativistic kinetic integral using the
+grid points to compare against the analytic kinetic integrals. To do this, use
+the <a class="reference internal" href="autodoc_glossary_options_c.html#term-ZORA_NR_DEBUG-GLOBALS"><span class="xref std std-term">ZORA_NR_DEBUG</span></a> option.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="p">{</span>
+    <span class="n">relativistic</span> <span class="n">zora</span>
+    <span class="n">zora_nr_debug</span> <span class="n">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="#sec-relativistic-keywords"><span class="std std-ref">Keywords</span></a> for more options.</p>
+</section>
+<section id="theory">
+<h3>Theory<a class="headerlink" href="#theory" title="Link to this heading">¶</a></h3>
+<p>In short, the FW-transformed Dirac Hamiltonian is perturbatively expanded with
+respect to an expression (<span class="math notranslate nohighlight">\(E/(2mc^2-V)\)</span>) involving the potential
+<span class="math notranslate nohighlight">\(V\)</span>. To the zeroth-order, we get the ZORA Hamiltonian. Below is the ZORA
+Kohn-Sham (ZKS) Hamiltonian, however, results are analagous for other methods.</p>
+<div class="math notranslate nohighlight" id="equation-zks">
+<span class="eqno">(1)<a class="headerlink" href="#equation-zks" title="Link to this equation">¶</a></span>\[\hat h^\text{ZKS}=\frac{\mathbf{p}^2}{2}+\mathbf{p}\left(\frac{\kappa -1}{2}\right)\mathbf{p}+\frac{\kappa^2}{4c^2}\mathbf{\sigma}\cdot\left(\nabla v^\text{KS}\times \mathbf{p}\right)+v^\text{KS}\]</div>
+<p><span class="math notranslate nohighlight">\(\mathbf{p}\)</span> is the momentum operator, <span class="math notranslate nohighlight">\(\mathbf{\sigma}\)</span> are
+the Pauli matrices, <span class="math notranslate nohighlight">\(\kappa=[1-v^\text{KS}/(2c^2)]^{-1}\)</span>, and
+<span class="math notranslate nohighlight">\(v^\text{KS}\)</span> is the usual Kohn-Sham potential. In this form, the terms
+of the ZORA Hamiltonian are separated into the classical kinetic energy,
+scalar relativistic correction to the kinetic energy, spin-orbit, and KS
+potential terms, respectively. Were this implemented as is, the relativistic
+terms would depend on the KS potential, which is impracticable due to
+gauge-invariance and convergence issues.</p>
+<p>The procedure given by Van Wüllen <a class="reference internal" href="bibliography.html#vanwullen-1998-392" id="id2"><span>[vanWullen:1998:392]</span></a> avoids these
+problems by replacing <span class="math notranslate nohighlight">\(v^\text{KS}\)</span> in the relativistic terms of
+<a class="reference internal" href="#equation-zks">(1)</a> with an effective potential <span class="math notranslate nohighlight">\(v_\text{eff}(\mathbf{r})\)</span>.
+This is the potential experienced at a point due to nuclear attraction and
+electron repulsion from a model potential that reproduces the nuclear cusp on
+each atom. The model potential comes from a model basis of Gaussian-type
+orbitals, whose values were obtained from NWChem <a class="reference internal" href="bibliography.html#nwchem-2020" id="id3"><span>[NWChem:2020]</span></a>. This means that
+geometry is the only thing affecting <span class="math notranslate nohighlight">\(v_\text{eff}(\mathbf{r})\)</span>.</p>
+<p>The ZORA scalar relativistic kinetic integral <span class="math notranslate nohighlight">\(T^\text{SR}\)</span> is the
+first two terms of <a class="reference internal" href="#equation-zks">(1)</a> in the atomic orbital basis. Once
+<span class="math notranslate nohighlight">\(v_\text{eff}(\mathbf{r})\)</span> is computed on a grid, <span class="math notranslate nohighlight">\(T^\text{SR}\)</span> can
+be calculated as</p>
+<div class="math notranslate nohighlight">
+\[T_{\mu\nu}^\text{SR}=\int d\mathbf{r}^3 \frac{c^2}{2c^2-v_\text{eff}(\mathbf{r})}\nabla\chi_\mu^\dagger(\mathbf{r}) \cdot\nabla\chi_\nu(\mathbf{r}),\]</div>
+<p>given atomic orbitals <span class="math notranslate nohighlight">\(\chi(\mathrm{r})\)</span>. Notice that as
+<span class="math notranslate nohighlight">\(v_\text{eff}\rightarrow 0\)</span>, <span class="math notranslate nohighlight">\(T^\text{SR}\)</span> simply becomes the
+non-relativistic kinetic energy. This is the basis behind the
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-ZORA_NR_DEBUG-GLOBALS"><span class="xref std std-term">ZORA_NR_DEBUG</span></a> option. Because <span class="math notranslate nohighlight">\(T^\text{SR}\)</span> is only evaluated
+once before the SCF procedure, don’t cheap out on the grid! In practice, the
+time spent computing the ZORA Hamiltonian is relatively negligible.</p>
+</section>
+<section id="limitations">
+<h3>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Spin-orbit coupling effects are not available because they require a
+complex generalized SCF procedure.</p></li>
+<li><p>ZORA theory allows for adjustment of the molecular orbital energies.
+This provides an important correction for linear response calculations.
+Currently, this is not implemented in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>.</p></li>
+<li><p>Analytic energy gradients are not available.</p></li>
+</ul>
+</section>
+<section id="keywords">
+<span id="sec-relativistic-keywords"></span><h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">¶</a></h3>
+<section id="relativistic">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-RELATIVISTIC-GLOBALS"><span class="xref std std-term">RELATIVISTIC</span></a><a class="headerlink" href="#relativistic" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Relativistic Hamiltonian type</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: NO, X2C, ZORA</p></li>
+<li><p><strong>Default</strong>: NO</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="zora-radial-points">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-ZORA_RADIAL_POINTS-GLOBALS"><span class="xref std std-term">ZORA_RADIAL_POINTS</span></a><a class="headerlink" href="#zora-radial-points" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Number of radial points for the ZORA effective potential grid. The ZORA calculation is relatively fast, and only happens once, so don’t cheap out on the radial points!</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 140</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="zora-spherical-points">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-ZORA_SPHERICAL_POINTS-GLOBALS"><span class="xref std std-term">ZORA_SPHERICAL_POINTS</span></a><a class="headerlink" href="#zora-spherical-points" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Number of spherical points for the ZORA effective potential grid</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 2030</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="zora-pruning-scheme">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-ZORA_PRUNING_SCHEME-GLOBALS"><span class="xref std std-term">ZORA_PRUNING_SCHEME</span></a><a class="headerlink" href="#zora-pruning-scheme" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Pruning scheme for the ZORA effective potential grid. <code class="docutils literal notranslate"><span class="pre">P_slater</span></code> is the best option if you must prune, but <code class="docutils literal notranslate"><span class="pre">none</span></code> is recommended. <code class="docutils literal notranslate"><span class="pre">Robust</span></code> and <code class="docutils literal notranslate"><span class="pre">Treutler</span></code> are not recommended for the ZORA grid as they cut too many points near the nuclear cusp.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: NONE, P_SLATER, ROBUST, LOG_SLATER, TREUTLER</p></li>
+<li><p><strong>Default</strong>: NONE</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="zora-basis-tolerance">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-ZORA_BASIS_TOLERANCE-GLOBALS"><span class="xref std std-term">ZORA_BASIS_TOLERANCE</span></a><a class="headerlink" href="#zora-basis-tolerance" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Basis tolerance for the ZORA effective potential grid</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
+<li><p><strong>Default</strong>: 1e-12</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="zora-nr-debug">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-ZORA_NR_DEBUG-GLOBALS"><span class="xref std std-term">ZORA_NR_DEBUG</span></a><a class="headerlink" href="#zora-nr-debug" title="Link to this heading">¶</a></h4>
+<blockquote>
+<div><p>Compute the non-relativistic kinetic energy with the ZORA code. Useful when comparing analytic and grid-based methods.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+</section>
+<section id="exact-two-component-x2c">
+<span id="sec-x2c"></span><h2>Exact two-component (X2C)<a class="headerlink" href="#exact-two-component-x2c" title="Link to this heading">¶</a></h2>
 <p><em>Code author: Prakash Verma and Francesco A. Evangelista</em></p>
 <p><em>Section author: Prakash Verma, Wallace D. Derricotte, and Francesco A. Evangelista</em></p>
-<p>The exact-two-component (X2C) approach is a convenient way to introduce scalar
+<p>The X2C approach is a convenient way to introduce scalar
 relativistic effects in DFT and wave function-based methods.
 <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> implements the spin-free one-electron version of X2C, which produces
 a modified one-electron Hamiltonian <span class="math notranslate nohighlight">\(H_{\rm X2C}\)</span>:</p>
@@ -132,7 +293,7 @@ a modified one-electron Hamiltonian <span class="math notranslate nohighlight">\
 \[H_{\rm X2C} = T_{\rm X2C} + V_{\rm X2C}\]</div>
 <p>that is a sum of a kinetic energy (<span class="math notranslate nohighlight">\(T_{\rm X2C}\)</span>) and potential energy
 (<span class="math notranslate nohighlight">\(V_{\rm X2C}\)</span>) operator.
-Our implementation is equivalent to the one reported by Cheng and Gauss <a class="reference internal" href="bibliography.html#cheng-084114" id="id1"><span>[Cheng:084114]</span></a>.
+Our implementation is equivalent to the one reported by Cheng and Gauss <a class="reference internal" href="bibliography.html#cheng-084114" id="id4"><span>[Cheng:084114]</span></a>.
 X2C calculations require the use of special (alternatively fully uncontracted) basis sets designed for relativistic
 calculations.  Common choices include the Dunning Douglass–Kroll basis sets
 (cc-pVXZ-DK, cc-pCVXZ-DK, cc-pwCVXZ-DK) and Roos’ ANO basis sets.</p>
@@ -141,7 +302,7 @@ calculations.  Common choices include the Dunning Douglass–Kroll basis sets
 <p>See also <a class="reference internal" href="dkh.html#sec-dkh"><span class="std std-ref">Interface to DKH by A. Wolf, M. Reiher, and B. A. Hess</span></a> for another relativistic Hamiltonian.</p>
 </div>
 <section id="a-first-example">
-<span id="sec-scalarrelativistic"></span><h2>A First Example<a class="headerlink" href="#a-first-example" title="Link to this heading">¶</a></h2>
+<h3>A First Example<a class="headerlink" href="#a-first-example" title="Link to this heading">¶</a></h3>
 <p>The following is a simple input that will perform a Hartree–Fock calculation
 using the X2C Hamiltonian.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">molecule</span> <span class="p">{</span>
@@ -182,7 +343,7 @@ using the X2C Hamiltonian.</p>
 </div>
 </section>
 <section id="basis-sets-options">
-<h2>Basis sets options<a class="headerlink" href="#basis-sets-options" title="Link to this heading">¶</a></h2>
+<h3>Basis sets options<a class="headerlink" href="#basis-sets-options" title="Link to this heading">¶</a></h3>
 <p>The X2C module in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> supports different combinations of basis set.
 By default, if the input file specifies only <a class="reference internal" href="autodoc_glossary_options_c.html#term-BASIS-MINTS"><span class="xref std std-term">BASIS</span></a>, then the X2C
 module will solve the modified Dirac equation in an uncontracted basis and then
@@ -200,10 +361,10 @@ basis set to solve the modified Dirac equation.</p>
 decontracted basis set. This can be done simply in the input by adding “-decon” to the
 name of the primary basis you want to use for the calculation as detailed in
 <a class="reference internal" href="basissets.html#sec-basisdecontracted"><span class="std std-ref">Decontracted Basis Sets</span></a>. Publications resulting from the use
-of X2C should cite the following publication: <a class="reference internal" href="bibliography.html#verma-2015" id="id2"><span>[Verma:2015]</span></a></p>
+of X2C should cite the following publication: <a class="reference internal" href="bibliography.html#verma-2015" id="id5"><span>[Verma:2015]</span></a></p>
 </section>
-<section id="theory">
-<h2>Theory<a class="headerlink" href="#theory" title="Link to this heading">¶</a></h2>
+<section id="id6">
+<h3>Theory<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
 <p>X2C is based on exact decoupling of
 positive-energy ( <span class="math notranslate nohighlight">\(h^{FW}_{\rm ++}\)</span>
 ) and negative-energy (<span class="math notranslate nohighlight">\(h^{FW}_{\rm --}\)</span> )
@@ -221,7 +382,7 @@ blocks of the Dirac Hamiltonian (<span class="math notranslate nohighlight">\(h^
 h^{\rm FW}_{++} &amp; 0 \\
 0 &amp; h^{\rm FW}_{--}
 \end{pmatrix}\end{split}\]</div>
-<p>The transformation ( <span class="math notranslate nohighlight">\(U\)</span> ) is  obtained from the solutions of the Dirac equation in kinetically balanced basis <a class="reference internal" href="bibliography.html#kutzelnigg-1984" id="id3"><span>[Kutzelnigg:1984]</span></a> treatment.
+<p>The transformation ( <span class="math notranslate nohighlight">\(U\)</span> ) is  obtained from the solutions of the Dirac equation in kinetically balanced basis <a class="reference internal" href="bibliography.html#kutzelnigg-1984" id="id7"><span>[Kutzelnigg:1984]</span></a> treatment.
 In the X2C treatment, the positive-energy block of the Hamiltonian ( <span class="math notranslate nohighlight">\(h^{FW}_{\rm ++}\)</span> )
 is given by the sum
 of a transformed kinetic (<span class="math notranslate nohighlight">\(T_{\rm X2C}\)</span>) and potential energy ( <span class="math notranslate nohighlight">\(V_{\rm X2C}\)</span> ) contribution.
@@ -237,16 +398,17 @@ depends on the modified overlap matrix
 <span class="math notranslate nohighlight">\(\tilde{S}=S+\frac{1}{2c^2}X^{\dagger}TX\)</span>. The integrals <span class="math notranslate nohighlight">\(W^{\rm SF}_{\mu\nu} = \langle {\chi_\mu} | \hat{p}\cdot (\hat{V}\hat{p}) |{\chi_\nu}\rangle\)</span> can be easily computed as derivatives of the nuclear-electron attraction integrals with respect to nuclear coordinates.
 Existing nonrelativistic electronic structure code can be extended to include scalar relativistic effects
 treated with the X2C method by replacing nonrelativistic kinetic and potential energy with the corresponding
-X2C operators <span class="math notranslate nohighlight">\(T_{X2C}\)</span> and <span class="math notranslate nohighlight">\(V_{X2C}\)</span>. It is important to note that fully uncontracted basis in needed for the construction of X2C Hamiltonian as Foldy-Wouthuysen (FW <a class="reference internal" href="bibliography.html#fw-1950" id="id4"><span>[FW:1950]</span></a>) transformation is obtained in kinetically balance basis.</p>
-<section id="keywords">
-<h3>Keywords<a class="headerlink" href="#keywords" title="Link to this heading">¶</a></h3>
-<section id="relativistic">
-<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-RELATIVISTIC-GLOBALS"><span class="xref std std-term">RELATIVISTIC</span></a><a class="headerlink" href="#relativistic" title="Link to this heading">¶</a></h4>
+X2C operators <span class="math notranslate nohighlight">\(T_{X2C}\)</span> and <span class="math notranslate nohighlight">\(V_{X2C}\)</span>. It is important to note that fully uncontracted basis in needed for the construction of X2C Hamiltonian as Foldy-Wouthuysen (FW <a class="reference internal" href="bibliography.html#fw-1950" id="id8"><span>[FW:1950]</span></a>) transformation is obtained in kinetically balance basis.</p>
+</section>
+<section id="id9">
+<h3>Keywords<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<section id="id10">
+<h4><a class="reference internal" href="autodoc_glossary_options_c.html#term-RELATIVISTIC-GLOBALS"><span class="xref std std-term">RELATIVISTIC</span></a><a class="headerlink" href="#id10" title="Link to this heading">¶</a></h4>
 <blockquote>
 <div><p>Relativistic Hamiltonian type</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: string</p></li>
-<li><p><strong>Possible Values</strong>: NO, X2C</p></li>
+<li><p><strong>Possible Values</strong>: NO, X2C, ZORA</p></li>
 <li><p><strong>Default</strong>: NO</p></li>
 </ul>
 </div></blockquote>
@@ -286,12 +448,28 @@ X2C operators <span class="math notranslate nohighlight">\(T_{X2C}\)</span> and 
 <script>document.getElementById('searchbox').style.display = "block"</script><div class="sphinx-toc sphinxlocaltoc">
     <h3><a href="index.html">table of contents</a></h3>
     <ul>
-<li><a class="reference internal" href="#">Scalar relativistic Hamiltonians</a><ul>
-<li><a class="reference internal" href="#a-first-example">A First Example</a></li>
-<li><a class="reference internal" href="#basis-sets-options">Basis sets options</a></li>
-<li><a class="reference internal" href="#theory">Theory</a><ul>
+<li><a class="reference internal" href="#">Scalar Relativistic Hamiltonians</a><ul>
+<li><a class="reference internal" href="#zeroth-order-regular-approximation-zora">Zeroth-order regular approximation (ZORA)</a><ul>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#theory">Theory</a></li>
+<li><a class="reference internal" href="#limitations">Limitations</a></li>
 <li><a class="reference internal" href="#keywords">Keywords</a><ul>
 <li><a class="reference internal" href="#relativistic"><span class="xref std std-term">RELATIVISTIC</span></a></li>
+<li><a class="reference internal" href="#zora-radial-points"><span class="xref std std-term">ZORA_RADIAL_POINTS</span></a></li>
+<li><a class="reference internal" href="#zora-spherical-points"><span class="xref std std-term">ZORA_SPHERICAL_POINTS</span></a></li>
+<li><a class="reference internal" href="#zora-pruning-scheme"><span class="xref std std-term">ZORA_PRUNING_SCHEME</span></a></li>
+<li><a class="reference internal" href="#zora-basis-tolerance"><span class="xref std std-term">ZORA_BASIS_TOLERANCE</span></a></li>
+<li><a class="reference internal" href="#zora-nr-debug"><span class="xref std std-term">ZORA_NR_DEBUG</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exact-two-component-x2c">Exact two-component (X2C)</a><ul>
+<li><a class="reference internal" href="#a-first-example">A First Example</a></li>
+<li><a class="reference internal" href="#basis-sets-options">Basis sets options</a></li>
+<li><a class="reference internal" href="#id6">Theory</a></li>
+<li><a class="reference internal" href="#id9">Keywords</a><ul>
+<li><a class="reference internal" href="#id10"><span class="xref std std-term">RELATIVISTIC</span></a></li>
 <li><a class="reference internal" href="#basis-relativistic"><span class="xref std std-term">BASIS_RELATIVISTIC</span></a></li>
 </ul>
 </li>
@@ -348,21 +526,21 @@ X2C operators <span class="math notranslate nohighlight">\(T_{X2C}\)</span> and 
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/relativistic.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/02ac50c">1.11a1.dev5</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6053f9a">1.11a1.dev6</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
         </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
 
           <li class="nav-item nav-item-1"><a href="methods.html" >Theoretical Methods: SCF to FCI</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
-        <li class="nav-item nav-item-this"><a href="">Scalar relativistic Hamiltonians</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Scalar Relativistic Hamiltonians</a></li> 
       </ul>
     </div>
     </div>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2025, The Psi4 Project.
-      Last updated on Friday, 05 December 2025 06:41AM.
+      Last updated on Sunday, 07 December 2025 08:47PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
