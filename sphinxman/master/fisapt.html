@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=7a02e4f5"></script>
+    <script src="_static/documentation_options.js?v=02a228f1"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +102,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/fisapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a4da26c">1.11a1.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e59d050">1.11a1.dev31</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -273,6 +273,109 @@ Psi4/fsapt.py but new QCEngine will be wrong. If you’ve got legacy
 calculations, it is extremely easy to check or reanalyze them to
 salvage them, so please contact the developers with the circumstances
 for guidance.</p>
+</div>
+</section>
+<section id="python-f-sapt-analysis">
+<h2>Python F-SAPT Analysis<a class="headerlink" href="#python-f-sapt-analysis" title="Link to this heading">¶</a></h2>
+<p>Now F-SAPT post-processing can be performed within python without the need to
+use output files and <code class="docutils literal notranslate"><span class="pre">fsapt.py</span></code>. The following code snippet performs the same
+analysis as above, but directly within python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">psi4</span>
+
+
+<span class="n">mol</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;0 1</span>
+<span class="sd">0 1</span>
+<span class="sd">O    -1.3885044    1.9298523   -0.4431206</span>
+<span class="sd">H    -0.5238121    1.9646519   -0.0064609</span>
+<span class="sd">C    -2.0071056    0.7638459   -0.1083509</span>
+<span class="sd">C    -1.4630807   -0.1519120    0.7949930</span>
+<span class="sd">C    -2.1475789   -1.3295094    1.0883677</span>
+<span class="sd">C    -3.3743208   -1.6031427    0.4895864</span>
+<span class="sd">C    -3.9143727   -0.6838545   -0.4091028</span>
+<span class="sd">C    -3.2370496    0.4929609   -0.7096126</span>
+<span class="sd">H    -0.5106510    0.0566569    1.2642563</span>
+<span class="sd">H    -1.7151135   -2.0321452    1.7878417</span>
+<span class="sd">H    -3.9024664   -2.5173865    0.7197947</span>
+<span class="sd">H    -4.8670730   -0.8822939   -0.8811319</span>
+<span class="sd">H    -3.6431662    1.2134345   -1.4057590</span>
+<span class="sd">--</span>
+<span class="sd">0 1</span>
+<span class="sd">O     1.3531168    1.9382724    0.4723133</span>
+<span class="sd">H     1.7842846    2.3487495    1.2297110</span>
+<span class="sd">C     2.0369747    0.7865043    0.1495491</span>
+<span class="sd">C     1.5904026    0.0696860   -0.9574153</span>
+<span class="sd">C     2.2417367   -1.1069765   -1.3128110</span>
+<span class="sd">C     3.3315674   -1.5665603   -0.5748636</span>
+<span class="sd">C     3.7696838   -0.8396901    0.5286439</span>
+<span class="sd">C     3.1224836    0.3383498    0.8960491</span>
+<span class="sd">H     0.7445512    0.4367983   -1.5218583</span>
+<span class="sd">H     1.8921463   -1.6649726   -2.1701843</span>
+<span class="sd">H     3.8330227   -2.4811537   -0.8566666</span>
+<span class="sd">H     4.6137632   -1.1850101    1.1092635</span>
+<span class="sd">H     3.4598854    0.9030376    1.7569489</span>
+<span class="sd">symmetry c1</span>
+<span class="sd">no_reorient</span>
+<span class="sd">no_com</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">psi4</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="s2">&quot;jun-cc-pvdz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;scf_type&quot;</span><span class="p">:</span> <span class="s2">&quot;df&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;guess&quot;</span><span class="p">:</span> <span class="s2">&quot;sad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;freeze_core&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FISAPT_FSAPT_FILEPATH&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">plan</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="s2">&quot;fisapt0&quot;</span><span class="p">,</span> <span class="n">return_plan</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">mol</span><span class="p">)</span>
+<span class="n">atomic_result</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">schema_wrapper</span><span class="o">.</span><span class="n">run_qcschema</span><span class="p">(</span>
+    <span class="n">plan</span><span class="o">.</span><span class="n">plan</span><span class="p">(),</span>
+    <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">postclean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fEnergies</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">fsapt_analysis</span><span class="p">(</span>
+    <span class="n">source</span><span class="o">=</span><span class="n">atomic_result</span><span class="p">,</span> <span class="c1"># AtomicResult from QCSchema</span>
+    <span class="c1"># NOTE: 1-indexed for fragments_a and fragments_b</span>
+    <span class="n">fragments_a</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;MethylA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">fragments_b</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;MethylB&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="c1"># Or you can use energy calls without QCSchema with this example below</span>
+<span class="c1"># using the same molecule and options as above.</span>
+<span class="n">e</span><span class="p">,</span> <span class="n">wfn</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="s2">&quot;fisapt0&quot;</span><span class="p">,</span> <span class="n">return_wfn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">fsapt_analysis</span><span class="p">(</span>
+    <span class="n">source</span><span class="o">=</span><span class="n">wfn</span><span class="p">,</span> <span class="c1"># through wavefunction object</span>
+    <span class="c1"># NOTE: 1-indexed for fragments_a and fragments_b</span>
+    <span class="n">fragments_a</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;MethylA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">fragments_b</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;MethylB&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Additionally, if you have F-SAPT data from saving results to
+<code class="docutils literal notranslate"><span class="pre">FISAPT_FSAPT_FILEPATH</span></code>, you can use psi4.fsapt_analysis to read in the data
+and perform the analysis without needing to run <code class="docutils literal notranslate"><span class="pre">fsapt.py</span></code> by specifying the
+filepath as in:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">psi4</span>
+
+
+<span class="n">psi4</span><span class="o">.</span><span class="n">fsapt_analysis</span><span class="p">(</span>
+    <span class="n">fragments_a</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;MethylA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">fragments_b</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;MethylB&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">source</span><span class="o">=</span><span class="s2">&quot;./fsapt&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
 </div>
 </section>
 <section id="order-1-visualization-with-pymol">
@@ -557,6 +660,7 @@ provide an accurate result.</p>
     <ul>
 <li><a class="reference internal" href="#">F/I-SAPT: Functional Group and/or Intramolecular SAPT</a><ul>
 <li><a class="reference internal" href="#f-sapt-a-representative-example">F-SAPT: A Representative Example</a></li>
+<li><a class="reference internal" href="#python-f-sapt-analysis">Python F-SAPT Analysis</a></li>
 <li><a class="reference internal" href="#order-1-visualization-with-pymol">Order-1 Visualization with PyMol</a></li>
 <li><a class="reference internal" href="#difference-f-sapt-analysis">Difference F-SAPT Analysis</a></li>
 <li><a class="reference internal" href="#i-sapt-a-representative-example">I-SAPT: A Representative Example</a></li>
@@ -626,7 +730,7 @@ provide an accurate result.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/fisapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a4da26c">1.11a1.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e59d050">1.11a1.dev31</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -640,7 +744,7 @@ provide an accurate result.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 25 February 2026 03:17PM.
+      Last updated on Monday, 02 March 2026 05:00PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

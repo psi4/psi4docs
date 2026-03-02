@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=7a02e4f5"></script>
+    <script src="../../../_static/documentation_options.js?v=02a228f1"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/tabs.js?v=3030b3cb"></script>
@@ -92,7 +92,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a4da26c">1.11a1.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e59d050">1.11a1.dev31</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -164,6 +164,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.p4util.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.procrouting</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.task_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicComputer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qcelemental</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.procrouting.sapt</span><span class="w"> </span><span class="kn">import</span> <span class="n">fsapt</span>
 
 <span class="c1"># never import wrappers or aliases into this file</span>
 
@@ -657,10 +659,10 @@
 
         <span class="c1"># TODO place this with the associated call, very awkward to call this in other areas at the moment</span>
         <span class="k">if</span> <span class="n">lowername</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;efp&#39;</span><span class="p">,</span> <span class="s1">&#39;mrcc&#39;</span><span class="p">,</span> <span class="s1">&#39;dmrg&#39;</span><span class="p">]:</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Warning! </span><span class="si">%s</span><span class="s2"> does not have an associated derived wavefunction.&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Warning! </span><span class="si">%s</span><span class="s2"> does not have an associated derived wavefunction. &quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;The returned wavefunction is the incoming reference wavefunction.</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="s1">&#39;sapt&#39;</span> <span class="ow">in</span> <span class="n">lowername</span><span class="p">:</span>
-            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Warning! </span><span class="si">%s</span><span class="s2"> does not have an associated derived wavefunction.&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Warning! </span><span class="si">%s</span><span class="s2"> does not have an associated derived wavefunction. &quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;The returned wavefunction is the dimer SCF wavefunction.</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">),</span> <span class="n">wfn</span><span class="p">)</span>
@@ -924,6 +926,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">),</span> <span class="n">wfn</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">)</span></div>
+
 
 
 
@@ -2226,10 +2229,110 @@
 
 
 
+
 <div class="viewcode-block" id="tdscf">
 <a class="viewcode-back" href="../../../api/psi4.driver.tdscf.html#psi4.driver.tdscf">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">tdscf</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">proc</span><span class="o">.</span><span class="n">run_tdscf_excitations</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">proc</span><span class="o">.</span><span class="n">run_tdscf_excitations</span><span class="p">(</span><span class="n">wfn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="fsapt_analysis">
+<a class="viewcode-back" href="../../../api/psi4.driver.fsapt_analysis.html#psi4.driver.fsapt_analysis">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fsapt_analysis</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="n">qcelemental</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">AtomicResult</span><span class="p">],</span>
+    <span class="n">fragments_a</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">fragments_b</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">pdb_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">analysis_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;reduced&quot;</span><span class="p">,</span>
+    <span class="n">links5050</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">link_siao</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">print_output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Run F-SAPT post-processing from in-memory results or an ``fsapt/`` directory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    source</span>
+<span class="sd">        Source of data for the analysis. Accepted types are:</span>
+
+<span class="sd">        - ``str``: path to a directory containing F-SAPT output files (for example,</span>
+<span class="sd">          the directory written by ``FISAPT_FSAPT_FILEPATH`` or the default</span>
+<span class="sd">          ``./fsapt``). In this mode, ``fA.dat`` and ``fB.dat`` are written to that</span>
+<span class="sd">          directory from ``fragments_a`` and ``fragments_b`` and analysis is run from</span>
+<span class="sd">          files (equivalent to ``fsapt.py`` style processing).</span>
+<span class="sd">        - :class:`~psi4.core.Wavefunction`: use QCVariables already stored on a</span>
+<span class="sd">          wavefunction from a recent ``energy(&#39;fisapt0&#39;, return_wfn=True)`` call.</span>
+<span class="sd">          No output-file parsing is required.</span>
+<span class="sd">        - :class:`qcelemental.models.AtomicResult`: use QCVariables extracted from a</span>
+<span class="sd">          QCSchema AtomicResult (for example, from ``return_plan=True`` workflows).</span>
+
+<span class="sd">        For ``Wavefunction`` and ``AtomicResult`` sources, analysis is performed</span>
+<span class="sd">        directly in Python from QCVariables. For ``str`` sources, analysis is</span>
+<span class="sd">        performed from the saved F-SAPT files on disk.</span>
+<span class="sd">    fragments_a</span>
+<span class="sd">        Mapping of fragment names to 1-indexed atom lists for subsystem A</span>
+<span class="sd">        (same semantics as ``fA.dat``).</span>
+<span class="sd">    fragments_b</span>
+<span class="sd">        Mapping of fragment names to 1-indexed atom lists for subsystem B</span>
+<span class="sd">        (same semantics as ``fB.dat``).</span>
+<span class="sd">    pdb_dir</span>
+<span class="sd">        Optional directory for order-1 visualization files.</span>
+<span class="sd">    analysis_type</span>
+<span class="sd">        Analysis verbosity/type passed through to the F-SAPT analyzer.</span>
+<span class="sd">    links5050</span>
+<span class="sd">        Whether to use 50-50 link assignment in link handling.</span>
+<span class="sd">    link_siao</span>
+<span class="sd">        Optional mapping for explicit SIAO link assignments.</span>
+<span class="sd">    print_output</span>
+<span class="sd">        Whether to print status/output text during analysis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;FSAPT ANALYSIS&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">print_output</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running fsapt_analysis through output files with </span><span class="si">{</span><span class="n">source</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">/Elst.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fsapt_analysis </span><span class="si">{</span><span class="n">source</span><span class="si">=}</span><span class="s2"> is not a suitable fsapt/ directory.&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">/fA.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fragments_a</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">v</span><span class="p">])</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">/fB.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fragments_b</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">v</span><span class="p">])</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">link_siao</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">/link_siao.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">link_siao</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">v</span><span class="p">])</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fsapt</span><span class="o">.</span><span class="n">run_from_output</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">qcelemental</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">AtomicResult</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">print_output</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running fsapt_analysis through QCVariables extracted from schema&quot;</span><span class="p">)</span>
+        <span class="n">atomic_results</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="n">wfn</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">print_output</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running fsapt_analysis through QCVariables extracted from wavefunction&quot;</span><span class="p">)</span>
+        <span class="n">atomic_results</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">wfn</span> <span class="o">=</span> <span class="n">source</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;fsapt_analysis requires a string, AtomicResult, or Wavefunction as input&quot;</span><span class="p">)</span>
+
+
+    <span class="k">return</span> <span class="n">fsapt</span><span class="o">.</span><span class="n">run_fsapt_analysis</span><span class="p">(</span>
+        <span class="n">fragments_a</span><span class="o">=</span><span class="n">fragments_a</span><span class="p">,</span>
+        <span class="n">fragments_b</span><span class="o">=</span><span class="n">fragments_b</span><span class="p">,</span>
+        <span class="n">wfn</span><span class="o">=</span><span class="n">wfn</span><span class="p">,</span>
+        <span class="n">atomic_results</span><span class="o">=</span><span class="n">atomic_results</span><span class="p">,</span>
+        <span class="n">pdb_dir</span><span class="o">=</span><span class="n">pdb_dir</span><span class="p">,</span>
+        <span class="n">analysis_type</span><span class="o">=</span><span class="n">analysis_type</span><span class="p">,</span>
+        <span class="n">links5050</span><span class="o">=</span><span class="n">links5050</span><span class="p">,</span>
+        <span class="n">link_siao</span><span class="o">=</span><span class="n">link_siao</span><span class="p">,</span>
+        <span class="n">dirname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">print_output</span><span class="o">=</span><span class="n">print_output</span>
+    <span class="p">)</span></div>
 
 
 
@@ -2298,7 +2401,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a4da26c">1.11a1.dev30</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/e59d050">1.11a1.dev31</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2312,7 +2415,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 25 February 2026 03:17PM.
+      Last updated on Monday, 02 March 2026 05:00PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
