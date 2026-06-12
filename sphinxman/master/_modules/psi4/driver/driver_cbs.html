@@ -42,14 +42,12 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=e5e4809f"></script>
+    <script src="../../../_static/documentation_options.js?v=9d64cf18"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/tabs.js?v=3030b3cb"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
     
@@ -92,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/02d98e0">1.11a1.dev38</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/500081e">1.11a1.dev48</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -263,9 +261,9 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicResult</span><span class="p">,</span> <span class="n">DriverEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicResult</span><span class="p">,</span> <span class="n">DriverEnum</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
@@ -1672,7 +1670,7 @@
 
 <div class="viewcode-block" id="CompositeComputer.set_molecule">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.set_molecule">[docs]</a>
-    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;molecule&#39;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_molecule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mol</span><span class="p">):</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="n">mol</span><span class="o">.</span><span class="n">fix_com</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
@@ -1728,7 +1726,7 @@
                     <span class="p">})</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
 
-                <span class="c1"># logger.debug(&quot;TASK\n&quot; + pp.pformat(task.dict()))</span>
+                <span class="c1"># logger.debug(&quot;TASK\n&quot; + pp.pformat(task.model_dump()))</span>
 
 <div class="viewcode-block" id="CompositeComputer.build_tasks">
 <a class="viewcode-back" href="../../../cbs.html#psi4.driver.CompositeComputer.build_tasks">[docs]</a>
@@ -1759,7 +1757,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.client.PortalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="n">results_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="p">]</span>
+        <span class="n">results_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span><span class="o">.</span><span class="n">convert_v</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="p">]</span>
 
         <span class="n">modules</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">provenance</span><span class="p">,</span> <span class="s2">&quot;module&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">results_list</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">!=</span> <span class="s2">&quot;energy&quot;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">modules</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">modules</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;scf&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">modules</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
@@ -1880,13 +1878,18 @@
 
         <span class="n">cbs_model</span> <span class="o">=</span> <span class="n">AtomicResult</span><span class="p">(</span>
             <span class="o">**</span><span class="p">{</span>
-                <span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span>
-                <span class="c1">#&#39;keywords&#39;: self.keywords,</span>
-                <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
-                    <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span>
+                <span class="s2">&quot;input_data&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;specification&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span>
+                        <span class="c1">#&#39;keywords&#39;: self.keywords,</span>
+                        <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
+                            <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span>
+                        <span class="p">},</span>
+                    <span class="p">},</span>
+                    <span class="s1">&#39;molecule&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
                 <span class="p">},</span>
-                <span class="s1">&#39;molecule&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                <span class="s1">&#39;molecule&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
                 <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="n">properties</span><span class="p">,</span>
                 <span class="s1">&#39;provenance&#39;</span><span class="p">:</span> <span class="n">p4util</span><span class="o">.</span><span class="n">provenance_stamp</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="n">assembled_results</span><span class="p">[</span><span class="s2">&quot;module&quot;</span><span class="p">]),</span>
                 <span class="s1">&#39;extras&#39;</span><span class="p">:</span> <span class="p">{</span>
@@ -1897,7 +1900,7 @@
                 <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
             <span class="p">})</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;CBS QCSchema:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">pp</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">cbs_model</span><span class="o">.</span><span class="n">dict</span><span class="p">()))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;CBS QCSchema:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">pp</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">cbs_model</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()))</span>
 
         <span class="k">return</span> <span class="n">cbs_model</span></div>
 
@@ -1934,7 +1937,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cbs_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">cbs_model</span><span class="o">.</span><span class="n">driver</span> <span class="o">==</span> <span class="s1">&#39;energy&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cbs_model</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">specification</span><span class="o">.</span><span class="n">driver</span> <span class="o">==</span> <span class="s1">&#39;energy&#39;</span><span class="p">:</span>
             <span class="n">ret_ptype</span> <span class="o">=</span> <span class="n">cbs_model</span><span class="o">.</span><span class="n">return_result</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ret_ptype</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">cbs_model</span><span class="o">.</span><span class="n">return_result</span><span class="p">)</span>
@@ -1951,7 +1954,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_cbs_schema_to_wfn</span><span class="p">(</span><span class="n">cbs_model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to produce Wavefunction from a Composite-flavored AtomicResult.&quot;&quot;&quot;</span>
 
-    <span class="n">mol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_schema</span><span class="p">(</span><span class="n">cbs_model</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_schema</span><span class="p">(</span><span class="n">cbs_model</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
     <span class="n">basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BasisSet</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="s2">&quot;ORBITAL&quot;</span><span class="p">,</span> <span class="s1">&#39;def2-svp&#39;</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">wfn</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">basis</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cbs_model</span><span class="o">.</span><span class="n">provenance</span><span class="p">,</span> <span class="s2">&quot;module&quot;</span><span class="p">):</span>
@@ -2023,7 +2026,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_cbs.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/02d98e0">1.11a1.dev38</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/500081e">1.11a1.dev48</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2037,7 +2040,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Friday, 15 May 2026 04:53PM.
+      Last updated on Friday, 12 June 2026 11:26PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

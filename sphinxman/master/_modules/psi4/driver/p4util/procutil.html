@@ -42,14 +42,12 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=e5e4809f"></script>
+    <script src="../../../../_static/documentation_options.js?v=9d64cf18"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../../_static/tabs.js?v=3030b3cb"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
     
@@ -92,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/procutil.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/02d98e0">1.11a1.dev38</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/500081e">1.11a1.dev48</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -163,16 +161,21 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModuleType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicInput</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicInput</span> <span class="k">as</span> <span class="n">AtomicInput_v1</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicInput</span> <span class="k">as</span> <span class="n">AtomicInput_v2</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">psi4.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">p4regex</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">qcelemental</span>
 
 
 <div class="viewcode-block" id="kwargs_lower">
@@ -713,15 +716,20 @@
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.state_to_atomicinput.html#psi4.driver.p4util.state_to_atomicinput">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">state_to_atomicinput</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">driver</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">basis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">molecule</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">function_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicInput</span><span class="p">:</span>
+    <span class="n">function_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;qcelemental.models.v1.AtomicInput&quot;</span><span class="p">,</span>
+<span class="s2">&quot;qcelemental.models.v2.AtomicInput&quot;</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Form a QCSchema for job input from the current state of |PSIfour| settings.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+<span class="sd">    dtype</span>
+<span class="sd">        QCSchema version to target.</span>
+<span class="sd">        Note that the default 1 (needed for optking compat) can&#39;t succeed with Python &gt;=3.14 .</span>
 <span class="sd">    driver</span>
 <span class="sd">        {&#39;energy&#39;, &#39;gradient&#39;, &#39;hessian&#39;}</span>
 <span class="sd">        Target derivative level.</span>
@@ -737,7 +745,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    ~qcelemental.models.AtomicInput</span>
+<span class="sd">    ~qcelemental.models.AtomicInput, ~qcelemental.models.v2.AtomicInput</span>
 <span class="sd">        QCSchema instance including current keyword set and provenance.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -751,7 +759,8 @@
     <span class="n">kw_basis</span> <span class="o">=</span> <span class="n">keywords</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;basis&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">basis</span> <span class="o">=</span> <span class="n">basis</span> <span class="ow">or</span> <span class="n">kw_basis</span>
 
-    <span class="n">resi</span> <span class="o">=</span> <span class="n">AtomicInput</span><span class="p">(</span>
+    <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">resi</span> <span class="o">=</span> <span class="n">AtomicInput_v1</span><span class="p">(</span>
          <span class="o">**</span><span class="p">{</span>
             <span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="n">driver</span><span class="p">,</span>
             <span class="s2">&quot;extras&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -765,6 +774,25 @@
             <span class="s2">&quot;molecule&quot;</span><span class="p">:</span> <span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
             <span class="s2">&quot;provenance&quot;</span><span class="p">:</span> <span class="n">provenance_stamp</span><span class="p">(</span><span class="vm">__name__</span><span class="p">),</span>
          <span class="p">})</span>
+    <span class="k">elif</span> <span class="n">dtype</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">resi</span> <span class="o">=</span> <span class="n">AtomicInput_v2</span><span class="p">(</span>
+         <span class="o">**</span><span class="p">{</span>
+            <span class="s2">&quot;specification&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="n">driver</span><span class="p">,</span>
+                <span class="s2">&quot;extras&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;wfn_qcvars_only&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span>
+                    <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="n">basis</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="n">keywords</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;molecule&quot;</span><span class="p">:</span> <span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+            <span class="s2">&quot;provenance&quot;</span><span class="p">:</span> <span class="n">provenance_stamp</span><span class="p">(</span><span class="vm">__name__</span><span class="p">),</span>
+         <span class="p">})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;QCSchema version </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> not recognized.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">resi</span></div>
 
@@ -945,7 +973,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/procutil.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/02d98e0">1.11a1.dev38</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/500081e">1.11a1.dev48</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -959,7 +987,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Friday, 15 May 2026 04:53PM.
+      Last updated on Friday, 12 June 2026 11:26PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

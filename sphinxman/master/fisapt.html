@@ -43,11 +43,10 @@
     <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
-    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=e5e4809f"></script>
+    <script src="_static/documentation_options.js?v=9d64cf18"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -102,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/fisapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/02d98e0">1.11a1.dev38</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/500081e">1.11a1.dev48</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -418,14 +417,15 @@ from system 1.</p>
 </section>
 <section id="i-sapt-a-representative-example">
 <h2>I-SAPT: A Representative Example<a class="headerlink" href="#i-sapt-a-representative-example" title="Link to this heading">¶</a></h2>
-<div class="admonition caution">
-<p class="admonition-title">Caution</p>
-<p>As of April 2018, you can’t specify molecule fragments
-with an unphysical multiplicity like the singlet OH fragments in
-the molecule below, especially as (again in the example below) the
-overall molecule needs to be a singlet, which <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> doesn’t at
-present let be set independently. For situations like this, use the
-temporary input pattern in <a class="extlink-srcsample reference external" href="https://github.com/psi4/psi4/blob/master/samples/isapt1/input.dat">isapt1</a> .</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Molecule fragments must each have physically plausible multiplicity
+(unlike the singlet OH fragments in the <code class="docutils literal notranslate"><span class="pre">bad_mol</span></code> example below), and the
+overall molecule needs to be a singlet. For situations like this, you’ll need
+to specify the overall charge and multiplicity and set physical multiplicities
+for each fragment, either through the usual string syntax (<code class="docutils literal notranslate"><span class="pre">good_mol</span></code> below)
+or through <a class="reference internal" href="api/psi4.core.Molecule.html#psi4.core.Molecule.from_arrays" title="psi4.core.Molecule.from_arrays"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi4.core.Molecule.from_arrays()</span></code></a>. Examples are in
+<a class="extlink-srcsample reference external" href="https://github.com/psi4/psi4/blob/master/samples/isapt1/input.dat">isapt1</a> and <a class="extlink-srcsample reference external" href="https://github.com/psi4/psi4/blob/master/samples/isapt-charged/input.dat">isapt-charged</a>.</p>
 </div>
 <p>Below, we show an example of using I-SAPT0/jun-cc-pVDZ to analyze the
 interaction between the two phenol groups in a 2,4-pentanediol molecule.
@@ -437,12 +437,46 @@ while an additional video describing how to plot the density and ESP fields from
 the I-SAPT embedding procedure is available <a class="reference external" href="https://www.youtube.com/watch?v=hDbonAOD5dY&amp;index=4&amp;list=PLg_zUQpVYlA1Tc1X_HgAbqnFcHNydqN7W">I-SAPT#2</a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">memory</span> <span class="mi">1</span> <span class="n">GB</span>
 
-<span class="n">molecule</span> <span class="n">mol</span> <span class="p">{</span>
+<span class="c1"># won&#39;t work with all singlets</span>
+<span class="n">molecule</span> <span class="n">bad_mol</span> <span class="p">{</span>
 <span class="mi">0</span> <span class="mi">1</span>
 <span class="n">O</span>          <span class="mf">0.39987</span>        <span class="mf">2.94222</span>       <span class="o">-</span><span class="mf">0.26535</span>
 <span class="n">H</span>          <span class="mf">0.05893</span>        <span class="mf">2.05436</span>       <span class="o">-</span><span class="mf">0.50962</span>
 <span class="o">--</span>
 <span class="mi">0</span> <span class="mi">1</span>
+<span class="n">O</span>          <span class="mf">0.48122</span>        <span class="mf">0.30277</span>       <span class="o">-</span><span class="mf">0.77763</span>
+<span class="n">H</span>          <span class="mf">0.26106</span>       <span class="o">-</span><span class="mf">0.50005</span>       <span class="o">-</span><span class="mf">1.28451</span>
+<span class="o">--</span>
+<span class="mi">0</span> <span class="mi">1</span>
+<span class="n">C</span>          <span class="mf">2.33048</span>       <span class="o">-</span><span class="mf">1.00269</span>        <span class="mf">0.03771</span>
+<span class="n">C</span>          <span class="mf">1.89725</span>        <span class="mf">0.31533</span>       <span class="o">-</span><span class="mf">0.59009</span>
+<span class="n">C</span>          <span class="mf">2.28232</span>        <span class="mf">1.50669</span>        <span class="mf">0.29709</span>
+<span class="n">C</span>          <span class="mf">1.82204</span>        <span class="mf">2.84608</span>       <span class="o">-</span><span class="mf">0.29432</span>
+<span class="n">C</span>          <span class="mf">2.37905</span>        <span class="mf">4.02099</span>        <span class="mf">0.49639</span>
+<span class="n">H</span>          <span class="mf">3.41246</span>       <span class="o">-</span><span class="mf">1.03030</span>        <span class="mf">0.19825</span>
+<span class="n">H</span>          <span class="mf">2.05362</span>       <span class="o">-</span><span class="mf">1.84372</span>       <span class="o">-</span><span class="mf">0.60709</span>
+<span class="n">H</span>          <span class="mf">1.82714</span>       <span class="o">-</span><span class="mf">1.16382</span>        <span class="mf">0.99734</span>
+<span class="n">H</span>          <span class="mf">2.36243</span>        <span class="mf">0.42333</span>       <span class="o">-</span><span class="mf">1.57636</span>
+<span class="n">H</span>          <span class="mf">3.36962</span>        <span class="mf">1.51414</span>        <span class="mf">0.43813</span>
+<span class="n">H</span>          <span class="mf">1.81251</span>        <span class="mf">1.38060</span>        <span class="mf">1.28140</span>
+<span class="n">H</span>          <span class="mf">2.14344</span>        <span class="mf">2.92967</span>       <span class="o">-</span><span class="mf">1.33843</span>
+<span class="n">H</span>          <span class="mf">3.47320</span>        <span class="mf">4.02400</span>        <span class="mf">0.48819</span>
+<span class="n">H</span>          <span class="mf">2.03535</span>        <span class="mf">3.99216</span>        <span class="mf">1.53635</span>
+<span class="n">H</span>          <span class="mf">2.02481</span>        <span class="mf">4.96785</span>        <span class="mf">0.07455</span>
+<span class="n">symmetry</span> <span class="n">c1</span>
+<span class="n">no_reorient</span>
+<span class="n">no_com</span>
+<span class="p">}</span>
+
+<span class="c1"># will work with total and per-fragment charge and multiplicity</span>
+<span class="n">molecule</span> <span class="n">good_mol</span> <span class="p">{</span>
+<span class="mi">0</span> <span class="mi">1</span>
+<span class="o">--</span>
+<span class="mi">0</span> <span class="mi">2</span>
+<span class="n">O</span>          <span class="mf">0.39987</span>        <span class="mf">2.94222</span>       <span class="o">-</span><span class="mf">0.26535</span>
+<span class="n">H</span>          <span class="mf">0.05893</span>        <span class="mf">2.05436</span>       <span class="o">-</span><span class="mf">0.50962</span>
+<span class="o">--</span>
+<span class="mi">0</span> <span class="mi">2</span>
 <span class="n">O</span>          <span class="mf">0.48122</span>        <span class="mf">0.30277</span>       <span class="o">-</span><span class="mf">0.77763</span>
 <span class="n">H</span>          <span class="mf">0.26106</span>       <span class="o">-</span><span class="mf">0.50005</span>       <span class="o">-</span><span class="mf">1.28451</span>
 <span class="o">--</span>
@@ -730,7 +764,7 @@ provide an accurate result.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/fisapt.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/02d98e0">1.11a1.dev38</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/500081e">1.11a1.dev48</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -744,7 +778,7 @@ provide an accurate result.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Friday, 15 May 2026 04:53PM.
+      Last updated on Friday, 12 June 2026 11:26PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

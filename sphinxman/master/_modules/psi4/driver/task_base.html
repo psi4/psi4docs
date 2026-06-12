@@ -42,14 +42,12 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/psi4.css?v=5cda37dd" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=e5e4809f"></script>
+    <script src="../../../_static/documentation_options.js?v=9d64cf18"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/tabs.js?v=3030b3cb"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
     
@@ -92,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/02d98e0">1.11a1.dev38</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/500081e">1.11a1.dev48</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -142,20 +140,23 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;AtomicComputer&quot;</span><span class="p">,</span>
     <span class="s2">&quot;BaseComputer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ComputerEnum&quot;</span><span class="p">,</span>
     <span class="s2">&quot;EnergyGradientHessianWfnReturn&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">qcelemental</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicInput</span><span class="p">,</span> <span class="n">AtomicResult</span><span class="p">,</span> <span class="n">DriverEnum</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.results</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicResultProtocols</span>
-<span class="n">qcel</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">GEOMETRY_NOISE</span> <span class="o">=</span> <span class="mi">13</span>  <span class="c1"># need more precision in geometries for high-res findif</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.util.importing</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_version</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">AtomicInput</span><span class="p">,</span> <span class="n">AtomicResult</span><span class="p">,</span> <span class="n">DriverEnum</span><span class="p">,</span> <span class="n">AtomicProtocols</span><span class="p">,</span> <span class="n">ProtoModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">QCEL_V1V2_SHIM_CODE</span>
+<span class="n">qcel</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">GEOMETRY_NOISE</span> <span class="o">=</span> <span class="mi">13</span>  <span class="c1"># need more precision in geometries for high-res findif</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">qcengine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qcng</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">psi4</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
@@ -172,7 +173,7 @@
 
 <div class="viewcode-block" id="BaseComputer">
 <a class="viewcode-back" href="../../../external_apis.html#psi4.driver.BaseComputer">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BaseComputer</span><span class="p">(</span><span class="n">qcel</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ProtoModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseComputer</span><span class="p">(</span><span class="n">qcel</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">ProtoModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for &quot;computers&quot; that plan, run, and process QC tasks.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="BaseComputer.compute">
@@ -189,9 +190,7 @@
         <span class="k">pass</span></div>
 
 
-    <span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">(</span><span class="n">qcel</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ProtoModel</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">&quot;allow&quot;</span>
-        <span class="n">allow_mutation</span> <span class="o">=</span> <span class="kc">True</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ProtoModel</span><span class="o">.</span><span class="n">_merge_config_with</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 
@@ -206,40 +205,35 @@
     <span class="n">driver</span><span class="p">:</span> <span class="n">DriverEnum</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The resulting type of computation: energy, gradient, hessian, properties.&quot;</span>
         <span class="s2">&quot;Note for finite difference that this should be the target driver, not the means driver.&quot;</span><span class="p">)</span>
     <span class="n">keywords</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The keywords to use in the computation.&quot;</span><span class="p">)</span>
-    <span class="n">protocols</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">AtomicResultProtocols</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">({</span><span class="s2">&quot;stdout&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Output modifications.&quot;</span><span class="p">)</span>
+    <span class="c1"># ONCE protocols: Optional[Union[AtomicProtocols, Dict[str, Any]]] = Field({&quot;stdout&quot;: True}, description=&quot;Output modifications.&quot;)</span>
+    <span class="n">protocols</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">({</span><span class="s2">&quot;stdout&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Output modifications.&quot;</span><span class="p">)</span>
+    <span class="c1"># FUTURE protocols: Optional[AtomicProtocols] = Field({&quot;stdout&quot;: True}, description=&quot;Output modifications.&quot;)</span>
     <span class="n">compute_tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The tags to pass along to compute managers.&quot;</span><span class="p">)</span>
     <span class="n">compute_priority</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The priority of a Task; higher priority will be pulled first. {high:2, normal:1, low:0}&quot;</span><span class="p">)</span>
     <span class="n">owner_group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;group in the chown sense.&quot;</span><span class="p">)</span>
     <span class="n">computed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Whether quantum chemistry has been run on this task.&quot;</span><span class="p">)</span>
-    <span class="n">result</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;:py:class:`~qcelemental.models.AtomicResult` return.&quot;</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;:py:class:`~qcelemental.models.v2.AtomicResult` return.&quot;</span><span class="p">)</span>
     <span class="n">result_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The optional ID for the computation.&quot;</span><span class="p">)</span>
-    <span class="c1"># remove 2026. QCFractal is showing the upgrade path</span>
-    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Deprecated version of compute_tag&quot;</span><span class="p">)</span>
-    <span class="n">priority</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Deprecated version of compute_priority&quot;</span><span class="p">)</span>
 
-    <span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">(</span><span class="n">qcel</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ProtoModel</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>
-        <span class="k">pass</span>
+    <span class="c1">#model_config = ProtoModel._merge_config_with()</span>
 
-    <span class="c1"># v2: @field_validator(&quot;basis&quot;)</span>
 <div class="viewcode-block" id="AtomicComputer.set_basis">
 <a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.set_basis">[docs]</a>
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;basis&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;basis&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_basis</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">basis</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">basis</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 
-    <span class="c1"># v2: @field_validator(&quot;method&quot;)</span>
 <div class="viewcode-block" id="AtomicComputer.set_method">
 <a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.set_method">[docs]</a>
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_method</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 
-    <span class="c1"># v2: @field_validator(&quot;keywords&quot;)</span>
 <div class="viewcode-block" id="AtomicComputer.set_keywords">
 <a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.set_keywords">[docs]</a>
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">&quot;keywords&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;keywords&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_keywords</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">keywords</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span></div>
 
@@ -250,17 +244,19 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Form QCSchema input from member data.&quot;&quot;&quot;</span>
 
         <span class="n">atomic_model</span> <span class="o">=</span> <span class="n">AtomicInput</span><span class="p">(</span><span class="o">**</span><span class="p">{</span>
-            <span class="s2">&quot;molecule&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-            <span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span>
-            <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
-                <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span>
-            <span class="p">},</span>
-            <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">,</span>
-            <span class="s2">&quot;protocols&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocols</span><span class="p">,</span>
-            <span class="s2">&quot;extras&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;psiapi&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s2">&quot;wfn_qcvars_only&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;molecule&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+            <span class="s2">&quot;specification&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span>
+                <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
+                    <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">,</span>
+                <span class="s2">&quot;protocols&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocols</span><span class="p">,</span>
+                <span class="s2">&quot;extras&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;psiapi&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="s2">&quot;wfn_qcvars_only&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="p">},</span>
             <span class="p">},</span>
         <span class="p">})</span>
 
@@ -277,32 +273,33 @@
             <span class="k">return</span>
 
         <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">qcportal</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">computed</span> <span class="o">=</span> <span class="kc">True</span>
 
-            <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span>
 
             <span class="c1"># Build the molecule</span>
-            <span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+            <span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
 
-            <span class="c1"># remove the bargaining in 2026. passing so that QCFractal&#39;s upgrade guidance is raised</span>
-            <span class="n">oldargs</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">oldargs</span><span class="p">[</span><span class="s2">&quot;tag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">oldargs</span><span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">priority</span>
+            <span class="c1"># QCFractal as of 0.70 still wants QCSchema v1</span>
+            <span class="k">if</span> <span class="n">parse_version</span><span class="p">(</span><span class="n">qcportal</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">parse_version</span><span class="p">(</span><span class="s2">&quot;0.65.0&quot;</span><span class="p">):</span>  <span class="c1"># TODO change to 0.70.0 once minted FUTURE</span>
+                <span class="n">target_version</span> <span class="o">=</span> <span class="n">QCEL_V1V2_SHIM_CODE</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target_version</span> <span class="o">=</span> <span class="mi">1</span>
 
             <span class="n">meta</span><span class="p">,</span> <span class="n">ids</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">add_singlepoints</span><span class="p">(</span>
-                <span class="n">molecules</span><span class="o">=</span><span class="n">mol</span><span class="p">,</span>
+                <span class="n">molecules</span><span class="o">=</span><span class="n">mol</span><span class="o">.</span><span class="n">convert_v</span><span class="p">(</span><span class="n">target_version</span><span class="p">),</span>
                 <span class="n">program</span><span class="o">=</span><span class="s2">&quot;psi4&quot;</span><span class="p">,</span>
                 <span class="n">driver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span>
                 <span class="n">method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
                 <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span>
                 <span class="n">keywords</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">,</span>
+                <span class="c1"># protocols=self.protocols.convert_v(target_version),  # FUTURE</span>
                 <span class="n">protocols</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">protocols</span><span class="p">,</span>
                 <span class="n">compute_tag</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">compute_tag</span><span class="p">,</span>
                 <span class="n">compute_priority</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">compute_priority</span><span class="p">,</span>
                 <span class="n">owner_group</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">owner_group</span><span class="p">,</span>
-                <span class="o">**</span><span class="n">oldargs</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">result_id</span> <span class="o">=</span> <span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="c1"># NOTE: The following will re-run errored jobs by default</span>
@@ -339,12 +336,12 @@
         <span class="p">)</span>
         <span class="c1"># ... END</span>
 
-        <span class="c1">#pp.pprint(self.result.dict())</span>
+        <span class="c1">#pp.pprint(self.result.model_dump())</span>
         <span class="c1">#print(f&quot;... JSON returns {self.result.success} &gt;&gt;&gt;&quot;)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_output_file</span><span class="p">(</span><span class="n">gof</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">reopen_outfile</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">dict</span><span class="p">()))</span>
-        <span class="k">if</span> <span class="n">stdout</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">dict</span><span class="p">()[</span><span class="s2">&quot;stdout&quot;</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="n">stdout</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()[</span><span class="s2">&quot;stdout&quot;</span><span class="p">]:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">_drink_filter</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">computed</span> <span class="o">=</span> <span class="kc">True</span></div>
 
@@ -415,6 +412,29 @@
     <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*** Psi4 exiting successfully. Buy a developer a beer!&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*** Psi4 encountered an error. Buy a developer more coffee!&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">stdout</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ComputerEnum</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allowed driver compute layers.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">computer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseComputer</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return class specified by enum value.&quot;&quot;&quot;</span>
+
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;atomic&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">AtomicComputer</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;composite&quot;</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.driver_cbs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompositeComputer</span>
+            <span class="k">return</span> <span class="n">CompositeComputer</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;finitedifference&quot;</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.driver_findif</span><span class="w"> </span><span class="kn">import</span> <span class="n">FiniteDifferenceComputer</span>
+            <span class="k">return</span> <span class="n">FiniteDifferenceComputer</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;manybody&quot;</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.driver_nbody</span><span class="w"> </span><span class="kn">import</span> <span class="n">ManyBodyComputer</span>
+            <span class="k">return</span> <span class="n">ManyBodyComputer</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown computer layer </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
             <div class="clearer"></div>
@@ -475,7 +495,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/02d98e0">1.11a1.dev38</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/500081e">1.11a1.dev48</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -489,7 +509,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Friday, 15 May 2026 04:53PM.
+      Last updated on Friday, 12 June 2026 11:26PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
