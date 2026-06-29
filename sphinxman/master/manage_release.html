@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=1787e168"></script>
+    <script src="_static/documentation_options.js?v=f502ddea"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/manage_release.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/80e2cbf">1.11a1.dev54</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6d325b1">1.11a1.dev55</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -137,7 +137,6 @@
 <li><p><a class="reference internal" href="#anticipate-next-release">Anticipate next release</a></p></li>
 <li><p><a class="reference internal" href="#build-conda-ecosystem-stack">Build Conda ecosystem stack</a></p></li>
 <li><p><a class="reference internal" href="#tag-pre-release">Tag (pre)release</a></p></li>
-<li><p><a class="reference internal" href="#build-extra-conda-packages-for-psi4-channel">Build extra Conda packages for Psi4 channel</a></p></li>
 <li><p><a class="reference internal" href="#build-psi4conda-set">Build Psi4conda set</a></p></li>
 <li><p><a class="reference internal" href="#generate-download-page-for-psicode-org">Generate download page for psicode.org</a></p></li>
 </ul>
@@ -153,7 +152,6 @@
 <li><p><a class="reference internal" href="#do-final-pass-before-release-tag">Do final pass before release tag</a></p></li>
 <li><p><a class="reference internal" href="#tag-pre-release">Tag (pre)release</a></p></li>
 <li><p><a class="reference internal" href="#initialize-release-branch">Initialize release branch</a></p></li>
-<li><p><a class="reference internal" href="#build-extra-conda-packages-for-psi4-channel">Build extra Conda packages for Psi4 channel</a></p></li>
 <li><p><a class="reference internal" href="#build-psi4conda-set">Build Psi4conda set</a></p></li>
 <li><p><a class="reference internal" href="#generate-download-page-for-psicode-org">Generate download page for psicode.org</a></p></li>
 <li><p><a class="reference internal" href="#collect-documentation-snapshot">Collect documentation snapshot</a></p></li>
@@ -169,7 +167,6 @@
 <li><p><a class="reference internal" href="#tweak-conda-for-postrelease">Tweak Conda for postrelease</a></p></li>
 <li><p><a class="reference internal" href="#tag-postrelease">Tag postrelease</a></p></li>
 <li><p><a class="reference internal" href="#build-psi4conda-set">Build Psi4conda set</a></p></li>
-<li><p><a class="reference internal" href="#build-extra-conda-packages-for-psi4-channel">Build extra Conda packages for Psi4 channel</a></p></li>
 <li><p><a class="reference internal" href="#generate-download-page-for-psicode-org">Generate download page for psicode.org</a></p></li>
 <li><p><a class="reference internal" href="#collect-documentation-snapshot">Collect documentation snapshot</a></p></li>
 <li><p><a class="reference internal" href="#publish-github-postrelease">Publish GitHub postrelease</a></p></li>
@@ -309,8 +306,16 @@ in <a class="extlink-source reference external" href="https://github.com/psi4/ps
 a fully featured Psi4 build and which we have some role in packaging.</p></li>
 <li><p>These packages (e.g., <code class="docutils literal notranslate"><span class="pre">libint</span></code>, <code class="docutils literal notranslate"><span class="pre">gdma</span></code>) should already be updated and built on conda-forge.
 Survey them to check version tick and other key PRs have been merged.</p></li>
-<li><p>Changes to targets’ “source” and “version” in individual recipes should be edited in psi4
-<code class="docutils literal notranslate"><span class="pre">external/*/*/CMakeLists.txt</span></code> files</p></li>
+<li><p>Changes to targets’ “source” and “version” in individual recipes should be edited in psi4 <code class="docutils literal notranslate"><span class="pre">codedeps.yaml</span></code></p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">conda/psi4-path-advisor.py</span> <span class="pre">deploy</span></code>. It will write an “external” script and a “devtools”
+script.</p>
+<ul>
+<li><p>Run the “external” script that copies codedeps data into <code class="docutils literal notranslate"><span class="pre">psi4/CMakeLists.txt</span></code> and
+<code class="docutils literal notranslate"><span class="pre">external/*/*/CMakeLists.txt</span></code> files. If these haven’t been updated in sync, you may need to
+edit codedeps until generating and running the script doesn’t change the src. Check in changes.</p></li>
+<li><p>Run the “devtools” script to make sure the environments for each architecture solve. Check in files.</p></li>
+</ul>
+</li>
 <li><p>Edit any added or dropped dependencies in main <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/CMakeLists.txt">psi4/CMakeLists.txt</a> and docs
 <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/doc/sphinxman/source/build_planning.rst">psi4/doc/sphinxman/source/build_planning.rst</a> .</p></li>
 </ul>
@@ -506,37 +511,6 @@ on slack general channel.</p></li>
 <li><p>set up new branch as protected branch through GitHub psi4 org Settings. Should be already covered under 1.*.x rule.</p></li>
 </ul>
 </section>
-<section id="build-extra-conda-packages-for-psi4-channel">
-<h2>Build extra Conda packages for Psi4 channel<a class="headerlink" href="#build-extra-conda-packages-for-psi4-channel" title="Link to this heading">¶</a></h2>
-<p>Once upon a time, “Psi4 stack”, meant packages <code class="docutils literal notranslate"><span class="pre">psi4</span></code>, <code class="docutils literal notranslate"><span class="pre">psi4-rt</span></code>, <code class="docutils literal notranslate"><span class="pre">psi4-dev</span></code>, and <code class="docutils literal notranslate"><span class="pre">psi4-docs</span></code>.
-Package <code class="docutils literal notranslate"><span class="pre">psi4-docs</span></code> used to be in “Psi4 stack”, but it’s handled by GHA and netlify now, not Conda.
-Package <code class="docutils literal notranslate"><span class="pre">psi4-rt</span></code> used to be in “Psi4 stack”, but a maximum ecosystem package isn’t provided now, only a customizable env spec.
-Package <code class="docutils literal notranslate"><span class="pre">psi4-dev</span></code> used to be in “Psi4 stack”, but now build environment and guidance is in-repo with <code class="docutils literal notranslate"><span class="pre">psi4-path-advisor.py</span></code>.
-Other packages in the “ecosystem stack” (e.g., <code class="docutils literal notranslate"><span class="pre">libint</span></code>, <code class="docutils literal notranslate"><span class="pre">gdma</span></code>) should already be updated and
-built on conda-forge. Survey them to check version tick PRs have been merged.</p>
-<p>Conda-forge overwhelmingly handles the <code class="docutils literal notranslate"><span class="pre">psi4</span></code> package itself, with a full architecture and Python
-version matrix. What remains are specialty or development builds for the psi4 channel.</p>
-<ul class="simple">
-<li><p>High AM and multiarch <code class="docutils literal notranslate"><span class="pre">psi4</span></code> builds for Linux</p>
-<ul>
-<li><p>Especially at tagged releases, update and reconcile c-f psi4/feedstock recipe with psinet
-psi4meta/conda-recipes/psi4-cf recipe. Differences include:</p>
-<ul>
-<li><p>restricted to only even python versions</p></li>
-<li><p>c-f libint vs. psi4 libint2 packages (latter with high AM)</p></li>
-<li><p>smoke vs. full tests</p></li>
-<li><p>no git rev-parse lines</p></li>
-<li><p>load Intel compilers and specify them in compilers and flags CMake arguments</p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Prepare recipe, make sure <code class="docutils literal notranslate"><span class="pre">psi4-cf</span></code> is the only target uncommented in <code class="docutils literal notranslate"><span class="pre">kitandkapoodle.py</span></code>, set
-crontab, view in <code class="docutils literal notranslate"><span class="pre">kpd-anom.log</span></code>.</p></li>
-<li><p>Files will upload to <code class="docutils literal notranslate"><span class="pre">psi4/label/dev</span></code>. For releases and postreleases, on the anaconda.org site
-(logged in as psi4), <em>add</em>, not replace, <code class="docutils literal notranslate"><span class="pre">main</span></code> label, so accessible from <code class="docutils literal notranslate"><span class="pre">psi4/label/main</span></code>.</p></li>
-</ul>
-</section>
 <section id="build-psi4conda-set">
 <h2>Build Psi4conda set<a class="headerlink" href="#build-psi4conda-set" title="Link to this heading">¶</a></h2>
 <p>Installers are build using the project <code class="docutils literal notranslate"><span class="pre">constructor</span></code> to build binary bash or exe scripts, one per
@@ -561,10 +535,12 @@ file and check it in.</p></li>
 <code class="docutils literal notranslate"><span class="pre">construct.yaml</span></code> to retrigger.)</p></li>
 <li><p>When all build successfully, look at the “Filter artifact IDs” GHA step, and copy the <code class="docutils literal notranslate"><span class="pre">bash</span>
 <span class="pre">pull_gha_installers...</span></code> line. These artifacts only linger for a day.</p></li>
-<li><p>Log in to COS vergil root and cd to <code class="docutils literal notranslate"><span class="pre">/projects/vergil/sherrill_website/cdsg/static/psicode-download</span></code>.</p></li>
+<li><p>Log in to COS vergil.chemistry.gatech.edu (as self via hornet) and cd to
+<code class="docutils literal notranslate"><span class="pre">/projects/vergil/sherrill_website/cdsg/static/psicode-download</span></code>.</p></li>
 <li><p>Use the <code class="docutils literal notranslate"><span class="pre">pull_gha_installers_2025.sh</span></code> script to download the installers from GH to COS vergil. First
-argument is an auth token and remaining args are artifact numbers.
+argument is an auth token and remaining args are artifact numbers. Check exact pull_gha script name.
 <code class="docutils literal notranslate"><span class="pre">bash</span> <span class="pre">pull_gha_installers_2025.sh</span> <span class="pre">715...4f3</span> <span class="pre">3280468170</span> <span class="pre">3280468226</span> <span class="pre">3280468291</span> <span class="pre">3280468500</span></code>.</p></li>
+<li><p>Use notes to change group on new files and add 777 permissions.</p></li>
 </ul>
 </section>
 <section id="build-docker-images">
@@ -580,6 +556,7 @@ environment specification and get served from DockerHub, <a class="reference ext
 </li>
 <li><p>Edit the GHA control file <a class="reference external" href="https://github.com/psi4/psi4meta/blob/master/.github/workflows/Docker.yml">https://github.com/psi4/psi4meta/blob/master/.github/workflows/Docker.yml</a>
 <code class="docutils literal notranslate"><span class="pre">matrix.cfg</span></code> list for changed Python version and to label the tags with current Psi4 from c-f.</p></li>
+<li><p>Toggle whether it uploads or not.</p></li>
 <li><p>Commit <code class="docutils literal notranslate"><span class="pre">environment.yaml</span></code> or <code class="docutils literal notranslate"><span class="pre">Docker.yml</span></code> to trigger GHA Docker builds.</p></li>
 <li><p>Check at DockerHub for new images.</p></li>
 </ul>
@@ -789,7 +766,6 @@ for it to be merged.</p></li>
 <li><a class="reference internal" href="#tag-pre-release">Tag (pre)release</a></li>
 <li><a class="reference internal" href="#tag-postrelease">Tag postrelease</a></li>
 <li><a class="reference internal" href="#initialize-release-branch">Initialize release branch</a></li>
-<li><a class="reference internal" href="#build-extra-conda-packages-for-psi4-channel">Build extra Conda packages for Psi4 channel</a></li>
 <li><a class="reference internal" href="#build-psi4conda-set">Build Psi4conda set</a></li>
 <li><a class="reference internal" href="#build-docker-images">Build Docker images</a></li>
 <li><a class="reference internal" href="#generate-download-page-for-psicode-org">Generate download page for psicode.org</a></li>
@@ -850,7 +826,7 @@ for it to be merged.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/manage_release.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/80e2cbf">1.11a1.dev54</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/6d325b1">1.11a1.dev55</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -864,7 +840,7 @@ for it to be merged.</p></li>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Monday, 29 June 2026 05:29AM.
+      Last updated on Monday, 29 June 2026 05:53AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
