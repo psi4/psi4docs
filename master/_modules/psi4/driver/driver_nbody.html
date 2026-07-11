@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=bc025a82"></script>
+    <script src="../../../_static/documentation_options.js?v=dd2440ca"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a1c38bf">1.12a1.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1af240f">1.12a1.dev4</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -229,10 +229,32 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">field_validator</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">qcelemental.models.v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Molecule</span><span class="p">,</span> <span class="n">AtomicSpecification</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody.models.v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ManyBodyInput</span><span class="p">,</span> <span class="n">ManyBodyResult</span><span class="p">,</span> <span class="n">BsseEnum</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody</span><span class="w"> </span><span class="kn">import</span> <span class="n">ManyBodyCore</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody.v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ManyBodyComputer</span> <span class="k">as</span> <span class="n">ManyBodyComputerQCNG</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">delabeler</span><span class="p">,</span> <span class="n">labeler</span><span class="p">,</span> <span class="n">translate_qcvariables</span><span class="p">,</span> <span class="n">modelchem_labels</span>
+
+<span class="n">_QCMANYBODY_IMPORT_ERROR</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody.models.v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ManyBodyInput</span><span class="p">,</span> <span class="n">ManyBodyResult</span><span class="p">,</span> <span class="n">BsseEnum</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody</span><span class="w"> </span><span class="kn">import</span> <span class="n">ManyBodyCore</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody.v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ManyBodyComputer</span> <span class="k">as</span> <span class="n">ManyBodyComputerQCNG</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qcmanybody.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">delabeler</span><span class="p">,</span> <span class="n">labeler</span><span class="p">,</span> <span class="n">translate_qcvariables</span><span class="p">,</span> <span class="n">modelchem_labels</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="n">_QCMANYBODY_IMPORT_ERROR</span> <span class="o">=</span> <span class="n">err</span>
+    <span class="n">ManyBodyInput</span> <span class="o">=</span> <span class="n">Any</span>
+    <span class="n">ManyBodyResult</span> <span class="o">=</span> <span class="n">Any</span>
+    <span class="n">BsseEnum</span> <span class="o">=</span> <span class="n">Any</span>
+    <span class="n">ManyBodyCore</span> <span class="o">=</span> <span class="n">Any</span>
+    <span class="n">ManyBodyComputerQCNG</span> <span class="o">=</span> <span class="nb">object</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ensure_qcmanybody</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">_QCMANYBODY_IMPORT_ERROR</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
+        <span class="s2">&quot;Python module qcmanybody not found (or incompatible) that is required for many-body/counterpoise &quot;</span>
+        <span class="s2">&quot;(`bsse_type`) computations. Install/upgrade to `qcmanybody&gt;=0.7.1` with &quot;</span>
+        <span class="s2">&quot;`conda install -c conda-forge qcmanybody` or `pip install -U qcmanybody`. &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;Original import error: </span><span class="si">{</span><span class="n">_QCMANYBODY_IMPORT_ERROR</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">_QCMANYBODY_IMPORT_ERROR</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">qcportal</span>
@@ -532,6 +554,8 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_psi4_task_planner</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">driver</span><span class="p">,</span> <span class="n">keywords</span><span class="p">,</span> <span class="o">**</span><span class="n">mbkwargs</span><span class="p">):</span>
 
+        <span class="n">_ensure_qcmanybody</span><span class="p">()</span>
+
         <span class="n">atomic_spec</span> <span class="o">=</span> <span class="n">AtomicSpecification</span><span class="p">(</span>
             <span class="n">model</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span> <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="n">basis</span><span class="p">},</span>
             <span class="n">program</span><span class="o">=</span><span class="s2">&quot;psi4&quot;</span><span class="p">,</span>
@@ -629,6 +653,8 @@
 <span class="sd">            Number of new tasks planned by this call including any supersystem.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_ensure_qcmanybody</span><span class="p">()</span>
+
         <span class="c1"># TODO method not coming from levels right</span>
 
         <span class="c1"># Get the n-body orders for this level. e.g., [1] or [2, 3] or [&quot;supersystem&quot;]</span>
@@ -704,6 +730,8 @@
 <span class="sd">            All MBE results collected into a QCSchema model.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_ensure_qcmanybody</span><span class="p">()</span>
+
         <span class="n">component_results</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span><span class="o">.</span><span class="n">convert_v</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_list</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="n">component_properties</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">props</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="s2">&quot;gradient&quot;</span><span class="p">,</span> <span class="s2">&quot;hessian&quot;</span><span class="p">}</span>
@@ -877,7 +905,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver_nbody.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/a1c38bf">1.12a1.dev3</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/1af240f">1.12a1.dev4</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -891,7 +919,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 08 July 2026 11:25PM.
+      Last updated on Saturday, 11 July 2026 10:39PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
