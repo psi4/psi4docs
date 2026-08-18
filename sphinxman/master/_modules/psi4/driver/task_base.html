@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=fff71174"></script>
+    <script src="../../../_static/documentation_options.js?v=1c4d5255"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -138,10 +138,10 @@
 <span class="c1">#</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;AtomicComputer&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BaseComputer&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ComputerEnum&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;EnergyGradientHessianWfnReturn&quot;</span><span class="p">,</span>
+    <span class="s2">"AtomicComputer"</span><span class="p">,</span>
+    <span class="s2">"BaseComputer"</span><span class="p">,</span>
+    <span class="s2">"ComputerEnum"</span><span class="p">,</span>
+    <span class="s2">"EnergyGradientHessianWfnReturn"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
@@ -174,7 +174,7 @@
 <div class="viewcode-block" id="BaseComputer">
 <a class="viewcode-back" href="../../../external_apis.html#psi4.driver.BaseComputer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BaseComputer</span><span class="p">(</span><span class="n">qcel</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">ProtoModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for &quot;computers&quot; that plan, run, and process QC tasks.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for "computers" that plan, run, and process QC tasks."""</span>
 
 <div class="viewcode-block" id="BaseComputer.compute">
 <a class="viewcode-back" href="../../../external_apis.html#psi4.driver.BaseComputer.compute">[docs]</a>
@@ -190,50 +190,50 @@
         <span class="k">pass</span></div>
 
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ProtoModel</span><span class="o">.</span><span class="n">_merge_config_with</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ProtoModel</span><span class="o">.</span><span class="n">_merge_config_with</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">"allow"</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="AtomicComputer">
 <a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AtomicComputer</span><span class="p">(</span><span class="n">BaseComputer</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computer for analytic single-geometry computations.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Computer for analytic single-geometry computations."""</span>
 
-    <span class="n">molecule</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The molecule to use in the computation.&quot;</span><span class="p">)</span>
-    <span class="n">basis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The quantum chemistry basis set to evaluate (e.g., 6-31g, cc-pVDZ, ...).&quot;</span><span class="p">)</span>
-    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The quantum chemistry method to evaluate (e.g., B3LYP, MP2, ...).&quot;</span><span class="p">)</span>
-    <span class="n">driver</span><span class="p">:</span> <span class="n">DriverEnum</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The resulting type of computation: energy, gradient, hessian, properties.&quot;</span>
-        <span class="s2">&quot;Note for finite difference that this should be the target driver, not the means driver.&quot;</span><span class="p">)</span>
-    <span class="n">keywords</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The keywords to use in the computation.&quot;</span><span class="p">)</span>
-    <span class="c1"># ONCE protocols: Optional[Union[AtomicProtocols, Dict[str, Any]]] = Field({&quot;stdout&quot;: True}, description=&quot;Output modifications.&quot;)</span>
-    <span class="n">protocols</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">({</span><span class="s2">&quot;stdout&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Output modifications.&quot;</span><span class="p">)</span>
-    <span class="c1"># FUTURE protocols: Optional[AtomicProtocols] = Field({&quot;stdout&quot;: True}, description=&quot;Output modifications.&quot;)</span>
-    <span class="n">compute_tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The tags to pass along to compute managers.&quot;</span><span class="p">)</span>
-    <span class="n">compute_priority</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The priority of a Task; higher priority will be pulled first. {high:2, normal:1, low:0}&quot;</span><span class="p">)</span>
-    <span class="n">owner_group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;group in the chown sense.&quot;</span><span class="p">)</span>
-    <span class="n">computed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Whether quantum chemistry has been run on this task.&quot;</span><span class="p">)</span>
-    <span class="n">result</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;:py:class:`~qcelemental.models.v2.AtomicResult` return.&quot;</span><span class="p">)</span>
-    <span class="n">result_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The optional ID for the computation.&quot;</span><span class="p">)</span>
+    <span class="n">molecule</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The molecule to use in the computation."</span><span class="p">)</span>
+    <span class="n">basis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The quantum chemistry basis set to evaluate (e.g., 6-31g, cc-pVDZ, ...)."</span><span class="p">)</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The quantum chemistry method to evaluate (e.g., B3LYP, MP2, ...)."</span><span class="p">)</span>
+    <span class="n">driver</span><span class="p">:</span> <span class="n">DriverEnum</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The resulting type of computation: energy, gradient, hessian, properties."</span>
+        <span class="s2">"Note for finite difference that this should be the target driver, not the means driver."</span><span class="p">)</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The keywords to use in the computation."</span><span class="p">)</span>
+    <span class="c1"># ONCE protocols: Optional[Union[AtomicProtocols, Dict[str, Any]]] = Field({"stdout": True}, description="Output modifications.")</span>
+    <span class="n">protocols</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">({</span><span class="s2">"stdout"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Output modifications."</span><span class="p">)</span>
+    <span class="c1"># FUTURE protocols: Optional[AtomicProtocols] = Field({"stdout": True}, description="Output modifications.")</span>
+    <span class="n">compute_tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"*"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The tags to pass along to compute managers."</span><span class="p">)</span>
+    <span class="n">compute_priority</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The priority of a Task; higher priority will be pulled first. {high:2, normal:1, low:0}"</span><span class="p">)</span>
+    <span class="n">owner_group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"group in the chown sense."</span><span class="p">)</span>
+    <span class="n">computed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Whether quantum chemistry has been run on this task."</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">":py:class:`~qcelemental.models.v2.AtomicResult` return."</span><span class="p">)</span>
+    <span class="n">result_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The optional ID for the computation."</span><span class="p">)</span>
 
     <span class="c1">#model_config = ProtoModel._merge_config_with()</span>
 
 <div class="viewcode-block" id="AtomicComputer.set_basis">
 <a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.set_basis">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;basis&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"basis"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_basis</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">basis</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">basis</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="AtomicComputer.set_method">
 <a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.set_method">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"method"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_method</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="AtomicComputer.set_keywords">
 <a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.set_keywords">[docs]</a>
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;keywords&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"keywords"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_keywords</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">keywords</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span></div>
 
@@ -241,21 +241,21 @@
 <div class="viewcode-block" id="AtomicComputer.plan">
 <a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.plan">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plan</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicInput</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Form QCSchema input from member data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Form QCSchema input from member data."""</span>
 
         <span class="n">atomic_model</span> <span class="o">=</span> <span class="n">AtomicInput</span><span class="p">(</span><span class="o">**</span><span class="p">{</span>
-            <span class="s2">&quot;molecule&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-            <span class="s2">&quot;specification&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span>
-                <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
-                    <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span>
+            <span class="s2">"molecule"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="s2">"specification"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"driver"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span>
+                <span class="s2">"model"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"method"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
+                    <span class="s2">"basis"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span>
                 <span class="p">},</span>
-                <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">,</span>
-                <span class="s2">&quot;protocols&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocols</span><span class="p">,</span>
-                <span class="s2">&quot;extras&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;psiapi&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">&quot;wfn_qcvars_only&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"keywords"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">,</span>
+                <span class="s2">"protocols"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocols</span><span class="p">,</span>
+                <span class="s2">"extras"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"psiapi"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="s2">"wfn_qcvars_only"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="p">},</span>
             <span class="p">},</span>
         <span class="p">})</span>
@@ -265,8 +265,8 @@
 
 <div class="viewcode-block" id="AtomicComputer.compute">
 <a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.compute">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.client.PortalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run quantum chemistry.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"qcportal.client.PortalClient"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Run quantum chemistry."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">psi4.driver</span><span class="w"> </span><span class="kn">import</span> <span class="n">pp</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">computed</span><span class="p">:</span>
@@ -283,14 +283,14 @@
             <span class="n">mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
             <span class="c1"># QCFractal as of 0.70 still wants QCSchema v1</span>
-            <span class="k">if</span> <span class="n">parse_version</span><span class="p">(</span><span class="n">qcportal</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">parse_version</span><span class="p">(</span><span class="s2">&quot;0.65.0&quot;</span><span class="p">):</span>  <span class="c1"># TODO change to 0.70.0 once minted FUTURE</span>
+            <span class="k">if</span> <span class="n">parse_version</span><span class="p">(</span><span class="n">qcportal</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">parse_version</span><span class="p">(</span><span class="s2">"0.65.0"</span><span class="p">):</span>  <span class="c1"># TODO change to 0.70.0 once minted FUTURE</span>
                 <span class="n">target_version</span> <span class="o">=</span> <span class="n">QCEL_V1V2_SHIM_CODE</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">target_version</span> <span class="o">=</span> <span class="mi">1</span>
 
             <span class="n">meta</span><span class="p">,</span> <span class="n">ids</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">add_singlepoints</span><span class="p">(</span>
                 <span class="n">molecules</span><span class="o">=</span><span class="n">mol</span><span class="o">.</span><span class="n">convert_v</span><span class="p">(</span><span class="n">target_version</span><span class="p">),</span>
-                <span class="n">program</span><span class="o">=</span><span class="s2">&quot;psi4&quot;</span><span class="p">,</span>
+                <span class="n">program</span><span class="o">=</span><span class="s2">"psi4"</span><span class="p">,</span>
                 <span class="n">driver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span>
                 <span class="n">method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
                 <span class="n">basis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span>
@@ -305,17 +305,17 @@
             <span class="c1"># NOTE: The following will re-run errored jobs by default</span>
             <span class="k">if</span> <span class="n">meta</span><span class="o">.</span><span class="n">existing_idx</span><span class="p">:</span>
                 <span class="n">rec</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_singlepoints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">rec</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">rec</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">"error"</span><span class="p">:</span>
                     <span class="n">client</span><span class="o">.</span><span class="n">reset_records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="p">)</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Resubmitting Errored Job </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="p">))</span>
-                <span class="k">elif</span> <span class="n">rec</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;complete&quot;</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Job already completed </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="p">))</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Resubmitting Errored Job </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">rec</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">"complete"</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Job already completed </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Submitting AtomicResult </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Submitting AtomicResult </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="p">))</span>
 
             <span class="k">return</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&lt;&lt;&lt; JSON launch ... </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">nuclear_repulsion_energy</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">'&lt;&lt;&lt; JSON launch ... </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">schoenflies_symbol</span><span class="p">()</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">molecule</span><span class="o">.</span><span class="n">nuclear_repulsion_energy</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
         <span class="n">gof</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_output_file</span><span class="p">()</span>
 
         <span class="c1"># EITHER ...</span>
@@ -324,32 +324,32 @@
         <span class="c1"># ... OR ...</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">qcng</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">plan</span><span class="p">(),</span>
-            <span class="s2">&quot;psi4&quot;</span><span class="p">,</span>
+            <span class="s2">"psi4"</span><span class="p">,</span>
             <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="c1"># local_options below suitable for serial mode where each job takes all the resources of the parent Psi4 job.</span>
             <span class="c1">#   distributed runs through QCFractal will likely need a different setup.</span>
             <span class="n">task_config</span><span class="o">=</span><span class="p">{</span>
                 <span class="c1"># B -&gt; GiB</span>
-                <span class="s2">&quot;memory&quot;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">get_memory</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="mi">30</span><span class="p">),</span>
-                <span class="s2">&quot;ncores&quot;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">(),</span>
+                <span class="s2">"memory"</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">get_memory</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="mi">30</span><span class="p">),</span>
+                <span class="s2">"ncores"</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">(),</span>
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="c1"># ... END</span>
 
         <span class="c1">#pp.pprint(self.result.model_dump())</span>
-        <span class="c1">#print(f&quot;... JSON returns {self.result.success} &gt;&gt;&gt;&quot;)</span>
+        <span class="c1">#print(f"... JSON returns {self.result.success} &gt;&gt;&gt;")</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_output_file</span><span class="p">(</span><span class="n">gof</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">core</span><span class="o">.</span><span class="n">reopen_outfile</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()))</span>
-        <span class="k">if</span> <span class="n">stdout</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()[</span><span class="s2">&quot;stdout&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">stdout</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()[</span><span class="s2">"stdout"</span><span class="p">]:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">_drink_filter</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">computed</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="AtomicComputer.get_results">
 <a class="viewcode-back" href="../../../api/psi4.driver.AtomicComputer.html#psi4.driver.AtomicComputer.get_results">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;qcportal.client.PortalClient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return results as Atomic-flavored QCSchema.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"qcportal.client.PortalClient"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return results as Atomic-flavored QCSchema."""</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span>
@@ -357,9 +357,9 @@
         <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
             <span class="n">record</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_singlepoints</span><span class="p">(</span><span class="n">record_ids</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="p">)</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Querying AtomicResult </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Querying AtomicResult </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">result_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="s2">&quot;complete&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="s2">"complete"</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">_singlepointrecord_to_atomicresult</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
@@ -369,72 +369,72 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_singlepointrecord_to_atomicresult</span><span class="p">(</span><span class="n">spr</span><span class="p">:</span> <span class="s2">&quot;qcportal.singlepoint.SinglepointRecord&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_singlepointrecord_to_atomicresult</span><span class="p">(</span><span class="n">spr</span><span class="p">:</span> <span class="s2">"qcportal.singlepoint.SinglepointRecord"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AtomicResult</span><span class="p">:</span>
     <span class="n">atres</span> <span class="o">=</span> <span class="n">spr</span><span class="o">.</span><span class="n">to_qcschema_result</span><span class="p">()</span>
 
-    <span class="c1"># QCFractal `next` database stores return_result, properties, and extras[&quot;qcvars&quot;] merged</span>
+    <span class="c1"># QCFractal `next` database stores return_result, properties, and extras["qcvars"] merged</span>
     <span class="c1">#   together and with lowercase keys. `to_qcschema_result` partitions properties back out,</span>
     <span class="c1">#   but we need to restore qcvars keys, types, and dimensions.</span>
-    <span class="c1"># QCFractal v0.51 starts saving space by removing qcvars whose qcvar.lower().replace(&quot; &quot;, &quot;_&quot;)</span>
+    <span class="c1"># QCFractal v0.51 starts saving space by removing qcvars whose qcvar.lower().replace(" ", "_")</span>
     <span class="c1">#   are defined, so we also need to reconstruct these.</span>
     <span class="n">shared_qcvars</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">pv</span><span class="p">,</span> <span class="n">dpv</span> <span class="ow">in</span> <span class="n">atres</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">dpv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">pv</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;return_&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">pv</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_moment&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">pv</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"return_"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">pv</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"_moment"</span><span class="p">):</span>
             <span class="k">continue</span>
         <span class="k">if</span> <span class="n">pv</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="s2">&quot;scf_one_electron_energy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;scf_two_electron_energy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;scf_vv10_energy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;scf_xc_energy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;scf_dispersion_correction_energy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;mp2_same_spin_correlation_energy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;mp2_opposite_spin_correlation_energy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ccsd_same_spin_correlation_energy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ccsd_opposite_spin_correlation_energy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ccsd_prt_pr_correlation_energy&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ccsd_prt_pr_total_energy&quot;</span><span class="p">,</span>
+            <span class="s2">"scf_one_electron_energy"</span><span class="p">,</span>
+            <span class="s2">"scf_two_electron_energy"</span><span class="p">,</span>
+            <span class="s2">"scf_vv10_energy"</span><span class="p">,</span>
+            <span class="s2">"scf_xc_energy"</span><span class="p">,</span>
+            <span class="s2">"scf_dispersion_correction_energy"</span><span class="p">,</span>
+            <span class="s2">"mp2_same_spin_correlation_energy"</span><span class="p">,</span>
+            <span class="s2">"mp2_opposite_spin_correlation_energy"</span><span class="p">,</span>
+            <span class="s2">"ccsd_same_spin_correlation_energy"</span><span class="p">,</span>
+            <span class="s2">"ccsd_opposite_spin_correlation_energy"</span><span class="p">,</span>
+            <span class="s2">"ccsd_prt_pr_correlation_energy"</span><span class="p">,</span>
+            <span class="s2">"ccsd_prt_pr_total_energy"</span><span class="p">,</span>
         <span class="p">]:</span>
             <span class="k">continue</span>
-        <span class="n">shared_qcvars</span><span class="p">[</span><span class="n">pv</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">dpv</span>
-    <span class="n">qcvars</span> <span class="o">=</span> <span class="n">atres</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;extra_properties&quot;</span><span class="p">)</span>
-    <span class="n">qcvars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;return_result&quot;</span><span class="p">)</span>
+        <span class="n">shared_qcvars</span><span class="p">[</span><span class="n">pv</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)]</span> <span class="o">=</span> <span class="n">dpv</span>
+    <span class="n">qcvars</span> <span class="o">=</span> <span class="n">atres</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"extra_properties"</span><span class="p">)</span>
+    <span class="n">qcvars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"return_result"</span><span class="p">)</span>
     <span class="n">qcvars</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">p4util</span><span class="o">.</span><span class="n">plump_qcvar</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">qcvars</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-    <span class="n">atres</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">&quot;qcvars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">qcvars</span><span class="p">,</span> <span class="o">**</span><span class="n">shared_qcvars</span><span class="p">}</span>
+    <span class="n">atres</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">"qcvars"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">qcvars</span><span class="p">,</span> <span class="o">**</span><span class="n">shared_qcvars</span><span class="p">}</span>
 
     <span class="k">return</span> <span class="n">atres</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_drink_filter</span><span class="p">(</span><span class="n">stdout</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Don&#39;t mess up the widespread ``grep beer`` test of Psi4 doneness by printing multiple drinks per outfile.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Don't mess up the widespread ``grep beer`` test of Psi4 doneness by printing multiple drinks per outfile."""</span>
 
-    <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*** Psi4 exiting successfully. Buy a developer a beer!&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">*** Psi4 encountered an error. Buy a developer more coffee!&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">*** Psi4 exiting successfully. Buy a developer a beer!"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">*** Psi4 encountered an error. Buy a developer more coffee!"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">stdout</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ComputerEnum</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allowed driver compute layers.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Allowed driver compute layers."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">computer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseComputer</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return class specified by enum value.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return class specified by enum value."""</span>
 
         <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 
-        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;atomic&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">"atomic"</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">AtomicComputer</span>
-        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;composite&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">"composite"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">.driver_cbs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompositeComputer</span>
             <span class="k">return</span> <span class="n">CompositeComputer</span>
-        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;finitedifference&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">"finitedifference"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">.driver_findif</span><span class="w"> </span><span class="kn">import</span> <span class="n">FiniteDifferenceComputer</span>
             <span class="k">return</span> <span class="n">FiniteDifferenceComputer</span>
-        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;manybody&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">"manybody"</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">.driver_nbody</span><span class="w"> </span><span class="kn">import</span> <span class="n">ManyBodyComputer</span>
             <span class="k">return</span> <span class="n">ManyBodyComputer</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown computer layer </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown computer layer </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 
             <div class="clearer"></div>
@@ -495,7 +495,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/task_base.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -509,7 +509,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 12 August 2026 05:56PM.
+      Last updated on Tuesday, 18 August 2026 07:32AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

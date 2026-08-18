@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=fff71174"></script>
+    <script src="../../../../_static/documentation_options.js?v=1c4d5255"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/prop_util.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -136,20 +136,20 @@
 <span class="c1">#</span>
 <span class="c1"># @END LICENSE</span>
 <span class="c1">#</span>
-<span class="sd">&quot;&quot;&quot;Module with property-related helper functions.&quot;&quot;&quot;</span>
+<span class="sd">"""Module with property-related helper functions."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">psi4</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">optproc</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;free_atom_volumes&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'free_atom_volumes'</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="free_atom_volumes">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.free_atom_volumes.html#psi4.driver.p4util.free_atom_volumes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">free_atom_volumes</span><span class="p">(</span><span class="n">wfn</span><span class="p">:</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="w">    </span><span class="sd">""" </span>
 <span class="sd">    Computes free-atom volumes using MBIS density partitioning.</span>
 <span class="sd">    The free-atom volumes are computed for all unique (inc. basis set)</span>
 <span class="sd">    atoms in a molecule and stored as wavefunction variables, :psivar:`MBIS FREE ATOM n VOLUME`.</span>
@@ -163,22 +163,22 @@
 <span class="sd">    wfn</span>
 <span class="sd">        The wave function associated with the molecule, method, and basis for </span>
 <span class="sd">        atomic computations</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="c1"># If we&#39;re already a free atom, break to avoid recursion</span>
-    <span class="c1"># We don&#39;t ever need volume ratios for free atoms since they</span>
+    <span class="c1"># If we're already a free atom, break to avoid recursion</span>
+    <span class="c1"># We don't ever need volume ratios for free atoms since they</span>
     <span class="c1"># are by definition 1.0</span>
     <span class="n">natom</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">molecule</span><span class="p">()</span><span class="o">.</span><span class="n">natom</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">natom</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span> 
     
     <span class="c1"># We need to know the level of theory of the system to compute the free atoms</span>
-    <span class="c1"># This isn&#39;t stored or might have been preloaded so we search the psi4 variables for</span>
+    <span class="c1"># This isn't stored or might have been preloaded so we search the psi4 variables for</span>
     <span class="c1"># the best match</span>
-    <span class="n">current_en</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">scalar_variable</span><span class="p">(</span><span class="s1">&#39;CURRENT ENERGY&#39;</span><span class="p">)</span>
+    <span class="n">current_en</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">scalar_variable</span><span class="p">(</span><span class="s1">'CURRENT ENERGY'</span><span class="p">)</span>
     <span class="n">total_keys</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">wfn</span><span class="o">.</span><span class="n">scalar_variables</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span>
-        <span class="p">(</span><span class="s1">&#39;TOTAL ENERGY&#39;</span> <span class="ow">in</span> <span class="n">k</span> <span class="ow">and</span> <span class="s1">&#39;SCF&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span>
+        <span class="p">(</span><span class="s1">'TOTAL ENERGY'</span> <span class="ow">in</span> <span class="n">k</span> <span class="ow">and</span> <span class="s1">'SCF'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span>
     <span class="p">]</span>
     <span class="n">total_energy_diffs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span>
         <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">wfn</span><span class="o">.</span><span class="n">scalar_variable</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">current_en</span><span class="p">),</span> <span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">total_keys</span><span class="p">],</span>
@@ -186,11 +186,11 @@
     <span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">total_energy_diffs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">total_energy_diffs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e-8</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-            <span class="s2">&quot;No valid &#39;method TOTAL ENERGY&#39; found in wavefunction scalar variables. Needed for MBIS free atoms.&quot;</span>
+            <span class="s2">"No valid 'method TOTAL ENERGY' found in wavefunction scalar variables. Needed for MBIS free atoms."</span>
         <span class="p">)</span>
 
     <span class="n">theory</span> <span class="o">=</span> <span class="n">total_energy_diffs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">theory</span> <span class="o">==</span> <span class="s1">&#39;DFT&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">theory</span> <span class="o">==</span> <span class="s1">'DFT'</span><span class="p">:</span>
         <span class="n">theory</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">functional</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="c1"># list of reference number of unpaired electrons.</span>
@@ -214,16 +214,16 @@
         <span class="n">basis</span> <span class="o">=</span> <span class="n">mol</span><span class="o">.</span><span class="n">basis_on_atom</span><span class="p">(</span><span class="n">atom</span><span class="p">)</span>
         <span class="n">unq_atoms</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">symbol</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">basis</span><span class="p">))</span>
 
-    <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Running </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">unq_atoms</span><span class="p">)</span><span class="si">}</span><span class="s2"> free-atom UHF computations&quot;</span><span class="p">)</span>
+    <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Running </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">unq_atoms</span><span class="p">)</span><span class="si">}</span><span class="s2"> free-atom UHF computations"</span><span class="p">)</span>
 
-    <span class="n">optstash</span> <span class="o">=</span> <span class="n">optproc</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">([</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s1">&#39;REFERENCE&#39;</span><span class="p">])</span>
+    <span class="n">optstash</span> <span class="o">=</span> <span class="n">optproc</span><span class="o">.</span><span class="n">OptionsState</span><span class="p">([</span><span class="s2">"SCF"</span><span class="p">,</span> <span class="s1">'REFERENCE'</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">a_sym</span><span class="p">,</span> <span class="n">a_z</span><span class="p">,</span> <span class="n">basis</span> <span class="ow">in</span> <span class="n">unq_atoms</span><span class="p">:</span>
 
-        <span class="c1"># make sure we do UHF/UKS if we&#39;re not a singlet</span>
+        <span class="c1"># make sure we do UHF/UKS if we're not a singlet</span>
         <span class="k">if</span> <span class="n">reference_S</span><span class="p">[</span><span class="n">a_z</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;REFERENCE&quot;</span><span class="p">,</span> <span class="s2">&quot;UHF&quot;</span><span class="p">)</span>
+            <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">"SCF"</span><span class="p">,</span> <span class="s2">"REFERENCE"</span><span class="p">,</span> <span class="s2">"UHF"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span> <span class="s2">&quot;REFERENCE&quot;</span><span class="p">,</span> <span class="s2">&quot;RHF&quot;</span><span class="p">)</span>
+            <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_local_option</span><span class="p">(</span><span class="s2">"SCF"</span><span class="p">,</span> <span class="s2">"REFERENCE"</span><span class="p">,</span> <span class="s2">"RHF"</span><span class="p">)</span>
 
         <span class="c1"># Set the molecule, here just an atom</span>
         <span class="n">a_mol</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span><span class="n">geom</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
@@ -233,20 +233,20 @@
         <span class="n">a_mol</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
         <span class="n">psi4</span><span class="o">.</span><span class="n">molutil</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="n">a_mol</span><span class="p">)</span>
 
-        <span class="n">method</span> <span class="o">=</span> <span class="n">theory</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">basis</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">theory</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">basis</span>
 
         <span class="c1"># Get the atomic wfn</span>
         <span class="n">at_e</span><span class="p">,</span> <span class="n">at_wfn</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">return_wfn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># Now, re-run mbis for the atomic density, grabbing only the volume</span>
-        <span class="n">psi4</span><span class="o">.</span><span class="n">oeprop</span><span class="p">(</span><span class="n">at_wfn</span><span class="p">,</span> <span class="s1">&#39;MBIS_CHARGES&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">a_sym</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">method</span><span class="p">,</span> <span class="n">free_atom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">psi4</span><span class="o">.</span><span class="n">oeprop</span><span class="p">(</span><span class="n">at_wfn</span><span class="p">,</span> <span class="s1">'MBIS_CHARGES'</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">a_sym</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">method</span><span class="p">,</span> <span class="n">free_atom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="n">vw</span> <span class="o">=</span> <span class="n">at_wfn</span><span class="o">.</span><span class="n">array_variable</span><span class="p">(</span><span class="s1">&#39;MBIS RADIAL MOMENTS &lt;R^3&gt;&#39;</span><span class="p">)</span>  <span class="c1"># P::e OEPROP</span>
+        <span class="n">vw</span> <span class="o">=</span> <span class="n">at_wfn</span><span class="o">.</span><span class="n">array_variable</span><span class="p">(</span><span class="s1">'MBIS RADIAL MOMENTS &lt;R^3&gt;'</span><span class="p">)</span>  <span class="c1"># P::e OEPROP</span>
         <span class="n">vw</span> <span class="o">=</span> <span class="n">vw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
         <span class="c1"># set the atomic widths as wfn variables</span>
-        <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">&quot;MBIS FREE ATOM &quot;</span> <span class="o">+</span> <span class="n">a_sym</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; VOLUME&quot;</span><span class="p">,</span> <span class="n">vw</span><span class="p">)</span>
-        <span class="c1"># set_variable(&quot;MBIS FREE ATOM n VOLUME&quot;)  # P::e OEPROP</span>
+        <span class="n">wfn</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s2">"MBIS FREE ATOM "</span> <span class="o">+</span> <span class="n">a_sym</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">" VOLUME"</span><span class="p">,</span> <span class="n">vw</span><span class="p">)</span>
+        <span class="c1"># set_variable("MBIS FREE ATOM n VOLUME")  # P::e OEPROP</span>
         
         <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
         <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">clean_variables</span><span class="p">()</span>
@@ -316,7 +316,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/prop_util.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -330,7 +330,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 12 August 2026 05:56PM.
+      Last updated on Tuesday, 18 August 2026 07:32AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
