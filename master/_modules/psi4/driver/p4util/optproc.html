@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=fff71174"></script>
+    <script src="../../../../_static/documentation_options.js?v=1c4d5255"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/optproc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -136,14 +136,14 @@
 <span class="c1">#</span>
 <span class="c1"># @END LICENSE</span>
 <span class="c1">#</span>
-<span class="sa">r</span><span class="sd">&quot;&quot;&quot;Module to provide mechanism to store and restore option states in driver.</span>
+<span class="sa">r</span><span class="sd">"""Module to provide mechanism to store and restore option states in driver.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;OptionState&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;OptionsStateCM&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;OptionsState&quot;</span><span class="p">,</span>
+    <span class="s2">"OptionState"</span><span class="p">,</span>
+    <span class="s2">"OptionsStateCM"</span><span class="p">,</span>
+    <span class="s2">"OptionsState"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
@@ -157,7 +157,7 @@
 <div class="viewcode-block" id="OptionState">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.OptionState.html#psi4.driver.p4util.OptionState">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">OptionState</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Store the state (value and changed status) of a single `option`.</span>
+<span class="w">    </span><span class="sd">"""Store the state (value and changed status) of a single `option`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -171,11 +171,11 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; OptionState(&#39;E_CONVERGENCE&#39;, &#39;SCF&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; OptionState('E_CONVERGENCE', 'SCF')</span>
 
-<span class="sd">    &gt;&gt;&gt; print(OptionState(&#39;DF_BASIS_MP2&#39;))</span>
+<span class="sd">    &gt;&gt;&gt; print(OptionState('DF_BASIS_MP2'))</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">option</span> <span class="o">=</span> <span class="n">option</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
@@ -198,26 +198,26 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">haschanged_used</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s1">''</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="p">:</span>
-            <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;  ==&gt; </span><span class="si">%s</span><span class="s2"> Option in Module </span><span class="si">%s</span><span class="s2"> &lt;==</span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="p">)</span>
-            <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;  Global (has changed?) value: </span><span class="si">%7s</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">haschanged_global</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s2">"""  ==&gt; </span><span class="si">%s</span><span class="s2"> Option in Module </span><span class="si">%s</span><span class="s2"> &lt;==</span><span class="se">\n\n</span><span class="s2">"""</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s2">"""  Global (has changed?) value: </span><span class="si">%7s</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">"""</span> <span class="o">%</span> <span class="p">(</span><span class="s1">'('</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">haschanged_global</span><span class="p">)</span> <span class="o">+</span> <span class="s1">')'</span><span class="p">,</span>
                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">value_global</span><span class="p">)</span>
-            <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;  Local (has changed?) value:  </span><span class="si">%7s</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">haschanged_local</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s2">"""  Local (has changed?) value:  </span><span class="si">%7s</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">"""</span> <span class="o">%</span> <span class="p">(</span><span class="s1">'('</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">haschanged_local</span><span class="p">)</span> <span class="o">+</span> <span class="s1">')'</span><span class="p">,</span>
                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">value_local</span><span class="p">)</span>
-            <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;  Used (has changed?) value:   </span><span class="si">%7s</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">haschanged_used</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s2">"""  Used (has changed?) value:   </span><span class="si">%7s</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">"""</span> <span class="o">%</span> <span class="p">(</span><span class="s1">'('</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">haschanged_used</span><span class="p">)</span> <span class="o">+</span> <span class="s1">')'</span><span class="p">,</span>
                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">value_used</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;  ==&gt; </span><span class="si">%s</span><span class="s2"> Option in Global Scope &lt;==</span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">)</span>
-            <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;  Global (has changed?) value: </span><span class="si">%7s</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">haschanged_global</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s2">"""  ==&gt; </span><span class="si">%s</span><span class="s2"> Option in Global Scope &lt;==</span><span class="se">\n\n</span><span class="s2">"""</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s2">"""  Global (has changed?) value: </span><span class="si">%7s</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">"""</span> <span class="o">%</span> <span class="p">(</span><span class="s1">'('</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">haschanged_global</span><span class="p">)</span> <span class="o">+</span> <span class="s1">')'</span><span class="p">,</span>
                                                                      <span class="bp">self</span><span class="o">.</span><span class="n">value_global</span><span class="p">)</span>
-        <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">+=</span> <span class="s2">"""</span><span class="se">\n</span><span class="s2">"""</span>
         <span class="k">return</span> <span class="n">text</span>
 
 <div class="viewcode-block" id="OptionState.restore">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.OptionState.html#psi4.driver.p4util.OptionState.restore">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore value and has_changed status to saved condition.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Restore value and has_changed status to saved condition."""</span>
         <span class="n">core</span><span class="o">.</span><span class="n">set_global_option</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_global</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">haschanged_global</span><span class="p">:</span>
             <span class="n">core</span><span class="o">.</span><span class="n">revoke_global_option_changed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option</span><span class="p">)</span>
@@ -232,7 +232,7 @@
 <div class="viewcode-block" id="OptionsState">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.OptionsState.html#psi4.driver.p4util.OptionsState">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">OptionsState</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Store multiple :py:func:`OptionState` objects.</span>
+<span class="w">    </span><span class="sd">"""Store multiple :py:func:`OptionState` objects.</span>
 <span class="sd">    Use in driver functions to collect several keywords before altering them,</span>
 <span class="sd">    then restore them before function return.</span>
 
@@ -244,15 +244,15 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; optstash = OptionsState(</span>
-<span class="sd">            [&#39;DF_BASIS_SCF&#39;],</span>
-<span class="sd">            [&#39;SCF_TYPE&#39;],</span>
-<span class="sd">            [&#39;SCF&#39;, &#39;REFERENCE&#39;])</span>
+<span class="sd">            ['DF_BASIS_SCF'],</span>
+<span class="sd">            ['SCF_TYPE'],</span>
+<span class="sd">            ['SCF', 'REFERENCE'])</span>
 
 <span class="sd">    &gt;&gt;&gt; print(optstash)</span>
 
 <span class="sd">    &gt;&gt;&gt; optstash.restore()</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">largs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
@@ -262,7 +262,7 @@
 <div class="viewcode-block" id="OptionsState.add_option">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.OptionsState.html#psi4.driver.p4util.OptionsState.add_option">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store info for another keyword, `item`.</span>
+<span class="w">        </span><span class="sd">"""Store info for another keyword, `item`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -270,25 +270,25 @@
 <span class="sd">            A one-membered list with a global keyword or a two-membered list</span>
 <span class="sd">            with a module keyword and module.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                <span class="s1">&#39;Each argument to OptionsState should be an array, the first element of which is     the module scope and the second element of which is the module name. Bad argument: </span><span class="si">%s</span><span class="s1">&#39;</span>
+                <span class="s1">'Each argument to OptionsState should be an array, the first element of which is     the module scope and the second element of which is the module name. Bad argument: </span><span class="si">%s</span><span class="s1">'</span>
                 <span class="o">%</span> <span class="p">(</span><span class="n">item</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                <span class="s1">&#39;Malformed options state, duplicate key adds of &quot;</span><span class="si">{}</span><span class="s1">&quot;. This should not happen, please raise a issue on github.com/psi4/psi4&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+                <span class="s1">'Malformed options state, duplicate key adds of "</span><span class="si">{}</span><span class="s1">". This should not happen, please raise a issue on github.com/psi4/psi4'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">OptionState</span><span class="p">(</span><span class="o">*</span><span class="n">key</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s1">''</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">text</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">text</span>
@@ -296,7 +296,7 @@
 <div class="viewcode-block" id="OptionsState.restore">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.OptionsState.html#psi4.driver.p4util.OptionsState.restore">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">restore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore value and has_changed status of each keyword to saved condition.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Restore value and has_changed status of each keyword to saved condition."""</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">item</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span></div>
 </div>
@@ -307,12 +307,12 @@
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.OptionsStateCM.html#psi4.driver.p4util.OptionsStateCM">[docs]</a>
 <span class="nd">@contextmanager</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">OptionsStateCM</span><span class="p">(</span><span class="n">osd</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a context manager that will collect the state (value and changed</span>
+<span class="w">    </span><span class="sd">"""Return a context manager that will collect the state (value and changed</span>
 <span class="sd">    status) of a list of keywords `osd` that can initialize</span>
 <span class="sd">    :py:class:`OptionsState` on entry to the with-statement and restore the</span>
 <span class="sd">    collected state when exiting the with-statement.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">oso</span> <span class="o">=</span> <span class="n">OptionsState</span><span class="p">(</span><span class="n">osd</span><span class="p">)</span>
     <span class="k">yield</span>
     <span class="n">oso</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span></div>
@@ -377,7 +377,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/optproc.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -391,7 +391,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 12 August 2026 05:56PM.
+      Last updated on Tuesday, 18 August 2026 07:32AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

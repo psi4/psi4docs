@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=fff71174"></script>
+    <script src="_static/documentation_options.js?v=1c4d5255"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dft.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -374,7 +374,7 @@ option, and a call to <code class="docutils literal notranslate"><span class="pr
 
 <span class="nb">set</span> <span class="n">basis</span> <span class="n">sto</span><span class="o">-</span><span class="mi">3</span><span class="n">g</span>
 
-<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;b3lyp&#39;</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">'b3lyp'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will run a B3LYP Restricted Kohn–Sham (RKS) on neutral singlet Helium in
@@ -416,24 +416,24 @@ section in <a class="reference internal" href="bibliography.html#szabo-1982" id=
 <p><span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> features an extensive list of LSDA, GGA, Meta, Hybrid, LRC, and -D
 functionals. These can be specified by a variety of means. Perhaps the simplest
 is to use the functional name as the energy procedure call:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">&#39;b3lyp&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">'b3lyp'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note that if you are running an unrestricted computation, you should set the
 <a class="reference internal" href="autodoc_glossary_options_c.html#term-REFERENCE-SCF"><span class="xref std std-term">REFERENCE</span></a> option before the call to <code class="docutils literal notranslate"><span class="pre">energy</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">reference</span> <span class="n">uks</span>
-<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;b3lyp&#39;</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">'b3lyp'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The functional may also be manually specified by calling <code class="docutils literal notranslate"><span class="pre">energy</span></code> (or any driver function)
 with a <code class="docutils literal notranslate"><span class="pre">dft_functional</span></code> argument:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span> <span class="n">dft_functional</span> <span class="o">=</span> <span class="s1">&#39;b3lyp&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">'scf'</span><span class="p">,</span> <span class="n">dft_functional</span> <span class="o">=</span> <span class="s1">'b3lyp'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Another alternative is providing a specially crafted <cite>dict</cite>-ionary to the <code class="docutils literal notranslate"><span class="pre">dft_functional</span></code>
 argument:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">custom_functional</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;my_unique_name&quot;</span><span class="p">,</span> <span class="o">...</span> <span class="p">}</span>
-<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span> <span class="n">dft_functional</span> <span class="o">=</span> <span class="n">custom_functional</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">custom_functional</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"my_unique_name"</span><span class="p">,</span> <span class="o">...</span> <span class="p">}</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">'scf'</span><span class="p">,</span> <span class="n">dft_functional</span> <span class="o">=</span> <span class="n">custom_functional</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For further details about this so called <cite>dict_func</cite> syntax, see
@@ -672,7 +672,7 @@ is sensible.</p>
 <span class="n">dft_pruning_scheme</span> <span class="n">robust</span>     <span class="c1"># Generally safe and will speed things up</span>
 <span class="p">}</span>
 
-<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;b3lyp&#39;</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">'b3lyp'</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1206,7 +1206,7 @@ setting up a standard LRC UKS computation. A representative example is:</p>
 <span class="p">}</span>
 
 <span class="c1"># Optional arguments are minimum omega, maximum omega, molecule object</span>
-<span class="n">omega</span> <span class="o">=</span> <span class="n">ip_fitting</span><span class="p">(</span><span class="s1">&#39;wb97&#39;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">h2o</span><span class="p">)</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="n">ip_fitting</span><span class="p">(</span><span class="s1">'wb97'</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">h2o</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This performs IP fitting on water for wB97/cc-pVDZ with density fitting. A
@@ -1247,7 +1247,7 @@ and below the neutral. An example is:</p>
 
 <span class="c1"># Argument is functional.</span>
 <span class="c1"># Many optional arguments are available, see the python file</span>
-<span class="n">frac_traverse</span><span class="p">(</span><span class="s1">&#39;wb97&#39;</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">h2o</span><span class="p">)</span>
+<span class="n">frac_traverse</span><span class="p">(</span><span class="s1">'wb97'</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">h2o</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The other macro is <a class="reference internal" href="external_apis.html#psi4.driver.frac.frac_nuke" title="psi4.driver.frac.frac_nuke"><code class="xref py py-func docutils literal notranslate"><span class="pre">frac_nuke()</span></code></a>, which strips several electrons out of the
@@ -1258,7 +1258,7 @@ for something like:</p>
 <span class="c1"># A useful optional argument is nmax, the total number of electrons to</span>
 <span class="c1"># strip out of the molecule, in this case, 2.</span>
 <span class="c1"># Many optional arguments are available, see the python file</span>
-<span class="n">frac</span><span class="o">.</span><span class="n">frac_nuke</span><span class="p">(</span><span class="s1">&#39;wb97&#39;</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">h2o</span><span class="p">,</span> <span class="n">nmax</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">frac</span><span class="o">.</span><span class="n">frac_nuke</span><span class="p">(</span><span class="s1">'wb97'</span><span class="p">,</span> <span class="n">molecule</span><span class="o">=</span><span class="n">h2o</span><span class="p">,</span> <span class="n">nmax</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1289,7 +1289,7 @@ additional speed gains by loosening some of these thresholds. See
 contains far too many papers using B3LYP on noncovalent interactions without a -D.</p></li>
 </ul>
 <p>The “best-practice” input file for KS-DFT is:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">memory</span> <span class="mi">1</span> <span class="n">GB</span>  <span class="c1"># As much as you&#39;ve got, the DF algorithm can use</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">memory</span> <span class="mi">1</span> <span class="n">GB</span>  <span class="c1"># As much as you've got, the DF algorithm can use</span>
 
 <span class="n">molecule</span> <span class="p">{</span>
 <span class="n">H</span>
@@ -1302,7 +1302,7 @@ contains far too many papers using B3LYP on noncovalent interactions without a -
 <span class="n">guess</span> <span class="n">sad</span>
 <span class="p">}</span>
 
-<span class="n">energy</span><span class="p">(</span><span class="s1">&#39;b3lyp&#39;</span><span class="p">)</span>
+<span class="n">energy</span><span class="p">(</span><span class="s1">'b3lyp'</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1328,17 +1328,17 @@ energy call:</p>
 <span class="p">}</span>
 
 <span class="n">pbe0</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;my_PBE0&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;x_functionals&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;GGA_X_PBE&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">}},</span>
-    <span class="s2">&quot;x_hf&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">},</span>
-    <span class="s2">&quot;c_functionals&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;GGA_C_PBE&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"my_PBE0"</span><span class="p">,</span>
+    <span class="s2">"x_functionals"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"GGA_X_PBE"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"alpha"</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">}},</span>
+    <span class="s2">"x_hf"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"alpha"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">},</span>
+    <span class="s2">"c_functionals"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"GGA_C_PBE"</span><span class="p">:</span> <span class="p">{}}</span>
 <span class="p">}</span>
 
-<span class="n">func_call</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="n">dft_functional</span><span class="o">=</span><span class="n">pbe0</span><span class="p">)</span>
+<span class="n">func_call</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">'SCF'</span><span class="p">,</span> <span class="n">dft_functional</span><span class="o">=</span><span class="n">pbe0</span><span class="p">)</span>
 
 <span class="c1"># as PBE0 is a pre-defined functional, the call above is equivalent to both below:</span>
-<span class="n">func_call</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;SCF&#39;</span><span class="p">,</span> <span class="n">dft_functional</span><span class="o">=</span><span class="s2">&quot;PBE0&quot;</span><span class="p">)</span>
-<span class="n">func_call</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;PBE0&#39;</span><span class="p">)</span>
+<span class="n">func_call</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">'SCF'</span><span class="p">,</span> <span class="n">dft_functional</span><span class="o">=</span><span class="s2">"PBE0"</span><span class="p">)</span>
+<span class="n">func_call</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">'PBE0'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Supported keywords include:</p>
@@ -1360,54 +1360,54 @@ energy call:</p>
 standard functionals provided in <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> are implemented in the
 <code class="docutils literal notranslate"><span class="pre">*_functionals.py</span></code> files in the same folder.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>
-&quot;&quot;&quot;
+"""
 Superfunctional builder function &amp; handlers.
 The new definition of functionals is based on a dictionary with the following structure
 dict = {
-           &quot;name&quot;:  &quot;&quot;,       name of the functional - matched against name.lower() in method lookup
+           "name":  "",       name of the functional - matched against name.lower() in method lookup
 
-          &quot;alias&quot;:  [&quot;&quot;],     alternative names for the method in lookup functions, processed with .lower()
+          "alias":  [""],     alternative names for the method in lookup functions, processed with .lower()
 
-       &quot;citation&quot;:  &quot;&quot;,       citation of the method in the standard indented format, printed in output
+       "citation":  "",       citation of the method in the standard indented format, printed in output
 
-    &quot;description&quot;:  &quot;&quot;,       description of the method, printed in output
+    "description":  "",       description of the method, printed in output
 
- &quot;xc_functionals&quot;:  {         definition of a full XC functional from LibXC
-      &quot;XC_METHOD_NAME&quot;: {}      must match a LibXC method, see libxc_functionals.py for examples
+ "xc_functionals":  {         definition of a full XC functional from LibXC
+      "XC_METHOD_NAME": {}      must match a LibXC method, see libxc_functionals.py for examples
      },                         if present, the x/c_functionals and x_hf/c_mp2 parameters are not read!
 
-  &quot;x_functionals&quot;:  {          definition of X contributions
-       &quot;X_METHOD_NAME&quot;:  {       must match a LibXC method
-                 &quot;alpha&quot;: 1.0,   coefficient for (global) GGA exchange, by default 1.0
-                 &quot;omega&quot;: 0.0,   range-separation parameter
-             &quot;use_libxc&quot;: False  whether &quot;x_hf&quot; parameters should be set from LibXC values for this method
-                 &quot;tweak&quot;: {},    tweak the underlying functional
+  "x_functionals":  {          definition of X contributions
+       "X_METHOD_NAME":  {       must match a LibXC method
+                 "alpha": 1.0,   coefficient for (global) GGA exchange, by default 1.0
+                 "omega": 0.0,   range-separation parameter
+             "use_libxc": False  whether "x_hf" parameters should be set from LibXC values for this method
+                 "tweak": {},    tweak the underlying functional
      },
 
-           &quot;x_hf&quot;:  {          definition of HF exchange for hybrid functionals
-               &quot;alpha&quot;: 0.0,             coefficient for (global) HF exchange, by default none
-                &quot;beta&quot;: 0.0,             coefficient for long range HF exchange
-               &quot;omega&quot;: 0.0,             range separation parameters
-           &quot;use_libxc&quot;: &quot;X_METHOD_NAME&quot;  reads the above 3 values from specified X functional
+           "x_hf":  {          definition of HF exchange for hybrid functionals
+               "alpha": 0.0,             coefficient for (global) HF exchange, by default none
+                "beta": 0.0,             coefficient for long range HF exchange
+               "omega": 0.0,             range separation parameters
+           "use_libxc": "X_METHOD_NAME"  reads the above 3 values from specified X functional
      },
 
-  &quot;c_functionals&quot;:  {          definition of C contributions
-       &quot;C_METHOD_NAME&quot;:  {       must match a LibXC method
-                 &quot;alpha&quot;: 1.0,   coefficient for (global) GGA correlation, by default 1.0
-                 &quot;tweak&quot;: {},    tweak the underlying functional
+  "c_functionals":  {          definition of C contributions
+       "C_METHOD_NAME":  {       must match a LibXC method
+                 "alpha": 1.0,   coefficient for (global) GGA correlation, by default 1.0
+                 "tweak": {},    tweak the underlying functional
     },
 
-          &quot;c_mp2&quot;:  {          definition of MP2 correlation double hybrid functionals
-               &quot;alpha&quot;: 0.0,     coefficient for MP2 correlation, by default none
-                  &quot;ss&quot;: 0.0,     coefficient for same spin correlation in SCS methods, forces alpha = 1.0
-                  &quot;os&quot;: 0.0,     coefficient for opposite spin correlation in SCS methods, forces alpha = 1.0
+          "c_mp2":  {          definition of MP2 correlation double hybrid functionals
+               "alpha": 0.0,     coefficient for MP2 correlation, by default none
+                  "ss": 0.0,     coefficient for same spin correlation in SCS methods, forces alpha = 1.0
+                  "os": 0.0,     coefficient for opposite spin correlation in SCS methods, forces alpha = 1.0
     },
 
-     &quot;dispersion&quot;:  {          definition of dispersion corrections
-               &quot;type&quot;: &quot;&quot;,       dispersion type - &quot;d2&quot;, &quot;d3zero&quot;, &quot;d3bj&quot; etc., see empirical_dispersion.py
-             &quot;params&quot;: {},       parameters for the dispersion correction
-                &quot;nlc&quot;: False     (optional) logical switch to turn off nlc (e.g. VV10) correction defined by LibXC
-           &quot;citation&quot;: &quot;&quot;,       special reference for the dispersion correction parameters, appended to output
+     "dispersion":  {          definition of dispersion corrections
+               "type": "",       dispersion type - "d2", "d3zero", "d3bj" etc., see empirical_dispersion.py
+             "params": {},       parameters for the dispersion correction
+                "nlc": False     (optional) logical switch to turn off nlc (e.g. VV10) correction defined by LibXC
+           "citation": "",       special reference for the dispersion correction parameters, appended to output
 </pre></div>
 </div>
 <p>One can also use the <code class="docutils literal notranslate"><span class="pre">dft_functional</span></code> keyword argument to use the
@@ -1428,7 +1428,7 @@ orbitals generated by DFT for correlated wavefunction methods:</p>
 <span class="n">reference</span> <span class="n">rks</span>
 <span class="p">}</span>
 
-<span class="n">mp2_dft</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s2">&quot;MP2&quot;</span><span class="p">,</span> <span class="n">dft_functional</span><span class="o">=</span><span class="s2">&quot;PBE0&quot;</span><span class="p">)</span>
+<span class="n">mp2_dft</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s2">"MP2"</span><span class="p">,</span> <span class="n">dft_functional</span><span class="o">=</span><span class="s2">"PBE0"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note that this would only update the generic Psi variables (e.g., “CURRENT ENERGY”) and not the MP2 or DFT variables.
@@ -1452,10 +1452,10 @@ and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DFT
 <span class="c1"># Override the default value of omega</span>
 <span class="nb">set</span> <span class="n">dft_omega</span> <span class="mf">2.0</span>
 
-<span class="n">E</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;wb97x&#39;</span><span class="p">)</span>
+<span class="n">E</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">'wb97x'</span><span class="p">)</span>
 
 <span class="c1"># Revoke the change for later computations if needed</span>
-<span class="n">revoke_global_option_changed</span><span class="p">(</span><span class="s1">&#39;DFT_OMEGA&#39;</span><span class="p">)</span>
+<span class="n">revoke_global_option_changed</span><span class="p">(</span><span class="s1">'DFT_OMEGA'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This feature would be useful after finishing the IP fitting procedure, for example.</p>
@@ -1546,7 +1546,7 @@ and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DFT
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/dft.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1560,7 +1560,7 @@ and <a class="reference internal" href="autodoc_glossary_options_c.html#term-DFT
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 12 August 2026 05:56PM.
+      Last updated on Tuesday, 18 August 2026 07:32AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

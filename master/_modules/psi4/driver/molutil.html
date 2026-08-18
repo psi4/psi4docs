@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=fff71174"></script>
+    <script src="../../../_static/documentation_options.js?v=1c4d5255"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/molutil.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -136,7 +136,7 @@
 <span class="c1">#</span>
 <span class="c1"># @END LICENSE</span>
 <span class="c1">#</span>
-<span class="sd">&quot;&quot;&quot;Module with utility functions that act on molecule objects.&quot;&quot;&quot;</span>
+<span class="sd">"""Module with utility functions that act on molecule objects."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
@@ -153,11 +153,11 @@
 <div class="viewcode-block" id="molecule_set_attr">
 <a class="viewcode-back" href="../../../api/psi4.driver.molecule_set_attr.html#psi4.driver.molecule_set_attr">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">molecule_set_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to redefine __setattr__ method of molecule class.&quot;&quot;&quot;</span>
-    <span class="n">fxn</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;is_variable&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Function to redefine __setattr__ method of molecule class."""</span>
+    <span class="n">fxn</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"is_variable"</span><span class="p">)</span>
     <span class="n">isvar</span> <span class="o">=</span> <span class="n">fxn</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">isvar</span><span class="p">:</span>
-        <span class="n">fxn</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;set_variable&quot;</span><span class="p">)</span>
+        <span class="n">fxn</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"set_variable"</span><span class="p">)</span>
         <span class="n">fxn</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">return</span>
 
@@ -168,12 +168,12 @@
 <div class="viewcode-block" id="molecule_get_attr">
 <a class="viewcode-back" href="../../../api/psi4.driver.molecule_get_attr.html#psi4.driver.molecule_get_attr">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">molecule_get_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to redefine __getattr__ method of molecule class.&quot;&quot;&quot;</span>
-    <span class="n">fxn</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;is_variable&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Function to redefine __getattr__ method of molecule class."""</span>
+    <span class="n">fxn</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"is_variable"</span><span class="p">)</span>
     <span class="n">isvar</span> <span class="o">=</span> <span class="n">fxn</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">isvar</span><span class="p">:</span>
-        <span class="n">fxn</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;get_variable&quot;</span><span class="p">)</span>
+        <span class="n">fxn</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"get_variable"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">fxn</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
@@ -192,8 +192,8 @@
                          <span class="n">return_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                          <span class="n">enable_qm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                          <span class="n">enable_efp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                         <span class="n">missing_enabled_return_qm</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
-                         <span class="n">missing_enabled_return_efp</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+                         <span class="n">missing_enabled_return_qm</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span>
+                         <span class="n">missing_enabled_return_efp</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span>
                          <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">molrec</span> <span class="o">=</span> <span class="n">qcel</span><span class="o">.</span><span class="n">molparse</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span>
         <span class="n">molstr</span><span class="o">=</span><span class="n">molstr</span><span class="p">,</span>
@@ -210,11 +210,11 @@
         <span class="n">missing_enabled_return_efp</span><span class="o">=</span><span class="n">missing_enabled_return_efp</span><span class="p">,</span>
         <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
 
-    <span class="n">qmol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;qm&#39;</span><span class="p">])</span>
+    <span class="n">qmol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">'qm'</span><span class="p">])</span>
 
-    <span class="k">if</span> <span class="s2">&quot;geom&quot;</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">]:</span>
-        <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">][</span><span class="s2">&quot;geom&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">][</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Angstrom&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"geom"</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">"qm"</span><span class="p">]:</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">"qm"</span><span class="p">][</span><span class="s2">"geom"</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">"qm"</span><span class="p">][</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Angstrom"</span><span class="p">:</span>
             <span class="c1"># beware if qcel and psi4 choose different sets of constants</span>
             <span class="n">geom</span> <span class="o">=</span> <span class="n">geom</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
         <span class="n">qmol</span><span class="o">.</span><span class="n">_initial_cartesian</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
@@ -235,7 +235,7 @@
                          <span class="n">real</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">elbl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">units</span><span class="o">=</span><span class="s1">&#39;Angstrom&#39;</span><span class="p">,</span>
+                         <span class="n">units</span><span class="o">=</span><span class="s1">'Angstrom'</span><span class="p">,</span>
                          <span class="n">input_units_to_au</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">fix_com</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">fix_orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -248,14 +248,14 @@
                          <span class="n">comment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">provenance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">connectivity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">missing_enabled_return</span><span class="o">=</span><span class="s1">&#39;error&#39;</span><span class="p">,</span>
+                         <span class="n">missing_enabled_return</span><span class="o">=</span><span class="s1">'error'</span><span class="p">,</span>
                          <span class="n">tooclose</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
                          <span class="n">zero_ghost_fragments</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                          <span class="n">nonphysical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                          <span class="n">mtol</span><span class="o">=</span><span class="mf">1.e-3</span><span class="p">,</span>
                          <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                          <span class="n">return_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct Molecule from unvalidated arrays and variables.</span>
+<span class="w">    </span><span class="sd">"""Construct Molecule from unvalidated arrays and variables.</span>
 
 <span class="sd">    Light wrapper around :py:func:`~qcelemental.molparse.from_arrays`</span>
 <span class="sd">    that is a full-featured constructor to dictionary representa-</span>
@@ -270,7 +270,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    :py:class:`psi4.core.Molecule`</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">molrec</span> <span class="o">=</span> <span class="n">qcel</span><span class="o">.</span><span class="n">molparse</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span>
         <span class="n">geom</span><span class="o">=</span><span class="n">geom</span><span class="p">,</span>
         <span class="n">elea</span><span class="o">=</span><span class="n">elea</span><span class="p">,</span>
@@ -293,7 +293,7 @@
         <span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">,</span>
         <span class="n">provenance</span><span class="o">=</span><span class="n">provenance</span><span class="p">,</span>
         <span class="n">connectivity</span><span class="o">=</span><span class="n">connectivity</span><span class="p">,</span>
-        <span class="n">domain</span><span class="o">=</span><span class="s1">&#39;qm&#39;</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="s1">'qm'</span><span class="p">,</span>
         <span class="n">missing_enabled_return</span><span class="o">=</span><span class="n">missing_enabled_return</span><span class="p">,</span>
         <span class="n">tooclose</span><span class="o">=</span><span class="n">tooclose</span><span class="p">,</span>
         <span class="n">zero_ghost_fragments</span><span class="o">=</span><span class="n">zero_ghost_fragments</span><span class="p">,</span>
@@ -303,9 +303,9 @@
 
     <span class="n">qmol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;geom&quot;</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">:</span>
-        <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;geom&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Angstrom&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"geom"</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">:</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">"geom"</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Angstrom"</span><span class="p">:</span>
             <span class="c1"># beware if qcel and psi4 choose different sets of constants</span>
             <span class="n">geom</span> <span class="o">=</span> <span class="n">geom</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
         <span class="n">qmol</span><span class="o">.</span><span class="n">_initial_cartesian</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
@@ -318,7 +318,7 @@
 
 <span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">_molecule_from_schema</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">molschema</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">return_dict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">nonphysical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct Molecule from non-Psi4 schema.</span>
+<span class="w">    </span><span class="sd">"""Construct Molecule from non-Psi4 schema.</span>
 
 <span class="sd">    Light wrapper around :py:func:`~psi4.core.Molecule.from_arrays`.</span>
 
@@ -329,7 +329,7 @@
 <span class="sd">    return_dict</span>
 <span class="sd">        Additionally return Molecule dictionary intermediate.</span>
 <span class="sd">    nonphysical</span>
-<span class="sd">        Do allow masses outside an element&#39;s natural range to pass validation?</span>
+<span class="sd">        Do allow masses outside an element's natural range to pass validation?</span>
 <span class="sd">    verbose</span>
 <span class="sd">        Amount of printing.</span>
 
@@ -340,11 +340,11 @@
 <span class="sd">        Dictionary representation of instance.</span>
 <span class="sd">        Only provided if `return_dict` is True.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">molrec</span> <span class="o">=</span> <span class="n">qcel</span><span class="o">.</span><span class="n">molparse</span><span class="o">.</span><span class="n">from_schema</span><span class="p">(</span><span class="n">molschema</span><span class="p">,</span> <span class="n">nonphysical</span><span class="o">=</span><span class="n">nonphysical</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
 
     <span class="n">qmol</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">)</span>
-    <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;geom&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">"geom"</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
     <span class="c1"># presently molschema are formats required to be in Bohr Cartesian</span>
     <span class="c1">#   if the format expands, convert _initial_cartesian to Bohr and conditionalize setting the prop</span>
     <span class="n">qmol</span><span class="o">.</span><span class="n">_initial_cartesian</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
@@ -358,10 +358,10 @@
 <div class="viewcode-block" id="dynamic_variable_bind">
 <a class="viewcode-back" href="../../../api/psi4.driver.dynamic_variable_bind.html#psi4.driver.dynamic_variable_bind">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dynamic_variable_bind</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to dynamically add extra members to</span>
+<span class="w">    </span><span class="sd">"""Function to dynamically add extra members to</span>
 <span class="sd">    the core.Molecule class.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">cls</span><span class="o">.</span><span class="fm">__setattr__</span> <span class="o">=</span> <span class="n">molecule_set_attr</span>
     <span class="bp">cls</span><span class="o">.</span><span class="fm">__getattr__</span> <span class="o">=</span> <span class="n">molecule_get_attr</span>
 
@@ -390,44 +390,44 @@
 <span class="c1"># Define geometry to be used by PSI4.</span>
 <span class="c1"># The molecule created by this will be set in options.</span>
 <span class="c1">#</span>
-<span class="c1"># geometry(&quot;</span>
+<span class="c1"># geometry("</span>
 <span class="c1">#   O  1.0 0.0 0.0</span>
 <span class="c1">#   H  0.0 1.0 0.0</span>
 <span class="c1">#   H  0.0 0.0 0.0</span>
 <span class="c1">#</span>
 <div class="viewcode-block" id="geometry">
 <a class="viewcode-back" href="../../../api/psi4.driver.geometry.html#psi4.driver.geometry">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="n">geom</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to create a molecule object of name *name* from the</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">geometry</span><span class="p">(</span><span class="n">geom</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"default"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Function to create a molecule object of name *name* from the</span>
 <span class="sd">    geometry in string *geom*. Permitted for user use but deprecated</span>
 <span class="sd">    in driver in favor of explicit molecule-passing. Comments within</span>
 <span class="sd">    the string are filtered.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">molrec</span> <span class="o">=</span> <span class="n">qcel</span><span class="o">.</span><span class="n">molparse</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span>
-        <span class="n">geom</span><span class="p">,</span> <span class="n">enable_qm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">missing_enabled_return_qm</span><span class="o">=</span><span class="s1">&#39;minimal&#39;</span><span class="p">,</span> <span class="n">enable_efp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">missing_enabled_return_efp</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">geom</span><span class="p">,</span> <span class="n">enable_qm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">missing_enabled_return_qm</span><span class="o">=</span><span class="s1">'minimal'</span><span class="p">,</span> <span class="n">enable_efp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">missing_enabled_return_efp</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
 
-    <span class="n">molecule</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;qm&#39;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="s2">&quot;geom&quot;</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">]:</span>
-        <span class="c1"># for fully-specified w/frame (dtype=&quot;psi4&quot; passed in &quot;geom&quot;, not Zmat or</span>
-        <span class="c1">#   vars for dtype=&quot;psi4+&quot; passed in &quot;geom_unsettled&quot;), save frame in</span>
+    <span class="n">molecule</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">'qm'</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">"geom"</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">"qm"</span><span class="p">]:</span>
+        <span class="c1"># for fully-specified w/frame (dtype="psi4" passed in "geom", not Zmat or</span>
+        <span class="c1">#   vars for dtype="psi4+" passed in "geom_unsettled"), save frame in</span>
         <span class="c1">#   Bohr in `_initial_cartesian` for resetting through `Molecule.set_geometry`</span>
         <span class="c1">#   if nocom/noreorient/c1 needs to be set retroactively in driver for</span>
         <span class="c1">#   alignment with other data (e.g., point charges, polarizable embedding).</span>
-        <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">][</span><span class="s2">&quot;geom&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">&quot;qm&quot;</span><span class="p">][</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Angstrom&quot;</span><span class="p">:</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s2">"qm"</span><span class="p">][</span><span class="s2">"geom"</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">molrec</span><span class="p">[</span><span class="s2">"qm"</span><span class="p">][</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Angstrom"</span><span class="p">:</span>
             <span class="c1"># beware if qcel and psi4 choose different sets of constants</span>
             <span class="n">geom</span> <span class="o">=</span> <span class="n">geom</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">bohr2angstroms</span>
         <span class="n">molecule</span><span class="o">.</span><span class="n">_initial_cartesian</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
     <span class="n">molecule</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s1">&#39;efp&#39;</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">'efp'</span> <span class="ow">in</span> <span class="n">molrec</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">pylibefp</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># py36 ModuleNotFoundError</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Install pylibefp to use EFP functionality. `conda install pylibefp -c psi4` Or build with `-DENABLE_libefp=ON`&quot;&quot;&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-        <span class="c1">#print(&#39;Using pylibefp: {} (version {})&#39;.format(pylibefp.__file__, pylibefp.__version__))</span>
-        <span class="n">efpobj</span> <span class="o">=</span> <span class="n">pylibefp</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">&#39;efp&#39;</span><span class="p">])</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">"""Install pylibefp to use EFP functionality. `conda install pylibefp -c psi4` Or build with `-DENABLE_libefp=ON`"""</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="c1">#print('Using pylibefp: {} (version {})'.format(pylibefp.__file__, pylibefp.__version__))</span>
+        <span class="n">efpobj</span> <span class="o">=</span> <span class="n">pylibefp</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">molrec</span><span class="p">[</span><span class="s1">'efp'</span><span class="p">])</span>
         <span class="c1"># pylibefp.core.efp rides along on molecule</span>
         <span class="n">molecule</span><span class="o">.</span><span class="n">EFP</span> <span class="o">=</span> <span class="n">efpobj</span>
 
@@ -435,8 +435,8 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">molecule</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">&quot;Molecule: geometry: Molecule is not complete, please use &#39;update_geometry&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
-                       <span class="s2">&quot;                    once all variables are set.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">"Molecule: geometry: Molecule is not complete, please use 'update_geometry'</span><span class="se">\n</span><span class="s2">"</span>
+                       <span class="s2">"                    once all variables are set.</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">activate</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span>
 
@@ -447,11 +447,11 @@
 <div class="viewcode-block" id="activate">
 <a class="viewcode-back" href="../../../api/psi4.driver.activate.html#psi4.driver.activate">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">activate</span><span class="p">(</span><span class="n">mol</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Molecule</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to set molecule object *mol* as the current active molecule.</span>
+<span class="w">    </span><span class="sd">"""Function to set molecule object *mol* as the current active molecule.</span>
 <span class="sd">    Permitted for user use but deprecated in driver in favor of explicit</span>
 <span class="sd">    molecule-passing.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">core</span><span class="o">.</span><span class="n">set_active_molecule</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span></div>
 
 </pre></div>
@@ -514,7 +514,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/molutil.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -528,7 +528,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 12 August 2026 05:56PM.
+      Last updated on Tuesday, 18 August 2026 07:32AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

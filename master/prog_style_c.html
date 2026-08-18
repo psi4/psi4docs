@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=fff71174"></script>
+    <script src="_static/documentation_options.js?v=1c4d5255"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_style_c.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -138,13 +138,13 @@ readable, especially if <code class="docutils literal notranslate"><span class="
 <li><p>Reduces code verbosity, especially when coupled with <code class="docutils literal notranslate"><span class="pre">auto</span></code>:</p></li>
 </ol>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Type information given 3 TIMES!!!</span>
-<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Matrix</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">));</span>
+<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Matrix</span><span class="p">(</span><span class="s">"Fock matrix"</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">));</span>
 
 <span class="c1">// So much typing...</span>
-<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"Fock matrix"</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">);</span>
 
 <span class="c1">// Much better!!!!</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"Fock matrix"</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">);</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
@@ -152,10 +152,10 @@ readable, especially if <code class="docutils literal notranslate"><span class="
 <li><p>Improves efficiency:</p></li>
 </ol>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Performs TWO allocations</span>
-<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Matrix</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">));</span>
+<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Matrix</span><span class="p">(</span><span class="s">"Fock matrix"</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">));</span>
 
 <span class="c1">// Performs ONE allocation</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"Fock matrix"</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">);</span>
 </pre></div>
 </div>
 <p><em>Reference:</em> Item 21 in <a class="reference external" href="https://isbnsearch.org/isbn/9781491903995">[Effective Modern C++]</a></p>
@@ -166,8 +166,8 @@ readable, especially if <code class="docutils literal notranslate"><span class="
 <ol class="arabic simple">
 <li><p>Verbosity in variable declarations:</p></li>
 </ol>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">);</span><span class="w">  </span><span class="c1">// So much typing...</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Fock matrix&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">);</span><span class="w">  </span><span class="c1">// Much better!</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"Fock matrix"</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">);</span><span class="w">  </span><span class="c1">// So much typing...</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Matrix</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"Fock matrix"</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">,</span><span class="w"> </span><span class="n">nso</span><span class="p">);</span><span class="w">  </span><span class="c1">// Much better!</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
@@ -176,7 +176,7 @@ deduction, hence the right-hand side of the declaration needs to have an
 initializer:</p></li>
 </ol>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">x1</span><span class="p">;</span><span class="w">  </span><span class="c1">// fine, but uninitialized :(</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">x2</span><span class="p">;</span><span class="w">  </span><span class="c1">// WON&#39;T COMPILE!!!</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">x2</span><span class="p">;</span><span class="w">  </span><span class="c1">// WON'T COMPILE!!!</span>
 <span class="k">auto</span><span class="w"> </span><span class="n">x3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">  </span><span class="c1">// fine and initialized</span>
 </pre></div>
 </div>
@@ -204,7 +204,7 @@ signature</em> in the base class.  This behavior is <a class="reference external
 As it’s what we’re computing anyways, we should work in 1024-based (mebi, gibi, etc. <a class="reference external" href="https://en.wikipedia.org/wiki/Gibibyte">https://en.wikipedia.org/wiki/Gibibyte</a>) rather than 1000-based units.
 As it’s a unit, put it in brackets.
 Note that users can supply MiB, GB, bytes, or whatever; this guideline is for output printing.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">outfile</span><span class="o">-&gt;</span><span class="n">Printf</span><span class="p">(</span><span class="s2">&quot;  DFHelper Memory: AOs need </span><span class="si">%.3f</span><span class="s2"> [GiB]; user supplied </span><span class="si">%.3f</span><span class="s2"> [GiB]. &quot;</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">outfile</span><span class="o">-&gt;</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"  DFHelper Memory: AOs need </span><span class="si">%.3f</span><span class="s2"> [GiB]; user supplied </span><span class="si">%.3f</span><span class="s2"> [GiB]. "</span><span class="p">,</span>
                 <span class="p">(</span><span class="n">required</span> <span class="o">*</span>  <span class="mi">8</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mf">1024.0</span><span class="p">)),</span>
 </pre></div>
 </div>
@@ -289,7 +289,7 @@ Note that users can supply MiB, GB, bytes, or whatever; this guideline is for ou
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/prog_style_c.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -303,7 +303,7 @@ Note that users can supply MiB, GB, bytes, or whatever; this guideline is for ou
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 12 August 2026 05:56PM.
+      Last updated on Tuesday, 18 August 2026 07:32AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

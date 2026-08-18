@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=fff71174"></script>
+    <script src="../../../../_static/documentation_options.js?v=1c4d5255"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/text.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -136,16 +136,16 @@
 <span class="c1">#</span>
 <span class="c1"># @END LICENSE</span>
 <span class="c1">#</span>
-<span class="sd">&quot;&quot;&quot;Module with utility classes and functions related</span>
+<span class="sd">"""Module with utility classes and functions related</span>
 <span class="sd">to data tables and text.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;banner&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;find_approximate_string_matches&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;levenshtein&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;message_box&quot;</span><span class="p">,</span>
+    <span class="s2">"banner"</span><span class="p">,</span>
+    <span class="s2">"find_approximate_string_matches"</span><span class="p">,</span>
+    <span class="s2">"levenshtein"</span><span class="p">,</span>
+    <span class="s2">"message_box"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
@@ -158,7 +158,7 @@
 <div class="viewcode-block" id="banner">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.banner.html#psi4.driver.banner">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">banner</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">35</span><span class="p">,</span> <span class="n">strNotOutfile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format `text` into a banner style and print or return it.</span>
+<span class="w">    </span><span class="sd">"""Format `text` into a banner style and print or return it.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -179,25 +179,25 @@
 <span class="sd">    None</span>
 <span class="sd">        If *strNotOutfile* is False, print it to output file.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
     <span class="n">max_length</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
         <span class="n">max_length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="n">max_length</span><span class="p">)</span>
 
     <span class="n">max_length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
 
-    <span class="n">null</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">null</span> <span class="o">=</span> <span class="s1">''</span>
     <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">banner</span> <span class="o">=</span> <span class="s1">&#39;  //&#39;</span> <span class="o">+</span> <span class="n">null</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">max_length</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;//</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">banner</span> <span class="o">=</span> <span class="s1">'  //'</span> <span class="o">+</span> <span class="n">null</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">max_length</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'//</span><span class="se">\n</span><span class="s1">'</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-            <span class="n">banner</span> <span class="o">+=</span> <span class="s1">&#39;  //&#39;</span> <span class="o">+</span> <span class="n">line</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">max_length</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;//</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="n">banner</span> <span class="o">+=</span> <span class="s1">&#39;  //&#39;</span> <span class="o">+</span> <span class="n">null</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">max_length</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;//</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">banner</span> <span class="o">+=</span> <span class="s1">'  //'</span> <span class="o">+</span> <span class="n">line</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">max_length</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'//</span><span class="se">\n</span><span class="s1">'</span>
+        <span class="n">banner</span> <span class="o">+=</span> <span class="s1">'  //'</span> <span class="o">+</span> <span class="n">null</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">max_length</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'//</span><span class="se">\n</span><span class="s1">'</span>
 
     <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">banner</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">banner</span> <span class="o">=</span> <span class="s1">''</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-            <span class="n">banner</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">line</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">max_length</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">)</span>
+            <span class="n">banner</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">' '</span> <span class="o">+</span> <span class="n">line</span> <span class="o">+</span> <span class="s1">' '</span><span class="p">)</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">max_length</span><span class="p">,</span> <span class="s1">'='</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">strNotOutfile</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">banner</span>
@@ -209,7 +209,7 @@
 <div class="viewcode-block" id="levenshtein">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.levenshtein.html#psi4.driver.levenshtein">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">levenshtein</span><span class="p">(</span><span class="n">seq1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">seq2</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the Levenshtein distance between two strings.</span>
+<span class="w">    </span><span class="sd">"""Compute the Levenshtein distance between two strings.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -218,7 +218,7 @@
 <span class="sd">    seq2</span>
 <span class="sd">        Second string.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">oneago</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">thisrow</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seq1</span><span class="p">)):</span>
@@ -235,7 +235,7 @@
 <div class="viewcode-block" id="find_approximate_string_matches">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.find_approximate_string_matches.html#psi4.driver.find_approximate_string_matches">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">find_approximate_string_matches</span><span class="p">(</span><span class="n">seq1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">max_distance</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find list of approximate (within `max_distance`) matches to string `seq1` among `options`.</span>
+<span class="w">    </span><span class="sd">"""Find list of approximate (within `max_distance`) matches to string `seq1` among `options`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -246,7 +246,7 @@
 <span class="sd">    max_distance</span>
 <span class="sd">        Maximum Levenshtein distance from `seq1` to return.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">seq2</span> <span class="k">for</span> <span class="n">seq2</span> <span class="ow">in</span> <span class="n">options</span> <span class="k">if</span> <span class="p">(</span><span class="n">levenshtein</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_distance</span><span class="p">)]</span></div>
 
 
@@ -254,7 +254,7 @@
 <div class="viewcode-block" id="message_box">
 <a class="viewcode-back" href="../../../../api/psi4.driver.p4util.message_box.html#psi4.driver.message_box">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">message_box</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span> <span class="n">min_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Put a message string into a box for extra attention.</span>
+<span class="w">    </span><span class="sd">"""Put a message string into a box for extra attention.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -269,7 +269,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
 <span class="sd">       Box containing the message as a multiline string.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">textwrap</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap</span>
 
     <span class="c1"># ensure box is within min/max boundaries</span>
@@ -278,16 +278,16 @@
     <span class="n">box_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">max_width</span><span class="p">,</span> <span class="n">max_line</span><span class="p">),</span> <span class="n">min_width</span><span class="p">)</span>
 
     <span class="n">error_str</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">error_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">!&#39;</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="n">box_width</span> <span class="o">+</span> <span class="s1">&#39;--!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">error_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;!&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">box_width</span> <span class="o">+</span> <span class="s1">&#39;  !</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">error_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">!'</span> <span class="o">+</span> <span class="s1">'-'</span> <span class="o">*</span> <span class="n">box_width</span> <span class="o">+</span> <span class="s1">'--!</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">error_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'!'</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">*</span> <span class="n">box_width</span> <span class="o">+</span> <span class="s1">'  !</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
 
-    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;! {:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">box_width</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;} !</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">"! {:"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">box_width</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"} !</span><span class="se">\n</span><span class="s2">"</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">[:]:</span>
-        <span class="n">error_str</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">wrap</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">box_width</span><span class="p">,</span> <span class="n">subsequent_indent</span><span class="o">=</span><span class="s2">&quot;    &quot;</span><span class="p">)])</span>
+        <span class="n">error_str</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">wrap</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">box_width</span><span class="p">,</span> <span class="n">subsequent_indent</span><span class="o">=</span><span class="s2">"    "</span><span class="p">)])</span>
 
-    <span class="n">error_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;!&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">box_width</span> <span class="o">+</span> <span class="s1">&#39;  !</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">error_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;!&#39;</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="n">box_width</span> <span class="o">+</span> <span class="s1">&#39;--!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">error_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span>
+    <span class="n">error_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'!'</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">*</span> <span class="n">box_width</span> <span class="o">+</span> <span class="s1">'  !</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">error_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'!'</span> <span class="o">+</span> <span class="s1">'-'</span> <span class="o">*</span> <span class="n">box_width</span> <span class="o">+</span> <span class="s1">'--!</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">error_str</span> <span class="o">=</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">error_str</span></div>
 
@@ -351,7 +351,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/text.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -365,7 +365,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 12 August 2026 05:56PM.
+      Last updated on Tuesday, 18 August 2026 07:32AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

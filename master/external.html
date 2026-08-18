@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=fff71174"></script>
+    <script src="_static/documentation_options.js?v=1c4d5255"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/external.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -257,16 +257,16 @@ unless otherwise instructed by the user.</p>
 and is called <code class="docutils literal notranslate"><span class="pre">psi4_io</span></code>.  To instruct the I/O manager to send all files to
 another location, say <code class="docutils literal notranslate"><span class="pre">/scratch/user</span></code>, add the following command to your input
 file:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi4_io</span><span class="o">.</span><span class="n">set_default_path</span><span class="p">(</span><span class="s1">&#39;/scratch/user&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi4_io</span><span class="o">.</span><span class="n">set_default_path</span><span class="p">(</span><span class="s1">'/scratch/user'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For batch jobs running through a queue, it might be more convenient to use an
 environmental variable (in this case <code class="docutils literal notranslate"><span class="pre">$MYSCRATCH</span></code>) to set the scratch directory;
 the following code will do that:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="n">scratch_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MYSCRATCH&#39;</span><span class="p">)</span>
+<span class="n">scratch_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'MYSCRATCH'</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">scratch_dir</span><span class="p">:</span>
-    <span class="n">psi4_io</span><span class="o">.</span><span class="n">set_default_path</span><span class="p">(</span><span class="n">scratch_dir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="n">psi4_io</span><span class="o">.</span><span class="n">set_default_path</span><span class="p">(</span><span class="n">scratch_dir</span> <span class="o">+</span> <span class="s1">'/'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Individual files can be sent to specific locations.  For example, file 12
@@ -274,11 +274,11 @@ contains information about the internal coordiantes of a geometry optimization.
 The user may want to retain this in the working directory
 (<em>i.e.</em>, where <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> was launched from) to analyze the optimization.  This is
 accomplished by the commands below:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_path</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;./&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_path</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="s1">'./'</span><span class="p">)</span>
 <span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_retention</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># equivalent to above</span>
-<span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_path</span><span class="p">(</span><span class="n">PSIF_INTCO</span><span class="p">,</span> <span class="s1">&#39;./&#39;</span><span class="p">)</span>
+<span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_path</span><span class="p">(</span><span class="n">PSIF_INTCO</span><span class="p">,</span> <span class="s1">'./'</span><span class="p">)</span>
 <span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_retention</span><span class="p">(</span><span class="n">PSIF_INTCO</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -298,14 +298,14 @@ running simultaneously.</p>
 and filenumber is listed in <a class="reference internal" href="autodoc_psifiles.html#apdx-psifiles"><span class="std std-ref">content</span></a>.</p>
 <p>For those modules providing restart capabilities, the previous file can
 be provided through the``restart_file`` option</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span><span class="n">restart_file</span><span class="o">=</span><span class="s1">&#39;./psi.PID.name.filenumber&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">'scf'</span><span class="p">,</span><span class="n">restart_file</span><span class="o">=</span><span class="s1">'./psi.PID.name.filenumber'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Only the filenumber is necessary for the driver to appropriately rename the
 file and copy it to the scratch directory where <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> will expect it.
 The restart capabilities of a specific method (if any) are found in that method’s documentation.</p>
 <p>To provide multiple files, pass them as arguments of a Python list</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span><span class="n">restart_file</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;./file1.filenumber&#39;</span><span class="p">,</span><span class="s1">&#39;./file2.filenumber&#39;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="s1">'scf'</span><span class="p">,</span><span class="n">restart_file</span><span class="o">=</span><span class="p">[</span><span class="s1">'./file1.filenumber'</span><span class="p">,</span><span class="s1">'./file2.filenumber'</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Note that the <code class="docutils literal notranslate"><span class="pre">restart_file</span></code> options is only available for energy procedures as of now.</p>
@@ -319,14 +319,14 @@ messy) flag will prevent files being deleted at the end of the run:</p>
 <section id="saving-the-wavefunction">
 <span id="sec-save-wfn"></span><h2>Saving the Wavefunction<a class="headerlink" href="#saving-the-wavefunction" title="Link to this heading">¶</a></h2>
 <p>A core object of <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> is the Wavefunction (short <code class="docutils literal notranslate"><span class="pre">wfn</span></code>) object</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">,</span> <span class="n">wfn</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">&#39;scf&#39;</span><span class="p">,</span><span class="n">return_wfn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">,</span> <span class="n">wfn</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s1">'scf'</span><span class="p">,</span><span class="n">return_wfn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This C++/Python object (<a class="reference internal" href="api/psi4.core.Wavefunction.html#psi4.core.Wavefunction" title="psi4.core.Wavefunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">psi4.core.Wavefunction</span></code></a>) contains orbital
 data, basis set information, result variables and more.
 It can be saved either to a numpy file or converted to a python dictionary</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># write the wavefunction to file</span>
-<span class="n">wfn</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s1">&#39;my_wfn&#39;</span><span class="p">)</span>
+<span class="n">wfn</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s1">'my_wfn'</span><span class="p">)</span>
 
 <span class="c1"># alternatively store the dict representation of the wavefunction in memory</span>
 <span class="n">wfn_dict</span> <span class="o">=</span> <span class="n">wfn</span><span class="o">.</span><span class="n">to_file</span><span class="p">()</span>
@@ -337,7 +337,7 @@ This is an expert-level feature, though.
 In general, let <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> create the Wavefunction, then treat it as read-only.
 The back conversion to a Wavefunction object uses the <code class="docutils literal notranslate"><span class="pre">.from_file()</span></code> functionality</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># read wavefunction from file</span>
-<span class="n">wfn_from_file</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;my_wfn&#39;</span><span class="p">)</span>
+<span class="n">wfn_from_file</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">'my_wfn'</span><span class="p">)</span>
 
 <span class="c1"># make a wavefunction from the dict</span>
 <span class="n">wfn_from_dict</span> <span class="o">=</span> <span class="n">psi4</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Wavefunction</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">wfn_dict</span><span class="p">)</span>
@@ -365,22 +365,22 @@ or if some <code class="docutils literal notranslate"><span class="pre">psi4_io<
 the <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> resource file can be used (example <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/samples/example_psi4rc_file">psi4/samples/example_psi4rc_file</a>).</p>
 <p>All the commands mentioned in section <a class="reference internal" href="#sec-scratch"><span class="std std-ref">Scratch Files</span></a> can be used in this file.</p>
 <p>To set up the scratch path:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi4_io</span><span class="o">.</span><span class="n">set_default_path</span><span class="p">(</span><span class="s1">&#39;/scratch/user&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi4_io</span><span class="o">.</span><span class="n">set_default_path</span><span class="p">(</span><span class="s1">'/scratch/user'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To set up the scratch path from a variable <code class="docutils literal notranslate"><span class="pre">$MYSCRATCH</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="n">scratch_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;MYSCRATCH&#39;</span><span class="p">)</span>
+<span class="n">scratch_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'MYSCRATCH'</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">scratch_dir</span><span class="p">:</span>
-    <span class="n">psi4_io</span><span class="o">.</span><span class="n">set_default_path</span><span class="p">(</span><span class="n">scratch_dir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="n">psi4_io</span><span class="o">.</span><span class="n">set_default_path</span><span class="p">(</span><span class="n">scratch_dir</span> <span class="o">+</span> <span class="s1">'/'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To set up a specific path for the internal coordinate file and instruct <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> not to delete it:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_path</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;./&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_path</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="s1">'./'</span><span class="p">)</span>
 <span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_retention</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># equivalent to above</span>
-<span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_path</span><span class="p">(</span><span class="n">PSIF_INTCO</span><span class="p">,</span> <span class="s1">&#39;./&#39;</span><span class="p">)</span>
+<span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_path</span><span class="p">(</span><span class="n">PSIF_INTCO</span><span class="p">,</span> <span class="s1">'./'</span><span class="p">)</span>
 <span class="n">psi4_io</span><span class="o">.</span><span class="n">set_specific_retention</span><span class="p">(</span><span class="n">PSIF_INTCO</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -440,7 +440,7 @@ multiple times in a <span style="font-family: Optima, sans-serif; text-transform
 <span class="c1"># Run from 1 to 4 threads, for instance, to record timings</span>
 <span class="k">for</span> <span class="n">nthread</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
     <span class="n">set_num_threads</span><span class="p">(</span><span class="n">nthread</span><span class="p">)</span>
-    <span class="n">energy</span><span class="p">(</span><span class="s2">&quot;scf/cc-pvdz&quot;</span><span class="p">)</span>
+    <span class="n">energy</span><span class="p">(</span><span class="s2">"scf/cc-pvdz"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In PsiAPI mode of operation, this syntax, <code class="docutils literal notranslate"><span class="pre">psi4.set_num_threads(nthread)</span></code>, is
@@ -473,20 +473,20 @@ a PBS job file for a threaded job, and a short explanation for each section.</p>
 setenv<span class="w"> </span>myscratch<span class="w"> </span>/scratch/user/psi4.<span class="nv">$PBS_JOBID</span>
 
 foreach<span class="w"> </span>i<span class="w"> </span><span class="o">(</span><span class="sb">`</span>sort<span class="w"> </span><span class="nv">$PBS_NODEFILE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="sb">`</span><span class="o">)</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating scratch directory &quot;</span><span class="w"> </span><span class="nv">$myscratch</span><span class="w"> </span><span class="s2">&quot; on &quot;</span><span class="w"> </span><span class="nv">$i</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Creating scratch directory "</span><span class="w"> </span><span class="nv">$myscratch</span><span class="w"> </span><span class="s2">" on "</span><span class="w"> </span><span class="nv">$i</span>
 <span class="w">    </span>ssh<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$myscratch</span>
 <span class="w">    </span>ssh<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$myscratch</span>
 end
 
 unsetenv<span class="w"> </span>PSIDATADIR
 setenv<span class="w"> </span>PSI_SCRATCH<span class="w"> </span><span class="nv">$myscratch</span>
-<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">$?</span>PSIPATH<span class="w"> </span><span class="o">)</span><span class="w"> </span>setenv<span class="w"> </span>PSIPATH<span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">$?</span>PSIPATH<span class="w"> </span><span class="o">)</span><span class="w"> </span>setenv<span class="w"> </span>PSIPATH<span class="w"> </span><span class="s2">""</span>
 setenv<span class="w"> </span>PSIPATH<span class="w"> </span>/path/to/external/modules:<span class="si">${</span><span class="nv">PSIPATH</span><span class="si">}</span>
 setenv<span class="w"> </span>PSIPATH<span class="w"> </span>/path/to/python/modules:<span class="si">${</span><span class="nv">PSIPATH</span><span class="si">}</span>
 /psi/install/directory/bin/psi4<span class="w"> </span>-i<span class="w"> </span>input.in<span class="w"> </span>-o<span class="w"> </span>input.out<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span>
 
 foreach<span class="w"> </span>i<span class="w"> </span><span class="o">(</span><span class="sb">`</span>sort<span class="w"> </span><span class="nv">$PBS_NODEFILE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="sb">`</span><span class="o">)</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Removing scratch directory &quot;</span><span class="w"> </span><span class="nv">$myscratch</span><span class="w"> </span><span class="s2">&quot; on &quot;</span><span class="w"> </span><span class="nv">$i</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Removing scratch directory "</span><span class="w"> </span><span class="nv">$myscratch</span><span class="w"> </span><span class="s2">" on "</span><span class="w"> </span><span class="nv">$i</span>
 <span class="w">    </span>ssh<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$myscratch</span>
 end
 </pre></div>
@@ -512,7 +512,7 @@ points to a file containing a list of the nodes attributed to the job.</p>
 setenv<span class="w"> </span>myscratch<span class="w"> </span>/scratch/user/psi4.<span class="nv">$PBS_JOBID</span>
 
 foreach<span class="w"> </span>i<span class="w"> </span><span class="o">(</span><span class="sb">`</span>sort<span class="w"> </span><span class="nv">$PBS_NODEFILE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="sb">`</span><span class="o">)</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating scratch directory &quot;</span><span class="w"> </span><span class="nv">$myscratch</span><span class="w"> </span><span class="s2">&quot; on &quot;</span><span class="w"> </span><span class="nv">$i</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Creating scratch directory "</span><span class="w"> </span><span class="nv">$myscratch</span><span class="w"> </span><span class="s2">" on "</span><span class="w"> </span><span class="nv">$i</span>
 <span class="w">    </span>ssh<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$myscratch</span>
 <span class="w">    </span>ssh<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$myscratch</span>
 end
@@ -522,7 +522,7 @@ end
 by <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>unsetenv<span class="w"> </span>PSIDATADIR
 setenv<span class="w"> </span>PSI_SCRATCH<span class="w"> </span><span class="nv">$myscratch</span>
-<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">$?</span>PSIPATH<span class="w"> </span><span class="o">)</span><span class="w"> </span>setenv<span class="w"> </span>PSIPATH<span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">$?</span>PSIPATH<span class="w"> </span><span class="o">)</span><span class="w"> </span>setenv<span class="w"> </span>PSIPATH<span class="w"> </span><span class="s2">""</span>
 setenv<span class="w"> </span>PSIPATH<span class="w"> </span>/path/to/external/modules:<span class="si">${</span><span class="nv">PSIPATH</span><span class="si">}</span>
 setenv<span class="w"> </span>PSIPATH<span class="w"> </span>/path/to/python/modules:<span class="si">${</span><span class="nv">PSIPATH</span><span class="si">}</span>
 </pre></div>
@@ -541,7 +541,7 @@ The next step is then to actually run the computation:</p>
 </div>
 <p>And then to clean up the scratch directories previously created:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>foreach<span class="w"> </span>i<span class="w"> </span><span class="o">(</span><span class="sb">`</span>sort<span class="w"> </span><span class="nv">$PBS_NODEFILE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="sb">`</span><span class="o">)</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Removing scratch directory &quot;</span><span class="w"> </span><span class="nv">$myscratch</span><span class="w"> </span><span class="s2">&quot; on &quot;</span><span class="w"> </span><span class="nv">$i</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Removing scratch directory "</span><span class="w"> </span><span class="nv">$myscratch</span><span class="w"> </span><span class="s2">" on "</span><span class="w"> </span><span class="nv">$i</span>
 <span class="w">    </span>ssh<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$myscratch</span>
 end
 </pre></div>
@@ -832,13 +832,13 @@ Python moduels to accommodate QCEngine.</p>
 </li>
 <li><p>Place the path in the <code class="file docutils literal notranslate"><span class="pre">~/.psi4rc</span></code> file so that it is available for
 every <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> instance.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;/home/user/psiadditions&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'/home/user/psiadditions'</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
 <li><p>Place the path in the input file, either absolute or relative.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;../../psiadditions&#39;</span><span class="p">)</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;/home/user/psiadditions&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'../../psiadditions'</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'/home/user/psiadditions'</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -948,7 +948,7 @@ Relevant when QCManyBody addon is present.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/external.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -961,7 +961,7 @@ Relevant when QCManyBody addon is present.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 12 August 2026 05:56PM.
+      Last updated on Tuesday, 18 August 2026 07:32AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

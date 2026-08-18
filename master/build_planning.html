@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=fff71174"></script>
+    <script src="_static/documentation_options.js?v=1c4d5255"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -506,18 +506,18 @@ endif()
                                               # 3.2: continue()
                                               # 3.1: CMAKE_CXX_STANDARD, BUILD_ALWAYS
 
-set(CMAKE_BUILD_TYPE &quot;Release&quot; CACHE STRING &quot;Choose the type of build.&quot;)  # foil Ninja Debug on Windows
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build.")  # foil Ninja Debug on Windows
 
 project(psi4
         LANGUAGES C CXX)
-set(psi4_URL &quot;http://www.psicode.org/&quot;)
-set(psi4_EMAIL &quot;psi4aiqc+cmake@gmail.com&quot;)
-set(psi4_LICENSE &quot;GNU Lesser General Public License, version 3 (LGPL-3.0)&quot;)
-set(psi4_DESCRIPTION &quot;Open-Source Quantum Chemistry&quot;)
+set(psi4_URL "http://www.psicode.org/")
+set(psi4_EMAIL "psi4aiqc+cmake@gmail.com")
+set(psi4_LICENSE "GNU Lesser General Public License, version 3 (LGPL-3.0)")
+set(psi4_DESCRIPTION "Open-Source Quantum Chemistry")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GENERATOR}&quot;)
+message(STATUS "Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GENERATOR}")
 
 ################  Options: Overview and Not Otherwise Mentioned  ###############
 
@@ -534,7 +534,7 @@ message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GEN
 #    &gt;&gt;&gt; cmake --build objdir --target install -j`getconf _NPROCESSORS_ONLN`
 #    &gt;&gt;&gt; eval $(objdir/stage/bin/psi4 --psiapi)
 
-#  &lt;&lt;&lt;  Required build dependencies that Psi4 can&#39;t build itself; see also codedeps.yaml  &gt;&gt;&gt;
+#  &lt;&lt;&lt;  Required build dependencies that Psi4 can't build itself; see also codedeps.yaml  &gt;&gt;&gt;
 #
 #    - CMake (e.g., `conda install cmake`)
 #    - C++ and C compilers (C++20 compliant)
@@ -552,78 +552,78 @@ message(STATUS &quot;Building using CMake ${CMAKE_VERSION} Generator ${CMAKE_GEN
 #    - psutil (runtime only; e.g., `conda install psutil`)
 #    - setuptools (buildtime only unless optking, etc. pre-built; e.g., `conda install setuptools`)
 
-#  These three &quot;###  Options  ###&quot; sections contain useful CMake variables for build configuration.
+#  These three "###  Options  ###" sections contain useful CMake variables for build configuration.
 
 #  &lt;&lt;&lt;  Compilers and flags  &gt;&gt;&gt;
 #
-#    - CMAKE_C_COMPILER &quot;C compiler&quot;
-#    - CMAKE_C_FLAGS &quot;Additional C flags&quot;
-#    - CMAKE_CXX_COMPILER &quot;C++ compiler&quot;
-#    - CMAKE_CXX_FLAGS &quot;Additional C++ flags (use per-config (e.g., CMAKE_CXX_FLAGS_DEBUG) to override e.g., -O3)&quot;
-#    - CMAKE_Fortran_COMPILER &quot;Fortran compiler (required for some add-ons)&quot;
-#    - CMAKE_Fortran_FLAGS &quot;Additional Fortran flags&quot;
-#    - CMAKE_SHARED_LINKER_FLAGS &quot;Additional linking flags for core.so/dll library&quot;
+#    - CMAKE_C_COMPILER "C compiler"
+#    - CMAKE_C_FLAGS "Additional C flags"
+#    - CMAKE_CXX_COMPILER "C++ compiler"
+#    - CMAKE_CXX_FLAGS "Additional C++ flags (use per-config (e.g., CMAKE_CXX_FLAGS_DEBUG) to override e.g., -O3)"
+#    - CMAKE_Fortran_COMPILER "Fortran compiler (required for some add-ons)"
+#    - CMAKE_Fortran_FLAGS "Additional Fortran flags"
+#    - CMAKE_SHARED_LINKER_FLAGS "Additional linking flags for core.so/dll library"
 
 #  &lt;&lt;&lt;  Detecting dependencies and add-ons  &gt;&gt;&gt;
 #
-#    - Python_EXECUTABLE &quot;Python interpreter to use (e.g., /path/to/bin/python3.13)&quot;
-#    - Python_LIBRARY &quot;Python library that goes with the interpreter (e.g., /path/to/lib/libpython3.13.so)&quot;
-#    - Python_INCLUDE_DIR &quot;Path to the python include files (e.g., /path/to/include/python3.13)&quot;
-#    - SPHINX_ROOT &quot;Root directory for Sphinx: &#39;bin/sphinx-build&#39; (or similar) should be in this dir.&quot;
+#    - Python_EXECUTABLE "Python interpreter to use (e.g., /path/to/bin/python3.13)"
+#    - Python_LIBRARY "Python library that goes with the interpreter (e.g., /path/to/lib/libpython3.13.so)"
+#    - Python_INCLUDE_DIR "Path to the python include files (e.g., /path/to/include/python3.13)"
+#    - SPHINX_ROOT "Root directory for Sphinx: 'bin/sphinx-build' (or similar) should be in this dir."
 #
 #    For any ${AddOn} of: ambit, CheMPS2, dkh, ecpint, libefp, Einsums, gau2grid, gauxc, gdma,
 #                         IntegratorXX, Libint2, OpenOrbitalOptimizer, optking, PCMSolver, pybind11,
 #                         pylibefp, qcelemental, qcengine, simint, Libxc, qcmanybody
-#    - CMAKE_PREFIX_PATH &quot;Set to list of root directories to look for externally built add-ons and dependencies
-#      (e.g., /path/to/install-libint;/path/to/install-gdma where exists /path/to/install-libint/lib/libderiv.a)&quot;
-#    - ${AddOn}_DIR &quot;Set to directory containing ${AddOn}Config.cmake file to facilitate detection of external build&quot;
-#    - CMAKE_DISABLE_FIND_PACKAGE_${AddOn} &quot;Set to ON to force internal build&quot;
-#    - CMAKE_INSIST_FIND_PACKAGE_${AddOn} &quot;Set to ON to force external detect&quot;
+#    - CMAKE_PREFIX_PATH "Set to list of root directories to look for externally built add-ons and dependencies
+#      (e.g., /path/to/install-libint;/path/to/install-gdma where exists /path/to/install-libint/lib/libderiv.a)"
+#    - ${AddOn}_DIR "Set to directory containing ${AddOn}Config.cmake file to facilitate detection of external build"
+#    - CMAKE_DISABLE_FIND_PACKAGE_${AddOn} "Set to ON to force internal build"
+#    - CMAKE_INSIST_FIND_PACKAGE_${AddOn} "Set to ON to force external detect"
 
 #  &lt;&lt;&lt;  Detecting BLAS/LAPACK  &gt;&gt;&gt;
 #
-#    - ENV(MATH_ROOT) &quot;Root directory where BLAS/LAPACK libraries should be detected (e.g., ${MATH_ROOT}/lib/libblas.so)&quot;
-#    - BLAS_TYPE &quot;Target BLAS distribution for math detection
-#                 (default: search order MKL&gt;FLEXIBLAS&gt;OPENBLAS&gt;ESSL&gt;ATLAS&gt;ACML&gt;SYSTEM_NATIVE on Linux; MKL&gt;Accelerate&gt;... on Mac)&quot;
-#    - LAPACK_TYPE &quot;Target LAPACK distribution for math detection
-#                 (default: search order MKL&gt;FLEXIBLAS&gt;OPENBLAS&gt;ESSL&gt;ATLAS&gt;ACML&gt;SYSTEM_NATIVE on Linux; MKL&gt;Accelerate&gt;... on Mac)&quot;
-#    - LAPACK_LIBRARIES &quot;Location of BLAS/LAPACK libraries as &quot;;&quot;-separated list of full paths, bypassing math detection&quot;
-#    - LAPACK_INCLUDE_DIRS &quot;Location of BLAS/LAPACK headers (only needed for MKL), bypassing math detection&quot;
-#    - OpenMP_LIBRARY_DIRS &quot;Location of OpenMP libraries (iomp5/gomp/omp) as &quot;;&quot;-separated list, hinting OpenMP detection&quot;
+#    - ENV(MATH_ROOT) "Root directory where BLAS/LAPACK libraries should be detected (e.g., ${MATH_ROOT}/lib/libblas.so)"
+#    - BLAS_TYPE "Target BLAS distribution for math detection
+#                 (default: search order MKL&gt;FLEXIBLAS&gt;OPENBLAS&gt;ESSL&gt;ATLAS&gt;ACML&gt;SYSTEM_NATIVE on Linux; MKL&gt;Accelerate&gt;... on Mac)"
+#    - LAPACK_TYPE "Target LAPACK distribution for math detection
+#                 (default: search order MKL&gt;FLEXIBLAS&gt;OPENBLAS&gt;ESSL&gt;ATLAS&gt;ACML&gt;SYSTEM_NATIVE on Linux; MKL&gt;Accelerate&gt;... on Mac)"
+#    - LAPACK_LIBRARIES "Location of BLAS/LAPACK libraries as ";"-separated list of full paths, bypassing math detection"
+#    - LAPACK_INCLUDE_DIRS "Location of BLAS/LAPACK headers (only needed for MKL), bypassing math detection"
+#    - OpenMP_LIBRARY_DIRS "Location of OpenMP libraries (iomp5/gomp/omp) as ";"-separated list, hinting OpenMP detection"
 
 #  &lt;&lt;&lt;  Install  &gt;&gt;&gt;
 #
-#    - CMAKE_INSTALL_PREFIX &quot;Location to which Psi4 and internally built add-ons are installed (default: /usr/local/psi4)&quot;
-#    - CMAKE_INSTALL_BINDIR &quot;Location within CMAKE_INSTALL_PREFIX to which executables are installed (default: bin)&quot;
-#    - CMAKE_INSTALL_LIBDIR &quot;Location within CMAKE_INSTALL_PREFIX to which libraries are installed (default: lib)&quot;
-#    - CMAKE_INSTALL_DATADIR &quot;Location within CMAKE_INSTALL_PREFIX to which resources are installed (default: share)&quot;
-#    - CMAKE_INSTALL_INCLUDEDIR &quot;Location within CMAKE_INSTALL_PREFIX to which headers are installed (default: include)&quot;
-#    - PYMOD_INSTALL_LIBDIR &quot;Location within CMAKE_INSTALL_LIBDIR to which python modules are installed (default: /)
-#                            Must start with: / . Used to imitate python install: /python3.6/site-packages .&quot;
+#    - CMAKE_INSTALL_PREFIX "Location to which Psi4 and internally built add-ons are installed (default: /usr/local/psi4)"
+#    - CMAKE_INSTALL_BINDIR "Location within CMAKE_INSTALL_PREFIX to which executables are installed (default: bin)"
+#    - CMAKE_INSTALL_LIBDIR "Location within CMAKE_INSTALL_PREFIX to which libraries are installed (default: lib)"
+#    - CMAKE_INSTALL_DATADIR "Location within CMAKE_INSTALL_PREFIX to which resources are installed (default: share)"
+#    - CMAKE_INSTALL_INCLUDEDIR "Location within CMAKE_INSTALL_PREFIX to which headers are installed (default: include)"
+#    - PYMOD_INSTALL_LIBDIR "Location within CMAKE_INSTALL_LIBDIR to which python modules are installed (default: /)
+#                            Must start with: / . Used to imitate python install: /python3.6/site-packages ."
 
 ############################  Options: Build What?  ############################
-option(ENABLE_ambit &quot;Enables the ambit tensor library&quot; OFF)
-option(ENABLE_bse &quot;Enables the basis_set_exchange for requesting basis sets (requires jsonschema, regex; can also be added at runtime)&quot; OFF)
-option(ENABLE_CheMPS2 &quot;Enables CheMPS2 for DMRG (requires HDF5)&quot; OFF)
-option(ENABLE_cppe &quot;Enables CPPE for Polarizable Embedding&quot; OFF)
-option(ENABLE_adcc &quot;Enables adcc for algebraic-diagrammatic construction methods (requires libtensorlight; can also be added at runtime)&quot; OFF)
-option(ENABLE_ddx &quot;Enables ddx for domain-decomposition contiuum solvation models (requires Fortran; can also be added at runtime)&quot; OFF)
-option(ENABLE_dkh &quot;Enables DKH integrals (requires Fortran)&quot; OFF)
-option(ENABLE_ecpint &quot;Enables libecpint for effective core potentials (ECP)&quot; OFF)
-option(ENABLE_libefp &quot;Enables LIBEFP and PylibEFP for fragments&quot; OFF)
-option(ENABLE_Einsums &quot;Enables the Einsums tensor library&quot; OFF)
-option(ENABLE_simint &quot;Enables use of SIMINT two-electron integral library&quot; OFF)
-option(ENABLE_gauxc &quot;Enables use of GauXC density functional library&quot; OFF)
-option(ENABLE_gdma &quot;Enables Stone&#39;s GDMA multipole code (requires Fortran; can also be added at runtime)&quot; OFF)
-option(ENABLE_IntegratorXX &quot;Enables use of IntegratorXX density functional grids library&quot; OFF)
-option(ENABLE_OpenOrbitalOptimizer &quot;Enables the OpenOrbitalOptimizer library (requires Armadillo)&quot; OFF)
-option(ENABLE_PCMSolver &quot;Enables PCMSolver library (requires Fortran)&quot; OFF)
-option(ENABLE_qcmanybody &quot;Enables qcmanybody for n-body/BSSE workflows (can also be added at runtime)&quot; OFF)
-option(ENABLE_snsmp2 &quot;Enables SNSMP2 plugin (can also be added at runtime)&quot; OFF)
-option(ENABLE_v2rdm_casscf &quot;Enables V2RDM_CASSCF plugin (requires Fortran; can also be added at runtime)&quot; OFF)
-option(ENABLE_psi4fockci &quot;Enables Psi4FockCI plugin (can also be added at runtime)&quot; OFF)
-option(ENABLE_cct3 &quot;Enables cct3 plugin (requires Fortran; can also be added at runtime)&quot; OFF)
-option(ENABLE_gpu_dfcc &quot;Enables GPU_DFCC plugin for gpu-accelerated df-cc (requires CUDA; can also be added at runtime)&quot; OFF)
+option(ENABLE_ambit "Enables the ambit tensor library" OFF)
+option(ENABLE_bse "Enables the basis_set_exchange for requesting basis sets (requires jsonschema, regex; can also be added at runtime)" OFF)
+option(ENABLE_CheMPS2 "Enables CheMPS2 for DMRG (requires HDF5)" OFF)
+option(ENABLE_cppe "Enables CPPE for Polarizable Embedding" OFF)
+option(ENABLE_adcc "Enables adcc for algebraic-diagrammatic construction methods (requires libtensorlight; can also be added at runtime)" OFF)
+option(ENABLE_ddx "Enables ddx for domain-decomposition contiuum solvation models (requires Fortran; can also be added at runtime)" OFF)
+option(ENABLE_dkh "Enables DKH integrals (requires Fortran)" OFF)
+option(ENABLE_ecpint "Enables libecpint for effective core potentials (ECP)" OFF)
+option(ENABLE_libefp "Enables LIBEFP and PylibEFP for fragments" OFF)
+option(ENABLE_Einsums "Enables the Einsums tensor library" OFF)
+option(ENABLE_simint "Enables use of SIMINT two-electron integral library" OFF)
+option(ENABLE_gauxc "Enables use of GauXC density functional library" OFF)
+option(ENABLE_gdma "Enables Stone's GDMA multipole code (requires Fortran; can also be added at runtime)" OFF)
+option(ENABLE_IntegratorXX "Enables use of IntegratorXX density functional grids library" OFF)
+option(ENABLE_OpenOrbitalOptimizer "Enables the OpenOrbitalOptimizer library (requires Armadillo)" OFF)
+option(ENABLE_PCMSolver "Enables PCMSolver library (requires Fortran)" OFF)
+option(ENABLE_qcmanybody "Enables qcmanybody for n-body/BSSE workflows (can also be added at runtime)" OFF)
+option(ENABLE_snsmp2 "Enables SNSMP2 plugin (can also be added at runtime)" OFF)
+option(ENABLE_v2rdm_casscf "Enables V2RDM_CASSCF plugin (requires Fortran; can also be added at runtime)" OFF)
+option(ENABLE_psi4fockci "Enables Psi4FockCI plugin (can also be added at runtime)" OFF)
+option(ENABLE_cct3 "Enables cct3 plugin (requires Fortran; can also be added at runtime)" OFF)
+option(ENABLE_gpu_dfcc "Enables GPU_DFCC plugin for gpu-accelerated df-cc (requires CUDA; can also be added at runtime)" OFF)
 </pre></div>
 </div>
 <p>Note that external projects will have their own sets of build
@@ -675,7 +675,7 @@ are detected pre-built rather than built.</p>
 </div>
 </li>
 <li><p>Relevant CMake Options:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CMAKE_BUILD_TYPE</span><span class="o">=[</span>debug<span class="p">|</span>release<span class="o">]</span><span class="w">  </span><span class="c1"># Build type (Release or Debug)&quot; [default: release]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CMAKE_BUILD_TYPE</span><span class="o">=[</span>debug<span class="p">|</span>release<span class="o">]</span><span class="w">  </span><span class="c1"># Build type (Release or Debug)" [default: release]</span>
 </pre></div>
 </div>
 </li>
@@ -702,8 +702,8 @@ are detected pre-built rather than built.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cd</span> <span class="p">{</span><span class="n">top</span><span class="o">-</span><span class="n">level</span><span class="o">-</span><span class="n">psi4</span><span class="o">-</span><span class="nb">dir</span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span> <span class="n">do</span><span class="o">-</span><span class="n">configure</span>
 <span class="go">    cmake -S. -B{objdir} \</span>
-<span class="go">        -DCMAKE_INSTALL_PATH=&quot;/Users/me/psi4&quot; \</span>
-<span class="go">        -DCMAKE_PREFIX_PATH=&quot;/Users/me/externals/install-libint&quot; \</span>
+<span class="go">        -DCMAKE_INSTALL_PATH="/Users/me/psi4" \</span>
+<span class="go">        -DCMAKE_PREFIX_PATH="/Users/me/externals/install-libint" \</span>
 <span class="go">        -DMAX_AM_ERI=6 \</span>
 <span class="go">        -DENABLE_gdma=ON \</span>
 <span class="go">        -DBUILD_SHARED_LIBS=ON</span>
@@ -784,8 +784,8 @@ use a staged installation directory, substitute
 <span class="go">molecule {</span>
 <span class="go">He</span>
 <span class="go">}</span>
-<span class="go">energy(&#39;hf/cc-pvdz&#39;)</span>
-<span class="go">compare_values(-2.85518839, variable(&#39;current energy&#39;), 5, &#39;SCF E&#39;)</span>
+<span class="go">energy('hf/cc-pvdz')</span>
+<span class="go">compare_values(-2.85518839, variable('current energy'), 5, 'SCF E')</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span> <span class="n">sample</span><span class="o">.</span><span class="ow">in</span>
 <span class="go">SCF E.............................................................PASSED</span>
 </pre></div>
@@ -813,9 +813,9 @@ after which <code class="docutils literal notranslate"><span class="pre">import<
 &gt;&gt;&gt;<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/path/to/dir/of/python/interpreter/against/which/psi4/compiled:<span class="nv">$PATH</span>
 &gt;&gt;&gt;<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>/path/to/dir/of/psi4/core-dot-so:<span class="nv">$PYTHONPATH</span>
 
-&gt;&gt;&gt;<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import psi4&quot;</span>
+&gt;&gt;&gt;<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import psi4"</span>
 
-&gt;&gt;&gt;<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import psi4;print(psi4.__file__, psi4.__version__)&quot;</span>
+&gt;&gt;&gt;<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import psi4;print(psi4.__file__, psi4.__version__)"</span>
 </pre></div>
 </div>
 </section>
@@ -842,11 +842,11 @@ use a staged installation directory, substitute
 <p>Run <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span> <span class="n">sample</span><span class="o">.</span><span class="n">py</span>
 <span class="go">import psi4</span>
-<span class="go">mol = psi4.geometry(&quot;&quot;&quot;</span>
+<span class="go">mol = psi4.geometry("""</span>
 <span class="go">He</span>
-<span class="go">&quot;&quot;&quot;)</span>
-<span class="go">psi4.energy(&#39;hf/cc-pvdz&#39;)</span>
-<span class="go">psi4.compare_values(-2.85518839, psi4.core.variable(&#39;current energy&#39;), 5, &#39;SCF E&#39;)</span>
+<span class="go">""")</span>
+<span class="go">psi4.energy('hf/cc-pvdz')</span>
+<span class="go">psi4.compare_values(-2.85518839, psi4.core.variable('current energy'), 5, 'SCF E')</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">python</span> <span class="n">sample</span><span class="o">.</span><span class="n">py</span>
 <span class="go">SCF E.............................................................PASSED</span>
 </pre></div>
@@ -890,8 +890,8 @@ below are redundant.</p>
 <span class="go">molecule {</span>
 <span class="go">He</span>
 <span class="go">}</span>
-<span class="go">energy(&#39;hf/cc-pvdz&#39;)</span>
-<span class="go">compare_values(-2.85518839, variable(&#39;current energy&#39;), 5, &#39;SCF E&#39;)</span>
+<span class="go">energy('hf/cc-pvdz')</span>
+<span class="go">compare_values(-2.85518839, variable('current energy'), 5, 'SCF E')</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">psi4</span> <span class="n">sample</span><span class="o">.</span><span class="ow">in</span>
 <span class="go">SCF E.............................................................PASSED</span>
 </pre></div>
@@ -899,11 +899,11 @@ below are redundant.</p>
 <p><em>or</em> Run <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> as Python module.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span> <span class="n">sample</span><span class="o">.</span><span class="n">py</span>
 <span class="go">import psi4</span>
-<span class="go">mol = psi4.geometry(&quot;&quot;&quot;</span>
+<span class="go">mol = psi4.geometry("""</span>
 <span class="go">He</span>
-<span class="go">&quot;&quot;&quot;)</span>
-<span class="go">psi4.energy(&#39;hf/cc-pvdz&#39;)</span>
-<span class="go">psi4.compare_values(-2.85518839, psi4.core.variable(&#39;current energy&#39;), 5, &#39;SCF E&#39;)</span>
+<span class="go">""")</span>
+<span class="go">psi4.energy('hf/cc-pvdz')</span>
+<span class="go">psi4.compare_values(-2.85518839, psi4.core.variable('current energy'), 5, 'SCF E')</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">python</span> <span class="n">sample</span><span class="o">.</span><span class="n">py</span>
 <span class="go">SCF E.............................................................PASSED</span>
 </pre></div>
@@ -990,8 +990,8 @@ compilation directory.</p>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DCMAKE_C_COMPILER<span class="o">=</span>icc<span class="w"> </span><span class="se">\</span>
 <span class="w">          </span>-DCMAKE_CXX_COMPILER<span class="o">=</span>icpc<span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-gcc-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/gcc&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-gcc-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/gcc -gxx-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/g++&quot;</span>
+<span class="w">          </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">"-gcc-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/gcc"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">"-gcc-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/gcc -gxx-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/g++"</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1002,9 +1002,9 @@ compilation directory.</p>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DCMAKE_C_COMPILER<span class="o">=</span>icc<span class="w"> </span><span class="se">\</span>
 <span class="w">          </span>-DCMAKE_CXX_COMPILER<span class="o">=</span>icpc<span class="w"> </span><span class="se">\</span>
 <span class="w">          </span>-DCMAKE_Fortran_COMPILER<span class="o">=</span>ifort<span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-gcc-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/gcc&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-gcc-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/gcc -gxx-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/g++&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DCMAKE_Fortran_FLAGS<span class="o">=</span><span class="s2">&quot;-gcc-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/gcc -gxx-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/g++&quot;</span>
+<span class="w">          </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">"-gcc-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/gcc"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">"-gcc-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/gcc -gxx-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/g++"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>-DCMAKE_Fortran_FLAGS<span class="o">=</span><span class="s2">"-gcc-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/gcc -gxx-name=</span><span class="si">${</span><span class="nv">GCC5</span><span class="si">}</span><span class="s2">/bin/g++"</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1016,8 +1016,8 @@ with prefix and <em>not</em> in <span class="target" id="index-18"></span><a cla
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DCMAKE_C_COMPILER<span class="o">=</span>icc<span class="w"> </span><span class="se">\</span>
 <span class="w">          </span>-DCMAKE_CXX_COMPILER<span class="o">=</span>icpc<span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">GCCPFX</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">GCCPFX</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">          </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">"-gnu-prefix=</span><span class="si">${</span><span class="nv">GCCPFX</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">"-gnu-prefix=</span><span class="si">${</span><span class="nv">GCCPFX</span><span class="si">}</span><span class="s2">"</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1030,8 +1030,8 @@ activation)</p></li>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DCMAKE_C_COMPILER<span class="o">=</span>icc<span class="w"> </span><span class="se">\</span>
 <span class="w">          </span>-DCMAKE_CXX_COMPILER<span class="o">=</span>icpc<span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/bin/</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2"> --sysroot=</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2">/sysroot&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/bin/</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2"> --sysroot=</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2">/sysroot&quot;</span>
+<span class="w">          </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">"-gnu-prefix=</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/bin/</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2"> --sysroot=</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2">/sysroot"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">"-gnu-prefix=</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/bin/</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2"> --sysroot=</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2">/sysroot"</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1100,15 +1100,15 @@ x86_64-apple-darwin13.4.0
 &gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-S.<span class="w"> </span>-Bbuild<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-DCMAKE_C_COMPILER<span class="o">=</span><span class="si">${</span><span class="nv">CLANG</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-DCMAKE_CXX_COMPILER<span class="o">=</span><span class="si">${</span><span class="nv">CLANGXX</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-stdlib=libc++&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-DOpenMP_CXX_FLAG<span class="o">=</span><span class="s2">&quot;-fopenmp=libiomp5&quot;</span>
+<span class="w">     </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">"-stdlib=libc++"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-DOpenMP_CXX_FLAG<span class="o">=</span><span class="s2">"-fopenmp=libiomp5"</span>
 
 <span class="c1"># build with Intel</span>
 &gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-S.<span class="w"> </span>-Bbuild<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-DCMAKE_C_COMPILER<span class="o">=</span>icc<span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-DCMAKE_CXX_COMPILER<span class="o">=</span>icpc<span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-clang-name=</span><span class="si">${</span><span class="nv">CLANG</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-clang-name=</span><span class="si">${</span><span class="nv">CLANG</span><span class="si">}</span><span class="s2"> -clangxx-name=</span><span class="si">${</span><span class="nv">CLANGXX</span><span class="si">}</span><span class="s2"> -stdlib=libc++ -I</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/include/c++/v1&quot;</span>
+<span class="w">     </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">"-clang-name=</span><span class="si">${</span><span class="nv">CLANG</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">"-clang-name=</span><span class="si">${</span><span class="nv">CLANG</span><span class="si">}</span><span class="s2"> -clangxx-name=</span><span class="si">${</span><span class="nv">CLANGXX</span><span class="si">}</span><span class="s2"> -stdlib=libc++ -I</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/include/c++/v1"</span>
 
 <span class="c1"># Configure and build</span>
 </pre></div>
@@ -1147,20 +1147,20 @@ system. The latter route, tested on Linux with Intel compilers, is below.</p>
 <span class="w">      </span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-S.<span class="w"> </span>-Bbuild<span class="w"> </span><span class="se">\</span>
 <span class="w">           </span>-DCMAKE_C_COMPILER<span class="o">=</span>icc<span class="w"> </span><span class="se">\</span>
 <span class="w">           </span>-DCMAKE_CXX_COMPILER<span class="o">=</span>icpc<span class="w"> </span><span class="se">\</span>
-<span class="w">           </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2">-&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">           </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2">-&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">"-gnu-prefix=</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2">-"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">"-gnu-prefix=</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2">-"</span><span class="w"> </span><span class="se">\</span>
 
 <span class="c1"># (B) tell CMake to tell the compiler which GCC to use</span>
 <span class="w">      </span>&gt;&gt;&gt;<span class="w"> </span><span class="nv">GCC7</span><span class="o">=</span>/path/to/miniconda/envs/gcc72
 <span class="w">      </span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-S.<span class="w"> </span>-Bbuild<span class="w"> </span><span class="se">\</span>
 <span class="w">           </span>-DCMAKE_C_COMPILER<span class="o">=</span>icc<span class="w"> </span><span class="se">\</span>
 <span class="w">           </span>-DCMAKE_CXX_COMPILER<span class="o">=</span>icpc<span class="w"> </span><span class="se">\</span>
-<span class="w">           </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">GCC7</span><span class="si">}</span><span class="s2">/bin/x86_64-conda_cos6-linux-gnu-&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">           </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">GCC7</span><span class="si">}</span><span class="s2">/bin/x86_64-conda_cos6-linux-gnu-&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">"-gnu-prefix=</span><span class="si">${</span><span class="nv">GCC7</span><span class="si">}</span><span class="s2">/bin/x86_64-conda_cos6-linux-gnu-"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">"-gnu-prefix=</span><span class="si">${</span><span class="nv">GCC7</span><span class="si">}</span><span class="s2">/bin/x86_64-conda_cos6-linux-gnu-"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">           </span>...
 <span class="w">           </span><span class="c1"># if Fortran active ...</span>
 <span class="w">           </span>-DCMAKE_Fortran_COMPILER<span class="o">=</span>ifort<span class="w"> </span><span class="se">\</span>
-<span class="w">           </span>-DCMAKE_Fortran_FLAGS<span class="o">=</span><span class="s2">&quot;-gnu-prefix=</span><span class="si">${</span><span class="nv">GCC7</span><span class="si">}</span><span class="s2">/bin/x86_64-conda_cos6-linux-gnu-&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-DCMAKE_Fortran_FLAGS<span class="o">=</span><span class="s2">"-gnu-prefix=</span><span class="si">${</span><span class="nv">GCC7</span><span class="si">}</span><span class="s2">/bin/x86_64-conda_cos6-linux-gnu-"</span><span class="w"> </span><span class="se">\</span>
 
 <span class="c1"># Configure and build</span>
 
@@ -1326,7 +1326,7 @@ to use it is Bad Idea!</p></li>
 <li><p>Build with Intel MKL from conda (install <code class="docutils literal notranslate"><span class="pre">mkl-devel</span></code> package from defaults channel)</p></li>
 </ol>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/lib/libmkl_rt.so&quot;</span><span class="w"> </span>-DLAPACK_INCLUDE_DIRS<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/include&quot;</span>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/lib/libmkl_rt.so"</span><span class="w"> </span>-DLAPACK_INCLUDE_DIRS<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">CONDA_PREFIX</span><span class="si">}</span><span class="s2">/include"</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1342,7 +1342,7 @@ to use it is Bad Idea!</p></li>
 <li><p>Build with explicit MKL LAPACK</p></li>
 </ol>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;/path/to/lib/intel64/libmkl_lapack95_lp64.a;/path/to/lib/intel64/libmkl_rt.so&quot;</span><span class="w"> </span>-DLAPACK_INCLUDE_DIRS<span class="o">=</span><span class="s2">&quot;/path/to/mkl-h-include/&quot;</span>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">"/path/to/lib/intel64/libmkl_lapack95_lp64.a;/path/to/lib/intel64/libmkl_rt.so"</span><span class="w"> </span>-DLAPACK_INCLUDE_DIRS<span class="o">=</span><span class="s2">"/path/to/mkl-h-include/"</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1350,7 +1350,7 @@ to use it is Bad Idea!</p></li>
 <li><p>Build with explicit non-MKL LAPACK</p></li>
 </ol>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;/path/to/lib/liblapack.so;/path/to/lib/libblas.a&quot;</span>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">"/path/to/lib/liblapack.so;/path/to/lib/libblas.a"</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1466,9 +1466,9 @@ guidance.</p>
 <li><p>Build with full Python specification to root directory <code class="docutils literal notranslate"><span class="pre">${PFXC}</span></code></p></li>
 </ol>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DPython_EXECUTABLE<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/bin/python&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DPython_LIBRARY<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/lib/libpython3.9.so&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-DPython_INCLUDE_DIR<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/include/python3.9&quot;</span>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DPython_EXECUTABLE<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/bin/python"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>-DPython_LIBRARY<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/lib/libpython3.9.so"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">          </span>-DPython_INCLUDE_DIR<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">PFXC</span><span class="si">}</span><span class="s2">/include/python3.9"</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1665,9 +1665,9 @@ psi4<span class="w"> </span>--test<span class="w"> </span>full
 module. See setup at <a class="reference internal" href="#faq-psi4psiapipath"><span class="std std-ref">How to configure paths for PsiAPI</span></a>
 if needed.)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># smoke tests only</span>
-python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import psi4; psi4.test(&#39;smoke&#39;)&quot;</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import psi4; psi4.test('smoke')"</span>
 <span class="c1"># most tests</span>
-python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import psi4; psi4.test()&quot;</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import psi4; psi4.test()"</span>
 </pre></div>
 </div>
 </li>
@@ -1746,8 +1746,8 @@ from a local path rather than the approved codeset.</p>
 <a class="extlink-source reference external" href="https://github.com/psi4/psi4/blob/master/external">psi4/external</a> and make changes analogous to the below:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#GIT_REPOSITORY https://github.com/jturney/ambit</span>
 <span class="c1">#GIT_TAG 1.0</span>
-<span class="n">DOWNLOAD_COMMAND</span> <span class="s2">&quot;&quot;</span>
-<span class="n">SOURCE_DIR</span> <span class="s2">&quot;/path/to/ambit-directclone&quot;</span>
+<span class="n">DOWNLOAD_COMMAND</span> <span class="s2">""</span>
+<span class="n">SOURCE_DIR</span> <span class="s2">"/path/to/ambit-directclone"</span>
 </pre></div>
 </div>
 <p>If you’re changing the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> repo codebase between compiles, there’s
@@ -1808,7 +1808,7 @@ can show where the executable is.</p>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>/path/to/psi4/install/bin/psi4<span class="w"> </span>--module
 /path/to/psi4/install/lib//
-&gt;<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import psi4;print(psi4.executable)&quot;</span>
+&gt;<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import psi4;print(psi4.executable)"</span>
 /path/to/psi4/install/bin/psi4
 </pre></div>
 </div>
@@ -1939,7 +1939,7 @@ can show where the executable is.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/build_planning.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/5119521">1.12a1.dev10</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/0a264c0">1.12a1.dev13</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1953,7 +1953,7 @@ can show where the executable is.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Wednesday, 12 August 2026 05:56PM.
+      Last updated on Tuesday, 18 August 2026 07:32AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
