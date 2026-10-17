@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../_static/documentation_options.js?v=b04f7355"></script>
+    <script src="../../../_static/documentation_options.js?v=50069b32"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ee6bff7">1.12a1.dev49</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/90ff984">1.12a1.dev50</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1883,12 +1883,20 @@
         <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s1">'  Thermochemical analysis skipped for partial frequency calculation.</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">'FINDIF'</span><span class="p">,</span> <span class="s1">'HESSIAN_WRITE'</span><span class="p">):</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">".vibrec"</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">safe_writer_file_path</span><span class="p">(</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">name</span><span class="p">()),</span>
+            <span class="s2">".vibrec"</span><span class="p">,</span>
+            <span class="n">warning_context</span><span class="o">=</span><span class="s2">"FINDIF HESSIAN_WRITE"</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">vibrec</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">core</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">'FINDIF'</span><span class="p">,</span> <span class="s1">'NORMAL_MODES_WRITE'</span><span class="p">):</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">".molden_normal_modes"</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">p4util</span><span class="o">.</span><span class="n">safe_writer_file_path</span><span class="p">(</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">get_writer_file_prefix</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">name</span><span class="p">()),</span>
+            <span class="s2">".molden_normal_modes"</span><span class="p">,</span>
+            <span class="n">warning_context</span><span class="o">=</span><span class="s2">"FINDIF NORMAL_MODES_WRITE"</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
             <span class="n">handle</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">qcdb</span><span class="o">.</span><span class="n">vib</span><span class="o">.</span><span class="n">print_molden_vibs</span><span class="p">(</span><span class="n">vibinfo</span><span class="p">,</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">geom</span><span class="p">,</span> <span class="n">standalone</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
@@ -2399,7 +2407,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/driver.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/ee6bff7">1.12a1.dev49</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/90ff984">1.12a1.dev50</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -2413,7 +2421,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Saturday, 17 October 2026 05:18PM.
+      Last updated on Saturday, 17 October 2026 06:56PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
