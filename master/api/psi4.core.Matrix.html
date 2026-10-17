@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../_static/documentation_options.js?v=d29f0c15"></script>
+    <script src="../_static/documentation_options.js?v=b04f7355"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.core.Matrix.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f67d6ea">1.12a1.dev48</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ee6bff7">1.12a1.dev49</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -299,11 +299,17 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.Matrix.set_block" title="psi4.core.Matrix.set_block"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_block</span></code></a>(self, rows, cols, block)</p></td>
 <td><p>Set a matrix block</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.Matrix.subtract" title="psi4.core.Matrix.subtract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subtract</span></code></a>(self, arg0)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.Matrix.sort_cols" title="psi4.core.Matrix.sort_cols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort_cols</span></code></a>(self, sortvec)</p></td>
+<td><p>Permutes the columns of each irrep by sortvec</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.Matrix.subtract" title="psi4.core.Matrix.subtract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subtract</span></code></a>(self, arg0)</p></td>
 <td><p>Substract a matrix from this matrix</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.Matrix.sum_of_squares" title="psi4.core.Matrix.sum_of_squares"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum_of_squares</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.Matrix.sum_of_squares" title="psi4.core.Matrix.sum_of_squares"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum_of_squares</span></code></a>(self)</p></td>
 <td><p>Returns the sum of the squares of this matrix</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#psi4.core.Matrix.swap_columns" title="psi4.core.Matrix.swap_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swap_columns</span></code></a>(self, h, i, j)</p></td>
+<td><p>Swaps columns i and j in irrep h</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#psi4.core.Matrix.symmetrize_gradient" title="psi4.core.Matrix.symmetrize_gradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">symmetrize_gradient</span></code></a>(self, mol)</p></td>
 <td><p>Symmetrizes a gradient-like matrix (N,3) using information from a given molecule</p></td>
@@ -832,6 +838,12 @@ When <cite>filename</cite> None, dict serialization returned.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.Matrix.sort_cols">
+<span class="sig-name descname"><span class="pre">sort_cols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sortvec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="psi4.core.IntVector.html#psi4.core.IntVector" title="psi4.core.IntVector"><span class="pre">psi4.core.IntVector</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.12/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.Matrix.sort_cols" title="Link to this definition">¶</a></dt>
+<dd><p>Permutes the columns of each irrep by sortvec</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="psi4.core.Matrix.subtract">
 <span class="sig-name descname"><span class="pre">subtract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.12/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.Matrix.subtract" title="Link to this definition">¶</a></dt>
 <dd><p>Substract a matrix from this matrix</p>
@@ -841,6 +853,12 @@ When <cite>filename</cite> None, dict serialization returned.</p>
 <dt class="sig sig-object py" id="psi4.core.Matrix.sum_of_squares">
 <span class="sig-name descname"><span class="pre">sum_of_squares</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.12/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#psi4.core.Matrix.sum_of_squares" title="Link to this definition">¶</a></dt>
 <dd><p>Returns the sum of the squares of this matrix</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="psi4.core.Matrix.swap_columns">
+<span class="sig-name descname"><span class="pre">swap_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#psi4.core.Matrix" title="psi4.core.Matrix"><span class="pre">psi4.core.Matrix</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.SupportsInt" title="(in Python v3.12)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.SupportsIndex" title="(in Python v3.12)"><span class="pre">SupportsIndex</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.SupportsInt" title="(in Python v3.12)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.SupportsIndex" title="(in Python v3.12)"><span class="pre">SupportsIndex</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.SupportsInt" title="(in Python v3.12)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.SupportsIndex" title="(in Python v3.12)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.12/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#psi4.core.Matrix.swap_columns" title="Link to this definition">¶</a></dt>
+<dd><p>Swaps columns i and j in irrep h</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1067,8 +1085,10 @@ data or simply constructs a view.</p>
 <li><a class="reference internal" href="#psi4.core.Matrix.schmidt"><code class="docutils literal notranslate"><span class="pre">Matrix.schmidt()</span></code></a></li>
 <li><a class="reference internal" href="#psi4.core.Matrix.set"><code class="docutils literal notranslate"><span class="pre">Matrix.set()</span></code></a></li>
 <li><a class="reference internal" href="#psi4.core.Matrix.set_block"><code class="docutils literal notranslate"><span class="pre">Matrix.set_block()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.Matrix.sort_cols"><code class="docutils literal notranslate"><span class="pre">Matrix.sort_cols()</span></code></a></li>
 <li><a class="reference internal" href="#psi4.core.Matrix.subtract"><code class="docutils literal notranslate"><span class="pre">Matrix.subtract()</span></code></a></li>
 <li><a class="reference internal" href="#psi4.core.Matrix.sum_of_squares"><code class="docutils literal notranslate"><span class="pre">Matrix.sum_of_squares()</span></code></a></li>
+<li><a class="reference internal" href="#psi4.core.Matrix.swap_columns"><code class="docutils literal notranslate"><span class="pre">Matrix.swap_columns()</span></code></a></li>
 <li><a class="reference internal" href="#psi4.core.Matrix.symmetrize_gradient"><code class="docutils literal notranslate"><span class="pre">Matrix.symmetrize_gradient()</span></code></a></li>
 <li><a class="reference internal" href="#psi4.core.Matrix.symmetry"><code class="docutils literal notranslate"><span class="pre">Matrix.symmetry()</span></code></a></li>
 <li><a class="reference internal" href="#psi4.core.Matrix.to_array"><code class="docutils literal notranslate"><span class="pre">Matrix.to_array()</span></code></a></li>
@@ -1136,7 +1156,7 @@ data or simply constructs a view.</p>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/api/psi4.core.Matrix.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/f67d6ea">1.12a1.dev48</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/ee6bff7">1.12a1.dev49</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1150,7 +1170,7 @@ data or simply constructs a view.</p>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Saturday, 17 October 2026 01:02AM.
+      Last updated on Saturday, 17 October 2026 05:18PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
