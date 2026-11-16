@@ -1,0 +1,554 @@
+<!-- 
+#
+# @BEGIN LICENSE
+#
+# Psi4: an open-source quantum chemistry software package
+#
+# Copyright (c) 2007-2017 The Psi4 Developers.
+#
+# The copyrights for code used from other parties are included in
+# the corresponding files.
+#
+# This file is part of Psi4.
+#
+# Psi4 is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# Psi4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License along
+# with Psi4; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# @END LICENSE
+# -->
+
+
+
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Interface to OpenTrustRegion by J. Greiner</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=88a353b9" />
+    <link rel="stylesheet" type="text/css" href="_static/psi4.css?v=5cda37dd" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="_static/documentation_options.js?v=cbb9c495"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    
+    
+     
+        <script src="_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
+    <link rel="icon" href="_static/favicon-psi4.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interface to PCMSolver by R. Di Remigio" href="pcmsolver.html" />
+    <link rel="prev" title="Interface to OpenOrbitalOptimizer by S. Lehtola" href="ooo.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="pcmsolver.html" title="Interface to PCMSolver by R. Di Remigio"
+             accesskey="N"><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="ooo.html" title="Interface to OpenOrbitalOptimizer by S. Lehtola"
+             accesskey="P"><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             accesskey="C"><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/otr.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/57a52a0">1.12a1.dev61</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="interfacing.html" accesskey="U">Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">Interface to OpenTrustRegion by J. Greiner</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="interface-to-opentrustregion-by-j-greiner">
+<span id="sec-otr"></span><span id="index-0"></span><h1>Interface to OpenTrustRegion by J. Greiner<a class="headerlink" href="#interface-to-opentrustregion-by-j-greiner" title="Link to this heading">¶</a></h1>
+<p><em>Code author: Jonas Greiner</em></p>
+<p><em>Section author: Lori A. Burns</em></p>
+<a class="reference external image-reference" href="https://github.com/eriksen-lab/OpenTrustRegion"><img alt="https://img.shields.io/badge/home-OpenTrustRegion-5077AB.svg" src="https://img.shields.io/badge/home-OpenTrustRegion-5077AB.svg" />
+</a>
+<br><p>OpenTrustRegion is a collection of second-order orbital optimization algorithms developed by
+J. Greiner in the Eriksen lab and interfaced to <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>. Rather than iterating
+the Fock matrix to self-consistency, it minimizes the SCF energy directly with
+respect to the orbital rotation parameters, using a trust-region method with the
+orbital Hessian applied on the fly.</p>
+<p>Enabling OTR by adding <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">second_order_orbital_optimizer_package</span>
+<span class="pre">opentrustregion</span></code> or <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">second_order_orbital_optimizer_package</span> <span class="pre">otr</span></code>, together
+with <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF-SCF"><span class="xref std std-term">SOSCF</span></a>, runs the second-order SCF iterations through OTR. Set to
+<code class="docutils literal notranslate"><span class="pre">internal</span></code> to revoke.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p><strong>Binary</strong></p>
+<ul class="simple">
+<li><p>A conda package for OpenTrustRegion is available. Obtain it through
+<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">opentrustregion</span> <span class="pre">-c</span> <span class="pre">conda-forge</span></code>, then enable it as a feature
+with <strong class="makevar">ENABLE_OpenTrustRegion</strong>, hint its location with
+<strong class="makevar">CMAKE_PREFIX_PATH</strong>, and rebuild <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> to detect OpenTrustRegion
+and activate dependent code. When v1.12 is released, OpenTrustRegion
+will be built into the <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> conda package.</p></li>
+</ul>
+<p><strong>Source</strong></p>
+<ul>
+<li><a class="reference external image-reference" href="https://github.com/eriksen-lab/OpenTrustRegion"><img alt="https://img.shields.io/github/tag/eriksen-lab/OpenTrustRegion.svg?maxAge=2592000" src="https://img.shields.io/github/tag/eriksen-lab/OpenTrustRegion.svg?maxAge=2592000" />
+</a>
+</li>
+<li><p>If using <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> built from source and you want OpenTrustRegion built from
+source also,
+enable it as a feature with <strong class="makevar">ENABLE_OpenTrustRegion=ON</strong>,
+and let the build system fetch and build it and activate dependent code.
+Note that OpenTrustRegion is written in Fortran, so a Fortran compiler is
+required for the source build.</p></li>
+</ul>
+</section>
+<section id="opentrustregion-options">
+<span id="options-otr"></span><h2>OpenTrustRegion Options<a class="headerlink" href="#opentrustregion-options" title="Link to this heading">¶</a></h2>
+<p>OpenTrustRegion is ready to use for RHF, UHF, ROHF and the corresponding KS
+references. It is an external second-order optimizer, so it engages only once
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF-SCF"><span class="xref std std-term">SOSCF</span></a> turns second-order iterations on, taking over from the first-order
+package once both <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START_CONVERGENCE-SCF"><span class="xref std std-term">SOSCF_START_CONVERGENCE</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START-SCF"><span class="xref std std-term">SOSCF_START</span></a> are met. See <a class="reference internal" href="scf.html#sec-soscf"><span class="std std-ref">Second-order Convergence</span></a> for how it
+contrasts with the internal second-order code, which computations fall back on
+that code, and how the first- and second-order packages combine.</p>
+<p>Settings with a genuine <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> counterpart reuse that keyword; the rest are
+exposed as <code class="docutils literal notranslate"><span class="pre">OTR_*</span></code> keywords, each defaulting to OpenTrustRegion’s own default.</p>
+<p>Each OpenTrustRegion macro-iteration prints as an ordinary SCF iteration row,
+labelled <code class="docutils literal notranslate"><span class="pre">OTR,</span> <span class="pre">nmicro=N</span></code> as the internal second-order code labels its own.
+OpenTrustRegion’s table follows those rows, carrying the trust radius, level
+shift and step size; its gradient RMS is taken over the orbital rotation
+parameters and so does not match the <span class="math notranslate nohighlight">\(\mathrm{RMS}\ |[F,P]|\)</span> of the rows
+above. <a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_PRINT-SCF"><span class="xref std std-term">OTR_PRINT</span></a> <code class="docutils literal notranslate"><span class="pre">0</span></code> suppresses that table.</p>
+<section id="second-order-orbital-optimizer-package">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a><a class="headerlink" href="#second-order-orbital-optimizer-package" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Package driving the second-order SCF iterations once <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF-SCF"><span class="xref std std-term">SOSCF</span></a> turns them on.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: INTERNAL</p></li>
+<li><p><strong>Default</strong>: INTERNAL</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="orbital-optimizer-package">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">ORBITAL_OPTIMIZER_PACKAGE</span></a><a class="headerlink" href="#orbital-optimizer-package" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Package driving the first-order SCF iterations.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: INTERNAL</p></li>
+<li><p><strong>Default</strong>: INTERNAL</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="soscf">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF-SCF"><span class="xref std std-term">SOSCF</span></a><a class="headerlink" href="#soscf" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Do use second-order SCF convergence methods?</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="soscf-start-convergence">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START_CONVERGENCE-SCF"><span class="xref std std-term">SOSCF_START_CONVERGENCE</span></a><a class="headerlink" href="#soscf-start-convergence" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>When to start second-order SCF iterations based on gradient RMS. Both this and <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START-SCF"><span class="xref std std-term">SOSCF_START</span></a> must be satisfied.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
+<li><p><strong>Default</strong>: 1.0e-2</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="soscf-start">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START-SCF"><span class="xref std std-term">SOSCF_START</span></a><a class="headerlink" href="#soscf-start" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>The earliest iteration on which second-order SCF may start. Both this and <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START_CONVERGENCE-SCF"><span class="xref std std-term">SOSCF_START_CONVERGENCE</span></a> must be satisfied. Starting earlier than the default gives the first-order iterations less room to settle the occupation, which a second-order step may (true for OTR) hold fixed.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 3</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="e-convergence">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-SCF"><span class="xref std std-term">E_CONVERGENCE</span></a><a class="headerlink" href="#e-convergence" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Convergence criterion for SCF energy. See Table <a class="reference internal" href="scf.html#table-conv-scf"><span class="std std-ref">SCF Convergence &amp; Algorithm</span></a> for default convergence criteria for different calculation types.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
+<li><p><strong>Default</strong>: 1e-6</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="d-convergence">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a><a class="headerlink" href="#d-convergence" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Convergence criterion for SCF density, defined as the RMS or maximum absolute value of the orbital gradient. See Table <a class="reference internal" href="scf.html#table-conv-scf"><span class="std std-ref">SCF Convergence &amp; Algorithm</span></a> for default convergence criteria for different calculation types. <strong>Cfour Interface:</strong> Keyword translates into <a class="reference internal" href="autodoc_glossary_options_c.html#term-CFOUR_SCF_CONV-CFOUR"><span class="xref std std-term">CFOUR_SCF_CONV</span></a></p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
+<li><p><strong>Default</strong>: 1e-6</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="maxiter">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-MAXITER-SCF"><span class="xref std std-term">MAXITER</span></a><a class="headerlink" href="#maxiter" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Maximum number of iterations. <strong>Cfour Interface:</strong> Keyword translates into <a class="reference internal" href="autodoc_glossary_options_c.html#term-CFOUR_SCF_MAXCYC-CFOUR"><span class="xref std std-term">CFOUR_SCF_MAXCYC</span></a></p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 100</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="soscf-print">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_PRINT-SCF"><span class="xref std std-term">SOSCF_PRINT</span></a><a class="headerlink" href="#soscf-print" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Do we print the SOSCF microiterations?.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-subsystem-solver">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_SUBSYSTEM_SOLVER-SCF"><span class="xref std std-term">OTR_SUBSYSTEM_SOLVER</span></a><a class="headerlink" href="#otr-subsystem-solver" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, solver used for the trust-region subproblem. The Davidson family comes in a linear-system (<cite>_LS</cite>) and an augmented-Hessian (<cite>_AH</cite>) formulation; <cite>_LS</cite> is OpenTrustRegion’s own default. <cite>TCG</cite> is often faster, markedly so with diffuse basis sets, but is less robust: it can stall before reaching the convergence threshold.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Default</strong>: DAVIDSON_LS</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-n-random-trial-vectors">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_N_RANDOM_TRIAL_VECTORS-SCF"><span class="xref std std-term">OTR_N_RANDOM_TRIAL_VECTORS</span></a><a class="headerlink" href="#otr-n-random-trial-vectors" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, number of random trial vectors seeding each microiteration space. Raising it is OpenTrustRegion’s suggested remedy when it reports a trial subspace that is too small, at the cost of one Hessian application per vector.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 0</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-jacobi-davidson-start">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_JACOBI_DAVIDSON_START-SCF"><span class="xref std std-term">OTR_JACOBI_DAVIDSON_START</span></a><a class="headerlink" href="#otr-jacobi-davidson-start" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, microiteration at which to switch from Davidson to Jacobi-Davidson.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 30</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-line-search">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_LINE_SEARCH-SCF"><span class="xref std std-term">OTR_LINE_SEARCH</span></a><a class="headerlink" href="#otr-line-search" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, do a line search along the trust-region step.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-grad-noise">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_GRAD_NOISE-SCF"><span class="xref std std-term">OTR_GRAD_NOISE</span></a><a class="headerlink" href="#otr-grad-noise" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, whether to perturb the orbital gradient. The perturbation helps the solver leave a stationary point, which is wanted when seeking a minimum and not when a calculation means to sit at a saddle point, and it moves the converged orbitals within <a class="reference internal" href="autodoc_glossary_options_c.html#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a> enough to show in a sensitive response property.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: true</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-start-trust-radius">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_START_TRUST_RADIUS-SCF"><span class="xref std std-term">OTR_START_TRUST_RADIUS</span></a><a class="headerlink" href="#otr-start-trust-radius" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, initial trust radius.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 0.4</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-global-red-factor">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_GLOBAL_RED_FACTOR-SCF"><span class="xref std std-term">OTR_GLOBAL_RED_FACTOR</span></a><a class="headerlink" href="#otr-global-red-factor" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, relative residual reduction demanded of the microiterations far from convergence.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1.0e-3</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-local-red-factor">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_LOCAL_RED_FACTOR-SCF"><span class="xref std std-term">OTR_LOCAL_RED_FACTOR</span></a><a class="headerlink" href="#otr-local-red-factor" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, relative residual reduction demanded of the microiterations near convergence.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1.0e-4</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-seed">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_SEED-SCF"><span class="xref std std-term">OTR_SEED</span></a><a class="headerlink" href="#otr-seed" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, seed for the random trial vectors. Fixed so runs are reproducible.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 42</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-max-precision-reached-handling">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_MAX_PRECISION_REACHED_HANDLING-SCF"><span class="xref std std-term">OTR_MAX_PRECISION_REACHED_HANDLING</span></a><a class="headerlink" href="#otr-max-precision-reached-handling" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, what to do when OpenTrustRegion stops at its floating-point precision floor short of <a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-SCF"><span class="xref std std-term">E_CONVERGENCE</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a>  Its trust-region step is accepted on the measured against the predicted energy change, so once neither can be resolved it cannot verify further progress and stops, reporting success. <cite>DIIS</cite> finishes the job with first-order iterations, which converge on the orbital gradient instead and are not subject to that limit, and fails if they cannot reach the thresholds within <a class="reference internal" href="autodoc_glossary_options_c.html#term-MAXITER-SCF"><span class="xref std std-term">MAXITER</span></a> either. <cite>FAIL</cite> treats the shortfall as non-convergence at once. <cite>WARN</cite> accepts the orbitals, reporting the shortfall in the output.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: DIIS, FAIL, WARN</p></li>
+<li><p><strong>Default</strong>: DIIS</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="otr-print">
+<h3><a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_PRINT-SCF"><span class="xref std std-term">OTR_PRINT</span></a><a class="headerlink" href="#otr-print" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>For <a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, verbosity of the solver’s own printing: 0 only warnings and errors, 1 its macro-iteration table, 2 or more adds debug messages (only for <a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_SUBSYSTEM_SOLVER-SCF"><span class="xref std std-term">OTR_SUBSYSTEM_SOLVER</span></a> = <cite>TCG</cite>). The table follows the SCF iteration rows, which report the same macro iterations in Psi4’s format. Unset, this follows <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_PRINT-SCF"><span class="xref std std-term">SOSCF_PRINT</span></a> ; setting it overrides that.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 1</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="how-to-configure-opentrustregion-for-building-psi4">
+<span id="cmake-otr"></span><h2>How to configure OpenTrustRegion for building Psi4<a class="headerlink" href="#how-to-configure-opentrustregion-for-building-psi4" title="Link to this heading">¶</a></h2>
+<p><strong>Role and Dependencies</strong></p>
+<ul class="simple">
+<li><p>Role — In <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>, OpenTrustRegion is a library that provides alternate
+orbital optimization.</p></li>
+<li><p>Downstream Dependencies — <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> (<span class="math notranslate nohighlight">\(\Leftarrow\)</span> optional) OpenTrustRegion</p></li>
+<li><p>Upstream Dependencies — OpenTrustRegion <span class="math notranslate nohighlight">\(\Leftarrow\)</span> LAPACK, Fortran</p></li>
+</ul>
+<p><strong>CMake Variables</strong></p>
+<ul class="simple">
+<li><p><strong class="makevar">ENABLE_OpenTrustRegion</strong> — CMake variable toggling whether <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> builds with OpenTrustRegion</p></li>
+<li><p><strong class="makevar">CMAKE_PREFIX_PATH</strong> — CMake list variable to specify where pre-built dependencies can be found. For OTR, set to an installation directory containing <code class="docutils literal notranslate"><span class="pre">include/opentrustregion.h</span></code></p></li>
+<li><p><strong class="makevar">OpenTrustRegion_DIR</strong> — CMake variable to specify where pre-built OpenTrustRegion can be found. Set to installation directory containing <code class="docutils literal notranslate"><span class="pre">lib/cmake/OpenTrustRegion/OpenTrustRegionConfig.cmake</span></code></p></li>
+<li><p><strong class="makevar">CMAKE_DISABLE_FIND_PACKAGE_OpenTrustRegion</strong> — CMake variable to force internal build of OpenTrustRegion instead of detecting pre-built</p></li>
+<li><p><strong class="makevar">CMAKE_INSIST_FIND_PACKAGE_OpenTrustRegion</strong> — CMake variable to force detecting pre-built OpenTrustRegion and not falling back on internal build</p></li>
+</ul>
+<p><strong>Examples</strong></p>
+<ol class="upperalpha simple">
+<li><p>Build bundled</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DENABLE_OpenTrustRegion<span class="o">=</span>ON
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="upperalpha simple" start="2">
+<li><p>Build <em>without</em> OpenTrustRegion</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="upperalpha simple" start="3">
+<li><p>Link against pre-built</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DENABLE_OpenTrustRegion<span class="o">=</span>ON<span class="w"> </span>-DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/OpenTrustRegion/root
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DENABLE_OpenTrustRegion<span class="o">=</span>ON<span class="w"> </span>-DOpenTrustRegion_DIR<span class="o">=</span>/path/to/otr/cmakeconfigdir
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="upperalpha simple" start="4">
+<li><p>Build bundled despite pre-built being detectable</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt;<span class="w"> </span>cmake<span class="w"> </span>-DENABLE_OpenTrustRegion<span class="o">=</span>ON<span class="w"> </span>-DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/unwanted/OpenTrustRegion/root/and/wanted/other/dependencies/root<span class="w"> </span>-DCMAKE_DISABLE_FIND_PACKAGE_OpenTrustRegion<span class="o">=</span>ON
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <p class="logo"><a href="index.html">
+    <img class="logo" src="_static/psi4square.png" alt="Logo"/>
+  </a></p>
+<div id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" placeholder="&#xF002;" style="font-family:FontAwesome, Ariel"
+                                       aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/></div>
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="index.html">table of contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Interface to OpenTrustRegion by J. Greiner</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#opentrustregion-options">OpenTrustRegion Options</a><ul>
+<li><a class="reference internal" href="#second-order-orbital-optimizer-package"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a></li>
+<li><a class="reference internal" href="#orbital-optimizer-package"><span class="xref std std-term">ORBITAL_OPTIMIZER_PACKAGE</span></a></li>
+<li><a class="reference internal" href="#soscf"><span class="xref std std-term">SOSCF</span></a></li>
+<li><a class="reference internal" href="#soscf-start-convergence"><span class="xref std std-term">SOSCF_START_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#soscf-start"><span class="xref std std-term">SOSCF_START</span></a></li>
+<li><a class="reference internal" href="#e-convergence"><span class="xref std std-term">E_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#d-convergence"><span class="xref std std-term">D_CONVERGENCE</span></a></li>
+<li><a class="reference internal" href="#maxiter"><span class="xref std std-term">MAXITER</span></a></li>
+<li><a class="reference internal" href="#soscf-print"><span class="xref std std-term">SOSCF_PRINT</span></a></li>
+<li><a class="reference internal" href="#otr-subsystem-solver"><span class="xref std std-term">OTR_SUBSYSTEM_SOLVER</span></a></li>
+<li><a class="reference internal" href="#otr-n-random-trial-vectors"><span class="xref std std-term">OTR_N_RANDOM_TRIAL_VECTORS</span></a></li>
+<li><a class="reference internal" href="#otr-jacobi-davidson-start"><span class="xref std std-term">OTR_JACOBI_DAVIDSON_START</span></a></li>
+<li><a class="reference internal" href="#otr-line-search"><span class="xref std std-term">OTR_LINE_SEARCH</span></a></li>
+<li><a class="reference internal" href="#otr-grad-noise"><span class="xref std std-term">OTR_GRAD_NOISE</span></a></li>
+<li><a class="reference internal" href="#otr-start-trust-radius"><span class="xref std std-term">OTR_START_TRUST_RADIUS</span></a></li>
+<li><a class="reference internal" href="#otr-global-red-factor"><span class="xref std std-term">OTR_GLOBAL_RED_FACTOR</span></a></li>
+<li><a class="reference internal" href="#otr-local-red-factor"><span class="xref std std-term">OTR_LOCAL_RED_FACTOR</span></a></li>
+<li><a class="reference internal" href="#otr-seed"><span class="xref std std-term">OTR_SEED</span></a></li>
+<li><a class="reference internal" href="#otr-max-precision-reached-handling"><span class="xref std std-term">OTR_MAX_PRECISION_REACHED_HANDLING</span></a></li>
+<li><a class="reference internal" href="#otr-print"><span class="xref std std-term">OTR_PRINT</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-to-configure-opentrustregion-for-building-psi4">How to configure OpenTrustRegion for building Psi4</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >Index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="pcmsolver.html" title="Interface to PCMSolver by R. Di Remigio"
+             ><i class="fa fa-long-arrow-right fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="ooo.html" title="Interface to OpenOrbitalOptimizer by S. Lehtola"
+             ><i class="fa fa-long-arrow-left fa-lg"></i></a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Table Of Contents"
+             ><i class="fa fa-book fa-lg"></i></a> &nbsp; &nbsp;</li>
+    <li><a href="http://psicode.org/"><i class="fa fa-home fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4"><i class="fa fa-github fa-lg"></i></a></li>
+    <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
+    <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/otr.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li><a href="http://github.com/psi4/psi4/tree/57a52a0">1.12a1.dev61</a></li>
+    <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
+    <li class="nav-item nav-item-0"><a href="index.html">
+        <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
+        </a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+
+          <li class="nav-item nav-item-1"><a href="interfacing.html" >Interfaces: Enhancing <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> Capabilities</a><i class="fa fa-angle-double-right" style="color: #a2a7b3; text-shadow: none;"></i></li>
+        <li class="nav-item nav-item-this"><a href="">Interface to OpenTrustRegion by J. Greiner</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2007-2026, The Psi4 Project.
+      Last updated on Monday, 16 November 2026 05:52PM.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
