@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=8aa7bebe"></script>
+    <script src="_static/documentation_options.js?v=cbb9c495"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/690d526">1.12a1.dev60</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/57a52a0">1.12a1.dev61</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -627,7 +627,9 @@ that <span style="font-family: Optima, sans-serif; text-transform: none;">P<span
 <section id="convergence-stabilization">
 <span id="sec-scfconv"></span><span id="index-2"></span><h2>Convergence Stabilization<a class="headerlink" href="#convergence-stabilization" title="Link to this heading">¶</a></h2>
 <p>A summary of Psi’s supported convergence stabilization techniques is presented below.
-Alternatively, stabilization can run through the OpenOrbitalOptimizer library. See <a class="reference internal" href="ooo.html#options-ooo"><span class="std std-ref">OpenOrbitalOptimizer Options</span></a> for details.</p>
+Alternatively, stabilization can run through the OpenOrbitalOptimizer library. See <a class="reference internal" href="ooo.html#options-ooo"><span class="std std-ref">OpenOrbitalOptimizer Options</span></a> for details.
+Where those techniques struggle, the second-order methods of <a class="reference internal" href="#sec-soscf"><span class="std std-ref">Second-order Convergence</span></a> – either
+<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>‘s own or the OpenTrustRegion library – can finish a stubborn SCF instead.</p>
 <dl class="simple">
 <dt>DIIS [On by Default]</dt><dd><p>DIIS uses previous iterates of the Fock matrix together
 with an error criterion based on the orbital gradient to produce an informed
@@ -987,16 +989,106 @@ less for SOSCF than gradient-based convergence acceleration, the cost of solving
 the microiterations typically results in the overall cost being greater for
 SOSCF than for gradient-based methods. Therefore, SOSCF should only be used if
 it is difficult to locate a stable minimum.</p>
-<p>SOSCF is available for all HF and DFT references with the exception of meta-
-GGA functionals. To enable, set the option <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF-SCF"><span class="xref std std-term">SOSCF</span></a> to <code class="docutils literal notranslate"><span class="pre">true</span></code>.
+<p>SOSCF is available for all HF and DFT references except those listed below, meta-GGA
+functionals among them. To enable, set the option <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF-SCF"><span class="xref std std-term">SOSCF</span></a> to <code class="docutils literal notranslate"><span class="pre">true</span></code>.
 Additional options to modify the number of microiterations taken are as
 follows:</p>
 <blockquote>
 <div><p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START_CONVERGENCE-SCF"><span class="xref std std-term">SOSCF_START_CONVERGENCE</span></a>: when to start SOSCF based on the current density RMS</p>
+<p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START-SCF"><span class="xref std std-term">SOSCF_START</span></a>: the earliest iteration SOSCF may start on, both this and above conditions required</p>
 <p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_MAX_ITER-SCF"><span class="xref std std-term">SOSCF_MAX_ITER</span></a>: the maximum number of SOSCF microiterations per macroiteration</p>
 <p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_CONV-SCF"><span class="xref std std-term">SOSCF_CONV</span></a>: the relative convergence tolerance of the SOSCF microiterations</p>
 <p><a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_PRINT-SCF"><span class="xref std std-term">SOSCF_PRINT</span></a>: option to print the microiterations or not</p>
 </div></blockquote>
+<p>The second-order iterations can be run either by the internal code described
+above or by the OpenTrustRegion library, selected with
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a>. This is independent of
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">ORBITAL_OPTIMIZER_PACKAGE</span></a>, which chooses what drives the <em>first-order</em>
+iterations, so the two combine freely. In either case the division of work is
+the same: DIIS (or OpenOrbitalOptimizer) runs until the orbital gradient falls
+below <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START_CONVERGENCE-SCF"><span class="xref std std-term">SOSCF_START_CONVERGENCE</span></a> and iteration <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START-SCF"><span class="xref std std-term">SOSCF_START</span></a> is reached,
+then hands the orbitals to the second-order package, which carries the calculation
+to convergence.</p>
+<p>Lowering <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_START-SCF"><span class="xref std std-term">SOSCF_START</span></a> from default 3 hands over sooner, from a point the first-order
+iterations have had less time to settle occupancy. This matters to OpenTrustRegion because
+it then holds that assignment
+fixed: start at 1 and it can converge against one the aufbau rule later disagrees with,
+which <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> reports in the output before reconverging. The internal second-order code
+reassigns the occupation each iteration, so it has no such mismatch to report.</p>
+<p>The two second-order codes differ in what they are trying to do. The internal
+SOSCF code takes a Newton step toward the nearest stationary point, so it stays
+in the basin DIIS delivered it to. OpenTrustRegion minimizes the energy within
+a trust region, which means it can walk off a saddle point that the internal code
+would have converged onto. That is usually welcome – it is the reason to reach
+for a trust-region method when an SCF keeps landing on an unstable solution –
+but it also means a deliberately prepared excited or symmetry-broken state may
+collapse to the ground state unless the occupation is pinned with
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-DOCC-GLOBALS"><span class="xref std std-term">DOCC</span></a> and <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOCC-GLOBALS"><span class="xref std std-term">SOCC</span></a>. Relatedly, OpenTrustRegion optimizes at a <em>fixed</em>
+occupation where the internal code re-runs the aufbau assignment each iteration.
+The occupation is usually settled before the SOSCF handoff, but if
+diagonalizing the converged orbitals changes it, <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> reconverges from the
+new occupation.</p>
+<p>Convergence is decided the same way whichever package runs the second-order
+iterations: a macro-iteration converges when the energy change is under
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-E_CONVERGENCE-SCF"><span class="xref std std-term">E_CONVERGENCE</span></a> and the RMS orbital gradient is under <a class="reference internal" href="autodoc_glossary_options_c.html#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a>,
+both required. OpenTrustRegion applies that same test through a callback function,
+with the gradient measured as for the first-order iterations. Its own iteration table
+prints the RMS of its parameter gradient instead, which is scaled differently and runs
+several times larger than the <code class="docutils literal notranslate"><span class="pre">|[F,P]|</span></code> column of the main iteration table.</p>
+<p>OpenTrustRegion can also stop short of requested convergence: it accepts a step by comparing the energy
+change it measured against the one its model predicted, so once neither resolves in
+floating point it stops, typically at an orbital gradient between 1.e-10 and 1.e-9 as
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a> measures it, below that keyword’s defaults. The energy there is
+converged as far as a double represents it, but the orbitals are not, and first-order
+iterations can still improve them. <a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_MAX_PRECISION_REACHED_HANDLING-SCF"><span class="xref std std-term">OTR_MAX_PRECISION_REACHED_HANDLING</span></a> chooses
+between finishing with those iterations (<code class="docutils literal notranslate"><span class="pre">DIIS</span></code>, the default, returns the better of
+the OTR or DIIS polishing solutions), failing (<code class="docutils literal notranslate"><span class="pre">FAIL</span></code>), and accepting
+the result (<code class="docutils literal notranslate"><span class="pre">WARN</span></code>); all three report the precision reached.</p>
+<p>Microiterations are a separate matter. They solve the trust-region subproblem
+within a macro-iteration, so they set how well each step is computed rather than
+how tightly the SCF finishes. The cap is <em>not</em> taken from <a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_MAX_ITER-SCF"><span class="xref std std-term">SOSCF_MAX_ITER</span></a>;
+it is presently fixed at 50.
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-SOSCF_PRINT-SCF"><span class="xref std std-term">SOSCF_PRINT</span></a> turns on microiteration detail for both codes;
+<a class="reference internal" href="autodoc_glossary_options_c.html#term-OTR_PRINT-SCF"><span class="xref std std-term">OTR_PRINT</span></a> allows further control for OpenTrustRegion.
+The settings with no <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> counterpart are exposed
+as <code class="docutils literal notranslate"><span class="pre">OTR_*</span></code> keywords, documented at <a class="reference internal" href="otr.html#options-otr"><span class="std std-ref">OpenTrustRegion Options</span></a>.</p>
+<p>Some computations cannot use second-order convergence at all, whichever package is
+selected, because the orbital Hessian cannot be formed or cannot be applied to the
+trial densities it needs. <span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span> raises for these rather than returning a
+converged but wrong answer:</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">CUHF</span></code> reference, for which no orbital Hessian is implemented,</p></li>
+<li><p>meta-GGA and VV10 functionals, whose exchange-correlation kernel cannot supply the
+rotated potential the Hessian needs,</p></li>
+<li><p>fractional occupation (<a class="reference internal" href="autodoc_glossary_options_c.html#term-FRAC_START-SCF"><span class="xref std std-term">FRAC_START</span></a>), which varies the occupation during the
+SCF where a second-order step is taken at fixed occupation,</p></li>
+<li><p>incremental Fock builds (<a class="reference internal" href="autodoc_glossary_options_c.html#term-INCFOCK-SCF"><span class="xref std std-term">INCFOCK</span></a>), which accumulate against the SCF’s own
+sequence of densities rather than the trial densities the Hessian is applied to,</p></li>
+<li><p>the semi-numerical exchange builds (<a class="reference internal" href="autodoc_glossary_options_c.html#term-SCF_TYPE-GLOBALS"><span class="xref std std-term">SCF_TYPE</span></a> <code class="docutils literal notranslate"><span class="pre">DFDIRJ+COSX</span></code>,
+<code class="docutils literal notranslate"><span class="pre">DFDIRJ+LINK</span></code> and <code class="docutils literal notranslate"><span class="pre">DFDIRJ+SNLINK</span></code>), which cannot supply non-symmetric exchange
+matrices.</p></li>
+</ul>
+<p>A smaller set OpenTrustRegion in particular cannot carry, because the python driver
+applies them per-iteration and would stop doing so once OpenTrustRegion owns the loop:
+MOM (<a class="reference internal" href="autodoc_glossary_options_c.html#term-MOM_START-SCF"><span class="xref std std-term">MOM_START</span></a>), a GRAC-shifted potential, which is spliced into the
+exchange-correlation potential outside the kernel the Hessian differentiates, and EFP,
+PCM, DDX and PE embedding. These fall back on the internal second-order code rather
+than raising, and a note in the output file names the condition that applied.</p>
+<p>Because of that fallback, what was requested and what ran are not always the
+same. A line above the iteration table names the packages actually in force:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">orbital</span> <span class="n">optimizer</span> <span class="n">module</span> <span class="ow">is</span> <span class="n">Internal</span><span class="p">,</span> <span class="n">second</span><span class="o">-</span><span class="n">order</span> <span class="n">OpenTrustRegion</span>
+</pre></div>
+</div>
+<p>and the same information is recorded on the wavefunction, so it can be inspected
+without scraping the output file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="p">,</span> <span class="n">wfn</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="s2">"scf"</span><span class="p">,</span> <span class="n">return_wfn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wfn</span><span class="o">.</span><span class="n">module_roles</span><span class="p">()</span>
+<span class="go">{'orbital_optimizer': 'internal', 'second_order_orbital_optimizer': 'opentrustregion'}</span>
+</pre></div>
+</div>
+<p>Finally, stability analysis (<a class="reference internal" href="autodoc_glossary_options_c.html#term-STABILITY_ANALYSIS-SCF"><span class="xref std std-term">STABILITY_ANALYSIS</span></a>) always runs through
+<span style="font-family: Optima, sans-serif; text-transform: none;">P<span style="font-size: 82%;">SI</span>4</span>’s own code; OpenTrustRegion’s internal stability check is left off so
+that both second-order packages land on the same solution.</p>
 </section>
 <section id="stability-analysis">
 <span id="sec-scfstability-doc"></span><h2>Stability Analysis<a class="headerlink" href="#stability-analysis" title="Link to this heading">¶</a></h2>
@@ -1497,7 +1589,7 @@ types.</p></li>
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/scf.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/690d526">1.12a1.dev60</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/57a52a0">1.12a1.dev61</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -1511,7 +1603,7 @@ types.</p></li>
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Sunday, 15 November 2026 03:00PM.
+      Last updated on Monday, 16 November 2026 05:52PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

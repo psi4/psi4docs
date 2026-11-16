@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="_static/documentation_options.js?v=8aa7bebe"></script>
+    <script src="_static/documentation_options.js?v=cbb9c495"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -101,7 +101,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/autodoc_glossary_options_c.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/690d526">1.12a1.dev60</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/57a52a0">1.12a1.dev61</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -5774,7 +5774,7 @@
 <li><p><strong>Default</strong>: 0.0</p></li>
 </ul>
 </dd>
-<dt id="term-ORBITAL_OPTIMIZER_PACKAGE-GLOBALS">ORBITAL_OPTIMIZER_PACKAGE (GLOBALS)<a class="headerlink" href="#term-ORBITAL_OPTIMIZER_PACKAGE-GLOBALS" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__globals.html#apdx-globals"><span class="std std-ref">GLOBALS</span></a> — Orbital optimizer package to use for SCF.</p>
+<dt id="term-ORBITAL_OPTIMIZER_PACKAGE-GLOBALS">ORBITAL_OPTIMIZER_PACKAGE (GLOBALS)<a class="headerlink" href="#term-ORBITAL_OPTIMIZER_PACKAGE-GLOBALS" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__globals.html#apdx-globals"><span class="std std-ref">GLOBALS</span></a> — Package driving the first-order SCF iterations.</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: string</p></li>
 <li><p><strong>Possible Values</strong>: INTERNAL</p></li>
@@ -5805,6 +5805,73 @@
 <ul class="simple">
 <li><p><strong>Type</strong>: double</p></li>
 <li><p><strong>Default</strong>: 1</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_GLOBAL_RED_FACTOR-SCF">OTR_GLOBAL_RED_FACTOR (SCF)<a class="headerlink" href="#term-OTR_GLOBAL_RED_FACTOR-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, relative residual reduction demanded of the microiterations far from convergence.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1.0e-3</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_GRAD_NOISE-SCF">OTR_GRAD_NOISE (SCF)<a class="headerlink" href="#term-OTR_GRAD_NOISE-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, whether to perturb the orbital gradient. The perturbation helps the solver leave a stationary point, which is wanted when seeking a minimum and not when a calculation means to sit at a saddle point, and it moves the converged orbitals within <a class="reference internal" href="#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a> enough to show in a sensitive response property.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: true</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_JACOBI_DAVIDSON_START-SCF">OTR_JACOBI_DAVIDSON_START (SCF)<a class="headerlink" href="#term-OTR_JACOBI_DAVIDSON_START-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, microiteration at which to switch from Davidson to Jacobi-Davidson.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 30</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_LINE_SEARCH-SCF">OTR_LINE_SEARCH (SCF)<a class="headerlink" href="#term-OTR_LINE_SEARCH-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, do a line search along the trust-region step.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
+<li><p><strong>Default</strong>: false</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_LOCAL_RED_FACTOR-SCF">OTR_LOCAL_RED_FACTOR (SCF)<a class="headerlink" href="#term-OTR_LOCAL_RED_FACTOR-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, relative residual reduction demanded of the microiterations near convergence.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 1.0e-4</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_MAX_PRECISION_REACHED_HANDLING-SCF">OTR_MAX_PRECISION_REACHED_HANDLING (SCF)<a class="headerlink" href="#term-OTR_MAX_PRECISION_REACHED_HANDLING-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, what to do when OpenTrustRegion stops at its floating-point precision floor short of <a class="reference internal" href="#term-E_CONVERGENCE-SCF"><span class="xref std std-term">E_CONVERGENCE</span></a> and <a class="reference internal" href="#term-D_CONVERGENCE-SCF"><span class="xref std std-term">D_CONVERGENCE</span></a>. Its trust-region step is accepted on the measured against the predicted energy change, so once neither can be resolved it cannot verify further progress and stops, reporting success. <cite>DIIS</cite> finishes the job with first-order iterations, which converge on the orbital gradient instead and are not subject to that limit, and fails if they cannot reach the thresholds within <a class="reference internal" href="#term-MAXITER-SCF"><span class="xref std std-term">MAXITER</span></a> either. <cite>FAIL</cite> treats the shortfall as non-convergence at once. <cite>WARN</cite> accepts the orbitals, reporting the shortfall in the output.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: DIIS, FAIL, WARN</p></li>
+<li><p><strong>Default</strong>: DIIS</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_N_RANDOM_TRIAL_VECTORS-SCF">OTR_N_RANDOM_TRIAL_VECTORS (SCF)<a class="headerlink" href="#term-OTR_N_RANDOM_TRIAL_VECTORS-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, number of random trial vectors seeding each microiteration space. Raising it is OpenTrustRegion’s suggested remedy when it reports a trial subspace that is too small, at the cost of one Hessian application per vector.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 0</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_PRINT-SCF">OTR_PRINT (SCF)<a class="headerlink" href="#term-OTR_PRINT-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, verbosity of the solver’s own printing: 0 only warnings and errors, 1 its macro-iteration table, 2 or more adds debug messages (only for <a class="reference internal" href="#term-OTR_SUBSYSTEM_SOLVER-SCF"><span class="xref std std-term">OTR_SUBSYSTEM_SOLVER</span></a> = <cite>TCG</cite>). The table follows the SCF iteration rows, which report the same macro iterations in Psi4’s format. Unset, this follows <a class="reference internal" href="#term-SOSCF_PRINT-SCF"><span class="xref std std-term">SOSCF_PRINT</span></a> ; setting it overrides that.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 1</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_SEED-SCF">OTR_SEED (SCF)<a class="headerlink" href="#term-OTR_SEED-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, seed for the random trial vectors. Fixed so runs are reproducible.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 42</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_START_TRUST_RADIUS-SCF">OTR_START_TRUST_RADIUS (SCF)<a class="headerlink" href="#term-OTR_START_TRUST_RADIUS-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, initial trust radius.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: double</p></li>
+<li><p><strong>Default</strong>: 0.4</p></li>
+</ul>
+</dd>
+<dt id="term-OTR_SUBSYSTEM_SOLVER-SCF">OTR_SUBSYSTEM_SOLVER (SCF)<a class="headerlink" href="#term-OTR_SUBSYSTEM_SOLVER-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — For <a class="reference internal" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS"><span class="xref std std-term">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE</span></a> = <cite>OTR</cite>, solver used for the trust-region subproblem. The Davidson family comes in a linear-system (<cite>_LS</cite>) and an augmented-Hessian (<cite>_AH</cite>) formulation; <cite>_LS</cite> is OpenTrustRegion’s own default. <cite>TCG</cite> is often faster, markedly so with diffuse basis sets, but is less robust: it can stall before reaching the convergence threshold.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Default</strong>: DAVIDSON_LS</p></li>
 </ul>
 </dd>
 <dt id="term-OVERLAP_CHECK-CCEOM">OVERLAP_CHECK (CCEOM)<a class="headerlink" href="#term-OVERLAP_CHECK-CCEOM" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__cceom.html#apdx-cceom"><span class="std std-ref">CCEOM</span></a> — Report overlaps with old excited-state wave functions, if available, and store current wave functions for later use.</p>
@@ -7042,6 +7109,13 @@
 <li><p><strong>Default</strong>: No Default</p></li>
 </ul>
 </dd>
+<dt id="term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS">SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE (GLOBALS)<a class="headerlink" href="#term-SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE-GLOBALS" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__globals.html#apdx-globals"><span class="std std-ref">GLOBALS</span></a> — Package driving the second-order SCF iterations once <a class="reference internal" href="#term-SOSCF-SCF"><span class="xref std std-term">SOSCF</span></a> turns them on.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: string</p></li>
+<li><p><strong>Possible Values</strong>: INTERNAL</p></li>
+<li><p><strong>Default</strong>: INTERNAL</p></li>
+</ul>
+</dd>
 <dt id="term-SEKINO-CCLAMBDA">SEKINO (CCLAMBDA)<a class="headerlink" href="#term-SEKINO-CCLAMBDA" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__cclambda.html#apdx-cclambda"><span class="std std-ref">CCLAMBDA</span></a> — Do Sekino-Bartlett size-extensive model-III?</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-boolean"><span class="std std-ref">boolean</span></a></p></li>
@@ -7328,7 +7402,13 @@
 <li><p><strong>Default</strong>: false</p></li>
 </ul>
 </dd>
-<dt id="term-SOSCF_START_CONVERGENCE-SCF">SOSCF_START_CONVERGENCE (SCF)<a class="headerlink" href="#term-SOSCF_START_CONVERGENCE-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — When to start second-order SCF iterations based on gradient RMS.</p>
+<dt id="term-SOSCF_START-SCF">SOSCF_START (SCF)<a class="headerlink" href="#term-SOSCF_START-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — The earliest iteration on which second-order SCF may start. Both this and <a class="reference internal" href="#term-SOSCF_START_CONVERGENCE-SCF"><span class="xref std std-term">SOSCF_START_CONVERGENCE</span></a> must be satisfied. Starting earlier than the default gives the first-order iterations less room to settle the occupation, which a second-order step may (true for OTR) hold fixed.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: integer</p></li>
+<li><p><strong>Default</strong>: 3</p></li>
+</ul>
+</dd>
+<dt id="term-SOSCF_START_CONVERGENCE-SCF">SOSCF_START_CONVERGENCE (SCF)<a class="headerlink" href="#term-SOSCF_START_CONVERGENCE-SCF" title="Link to this term">¶</a></dt><dd><p><a class="reference internal" href="autodir_options_c/module__scf.html#apdx-scf"><span class="std std-ref">SCF</span></a> — When to start second-order SCF iterations based on gradient RMS. Both this and <a class="reference internal" href="#term-SOSCF_START-SCF"><span class="xref std std-term">SOSCF_START</span></a> must be satisfied.</p>
 <ul class="simple">
 <li><p><strong>Type</strong>: <a class="reference internal" href="notes_c.html#op-c-conv"><span class="std std-ref">conv double</span></a></p></li>
 <li><p><strong>Default</strong>: 1.0e-2</p></li>
@@ -8190,7 +8270,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/autodoc_glossary_options_c.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/690d526">1.12a1.dev60</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/57a52a0">1.12a1.dev61</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -8204,7 +8284,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Sunday, 15 November 2026 03:00PM.
+      Last updated on Monday, 16 November 2026 05:52PM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->

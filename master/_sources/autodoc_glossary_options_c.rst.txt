@@ -234,7 +234,7 @@ Keywords by Alpha
       * **Default**: 0
 
    ORBITAL_OPTIMIZER_PACKAGE (GLOBALS)
-      :ref:`apdx:GLOBALS` |w---w| Orbital optimizer package to use for SCF.
+      :ref:`apdx:GLOBALS` |w---w| Package driving the first-order SCF iterations.
 
       * **Type**: string
       * **Possible Values**: INTERNAL
@@ -314,6 +314,13 @@ Keywords by Alpha
       * **Type**: string
       * **Possible Values**: SCHWARZ, CSAM, DENSITY, NONE
       * **Default**: CSAM
+
+   SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE (GLOBALS)
+      :ref:`apdx:GLOBALS` |w---w| Package driving the second-order SCF iterations once |scf__soscf| turns them on.
+
+      * **Type**: string
+      * **Possible Values**: INTERNAL
+      * **Default**: INTERNAL
 
    SOCC (GLOBALS)
       :ref:`apdx:GLOBALS` |w---w| An array containing the number of singly-occupied orbitals per irrep (in Cotton order). The value of |globals__docc| should also be set.
@@ -6014,6 +6021,73 @@ Keywords by Alpha
       * **Type**: integer
       * **Default**: 0
 
+   OTR_GLOBAL_RED_FACTOR (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, relative residual reduction demanded of the microiterations far from convergence.
+
+      * **Type**: double
+      * **Default**: 1.0e-3
+
+   OTR_GRAD_NOISE (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, whether to perturb the orbital gradient. The perturbation helps the solver leave a stationary point, which is wanted when seeking a minimum and not when a calculation means to sit at a saddle point, and it moves the converged orbitals within |scf__d_convergence| enough to show in a sensitive response property.
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: true
+
+   OTR_JACOBI_DAVIDSON_START (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, microiteration at which to switch from Davidson to Jacobi-Davidson.
+
+      * **Type**: integer
+      * **Default**: 30
+
+   OTR_LINE_SEARCH (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, do a line search along the trust-region step.
+
+      * **Type**: :ref:`boolean <op_c_boolean>`
+      * **Default**: false
+
+   OTR_LOCAL_RED_FACTOR (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, relative residual reduction demanded of the microiterations near convergence.
+
+      * **Type**: double
+      * **Default**: 1.0e-4
+
+   OTR_MAX_PRECISION_REACHED_HANDLING (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, what to do when OpenTrustRegion stops at its floating-point precision floor short of |scf__e_convergence| and |scf__d_convergence|. Its trust-region step is accepted on the measured against the predicted energy change, so once neither can be resolved it cannot verify further progress and stops, reporting success. `DIIS` finishes the job with first-order iterations, which converge on the orbital gradient instead and are not subject to that limit, and fails if they cannot reach the thresholds within |scf__maxiter| either. `FAIL` treats the shortfall as non-convergence at once. `WARN` accepts the orbitals, reporting the shortfall in the output.
+
+      * **Type**: string
+      * **Possible Values**: DIIS, FAIL, WARN
+      * **Default**: DIIS
+
+   OTR_N_RANDOM_TRIAL_VECTORS (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, number of random trial vectors seeding each microiteration space. Raising it is OpenTrustRegion's suggested remedy when it reports a trial subspace that is too small, at the cost of one Hessian application per vector.
+
+      * **Type**: integer
+      * **Default**: 0
+
+   OTR_PRINT (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, verbosity of the solver's own printing: 0 only warnings and errors, 1 its macro-iteration table, 2 or more adds debug messages (only for |scf__otr_subsystem_solver| = `TCG`). The table follows the SCF iteration rows, which report the same macro iterations in Psi4's format. Unset, this follows |scf__soscf_print| ; setting it overrides that.
+
+      * **Type**: integer
+      * **Default**: 1
+
+   OTR_SEED (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, seed for the random trial vectors. Fixed so runs are reproducible.
+
+      * **Type**: integer
+      * **Default**: 42
+
+   OTR_START_TRUST_RADIUS (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, initial trust radius.
+
+      * **Type**: double
+      * **Default**: 0.4
+
+   OTR_SUBSYSTEM_SOLVER (SCF)
+      :ref:`apdx:SCF` |w---w| For |globals__second_order_orbital_optimizer_package| = `OTR`, solver used for the trust-region subproblem. The Davidson family comes in a linear-system (`_LS`) and an augmented-Hessian (`_AH`) formulation; `_LS` is OpenTrustRegion's own default. `TCG` is often faster, markedly so with diffuse basis sets, but is less robust: it can stall before reaching the convergence threshold.
+
+      * **Type**: string
+      * **Default**: DAVIDSON\_LS
+
    SCF_INITIAL_ACCELERATOR (SCF)
       :ref:`apdx:SCF` |w---w| Use a method to accelerate initial SCF convergence? Use ``NONE`` for DIIS alone (if enabled) and ``EDIIS`` or ``ADIIS`` to have both the chosen accelerator and DIIS (if enabled). For restricted-open references, ``EDIIS`` and ``ADIIS`` have no effect.
 
@@ -6093,8 +6167,14 @@ Keywords by Alpha
       * **Type**: :ref:`boolean <op_c_boolean>`
       * **Default**: false
 
+   SOSCF_START (SCF)
+      :ref:`apdx:SCF` |w---w| The earliest iteration on which second-order SCF may start. Both this and |scf__soscf_start_convergence| must be satisfied. Starting earlier than the default gives the first-order iterations less room to settle the occupation, which a second-order step may (true for OTR) hold fixed.
+
+      * **Type**: integer
+      * **Default**: 3
+
    SOSCF_START_CONVERGENCE (SCF)
-      :ref:`apdx:SCF` |w---w| When to start second-order SCF iterations based on gradient RMS.
+      :ref:`apdx:SCF` |w---w| When to start second-order SCF iterations based on gradient RMS. Both this and |scf__soscf_start| must be satisfied.
 
       * **Type**: :ref:`conv double <op_c_conv>`
       * **Default**: 1.0e-2

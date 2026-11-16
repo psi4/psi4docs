@@ -1,0 +1,9 @@
+:term:`OTR_MAX_PRECISION_REACHED_HANDLING <OTR_MAX_PRECISION_REACHED_HANDLING (SCF)>`
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+      For :term:`SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE <SECOND_ORDER_ORBITAL_OPTIMIZER_PACKAGE (GLOBALS)>` = `OTR`, what to do when OpenTrustRegion stops at its floating-point precision floor short of :term:`E_CONVERGENCE <E_CONVERGENCE (SCF)>` and :term:`D_CONVERGENCE <D_CONVERGENCE (SCF)>`  Its trust-region step is accepted on the measured against the predicted energy change, so once neither can be resolved it cannot verify further progress and stops, reporting success. `DIIS` finishes the job with first-order iterations, which converge on the orbital gradient instead and are not subject to that limit, and fails if they cannot reach the thresholds within :term:`MAXITER <MAXITER (SCF)>` either. `FAIL` treats the shortfall as non-convergence at once. `WARN` accepts the orbitals, reporting the shortfall in the output.
+
+      * **Type**: string
+      * **Possible Values**: DIIS, FAIL, WARN
+      * **Default**: DIIS
+
