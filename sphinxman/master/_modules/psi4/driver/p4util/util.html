@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
     
-    <script src="../../../../_static/documentation_options.js?v=887767a8"></script>
+    <script src="../../../../_static/documentation_options.js?v=3d4398cb"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -90,7 +90,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/util.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4a00519">1.12a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/32a8b43">1.12a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -145,12 +145,14 @@
     <span class="s2">"get_memory"</span><span class="p">,</span>
     <span class="s2">"libint2_configuration"</span><span class="p">,</span>
     <span class="s2">"libint2_print_out"</span><span class="p">,</span>
+    <span class="s2">"libint2_supports"</span><span class="p">,</span>
     <span class="s2">"oeprop"</span><span class="p">,</span>
     <span class="s2">"safe_writer_file_path"</span><span class="p">,</span>
     <span class="s2">"set_memory"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numbers</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -533,16 +535,8 @@
 <span class="sd">        `{'eri': [5, 4, 3], 'eri2': [6, 5, 4], 'eri3': [6, 5, 4], 'onebody': [6, 5, 4]}`</span>
 
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="s2">"eri_c4_d0_l2"</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">_libint2_configuration</span><span class="p">():</span>
-        <span class="k">return</span> <span class="n">_l2_config_style_eri_c4</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="s2">"eri_dddd_d0"</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">_libint2_configuration</span><span class="p">():</span>
-        <span class="k">return</span> <span class="n">_l2_config_style_eri_llll</span><span class="p">()</span></div>
-
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">_l2_config_style_eri_llll</span><span class="p">():</span>
     <span class="n">skel</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"onebody_"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"eri_c4_"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"eri_c3_"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"eri_c2_"</span><span class="p">:</span> <span class="p">[]}</span>
-    <span class="n">skel_re</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"onebody_"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"onebody_\w_d\d"</span><span class="p">,</span> <span class="s2">"eri_c4_"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"eri_\w..._d\d"</span><span class="p">,</span> <span class="s2">"eri_c3_"</span><span class="p">:</span>  <span class="sa">r</span><span class="s2">"eri_\w.._d\d"</span><span class="p">,</span> <span class="s2">"eri_c2_"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"eri_\w._d\d"</span><span class="p">}</span>
+    <span class="n">skel_re</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"onebody_"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"onebody_\w._d\d"</span><span class="p">,</span> <span class="s2">"eri_c4_"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"\beri_\w..._d\d\b"</span><span class="p">,</span> <span class="s2">"eri_c3_"</span><span class="p">:</span>  <span class="sa">r</span><span class="s2">"\beri_\w.._d\d\b"</span><span class="p">,</span> <span class="s2">"eri_c2_"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"\beri_\w._d\d\b"</span><span class="p">}</span>
 
     <span class="n">amstr</span> <span class="o">=</span> <span class="s2">"SPDFGHIKLMNOQRTUVWXYZ"</span>
     <span class="n">libint2_configuration</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">_libint2_configuration</span><span class="p">()</span>
@@ -566,33 +560,8 @@
     <span class="n">skel</span><span class="p">[</span><span class="s2">"eri"</span><span class="p">]</span> <span class="o">=</span> <span class="n">skel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"eri_c4_"</span><span class="p">)</span>
     <span class="n">skel</span><span class="p">[</span><span class="s2">"eri3"</span><span class="p">]</span> <span class="o">=</span> <span class="n">skel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"eri_c3_"</span><span class="p">)</span>
     <span class="n">skel</span><span class="p">[</span><span class="s2">"eri2"</span><span class="p">]</span> <span class="o">=</span> <span class="n">skel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"eri_c2_"</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">skel</span>
+    <span class="k">return</span> <span class="n">skel</span></div>
 
-
-<span class="k">def</span><span class="w"> </span><span class="nf">_l2_config_style_eri_c4</span><span class="p">():</span>
-    <span class="n">skel</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"onebody_"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"eri_c4_"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"eri_c3_"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"eri_c2_"</span><span class="p">:</span> <span class="p">[]}</span>
-
-    <span class="k">for</span> <span class="n">itm</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">_libint2_configuration</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">";"</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">skel</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-            <span class="k">if</span> <span class="n">itm</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">cat</span><span class="p">):</span>
-                <span class="n">skel</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">itm</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cat</span><span class="p">):])</span>
-
-    <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">skel</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-        <span class="n">der_max_store</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">der</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"d0_l"</span><span class="p">,</span> <span class="s2">"d1_l"</span><span class="p">,</span> <span class="s2">"d2_l"</span><span class="p">]:</span>
-            <span class="n">lmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-            <span class="k">for</span> <span class="n">itm2</span> <span class="ow">in</span> <span class="n">skel</span><span class="p">[</span><span class="n">cat</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="n">itm2</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">der</span><span class="p">):</span>
-                    <span class="n">lmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">itm2</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">der</span><span class="p">):]),</span> <span class="n">lmax</span><span class="p">)</span>
-            <span class="n">der_max_store</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span> <span class="k">if</span> <span class="n">lmax</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="n">lmax</span><span class="p">)</span>
-        <span class="n">skel</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">der_max_store</span>
-
-    <span class="c1"># rename keys from components</span>
-    <span class="n">skel</span><span class="p">[</span><span class="s2">"onebody"</span><span class="p">]</span> <span class="o">=</span> <span class="n">skel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"onebody_"</span><span class="p">)</span>
-    <span class="n">skel</span><span class="p">[</span><span class="s2">"eri"</span><span class="p">]</span> <span class="o">=</span> <span class="n">skel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"eri_c4_"</span><span class="p">)</span>
-    <span class="n">skel</span><span class="p">[</span><span class="s2">"eri3"</span><span class="p">]</span> <span class="o">=</span> <span class="n">skel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"eri_c3_"</span><span class="p">)</span>
-    <span class="n">skel</span><span class="p">[</span><span class="s2">"eri2"</span><span class="p">]</span> <span class="o">=</span> <span class="n">skel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"eri_c2_"</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">skel</span>
 
 
 <div class="viewcode-block" id="libint2_print_out">
@@ -600,7 +569,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">libint2_print_out</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">ams</span> <span class="o">=</span> <span class="n">libint2_configuration</span><span class="p">()</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="s2">"   =&gt; Libint2 &lt;=</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">);</span>
-    <span class="c1"># when L2 is pure cmake core.print_out(core.libint2_citation());</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">libint2_citation</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">);</span>
 
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    Primary   basis highest AM E, G, H:  </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">'-'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">ams</span><span class="p">[</span><span class="s1">'eri'</span><span class="p">])</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    Auxiliary basis highest AM E, G, H:  </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">'-'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">ams</span><span class="p">[</span><span class="s1">'eri3'</span><span class="p">])</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
@@ -608,6 +577,54 @@
     <span class="c1"># excluding sph_emultipole</span>
     <span class="n">core</span><span class="o">.</span><span class="n">print_out</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    Solid Harmonics ordering:            </span><span class="si">{</span><span class="n">core</span><span class="o">.</span><span class="n">libint2_solid_harmonics_ordering</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span></div>
 
+
+
+<div class="viewcode-block" id="libint2_supports">
+<a class="viewcode-back" href="../../../../api/psi4.driver.p4util.libint2_supports.html#psi4.driver.libint2_supports">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">libint2_supports</span><span class="p">(</span><span class="n">am</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">der</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">centers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Does the linked Libint2 support 2-, 3-, or 4-*centers* ERIs of angular momentum *am* and derivative *der*.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    am</span>
+<span class="sd">        Angular momentum of every center, ``0`` (s) through ``20`` (z).</span>
+<span class="sd">    der</span>
+<span class="sd">        Derivative order, ``0`` (energy), ``1`` (gradient), or ``2`` (Hessian).</span>
+<span class="sd">    centers</span>
+<span class="sd">        Number of centers in the ERI: ``2``, ``3``, or ``4``.</span>
+<span class="sd">        Note that for 3-center, this probes the single auxiliary AM, not the</span>
+<span class="sd">        paired AO indices. For finer control, use `psi4.core.libint2_supports` directly.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        Whether the linked Libint2 was built with that integral class.</span>
+<span class="sd">        ``False`` means *unsupported by this build*, never *invalid query*.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValidationError</span>
+<span class="sd">        If any argument is not an integer or is out of range.</span>
+
+<span class="sd">    """</span>
+    <span class="n">amstr</span> <span class="o">=</span> <span class="s2">"SPDFGHIKLMNOQRTUVWXYZ"</span>
+
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">allowed</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">"am"</span><span class="p">,</span> <span class="n">am</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">amstr</span><span class="p">))),</span>
+        <span class="p">(</span><span class="s2">"der"</span><span class="p">,</span> <span class="n">der</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)),</span>  <span class="c1"># expand this to allow arbitrary order deriv (plausible from L2)</span>
+        <span class="p">(</span><span class="s2">"centers"</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)),</span>
+    <span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"libint2_supports: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> must be an integer, not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">val</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"libint2_supports: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2"> out of range; must be in [</span><span class="si">{</span><span class="n">allowed</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">allowed</span><span class="o">.</span><span class="n">stop</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">centers</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">amcode</span> <span class="o">=</span> <span class="s2">"ss"</span> <span class="o">+</span> <span class="n">amstr</span><span class="p">[</span><span class="n">am</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">amcode</span> <span class="o">=</span> <span class="n">amstr</span><span class="p">[</span><span class="n">am</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">*</span> <span class="n">centers</span>
+    <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">libint2_supports</span><span class="p">(</span><span class="sa">f</span><span class="s2">"eri_</span><span class="si">{</span><span class="n">amcode</span><span class="si">}</span><span class="s2">_d</span><span class="si">{</span><span class="n">der</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 </pre></div>
 
@@ -669,7 +686,7 @@
     <li><a href="http://forum.psicode.org"><i class="fa fa-comments-o fa-lg"></i></a></li>
     <li><a href="http://github.com/psi4/psi4/edit/master/doc/sphinxman/source/_modules/psi4/driver/p4util/util.rst"><i class="fa fa-pencil fa-lg"></i></a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
-    <li><a href="http://github.com/psi4/psi4/tree/4a00519">1.12a1.dev62</a></li>
+    <li><a href="http://github.com/psi4/psi4/tree/32a8b43">1.12a1.dev63</a></li>
     <li style="color: #1a4162">&nbsp;&middot;&nbsp;</li>
     <li class="nav-item nav-item-0"><a href="../../../../index.html">
         <span style="font-family: Optima, sans-serif;">P<span style="font-size: 82%;">SI</span>4</span>
@@ -683,7 +700,7 @@
 
     <div class="footer" role="contentinfo">
     &#169; Copyright 2007-2026, The Psi4 Project.
-      Last updated on Monday, 16 November 2026 09:01PM.
+      Last updated on Wednesday, 18 November 2026 11:59AM.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     </div>
     <!-- cloud_sptheme 1.4 -->
